@@ -52,6 +52,7 @@
     <Compile Include="ConfigValidator.cs" />
     <Compile Include="Domain\Config.cs" />
     <Compile Include="Domain\FsPath.cs" />
+    <Compile Include="HttpServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ConsoleExtensions.cs" />
@@ -67,7 +68,9 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Lib\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Template.html" />
   </ItemGroup>

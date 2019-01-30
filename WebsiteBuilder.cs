@@ -5,11 +5,9 @@
 
 using BookGen.Domain;
 using BookGen.Utilities;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace BookGen
 {
@@ -27,7 +25,7 @@ namespace BookGen
             outdir.CreateDir();
         }
 
-        private static void CreateNavigationJson(FsPath outdir, List<string> files)
+        /*private static void CreateNavigationJson(FsPath outdir, List<string> files)
         {
             Console.WriteLine("Generating navigation.json...");
             var navigationJson = outdir.Combine("navigation.json");
@@ -38,7 +36,7 @@ namespace BookGen
                 navigationList.Add(f);
             }
             navigationJson.WriteFile(JsonConvert.SerializeObject(navigationList));
-        }
+        }*/
 
         public void Run(Config currentConfig)
         {
@@ -50,7 +48,6 @@ namespace BookGen
 
             CreateOutputDirectory(outdir);
             CopyImages(outdir, imgdir);
-            CreateNavigationJson(outdir, files);
 
             var content = new Dictionary<string, string>();
             content.Add("toc", "");
