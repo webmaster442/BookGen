@@ -55,12 +55,10 @@ namespace BookGen
             var content = new Dictionary<string, string>();
             content.Add("toc", "");
             content.Add("content", "");
-
-            Console.WriteLine("Generating TOC...");
             var tocContent = MarkdownUtils.Markdown2HTML(toc.ReadFile());
             foreach (var file in files)
             {
-                tocContent = tocContent.Replace(file, Path.ChangeExtension(file, ".html"));
+                tocContent = tocContent.Replace(file, currentConfig.HostName+Path.ChangeExtension(file, ".html"));
             }
             content["toc"] = tocContent;
 

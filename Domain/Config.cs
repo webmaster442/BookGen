@@ -10,6 +10,7 @@ namespace BookGen.Domain
         public string OutputDir { get; set; }
         public string TOCFile { get; set; }
         public string ImageDir { get; set; }
+        public string HostName { get; set; }
 
         public static Config Default
         {
@@ -20,6 +21,7 @@ namespace BookGen.Domain
                     OutputDir = "Path to output directory",
                     TOCFile = "Path of table of contents",
                     ImageDir = "Path to images directory",
+                    HostName = "http://localhost:8080/"
                 };
             }
         }
