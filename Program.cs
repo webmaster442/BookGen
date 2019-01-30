@@ -20,7 +20,7 @@ namespace BookGen
 
         private static void CreateDefaultConfig(FsPath config)
         {
-            var def = JsonConvert.SerializeObject(Config.Default);
+            var def = JsonConvert.SerializeObject(Config.Default, Formatting.Indented);
             config.WriteFile(def);
         }
 
@@ -44,6 +44,7 @@ namespace BookGen
                         Console.Write("Finished ");
                         var runTime = DateTime.Now - start;
                         runTime.LogToConsole();
+
                     }
                 }
                 catch (Exception ex)
@@ -55,8 +56,10 @@ namespace BookGen
             {
                 Console.WriteLine("No bookgen.json config found. Creating one");
                 CreateDefaultConfig(config);
-
             }
+
+            Console.WriteLine("Press a key to exit...");
+            Console.ReadKey();
         }
     }
 }

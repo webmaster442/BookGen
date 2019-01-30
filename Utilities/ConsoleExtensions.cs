@@ -29,7 +29,7 @@ namespace BookGen.Utilities
         public static void LogToConsole(this TimeSpan ts)
         {
             var color = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(ts.TotalSeconds);
             Console.ForegroundColor = color;
         }

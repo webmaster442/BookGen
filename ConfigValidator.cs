@@ -15,15 +15,13 @@ namespace BookGen
         {
             var color = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Error: {0}");
+            Console.WriteLine("Error: {0}", error);
             Console.ForegroundColor = color;
             return false;
         }
 
         public static bool ValidateConfig(Config config)
         {
-            if (!config.OutputDir.ToPath().IsExisting)
-                return PrintError("Output directory doesn't exist");
             if (!config.ImageDir.ToPath().IsExisting)
                 return PrintError("Images directory doesn't exist");
             if (!config.TOCFile.ToPath().IsExisting)
