@@ -12,6 +12,11 @@ namespace BookGen.Domain
             _path = System.IO.Path.Combine(pathParts);
         }
 
+        public bool IsEmbeded
+        {
+            get { return _path?.StartsWith("app://") ?? false; }
+        }
+
         public override bool Equals(object obj)
         {
             return Equals(obj as FsPath);

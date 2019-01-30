@@ -1,5 +1,6 @@
 ﻿using BookGen.Domain;
 using System.IO;
+using System.Reflection;
 
 namespace BookGen.Utilities
 {
@@ -26,6 +27,27 @@ namespace BookGen.Utilities
             using (var writer = File.CreateText(target.ToString()))
             {
                 writer.Write(content);
+            }
+        }
+
+        public static string ReadFile(this FsPath path)
+        {
+            if (path.IsEmbeded)
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var resourceName = $"BookGen.{path.ToString().Replace('\\', '.')}";
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string result = reader.ReadToEnd();
+                    }
+                }
+            }
+
+            using (var reader = File.OpenText(path.ToString()))
+            {
+                return reader.ReadToEnd();
             }
         }
     }
