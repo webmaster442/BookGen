@@ -16,6 +16,16 @@ namespace BookGen.Utilities
             return new FsPath(s);
         }
 
+        public static void CreateDir(this FsPath path)
+        {
+            Directory.CreateDirectory(path.ToString());
+        }
+
+        public static string GetName(this FsPath path)
+        {
+            return Path.GetFileName(path.ToString());
+        }
+
         public static void CopyDirectory(this FsPath sourceDirectory, FsPath TargetDir)
         {
             if (!Directory.Exists(TargetDir.ToString()))
@@ -34,6 +44,11 @@ namespace BookGen.Utilities
 
         public static void WriteFile(this FsPath target, string content)
         {
+            FileInfo fileInfo = new FileInfo(target.ToString());
+
+            if (!fileInfo.Exists)
+                Directory.CreateDirectory(fileInfo.Directory.FullName);
+
             using (var writer = File.CreateText(target.ToString()))
             {
                 writer.Write(content);
@@ -45,12 +60,12 @@ namespace BookGen.Utilities
             if (path.IsEmbeded)
             {
                 var assembly = Assembly.GetExecutingAssembly();
-                var resourceName = $"BookGen.{path.ToString().Replace('\\', '.')}";
+                var resourceName = $"BookGen.{path.ToString().Substring(6).Replace('/', '.')}";
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 {
                     using (StreamReader reader = new StreamReader(stream))
                     {
-                        string result = reader.ReadToEnd();
+                        return reader.ReadToEnd();
                     }
                 }
             }

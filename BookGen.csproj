@@ -57,6 +57,7 @@
     <Compile Include="Utilities\ConsoleExtensions.cs" />
     <Compile Include="Utilities\FsUtils.cs" />
     <Compile Include="Utilities\MarkdownUtils.cs" />
+    <Compile Include="Utilities\Templater.cs" />
     <Compile Include="WebsiteBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,7 +69,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Resources\Template.html" />
+    <EmbeddedResource Include="Resources\Template.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
