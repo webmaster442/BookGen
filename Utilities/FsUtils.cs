@@ -1,4 +1,9 @@
-﻿using BookGen.Domain;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Domain;
 using System.IO;
 using System.Reflection;
 
@@ -6,6 +11,11 @@ namespace BookGen.Utilities
 {
     internal static class FsUtils
     {
+        public static FsPath ToPath(this string s)
+        {
+            return new FsPath(s);
+        }
+
         public static void CopyDirectory(this FsPath sourceDirectory, FsPath TargetDir)
         {
             if (!Directory.Exists(TargetDir.ToString()))

@@ -1,4 +1,10 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System;
+using System.Reflection;
 
 namespace BookGen.Utilities
 {
@@ -26,6 +32,12 @@ namespace BookGen.Utilities
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(ts.TotalSeconds);
             Console.ForegroundColor = color;
+        }
+
+        public static void LogVersion(this Type type)
+        {
+            var asm = Assembly.GetAssembly(type);
+            Console.WriteLine("BookGen version {0}", asm.GetName().Version);
         }
     }
 }

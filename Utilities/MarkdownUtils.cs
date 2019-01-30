@@ -1,4 +1,9 @@
-﻿using Markdig;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Markdig;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;

@@ -1,5 +1,11 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace BookGen.Domain
 {
@@ -9,12 +15,25 @@ namespace BookGen.Domain
 
         public FsPath(params string[] pathParts)
         {
-            _path = System.IO.Path.Combine(pathParts);
+            _path = Path.Combine(pathParts);
+        }
+
+        public FsPath Combine(string part)
+        {
+            return new FsPath(_path, part);
         }
 
         public bool IsEmbeded
         {
             get { return _path?.StartsWith("app://") ?? false; }
+        }
+
+        public bool IsExisting
+        {
+            get
+            {
+                return Directory.Exists(_path) || File.Exists(_path);
+            }
         }
 
         public override bool Equals(object obj)
