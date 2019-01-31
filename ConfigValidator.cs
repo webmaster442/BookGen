@@ -22,6 +22,8 @@ namespace BookGen
 
         public static bool ValidateConfig(Config config)
         {
+            if (!config.Template.ToPath().IsExisting)
+                return PrintError("Missing template file");
             if (!config.ImageDir.ToPath().IsExisting)
                 return PrintError("Images directory doesn't exist");
             if (!config.TOCFile.ToPath().IsExisting)

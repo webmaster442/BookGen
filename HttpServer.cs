@@ -106,7 +106,7 @@ namespace BookGen
         /// <param name="port">Port of the server.</param>
         public SimpleHTTPServer(string path, int port)
         {
-            this.Initialize(path, port);
+            Initialize(path, port);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace BookGen
             l.Start();
             int port = ((IPEndPoint)l.LocalEndpoint).Port;
             l.Stop();
-            this.Initialize(path, port);
+            Initialize(path, port);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace BookGen
         private void Process(HttpListenerContext context)
         {
             string filename = context.Request.Url.AbsolutePath;
-            Console.WriteLine(filename);
+            Console.WriteLine("Serving: {0}", filename);
             filename = filename.Substring(1);
 
             if (string.IsNullOrEmpty(filename))
@@ -196,6 +196,7 @@ namespace BookGen
                 catch (Exception ex)
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    ex.LogToConsole();
                 }
 
             }
@@ -209,8 +210,8 @@ namespace BookGen
 
         private void Initialize(string path, int port)
         {
-            this._rootDirectory = path;
-            this._port = port;
+            _rootDirectory = path;
+            _port = port;
             _serverThread = new Thread(this.Listen);
             _serverThread.Start();
         }

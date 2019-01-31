@@ -19,6 +19,15 @@ namespace BookGen
             imgdir.CopyDirectory(outdir.Combine(imgdir.GetName()));
         }
 
+        private void CopyAssets(FsPath assets, FsPath outdir)
+        {
+            if (assets.IsExisting)
+            {
+                Console.WriteLine("Copy template assets to output...");
+                assets.CopyDirectory(outdir.Combine(assets.GetName()));
+            }
+        }
+
         private static void CreateOutputDirectory(FsPath outdir)
         {
             Console.WriteLine("Creating output directory...");
@@ -34,6 +43,7 @@ namespace BookGen
             var files = MarkdownUtils.GetFilesToProcess(toc.ReadFile());
 
             CreateOutputDirectory(outdir);
+            CopyAssets(indir.Combine(currentConfig.AssetsDir), outdir);
             CopyImages(outdir, imgdir);
 
             var content = new Dictionary<string, string>();
@@ -47,7 +57,7 @@ namespace BookGen
             content["toc"] = tocContent;
 
             Console.WriteLine("Generating Sub Markdown Files...");
-            Template template = new Template(new FsPath("app://Resources/Template.html"));
+            Template template = new Template(currentConfig.Template.ToPath());
             foreach (var file in files)
             {
                 var input = indir.Combine(file);
