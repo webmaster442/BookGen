@@ -5,6 +5,7 @@
 
 using BookGen.Domain;
 using BookGen.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -87,7 +88,9 @@ namespace BookGen
 
             Template template = new Template(_currentConfig.Template.ToPath());
             GenerateIndex(content, template);
-            
+
+            GeneratePagesJs(_files);
+
 
             Console.WriteLine("Generating Sub Markdown Files...");
 
@@ -100,6 +103,18 @@ namespace BookGen
                 var html = template.ProcessTemplate(content);
                 output.WriteFile(html);
             }
+        }
+
+        private void GeneratePagesJs(List<string> files)
+        {
+            Console.WriteLine("Generating pages.js...");
+            List<string> pages = new List<string>(files.Count);
+            foreach (var file in files)
+            {
+                pages.Add(_currentConfig.HostName + Path.ChangeExtension(file, ".html"));
+            }
+            FsPath target = _outdir.Combine("pages.js");
+            target.WriteFile("var pages="+JsonConvert.SerializeObject(pages)+";");
         }
     }
 }
