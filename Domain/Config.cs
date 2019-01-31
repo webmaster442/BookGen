@@ -13,6 +13,7 @@ namespace BookGen.Domain
         public string HostName { get; set; }
         public string AssetsDir { get; set; }
         public string Template { get; set; }
+        public string Index { get; set; }
 
         public static Config Default
         {
@@ -22,6 +23,7 @@ namespace BookGen.Domain
                 {
                     OutputDir = "Path to output directory",
                     TOCFile = "Path of table of contents",
+                    Index = "Path of startup (index) file",
                     ImageDir = "Path to images directory",
                     HostName = "http://localhost:8080/",
                     AssetsDir = "Path to static assets required by template or null",

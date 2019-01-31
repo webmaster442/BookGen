@@ -34,7 +34,6 @@ namespace BookGen
                 try
                 {
                     DateTime start = DateTime.Now;
-                    WebsiteBuilder builder = new WebsiteBuilder();
 
                     var cfg = ReadConfig(config);
                     if (ConfigValidator.ValidateConfig(cfg))
@@ -42,7 +41,10 @@ namespace BookGen
                         if (args.Length > 0 && args[0] == "test")
                             Test(cfg);
                         else
+                        {
+                            WebsiteBuilder builder = new WebsiteBuilder(cfg);
                             Build(start, builder, cfg);
+                        }
 
                     }
                 }
@@ -70,7 +72,7 @@ namespace BookGen
 
         private static void Build(DateTime start, WebsiteBuilder builder, Config cfg)
         {
-            builder.Run(cfg);
+            builder.Run();
             Console.Write("Finished ");
             var runTime = DateTime.Now - start;
             runTime.LogToConsole();

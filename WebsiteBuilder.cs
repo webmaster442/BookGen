@@ -13,6 +13,13 @@ namespace BookGen
 {
     internal class WebsiteBuilder
     {
+        private FsPath _outdir;
+        private FsPath _indir;
+        private FsPath _imgdir;
+        private FsPath _toc;
+        private Config _currentConfig;
+        private List<string> _files;
+
         private static void CopyImages(FsPath outdir, FsPath imgdir)
         {
             Console.WriteLine("Copy images to output...");
@@ -34,39 +41,58 @@ namespace BookGen
             outdir.CreateDir();
         }
 
-        public void Run(Config currentConfig)
+        private void GenerateTOCcontent(Dictionary<string, string> content)
         {
-            var outdir = currentConfig.OutputDir.ToPath();
-            var indir = new FsPath(Environment.CurrentDirectory);
-            var imgdir = currentConfig.ImageDir.ToPath();
-            var toc = currentConfig.TOCFile.ToPath();
-            var files = MarkdownUtils.GetFilesToProcess(toc.ReadFile());
+            var tocContent = MarkdownUtils.Markdown2HTML(_toc.ReadFile());
+            foreach (var file in _files)
+            {
+                tocContent = tocContent.Replace(file, _currentConfig.HostName + Path.ChangeExtension(file, ".html"));
+            }
+            content["toc"] = tocContent;
+        }
 
-            CreateOutputDirectory(outdir);
-            CopyAssets(indir.Combine(currentConfig.AssetsDir), outdir);
-            CopyImages(outdir, imgdir);
+        public WebsiteBuilder(Config currentConfig)
+        {
+            _outdir = currentConfig.OutputDir.ToPath();
+            _indir = new FsPath(Environment.CurrentDirectory);
+            _imgdir = currentConfig.ImageDir.ToPath();
+            _toc = currentConfig.TOCFile.ToPath();
+            _files = MarkdownUtils.GetFilesToProcess(_toc.ReadFile());
+        }
+
+        public void Run()
+        {
+            CreateOutputDirectory(_outdir);
+            CopyAssets(_indir.Combine(_currentConfig.AssetsDir), _outdir);
+            CopyImages(_outdir, _imgdir);
 
             var content = new Dictionary<string, string>();
             content.Add("toc", "");
             content.Add("content", "");
-            var tocContent = MarkdownUtils.Markdown2HTML(toc.ReadFile());
-            foreach (var file in files)
-            {
-                tocContent = tocContent.Replace(file, currentConfig.HostName+Path.ChangeExtension(file, ".html"));
-            }
-            content["toc"] = tocContent;
+            GenerateTOCcontent(content);
+
+            Template template = new Template(_currentConfig.Template.ToPath());
+            GenerateIndex();
+            
 
             Console.WriteLine("Generating Sub Markdown Files...");
-            Template template = new Template(currentConfig.Template.ToPath());
-            foreach (var file in files)
+
+            foreach (var file in _files)
             {
-                var input = indir.Combine(file);
-                var output = outdir.Combine(Path.ChangeExtension(file, ".html"));
+                var input = _indir.Combine(file);
+                var output = _outdir.Combine(Path.ChangeExtension(file, ".html"));
 
                 content["content"] = MarkdownUtils.Markdown2HTML(input.ReadFile());
                 var html = template.ProcessTemplate(content);
                 output.WriteFile(html);
             }
+        }
+
+        private void GenerateIndex()
+        {
+            Console.WriteLine("Generating Index file...");
+            var input = _indir.Combine(_currentConfig.Index);
+            var output = _outdir.Combine("index.html");
         }
     }
 }
