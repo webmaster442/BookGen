@@ -7,6 +7,7 @@ using BookGen.Domain;
 using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 
 namespace BookGen
 {
@@ -38,13 +39,11 @@ namespace BookGen
                     var cfg = ReadConfig(config);
                     if (ConfigValidator.ValidateConfig(cfg))
                     {
+                        WebsiteBuilder builder = new WebsiteBuilder(cfg);
+                        Build(start, builder, cfg);
+
                         if (args.Length > 0 && args[0] == "test")
                             Test(cfg);
-                        else
-                        {
-                            WebsiteBuilder builder = new WebsiteBuilder(cfg);
-                            Build(start, builder, cfg);
-                        }
 
                     }
                 }
@@ -68,6 +67,7 @@ namespace BookGen
             config.HostName = "http://localhost:8080/";
             Console.WriteLine("Test server running on: http://localhost:8080/");
             SimpleHTTPServer server = new SimpleHTTPServer(config.OutputDir, 8080);
+            Process.Start(config.HostName); 
         }
 
         private static void Build(DateTime start, WebsiteBuilder builder, Config cfg)
