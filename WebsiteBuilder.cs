@@ -82,6 +82,7 @@ namespace BookGen
             var content = new Dictionary<string, string>();
             content.Add("toc", "");
             content.Add("content", "");
+            content.Add("host", _currentConfig.HostName);
             GenerateTOCcontent(content);
 
             Template template = new Template(_currentConfig.Template.ToPath());
