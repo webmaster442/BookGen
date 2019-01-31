@@ -25,19 +25,6 @@ namespace BookGen
             outdir.CreateDir();
         }
 
-        /*private static void CreateNavigationJson(FsPath outdir, List<string> files)
-        {
-            Console.WriteLine("Generating navigation.json...");
-            var navigationJson = outdir.Combine("navigation.json");
-            var navigationList = new List<string>(files.Count);
-            foreach (var file in files)
-            {
-                var f = outdir.Combine(Path.ChangeExtension(file, ".html")).ToString();
-                navigationList.Add(f);
-            }
-            navigationJson.WriteFile(JsonConvert.SerializeObject(navigationList));
-        }*/
-
         public void Run(Config currentConfig)
         {
             var outdir = currentConfig.OutputDir.ToPath();

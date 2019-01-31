@@ -5,9 +5,8 @@
 
 using BookGen.Domain;
 using BookGen.Utilities;
-using System;
-using System.IO;
 using Newtonsoft.Json;
+using System;
 
 namespace BookGen
 {

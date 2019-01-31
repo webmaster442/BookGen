@@ -23,11 +23,6 @@ namespace BookGen.Domain
             return new FsPath(_path, part);
         }
 
-        public bool IsEmbeded
-        {
-            get { return _path?.StartsWith("app://") ?? false; }
-        }
-
         public bool IsExisting
         {
             get

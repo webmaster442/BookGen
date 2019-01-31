@@ -57,19 +57,6 @@ namespace BookGen.Utilities
 
         public static string ReadFile(this FsPath path)
         {
-            if (path.IsEmbeded)
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-                var resourceName = $"BookGen.{path.ToString().Substring(6).Replace('/', '.')}";
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        return reader.ReadToEnd();
-                    }
-                }
-            }
-
             using (var reader = File.OpenText(path.ToString()))
             {
                 return reader.ReadToEnd();
