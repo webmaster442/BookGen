@@ -53,11 +53,24 @@ namespace BookGen
 
         public WebsiteBuilder(Config currentConfig)
         {
+            _currentConfig = currentConfig;
             _outdir = currentConfig.OutputDir.ToPath();
             _indir = new FsPath(Environment.CurrentDirectory);
             _imgdir = currentConfig.ImageDir.ToPath();
             _toc = currentConfig.TOCFile.ToPath();
             _files = MarkdownUtils.GetFilesToProcess(_toc.ReadFile());
+        }
+
+        private void GenerateIndex(Dictionary<string, string> content, Template template)
+        {
+            Console.WriteLine("Generating Index file...");
+            var input = _indir.Combine(_currentConfig.Index);
+            var output = _outdir.Combine("index.html");
+
+            content["content"] = MarkdownUtils.Markdown2HTML(input.ReadFile());
+            var html = template.ProcessTemplate(content);
+            output.WriteFile(html);
+
         }
 
         public void Run()
@@ -72,7 +85,7 @@ namespace BookGen
             GenerateTOCcontent(content);
 
             Template template = new Template(_currentConfig.Template.ToPath());
-            GenerateIndex();
+            GenerateIndex(content, template);
             
 
             Console.WriteLine("Generating Sub Markdown Files...");
@@ -86,13 +99,6 @@ namespace BookGen
                 var html = template.ProcessTemplate(content);
                 output.WriteFile(html);
             }
-        }
-
-        private void GenerateIndex()
-        {
-            Console.WriteLine("Generating Index file...");
-            var input = _indir.Combine(_currentConfig.Index);
-            var output = _outdir.Combine("index.html");
         }
     }
 }
