@@ -46,16 +46,6 @@ namespace BookGen
             outdir.CreateDir();
         }
 
-        private void GenerateTOCcontent(Dictionary<string, string> content)
-        {
-            var tocContent = MarkdownUtils.Markdown2HTML(_toc.ReadFile());
-            foreach (var file in _files)
-            {
-                tocContent = tocContent.Replace(file, _currentConfig.HostName + Path.ChangeExtension(file, ".html"));
-            }
-            content["toc"] = tocContent;
-        }
-
         public WebsiteBuilder(Config currentConfig)
         {
             _currentConfig = currentConfig;
@@ -66,62 +56,26 @@ namespace BookGen
             _files = MarkdownUtils.GetFilesToProcess(_toc.ReadFile());
         }
 
-        private void GenerateIndex(Dictionary<string, string> content, Template template)
+        private void GenerateIndex(GeneratorContent content, Template template)
         {
             Console.WriteLine("Generating Index file...");
             var input = _indir.Combine(_currentConfig.Index);
             var output = _outdir.Combine("index.html");
 
-            content["content"] = MarkdownUtils.Markdown2HTML(input.ReadFile());
+            content.Content = MarkdownUtils.Markdown2HTML(input.ReadFile());
             var html = template.ProcessTemplate(content);
             output.WriteFile(html);
 
         }
 
-        public void Run()
+        private void GenerateTOCcontent(GeneratorContent content)
         {
-            CreateOutputDirectory(_outdir);
-            CopyAssets(_indir.Combine(_currentConfig.AssetsDir), _outdir);
-            CopyImages(_outdir, _imgdir);
-
-            var content = new Dictionary<string, string>();
-            content.Add("toc", "");
-            content.Add("title", "");
-            content.Add("content", "");
-            content.Add("host", _currentConfig.HostName);
-            GenerateTOCcontent(content);
-
-            Template template = new Template(_currentConfig.Template.ToPath());
-            GenerateIndex(content, template);
-
-            GeneratePagesJs(_files);
-
-
-            Console.WriteLine("Generating Sub Markdown Files...");
+            var tocContent = MarkdownUtils.Markdown2HTML(_toc.ReadFile());
             foreach (var file in _files)
             {
-                var input = _indir.Combine(file);
-                var output = _outdir.Combine(Path.ChangeExtension(file, ".html"));
-
-                var inputContent = input.ReadFile();
-
-                content["title"] = MarkdownUtils.GetTitle(inputContent);
-                content["content"] = MarkdownUtils.Markdown2HTML(inputContent);
-                var html = template.ProcessTemplate(content);
-                output.WriteFile(html);
+                tocContent = tocContent.Replace(file, _currentConfig.HostName + Path.ChangeExtension(file, ".html"));
             }
-
-            Console.WriteLine("Generating index files for sub content folders...");
-            foreach (var file in _files)
-            {
-                var dir = Path.GetDirectoryName(file);
-                var output = _outdir.Combine(dir).Combine("index.html");
-                content["title"] = dir;
-                content["content"] = "";
-                var html = template.ProcessTemplate(content);
-                output.WriteFile(html);
-            }
-
+            content.TableOfContents = tocContent;
         }
 
         private void GeneratePagesJs(List<string> files)
@@ -134,6 +88,56 @@ namespace BookGen
             }
             FsPath target = _outdir.Combine("pages.js");
             target.WriteFile("var pages=" + JsonConvert.SerializeObject(pages) + ";");
+        }
+
+        private void GenerateSubPageIndexes(GeneratorContent content, Template template)
+        {
+            Console.WriteLine("Generating index files for sub content folders...");
+            foreach (var file in _files)
+            {
+                var dir = Path.GetDirectoryName(file);
+                var output = _outdir.Combine(dir).Combine("index.html");
+                if (!output.IsExisting)
+                {
+                    content.Title = dir;
+                    content.Content = "";
+                    var html = template.ProcessTemplate(content);
+                    output.WriteFile(html);
+                }
+            }
+        }
+
+        private void GenerateSubPages(GeneratorContent content, Template template)
+        {
+            Console.WriteLine("Generating Sub Markdown Files...");
+            foreach (var file in _files)
+            {
+                var input = _indir.Combine(file);
+                var output = _outdir.Combine(Path.ChangeExtension(file, ".html"));
+
+                var inputContent = input.ReadFile();
+
+                content.Title = MarkdownUtils.GetTitle(inputContent);
+                content.Content = MarkdownUtils.Markdown2HTML(inputContent);
+                var html = template.ProcessTemplate(content);
+                output.WriteFile(html);
+            }
+        }
+
+        public void Run()
+        {
+            CreateOutputDirectory(_outdir);
+            CopyAssets(_indir.Combine(_currentConfig.AssetsDir), _outdir);
+            CopyImages(_outdir, _imgdir);
+
+            var content = new GeneratorContent(_currentConfig);
+            GenerateTOCcontent(content);
+
+            Template template = new Template(_currentConfig.Template.ToPath());
+            GenerateIndex(content, template);
+            GeneratePagesJs(_files);
+            GenerateSubPages(content, template);
+            GenerateSubPageIndexes(content, template);
         }
     }
 }

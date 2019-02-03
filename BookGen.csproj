@@ -52,7 +52,9 @@
     <Compile Include="ConfigValidator.cs" />
     <Compile Include="Domain\Config.cs" />
     <Compile Include="Domain\FsPath.cs" />
+    <Compile Include="Domain\GeneratorContent.cs" />
     <Compile Include="HttpServer.cs" />
+    <Compile Include="MarkdownModifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ConsoleExtensions.cs" />

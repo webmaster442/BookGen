@@ -1,5 +1,9 @@
-﻿using BookGen.Domain;
-using System.Collections.Generic;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Domain;
 using System.Text;
 
 namespace BookGen.Utilities
@@ -13,7 +17,7 @@ namespace BookGen.Utilities
             _template = templatePath.ReadFile();
         }
 
-        public string ProcessTemplate(Dictionary<string, string> contents)
+        public string ProcessTemplate(GeneratorContent contents)
         {
             StringBuilder result = new StringBuilder(_template);
             foreach (var content in contents)

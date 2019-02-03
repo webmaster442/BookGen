@@ -16,7 +16,7 @@ namespace BookGen.Utilities
 
         static MarkdownUtils()
         {
-            _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+            _pipeline = new MarkdownPipelineBuilder().Use<MarkdownModifier>().UseAdvancedExtensions().Build();
         }
 
         /// <summary>
