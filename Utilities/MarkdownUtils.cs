@@ -69,5 +69,26 @@ namespace BookGen.Utilities
             return FilesToProcess;
         }
 
+        /// <summary>
+        /// Get title from markdown content
+        /// </summary>
+        /// <param name="md">markdown content</param>
+        /// <returns>Title of page</returns>
+        public static string GetTitle(string md)
+        {
+            using (var reader = new StringReader(md))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.StartsWith("# ") ||
+                        line.StartsWith("## ") ||
+                        line.StartsWith("### "))
+                        return line.Replace("#", "");
+                }
+            }
+            return string.Empty;
+        }
+
     }
 }

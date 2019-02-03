@@ -171,6 +171,19 @@ namespace BookGen
 
             filename = Path.Combine(_rootDirectory, filename);
 
+            if (Directory.Exists(filename))
+            {
+                foreach (string indexFile in _indexFiles)
+                {
+                    var localindex = Path.Combine(filename, indexFile);
+                    if (File.Exists(localindex))
+                    {
+                        filename = localindex;
+                        break;
+                    }
+                }
+            }
+
             if (File.Exists(filename))
             {
                 try

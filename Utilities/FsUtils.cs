@@ -6,6 +6,7 @@
 using BookGen.Domain;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace BookGen.Utilities
 {
@@ -61,6 +62,17 @@ namespace BookGen.Utilities
             {
                 return reader.ReadToEnd();
             }
+        }
+
+        public static void ProtectDirectory(this FsPath directory)
+        {
+            var outp = directory.Combine("index.html");
+            StringBuilder sb = new StringBuilder(4096);
+            for (int i=0; i<256; i++)
+            {
+                sb.Append("                ");
+            }
+            outp.WriteFile(sb.ToString());
         }
     }
 }

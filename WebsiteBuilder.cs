@@ -24,7 +24,9 @@ namespace BookGen
         private static void CopyImages(FsPath outdir, FsPath imgdir)
         {
             Console.WriteLine("Copy images to output...");
-            imgdir.CopyDirectory(outdir.Combine(imgdir.GetName()));
+            var targetdir = outdir.Combine(imgdir.GetName());
+            imgdir.CopyDirectory(targetdir);
+            targetdir.ProtectDirectory();
         }
 
         private void CopyAssets(FsPath assets, FsPath outdir)
@@ -32,7 +34,9 @@ namespace BookGen
             if (assets.IsExisting)
             {
                 Console.WriteLine("Copy template assets to output...");
-                assets.CopyDirectory(outdir.Combine(assets.GetName()));
+                var targetdir = outdir.Combine(assets.GetName());
+                assets.CopyDirectory(targetdir);
+                targetdir.ProtectDirectory();
             }
         }
 
@@ -82,6 +86,7 @@ namespace BookGen
 
             var content = new Dictionary<string, string>();
             content.Add("toc", "");
+            content.Add("title", "");
             content.Add("content", "");
             content.Add("host", _currentConfig.HostName);
             GenerateTOCcontent(content);
@@ -93,16 +98,30 @@ namespace BookGen
 
 
             Console.WriteLine("Generating Sub Markdown Files...");
-
             foreach (var file in _files)
             {
                 var input = _indir.Combine(file);
                 var output = _outdir.Combine(Path.ChangeExtension(file, ".html"));
 
-                content["content"] = MarkdownUtils.Markdown2HTML(input.ReadFile());
+                var inputContent = input.ReadFile();
+
+                content["title"] = MarkdownUtils.GetTitle(inputContent);
+                content["content"] = MarkdownUtils.Markdown2HTML(inputContent);
                 var html = template.ProcessTemplate(content);
                 output.WriteFile(html);
             }
+
+            Console.WriteLine("Generating index files for sub content folders...");
+            foreach (var file in _files)
+            {
+                var dir = Path.GetDirectoryName(file);
+                var output = _outdir.Combine(dir).Combine("index.html");
+                content["title"] = dir;
+                content["content"] = "";
+                var html = template.ProcessTemplate(content);
+                output.WriteFile(html);
+            }
+
         }
 
         private void GeneratePagesJs(List<string> files)
@@ -114,7 +133,7 @@ namespace BookGen
                 pages.Add(_currentConfig.HostName + Path.ChangeExtension(file, ".html"));
             }
             FsPath target = _outdir.Combine("pages.js");
-            target.WriteFile("var pages="+JsonConvert.SerializeObject(pages)+";");
+            target.WriteFile("var pages=" + JsonConvert.SerializeObject(pages) + ";");
         }
     }
 }
