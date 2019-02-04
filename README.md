@@ -3,12 +3,12 @@
 Bookgen is inspired by Gitbook. Mainly I wrote it, because Node.js development is not my world.
 
 Features:
-	* Ligtweight code base
-	* Uses MarkDig that support a lot of markdown features
-	* Easily extensible templates
-	* Built in debug web server
-	* Single bookgen.json configuration (if run without args, creates default config)
-	* Customizeable
+* Ligtweight code base
+* Uses MarkDig that support a lot of markdown features
+* Easily extensible templates
+* Built in debug web server
+* Single bookgen.json configuration (if run without args, creates default config)
+* Customizeable
 
 ## Template tags:
 
