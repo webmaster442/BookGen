@@ -12,17 +12,22 @@ Features:
 
 ## Template tags:
 
-	* [[Content]]
-	Will be replaced with rendered HTML
+**[[Content]]**
 
-	* [[Title]]
-	Page title, first heading content will be rendered here from the document.
+Will be replaced with rendered HTML
 
-	* [[TableOfContents]]
-	Table of contents file contents will be rendered here.
+**[[Title]]**
 
-	* [[HostUrl]]
-	The server Host address. Can be used to include pages & stuff
+Page title, first heading content will be rendered here from the document.
 
-	* [[AssetsUrl]]
-	Assets directory for templates. Can be used to include pages & stuff
+**[[TableOfContents]]**
+
+Table of contents file contents will be rendered here.
+
+**[[HostUrl]]**
+
+The server Host address. Can be used to include pages & stuff
+
+**[[AssetsUrl]]**
+
+Assets directory for templates. Can be used to include pages & stuff
