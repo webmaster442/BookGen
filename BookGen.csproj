@@ -49,13 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigExtensions.cs" />
+    <Compile Include="Framework\Generator.cs" />
+    <Compile Include="Utilities\ConfigExtensions.cs" />
     <Compile Include="Domain\Config.cs" />
     <Compile Include="Domain\FsPath.cs" />
     <Compile Include="Domain\GeneratorContent.cs" />
+    <Compile Include="Domain\GeneratorSettings.cs" />
     <Compile Include="Domain\StyleClasses.cs" />
-    <Compile Include="HttpServer.cs" />
-    <Compile Include="MarkdownModifier.cs" />
+    <Compile Include="GeneratorSteps\CopyAssets.cs" />
+    <Compile Include="GeneratorSteps\CopyImagesDirectory.cs" />
+    <Compile Include="GeneratorSteps\CreateIndexHtml.cs" />
+    <Compile Include="GeneratorSteps\CreateOutputDirectory.cs" />
+    <Compile Include="GeneratorSteps\CreatePages.cs" />
+    <Compile Include="GeneratorSteps\CreatePagesJS.cs" />
+    <Compile Include="GeneratorSteps\CreateSubpageIndexes.cs" />
+    <Compile Include="Framework\HttpServer.cs" />
+    <Compile Include="GeneratorSteps\Intertfaces.cs" />
+    <Compile Include="Framework\MarkdownModifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ConsoleExtensions.cs" />

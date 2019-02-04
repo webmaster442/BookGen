@@ -9,7 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace BookGen
+namespace BookGen.Framework
 {
     class SimpleHTTPServer
     {

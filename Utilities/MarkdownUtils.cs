@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Framework;
 using Markdig;
 using System.Collections.Generic;
 using System.IO;

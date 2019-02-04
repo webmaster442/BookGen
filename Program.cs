@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
+using BookGen.Framework;
 using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;

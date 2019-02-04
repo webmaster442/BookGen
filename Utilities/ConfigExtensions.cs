@@ -7,7 +7,7 @@ using BookGen.Domain;
 using BookGen.Utilities;
 using System;
 
-namespace BookGen
+namespace BookGen.Utilities
 {
     public static class ConfigExtensions
     {
@@ -34,7 +34,7 @@ namespace BookGen
 
         public static void UpgradeTo(this Config config, int targetVersion)
         {
-            if (config.Version == 0)
+            if (config.Version == 0 || config.Version < targetVersion)
                 config.Version = targetVersion;
 
             if (config.StyleClasses == null)

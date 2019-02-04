@@ -11,7 +11,7 @@ using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
 
-namespace BookGen
+namespace BookGen.Framework
 {
     public class MarkdownModifier : IMarkdownExtension
     {
