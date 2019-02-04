@@ -85,5 +85,10 @@
     </None>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="DefaultTemplate\assets\prism.css" />
+    <Content Include="DefaultTemplate\assets\prism.js" />
+    <Content Include="DefaultTemplate\Template.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

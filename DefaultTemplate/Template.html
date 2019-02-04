@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>[[title]]</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="[[assets]]/prism.css">
+    <script src="[[assets]]/prism.js" type="text/javascript"></script>
+    <script src="[[host]]/pages.js" type="text/javascript"></script>
+    <style type="text/css">
+        #content {
+            margin-top: 70px;
+        }
+        #content p {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <nav id="Header" class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#collapseExample" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="fas fa-book-open"></i>
+                    Tartalom
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-arrow-up"></i>
+                    Tetejére
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#previous">
+                    <i class="fas fa-chevron-left"></i>
+                    Előző
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#next">
+                    <i class="fas fa-chevron-right"></i>
+                    Következő
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container-fluid" id="content" style="transition: transform .4s;">
+        <div class="row">
+            <div class="col-md-6 mx-auto collapse" id="collapseExample">
+                <div class="card card-body">
+                    [[toc]]
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                [[content]]
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var currentindex = pages.indexOf(window.location.href);
+        $('a[href="#previous"]').click(function () {
+            if (currentindex - 1 < 0) return;
+            var newloc = pages[currentindex - 1];
+            window.location.href = newloc;
+        });
+        $('a[href="#next"]').click(function () {
+            if (currentindex + 1 > (pages.length - 1)) return;
+            var newloc = pages[currentindex + 1];
+            window.location.href = newloc;
+        });
+    </script>
+</body>
+</html>
