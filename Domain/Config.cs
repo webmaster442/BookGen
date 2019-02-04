@@ -14,6 +14,8 @@ namespace BookGen.Domain
         public string AssetsDir { get; set; }
         public string Template { get; set; }
         public string Index { get; set; }
+        public int Version { get; set; }
+        public StyleClasses StyleClasses { get; set; }
 
         public static Config Default
         {
@@ -28,6 +30,8 @@ namespace BookGen.Domain
                     HostName = "http://localhost:8080/",
                     AssetsDir = "Path to static assets required by template or null",
                     Template = "Path of template file",
+                    StyleClasses = new StyleClasses(),
+                    Version = 100,
                 };
             }
         }

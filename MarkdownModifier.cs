@@ -3,16 +3,20 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
+using System;
 
 namespace BookGen
 {
     public class MarkdownModifier : IMarkdownExtension
     {
+        public static StyleClasses Styles { get; set; }
+
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
             pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
@@ -23,37 +27,61 @@ namespace BookGen
         {
         }
 
+        private static void AddStyleClass(MarkdownObject node, string style)
+        {
+            if (string.IsNullOrEmpty(style)) return;
+            node.GetAttributes().AddClass(style);
+        }
+
         private static void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
+            if (Styles == null)
+                throw new InvalidOperationException("Styles not configured");
+
             foreach (var node in document.Descendants())
             {
-                if (node is Block)
+                if (node is HeadingBlock heading)
+                {
+                    switch (heading.Level)
+                    {
+                        case 1:
+                            AddStyleClass(node, Styles.Heading1);
+                            break;
+                        case 2:
+                            AddStyleClass(node, Styles.Heading2);
+                            break;
+                        case 3:
+                            AddStyleClass(node, Styles.Heading3);
+                            break;
+                    }
+                }
+                else if (node is Block)
                 {
                     if (node is Markdig.Extensions.Tables.Table)
-                    {
-                        node.GetAttributes().AddClass("table table-hover");
-                    }
+                        AddStyleClass(node, Styles.Table);
                     else if (node is QuoteBlock)
-                    {
-                        node.GetAttributes().AddClass("blockquote");
-                    }
+                        AddStyleClass(node, Styles.Blockquote);
                     else if (node is Markdig.Extensions.Figures.Figure)
-                    {
-                        node.GetAttributes().AddClass("figure");
-                    }
+                        AddStyleClass(node, Styles.Figure);
                     else if (node is Markdig.Extensions.Figures.FigureCaption)
-                    {
-                        node.GetAttributes().AddClass("figure-caption");
-                    }
+                        AddStyleClass(node, Styles.FigureCaption);
                 }
-                else if (node is Inline)
+                else if (node is LinkInline link)
                 {
-                    var link = node as LinkInline;
-                    if (link != null && link.IsImage)
-                    {
-                        link.GetAttributes().AddClass("img-fluid rounded mx-auto d-block");
-                    }
+                    if (link.IsImage)
+                        AddStyleClass(node, Styles.Image);
+                    else
+                        AddStyleClass(node, Styles.Link);
                 }
+                else if (node is ListBlock listBlock)
+                {
+                    if (listBlock.IsOrdered)
+                        AddStyleClass(node, Styles.OrderedList);
+                    else
+                        AddStyleClass(node, Styles.UnorederedList);
+                }
+                else if (node is ListItemBlock)
+                    AddStyleClass(node, Styles.ListItem);
             }
         }
     }

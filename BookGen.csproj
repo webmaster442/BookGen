@@ -49,10 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigValidator.cs" />
+    <Compile Include="ConfigExtensions.cs" />
     <Compile Include="Domain\Config.cs" />
     <Compile Include="Domain\FsPath.cs" />
     <Compile Include="Domain\GeneratorContent.cs" />
+    <Compile Include="Domain\StyleClasses.cs" />
     <Compile Include="HttpServer.cs" />
     <Compile Include="MarkdownModifier.cs" />
     <Compile Include="Program.cs" />

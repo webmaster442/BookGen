@@ -33,11 +33,5 @@ namespace BookGen.Utilities
             Console.WriteLine(ts.TotalSeconds);
             Console.ForegroundColor = color;
         }
-
-        public static void LogVersion(this Type type)
-        {
-            var asm = Assembly.GetAssembly(type);
-            Console.WriteLine("BookGen version {0}", asm.GetName().Version);
-        }
     }
 }

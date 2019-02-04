@@ -9,7 +9,7 @@ using System;
 
 namespace BookGen
 {
-    public class ConfigValidator
+    public static class ConfigExtensions
     {
         private static bool PrintError(string error)
         {
@@ -20,7 +20,7 @@ namespace BookGen
             return false;
         }
 
-        public static bool ValidateConfig(Config config)
+        public static bool ValidateConfig(this Config config)
         {
             if (!config.Template.ToPath().IsExisting)
                 return PrintError("Missing template file");
@@ -30,6 +30,15 @@ namespace BookGen
                 return PrintError("TOC file doesn't exit");
 
             return true;
+        }
+
+        public static void UpgradeTo(this Config config, int targetVersion)
+        {
+            if (config.Version == 0)
+                config.Version = targetVersion;
+
+            if (config.StyleClasses == null)
+                config.StyleClasses = new StyleClasses();
         }
     }
 }

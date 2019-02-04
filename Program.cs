@@ -8,6 +8,7 @@ using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace BookGen
 {
@@ -18,15 +19,23 @@ namespace BookGen
             return JsonConvert.DeserializeObject<Config>(config.ReadFile());
         }
 
-        private static void CreateDefaultConfig(FsPath config)
+        private static void WriteConfig(FsPath configFile, Config configuration)
         {
-            var def = JsonConvert.SerializeObject(Config.Default, Formatting.Indented);
-            config.WriteFile(def);
+            var def = JsonConvert.SerializeObject(configuration, Formatting.Indented);
+            configFile.WriteFile(def);
+        }
+
+        private static Version GetVersion()
+        {
+            var asm = Assembly.GetAssembly(typeof(Program));
+            return asm.GetName().Version;
         }
 
         public static void Main(string[] args)
         {
-            typeof(Program).LogVersion();
+            Version version = GetVersion();
+            Console.WriteLine("BookGen V{0} Starting...", version);
+            int cfgVersion = (version.Major * 100) + version.Minor;
 
             FsPath config = new FsPath(Environment.CurrentDirectory, "bookgen.json");
 
@@ -37,13 +46,23 @@ namespace BookGen
                     DateTime start = DateTime.Now;
 
                     var cfg = ReadConfig(config);
-                    if (ConfigValidator.ValidateConfig(cfg))
+                    if (cfg.ValidateConfig())
                     {
-                        WebsiteBuilder builder = new WebsiteBuilder(cfg);
-                        Build(start, builder, cfg);
+                        if (cfg.Version < cfgVersion)
+                        {
+                            cfg.UpgradeTo(cfgVersion);
+                            WriteConfig(config, cfg);
+                            Console.WriteLine("Configuration file migrated to new version.");
+                            Console.WriteLine("Review configuration then run program again");
+                        }
+                        else
+                        {
+                            WebsiteBuilder builder = new WebsiteBuilder(cfg);
+                            Build(start, builder, cfg);
 
-                        if (args.Length > 0 && args[0] == "test")
-                            Test(cfg);
+                            if (args.Length > 0 && args[0] == "test")
+                                Test(cfg);
+                        }
 
                     }
                 }
@@ -55,7 +74,8 @@ namespace BookGen
             else
             {
                 Console.WriteLine("No bookgen.json config found. Creating one");
-                CreateDefaultConfig(config);
+                Console.WriteLine("Review configuration then run program again");
+                WriteConfig(config, Config.Default);
             }
 
             Console.WriteLine("Press a key to exit...");

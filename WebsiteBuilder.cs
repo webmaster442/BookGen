@@ -48,6 +48,8 @@ namespace BookGen
 
         public WebsiteBuilder(Config currentConfig)
         {
+            MarkdownModifier.Styles = currentConfig.StyleClasses;
+
             _currentConfig = currentConfig;
             _outdir = currentConfig.OutputDir.ToPath();
             _indir = new FsPath(Environment.CurrentDirectory);
