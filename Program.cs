@@ -36,6 +36,8 @@ namespace BookGen
         {
             Version version = GetVersion();
             Console.WriteLine("BookGen V{0} Starting...", version);
+            Console.WriteLine("Working directory: {0}", Environment.CurrentDirectory);
+            Console.WriteLine("---------------------------------------------------------\n\n");
             int cfgVersion = (version.Major * 100) + version.Minor;
 
             FsPath config = new FsPath(Environment.CurrentDirectory, "bookgen.json");
