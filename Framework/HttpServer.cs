@@ -188,20 +188,23 @@ namespace BookGen.Framework
             {
                 try
                 {
-                    Stream input = new FileStream(filename, FileMode.Open);
-
                     //Adding permanent http response headers
                     string mime;
                     context.Response.ContentType = _mimeTypeMappings.TryGetValue(Path.GetExtension(filename), out mime) ? mime : "application/octet-stream";
-                    context.Response.ContentLength64 = input.Length;
+                    //context.Response.ContentLength64 = input.Length;
                     context.Response.AddHeader("Date", DateTime.Now.ToString("r"));
                     context.Response.AddHeader("Last-Modified", System.IO.File.GetLastWriteTime(filename).ToString("r"));
 
-                    byte[] buffer = new byte[1024 * 16];
-                    int nbytes;
-                    while ((nbytes = input.Read(buffer, 0, buffer.Length)) > 0)
-                        context.Response.OutputStream.Write(buffer, 0, nbytes);
-                    input.Close();
+                    using (Stream input = new FileStream(filename, FileMode.Open))
+                    {
+                        byte[] buffer = new byte[1024 * 16];
+                        int nbytes;
+                        while ((nbytes = input.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            context.Response.OutputStream.Write(buffer, 0, nbytes);
+                        }
+                        input.Close();
+                    }
 
                     context.Response.StatusCode = (int)HttpStatusCode.OK;
                     context.Response.OutputStream.Flush();
