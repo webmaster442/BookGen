@@ -80,7 +80,7 @@ namespace BookGen.Utilities
                             currentchapter = null;
                             chapter = null;
                         }
-                        currentchapter = line.Replace("# ", "");
+                        currentchapter = line.Replace("#", "");
                         chapter = new List<string>(100);
                     }
                     else

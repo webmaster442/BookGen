@@ -14,7 +14,7 @@ namespace BookGen.GeneratorSteps
     {
         private StringBuilder _content;
 
-        private const string NewPage = "<p style=\"page-break-before: always\"></p>";
+        private const string NewPage = "<p style=\"page-break-before: always\"></p>\r\n";
 
         public CreatePrintableHtml()
         {
@@ -29,16 +29,20 @@ namespace BookGen.GeneratorSteps
 
             CreateHeader();
 
-            foreach (var file in settings.TocContents.Files)
+            foreach (var chapter in settings.TocContents.Chapters)
             {
-                var input = settings.SourceDirectory.Combine(file);
+                _content.AppendFormat("<h1>{0}</h1>\r\n", chapter);
+                foreach (var file in settings.TocContents.GetFilesForChapter(chapter))
+                {
+                    var input = settings.SourceDirectory.Combine(file);
 
-                var inputContent = input.ReadFile();
+                    var inputContent = input.ReadFile();
 
-                var md = MarkdownUtils.Markdown2PrintHTML(inputContent);
+                    var md = MarkdownUtils.Markdown2PrintHTML(inputContent);
 
-                _content.AppendLine(md);
-                _content.AppendLine(NewPage);
+                    _content.AppendLine(md);
+                    _content.AppendLine(NewPage);
+                }
             }
 
             CreateFooter();

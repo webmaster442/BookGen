@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace BookGen.Domain
 {
-    public class TOC: IEnumerable<(string chapters, List<string> files)>
+    public class TOC
     {
         private readonly Dictionary<string, List<string>> _tocContents;
 
@@ -21,6 +21,16 @@ namespace BookGen.Domain
         public void AddChapter(string chapter, List<string> files)
         {
             _tocContents.Add(chapter, files);
+        }
+
+        public IEnumerable<string> Chapters
+        {
+            get { return _tocContents.Keys; }
+        }
+
+        public IEnumerable<string> GetFilesForChapter(string chapter)
+        {
+            return _tocContents[chapter];
         }
 
         public IEnumerable<string> Files
@@ -35,19 +45,6 @@ namespace BookGen.Domain
                     }
                 }
             }
-        }
-
-        public IEnumerator<(string chapters, List<string> files)> GetEnumerator()
-        {
-            foreach (var item in _tocContents)
-            {
-                yield return (item.Key, item.Value);
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }
