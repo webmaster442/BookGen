@@ -20,7 +20,7 @@ namespace BookGen.GeneratorSteps
             var input = settings.SourceDirectory.Combine(settings.Configruation.Index);
             var output = settings.OutputDirectory.Combine("index.html");
 
-            Content.Content = MarkdownUtils.Markdown2HTML(input.ReadFile());
+            Content.Content = MarkdownUtils.Markdown2WebHTML(input.ReadFile());
             var html = Template.ProcessTemplate(Content);
             output.WriteFile(html);
         }

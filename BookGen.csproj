@@ -49,8 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentParser.cs" />
+    <Compile Include="Framework\MarkdownPrintModifier.cs" />
     <Compile Include="Framework\Generator.cs" />
     <Compile Include="GeneratorSteps\CreatePrintableHtml.cs" />
+    <Compile Include="PrintBuilder.cs" />
     <Compile Include="Utilities\ConfigExtensions.cs" />
     <Compile Include="Domain\Config.cs" />
     <Compile Include="Domain\FsPath.cs" />

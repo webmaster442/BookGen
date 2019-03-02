@@ -22,12 +22,11 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreatePagesJS());
             AddStep(new GeneratorSteps.CreatePages());
             AddStep(new GeneratorSteps.CreateSubpageIndexes());
-            AddStep(new GeneratorSteps.CreatePrintableHtml());
         }
 
         private void FillToc()
         {
-            var tocContent = MarkdownUtils.Markdown2HTML(Settings.Toc.ReadFile());
+            var tocContent = MarkdownUtils.Markdown2WebHTML(Settings.Toc.ReadFile());
             foreach (var file in Settings.TocFiles)
             {
                 tocContent = tocContent.Replace(file, Settings.Configruation.HostName + Path.ChangeExtension(file, ".html"));

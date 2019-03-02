@@ -14,6 +14,8 @@ namespace BookGen.GeneratorSteps
     {
         private StringBuilder _content;
 
+        private const string NewPage = "<p style=\"page-break-before: always\"></p>";
+
         public CreatePrintableHtml()
         {
             _content = new StringBuilder();
@@ -33,10 +35,10 @@ namespace BookGen.GeneratorSteps
 
                 var inputContent = input.ReadFile();
 
-                var md = MarkdownUtils.Markdown2HTML(inputContent);
+                var md = MarkdownUtils.Markdown2PrintHTML(inputContent);
 
                 _content.AppendLine(md);
-                _content.AppendLine("<!-- Pagebreak -->");
+                _content.AppendLine(NewPage);
             }
 
             CreateFooter();
@@ -53,7 +55,8 @@ namespace BookGen.GeneratorSteps
         {
             _content.AppendLine("<!DOCTYPE html>");
             _content.AppendLine("<html lang=\"en\">");
-            _content.AppendLine("<head></head><body>");
+            _content.AppendLine("<head><meta charset=\"utf-8\">");
+            _content.AppendLine("</head><body>");
         }
     }
 }

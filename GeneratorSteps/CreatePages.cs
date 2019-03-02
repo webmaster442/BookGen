@@ -26,7 +26,7 @@ namespace BookGen.GeneratorSteps
                 var inputContent = input.ReadFile();
 
                 Content.Title = MarkdownUtils.GetTitle(inputContent);
-                Content.Content = MarkdownUtils.Markdown2HTML(inputContent);
+                Content.Content = MarkdownUtils.Markdown2WebHTML(inputContent);
                 var html = Template.ProcessTemplate(Content);
                 output.WriteFile(html);
             }

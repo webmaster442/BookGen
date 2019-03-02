@@ -13,8 +13,10 @@ using System.Reflection;
 
 namespace BookGen
 {
-    class Program
+    internal class Program
     {
+        private static Config _cfg;
+
         private static Config ReadConfig(FsPath config)
         {
             return JsonConvert.DeserializeObject<Config>(config.ReadFile());
@@ -42,60 +44,65 @@ namespace BookGen
 
             FsPath config = new FsPath(Environment.CurrentDirectory, "bookgen.json");
 
-            if (config.IsExisting)
-            {
-                try
-                {
-                    DateTime start = DateTime.Now;
-
-                    var cfg = ReadConfig(config);
-                    if (cfg.ValidateConfig())
-                    {
-                        if (cfg.Version < cfgVersion)
-                        {
-                            cfg.UpgradeTo(cfgVersion);
-                            WriteConfig(config, cfg);
-                            Console.WriteLine("Configuration file migrated to new version.");
-                            Console.WriteLine("Review configuration then run program again");
-                        }
-                        else
-                        {
-                            if (args.Length > 0 && args[0] == "test")
-                            {
-                                Console.WriteLine("Building test configuration...");
-                                cfg.HostName = "http://localhost:8080/";
-                                WebsiteBuilder builder = new WebsiteBuilder(cfg);
-                                Build(start, builder, cfg);
-                                Console.WriteLine("Test server running on: http://localhost:8080/");
-                                SimpleHTTPServer server = new SimpleHTTPServer(cfg.OutputDir, 8080);
-                                Process.Start(cfg.HostName);
-                            }
-                            else
-                            {
-                                WebsiteBuilder builder = new WebsiteBuilder(cfg);
-                                Build(start, builder, cfg);
-                            }
-                        }
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ex.LogToConsole();
-                }
-            }
-            else
+            if (!config.IsExisting)
             {
                 Console.WriteLine("No bookgen.json config found. Creating one");
                 Console.WriteLine("Review configuration then run program again");
                 WriteConfig(config, Config.Default);
+                return;
             }
 
+            _cfg = ReadConfig(config);
+            if (!_cfg.ValidateConfig()) return;
+            if (_cfg.Version < cfgVersion)
+            {
+                _cfg.UpgradeTo(cfgVersion);
+                WriteConfig(config, _cfg);
+                Console.WriteLine("Configuration file migrated to new version.");
+                Console.WriteLine("Review configuration then run program again");
+                return;
+            }
+
+            ArgumentParser argumentParser = new ArgumentParser(args);
+            argumentParser.BuildTestWebsite += ArgumentParser_BuildTestWebsite;
+            argumentParser.BuildWebsite += ArgumentParser_BuildWebsite;
+            argumentParser.BuildPrintHtml += ArgumentParser_BuildPrintHtml;
+            argumentParser.ParseArguments();
+
+#if DEBUG
             Console.WriteLine("Press a key to exit...");
             Console.ReadKey();
+#endif
         }
 
-        private static void Build(DateTime start, WebsiteBuilder builder, Config cfg)
+
+        private static void ArgumentParser_BuildWebsite(object sender, EventArgs e)
+        {
+            DateTime start = DateTime.Now;
+            WebsiteBuilder builder = new WebsiteBuilder(_cfg);
+            Build(start, builder, _cfg);
+        }
+
+        private static void ArgumentParser_BuildTestWebsite(object sender, EventArgs e)
+        {
+            DateTime start = DateTime.Now;
+            Console.WriteLine("Building test configuration...");
+            _cfg.HostName = "http://localhost:8080/";
+            WebsiteBuilder builder = new WebsiteBuilder(_cfg);
+            Build(start, builder, _cfg);
+            Console.WriteLine("Test server running on: http://localhost:8080/");
+            SimpleHTTPServer server = new SimpleHTTPServer(_cfg.OutputDir, 8080);
+            Process.Start(_cfg.HostName);
+        }
+
+        private static void ArgumentParser_BuildPrintHtml(object sender, EventArgs e)
+        {
+            DateTime start = DateTime.Now;
+            PrintBuilder builder = new PrintBuilder(_cfg);
+            Build(start, builder, _cfg);
+        }
+
+        private static void Build(DateTime start, Generator builder, Config cfg)
         {
             builder.Run();
             Console.Write("Finished ");
