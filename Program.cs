@@ -60,11 +60,21 @@ namespace BookGen
                         }
                         else
                         {
-                            WebsiteBuilder builder = new WebsiteBuilder(cfg);
-                            Build(start, builder, cfg);
-
                             if (args.Length > 0 && args[0] == "test")
-                                Test(cfg);
+                            {
+                                Console.WriteLine("Building test configuration...");
+                                cfg.HostName = "http://localhost:8080/";
+                                WebsiteBuilder builder = new WebsiteBuilder(cfg);
+                                Build(start, builder, cfg);
+                                Console.WriteLine("Test server running on: http://localhost:8080/");
+                                SimpleHTTPServer server = new SimpleHTTPServer(cfg.OutputDir, 8080);
+                                Process.Start(cfg.HostName);
+                            }
+                            else
+                            {
+                                WebsiteBuilder builder = new WebsiteBuilder(cfg);
+                                Build(start, builder, cfg);
+                            }
                         }
 
                     }
@@ -83,14 +93,6 @@ namespace BookGen
 
             Console.WriteLine("Press a key to exit...");
             Console.ReadKey();
-        }
-
-        private static void Test(Config config)
-        {
-            config.HostName = "http://localhost:8080/";
-            Console.WriteLine("Test server running on: http://localhost:8080/");
-            SimpleHTTPServer server = new SimpleHTTPServer(config.OutputDir, 8080);
-            Process.Start(config.HostName); 
         }
 
         private static void Build(DateTime start, WebsiteBuilder builder, Config cfg)
