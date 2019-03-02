@@ -29,7 +29,7 @@ namespace BookGen.GeneratorSteps
 
             CreateHeader();
 
-            foreach (var file in settings.TocFiles)
+            foreach (var file in settings.TocContents.Files)
             {
                 var input = settings.SourceDirectory.Combine(file);
 

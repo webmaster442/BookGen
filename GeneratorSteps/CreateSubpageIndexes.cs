@@ -18,7 +18,7 @@ namespace BookGen.GeneratorSteps
         public void RunStep(GeneratorSettings settings)
         {
             Console.WriteLine("Generating index files for sub content folders...");
-            foreach (var file in settings.TocFiles)
+            foreach (var file in settings.TocContents.Files)
             {
                 var dir = Path.GetDirectoryName(file);
                 var output = settings.OutputDirectory.Combine(dir).Combine("index.html");

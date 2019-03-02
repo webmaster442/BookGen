@@ -18,7 +18,7 @@ namespace BookGen.GeneratorSteps
         public void RunStep(GeneratorSettings settings)
         {
             Console.WriteLine("Generating Sub Markdown Files...");
-            foreach (var file in settings.TocFiles)
+            foreach (var file in settings.TocContents.Files)
             {
                 var input = settings.SourceDirectory.Combine(file);
                 var output = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));

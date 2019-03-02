@@ -17,8 +17,8 @@ namespace BookGen.GeneratorSteps
         public void RunStep(GeneratorSettings settings)
         {
             Console.WriteLine("Generating pages.js...");
-            List<string> pages = new List<string>(settings.TocFiles.Count);
-            foreach (var file in settings.TocFiles)
+            List<string> pages = new List<string>();
+            foreach (var file in settings.TocContents.Files)
             {
                 pages.Add(settings.Configruation.HostName + Path.ChangeExtension(file, ".html"));
             }

@@ -27,7 +27,7 @@ namespace BookGen
         private void FillToc()
         {
             var tocContent = MarkdownUtils.Markdown2WebHTML(Settings.Toc.ReadFile());
-            foreach (var file in Settings.TocFiles)
+            foreach (var file in Settings.TocContents.Files)
             {
                 tocContent = tocContent.Replace(file, Settings.Configruation.HostName + Path.ChangeExtension(file, ".html"));
             }

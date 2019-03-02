@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain;
 using BookGen.Framework;
 using Markdig;
 using System.Collections.Generic;
@@ -52,9 +53,9 @@ namespace BookGen.Utilities
         /// </summary>
         /// <param name="summaryFile">SUMMARY.md content</param>
         /// <returns>List of files</returns>
-        public static List<string> GetFilesToProcess(string summaryContent)
+        public static TOC ParseToc(string summaryContent)
         {
-            var FilesToProcess = new List<string>(100);
+            TOC toc = new TOC();
 
             using (var reader = new StringReader(summaryContent))
             {
@@ -62,19 +63,36 @@ namespace BookGen.Utilities
                 Regex myRegex = new Regex(@"\*\ \[.+\]\(",
                                           RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
+                string currentchapter = null;
+                List<string> chapter = null;
+
                 while ((line = reader.ReadLine()) != null)
                 {
-                    //skip empty lines
-                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#")) continue;
                     line = line.Trim();
+                    //skip empty lines
+                    if (string.IsNullOrWhiteSpace(line)) continue;
 
-                    line = myRegex.Replace(line, string.Empty);
-                    line = line.Substring(0, line.Length - 1);
-                    FilesToProcess.Add(line);
+                    if (line.StartsWith("#"))
+                    {
+                        if (currentchapter != null && chapter != null)
+                        {
+                            toc.AddChapter(currentchapter, chapter);
+                            currentchapter = null;
+                            chapter = null;
+                        }
+                        currentchapter = line.Replace("# ", "");
+                        chapter = new List<string>(100);
+                    }
+                    else
+                    {
+                        line = myRegex.Replace(line, string.Empty);
+                        line = line.Substring(0, line.Length - 1);
+                        chapter.Add(line);
+                    }
                 }
             }
 
-            return FilesToProcess;
+            return toc;
         }
 
         /// <summary>
