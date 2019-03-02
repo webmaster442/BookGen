@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework\Generator.cs" />
+    <Compile Include="GeneratorSteps\CreatePrintableHtml.cs" />
     <Compile Include="Utilities\ConfigExtensions.cs" />
     <Compile Include="Domain\Config.cs" />
     <Compile Include="Domain\FsPath.cs" />
