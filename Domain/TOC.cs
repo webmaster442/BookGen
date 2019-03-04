@@ -3,22 +3,21 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BookGen.Domain
 {
     public class TOC
     {
-        private readonly Dictionary<string, List<string>> _tocContents;
+        private readonly Dictionary<string, List<HtmlLink>> _tocContents;
 
         public TOC()
         {
-            _tocContents = new Dictionary<string, List<string>>();
+            _tocContents = new Dictionary<string, List<HtmlLink>>();
         }
 
-        public void AddChapter(string chapter, List<string> files)
+        public void AddChapter(string chapter, List<HtmlLink> files)
         {
             _tocContents.Add(chapter, files);
         }
@@ -29,6 +28,11 @@ namespace BookGen.Domain
         }
 
         public IEnumerable<string> GetFilesForChapter(string chapter)
+        {
+            return _tocContents[chapter].Select(l => l.Link);
+        }
+
+        public IEnumerable<HtmlLink> GetLinksForChapter(string chapter)
         {
             return _tocContents[chapter];
         }
@@ -41,7 +45,7 @@ namespace BookGen.Domain
                 {
                     foreach (var file in _tocContents[chapter])
                     {
-                        yield return file;
+                        yield return file.Link;
                     }
                 }
             }

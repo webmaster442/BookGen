@@ -16,16 +16,64 @@
         #content {
             margin-top: 70px;
         }
-        #content p {
-            text-align: justify;
+
+            #content p {
+                text-align: justify;
+            }
+
+        #toc {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1000000;
+            top: 0;
+            left: 0;
+            background-color: rgba(220, 211, 202, 0.90);
+            overflow-x: hidden;
+            padding-top: 60px;
+            transition: 0.5s;
+        }
+
+            #toc #tocinside {
+                padding-left: 80px;
+            }
+
+                #toc #tocinside summary {
+                    font-size: 24px;
+                }
+
+        @media (min-width: 768px) {
+            #toc #tocinside {
+                column-count: 2;
+            }
+        }
+
+        @media (min-width: 992px) {
+            #toc #tocinside {
+                column-count: 4;
+            }
+        }
+
+        #toc #closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
         }
     </style>
 </head>
 <body>
+
+    <div id="toc">
+        <a href="#closetoc" id="closebtn">&times;</a>
+        <div id="tocinside">[[toc]]</div>
+    </div>
+
     <nav id="Header" class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#collapseExample" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                <a class="nav-link" href="#toc">
                     <i class="fas fa-book-open"></i>
                     Tartalom
                 </a>
@@ -55,13 +103,6 @@
 
     <div class="container-fluid" id="content" style="transition: transform .4s;">
         <div class="row">
-            <div class="col-md-6 mx-auto collapse" id="collapseExample">
-                <div class="card card-body">
-                    [[toc]]
-                </div>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-md-6 mx-auto">
                 [[content]]
             </div>
@@ -69,6 +110,12 @@
     </div>
     <script type="text/javascript">
         var currentindex = pages.indexOf(window.location.href);
+        $('a[href="#toc"]').click(function () {
+            $("#toc").css("width", "100%");
+        });
+        $('a[href="#closetoc"]').click(function () {
+            $("#toc").css("width", "0");
+        });
         $('a[href="#previous"]').click(function () {
             if (currentindex - 1 < 0) return;
             var newloc = pages[currentindex - 1];

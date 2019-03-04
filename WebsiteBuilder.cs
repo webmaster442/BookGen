@@ -5,8 +5,9 @@
 
 using BookGen.Domain;
 using BookGen.Framework;
-using BookGen.Utilities;
+using System;
 using System.IO;
+using System.Text;
 
 namespace BookGen
 {
@@ -26,12 +27,23 @@ namespace BookGen
 
         private void FillToc()
         {
-            var tocContent = MarkdownUtils.Markdown2WebHTML(Settings.Toc.ReadFile());
-            foreach (var file in Settings.TocContents.Files)
+            Console.WriteLine("Generating Table of Contents...");
+            StringBuilder toc = new StringBuilder();
+            foreach (var chapter in Settings.TocContents.Chapters)
             {
-                tocContent = tocContent.Replace(file, Settings.Configruation.HostName + Path.ChangeExtension(file, ".html"));
+                toc.Append("<details open=\"true\">");
+                toc.AppendFormat("<summary>{0}</summary>", chapter);
+                toc.Append("<ul>");
+                foreach (var link in Settings.TocContents.GetLinksForChapter(chapter))
+                {
+                    var file = Path.ChangeExtension(link.Link, ".html");
+                    var fullpath = $"{Settings.Configruation.HostName}{file}";
+                    toc.AppendFormat("<li><a href=\"{0}\">{1}</a></li>", fullpath, link.DisplayString);
+                }
+                toc.Append("</ul>");
+                toc.Append("</details>");
             }
-            GeneratorContent.TableOfContents = tocContent;
+            GeneratorContent.TableOfContents = toc.ToString();
         }
     }
 }

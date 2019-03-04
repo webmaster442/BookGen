@@ -8,6 +8,7 @@ using BookGen.Framework;
 using Markdig;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace BookGen.Utilities
@@ -60,11 +61,12 @@ namespace BookGen.Utilities
             using (var reader = new StringReader(summaryContent))
             {
                 string line;
-                Regex myRegex = new Regex(@"\*\ \[.+\]\(",
+                //catch markdown links
+                Regex myRegex = new Regex(@"(\* )\[(.+)\]\((.+)\)",
                                           RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
                 string currentchapter = null;
-                List<string> chapter = null;
+                List<HtmlLink> chapter = null;
 
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -74,25 +76,38 @@ namespace BookGen.Utilities
 
                     if (line.StartsWith("#"))
                     {
-                        if (currentchapter != null && chapter != null)
-                        {
-                            toc.AddChapter(currentchapter, chapter);
-                            currentchapter = null;
-                            chapter = null;
-                        }
+                        InsertChapter(toc, ref currentchapter, ref chapter);
                         currentchapter = line.Replace("#", "");
-                        chapter = new List<string>(100);
+                        chapter = new List<HtmlLink>(50);
                     }
                     else
                     {
-                        line = myRegex.Replace(line, string.Empty);
-                        line = line.Substring(0, line.Length - 1);
-                        chapter.Add(line);
+                        var parts = from part in myRegex.Split(line)
+                                    where
+                                        !string.IsNullOrWhiteSpace(part) &&
+                                        part.Trim() != "*"
+                                    select
+                                        part;
+
+                        var final = parts.ToArray();
+                        var link = new HtmlLink(final[0], final[1]);
+                        chapter.Add(link);
                     }
                 }
+                InsertChapter(toc, ref currentchapter, ref chapter);
             }
 
             return toc;
+        }
+
+        private static void InsertChapter(TOC toc, ref string currentchapter, ref List<HtmlLink> chapter)
+        {
+            if (currentchapter != null && chapter != null)
+            {
+                toc.AddChapter(currentchapter, chapter);
+                currentchapter = null;
+                chapter = null;
+            }
         }
 
         /// <summary>
