@@ -38,14 +38,21 @@ namespace BookGen.Framework
 
         public void AddStep(IGeneratorStep step)
         {
-            if (step is ITemplatedStep templated)
+            switch (step)
             {
-                templated.Content = GeneratorContent;
-                templated.Template = Template;
-                _steps.Add(templated);
+                case ITemplatedStep templated:
+                    templated.Content = GeneratorContent;
+                    templated.Template = Template;
+                    _steps.Add(templated);
+                    break;
+                case IGeneratorContentFillStep contentFill:
+                    contentFill.Content = GeneratorContent;
+                    _steps.Add(contentFill);
+                    break;
+                default:
+                    _steps.Add(step);
+                    break;
             }
-            else
-                _steps.Add(step);
         }
 
         public void Run()

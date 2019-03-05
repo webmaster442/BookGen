@@ -13,9 +13,13 @@ namespace BookGen.GeneratorSteps
         void RunStep(GeneratorSettings settings);
     }
 
-    internal interface ITemplatedStep: IGeneratorStep
+    internal interface IGeneratorContentFillStep: IGeneratorStep
     {
         GeneratorContent Content { get; set; }
+    }
+
+    internal interface ITemplatedStep : IGeneratorStep, IGeneratorContentFillStep
+    {
         Template Template { get; set; }
     }
 }

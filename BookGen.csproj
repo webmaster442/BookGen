@@ -55,6 +55,7 @@
     <Compile Include="Framework\MarkdownPrintModifier.cs" />
     <Compile Include="Framework\Generator.cs" />
     <Compile Include="GeneratorSteps\CreatePrintableHtml.cs" />
+    <Compile Include="GeneratorSteps\CreateTOCForWebsite.cs" />
     <Compile Include="PrintBuilder.cs" />
     <Compile Include="Utilities\ConfigExtensions.cs" />
     <Compile Include="Domain\Config.cs" />
