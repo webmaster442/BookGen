@@ -26,8 +26,8 @@ namespace BookGen.GeneratorSteps
         public void RunStep(GeneratorSettings settings)
         {
             Console.WriteLine("Generating search page...");
-            GenerateSearchForm(settings);
             GenerateSearchContents(settings);
+            GenerateSearchForm(settings);
 
             var output = settings.OutputDirectory.Combine("search.html");
             Content.Title = settings.Configruation.SearchOptions.SearchPageTitle;
@@ -40,17 +40,16 @@ namespace BookGen.GeneratorSteps
         private void GenerateSearchForm(GeneratorSettings settings)
         {
             var options = settings.Configruation.SearchOptions;
-
-            _buffer.Append("<div class=\"form-group\">");
-            _buffer.AppendFormat("<h2>{0}</h2>", options.SearchPageTitle);
-            _buffer.AppendFormat("<input type=\"text\" class=\"form-control\" id=\"searchtext\" placeholder=\"{0}\">", options.SearchTextBoxText);
-            _buffer.AppendFormat("<button type=\"submit\" class=\"btn btn-default\">{0}</button>", options.SearchButtonText);
-            _buffer.Append("</div>");
+            var result = Properties.Resources.searchform.Replace("{0}", options.SearchPageTitle);
+            result = result.Replace("{1}", options.SearchTextBoxText);
+            result = result.Replace("{2}", options.SearchButtonText);
+            result = result.Replace("{3}", options.SearchResults);
+            _buffer.Append(result);
         }
 
         private void GenerateSearchContents(GeneratorSettings settings)
         {
-            _buffer.Append("<div id=\"searchcontents\" style=\"visibility: collapse;\">");
+            _buffer.Append("<div id=\"searchcontents\" style=\"display:none;\">");
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))

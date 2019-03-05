@@ -61,27 +61,27 @@ namespace BookGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to $(&quot;#searchbutton&quot;).click(function () {
+        ///   Looks up a localized string similar to &lt;div class=&quot;jumbotron&quot;&gt;
+        ///    &lt;h2&gt;{0}&lt;/h2&gt;
+        ///    &lt;div class=&quot;form-group&quot;&gt;
+        ///        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;{1}&quot;&gt;
+        ///        &lt;button type=&quot;button&quot; id=&quot;searchbutton&quot; class=&quot;btn btn-default&quot;&gt;{2}&lt;/button&gt;
+        ///    &lt;/div&gt;
+        ///    &lt;div id=&quot;searchresults&quot;&gt;&lt;/div&gt;
+        ///&lt;/div&gt;
+        ///&lt;script type=&quot;text/javascript&quot;&gt;
+        ///    $(&quot;#searchbutton&quot;).click(function () {
         ///
-        ///    var html = &quot;&quot;;
-        ///    var matches = 0;
-        ///    $(&quot;#searchresults&quot;).html(&quot;&quot;);
+        ///        var html = &quot;&quot;;
+        ///        var matches = 0;
+        ///        $(&quot;#searchresults&quot;).html(&quot;&quot;);
         ///
-        ///    $(&quot;#searchcontents div&quot;).each(function () {
-        ///        var terms = $(&quot;#searchtext&quot;).val();
-        ///        var startindex = $(this).text().indexOf(terms);
-        ///        if (startindex &lt; 0) return;
-        ///
-        ///        var title = $(this).attr(&quot;title&quot;);
-        ///        var url = $(this).attr(&quot;data-link&quot;);
-        ///        var len = $(this).text().length - startindex;
-        ///        if (len &gt; 180) {
-        ///            len = 180;
+        ///        $(&quot;#searchcontents div&quot;).each(function () {
         ///       [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string search {
+        internal static string searchform {
             get {
-                return ResourceManager.GetString("search", resourceCulture);
+                return ResourceManager.GetString("searchform", resourceCulture);
             }
         }
     }

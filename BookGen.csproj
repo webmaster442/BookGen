@@ -99,7 +99,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\search.js" />
+    <Content Include="Resources\searchform.html" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DefaultTemplate\assets\prism.css" />

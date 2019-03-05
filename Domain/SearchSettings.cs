@@ -10,6 +10,7 @@ namespace BookGen.Domain
         public string SearchPageTitle { get; set; }
         public string SearchTextBoxText { get; set; }
         public string SearchButtonText { get; set; }
+        public string SearchResults { get; set; }
 
         public static SearchSettings Default
         {
@@ -19,7 +20,8 @@ namespace BookGen.Domain
                 {
                     SearchPageTitle = "Search",
                     SearchTextBoxText = "Type here to search",
-                    SearchButtonText = "Search"
+                    SearchButtonText = "Search",
+                    SearchResults = "Results"
                 };
             }
         }
