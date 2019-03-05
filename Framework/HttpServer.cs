@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace BookGen.Framework
 {
-    class SimpleHTTPServer
+    internal sealed class SimpleHTTPServer: IDisposable
     {
         private readonly string[] _indexFiles = {
         "index.html",
@@ -203,7 +203,7 @@ namespace BookGen.Framework
                         {
                             context.Response.OutputStream.Write(buffer, 0, nbytes);
                         }
-                        input.Close();
+                        //input.Close();
                     }
 
                     context.Response.StatusCode = (int)HttpStatusCode.OK;
@@ -230,6 +230,15 @@ namespace BookGen.Framework
             _port = port;
             _serverThread = new Thread(this.Listen);
             _serverThread.Start();
+        }
+
+        public void Dispose()
+        {
+            if (_listener != null)
+            {
+                _listener.Close();
+                _listener = null;
+            }
         }
     }
 }
