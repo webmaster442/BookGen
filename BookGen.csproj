@@ -59,6 +59,11 @@
     <Compile Include="GeneratorSteps\CreateTOCForWebsite.cs" />
     <Compile Include="GeneratorSteps\GenerateSearchPage.cs" />
     <Compile Include="PrintBuilder.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\ConfigExtensions.cs" />
     <Compile Include="Domain\Config.cs" />
     <Compile Include="Domain\FsPath.cs" />
@@ -93,11 +98,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\search.js" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="DefaultTemplate\assets\prism.css" />
     <Content Include="DefaultTemplate\assets\prism.js" />
     <Content Include="DefaultTemplate\Template.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

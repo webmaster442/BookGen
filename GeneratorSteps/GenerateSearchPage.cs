@@ -30,6 +30,7 @@ namespace BookGen.GeneratorSteps
             GenerateSearchContents(settings);
 
             var output = settings.OutputDirectory.Combine("search.html");
+            Content.Title = settings.Configruation.SearchOptions.SearchPageTitle;
             Content.Content = _buffer.ToString();
 
             var html = Template.ProcessTemplate(Content);
