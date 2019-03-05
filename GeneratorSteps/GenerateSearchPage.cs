@@ -49,7 +49,7 @@ namespace BookGen.GeneratorSteps
 
         private void GenerateSearchContents(GeneratorSettings settings)
         {
-            _buffer.Append("<div id=\"searchcontents\" style=\"display:none;\">");
+            _buffer.Append("<div id=\"searchcontents\" style=\"display:none;\">\n");
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
@@ -60,9 +60,9 @@ namespace BookGen.GeneratorSteps
                     var file = Path.ChangeExtension(link.Link, ".html");
                     var fullpath = $"{settings.Configruation.HostName}{file}";
 
-                    _buffer.AppendFormat("<div title=\"{0}\" data-link=\"{1}\">", link.DisplayString, fullpath);
-                    _buffer.Append(rendered.Trim());
-                    _buffer.Append("</div>");
+                    _buffer.AppendFormat("<div title=\"{0}\" data-link=\"{1}\">\n", link.DisplayString, fullpath);
+                    _buffer.Append(rendered.Trim().Replace('\n', ' '));
+                    _buffer.Append("</div>\n");
                 }
             }
             _buffer.Append("</div>");
