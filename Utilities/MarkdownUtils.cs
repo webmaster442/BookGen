@@ -17,9 +17,11 @@ namespace BookGen.Utilities
     {
         private static MarkdownPipeline _webpipeline;
         private static MarkdownPipeline _printpipeline;
+        private static MarkdownPipeline _plainpipeline;
 
         static MarkdownUtils()
         {
+            _plainpipeline = new MarkdownPipelineBuilder().Use<MarkdownModifier>().Build();
             _webpipeline = new MarkdownPipelineBuilder().Use<MarkdownModifier>().UseAdvancedExtensions().Build();
             _printpipeline = new MarkdownPipelineBuilder().Use<MarkdownPrintModifier>().UseAdvancedExtensions().Build();
         }
@@ -46,7 +48,7 @@ namespace BookGen.Utilities
         /// <returns>plain text</returns>
         public static string Markdown2Plain(string md)
         {
-            return Markdown.ToPlainText(md, _webpipeline);
+            return Markdown.ToPlainText(md, _plainpipeline);
         }
 
         /// <summary>

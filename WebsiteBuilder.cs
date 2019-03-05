@@ -20,6 +20,7 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreatePagesJS());
             AddStep(new GeneratorSteps.CreatePages());
             AddStep(new GeneratorSteps.CreateSubpageIndexes());
+            AddStep(new GeneratorSteps.GenerateSearchPage());
         }
     }
 }

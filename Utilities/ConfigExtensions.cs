@@ -39,6 +39,9 @@ namespace BookGen.Utilities
 
             if (config.StyleClasses == null)
                 config.StyleClasses = new StyleClasses();
+
+            if (config.SearchOptions == null)
+                config.SearchOptions = SearchSettings.Default;
         }
     }
 }

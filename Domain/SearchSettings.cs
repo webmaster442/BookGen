@@ -1,0 +1,27 @@
+﻿// ----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Domain
+{
+    public class SearchSettings
+    {
+        public string SearchPageTitle { get; set; }
+        public string SearchTextBoxText { get; set; }
+        public string SearchButtonText { get; set; }
+
+        public static SearchSettings Default
+        {
+            get
+            {
+                return new SearchSettings
+                {
+                    SearchPageTitle = "Search",
+                    SearchTextBoxText = "Type here to search",
+                    SearchButtonText = "Search"
+                };
+            }
+        }
+    }
+}

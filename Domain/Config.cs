@@ -16,6 +16,7 @@ namespace BookGen.Domain
         public string Index { get; set; }
         public int Version { get; set; }
         public StyleClasses StyleClasses { get; set; }
+        public SearchSettings SearchOptions { get; set; }
 
         public static Config Default
         {
@@ -31,6 +32,7 @@ namespace BookGen.Domain
                     AssetsDir = "Path to static assets required by template or null",
                     Template = "Path of template file",
                     StyleClasses = new StyleClasses(),
+                    SearchOptions = SearchSettings.Default,
                     Version = 100,
                 };
             }
