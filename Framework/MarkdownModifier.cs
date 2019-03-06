@@ -15,7 +15,7 @@ namespace BookGen.Framework
 {
     public class MarkdownModifier : IMarkdownExtension
     {
-        public static StyleClasses Styles { get; set; }
+        public static Config Config { get; set; }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
@@ -35,8 +35,8 @@ namespace BookGen.Framework
 
         private static void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
-            if (Styles == null)
-                throw new InvalidOperationException("Styles not configured");
+            if (Config == null)
+                throw new InvalidOperationException("Config not configured");
 
             foreach (var node in document.Descendants())
             {
@@ -45,43 +45,43 @@ namespace BookGen.Framework
                     switch (heading.Level)
                     {
                         case 1:
-                            AddStyleClass(node, Styles.Heading1);
+                            AddStyleClass(node, Config.StyleClasses.Heading1);
                             break;
                         case 2:
-                            AddStyleClass(node, Styles.Heading2);
+                            AddStyleClass(node, Config.StyleClasses.Heading2);
                             break;
                         case 3:
-                            AddStyleClass(node, Styles.Heading3);
+                            AddStyleClass(node, Config.StyleClasses.Heading3);
                             break;
                     }
                 }
                 else if (node is Block)
                 {
                     if (node is Markdig.Extensions.Tables.Table)
-                        AddStyleClass(node, Styles.Table);
+                        AddStyleClass(node, Config.StyleClasses.Table);
                     else if (node is QuoteBlock)
-                        AddStyleClass(node, Styles.Blockquote);
+                        AddStyleClass(node, Config.StyleClasses.Blockquote);
                     else if (node is Markdig.Extensions.Figures.Figure)
-                        AddStyleClass(node, Styles.Figure);
+                        AddStyleClass(node, Config.StyleClasses.Figure);
                     else if (node is Markdig.Extensions.Figures.FigureCaption)
-                        AddStyleClass(node, Styles.FigureCaption);
+                        AddStyleClass(node, Config.StyleClasses.FigureCaption);
                 }
                 else if (node is LinkInline link)
                 {
                     if (link.IsImage)
-                        AddStyleClass(node, Styles.Image);
+                        AddStyleClass(node, Config.StyleClasses.Image);
                     else
-                        AddStyleClass(node, Styles.Link);
+                        AddStyleClass(node, Config.StyleClasses.Link);
                 }
                 else if (node is ListBlock listBlock)
                 {
                     if (listBlock.IsOrdered)
-                        AddStyleClass(node, Styles.OrderedList);
+                        AddStyleClass(node, Config.StyleClasses.OrderedList);
                     else
-                        AddStyleClass(node, Styles.UnorederedList);
+                        AddStyleClass(node, Config.StyleClasses.UnorederedList);
                 }
                 else if (node is ListItemBlock)
-                    AddStyleClass(node, Styles.ListItem);
+                    AddStyleClass(node, Config.StyleClasses.ListItem);
             }
         }
     }

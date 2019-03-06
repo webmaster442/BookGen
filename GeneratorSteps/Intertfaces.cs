@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
-using BookGen.Utilities;
+using BookGen.Framework;
 
 namespace BookGen.GeneratorSteps
 {

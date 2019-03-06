@@ -86,7 +86,8 @@
     <Compile Include="Utilities\ConsoleExtensions.cs" />
     <Compile Include="Utilities\FsUtils.cs" />
     <Compile Include="Utilities\MarkdownUtils.cs" />
-    <Compile Include="Utilities\Templater.cs" />
+    <Compile Include="Framework\Template.cs" />
+    <Compile Include="Utilities\TextUtils.cs" />
     <Compile Include="WebsiteBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,7 @@ namespace BookGen.Domain
         public string Template { get; set; }
         public string Index { get; set; }
         public int Version { get; set; }
+        public bool LinksOutSideOfHostOpenNewTab { get; set; }
         public StyleClasses StyleClasses { get; set; }
         public SearchSettings SearchOptions { get; set; }
 
@@ -34,6 +35,7 @@ namespace BookGen.Domain
                     StyleClasses = new StyleClasses(),
                     SearchOptions = SearchSettings.Default,
                     Version = 100,
+                    LinksOutSideOfHostOpenNewTab = true,
                 };
             }
         }

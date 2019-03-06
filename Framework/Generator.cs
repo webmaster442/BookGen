@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace BookGen.Framework
 {
-    internal class Generator
+    internal abstract class Generator
     {
         private List<IGeneratorStep> _steps;
         protected GeneratorSettings Settings { get; private set; }
@@ -20,8 +20,6 @@ namespace BookGen.Framework
 
         public Generator(Config configuration)
         {
-            MarkdownModifier.Styles = configuration.StyleClasses;
-
             Settings = new GeneratorSettings
             {
                 SourceDirectory = new FsPath(Environment.CurrentDirectory),

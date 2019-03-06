@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
-using System.Text;
+using BookGen.Utilities;
 
-namespace BookGen.Utilities
+namespace BookGen.Framework
 {
     internal class Template
     {
@@ -19,12 +19,7 @@ namespace BookGen.Utilities
 
         public string ProcessTemplate(GeneratorContent contents)
         {
-            StringBuilder result = new StringBuilder(_template);
-            foreach (var content in contents)
-            {
-                result.Replace($"[[{content.Key}]]", content.Value);
-            }
-            return result.ToString();
+            return _template.ReplaceTags(contents);
         }
     }
 }

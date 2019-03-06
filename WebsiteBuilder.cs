@@ -12,6 +12,8 @@ namespace BookGen
     {
         public WebsiteBuilder(Config configuration) : base(configuration)
         {
+            MarkdownModifier.Config = configuration;
+
             AddStep(new GeneratorSteps.CreateTOCForWebsite());
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets());

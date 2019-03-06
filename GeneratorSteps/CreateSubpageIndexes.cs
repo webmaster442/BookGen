@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
+using BookGen.Framework;
 using BookGen.Utilities;
 using System;
 using System.IO;
