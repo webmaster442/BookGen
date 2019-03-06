@@ -1,8 +1,8 @@
 ﻿<div class="jumbotron">
-    <h2>{0}</h2>
+    <h2>[[0]]</h2>
     <div class="form-group">
-        <input type="text" id="searchtext" autocomplete="off" class="form-control" placeholder="{1}">
-        <button type="button" id="searchbutton" class="btn btn-primary">{2}</button>
+        <input type="text" id="searchtext" autocomplete="off" class="form-control" placeholder="[[1]]">
+        <button type="button" id="searchbutton" class="btn btn-primary">[[2]]</button>
     </div>
 </div>
 <div id="searchresults"></div>
@@ -34,7 +34,7 @@
             html += content;
         });
 
-        var final = "<p>{3} : " + matches + "</p>" + html;
+        var final = "<p>[[3]] : " + matches + "</p>" + html;
 
         if (html.length > 0) {
             $("#searchresults").html(final);

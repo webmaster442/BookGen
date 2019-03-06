@@ -33,6 +33,11 @@ namespace BookGen.Framework
             node.GetAttributes().AddClass(style);
         }
 
+        private static bool IsOffHostLink(LinkInline link)
+        {
+            return !link.Url.StartsWith(Config.HostName);
+        }
+
         private static void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
             if (Config == null)
@@ -71,7 +76,14 @@ namespace BookGen.Framework
                     if (link.IsImage)
                         AddStyleClass(node, Config.StyleClasses.Image);
                     else
-                        AddStyleClass(node, Config.StyleClasses.Link);
+                    {
+                        if (IsOffHostLink(link) && Config.LinksOutSideOfHostOpenNewTab)
+                        {
+                            link.GetAttributes().AddProperty("target", "_blank");
+                        }
+                        else
+                            AddStyleClass(node, Config.StyleClasses.Link);
+                    }
                 }
                 else if (node is ListBlock listBlock)
                 {
