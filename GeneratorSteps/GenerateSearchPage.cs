@@ -41,10 +41,15 @@ namespace BookGen.GeneratorSteps
         private void GenerateSearchForm(GeneratorSettings settings)
         {
             var options = settings.Configruation.SearchOptions;
-            var result = Properties.Resources.searchform.Replace("{0}", options.SearchPageTitle);
-            result = result.Replace("{1}", options.SearchTextBoxText);
-            result = result.Replace("{2}", options.SearchButtonText);
-            result = result.Replace("{3}", options.SearchResults);
+            var replacements = new string[]
+            {
+                options.SearchPageTitle,
+                options.SearchTextBoxText,
+                options.SearchButtonText,
+                options.SearchResults
+            };
+
+            var result = Properties.Resources.searchform.ReplaceTags(replacements);
             _buffer.Append(result);
         }
 
