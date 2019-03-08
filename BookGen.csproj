@@ -51,11 +51,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentParser.cs" />
+    <Compile Include="Domain\HeaderMenuItem.cs" />
     <Compile Include="Domain\HtmlLink.cs" />
+    <Compile Include="Domain\MenuItem.cs" />
     <Compile Include="Domain\SearchSettings.cs" />
     <Compile Include="Domain\TOC.cs" />
     <Compile Include="Framework\MarkdownPrintModifier.cs" />
     <Compile Include="Framework\Generator.cs" />
+    <Compile Include="GeneratorSteps\CreateAdditionalPages.cs" />
+    <Compile Include="GeneratorSteps\CreateBootstrapMenuStructure.cs" />
     <Compile Include="GeneratorSteps\CreateCacheManifest.cs" />
     <Compile Include="GeneratorSteps\CreatePrintableHtml.cs" />
     <Compile Include="GeneratorSteps\CreateTOCForWebsite.cs" />

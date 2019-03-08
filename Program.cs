@@ -8,6 +8,7 @@ using BookGen.Framework;
 using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -16,10 +17,17 @@ namespace BookGen
     internal class Program
     {
         private static Config _cfg;
+        private static FsPath _menu;
 
         private static Config ReadConfig(FsPath config)
         {
             return JsonConvert.DeserializeObject<Config>(config.ReadFile());
+        }
+
+        private static void WriteMenu(FsPath menu, List<HeaderMenuItem> menuitems)
+        {
+            var def = JsonConvert.SerializeObject(menuitems, Formatting.Indented);
+            menu.WriteFile(def);
         }
 
         private static void WriteConfig(FsPath configFile, Config configuration)
@@ -43,6 +51,7 @@ namespace BookGen
             int cfgVersion = (version.Major * 100) + version.Minor;
 
             FsPath config = new FsPath(Environment.CurrentDirectory, "bookgen.json");
+            _menu = new FsPath(Environment.CurrentDirectory, "menuitems.json");
 
             if (!config.IsExisting)
             {
@@ -64,6 +73,7 @@ namespace BookGen
             }
 
             ArgumentParser argumentParser = new ArgumentParser(args);
+            argumentParser.CreateMenuJson += ArgumentParser_CreateMenuJson;
             argumentParser.BuildTestWebsite += ArgumentParser_BuildTestWebsite;
             argumentParser.BuildWebsite += ArgumentParser_BuildWebsite;
             argumentParser.BuildPrintHtml += ArgumentParser_BuildPrintHtml;
@@ -75,12 +85,16 @@ namespace BookGen
 #endif
         }
 
+        private static void ArgumentParser_CreateMenuJson(object sender, EventArgs e)
+        {
+            WriteMenu(_menu, new List<HeaderMenuItem> { HeaderMenuItem.Default });
+        }
 
         private static void ArgumentParser_BuildWebsite(object sender, EventArgs e)
         {
             DateTime start = DateTime.Now;
-            WebsiteBuilder builder = new WebsiteBuilder(_cfg);
-            Build(start, builder, _cfg);
+            WebsiteBuilder builder = new WebsiteBuilder(_cfg, _menu);
+            Build(start, builder);
         }
 
         private static void ArgumentParser_BuildTestWebsite(object sender, EventArgs e)
@@ -88,8 +102,8 @@ namespace BookGen
             DateTime start = DateTime.Now;
             Console.WriteLine("Building test configuration...");
             _cfg.HostName = "http://localhost:8080/";
-            WebsiteBuilder builder = new WebsiteBuilder(_cfg);
-            Build(start, builder, _cfg);
+            WebsiteBuilder builder = new WebsiteBuilder(_cfg, _menu);
+            Build(start, builder);
             Console.WriteLine("Test server running on: http://localhost:8080/");
             SimpleHTTPServer server = new SimpleHTTPServer(_cfg.OutputDir, 8080);
             Process.Start(_cfg.HostName);
@@ -99,10 +113,10 @@ namespace BookGen
         {
             DateTime start = DateTime.Now;
             PrintBuilder builder = new PrintBuilder(_cfg);
-            Build(start, builder, _cfg);
+            Build(start, builder);
         }
 
-        private static void Build(DateTime start, Generator builder, Config cfg)
+        private static void Build(DateTime start, Generator builder)
         {
             builder.Run();
             Console.Write("Finished ");

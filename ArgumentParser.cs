@@ -14,6 +14,7 @@ namespace BookGen
         public event EventHandler BuildWebsite;
         public event EventHandler BuildTestWebsite;
         public event EventHandler BuildPrintHtml;
+        public event EventHandler CreateMenuJson;
 
         public ArgumentParser(string[] arguments)
         {
@@ -25,6 +26,9 @@ namespace BookGen
             if (_args.Length == 0 || HelpRequested()) PrintHelp();
             switch (_args[0])
             {
+                case "createmenu":
+                    CreateMenuJson?.Invoke(this, EventArgs.Empty);
+                    break;
                 case "build":
                     BuildWebsite?.Invoke(this, EventArgs.Empty);
                     break;
@@ -46,6 +50,7 @@ namespace BookGen
         {
             Console.WriteLine("usage: bookgen.exe [command]");
             Console.WriteLine("Supported commands:");
+            Console.WriteLine("  createmenu - Create menus.json file");
             Console.WriteLine("  build - Builds website");
             Console.WriteLine("  test - Builds a localy testable website & opens the test url in browser");
             Console.WriteLine("  print - Builds website optimized for printing");

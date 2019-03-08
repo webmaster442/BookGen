@@ -31,6 +31,12 @@ namespace BookGen.Domain
             set { _table["toc"] = value; }
         }
 
+        public string AdditionalMenus
+        {
+            get { return _table["menus"]; }
+            set { _table["menus"] = value; }
+        }
+
         public string HostUrl
         {
             get { return _table["host"]; }
@@ -48,6 +54,7 @@ namespace BookGen.Domain
                 { "toc", string.Empty },
                 { "title", string.Empty },
                 { "content", string.Empty },
+                { "menus", string.Empty },
                 { "host", cfg.HostName },
                 { "assets", Path.Combine(cfg.HostName, cfg.AssetsDir) }
             };

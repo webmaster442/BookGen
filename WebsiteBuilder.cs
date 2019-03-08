@@ -5,14 +5,24 @@
 
 using BookGen.Domain;
 using BookGen.Framework;
+using Newtonsoft.Json;
+using BookGen.Utilities;
+using System.Collections.Generic;
 
 namespace BookGen
 {
     internal class WebsiteBuilder : Generator
     {
-        public WebsiteBuilder(Config configuration) : base(configuration)
+        public WebsiteBuilder(Config configuration, FsPath menuPath) : base(configuration)
         {
             MarkdownModifier.Config = configuration;
+
+            if (menuPath.IsExisting)
+            {
+                var menuItems = JsonConvert.DeserializeObject<List<HeaderMenuItem>>(menuPath.ReadFile());
+                AddStep(new GeneratorSteps.CreateBootstrapMenuStructure(menuItems));
+                AddStep(new GeneratorSteps.CreateAdditionalPages(menuItems));
+            }
 
             AddStep(new GeneratorSteps.CreateTOCForWebsite());
             AddStep(new GeneratorSteps.CreateOutputDirectory());
@@ -23,6 +33,7 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreatePages());
             AddStep(new GeneratorSteps.CreateSubpageIndexes());
             AddStep(new GeneratorSteps.GenerateSearchPage());
+
             //Note: Cache manifest needs to be last, because
             //it has to know about all generated content
             AddStep(new GeneratorSteps.CreateCacheManifest());
