@@ -44,7 +44,7 @@ namespace BookGen.GeneratorSteps
             buffer.Append("CACHE MANIFEST\n");
             buffer.AppendFormat("#rev {0}\n", DateTime.UtcNow.ToBinary());
 
-            var output = settings.OutputDirectory.Combine("cace.appcache");
+            var output = settings.OutputDirectory.Combine("cache.appcache");
 
             foreach (var file in cacheable)
             {
