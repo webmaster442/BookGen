@@ -23,6 +23,9 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreatePages());
             AddStep(new GeneratorSteps.CreateSubpageIndexes());
             AddStep(new GeneratorSteps.GenerateSearchPage());
+            //Note: Cache manifest needs to be last, because
+            //it has to know about all generated content
+            AddStep(new GeneratorSteps.CreateCacheManifest());
         }
     }
 }

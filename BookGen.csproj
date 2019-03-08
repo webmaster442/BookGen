@@ -56,6 +56,7 @@
     <Compile Include="Domain\TOC.cs" />
     <Compile Include="Framework\MarkdownPrintModifier.cs" />
     <Compile Include="Framework\Generator.cs" />
+    <Compile Include="GeneratorSteps\CreateCacheManifest.cs" />
     <Compile Include="GeneratorSteps\CreatePrintableHtml.cs" />
     <Compile Include="GeneratorSteps\CreateTOCForWebsite.cs" />
     <Compile Include="GeneratorSteps\GenerateSearchPage.cs" />

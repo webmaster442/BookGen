@@ -74,5 +74,10 @@ namespace BookGen.Utilities
             }
             outp.WriteFile(sb.ToString());
         }
+
+        public static string[] GetAllFiles(this FsPath directory)
+        {
+            return Directory.GetFiles(directory.ToString(), "*.*", SearchOption.AllDirectories);
+        }
     }
 }
