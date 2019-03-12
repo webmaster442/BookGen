@@ -121,7 +121,8 @@ namespace BookGen
             WebsiteBuilder builder = new WebsiteBuilder(_cfg, _menu);
             Build(start, builder);
             Console.WriteLine("Test server running on: http://localhost:8080/");
-            SimpleHTTPServer server = new SimpleHTTPServer(_cfg.OutputDir, 8080);
+            Log.Info("Starting test server in {0}", _cfg.OutputDir);
+            SimpleHTTPServer server = new SimpleHTTPServer(_cfg.OutputDir, 8080, Log);
             Process.Start(_cfg.HostName);
         }
 
