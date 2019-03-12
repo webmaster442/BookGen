@@ -61,6 +61,7 @@ namespace BookGen
             }
 
             Version version = GetVersion();
+            Splash.DoSplash();
             Log.Info("BookGen V{0} Starting...", version);
             Log.Info("Working directory: {0}", Environment.CurrentDirectory);
             Log.Info("---------------------------------------------------------\n\n");
@@ -118,8 +119,7 @@ namespace BookGen
                 Console.Clear();
                 Log.Info("Test server running on: http://localhost:8080/");
                 Process.Start(_cfg.HostName);
-                Log.Info("Press a key to exit...");
-                Console.ReadKey();
+                Splash.PressKeyToExit();
             }
             Log.Dispose();
         }

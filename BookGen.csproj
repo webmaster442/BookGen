@@ -83,6 +83,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Splash.cs" />
     <Compile Include="Utilities\ConfigExtensions.cs" />
     <Compile Include="Domain\Configuration\Config.cs" />
     <Compile Include="Domain\FsPath.cs" />
