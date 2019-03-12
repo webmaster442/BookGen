@@ -91,11 +91,6 @@ namespace BookGen
             }
 
             argumentParser.RunArgumentSteps();
-
-#if DEBUG
-            Console.WriteLine("Press a key to exit...");
-            Console.ReadKey();
-#endif
         }
 
         private static void ArgumentParser_CreateMenuJson(object sender, EventArgs e)
@@ -118,9 +113,15 @@ namespace BookGen
             _cfg.HostName = "http://localhost:8080/";
             WebsiteBuilder builder = new WebsiteBuilder(_cfg, _menu);
             Build(start, builder);
-            Console.WriteLine("Test server running on: http://localhost:8080/");
-            SimpleHTTPServer server = new SimpleHTTPServer(_cfg.OutputDir, 8080, Log);
-            Process.Start(_cfg.HostName);
+            using (var server = new SimpleHTTPServer(_cfg.OutputDir, 8080, Log))
+            {
+                Console.Clear();
+                Log.Info("Test server running on: http://localhost:8080/");
+                Process.Start(_cfg.HostName);
+                Log.Info("Press a key to exit...");
+                Console.ReadKey();
+            }
+            Log.Dispose();
         }
 
         private static void ArgumentParser_BuildPrintHtml(object sender, EventArgs e)

@@ -144,7 +144,7 @@ namespace BookGen.Framework
         private void Process(HttpListenerContext context)
         {
             string filename = context.Request.Url.AbsolutePath;
-            Console.WriteLine("Serving: {0}", filename);
+            _log.Detail("Serving: {0}", filename);
             filename = filename.Substring(1);
 
             if (string.IsNullOrEmpty(filename))
@@ -218,6 +218,7 @@ namespace BookGen.Framework
         {
             if (_listener != null)
             {
+                Stop();
                 _listener.Close();
                 _listener = null;
             }
