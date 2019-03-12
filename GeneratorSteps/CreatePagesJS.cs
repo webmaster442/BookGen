@@ -3,10 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Utilities;
 using Newtonsoft.Json;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,10 +15,9 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreatePagesJS : IGeneratorStep
     {
-        public void RunStep(GeneratorSettings settings, ILogger log)
+        public void RunStep(GeneratorSettings settings, ILog log)
         {
-            Console.WriteLine("Generating pages.js...");
-            log.Info("Generating pages.js");
+            log.Info("Generating pages.js...");
             List<string> pages = new List<string>();
             foreach (var file in settings.TocContents.Files)
             {

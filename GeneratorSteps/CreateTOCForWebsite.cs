@@ -3,9 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Contracts;
 using BookGen.Domain;
-using NLog;
-using System;
 using System.IO;
 using System.Text;
 
@@ -15,10 +14,9 @@ namespace BookGen.GeneratorSteps
     {
         public GeneratorContent Content { get; set; }
 
-        public void RunStep(GeneratorSettings settings, ILogger log)
+        public void RunStep(GeneratorSettings settings, ILog log)
         {
-            Console.WriteLine("Generating Table of Contents...");
-            log.Info("Creating table of contents");
+            log.Info("Generating Table of Contents...");
             StringBuilder toc = new StringBuilder();
             foreach (var chapter in settings.TocContents.Chapters)
             {

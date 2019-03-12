@@ -3,10 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Contracts;
 using BookGen.Domain;
-using BookGen.GeneratorSteps;
 using BookGen.Utilities;
-using NLog;
 using System;
 using System.Collections.Generic;
 
@@ -15,13 +14,13 @@ namespace BookGen.Framework
     internal abstract class Generator
     {
         private readonly List<IGeneratorStep> _steps;
-        private readonly ILogger _log;
+        private readonly ILog _log;
 
         protected GeneratorSettings Settings { get; }
         protected Template Template { get; }
         protected GeneratorContent GeneratorContent { get; }
 
-        public Generator(Config configuration, ILogger log)
+        public Generator(Config configuration, ILog log)
         {
             Settings = new GeneratorSettings
             {
@@ -64,15 +63,14 @@ namespace BookGen.Framework
                 int stepCounter = 1;
                 foreach (var step in _steps)
                 {
-                    Console.Write("Step {0} of {1}: ", stepCounter, _steps.Count);
+                    _log.Info("Step {0} of {1}", stepCounter, _steps.Count);
                     step.RunStep(Settings, _log);
                     ++stepCounter;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception occured in step. Aborting generation");
-                _log.Fatal(ex);
+                _log.Critical(ex);
             }
         }
     }

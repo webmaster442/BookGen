@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
-using NLog;
-using System;
 using System.IO;
 
 namespace BookGen.GeneratorSteps
@@ -17,10 +16,9 @@ namespace BookGen.GeneratorSteps
         public GeneratorContent Content { get; set; }
         public Template Template { get; set; }
 
-        public void RunStep(GeneratorSettings settings, ILogger log)
+        public void RunStep(GeneratorSettings settings, ILog log)
         {
-            Console.WriteLine("Generating index files for sub content folders...");
-            log.Info("Generating sub folder index files");
+            log.Info("Generating index files for sub content folders...");
             foreach (var file in settings.TocContents.Files)
             {
                 var dir = Path.GetDirectoryName(file);
@@ -31,7 +29,7 @@ namespace BookGen.GeneratorSteps
                     Content.Content = "";
                     var html = Template.ProcessTemplate(Content);
                     output.WriteFile(html);
-                    log.Info("Creating file: {0}", output);
+                    log.Detail("Creating file: {0}", output);
                 }
             }
         }

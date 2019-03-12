@@ -1,13 +1,11 @@
 ﻿// MIT License - Copyright (c) 2016 Can Güney Aksakalli
 // https://aksakalli.github.io/2014/02/24/simple-http-server-with-csparp.html
 
-using BookGen.Utilities;
-using NLog;
+using BookGen.Contracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 
 namespace BookGen.Framework
@@ -93,7 +91,7 @@ namespace BookGen.Framework
         private readonly string _rootDirectory;
         private HttpListener _listener;
         private readonly int _port;
-        private readonly ILogger _log;
+        private readonly ILog _log;
 
         public int Port
         {
@@ -106,7 +104,7 @@ namespace BookGen.Framework
         /// </summary>
         /// <param name="path">Directory path to serve.</param>
         /// <param name="port">Port of the server.</param>
-        public SimpleHTTPServer(string path, int port, ILogger log)
+        public SimpleHTTPServer(string path, int port, ILog log)
         {
             _rootDirectory = path;
             _port = port;
@@ -138,7 +136,7 @@ namespace BookGen.Framework
                 }
                 catch (Exception ex)
                 {
-                    _log.Warn(ex);
+                    _log.Warning(ex);
                 }
             }
         }
@@ -204,7 +202,7 @@ namespace BookGen.Framework
                 catch (Exception ex)
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    _log.Warn(ex);
+                    _log.Warning(ex);
                 }
 
             }
