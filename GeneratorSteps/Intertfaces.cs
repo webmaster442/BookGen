@@ -5,12 +5,13 @@
 
 using BookGen.Domain;
 using BookGen.Framework;
+using NLog;
 
 namespace BookGen.GeneratorSteps
 {
     internal interface IGeneratorStep
     {
-        void RunStep(GeneratorSettings settings);
+        void RunStep(GeneratorSettings settings, ILogger log);
     }
 
     internal interface IGeneratorContentFillStep: IGeneratorStep

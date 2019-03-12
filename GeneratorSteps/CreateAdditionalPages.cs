@@ -6,6 +6,7 @@
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,23 +25,24 @@ namespace BookGen.GeneratorSteps
             _menuItems = menuItems;
         }
 
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILogger log)
         {
             Console.WriteLine("Creating additional pages...");
+            log.Info("processing additional markdown files");
             foreach (var header in _menuItems)
             {
-                Render(settings, header.Link);
+                Render(settings, header.Link, log);
                 if (header.HasChilds)
                 {
                     foreach (var subitem in header.SubItems)
                     {
-                        Render(settings, subitem.Link);
+                        Render(settings, subitem.Link, log);
                     }
                 }
             }
         }
 
-        private void Render(GeneratorSettings settings, string link)
+        private void Render(GeneratorSettings settings, string link, ILogger log)
         {
             if (link.StartsWith("http://")
                 || link.StartsWith("https://")
@@ -51,6 +53,9 @@ namespace BookGen.GeneratorSteps
             }
 
             var input = settings.SourceDirectory.Combine(link);
+
+            log.Info("processing markdown file: {0}", input);
+
             var output = settings.OutputDirectory.Combine(Path.ChangeExtension(link, ".html"));
             var inputContent = input.ReadFile();
 

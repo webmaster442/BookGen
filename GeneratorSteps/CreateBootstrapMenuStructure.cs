@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,9 +23,10 @@ namespace BookGen.GeneratorSteps
             _menuItems = items;
         }
 
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILogger log)
         {
             Console.WriteLine("Creating menu for Additional pages...");
+            log.Info("Generating additional pages menu");
             StringBuilder buffer = new StringBuilder();
 
             foreach (var Menuitem in _menuItems)

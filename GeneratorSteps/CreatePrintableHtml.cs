@@ -5,6 +5,7 @@
 
 using BookGen.Domain;
 using BookGen.Utilities;
+using NLog;
 using System;
 using System.Text;
 
@@ -21,10 +22,10 @@ namespace BookGen.GeneratorSteps
             _content = new StringBuilder();
         }
 
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILogger log)
         {
             Console.WriteLine("Generating Printable html...");
-
+            log.Info("Creating printable html");
             var output = settings.OutputDirectory.Combine("print.html");
 
             CreateHeader();
@@ -34,6 +35,7 @@ namespace BookGen.GeneratorSteps
                 _content.AppendFormat("<h1>{0}</h1>\r\n", chapter);
                 foreach (var file in settings.TocContents.GetFilesForChapter(chapter))
                 {
+                    log.Info("Processing file for print output: {0}", file);
                     var input = settings.SourceDirectory.Combine(file);
 
                     var inputContent = input.ReadFile();

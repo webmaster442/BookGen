@@ -5,13 +5,14 @@
 
 using BookGen.Domain;
 using BookGen.Utilities;
+using NLog;
 using System;
 
 namespace BookGen.GeneratorSteps
 {
     internal class CopyAssets : IGeneratorStep
     {
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILogger log)
         {
             var assets = settings.SourceDirectory.Combine(settings.Configruation.AssetsDir);
 
@@ -19,6 +20,7 @@ namespace BookGen.GeneratorSteps
             {
                 Console.WriteLine("Copy template assets to output...");
                 var targetdir = settings.OutputDirectory.Combine(assets.GetName());
+                log.Info("Copy directory {0} to {1}", assets, targetdir);
                 assets.CopyDirectory(targetdir);
                 targetdir.ProtectDirectory();
             }

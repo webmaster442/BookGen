@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
+using NLog;
 using System;
 using System.IO;
 using System.Text;
@@ -14,9 +15,10 @@ namespace BookGen.GeneratorSteps
     {
         public GeneratorContent Content { get; set; }
 
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILogger log)
         {
             Console.WriteLine("Generating Table of Contents...");
+            log.Info("Creating table of contents");
             StringBuilder toc = new StringBuilder();
             foreach (var chapter in settings.TocContents.Chapters)
             {

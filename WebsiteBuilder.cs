@@ -13,7 +13,7 @@ namespace BookGen
 {
     internal class WebsiteBuilder : Generator
     {
-        public WebsiteBuilder(Config configuration, FsPath menuPath) : base(configuration)
+        public WebsiteBuilder(Config configuration, FsPath menuPath) : base(configuration, Program.Log)
         {
             MarkdownModifier.Config = configuration;
 

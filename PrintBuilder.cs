@@ -10,7 +10,7 @@ namespace BookGen
 {
     internal class PrintBuilder: Generator
     {
-        public PrintBuilder(Config configuration) : base(configuration)
+        public PrintBuilder(Config configuration) : base(configuration, Program.Log)
         {
             MarkdownPrintModifier.Configuration = configuration;
             AddStep(new GeneratorSteps.CreateOutputDirectory());

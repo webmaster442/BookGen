@@ -6,6 +6,7 @@
 using BookGen.Domain;
 using BookGen.GeneratorSteps;
 using BookGen.Utilities;
+using NLog;
 using System;
 using System.Collections.Generic;
 
@@ -13,12 +14,14 @@ namespace BookGen.Framework
 {
     internal abstract class Generator
     {
-        private List<IGeneratorStep> _steps;
-        protected GeneratorSettings Settings { get; private set; }
-        protected Template Template { get; private set; }
-        protected GeneratorContent GeneratorContent { get; private set; }
+        private readonly List<IGeneratorStep> _steps;
+        private readonly ILogger _log;
 
-        public Generator(Config configuration)
+        protected GeneratorSettings Settings { get; }
+        protected Template Template { get; }
+        protected GeneratorContent GeneratorContent { get; }
+
+        public Generator(Config configuration, ILogger log)
         {
             Settings = new GeneratorSettings
             {
@@ -32,6 +35,7 @@ namespace BookGen.Framework
             Template = new Template(configuration.Template.ToPath());
             GeneratorContent = new GeneratorContent(configuration);
             _steps = new List<IGeneratorStep>();
+            _log = log;
         }
 
         public void AddStep(IGeneratorStep step)
@@ -55,12 +59,20 @@ namespace BookGen.Framework
 
         public void Run()
         {
-            int stepCounter = 1;
-            foreach (var step in _steps)
+            try
             {
-                Console.Write("Step {0} of {1}: ", stepCounter, _steps.Count);
-                step.RunStep(Settings);
-                ++stepCounter;
+                int stepCounter = 1;
+                foreach (var step in _steps)
+                {
+                    Console.Write("Step {0} of {1}: ", stepCounter, _steps.Count);
+                    step.RunStep(Settings, _log);
+                    ++stepCounter;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception occured in step. Aborting generation");
+                _log.Fatal(ex);
             }
         }
     }

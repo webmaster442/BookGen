@@ -6,6 +6,7 @@
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
+using NLog;
 using System;
 using System.IO;
 
@@ -16,9 +17,10 @@ namespace BookGen.GeneratorSteps
         public GeneratorContent Content { get; set; }
         public Template Template { get; set; }
 
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILogger log)
         {
             Console.WriteLine("Generating index files for sub content folders...");
+            log.Info("Generating sub folder index files");
             foreach (var file in settings.TocContents.Files)
             {
                 var dir = Path.GetDirectoryName(file);
@@ -29,6 +31,7 @@ namespace BookGen.GeneratorSteps
                     Content.Content = "";
                     var html = Template.ProcessTemplate(Content);
                     output.WriteFile(html);
+                    log.Info("Creating file: {0}", output);
                 }
             }
         }

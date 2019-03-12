@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Linq;
 
 namespace BookGen
 {
@@ -21,39 +22,55 @@ namespace BookGen
             _args = arguments;
         }
 
-        public void ParseArguments()
+        public bool IsLogEnabled
+        {
+            get
+            {
+                return _args.Any(a => a == "--log" || a == "-l");
+            }
+        }
+
+        public void RunArgumentSteps()
         {
             if (_args.Length == 0 || HelpRequested()) PrintHelp();
-            switch (_args[0])
+            foreach (var arg in _args)
             {
-                case "createmenu":
-                    CreateMenuJson?.Invoke(this, EventArgs.Empty);
-                    break;
-                case "build":
-                    BuildWebsite?.Invoke(this, EventArgs.Empty);
-                    break;
-                case "test":
-                    BuildTestWebsite?.Invoke(this, EventArgs.Empty);
-                    break;
-                case "print":
-                    BuildPrintHtml?.Invoke(this, EventArgs.Empty);
-                    break;
+                switch (arg)
+                {
+                    case "createmenu":
+                        CreateMenuJson?.Invoke(this, EventArgs.Empty);
+                        return;
+                    case "build":
+                        BuildWebsite?.Invoke(this, EventArgs.Empty);
+                        return;
+                    case "test":
+                        BuildTestWebsite?.Invoke(this, EventArgs.Empty);
+                        return;
+                    case "print":
+                        BuildPrintHtml?.Invoke(this, EventArgs.Empty);
+                        return;
+                    default:
+                        Console.WriteLine("Uable to process arguments.");
+                        PrintHelp();
+                        return;
+                }
             }
         }
 
         private bool HelpRequested()
         {
-            return (_args.Length > 0) && (string.Equals(_args[0], "help", StringComparison.OrdinalIgnoreCase) || _args[0] == "?");
+            return _args.Length > 0 && _args.Any(a => a == "help" || a == "?");
         }
 
         private void PrintHelp()
         {
-            Console.WriteLine("usage: bookgen.exe [command]");
+            Console.WriteLine("usage: bookgen.exe [command] [--log]");
             Console.WriteLine("Supported commands:");
             Console.WriteLine("  createmenu - Create menus.json file");
             Console.WriteLine("  build - Builds website");
             Console.WriteLine("  test - Builds a localy testable website & opens the test url in browser");
             Console.WriteLine("  print - Builds website optimized for printing");
+            Console.WriteLine("  --log - enable logging");
         }
     }
 }

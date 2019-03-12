@@ -7,6 +7,7 @@ using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +19,7 @@ namespace BookGen
     {
         private static Config _cfg;
         private static FsPath _menu;
+        public static Logger Log { get; private set; }
 
         private static Config ReadConfig(FsPath config)
         {
@@ -50,16 +52,33 @@ namespace BookGen
             Console.WriteLine("---------------------------------------------------------\n\n");
             int cfgVersion = (version.Major * 100) + version.Minor;
 
+            ArgumentParser argumentParser = new ArgumentParser(args);
+            argumentParser.CreateMenuJson += ArgumentParser_CreateMenuJson;
+            argumentParser.BuildTestWebsite += ArgumentParser_BuildTestWebsite;
+            argumentParser.BuildWebsite += ArgumentParser_BuildWebsite;
+            argumentParser.BuildPrintHtml += ArgumentParser_BuildPrintHtml;
+
+            if (argumentParser.IsLogEnabled)
+            {
+                LogConfigure.ConfigureNlog();
+            }
+            Log = LogManager.GetCurrentClassLogger();
+
             FsPath config = new FsPath(Environment.CurrentDirectory, "bookgen.json");
             _menu = new FsPath(Environment.CurrentDirectory, "menuitems.json");
+            Log.Info("Working directory: {0}", Environment.CurrentDirectory);
+
 
             if (!config.IsExisting)
             {
+                Log.Warn("Config not found, Default config created");
                 Console.WriteLine("No bookgen.json config found. Creating one");
                 Console.WriteLine("Review configuration then run program again");
                 WriteConfig(config, Config.Default);
                 return;
             }
+
+            Log.Info("Configuration content: {0}", config.ReadFile());
 
             _cfg = ReadConfig(config);
             if (!_cfg.ValidateConfig()) return;
@@ -69,15 +88,11 @@ namespace BookGen
                 WriteConfig(config, _cfg);
                 Console.WriteLine("Configuration file migrated to new version.");
                 Console.WriteLine("Review configuration then run program again");
+                Log.Warn("Configuration updated to new version. Review needed");
                 return;
             }
 
-            ArgumentParser argumentParser = new ArgumentParser(args);
-            argumentParser.CreateMenuJson += ArgumentParser_CreateMenuJson;
-            argumentParser.BuildTestWebsite += ArgumentParser_BuildTestWebsite;
-            argumentParser.BuildWebsite += ArgumentParser_BuildWebsite;
-            argumentParser.BuildPrintHtml += ArgumentParser_BuildPrintHtml;
-            argumentParser.ParseArguments();
+            argumentParser.RunArgumentSteps();
 
 #if DEBUG
             Console.WriteLine("Press a key to exit...");
@@ -99,6 +114,7 @@ namespace BookGen
 
         private static void ArgumentParser_BuildTestWebsite(object sender, EventArgs e)
         {
+            Log.Info("Test build started");
             DateTime start = DateTime.Now;
             Console.WriteLine("Building test configuration...");
             _cfg.HostName = "http://localhost:8080/";
@@ -111,6 +127,7 @@ namespace BookGen
 
         private static void ArgumentParser_BuildPrintHtml(object sender, EventArgs e)
         {
+            Log.Info("Printable HTML build started");
             DateTime start = DateTime.Now;
             PrintBuilder builder = new PrintBuilder(_cfg);
             Build(start, builder);
@@ -118,6 +135,7 @@ namespace BookGen
 
         private static void Build(DateTime start, Generator builder)
         {
+            Log.Info("Website build started");
             builder.Run();
             Console.Write("Finished ");
             var runTime = DateTime.Now - start;
