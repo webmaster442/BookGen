@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
@@ -24,10 +25,10 @@ namespace BookGen.GeneratorSteps
             _buffer = new StringBuilder();
         }
 
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILog log)
         {
-            Console.WriteLine("Generating search page...");
-            GenerateSearchContents(settings);
+            log.Info("Generating search page...");
+            GenerateSearchContents(settings, log);
             GenerateSearchForm(settings);
 
             var output = settings.OutputDirectory.Combine("search.html");
@@ -53,13 +54,14 @@ namespace BookGen.GeneratorSteps
             _buffer.Append(result);
         }
 
-        private void GenerateSearchContents(GeneratorSettings settings)
+        private void GenerateSearchContents(GeneratorSettings settings, ILog log)
         {
             _buffer.Append("<div id=\"searchcontents\" style=\"display:none;\">\n");
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
+                    log.Detail("Processing file for search index: {0}", link.Link);
                     var fileContent = link.Link.ToPath().ReadFile();
                     var rendered = MarkdownUtils.Markdown2Plain(fileContent);
 

@@ -3,37 +3,43 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Utilities;
-using System;
 using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
     internal class CreateOutputDirectory : IGeneratorStep
     {
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILog log)
         {
             if (settings.OutputDirectory.IsExisting)
             {
-                Console.WriteLine("Clearing previous build contents...");
-                CleanDirectory(settings.OutputDirectory);
+                log.Info("Clearing previous build contents...");
+                CleanDirectory(settings.OutputDirectory, log);
             }
             else
             {
-                Console.WriteLine("Creating output directory...");
+                log.Info("Creating output directory...");
                 settings.OutputDirectory.CreateDir();
             }
         }
 
-        private void CleanDirectory(FsPath outputDirectory)
+        private void CleanDirectory(FsPath outputDirectory, ILog log)
         {
             DirectoryInfo di = new DirectoryInfo(outputDirectory.ToString());
             foreach (var file in di.GetFiles())
+            {
+                log.Detail("Deleting: {0}", file);
                 file.Delete();
+            }
 
             foreach (var dir in di.GetDirectories())
+            {
+                log.Detail("Deleting: {0}", dir);
                 dir.Delete(true);
+            }
         }
     }
 }

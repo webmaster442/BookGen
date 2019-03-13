@@ -1,12 +1,11 @@
 ﻿// MIT License - Copyright (c) 2016 Can Güney Aksakalli
 // https://aksakalli.github.io/2014/02/24/simple-http-server-with-csparp.html
 
-using BookGen.Utilities;
+using BookGen.Contracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 
 namespace BookGen.Framework
@@ -88,10 +87,11 @@ namespace BookGen.Framework
         {".zip", "application/zip"},
         #endregion
     };
-        private Thread _serverThread;
-        private string _rootDirectory;
+        private readonly Thread _serverThread;
+        private readonly string _rootDirectory;
         private HttpListener _listener;
-        private int _port;
+        private readonly int _port;
+        private readonly ILog _log;
 
         public int Port
         {
@@ -104,23 +104,13 @@ namespace BookGen.Framework
         /// </summary>
         /// <param name="path">Directory path to serve.</param>
         /// <param name="port">Port of the server.</param>
-        public SimpleHTTPServer(string path, int port)
+        public SimpleHTTPServer(string path, int port, ILog log)
         {
-            Initialize(path, port);
-        }
-
-        /// <summary>
-        /// Construct server with suitable port.
-        /// </summary>
-        /// <param name="path">Directory path to serve.</param>
-        public SimpleHTTPServer(string path)
-        {
-            //get an empty port
-            TcpListener l = new TcpListener(IPAddress.Loopback, 0);
-            l.Start();
-            int port = ((IPEndPoint)l.LocalEndpoint).Port;
-            l.Stop();
-            Initialize(path, port);
+            _rootDirectory = path;
+            _port = port;
+            _serverThread = new Thread(this.Listen);
+            _serverThread.Start();
+            _log = log;
         }
 
         /// <summary>
@@ -146,7 +136,7 @@ namespace BookGen.Framework
                 }
                 catch (Exception ex)
                 {
-                    ex.LogToConsole();
+                    _log.Warning(ex);
                 }
             }
         }
@@ -154,7 +144,7 @@ namespace BookGen.Framework
         private void Process(HttpListenerContext context)
         {
             string filename = context.Request.Url.AbsolutePath;
-            Console.WriteLine("Serving: {0}", filename);
+            _log.Detail("Serving: {0}", filename);
             filename = filename.Substring(1);
 
             if (string.IsNullOrEmpty(filename))
@@ -212,7 +202,7 @@ namespace BookGen.Framework
                 catch (Exception ex)
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    ex.LogToConsole();
+                    _log.Warning(ex);
                 }
 
             }
@@ -224,18 +214,11 @@ namespace BookGen.Framework
             context.Response.OutputStream.Close();
         }
 
-        private void Initialize(string path, int port)
-        {
-            _rootDirectory = path;
-            _port = port;
-            _serverThread = new Thread(this.Listen);
-            _serverThread.Start();
-        }
-
         public void Dispose()
         {
             if (_listener != null)
             {
+                Stop();
                 _listener.Close();
                 _listener = null;
             }

@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
@@ -24,23 +25,23 @@ namespace BookGen.GeneratorSteps
             _menuItems = menuItems;
         }
 
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILog log)
         {
-            Console.WriteLine("Creating additional pages...");
+            log.Info("Creating additional pages...");
             foreach (var header in _menuItems)
             {
-                Render(settings, header.Link);
+                Render(settings, header.Link, log);
                 if (header.HasChilds)
                 {
                     foreach (var subitem in header.SubItems)
                     {
-                        Render(settings, subitem.Link);
+                        Render(settings, subitem.Link, log);
                     }
                 }
             }
         }
 
-        private void Render(GeneratorSettings settings, string link)
+        private void Render(GeneratorSettings settings, string link, ILog log)
         {
             if (link.StartsWith("http://")
                 || link.StartsWith("https://")
@@ -51,6 +52,9 @@ namespace BookGen.GeneratorSteps
             }
 
             var input = settings.SourceDirectory.Combine(link);
+
+            log.Detail("processing markdown file: {0}", input);
+
             var output = settings.OutputDirectory.Combine(Path.ChangeExtension(link, ".html"));
             var inputContent = input.ReadFile();
 

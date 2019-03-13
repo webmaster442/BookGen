@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Domain.Sitemap;
 using BookGen.Utilities;
@@ -18,9 +19,9 @@ namespace BookGen.GeneratorSteps
 
         private const string w3cTime = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
 
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILog log)
         {
-            Console.WriteLine("Creating sitemap.xml...");
+            log.Info("Creating sitemap.xml...");
 
             UrlSet sitemap = new UrlSet();
 
@@ -32,9 +33,9 @@ namespace BookGen.GeneratorSteps
 
             foreach (var page in pages)
             {
-
                 var reallink = $"{settings.Configruation.HostName}{page.Replace("\\", "/")}";
                 sitemap.Url.Add(CreateEntry(reallink));
+                log.Detail("Creating sitemap entry for: {0}", page);
             }
 
             XmlSerializer xs = new XmlSerializer(typeof(UrlSet));

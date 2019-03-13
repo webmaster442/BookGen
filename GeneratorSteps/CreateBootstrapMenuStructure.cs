@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Contracts;
 using BookGen.Domain;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ namespace BookGen.GeneratorSteps
             _menuItems = items;
         }
 
-        public void RunStep(GeneratorSettings settings)
+        public void RunStep(GeneratorSettings settings, ILog log)
         {
-            Console.WriteLine("Creating menu for Additional pages...");
+            log.Info("Creating menu for Additional pages...");
             StringBuilder buffer = new StringBuilder();
 
             foreach (var Menuitem in _menuItems)

@@ -41,7 +41,12 @@
       <HintPath>packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentParser.cs" />
+    <Compile Include="Contracts\ITemplatedStep.cs" />
+    <Compile Include="Contracts\IGeneratorContentFillStep.cs" />
+    <Compile Include="Contracts\IGeneratorStep.cs" />
     <Compile Include="Domain\Configuration\HeaderMenuItem.cs" />
     <Compile Include="Domain\HtmlLink.cs" />
     <Compile Include="Domain\Configuration\MenuItem.cs" />
@@ -58,6 +66,9 @@
     <Compile Include="Domain\Sitemap\Url.cs" />
     <Compile Include="Domain\Sitemap\UrlSet.cs" />
     <Compile Include="Domain\TOC.cs" />
+    <Compile Include="Contracts\ILog.cs" />
+    <Compile Include="Framework\Logger.cs" />
+    <Compile Include="Contracts\LogLevel.cs" />
     <Compile Include="Framework\MarkdownPrintModifier.cs" />
     <Compile Include="Framework\Generator.cs" />
     <Compile Include="GeneratorSteps\CreateAdditionalPages.cs" />
@@ -72,6 +83,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Splash.cs" />
     <Compile Include="Utilities\ConfigExtensions.cs" />
     <Compile Include="Domain\Configuration\Config.cs" />
     <Compile Include="Domain\FsPath.cs" />
@@ -86,7 +98,6 @@
     <Compile Include="GeneratorSteps\CreatePagesJS.cs" />
     <Compile Include="GeneratorSteps\CreateSubpageIndexes.cs" />
     <Compile Include="Framework\HttpServer.cs" />
-    <Compile Include="GeneratorSteps\Intertfaces.cs" />
     <Compile Include="Framework\MarkdownModifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
