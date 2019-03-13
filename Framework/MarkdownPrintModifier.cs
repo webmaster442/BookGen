@@ -7,6 +7,7 @@ using BookGen.Domain;
 using BookGen.Utilities;
 using Markdig;
 using Markdig.Renderers;
+using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
@@ -26,6 +27,17 @@ namespace BookGen.Framework
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
+            if (renderer == null)
+                throw new ArgumentNullException(nameof(renderer));
+
+            if (!(renderer is TextRendererBase<HtmlRenderer> htmlRenderer)) return;
+
+            var originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
+            if (originalCodeBlockRenderer != null)
+                htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
+
+
+            htmlRenderer.ObjectRenderers.AddIfNotAlready(new PrintSyntaxHiglighter(originalCodeBlockRenderer));
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)

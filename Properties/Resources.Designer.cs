@@ -61,14 +61,130 @@ namespace BookGen.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to if
+        ///then
+        ///else
+        ///elif
+        ///fi
+        ///case
+        ///esac
+        ///for
+        ///select
+        ///while
+        ///until
+        ///do
+        ///done
+        ///in
+        ///function
+        ///time
+        ///{
+        ///}
+        ///!
+        ///[[
+        ///]]
+        ///coproc.
+        /// </summary>
+        internal static string keywords_bash {
+            get {
+                return ResourceManager.GetString("keywords_bash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to abstract
+        ///as
+        ///base
+        ///bool
+        ///add
+        ///alias
+        ///ascending
+        ///async
+        ///await
+        ///by
+        ///break
+        ///byte
+        ///case
+        ///catch
+        ///char
+        ///checked
+        ///class
+        ///const
+        ///continue
+        ///decimal
+        ///default
+        ///delegate
+        ///descending
+        ///dynamic
+        ///equals
+        ///do
+        ///double
+        ///else
+        ///enum
+        ///event
+        ///explicit
+        ///extern
+        ///false
+        ///finally
+        ///fixed
+        ///float
+        ///for
+        ///foreach
+        ///goto
+        ///if
+        ///implicit
+        ///from
+        ///get
+        ///global
+        ///group
+        ///into
+        ///join
+        ///in
+        ///int
+        ///interface
+        ///internal
+        ///is
+        ///lock
+        ///long
+        ///namespace
+        ///let
+        ///nameof
+        ///on
+        ///new
+        ///null
+        ///object
+        ///operator
+        ///orderby
+        ///partial
+        ///out
+        ///override
+        ///params
+        ///private
+        ///protected
+        ///public
+        ///readonly
+        ///ref
+        ///remove
+        ///select
+        ///set
+        ///return
+        ///sbyte
+        ///seale [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string keywords_csharp {
+            get {
+                return ResourceManager.GetString("keywords_csharp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;div class=&quot;jumbotron&quot;&gt;
-        ///    &lt;h2&gt;{0}&lt;/h2&gt;
+        ///    &lt;h2&gt;[[0]]&lt;/h2&gt;
         ///    &lt;div class=&quot;form-group&quot;&gt;
-        ///        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;{1}&quot;&gt;
-        ///        &lt;button type=&quot;button&quot; id=&quot;searchbutton&quot; class=&quot;btn btn-default&quot;&gt;{2}&lt;/button&gt;
+        ///        &lt;input type=&quot;text&quot; id=&quot;searchtext&quot; autocomplete=&quot;off&quot; class=&quot;form-control&quot; placeholder=&quot;[[1]]&quot;&gt;
+        ///        &lt;button type=&quot;button&quot; id=&quot;searchbutton&quot; class=&quot;btn btn-primary&quot;&gt;[[2]]&lt;/button&gt;
         ///    &lt;/div&gt;
-        ///    &lt;div id=&quot;searchresults&quot;&gt;&lt;/div&gt;
         ///&lt;/div&gt;
+        ///&lt;div id=&quot;searchresults&quot;&gt;&lt;/div&gt;
         ///&lt;script type=&quot;text/javascript&quot;&gt;
         ///    $(&quot;#searchbutton&quot;).click(function () {
         ///
@@ -76,8 +192,7 @@ namespace BookGen.Properties {
         ///        var matches = 0;
         ///        $(&quot;#searchresults&quot;).html(&quot;&quot;);
         ///
-        ///        $(&quot;#searchcontents div&quot;).each(function () {
-        ///       [rest of string was truncated]&quot;;.
+        ///        $(&quot;#searchcont [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string searchform {
             get {

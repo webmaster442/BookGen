@@ -58,8 +58,10 @@ namespace BookGen.Framework
 
         public void Run()
         {
+#if RELEASE
             try
             {
+#endif
                 int stepCounter = 1;
                 foreach (var step in _steps)
                 {
@@ -67,11 +69,13 @@ namespace BookGen.Framework
                     step.RunStep(Settings, _log);
                     ++stepCounter;
                 }
+#if RELEASE
             }
             catch (Exception ex)
             {
                 _log.Critical(ex);
             }
+#endif
         }
     }
 }

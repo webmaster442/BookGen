@@ -23,7 +23,7 @@ namespace BookGen.Utilities
         {
             _plainpipeline = new MarkdownPipelineBuilder().Use<MarkdownModifier>().Build();
             _webpipeline = new MarkdownPipelineBuilder().Use<MarkdownModifier>().UseAdvancedExtensions().Build();
-            _printpipeline = new MarkdownPipelineBuilder().Use<MarkdownPrintModifier>().UseAdvancedExtensions().Build();
+            _printpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<MarkdownPrintModifier>().Build();
         }
 
         /// <summary>
