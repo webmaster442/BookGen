@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -47,6 +48,11 @@ namespace BookGen.Domain
             get { return _table["assets"]; }
         }
 
+        public string BuildTime
+        {
+            get { return _table["buildtime"]; }
+        }
+
         public GeneratorContent(Config cfg)
         {
             _table = new Dictionary<string, string>
@@ -56,7 +62,8 @@ namespace BookGen.Domain
                 { "content", string.Empty },
                 { "menus", string.Empty },
                 { "host", cfg.HostName },
-                { "assets", Path.Combine(cfg.HostName, cfg.AssetsDir) }
+                { "assets", Path.Combine(cfg.HostName, cfg.AssetsDir) },
+                { "buildtime", DateTime.Now.ToString() }
             };
         }
 
