@@ -35,3 +35,6 @@ Assets directory for templates. Can be used to include pages & stuff
 **[[BuildTime]]**
 
 Inserts the current build timestamp
+
+---
+Icon source: https://icons8.com/

@@ -48,6 +48,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Markdig, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Markdig.0.16.0\lib\net40\Markdig.dll</HintPath>
@@ -135,6 +138,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icon.ico" />
     <Content Include="Resources\keywords-bash.txt" />
     <Content Include="Resources\keywords-csharp.txt" />
     <Content Include="Resources\searchform.html" />
