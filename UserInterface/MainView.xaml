@@ -1,0 +1,76 @@
+﻿<Window
+    x:Class="BookGen.UserInterface.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="BookGen"
+    ResizeMode="NoResize"
+    Width="600"
+    Height="200"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="MinHeight" Value="35"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="Working folder: " />
+        <TextBlock
+            Grid.Column="1"
+            Grid.Row="0"
+            TextWrapping="Wrap"
+            Text="{Binding WorkingDirectory}" />
+        <Button
+            Grid.Row="0"
+            Grid.Column="4"
+            Command="{Binding OpenFolderCommand}"
+            Content="Open folder..." />
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            Command="{Binding CreateConfigCommand}"
+            Content="Create configuration..." />
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            Command="{Binding EditConfigCommand}"
+            Content="Edit configuration..." />
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Command="{Binding BuildCommand}"
+            CommandParameter="build"
+            Content="Build website..." />
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Command="{Binding BuildCommand}"
+            CommandParameter="test"
+            Content="Build test website..." />
+        <Button
+            Grid.Row="2"
+            Grid.Column="2"
+            Command="{Binding BuildCommand}"
+            CommandParameter="print"
+            Content="Build print website..." />
+    </Grid>
+</Window>

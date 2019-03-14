@@ -58,6 +58,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -65,15 +67,18 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgumentParser.cs" />
+    <Compile Include="GeneratorRunner.cs" />
     <Compile Include="Contracts\ITemplatedStep.cs" />
     <Compile Include="Contracts\IGeneratorContentFillStep.cs" />
     <Compile Include="Contracts\IGeneratorStep.cs" />
@@ -90,6 +95,8 @@
     <Compile Include="Framework\MarkdownPrintModifier.cs" />
     <Compile Include="Framework\Generator.cs" />
     <Compile Include="Framework\PrintSyntaxHiglighter.cs" />
+    <Compile Include="Framework\UI\DelegateCommand.cs" />
+    <Compile Include="Framework\UI\ViewModelBase.cs" />
     <Compile Include="GeneratorSteps\CreateAdditionalPages.cs" />
     <Compile Include="GeneratorSteps\CreateBootstrapMenuStructure.cs" />
     <Compile Include="GeneratorSteps\CreatePrintableHtml.cs" />
@@ -103,6 +110,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Splash.cs" />
+    <Compile Include="UserInterface\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\MainViewModel.cs" />
     <Compile Include="Utilities\ConfigExtensions.cs" />
     <Compile Include="Domain\Configuration\Config.cs" />
     <Compile Include="Domain\FsPath.cs" />
@@ -124,6 +135,7 @@
     <Compile Include="Utilities\FsUtils.cs" />
     <Compile Include="Utilities\MarkdownUtils.cs" />
     <Compile Include="Framework\Template.cs" />
+    <Compile Include="Utilities\NativeMethods.cs" />
     <Compile Include="Utilities\TextUtils.cs" />
     <Compile Include="WebsiteBuilder.cs" />
   </ItemGroup>
@@ -165,6 +177,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UserInterface\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
