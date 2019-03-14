@@ -41,6 +41,9 @@ namespace BookGen.Utilities
 
             if (config.SearchOptions == null)
                 config.SearchOptions = SearchSettings.Default;
+
+            if (config.Metadata == null)
+                config.Metadata = Metadata.Default;
         }
     }
 }

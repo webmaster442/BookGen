@@ -18,6 +18,7 @@ namespace BookGen.Domain
         public bool LinksOutSideOfHostOpenNewTab { get; set; }
         public StyleClasses StyleClasses { get; set; }
         public SearchSettings SearchOptions { get; set; }
+        public Metadata Metadata { get; set; }
 
         public static Config Default
         {
@@ -34,6 +35,7 @@ namespace BookGen.Domain
                     Template = "Path of template file",
                     StyleClasses = new StyleClasses(),
                     SearchOptions = SearchSettings.Default,
+                    Metadata = Metadata.Default,
                     Version = 100,
                     LinksOutSideOfHostOpenNewTab = true,
                 };

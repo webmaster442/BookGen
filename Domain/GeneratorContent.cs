@@ -38,6 +38,12 @@ namespace BookGen.Domain
             set { _table["menus"] = value; }
         }
 
+        public string Metadata
+        {
+            get { return _table["metadata"]; }
+            set { _table["metadata"] = value; }
+        }
+
         public string HostUrl
         {
             get { return _table["host"]; }
@@ -63,7 +69,8 @@ namespace BookGen.Domain
                 { "menus", string.Empty },
                 { "host", cfg.HostName },
                 { "assets", Path.Combine(cfg.HostName, cfg.AssetsDir) },
-                { "buildtime", DateTime.Now.ToString() }
+                { "buildtime", DateTime.Now.ToString() },
+                { "metadata", string.Empty }
             };
         }
 

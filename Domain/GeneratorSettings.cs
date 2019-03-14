@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace BookGen.Domain
 {
     public class GeneratorSettings
@@ -13,5 +15,6 @@ namespace BookGen.Domain
         public FsPath Toc { get; set; }
         public TOC TocContents { get; set; }
         public Config Configruation { get; set; }
+        public Dictionary<string, string> Metatadas { get; set; }
     }
 }

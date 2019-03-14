@@ -36,6 +36,12 @@ namespace BookGen.Domain
                    Link == other.Link;
         }
 
+        public string GetLinkOnHost(string host)
+        {
+            var file = System.IO.Path.ChangeExtension(this.Link, ".html");
+            return $"{host}{file}";
+        }
+
         public override int GetHashCode()
         {
             var hashCode = -2003123855;

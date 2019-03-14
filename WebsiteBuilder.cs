@@ -22,6 +22,7 @@ namespace BookGen
             }*/
 
             AddStep(new GeneratorSteps.CreateTOCForWebsite());
+            AddStep(new GeneratorSteps.CreateMetadata());
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets());
             AddStep(new GeneratorSteps.CopyImagesDirectory());

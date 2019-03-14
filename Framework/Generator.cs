@@ -29,7 +29,8 @@ namespace BookGen.Framework
                 ImageDirectory = configuration.ImageDir.ToPath(),
                 Toc = configuration.TOCFile.ToPath(),
                 Configruation = configuration,
-                TocContents = MarkdownUtils.ParseToc(configuration.TOCFile.ToPath().ReadFile())
+                TocContents = MarkdownUtils.ParseToc(configuration.TOCFile.ToPath().ReadFile()),
+                Metatadas = new Dictionary<string, string>()
             };
             Template = new Template(configuration.Template.ToPath());
             GeneratorContent = new GeneratorContent(configuration);
