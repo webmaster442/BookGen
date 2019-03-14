@@ -16,7 +16,7 @@ namespace BookGen.GeneratorSteps
         {
             log.Info("Copy images to output...");
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
-            settings.ImageDirectory.CopyDirectory(targetdir);
+            settings.ImageDirectory.CopyDirectory(targetdir, log);
             targetdir.ProtectDirectory();
         }
     }

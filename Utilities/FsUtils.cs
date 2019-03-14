@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Contracts;
 using BookGen.Domain;
 using System.IO;
 using System.Reflection;
@@ -17,8 +18,9 @@ namespace BookGen.Utilities
             return new FsPath(s);
         }
 
-        public static void CreateDir(this FsPath path)
+        public static void CreateDir(this FsPath path, ILog log)
         {
+            log?.Detail("Creating directory: {0}", path);
             Directory.CreateDirectory(path.ToString());
         }
 
@@ -27,7 +29,7 @@ namespace BookGen.Utilities
             return Path.GetFileName(path.ToString());
         }
 
-        public static void CopyDirectory(this FsPath sourceDirectory, FsPath TargetDir)
+        public static void CopyDirectory(this FsPath sourceDirectory, FsPath TargetDir, ILog log)
         {
             if (!Directory.Exists(TargetDir.ToString()))
                 Directory.CreateDirectory(TargetDir.ToString());
@@ -35,12 +37,20 @@ namespace BookGen.Utilities
             //Now Create all of the directories
             foreach (string dirPath in Directory.GetDirectories(sourceDirectory.ToString(), "*",
                 SearchOption.AllDirectories))
-                Directory.CreateDirectory(dirPath.Replace(sourceDirectory.ToString(), TargetDir.ToString()));
+            {
+                var targetDir = dirPath.Replace(sourceDirectory.ToString(), TargetDir.ToString());
+                log?.Detail("Creating directory: {0}", targetDir);
+                Directory.CreateDirectory(targetDir);
+            }
 
             //Copy all the files & Replaces any files with the same name
             foreach (string newPath in Directory.GetFiles(sourceDirectory.ToString(), "*.*",
                 SearchOption.AllDirectories))
-                File.Copy(newPath, newPath.Replace(sourceDirectory.ToString(), TargetDir.ToString()), true);
+            {
+                var targetfile = newPath.Replace(sourceDirectory.ToString(), TargetDir.ToString());
+                log?.Detail("Copy file: {0} to {1}", newPath, targetfile);
+                File.Copy(newPath, targetfile, true);
+            }
         }
 
         public static void WriteFile(this FsPath target, string content)

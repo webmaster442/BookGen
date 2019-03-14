@@ -20,7 +20,7 @@ namespace BookGen.GeneratorSteps
             {
                 log.Info("Copy template assets to output...");
                 var targetdir = settings.OutputDirectory.Combine(assets.GetName());
-                assets.CopyDirectory(targetdir);
+                assets.CopyDirectory(targetdir, log);
                 targetdir.ProtectDirectory();
             }
         }

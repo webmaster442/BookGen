@@ -22,7 +22,7 @@ namespace BookGen.GeneratorSteps
             else
             {
                 log.Info("Creating output directory...");
-                settings.OutputDirectory.CreateDir();
+                settings.OutputDirectory.CreateDir(log);
             }
         }
 
