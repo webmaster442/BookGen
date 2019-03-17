@@ -61,6 +61,36 @@ namespace BookGen.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/_errors/main.css&quot; /&gt;
+        ///    &lt;title&gt;Error 404&lt;/title&gt;
+        ///    &lt;style&gt;
+        ///        html {
+        ///            display: flex;
+        ///            align-items: center;
+        ///            justify-content: center;
+        ///            height: 100vh;
+        ///        }
+        ///
+        ///        body {
+        ///            display: flex;
+        ///            align-items: center;
+        ///            justify-content: center;
+        ///        }
+        ///
+        ///        #Error {
+        ///            display: block;
+        ///            vertical-align: mid [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Error404 {
+            get {
+                return ResourceManager.GetString("Error404", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to if
         ///then
         ///else
@@ -168,7 +198,10 @@ namespace BookGen.Properties {
         ///set
         ///return
         ///sbyte
-        ///seale [rest of string was truncated]&quot;;.
+        ///sealed
+        ///short
+        ///sizeof
+        ///stacka [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string keywords_csharp {
             get {

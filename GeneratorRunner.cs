@@ -5,7 +5,7 @@
 
 using BookGen.Contracts;
 using BookGen.Domain;
-using BookGen.Framework;
+using BookGen.Framework.Server;
 using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;
@@ -159,7 +159,7 @@ namespace BookGen
             WebsiteBuilder builder = new WebsiteBuilder(_cfg);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
-            using (var server = new SimpleHTTPServer(_cfg.OutputDir, 8080, _log))
+            using (var server = new HTTPTestServer(_cfg.OutputDir, 8080, _log))
             {
                 Console.Clear();
                 _log.Info("Test server running on: http://localhost:8080/");

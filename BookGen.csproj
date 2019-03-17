@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Configuration\Metadata.cs" />
+    <Compile Include="Framework\Server\HTTPServer.cs" />
+    <Compile Include="Framework\Server\MimeTypes.cs" />
     <Compile Include="GeneratorRunner.cs" />
     <Compile Include="Contracts\ITemplatedStep.cs" />
     <Compile Include="Contracts\IGeneratorContentFillStep.cs" />
@@ -129,7 +131,6 @@
     <Compile Include="GeneratorSteps\CreatePages.cs" />
     <Compile Include="GeneratorSteps\CreatePagesJS.cs" />
     <Compile Include="GeneratorSteps\CreateSubpageIndexes.cs" />
-    <Compile Include="Framework\HttpServer.cs" />
     <Compile Include="Framework\MarkdownModifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <Content Include="Resources\Error404.html" />
     <Content Include="Resources\keywords-bash.txt" />
     <Content Include="Resources\keywords-csharp.txt" />
     <Content Include="Resources\searchform.html" />
