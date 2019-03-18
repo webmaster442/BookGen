@@ -26,7 +26,7 @@ namespace BookGen
         {
             _args = arguments;
             _log = log;
-            var logfile = Path.Combine(Environment.CurrentDirectory, "boogken.log");
+            var logfile = Path.Combine(Environment.CurrentDirectory, "bookgen.log");
             _log.ConfigureFile(logfile);
             _config = new FsPath(Environment.CurrentDirectory, "bookgen.json");
 
