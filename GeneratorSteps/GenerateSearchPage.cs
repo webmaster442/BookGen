@@ -47,7 +47,8 @@ namespace BookGen.GeneratorSteps
                 options.SearchPageTitle,
                 options.SearchTextBoxText,
                 options.SearchButtonText,
-                options.SearchResults
+                options.SearchResults,
+                options.NoResults
             };
 
             var result = Properties.Resources.searchform.ReplaceTags(replacements);

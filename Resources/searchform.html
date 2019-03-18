@@ -2,6 +2,7 @@
     <h2>[[0]]</h2>
     <div class="form-group">
         <input type="text" id="searchtext" autocomplete="off" class="form-control" placeholder="[[1]]">
+        <br/>
         <button type="button" id="searchbutton" class="btn btn-primary">[[2]]</button>
     </div>
 </div>
@@ -11,10 +12,16 @@
 
         var html = "";
         var matches = 0;
+        var terms = $("#searchtext").val();
         $("#searchresults").html("");
 
+        if (terms === "") {
+            var error = "[[4]]";
+            $("#searchresults").html(error);
+            return;
+        }
+
         $("#searchcontents div").each(function () {
-            var terms = $("#searchtext").val();
             var startindex = $(this).text().indexOf(terms);
             if (startindex < 0) return;
 
@@ -38,6 +45,10 @@
 
         if (html.length > 0) {
             $("#searchresults").html(final);
+        }
+        else {
+            var error = "[[4]]";
+            $("#searchresults").html(error);
         }
     });
 </script>

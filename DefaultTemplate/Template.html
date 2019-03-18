@@ -71,6 +71,20 @@
         <div id="tocinside">[[toc]]</div>
     </div>
 
+    <div id="toc-local" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ezen az oldalon</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="localToc">
+                    <p>Some text in the modal.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <nav id="Header" class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -80,19 +94,19 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#toc">
-                    <i class="fas fa-book-open"></i>
-                    Tartalom
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#toc-local">
+                    <i class="far fa-file-alt"></i>
+                    Ezen az oldalon
                 </a>
             </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="[[host]]/search.html">
                     <i class="fas fa-search"></i>
                     Keresés
                 </a>
             </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="#previous">
                     <i class="fas fa-chevron-left"></i>
@@ -133,6 +147,20 @@
             var newloc = pages[currentindex + 1];
             window.location.href = newloc;
         });
+        var thisPage = "<ul>";
+        $("h1, h2, h3").each(function (i) {
+            var current = $(this);
+            var link = current.attr("id");
+            var append = "<li><a class=\"navigateto\" href=\"#" + link + "\">" + current.html() + "</a></li>\n";
+            thisPage += append;
+        });
+        thisPage += "</ul>";
+        $("#localToc").html(thisPage);
+
+        $('.navigateto').click(function () {
+            $('#toc-local').modal('toggle');
+        });
+
     </script>
 </body>
 </html>
