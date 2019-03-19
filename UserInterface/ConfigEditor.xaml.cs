@@ -68,7 +68,7 @@ namespace BookGen.UserInterface
         {
             try
             {
-                var modified = JsonConvert.SerializeObject(_config, Formatting.Indented);
+                var modified = JsonConvert.SerializeObject(_cfg, Formatting.Indented);
                 _config.WriteFile(modified);
                 MessageBox.Show("Settings saved", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
@@ -85,5 +85,7 @@ namespace BookGen.UserInterface
         {
             Close();
         }
+
+
     }
 }

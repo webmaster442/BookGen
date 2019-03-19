@@ -36,7 +36,7 @@
             <TabItem Header="Precompile" />
         </TabControl>
         <WindowsFormsHost Grid.Row="1">
-            <forms:PropertyGrid x:Name="PropertyEditor" />
+            <forms:PropertyGrid x:Name="PropertyEditor"/>
         </WindowsFormsHost>
         <StackPanel
             Grid.Row="2"
