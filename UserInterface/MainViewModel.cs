@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain;
 using BookGen.Framework.UI;
 using System;
 using System.Diagnostics;
@@ -41,6 +42,7 @@ namespace BookGen.UserInterface
         {
             using (var fb = new System.Windows.Forms.FolderBrowserDialog())
             {
+                fb.SelectedPath = _workFolder;
                 if (fb.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     WorkingDirectory = fb.SelectedPath;
@@ -56,8 +58,8 @@ namespace BookGen.UserInterface
 
         private void OnEditConfig(object obj)
         {
-            var configFile = Path.Combine(WorkingDirectory, _configfile);
-            Process.Start("notepad.exe", configFile);
+            ConfigEditor editor = new ConfigEditor(new FsPath(WorkingDirectory).Combine(_configfile));
+            editor.ShowDialog();
         }
 
         private void OnCreateConfig(object obj)

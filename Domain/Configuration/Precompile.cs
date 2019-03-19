@@ -3,13 +3,21 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.UserInterface;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace BookGen.Domain
 {
     public class Precompile
     {
+        [Description("List of CSS files to inline in header of template")]
+        [Editor(@"System.Windows.Forms.Design.StringCollectionEditor," + "System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
+        [TypeConverter(typeof(CsvConverter))]
         public List<string> CSSFiles { get; set; }
+        [Description("List of JS files to inline in header of template")]
+        [Editor(@"System.Windows.Forms.Design.StringCollectionEditor," + "System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",  typeof(System.Drawing.Design.UITypeEditor))]
+        [TypeConverter(typeof(CsvConverter))]
         public List<string> JavascriptFiles { get; set; }
 
         public static Precompile Default
