@@ -59,6 +59,12 @@ namespace BookGen.Domain
             get { return _table["buildtime"]; }
         }
 
+        public string PrecompiledHeader
+        {
+            get { return _table["precompiledheader"]; }
+            set { _table["precompiledheader"] = value; }
+        }
+
         public GeneratorContent(Config cfg)
         {
             _table = new Dictionary<string, string>
@@ -70,7 +76,8 @@ namespace BookGen.Domain
                 { "host", cfg.HostName },
                 { "assets", Path.Combine(cfg.HostName, cfg.AssetsDir) },
                 { "buildtime", DateTime.Now.ToString() },
-                { "metadata", string.Empty }
+                { "metadata", string.Empty },
+                { "precompiledheader", string.Empty }
             };
         }
 

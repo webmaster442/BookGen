@@ -19,6 +19,7 @@ namespace BookGen.Domain
         public StyleClasses StyleClasses { get; set; }
         public SearchSettings SearchOptions { get; set; }
         public Metadata Metadata { get; set; }
+        public Precompile PrecompileHeader { get; set; }
 
         public static Config Default
         {
@@ -36,6 +37,7 @@ namespace BookGen.Domain
                     StyleClasses = new StyleClasses(),
                     SearchOptions = SearchSettings.Default,
                     Metadata = Metadata.Default,
+                    PrecompileHeader = Precompile.Default,
                     Version = 100,
                     LinksOutSideOfHostOpenNewTab = true,
                 };

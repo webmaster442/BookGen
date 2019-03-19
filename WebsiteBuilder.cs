@@ -20,7 +20,7 @@ namespace BookGen
                 AddStep(new GeneratorSteps.CreateBootstrapMenuStructure(menuItems));
                 AddStep(new GeneratorSteps.CreateAdditionalPages(menuItems));
             }*/
-
+            AddStep(new GeneratorSteps.PrecompileHeader());
             AddStep(new GeneratorSteps.CreateTOCForWebsite());
             AddStep(new GeneratorSteps.CreateMetadata());
             AddStep(new GeneratorSteps.CreateOutputDirectory());

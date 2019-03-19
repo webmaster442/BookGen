@@ -44,6 +44,9 @@ namespace BookGen.Utilities
 
             if (config.Metadata == null)
                 config.Metadata = Metadata.Default;
+
+            if (config.PrecompileHeader == null)
+                config.PrecompileHeader = Precompile.Default;
         }
     }
 }

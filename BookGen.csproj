@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Configuration\Metadata.cs" />
+    <Compile Include="Domain\Configuration\Precompile.cs" />
     <Compile Include="Framework\Server\HTTPServer.cs" />
     <Compile Include="Framework\Server\MimeTypes.cs" />
     <Compile Include="GeneratorRunner.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="GeneratorSteps\CreateSitemap.cs" />
     <Compile Include="GeneratorSteps\CreateTOCForWebsite.cs" />
     <Compile Include="GeneratorSteps\GenerateSearchPage.cs" />
+    <Compile Include="GeneratorSteps\PrecompileHeader.cs" />
     <Compile Include="PrintBuilder.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
