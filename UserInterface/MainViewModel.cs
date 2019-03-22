@@ -27,6 +27,7 @@ namespace BookGen.UserInterface
         public ICommand CreateConfigCommand { get; }
         public ICommand EditConfigCommand { get; }
         public ICommand BuildCommand { get; }
+        public ICommand RunCommand { get; }
 
 
         public MainViewModel()
@@ -35,6 +36,7 @@ namespace BookGen.UserInterface
             CreateConfigCommand = DelegateCommand.CreateCommand(OnCreateConfig, OnCanCreateConfig);
             EditConfigCommand = DelegateCommand.CreateCommand(OnEditConfig, OnCanEditConfig);
             BuildCommand = new DelegateCommand<string>(OnBuild, OnCanBuild);
+            RunCommand = new DelegateCommand<string>(OnRun);
             _workFolder = Environment.CurrentDirectory;
         }
 
@@ -88,6 +90,20 @@ namespace BookGen.UserInterface
                     FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BookGen.exe"),
                     WorkingDirectory = WorkingDirectory,
                     Arguments = arguments
+                }
+            };
+            p.Start();
+        }
+
+        private void OnRun(string obj)
+        {
+            var file = Environment.ExpandEnvironmentVariables(obj);
+            Process p = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = file,
+                    WorkingDirectory = WorkingDirectory,
                 }
             };
             p.Start();

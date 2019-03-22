@@ -38,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,6 +48,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
@@ -83,7 +85,9 @@
   <ItemGroup>
     <Compile Include="Domain\Configuration\Metadata.cs" />
     <Compile Include="Domain\Configuration\Precompile.cs" />
+    <Compile Include="Framework\Server\EditorServe.cs" />
     <Compile Include="Framework\Server\HTTPServer.cs" />
+    <Compile Include="Framework\Server\IRequestHandler.cs" />
     <Compile Include="Framework\Server\MimeTypes.cs" />
     <Compile Include="GeneratorRunner.cs" />
     <Compile Include="Contracts\ITemplatedStep.cs" />
@@ -113,7 +117,11 @@
     <Compile Include="GeneratorSteps\GenerateSearchPage.cs" />
     <Compile Include="GeneratorSteps\PrecompileHeader.cs" />
     <Compile Include="PrintBuilder.cs" />
-    <Compile Include="Resources.Designer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Splash.cs" />
     <Compile Include="UserInterface\ConfigEditor.xaml.cs">
       <DependentUpon>ConfigEditor.xaml</DependentUpon>
@@ -159,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <Content Include="Resources\editor.html" />
     <Content Include="Resources\Error404.html" />
     <Content Include="Resources\keywords-bash.txt" />
     <Content Include="Resources\keywords-csharp.txt" />
@@ -192,7 +201,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
