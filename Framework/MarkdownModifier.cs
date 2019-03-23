@@ -15,7 +15,7 @@ namespace BookGen.Framework
 {
     public class MarkdownModifier : IMarkdownExtension
     {
-        public static Config Config { get; set; }
+        public static GeneratorSettings Settings { get; set; }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
@@ -35,13 +35,13 @@ namespace BookGen.Framework
 
         private static bool IsOffHostLink(LinkInline link)
         {
-            return !link.Url.StartsWith(Config.HostName);
+            return !link.Url.StartsWith(Settings.Configruation.HostName);
         }
 
         private static void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
-            if (Config == null)
-                throw new InvalidOperationException("Config not configured");
+            if (Settings == null)
+                throw new InvalidOperationException("Settings not configured");
 
             foreach (var node in document.Descendants())
             {
@@ -50,50 +50,56 @@ namespace BookGen.Framework
                     switch (heading.Level)
                     {
                         case 1:
-                            AddStyleClass(node, Config.StyleClasses.Heading1);
+                            AddStyleClass(node, Settings.Configruation.StyleClasses.Heading1);
                             break;
                         case 2:
-                            AddStyleClass(node, Config.StyleClasses.Heading2);
+                            AddStyleClass(node, Settings.Configruation.StyleClasses.Heading2);
                             break;
                         case 3:
-                            AddStyleClass(node, Config.StyleClasses.Heading3);
+                            AddStyleClass(node, Settings.Configruation.StyleClasses.Heading3);
                             break;
                     }
                 }
                 else if (node is Block)
                 {
                     if (node is Markdig.Extensions.Tables.Table)
-                        AddStyleClass(node, Config.StyleClasses.Table);
+                        AddStyleClass(node, Settings.Configruation.StyleClasses.Table);
                     else if (node is QuoteBlock)
-                        AddStyleClass(node, Config.StyleClasses.Blockquote);
+                        AddStyleClass(node, Settings.Configruation.StyleClasses.Blockquote);
                     else if (node is Markdig.Extensions.Figures.Figure)
-                        AddStyleClass(node, Config.StyleClasses.Figure);
+                        AddStyleClass(node, Settings.Configruation.StyleClasses.Figure);
                     else if (node is Markdig.Extensions.Figures.FigureCaption)
-                        AddStyleClass(node, Config.StyleClasses.FigureCaption);
+                        AddStyleClass(node, Settings.Configruation.StyleClasses.FigureCaption);
                 }
                 else if (node is LinkInline link)
                 {
                     if (link.IsImage)
-                        AddStyleClass(node, Config.StyleClasses.Image);
+                    {
+                        if (Settings.InlineImgs.ContainsKey(link.Url))
+                        {
+                            link.Url = Settings.InlineImgs[link.Url];
+                        }
+                        AddStyleClass(link, Settings.Configruation.StyleClasses.Image);
+                    }
                     else
                     {
-                        if (IsOffHostLink(link) && Config.LinksOutSideOfHostOpenNewTab)
+                        if (IsOffHostLink(link) && Settings.Configruation.LinksOutSideOfHostOpenNewTab)
                         {
                             link.GetAttributes().AddProperty("target", "_blank");
                         }
                         else
-                            AddStyleClass(node, Config.StyleClasses.Link);
+                            AddStyleClass(node, Settings.Configruation.StyleClasses.Link);
                     }
                 }
                 else if (node is ListBlock listBlock)
                 {
                     if (listBlock.IsOrdered)
-                        AddStyleClass(node, Config.StyleClasses.OrderedList);
+                        AddStyleClass(node, Settings.Configruation.StyleClasses.OrderedList);
                     else
-                        AddStyleClass(node, Config.StyleClasses.UnorederedList);
+                        AddStyleClass(node, Settings.Configruation.StyleClasses.UnorederedList);
                 }
                 else if (node is ListItemBlock)
-                    AddStyleClass(node, Config.StyleClasses.ListItem);
+                    AddStyleClass(node, Settings.Configruation.StyleClasses.ListItem);
             }
         }
     }

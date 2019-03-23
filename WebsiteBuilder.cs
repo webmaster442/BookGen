@@ -12,7 +12,7 @@ namespace BookGen
     {
         public WebsiteBuilder(Config configuration) : base(configuration, Program.Log)
         {
-            MarkdownModifier.Config = configuration;
+            MarkdownModifier.Settings = Settings;
 
             /*if (menuPath.IsExisting)
             {

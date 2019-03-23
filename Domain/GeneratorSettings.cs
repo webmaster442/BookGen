@@ -16,5 +16,6 @@ namespace BookGen.Domain
         public TOC TocContents { get; set; }
         public Config Configruation { get; set; }
         public Dictionary<string, string> Metatadas { get; set; }
+        public Dictionary<string, string> InlineImgs { get; set; }
     }
 }

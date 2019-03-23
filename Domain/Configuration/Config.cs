@@ -27,6 +27,8 @@ namespace BookGen.Domain
         public int Version { get; set; }
         [Description("Open links that point outside of the host in new tab")]
         public bool LinksOutSideOfHostOpenNewTab { get; set; }
+        [Description("Inlime inimage size limit in bytes. -1 disables function")]
+        public long InlineImageSizeLimit { get; set; }
 
         [Browsable(false)]
         public StyleClasses StyleClasses { get; set; }
@@ -59,6 +61,7 @@ namespace BookGen.Domain
                     PrecompileHeader = Precompile.Default,
                     Version = 100,
                     LinksOutSideOfHostOpenNewTab = true,
+                    InlineImageSizeLimit = 50 * 1024
                 };
             }
         }
