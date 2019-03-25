@@ -20,12 +20,12 @@ namespace BookGen
                 AddStep(new GeneratorSteps.CreateBootstrapMenuStructure(menuItems));
                 AddStep(new GeneratorSteps.CreateAdditionalPages(menuItems));
             }*/
-            AddStep(new GeneratorSteps.PrecompileHeader());
-            AddStep(new GeneratorSteps.CreateTOCForWebsite());
-            AddStep(new GeneratorSteps.CreateMetadata());
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets());
             AddStep(new GeneratorSteps.CopyImagesDirectory());
+            AddStep(new GeneratorSteps.PrecompileHeader());
+            AddStep(new GeneratorSteps.CreateTOCForWebsite());
+            AddStep(new GeneratorSteps.CreateMetadata());
             AddStep(new GeneratorSteps.CreateIndexHtml());
             AddStep(new GeneratorSteps.CreatePagesJS());
             AddStep(new GeneratorSteps.CreatePages());

@@ -10,6 +10,8 @@ using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BookGen.Framework
 {
@@ -36,6 +38,14 @@ namespace BookGen.Framework
         private static bool IsOffHostLink(LinkInline link)
         {
             return !link.Url.StartsWith(Settings.Configruation.HostName);
+        }
+
+        private static string ToImgCacheKey(string s)
+        {
+            Uri baseUri = new Uri(Settings.Configruation.HostName);
+            Uri full = new Uri(baseUri, s);
+            string fsPath = full.ToString().Replace(Settings.Configruation.HostName, Settings.SourceDirectory.ToString()+"\\");
+            return fsPath.Replace("/", "\\");
         }
 
         private static void PipelineOnDocumentProcessed(MarkdownDocument document)
@@ -75,10 +85,13 @@ namespace BookGen.Framework
                 {
                     if (link.IsImage)
                     {
-                        if (Settings.InlineImgs.ContainsKey(link.Url))
+
+                        var inlinekey = ToImgCacheKey(link.Url);
+                        if (Settings.InlineImgs.ContainsKey(inlinekey))
                         {
-                            link.Url = Settings.InlineImgs[link.Url];
+                            link.Url = Settings.InlineImgs[inlinekey];
                         }
+
                         AddStyleClass(link, Settings.Configruation.StyleClasses.Image);
                     }
                     else

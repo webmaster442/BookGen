@@ -8,6 +8,7 @@ using BookGen.Domain;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace BookGen.Framework
 {
@@ -75,6 +76,9 @@ namespace BookGen.Framework
             catch (Exception ex)
             {
                 _log.Critical(ex);
+#if DEBUG
+                Debugger.Break();
+#endif
                 return DateTime.Now - start;
             }
         }

@@ -60,7 +60,7 @@ namespace BookGen.GeneratorSteps
         {
             byte[] contents = File.ReadAllBytes(fullName);
             string mime = Framework.Server.MimeTypes.GetMimeForExtension(extension);
-            settings.InlineImgs.Add(fullName, $"data:{mime}, {Convert.ToBase64String(contents)}");
+            settings.InlineImgs.Add(fullName, $"data:{mime};base64,{Convert.ToBase64String(contents)}");
         }
     }
 }
