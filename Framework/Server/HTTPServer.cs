@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace BookGen.Framework.Server
 {
-    internal class HTTPTestServer: IDisposable
+    internal class HTTPTestServer : IDisposable
     {
         private readonly string _path;
         private readonly ILog _log;
@@ -66,45 +66,49 @@ namespace BookGen.Framework.Server
             string filename = context.Request.Url.AbsolutePath;
             _log.Detail("Serving: {0}", filename);
             bool processed = false;
-            try
+            using (context.Response)
             {
-                if (_handlers != null)
+                try
                 {
-                    foreach (var handler in _handlers)
+                    if (_handlers != null)
                     {
-                        if (handler.CanServe(filename))
+                        foreach (var handler in _handlers)
                         {
-                            handler.Serve(context.Response);
-                            processed = true;
-                            break;
+                            if (handler.CanServe(filename))
+                            {
+                                handler.Serve(context.Response);
+                                processed = true;
+                                break;
+                            }
                         }
                     }
-                }
 
-                if (!processed)
-                {
-                    filename = filename.Substring(1);
-
-                    if (string.IsNullOrEmpty(filename))
-                        filename = GetIndexFile(_path);
-
-                    else
+                    if (!processed)
                     {
-                        filename = Path.Combine(_path, filename);
-                        if (Directory.Exists(filename))
-                            filename = GetIndexFile(filename);
-                    }
+                        filename = filename.Substring(1);
 
-                    if (File.Exists(filename))
-                        ServeFile(context.Response, filename);
-                    else
-                        Serve404(context.Response);
+                        if (string.IsNullOrEmpty(filename))
+                            filename = GetIndexFile(_path);
+
+                        else
+                        {
+                            filename = Path.Combine(_path, filename);
+                            if (Directory.Exists(filename))
+                                filename = GetIndexFile(filename);
+                        }
+                        if (File.Exists(filename))
+                            ServeFile(context.Response, filename);
+                        else
+                            Serve404(context.Response);
+
+                        Thread.Sleep(10);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                _log.Warning(ex);
+                catch (Exception ex)
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    _log.Warning(ex);
+                }
             }
         }
 
@@ -154,9 +158,10 @@ namespace BookGen.Framework.Server
         {
             if (_listener != null)
             {
-                _server.Abort();
                 _listener.Stop();
                 _listener.Close();
+                _server.Abort();
+                _server.Join();
                 _listener = null;
             }
         }
