@@ -8,6 +8,7 @@ using BookGen.Domain;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace BookGen.Framework
 {
@@ -30,7 +31,8 @@ namespace BookGen.Framework
                 Toc = configuration.TOCFile.ToPath(),
                 Configruation = configuration,
                 TocContents = MarkdownUtils.ParseToc(configuration.TOCFile.ToPath().ReadFile()),
-                Metatadas = new Dictionary<string, string>()
+                Metatadas = new Dictionary<string, string>(100),
+                InlineImgs = new Dictionary<string, string>(100)
             };
             Template = new Template(configuration.Template.ToPath());
             GeneratorContent = new GeneratorContent(configuration);
@@ -74,6 +76,9 @@ namespace BookGen.Framework
             catch (Exception ex)
             {
                 _log.Critical(ex);
+#if DEBUG
+                Debugger.Break();
+#endif
                 return DateTime.Now - start;
             }
         }

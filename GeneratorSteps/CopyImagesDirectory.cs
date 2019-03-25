@@ -7,6 +7,7 @@ using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Utilities;
 using System;
+using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
@@ -14,10 +15,52 @@ namespace BookGen.GeneratorSteps
     {
         public void RunStep(GeneratorSettings settings, ILog log)
         {
-            log.Info("Copy images to output...");
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
-            settings.ImageDirectory.CopyDirectory(targetdir, log);
-            targetdir.ProtectDirectory();
+            if (settings.Configruation.InlineImageSizeLimit < 0)
+            {
+                log.Info("Copy images to output...");
+                settings.ImageDirectory.CopyDirectory(targetdir, log);
+                targetdir.ProtectDirectory();
+            }
+            else
+            {
+                log.Info("Preparing for Image inlineing...");
+                foreach (var file in settings.ImageDirectory.GetAllFiles())
+                {
+                    FileInfo fi = new FileInfo(file);
+                    if (fi.Length < settings.Configruation.InlineImageSizeLimit
+                        && (fi.Extension == ".jpg"
+                         || fi.Extension == ".png"
+                         || fi.Extension == ".jpeg"
+                         || fi.Extension == ".webp"))
+                    {
+                        log.Detail("Inlining image: {0}", fi.FullName);
+                        InlineImg(fi.FullName, fi.Extension, settings);
+                    }
+                    else
+                    {
+
+                        CopyImg(fi.FullName, fi.Name, targetdir);
+                    }
+                }
+            }
+        }
+
+        private void CopyImg(string Fullname, string name, FsPath targetdir)
+        {
+            if (!targetdir.IsExisting)
+                Directory.CreateDirectory(targetdir.ToString());
+
+            FsPath target = targetdir.Combine(name);
+
+            File.Copy(Fullname, target.ToString());
+        }
+
+        private void InlineImg(string fullName, string extension, GeneratorSettings settings)
+        {
+            byte[] contents = File.ReadAllBytes(fullName);
+            string mime = Framework.Server.MimeTypes.GetMimeForExtension(extension);
+            settings.InlineImgs.Add(fullName, $"data:{mime};base64,{Convert.ToBase64String(contents)}");
         }
     }
 }

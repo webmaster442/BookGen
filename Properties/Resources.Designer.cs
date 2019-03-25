@@ -61,6 +61,23 @@ namespace BookGen.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!doctype html&gt;
+        ///&lt;html lang=&quot;en&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot;&gt;
+        ///    &lt;title&gt;Markdown Editor&lt;/title&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://uicdn.toast.com/tui-editor/latest/tui-editor.css&quot;/&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css&quot;/&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css&quot; /&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string editor {
+            get {
+                return ResourceManager.GetString("editor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
@@ -214,6 +231,7 @@ namespace BookGen.Properties {
         ///    &lt;h2&gt;[[0]]&lt;/h2&gt;
         ///    &lt;div class=&quot;form-group&quot;&gt;
         ///        &lt;input type=&quot;text&quot; id=&quot;searchtext&quot; autocomplete=&quot;off&quot; class=&quot;form-control&quot; placeholder=&quot;[[1]]&quot;&gt;
+        ///        &lt;br/&gt;
         ///        &lt;button type=&quot;button&quot; id=&quot;searchbutton&quot; class=&quot;btn btn-primary&quot;&gt;[[2]]&lt;/button&gt;
         ///    &lt;/div&gt;
         ///&lt;/div&gt;
@@ -223,9 +241,8 @@ namespace BookGen.Properties {
         ///
         ///        var html = &quot;&quot;;
         ///        var matches = 0;
-        ///        $(&quot;#searchresults&quot;).html(&quot;&quot;);
-        ///
-        ///        $(&quot;#searchcont [rest of string was truncated]&quot;;.
+        ///        var terms = $(&quot;#searchtext&quot;).val();
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string searchform {
             get {

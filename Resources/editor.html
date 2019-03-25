@@ -1,0 +1,57 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Markdown Editor</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor.css"/>
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+    <script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: whitesmoke;
+        }
+
+        #output {
+            position: fixed;
+            top: 25px;
+            right: 10px;
+            height: 32px;
+            width: 100px;
+        }
+
+        #Title {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="Title">Markdown Editor</h1>
+    <button id="output" onclick="Save()">Save</button>
+
+    <div id="editSection"></div>
+    <script type="text/javascript">
+        var editor = new tui.Editor({
+            el: document.querySelector('#editSection'),
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            height: '90vh'
+        });
+
+        function Save() {
+            var data = editor.getMarkdown();
+            var encoded = window.btoa(data);
+            if (encoded.length > 0) {
+                window.location.href = 'data:text/csv;base64,' + encoded;
+            }
+            else {
+                alert("Document is empty, so It Can't be saved");
+            }
+        }
+
+    </script>
+</body>
+</html>

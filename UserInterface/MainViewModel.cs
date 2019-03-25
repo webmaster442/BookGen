@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain;
 using BookGen.Framework.UI;
 using System;
 using System.Diagnostics;
@@ -26,6 +27,7 @@ namespace BookGen.UserInterface
         public ICommand CreateConfigCommand { get; }
         public ICommand EditConfigCommand { get; }
         public ICommand BuildCommand { get; }
+        public ICommand RunCommand { get; }
 
 
         public MainViewModel()
@@ -34,6 +36,7 @@ namespace BookGen.UserInterface
             CreateConfigCommand = DelegateCommand.CreateCommand(OnCreateConfig, OnCanCreateConfig);
             EditConfigCommand = DelegateCommand.CreateCommand(OnEditConfig, OnCanEditConfig);
             BuildCommand = new DelegateCommand<string>(OnBuild, OnCanBuild);
+            RunCommand = new DelegateCommand<string>(OnRun);
             _workFolder = Environment.CurrentDirectory;
         }
 
@@ -41,6 +44,7 @@ namespace BookGen.UserInterface
         {
             using (var fb = new System.Windows.Forms.FolderBrowserDialog())
             {
+                fb.SelectedPath = _workFolder;
                 if (fb.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     WorkingDirectory = fb.SelectedPath;
@@ -56,8 +60,8 @@ namespace BookGen.UserInterface
 
         private void OnEditConfig(object obj)
         {
-            var configFile = Path.Combine(WorkingDirectory, _configfile);
-            Process.Start("notepad.exe", configFile);
+            ConfigEditor editor = new ConfigEditor(new FsPath(WorkingDirectory).Combine(_configfile));
+            editor.ShowDialog();
         }
 
         private void OnCreateConfig(object obj)
@@ -86,6 +90,20 @@ namespace BookGen.UserInterface
                     FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BookGen.exe"),
                     WorkingDirectory = WorkingDirectory,
                     Arguments = arguments
+                }
+            };
+            p.Start();
+        }
+
+        private void OnRun(string obj)
+        {
+            var file = Environment.ExpandEnvironmentVariables(obj);
+            Process p = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = file,
+                    WorkingDirectory = WorkingDirectory,
                 }
             };
             p.Start();

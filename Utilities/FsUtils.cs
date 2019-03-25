@@ -6,7 +6,6 @@
 using BookGen.Contracts;
 using BookGen.Domain;
 using System.IO;
-using System.Reflection;
 using System.Text;
 
 namespace BookGen.Utilities
@@ -33,15 +32,6 @@ namespace BookGen.Utilities
         {
             if (!Directory.Exists(TargetDir.ToString()))
                 Directory.CreateDirectory(TargetDir.ToString());
-
-            //Now Create all of the directories
-            foreach (string dirPath in Directory.GetDirectories(sourceDirectory.ToString(), "*",
-                SearchOption.AllDirectories))
-            {
-                var targetDir = dirPath.Replace(sourceDirectory.ToString(), TargetDir.ToString());
-                log?.Detail("Creating directory: {0}", targetDir);
-                Directory.CreateDirectory(targetDir);
-            }
 
             //Copy all the files & Replaces any files with the same name
             foreach (string newPath in Directory.GetFiles(sourceDirectory.ToString(), "*.*",

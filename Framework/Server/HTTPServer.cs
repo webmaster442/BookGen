@@ -18,14 +18,16 @@ namespace BookGen.Framework.Server
         private readonly string _path;
         private readonly ILog _log;
         private readonly Thread _server;
+        private readonly IEnumerable<IRequestHandler> _handlers;
         private HttpListener _listener;
 
         public int Port { get; }
 
         public List<string> IndexFiles { get; }
 
-        public HTTPTestServer(string path, int port, ILog log)
+        public HTTPTestServer(string path, int port, ILog log, params IRequestHandler[] handlers)
         {
+            _handlers = handlers;
             IndexFiles = new List<string>
             {
                 "index.html",
@@ -63,26 +65,41 @@ namespace BookGen.Framework.Server
         {
             string filename = context.Request.Url.AbsolutePath;
             _log.Detail("Serving: {0}", filename);
-            filename = filename.Substring(1);
-
-            if (string.IsNullOrEmpty(filename))
-            {
-                filename = GetIndexFile(_path);
-            }
-            else
-            {
-                filename = Path.Combine(_path, filename);
-
-                if (Directory.Exists(filename))
-                    filename = GetIndexFile(filename);
-            }
-
+            bool processed = false;
             try
             {
-                if (File.Exists(filename))
-                    ServeFile(context.Response, filename);
-                else
-                    Serve404(context.Response);
+                if (_handlers != null)
+                {
+                    foreach (var handler in _handlers)
+                    {
+                        if (handler.CanServe(filename))
+                        {
+                            handler.Serve(context.Response);
+                            processed = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!processed)
+                {
+                    filename = filename.Substring(1);
+
+                    if (string.IsNullOrEmpty(filename))
+                        filename = GetIndexFile(_path);
+
+                    else
+                    {
+                        filename = Path.Combine(_path, filename);
+                        if (Directory.Exists(filename))
+                            filename = GetIndexFile(filename);
+                    }
+
+                    if (File.Exists(filename))
+                        ServeFile(context.Response, filename);
+                    else
+                        Serve404(context.Response);
+                }
             }
             catch (Exception ex)
             {
