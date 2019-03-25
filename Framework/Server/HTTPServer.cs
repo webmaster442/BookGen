@@ -10,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace BookGen.Framework.Server
 {
@@ -17,9 +18,10 @@ namespace BookGen.Framework.Server
     {
         private readonly string _path;
         private readonly ILog _log;
-        private readonly Thread _server;
         private readonly IEnumerable<IRequestHandler> _handlers;
         private HttpListener _listener;
+        private Semaphore _sem;
+        private CancellationTokenSource _cts;
 
         public int Port { get; }
 
@@ -27,6 +29,8 @@ namespace BookGen.Framework.Server
 
         public HTTPTestServer(string path, int port, ILog log, params IRequestHandler[] handlers)
         {
+            _sem = new Semaphore(1, 3);
+            _cts = new CancellationTokenSource();
             _handlers = handlers;
             IndexFiles = new List<string>
             {
@@ -38,21 +42,22 @@ namespace BookGen.Framework.Server
             _path = path;
             Port = port;
             _log = log;
-            _server = new Thread(Serve);
-            _server.Start();
-        }
-
-        private void Serve()
-        {
             _listener = new HttpListener();
             _listener.Prefixes.Add("http://localhost:" + Port.ToString() + "/");
             _listener.Start();
+            Task.Run(Serve, _cts.Token);
+        }
+
+        private async Task Serve()
+        {
             while (true)
             {
+                _sem.WaitOne();
                 try
                 {
-                    HttpListenerContext context = _listener.GetContext();
+                    HttpListenerContext context = await _listener.GetContextAsync();
                     Process(context);
+                    _sem.Release();
                 }
                 catch (Exception ex)
                 {
@@ -156,13 +161,22 @@ namespace BookGen.Framework.Server
 
         public void Dispose()
         {
+            if (_cts != null && !_cts.IsCancellationRequested)
+            {
+                _cts.Cancel();
+                _cts.Dispose();
+                _cts = null;
+            }
             if (_listener != null)
             {
                 _listener.Stop();
                 _listener.Close();
-                _server.Abort();
-                _server.Join();
                 _listener = null;
+            }
+            if (_sem != null)
+            {
+                _sem.Dispose();
+                _sem = null;
             }
         }
     }
