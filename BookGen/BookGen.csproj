@@ -123,7 +123,6 @@
     <Compile Include="Utilities\ConsoleExtensions.cs" />
     <Compile Include="Utilities\MarkdownUtils.cs" />
     <Compile Include="Framework\Template.cs" />
-    <Compile Include="Utilities\NativeMethods.cs" />
     <Compile Include="Utilities\TextUtils.cs" />
     <Compile Include="WebsiteBuilder.cs" />
   </ItemGroup>

@@ -5,7 +5,6 @@
 
 using BookGen.Core.Contracts;
 using BookGen.Framework;
-using BookGen.Utilities;
 using System;
 
 namespace BookGen
@@ -20,8 +19,6 @@ namespace BookGen
             using (Log = new Logger())
             {
                 var argumentParser = new GeneratorRunner(args, Log);
-
-                NativeMethods.ShowConsole();
                 argumentParser.RunGenerator();
             }
         }
