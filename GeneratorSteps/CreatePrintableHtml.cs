@@ -6,20 +6,24 @@
 using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Utilities;
-using System;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BookGen.GeneratorSteps
 {
     internal class CreatePrintableHtml : IGeneratorStep
     {
         private StringBuilder _content;
+        private int _index;
+        private Regex _indexExpression;
 
         private const string NewPage = "<p style=\"page-break-before: always\"></p>\r\n";
 
         public CreatePrintableHtml()
         {
             _content = new StringBuilder();
+            _index = 1;
+            _indexExpression = new Regex(@"(\[\^\d+\])", RegexOptions.Compiled);
         }
 
         public void RunStep(GeneratorSettings settings, ILog log)
@@ -29,9 +33,11 @@ namespace BookGen.GeneratorSteps
 
             CreateHeader();
 
+            StringBuilder buffer = new StringBuilder();
+
             foreach (var chapter in settings.TocContents.Chapters)
             {
-                _content.AppendFormat("<h1>{0}</h1>\r\n", chapter);
+                buffer.AppendFormat("<h1>{0}</h1>\r\n\r\n", chapter);
                 foreach (var file in settings.TocContents.GetFilesForChapter(chapter))
                 {
                     log.Detail("Processing file for print output: {0}", file);
@@ -39,16 +45,42 @@ namespace BookGen.GeneratorSteps
 
                     var inputContent = input.ReadFile();
 
-                    var md = MarkdownUtils.Markdown2PrintHTML(inputContent);
-
-                    _content.AppendLine(md);
-                    _content.AppendLine(NewPage);
+                    inputContent = Reindex(inputContent);
+                    buffer.AppendLine(inputContent);
+                    buffer.AppendLine(NewPage);
                 }
             }
+
+            _content.Append(MarkdownUtils.Markdown2PrintHTML(buffer.ToString()));
 
             CreateFooter();
 
             output.WriteFile(_content.ToString());
+        }
+
+        private string Reindex(string inputContent)
+        {
+            int numMatches = _indexExpression.Matches(inputContent).Count;
+
+            if (numMatches < 1)
+                return inputContent;
+
+            inputContent = _indexExpression.Replace(inputContent, "REG$0");
+
+            Regex r = null;
+            for (int i = 0; i<(numMatches / 2); i++)
+            {
+                string expression = $"(REG\\[\\^{i+1}\\])";
+                r = new Regex(expression, RegexOptions.Compiled);
+                if (r.IsMatch(inputContent))
+                {
+                    inputContent = r.Replace(inputContent, $"[^{_index}]");
+                    ++_index;
+                }
+            }
+
+            return inputContent;
+
         }
 
         private void CreateFooter()

@@ -14,7 +14,7 @@ namespace BookGen
         {
             MarkdownPrintModifier.Configuration = configuration;
             AddStep(new GeneratorSteps.CreateOutputDirectory());
-            AddStep(new GeneratorSteps.CopyImagesDirectory());
+            AddStep(new GeneratorSteps.CopyImagesDirectory(false));
             AddStep(new GeneratorSteps.CreatePrintableHtml());
         }
     }

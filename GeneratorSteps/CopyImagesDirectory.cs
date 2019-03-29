@@ -13,10 +13,18 @@ namespace BookGen.GeneratorSteps
 {
     internal class CopyImagesDirectory : IGeneratorStep
     {
+        private readonly bool _inlineEnabled;
+
+        public CopyImagesDirectory(bool inlineEnabled)
+        {
+            _inlineEnabled = inlineEnabled;
+        }
+
         public void RunStep(GeneratorSettings settings, ILog log)
         {
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
-            if (settings.Configruation.InlineImageSizeLimit < 0)
+            if (settings.Configruation.InlineImageSizeLimit < 0 
+                || !_inlineEnabled)
             {
                 log.Info("Copy images to output...");
                 settings.ImageDirectory.CopyDirectory(targetdir, log);
