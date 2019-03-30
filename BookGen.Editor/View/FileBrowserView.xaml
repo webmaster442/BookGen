@@ -51,8 +51,13 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <TreeView
             x:Name="Tree"
+            Grid.Row="0"
             Grid.Column="0"
             ItemsSource="{Binding Directories}">
             <i:Interaction.Triggers>
@@ -82,6 +87,7 @@
             </TreeView.Resources>
         </TreeView>
         <GridSplitter
+            Grid.Row="0"
             Grid.Column="1"
             Width="5"
             HorizontalAlignment="Left"
@@ -89,9 +95,52 @@
             Background="Black"
             ShowsPreview="true" />
         <ListBox
+            Grid.Row="0"
             Grid.Column="2"
             HorizontalContentAlignment="Stretch"
             ItemTemplate="{StaticResource FilesTemplate}"
-            ItemsSource="{Binding Files}" />
+            ItemsSource="{Binding Files}"
+            SelectedItem="{Binding SelectedFile}" />
+        <Grid
+            Grid.Row="1"
+            Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style
+                    BasedOn="{StaticResource {x:Type Button}}"
+                    TargetType="Button">
+                    <Setter Property="Margin" Value="3,2" />
+                    <Setter Property="MinHeight" Value="25" />
+                    <Setter Property="Padding" Value="5,0" />
+                </Style>
+            </Grid.Resources>
+            <StackPanel
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <Button
+                    Command="{Binding CreateFile}"
+                    Content="Create File..." />
+                <Button
+                    Command="{Binding CreateDirectory}"
+                    Content="Create Directory..." />
+                <Separator Width="15" />
+                <Button
+                    Command="{Binding DeleteFile}"
+                    Content="Delete.." />
+                <Button
+                    Command="{Binding RenameFile}"
+                    Content="Rename..." />
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Button Content="Open" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

@@ -64,10 +64,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\TextInput.xaml.cs">
+      <DependentUpon>TextInput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Framework\FileSizeConverter.cs" />
     <Compile Include="Framework\IconConverter.cs" />
     <Compile Include="Model\DirectoryItem.cs" />
     <Compile Include="Model\FileItem.cs" />
+    <Compile Include="Services\ExceptionHandler.cs" />
     <Compile Include="Services\FileSystemServices.cs" />
     <Compile Include="Themes\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Themes\TreeViewItemExtensions.cs" />
@@ -84,6 +88,10 @@
     <Page Include="Dialogs\ConfigEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\TextInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

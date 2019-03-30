@@ -19,6 +19,7 @@ namespace BookGen.Editor.ViewModel
         private string _currentdirectory;
         private string _rootDir;
         private NofityModel _nofityModel;
+        private FileItem _selectedFile;
 
         public FileBrowserViewModel()
         {
@@ -26,26 +27,13 @@ namespace BookGen.Editor.ViewModel
             _nofityModel = new NofityModel();
             _nofityModel.RefreshCurrentDirFiles += _nofityModel_RefreshCurrentDirFiles;
             _nofityModel.RefreshDirectoryTree += _nofityModel_RefreshDirectoryTree;
-        }
 
-        private void _nofityModel_RefreshDirectoryTree(object sender, EventArgs e)
-        {
-            Directories = new ObservableCollection<DirectoryItem>(FileSystemServices.GetDirectories(_rootDir));
-        }
+            CreateFile = new DelegateCommand<string>(OnCreateFile, CanCreate);
+            CreateDirectory = new DelegateCommand<string>(OnCreateDirectory, CanCreate);
+            DeleteFile = DelegateCommand.CreateCommand(OnDeleteFile, IsFileSelected);
+            RenameFile = DelegateCommand.CreateCommand(OnRenameFile, IsFileSelected);
+            OpenFile = DelegateCommand.CreateCommand(OnOpenFile, IsFileSelected);
 
-        private void _nofityModel_RefreshCurrentDirFiles(object sender, EventArgs e)
-        {
-            Files = new ObservableCollection<FileItem>(FileSystemServices.ListDirectory(_currentdirectory));
-        }
-
-        private void OnChangeDir(DirectoryItem obj)
-        {
-            CurrentDirectory = obj.FullPath;
-        }
-
-        private bool CanChangeDir(DirectoryItem obj)
-        {
-            return obj != null;
         }
 
         public void Dispose()
@@ -58,6 +46,11 @@ namespace BookGen.Editor.ViewModel
         }
 
         public ICommand ChangeDirectory { get; }
+        public ICommand CreateFile { get; }
+        public ICommand CreateDirectory { get; }
+        public ICommand DeleteFile { get; }
+        public ICommand RenameFile { get; }
+        public ICommand OpenFile { get; }
 
         public ObservableCollection<DirectoryItem> Directories
         {
@@ -69,6 +62,12 @@ namespace BookGen.Editor.ViewModel
         {
             get { return _files; }
             set { SetValue(ref _files, value); }
+        }
+
+        public FileItem SelectedFile
+        {
+            get { return _selectedFile; }
+            set { SetValue(ref _selectedFile, value); }
         }
 
         public string RootDir
@@ -96,6 +95,64 @@ namespace BookGen.Editor.ViewModel
                     _nofityModel.CurrentDirectory = _currentdirectory;
                 }
             }
+        }
+
+        private void _nofityModel_RefreshDirectoryTree(object sender, EventArgs e)
+        {
+            Directories = new ObservableCollection<DirectoryItem>(FileSystemServices.GetDirectories(_rootDir));
+        }
+
+        private void _nofityModel_RefreshCurrentDirFiles(object sender, EventArgs e)
+        {
+            Files = new ObservableCollection<FileItem>(FileSystemServices.ListDirectory(_currentdirectory));
+        }
+
+        private void OnChangeDir(DirectoryItem obj)
+        {
+            CurrentDirectory = obj.FullPath;
+        }
+
+        private bool CanChangeDir(DirectoryItem obj)
+        {
+            return obj != null;
+        }
+
+        private bool IsFileSelected(object obj)
+        {
+            return SelectedFile != null;
+        }
+
+        private void OnRenameFile(object obj)
+        { 
+            if (SelectedFile == null) return;
+            ExceptionHandler.SafeRun(() => FileSystemServices.RenameFile(SelectedFile.FullPath));
+        }
+
+        private void OnDeleteFile(object obj)
+        {
+            if (SelectedFile == null) return;
+            ExceptionHandler.SafeRun(() => FileSystemServices.DeleteFile(SelectedFile.FullPath));
+        }
+
+        private bool CanCreate(string obj)
+        {
+            return !string.IsNullOrEmpty(CurrentDirectory);
+        }
+
+        private void OnCreateDirectory(string obj)
+        {
+            ExceptionHandler.SafeRun(() => FileSystemServices.CreateFolder(CurrentDirectory));
+        }
+
+        private void OnCreateFile(string obj)
+        {
+            ExceptionHandler.SafeRun(() => FileSystemServices.CreateFile(CurrentDirectory));
+        }
+
+        private void OnOpenFile(object obj)
+        {
+            if (SelectedFile == null) return;
+            ExceptionHandler.SafeRun(() => System.Diagnostics.Process.Start(SelectedFile.FullPath));
         }
     }
 }
