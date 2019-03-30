@@ -39,11 +39,15 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
@@ -68,10 +72,14 @@
     <Compile Include="Dialogs\TextInput.xaml.cs">
       <DependentUpon>TextInput.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditorWindow.xaml.cs">
+      <DependentUpon>EditorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Framework\FileSizeConverter.cs" />
     <Compile Include="Framework\IconConverter.cs" />
     <Compile Include="Model\DirectoryItem.cs" />
     <Compile Include="Model\FileItem.cs" />
+    <Compile Include="Services\EditorServices.cs" />
     <Compile Include="Services\ExceptionHandler.cs" />
     <Compile Include="Services\FileSystemServices.cs" />
     <Compile Include="Themes\LeftMarginMultiplierConverter.cs" />
@@ -91,6 +99,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\TextInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,6 +193,26 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\editor\icons8-right-2-48.png" />
+    <Resource Include="Icons\editor\icons8-save-48.png" />
+    <Resource Include="Icons\editor\icons8-undo-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\editor\icons8-header-1-48.png" />
+    <Resource Include="Icons\editor\icons8-header-2-48.png" />
+    <Resource Include="Icons\editor\icons8-header-3-48.png" />
+    <Resource Include="Icons\editor\icons8-help-48.png" />
+    <Resource Include="Icons\editor\icons8-horizontal-line-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\editor\icons8-exit-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\editor\icons8-copy-48.png" />
+    <Resource Include="Icons\editor\icons8-paste-48.png" />
+    <Resource Include="Icons\editor\icons8-scissors-48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

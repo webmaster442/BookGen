@@ -33,7 +33,7 @@ namespace BookGen.Editor.ViewModel
             DeleteFile = DelegateCommand.CreateCommand(OnDeleteFile, IsFileSelected);
             RenameFile = DelegateCommand.CreateCommand(OnRenameFile, IsFileSelected);
             OpenFile = DelegateCommand.CreateCommand(OnOpenFile, IsFileSelected);
-
+            EditFile = DelegateCommand.CreateCommand(OnEditFile, CanEditFile);
         }
 
         public void Dispose()
@@ -51,6 +51,7 @@ namespace BookGen.Editor.ViewModel
         public ICommand DeleteFile { get; }
         public ICommand RenameFile { get; }
         public ICommand OpenFile { get; }
+        public ICommand EditFile { get; }
 
         public ObservableCollection<DirectoryItem> Directories
         {
@@ -153,6 +154,19 @@ namespace BookGen.Editor.ViewModel
         {
             if (SelectedFile == null) return;
             ExceptionHandler.SafeRun(() => System.Diagnostics.Process.Start(SelectedFile.FullPath));
+        }
+
+        private bool CanEditFile(object obj)
+        {
+            return
+                SelectedFile != null
+                && string.Equals(SelectedFile.FileType, ".md", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void OnEditFile(object obj)
+        {
+            if (SelectedFile == null) return;
+            ExceptionHandler.SafeRun(() => EditorServices.LaunchEditorFor(SelectedFile.FullPath));
         }
     }
 }

@@ -8,11 +8,11 @@ using System.Windows;
 namespace BookGen.Editor
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for EditorWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EditorWindow : Window
     {
-        public MainWindow()
+        public EditorWindow()
         {
             InitializeComponent();
         }
