@@ -12,16 +12,30 @@ using System.Windows.Input;
 
 namespace BookGen.Editor.ViewModel
 {
-    internal class FileBrowserViewModel: ViewModelBase
+    internal sealed class FileBrowserViewModel: ViewModelBase, IDisposable
     {
         private ObservableCollection<FileItem> _files;
         private ObservableCollection<DirectoryItem> _directories;
         private string _currentdirectory;
         private string _rootDir;
+        private NofityModel _nofityModel;
 
         public FileBrowserViewModel()
         {
             ChangeDirectory = new DelegateCommand<DirectoryItem>(OnChangeDir, CanChangeDir);
+            _nofityModel = new NofityModel();
+            _nofityModel.RefreshCurrentDirFiles += _nofityModel_RefreshCurrentDirFiles;
+            _nofityModel.RefreshDirectoryTree += _nofityModel_RefreshDirectoryTree;
+        }
+
+        private void _nofityModel_RefreshDirectoryTree(object sender, EventArgs e)
+        {
+            Directories = new ObservableCollection<DirectoryItem>(FileSystemServices.GetDirectories(_rootDir));
+        }
+
+        private void _nofityModel_RefreshCurrentDirFiles(object sender, EventArgs e)
+        {
+            Files = new ObservableCollection<FileItem>(FileSystemServices.ListDirectory(_currentdirectory));
         }
 
         private void OnChangeDir(DirectoryItem obj)
@@ -32,6 +46,15 @@ namespace BookGen.Editor.ViewModel
         private bool CanChangeDir(DirectoryItem obj)
         {
             return obj != null;
+        }
+
+        public void Dispose()
+        {
+            if (_nofityModel != null)
+            {
+                _nofityModel.Dispose();
+                _nofityModel = null;
+            }
         }
 
         public ICommand ChangeDirectory { get; }
@@ -57,6 +80,7 @@ namespace BookGen.Editor.ViewModel
                 {
                     CurrentDirectory = _rootDir;
                     Directories = new ObservableCollection<DirectoryItem>(FileSystemServices.GetDirectories(_rootDir));
+                    _nofityModel.RootDir = _rootDir;
                 }
             }
         }
@@ -69,6 +93,7 @@ namespace BookGen.Editor.ViewModel
                 if (SetValue(ref _currentdirectory, value))
                 {
                     Files = new ObservableCollection<FileItem>(FileSystemServices.ListDirectory(_currentdirectory));
+                    _nofityModel.CurrentDirectory = _currentdirectory;
                 }
             }
         }

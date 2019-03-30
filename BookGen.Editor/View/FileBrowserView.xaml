@@ -69,6 +69,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Image
                             Width="48"
+                            Margin="2,0"
                             Source="pack://application:,,,/BookGen.Editor;component/Icons/icons8-opened-folder-48.png" />
                         <TextBlock
                             VerticalAlignment="Center"
