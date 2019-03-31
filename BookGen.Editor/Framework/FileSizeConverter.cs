@@ -14,6 +14,11 @@ namespace BookGen.Editor.Framework
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            return GetFileSize(value);
+        }
+
+        public static string GetFileSize(object value)
+        {
             double val = System.Convert.ToDouble(value);
             string unit = "Byte";
             if (val > 1125899906842624)
