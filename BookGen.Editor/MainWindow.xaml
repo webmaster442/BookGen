@@ -9,7 +9,7 @@
     Style="{StaticResource {x:Type Window}}"
     Title="BookGen Editor"
     Width="1024"
-    Height="450"
+    Height="550"
     mc:Ignorable="d">
     <Window.DataContext>
         <viewModel:MainViewModel />

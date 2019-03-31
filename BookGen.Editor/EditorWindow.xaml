@@ -9,6 +9,7 @@
     Title="Editor"
     Width="800"
     Height="450"
+    WindowState="Maximized"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -45,9 +46,9 @@
         <avalonEdit:TextEditor
             Grid.Row="1"
             FontFamily="Consolas"
-            SyntaxHighlighting="Markdown"
+            FontSize="14"
             Foreground="White"
-            FontSize="14"/>
+            SyntaxHighlighting="Markdown" />
         <Fluent:StatusBar Grid.Row="2">
             <TextBlock Text="150 px" />
         </Fluent:StatusBar>
