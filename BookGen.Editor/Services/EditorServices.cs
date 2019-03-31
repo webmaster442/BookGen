@@ -15,11 +15,5 @@ namespace BookGen.Editor.Services
             EditorWindow editor = new EditorWindow();
             editor.Show();
         }
-
-        internal static bool CanEdit(string fullPath)
-        {
-            var ext = Path.GetExtension(fullPath);
-            return string.Equals(".md", ext, StringComparison.OrdinalIgnoreCase);
-        }
     }
 }
