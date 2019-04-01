@@ -102,6 +102,7 @@
     <Compile Include="View\ActionsView.xaml.cs">
       <DependentUpon>ActionsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditorCommand.cs" />
     <Compile Include="View\EditorWrapper.cs" />
     <Compile Include="View\FileBrowserView.xaml.cs">
       <DependentUpon>FileBrowserView.xaml</DependentUpon>
@@ -234,6 +235,10 @@
     <Resource Include="Icons\editor\icons8-scissors-48.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Icons\editor\icons8-bold-48.png" />
+    <Resource Include="Icons\editor\icons8-italic-48.png" />
+    <Resource Include="Icons\editor\icons8-strikethrough-48.png" />
+    <Resource Include="Icons\editor\icons8-underline-48.png" />
     <Content Include="Preview.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

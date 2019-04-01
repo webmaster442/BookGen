@@ -7,10 +7,11 @@ using ICSharpCode.AvalonEdit;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
 
 namespace BookGen.Editor.View
 {
-    public class EditorWrapper: TextEditor, INotifyPropertyChanged
+    internal class EditorWrapper: TextEditor, INotifyPropertyChanged
     {
         public bool ShowTabs
         {
@@ -49,13 +50,32 @@ namespace BookGen.Editor.View
         public static readonly DependencyProperty ShowColumnRulerProperty =
             DependencyProperty.Register("ShowColumnRuler", typeof(bool), typeof(EditorWrapper), new PropertyMetadata(true, ConfigureShow));
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private static void ConfigureShow(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is EditorWrapper editor)
                 SetViewProperties(editor);
         }
+
+        public ICommand WrapWithToken
+        {
+            get { return (ICommand)GetValue(WrapWithTokenProperty); }
+            set { SetValue(WrapWithTokenProperty, value); }
+        }
+
+        public static readonly DependencyProperty WrapWithTokenProperty =
+            DependencyProperty.Register("WrapWithToken", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
+
+        public ICommand InsertToken
+        {
+            get { return (ICommand)GetValue(InsertTokenProperty); }
+            set { SetValue(InsertTokenProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for InsertToken.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty InsertTokenProperty =
+            DependencyProperty.Register("InsertToken", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private static void SetViewProperties(EditorWrapper editor)
         {
@@ -69,11 +89,15 @@ namespace BookGen.Editor.View
         {
             SetViewProperties(this);
             TextChanged += EditorWrapper_TextChanged;
+            WrapWithToken = new EditorCommand(this, true);
+            InsertToken = new EditorCommand(this, false);
         }
 
         private void EditorWrapper_TextChanged(object sender, System.EventArgs e)
         {
-            FirePropertyChange("Text");
+            FirePropertyChange(nameof(Text));
+            FirePropertyChange(nameof(CanUndo));
+            FirePropertyChange(nameof(CanRedo));
         }
 
         private void FirePropertyChange([CallerMemberName]string name = null)

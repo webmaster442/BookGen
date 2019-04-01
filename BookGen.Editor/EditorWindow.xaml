@@ -46,9 +46,43 @@
                         LargeIcon="Icons/editor/icons8-copy-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Headers">
-                    <Fluent:Button Header="H1" LargeIcon="Icons/editor/icons8-header-1-48.png" />
-                    <Fluent:Button Header="H2" LargeIcon="Icons/editor/icons8-header-2-48.png" />
-                    <Fluent:Button Header="H3" LargeIcon="Icons/editor/icons8-header-3-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=InsertToken}"
+                        CommandParameter="#"
+                        Header="H1"
+                        LargeIcon="Icons/editor/icons8-header-1-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=InsertToken}"
+                        CommandParameter="##"
+                        Header="H2"
+                        LargeIcon="Icons/editor/icons8-header-2-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=InsertToken}"
+                        CommandParameter="###"
+                        Header="H3"
+                        LargeIcon="Icons/editor/icons8-header-3-48.png" />
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Formatting">
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=WrapWithToken}"
+                        CommandParameter="**"
+                        Header="Bold"
+                        LargeIcon="Icons/editor/icons8-bold-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=WrapWithToken}"
+                        CommandParameter="*"
+                        Header="Italic"
+                        LargeIcon="Icons/editor/icons8-italic-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=WrapWithToken}"
+                        CommandParameter="__"
+                        Header="Underline"
+                        LargeIcon="Icons/editor/icons8-underline-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=WrapWithToken}"
+                        CommandParameter="~~"
+                        Header="Strikethrough"
+                        LargeIcon="Icons/editor/icons8-strikethrough-48.png" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="View">
