@@ -4,11 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using ICSharpCode.AvalonEdit;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace BookGen.Editor.View
 {
-    public class EditorWrapper: TextEditor
+    public class EditorWrapper: TextEditor, INotifyPropertyChanged
     {
         public bool ShowTabs
         {
@@ -47,15 +49,36 @@ namespace BookGen.Editor.View
         public static readonly DependencyProperty ShowColumnRulerProperty =
             DependencyProperty.Register("ShowColumnRuler", typeof(bool), typeof(EditorWrapper), new PropertyMetadata(true, ConfigureShow));
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private static void ConfigureShow(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is EditorWrapper editor)
-            {
-                editor.Options.ShowEndOfLine = editor.ShowLineEndings;
-                editor.Options.ShowSpaces = editor.ShowSpaces;
-                editor.Options.ShowTabs = editor.ShowTabs;
-                editor.Options.ShowColumnRuler = editor.ShowColumnRuler;
-            }
+                SetViewProperties(editor);
+        }
+
+        private static void SetViewProperties(EditorWrapper editor)
+        {
+            editor.Options.ShowEndOfLine = editor.ShowLineEndings;
+            editor.Options.ShowSpaces = editor.ShowSpaces;
+            editor.Options.ShowTabs = editor.ShowTabs;
+            editor.Options.ShowColumnRuler = editor.ShowColumnRuler;
+        }
+
+        public EditorWrapper(): base()
+        {
+            SetViewProperties(this);
+            TextChanged += EditorWrapper_TextChanged;
+        }
+
+        private void EditorWrapper_TextChanged(object sender, System.EventArgs e)
+        {
+            FirePropertyChange("Text");
+        }
+
+        private void FirePropertyChange([CallerMemberName]string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

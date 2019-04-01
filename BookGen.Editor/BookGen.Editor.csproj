@@ -106,7 +106,9 @@
     <Compile Include="View\FileBrowserView.xaml.cs">
       <DependentUpon>FileBrowserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\WebBrowserBinder.cs" />
+    <Compile Include="View\HTMLView.xaml.cs">
+      <DependentUpon>HTMLView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Dialogs\ConfigEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -145,6 +147,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FileBrowserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HTMLView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -226,6 +232,9 @@
     <Resource Include="Icons\editor\icons8-copy-48.png" />
     <Resource Include="Icons\editor\icons8-paste-48.png" />
     <Resource Include="Icons\editor\icons8-scissors-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Preview.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using Markdig;
-using System;
-using System.IO;
-using System.Text;
 
 namespace BookGen.Editor.Services
 {
@@ -27,13 +24,7 @@ namespace BookGen.Editor.Services
 
         public static string RenderPreview(string inputMd)
         {
-            StringBuilder preview = new StringBuilder();
-
-            preview.Append("<html><head></head><body>");
-            preview.Append(Markdown.ToHtml(inputMd, _previewPipeline));
-            preview.Append("</body></html>");
-
-            return preview.ToString() ;
+            return Markdown.ToHtml(inputMd, _previewPipeline);
         }
     }
 }

@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Fluent="urn:fluent-ribbon"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:framework="clr-namespace:BookGen.Editor.Framework"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="clr-namespace:BookGen.Editor.View"
-    xmlns:framework="clr-namespace:BookGen.Editor.Framework"
     Title="Editor"
     Width="800"
     Height="450"
@@ -20,17 +20,13 @@
         </Grid.RowDefinitions>
         <Fluent:Ribbon Grid.Row="0">
             <Fluent:Ribbon.Menu>
-                <Fluent:Backstage>
+                <Fluent:Backstage IsOpenChanged="Backstage_IsOpenChanged">
                     <Fluent:BackstageTabControl>
                         <Fluent:BackstageTabItem Header="Preview">
-                            <WebBrowser />
+                            <view:HTMLView x:Name="HtmlView" />
                         </Fluent:BackstageTabItem>
-                        <Fluent:Button
-                            Header="Save"
-                            LargeIcon="Icons/editor/icons8-save-48.png" />
-                        <Fluent:Button
-                            Header="Exit"
-                            LargeIcon="Icons/editor/icons8-exit-48.png" />
+                        <Fluent:Button Header="Save" LargeIcon="Icons/editor/icons8-save-48.png" />
+                        <Fluent:Button Header="Exit" LargeIcon="Icons/editor/icons8-exit-48.png" />
                     </Fluent:BackstageTabControl>
                 </Fluent:Backstage>
             </Fluent:Ribbon.Menu>
@@ -50,36 +46,20 @@
                         LargeIcon="Icons/editor/icons8-copy-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Headers">
-                    <Fluent:Button
-                        Header="H1"
-                        LargeIcon="Icons/editor/icons8-header-1-48.png" />
-                    <Fluent:Button
-                        Header="H2"
-                        LargeIcon="Icons/editor/icons8-header-2-48.png" />
-                    <Fluent:Button
-                        Header="H3"
-                        LargeIcon="Icons/editor/icons8-header-3-48.png" />
+                    <Fluent:Button Header="H1" LargeIcon="Icons/editor/icons8-header-1-48.png" />
+                    <Fluent:Button Header="H2" LargeIcon="Icons/editor/icons8-header-2-48.png" />
+                    <Fluent:Button Header="H3" LargeIcon="Icons/editor/icons8-header-3-48.png" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="View">
                 <Fluent:RibbonGroupBox Header="Non visible">
-                    <Fluent:ToggleButton
-                        Header="Line Endings"
-                        IsChecked="{Binding ElementName=Editor, Path=ShowLineEndings}" />
-                    <Fluent:ToggleButton
-                        Header="Whitespace"
-                        IsChecked="{Binding ElementName=Editor, Path=ShowSpaces}" />
-                    <Fluent:ToggleButton
-                        Header="Tab"
-                        IsChecked="{Binding ElementName=Editor, Path=ShowTabs}" />
+                    <Fluent:ToggleButton Header="Line Endings" IsChecked="{Binding ElementName=Editor, Path=ShowLineEndings}" />
+                    <Fluent:ToggleButton Header="Whitespace" IsChecked="{Binding ElementName=Editor, Path=ShowSpaces}" />
+                    <Fluent:ToggleButton Header="Tab" IsChecked="{Binding ElementName=Editor, Path=ShowTabs}" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Other">
-                    <Fluent:ToggleButton
-                        Header="Column Ruler"
-                        IsChecked="{Binding ElementName=Editor, Path=ShowColumnRuler}" />
-                    <Fluent:ToggleButton
-                        Header="Line numbers"
-                        IsChecked="{Binding ElementName=Editor, Path=ShowLineNumbers}" />
+                    <Fluent:ToggleButton Header="Column Ruler" IsChecked="{Binding ElementName=Editor, Path=ShowColumnRuler}" />
+                    <Fluent:ToggleButton Header="Line numbers" IsChecked="{Binding ElementName=Editor, Path=ShowLineNumbers}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
@@ -87,14 +67,13 @@
             x:Name="Editor"
             Grid.Row="1"
             FontFamily="Consolas"
-            FontSize="14"
+            FontSize="22"
             Foreground="White"
             LineNumbersForeground="Yellow"
             ShowLineNumbers="True"
             SyntaxHighlighting="MarkDown" />
         <Fluent:StatusBar Grid.Row="2">
-            <Fluent:StatusBarItem
-                HorizontalAlignment="Right">
+            <Fluent:StatusBarItem Margin="0,0,10,0" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding ElementName=Editor, Path=Text, Converter={framework:EditorInfoConverter}}" />
             </Fluent:StatusBarItem>
         </Fluent:StatusBar>
