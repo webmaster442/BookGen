@@ -79,6 +79,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\InsertPictureDialog.xaml.cs">
+      <DependentUpon>InsertPictureDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\TextInput.xaml.cs">
       <DependentUpon>TextInput.xaml</DependentUpon>
     </Compile>
@@ -113,6 +116,10 @@
     <Page Include="Dialogs\ConfigEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\InsertPictureDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\TextInput.xaml">
       <SubType>Designer</SubType>

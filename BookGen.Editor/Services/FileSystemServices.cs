@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Editor.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 
 namespace BookGen.Editor.Services
@@ -27,6 +29,33 @@ namespace BookGen.Editor.Services
                     LastModified = fi.LastWriteTime
                 };
 
+            }
+        }
+
+        public static IEnumerable<string> GetImagesInWorkDir()
+        {
+            var files = Directory.GetFiles(Environment.CurrentDirectory, "*.*", SearchOption.AllDirectories);
+            var query = from file in files
+                        where
+                             IsImage(file)
+                        select
+                             file;
+
+            return query;
+        }
+
+        private static bool IsImage(string file)
+        {
+            var ext = Path.GetExtension(file).ToLower();
+            switch (ext)
+            {
+                case ".jpg":
+                case ".png":
+                case ".jpeg":
+                case ".gif":
+                    return true;
+                default:
+                    return false;
             }
         }
 

@@ -14,9 +14,7 @@
     WindowStyle="ToolWindow"
     mc:Ignorable="d">
     <Window.Resources>
-        <Style
-            BasedOn="{StaticResource {x:Type Button}}"
-            TargetType="Button">
+        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
             <Setter Property="MinHeight" Value="25" />
             <Setter Property="MinWidth" Value="80" />
             <Setter Property="Margin" Value="3" />
