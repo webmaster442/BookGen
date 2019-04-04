@@ -105,6 +105,11 @@
                         Header="Subscript"
                         LargeIcon="Icons/editor/icons8-subscript-40.png" />
                 </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Link/Image">
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=InsertPicture}"
+                        Header="Insert Image"/>
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="View">
                 <Fluent:RibbonGroupBox Header="Non visible">

@@ -8,6 +8,7 @@
     Width="800"
     Height="450"
     Loaded="Window_Loaded"
+    WindowStartupLocation="CenterScreen"
     Style="{StaticResource {x:Type Window}}"
     WindowStyle="ToolWindow"
     mc:Ignorable="d">
@@ -29,9 +30,10 @@
         </Style>
 
         <DataTemplate x:Key="Images">
-            <StackPanel>
+            <StackPanel Margin="5">
                 <Image
-                    MaxWidth="280"
+                    Stretch="Uniform"
+                    StretchDirection="DownOnly"
                     MaxHeight="280"
                     Margin="3"
                     Source="{Binding}" />
@@ -73,7 +75,13 @@
             x:Name="LocalImages"
             Grid.Row="3"
             Grid.ColumnSpan="2"
-            ItemTemplate="{StaticResource Images}" />
+            ItemTemplate="{StaticResource Images}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
         <StackPanel
             Grid.Row="4"
             Grid.ColumnSpan="2"

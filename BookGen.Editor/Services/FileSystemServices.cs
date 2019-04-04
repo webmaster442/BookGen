@@ -34,7 +34,7 @@ namespace BookGen.Editor.Services
 
         public static IEnumerable<string> GetImagesInWorkDir()
         {
-            var files = Directory.GetFiles(Environment.CurrentDirectory, "*.*", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(App.WorkFolder, "*.*", SearchOption.AllDirectories);
             var query = from file in files
                         where
                              IsImage(file)

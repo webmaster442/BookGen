@@ -94,6 +94,20 @@ namespace BookGen.Editor.View
         public static readonly DependencyProperty RedoCommandProperty =
             DependencyProperty.Register("RedoCommand", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
 
+
+
+        public ICommand InsertPicture
+        {
+            get { return (ICommand)GetValue(InsertPictureProperty); }
+            set { SetValue(InsertPictureProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for InsertPicture.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty InsertPictureProperty =
+            DependencyProperty.Register("InsertPicture", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private static void SetViewProperties(EditorWrapper editor)
@@ -112,6 +126,7 @@ namespace BookGen.Editor.View
             InsertToken = new EditorCommand(this, false);
             UndoCommand = DelegateCommand.CreateCommand(OnUndo, OnCanUndo);
             RedoCommand = DelegateCommand.CreateCommand(OnRedo, OnCanRedo);
+            InsertPicture = new EditorDialogCommand(this, DialogType.InsertPicture);
         }
 
         private void OnRedo(object obj)

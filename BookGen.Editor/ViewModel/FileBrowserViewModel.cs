@@ -81,6 +81,7 @@ namespace BookGen.Editor.ViewModel
                     CurrentDirectory = _rootDir;
                     Directories = new ObservableCollection<DirectoryItem>(FileSystemServices.GetDirectories(_rootDir));
                     _nofityModel.RootDir = _rootDir;
+                    App.WorkFolder = value;
                 }
             }
         }

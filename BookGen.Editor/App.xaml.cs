@@ -12,5 +12,6 @@ namespace BookGen.Editor
     /// </summary>
     public partial class App : Application
     {
+        internal static string WorkFolder { get; set; }
     }
 }
