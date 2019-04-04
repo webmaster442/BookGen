@@ -19,7 +19,7 @@ namespace BookGen.Editor.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -68,8 +68,11 @@ namespace BookGen.Editor.Properties {
         ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
         ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
         ///    &lt;style type=&quot;text/css&quot;&gt;
-        ///        /* PrismJS 1.16.0
-        ///        https://prismjs.com/download.html#themes=prism&amp;languages=markup+css+clike+javascript+abap+abnf+actionscript+ada+apacheconf [rest of string was truncated]&quot;;.
+        ///        body {
+        ///            margin: 5% auto;
+        ///            background: #f2f2f2;
+        ///            color: #444444;
+        ///            font-family: -apple-system, BlinkMac [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Preview {
             get {
