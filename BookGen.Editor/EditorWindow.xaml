@@ -31,6 +31,17 @@
                 </Fluent:Backstage>
             </Fluent:Ribbon.Menu>
             <Fluent:RibbonTabItem Header="Home">
+                    <Fluent:RibbonGroupBox Header="Commands">
+                    <Fluent:Button Header="Save" LargeIcon="Icons/editor/icons8-save-48.png" />
+                    <Fluent:Button
+                            Command="{Binding ElementName=Editor, Path=UndoCommand}"
+                            Header="Undo" 
+                            LargeIcon="Icons/editor/icons8-undo-48.png"/>
+                        <Fluent:Button
+                            Command="{Binding ElementName=Editor, Path=RedoCommand}"
+                            Header="Redo"
+                            LargeIcon="Icons/editor/icons8-right-2-48.png"/>
+                    </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Clipboard">
                     <Fluent:Button
                         Header="Paste"

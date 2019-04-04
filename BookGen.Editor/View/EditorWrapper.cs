@@ -3,7 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Editor.Framework;
 using ICSharpCode.AvalonEdit;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -71,9 +73,26 @@ namespace BookGen.Editor.View
             set { SetValue(InsertTokenProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for InsertToken.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty InsertTokenProperty =
             DependencyProperty.Register("InsertToken", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
+
+        public ICommand UndoCommand
+        {
+            get { return (ICommand)GetValue(UndoCommandProperty); }
+            set { SetValue(UndoCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty UndoCommandProperty =
+            DependencyProperty.Register("UndoCommand", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
+
+        public ICommand RedoCommand
+        { 
+            get { return (ICommand)GetValue(RedoCommandProperty); }
+            set { SetValue(RedoCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty RedoCommandProperty =
+            DependencyProperty.Register("RedoCommand", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -91,6 +110,28 @@ namespace BookGen.Editor.View
             TextChanged += EditorWrapper_TextChanged;
             WrapWithToken = new EditorCommand(this, true);
             InsertToken = new EditorCommand(this, false);
+            UndoCommand = DelegateCommand.CreateCommand(OnUndo, OnCanUndo);
+            RedoCommand = DelegateCommand.CreateCommand(OnRedo, OnCanRedo);
+        }
+
+        private void OnRedo(object obj)
+        {
+            if (CanRedo) Redo();
+        }
+
+        private bool OnCanRedo(object obj)
+        {
+            return CanRedo;
+        }
+
+        private bool OnCanUndo(object obj)
+        {
+            return CanUndo;
+        }
+
+        private void OnUndo(object obj)
+        {
+            if (CanUndo) Undo();
         }
 
         private void EditorWrapper_TextChanged(object sender, System.EventArgs e)
