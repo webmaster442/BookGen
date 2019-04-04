@@ -72,31 +72,57 @@ namespace BookGen.Editor.View
             }
         }
 
+        private bool CanContainTheToken(bool isHtmlToken, string token)
+        {
+            int tokenlen = token.Length * 2;
+
+            if (isHtmlToken)
+                ++tokenlen;
+
+            return (_e.SelectionStart + _e.SelectionLength) >= tokenlen;
+        }
+
+        private string CreateEndToken(string token, bool isHtmlToken)
+        {
+            if (!isHtmlToken) return token;
+            string tag = token.Substring(1, token.Length - 2);
+            return $"</{tag}>";
+        }
+
         private void TokenWrap(string token)
         {
-            if (EditorHasSelection)
+            if (string.IsNullOrEmpty(token))
+                return;
+
+            bool isHtmlToken = token.IndexOf('<') == 0;
+
+            var endTokenStr = CreateEndToken(token, isHtmlToken);
+
+            if (EditorHasSelection && CanContainTheToken(isHtmlToken, token))
             {
+                int endlen = isHtmlToken ? token.Length + 1 : token.Length;
+
                 var starttoken = _e.Document.GetText(_e.SelectionStart, token.Length);
-                var endtoken = _e.Document.GetText(_e.SelectionStart + _e.SelectionLength - token.Length, token.Length);
-                if (starttoken == token && endtoken == token)
+                var endtoken = _e.Document.GetText(_e.SelectionStart + _e.SelectionLength - endlen, endlen);
+
+                if (starttoken == token && endtoken == endTokenStr)
                 {
-                    _e.Document.Remove(_e.SelectionStart + _e.SelectionLength - token.Length, token.Length);
+                    _e.Document.Remove(_e.SelectionStart + _e.SelectionLength - endlen, endlen);
                     _e.Document.Remove(_e.SelectionStart, token.Length);
                     return;
                 }
             }
-
             if (_e.SelectionLength == 0)
             {
                 var newPos = _e.SelectionStart;
-                _e.Document.Insert(_e.SelectionStart, $"{token} {token}");
+                _e.Document.Insert(_e.SelectionStart, $"{token} {endTokenStr}");
                 _e.SelectionStart = newPos + token.Length;
                 _e.SelectionLength = 1;
             }
             else
             {
                 _e.Document.Insert(_e.SelectionStart, token);
-                _e.Document.Insert(_e.SelectionStart + _e.SelectionLength, token);
+                _e.Document.Insert(_e.SelectionStart + _e.SelectionLength, endTokenStr);
             }
         }
     }

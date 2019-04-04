@@ -245,6 +245,8 @@
     <Resource Include="Icons\editor\icons8-italic-48.png" />
     <Resource Include="Icons\editor\icons8-strikethrough-48.png" />
     <Resource Include="Icons\editor\icons8-underline-48.png" />
+    <Resource Include="Icons\editor\icons8-subscript-40.png" />
+    <Resource Include="Icons\editor\icons8-superscript-40.png" />
     <Content Include="Preview.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

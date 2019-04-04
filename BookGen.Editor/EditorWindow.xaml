@@ -83,6 +83,16 @@
                         CommandParameter="~~"
                         Header="Strikethrough"
                         LargeIcon="Icons/editor/icons8-strikethrough-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=WrapWithToken}"
+                        CommandParameter="&#x3C;sup&#x3E;"
+                        Header="Superscript"
+                        LargeIcon="Icons/editor/icons8-superscript-40.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=WrapWithToken}"
+                        CommandParameter="&#x3C;sub&#x3E;"
+                        Header="Subscript"
+                        LargeIcon="Icons/editor/icons8-subscript-40.png" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="View">
