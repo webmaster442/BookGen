@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Framework="clr-namespace:BookGen.Editor.Framework"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:BookGen.Editor.Model"
     d:DesignHeight="450"
@@ -59,14 +58,9 @@
             x:Name="Tree"
             Grid.Row="0"
             Grid.Column="0"
+            Framework:DoubleClickBehaviour.Command="{Binding ChangeDirectory}"
+            Framework:DoubleClickBehaviour.CommandParameter="{Binding ElementName=Tree, Path=SelectedItem}"
             ItemsSource="{Binding Directories}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction
-                        Command="{Binding ChangeDirectory}"
-                        CommandParameter="{Binding ElementName=Tree, Path=SelectedItem}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
             <TreeView.Resources>
                 <HierarchicalDataTemplate
                     DataType="{x:Type model:DirectoryItem}"
