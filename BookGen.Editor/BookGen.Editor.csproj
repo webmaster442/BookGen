@@ -105,7 +105,6 @@
       <DependentUpon>ActionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditorCommand.cs" />
-    <Compile Include="View\EditorDialogCommand.cs" />
     <Compile Include="View\EditorWrapper.cs" />
     <Compile Include="View\FileBrowserView.xaml.cs">
       <DependentUpon>FileBrowserView.xaml</DependentUpon>

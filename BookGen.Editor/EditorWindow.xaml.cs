@@ -3,8 +3,14 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
+using BookGen.Editor.Dialogs;
+using BookGen.Editor.Framework;
 using BookGen.Editor.Services;
+using BookGen.Editor.View;
+using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace BookGen.Editor
 {
@@ -13,15 +19,60 @@ namespace BookGen.Editor
     /// </summary>
     public partial class EditorWindow
     {
-        public EditorWindow()
+        private readonly FsPath _file;
+        private string _fileHash;
+
+        public ICommand SaveCommand { get; }
+        public ICommand InsertPictureCommand { get; }
+
+        public EditorWindow(FsPath file)
         {
             InitializeComponent();
+            DataContext = this;
+            _file = file;
+            Editor.Text = _file.ReadFile();
+            _fileHash = HashUtils.GetSHA1(Editor.Text);
+            SaveCommand = DelegateCommand.CreateCommand(OnSave, OnCanSave);
+            InsertPictureCommand = DelegateCommand.CreateCommand(OnInsertPicture);
+        }
+
+        private void OnInsertPicture(object obj)
+        {
+            var pict = new InsertPictureDialog(_file);
+            if (pict.ShowDialog() == true)
+            {
+                string md = $"![{pict.Alt}]({pict.Url})";
+                Editor.InsertstringAtCaretPos(md);
+            }
+        }
+
+        private bool OnCanSave(object obj)
+        {
+            return _fileHash != HashUtils.GetSHA1(Editor.Text);
+        }
+
+        private void OnSave(object obj)
+        {
+            _file.WriteFile(Editor.Text);
+            _fileHash = HashUtils.GetSHA1(Editor.Text);
         }
 
         private void Backstage_IsOpenChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             string mdHtml = EditorServices.RenderPreview(Editor.Text);
             HtmlView.RenderPartialHtml(mdHtml);
+        }
+
+        private void RibbonWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (HashUtils.GetSHA1(Editor.Text) != _fileHash)
+            {
+                var q = MessageBox.Show("Do you want to save changes?", "Save changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (q == MessageBoxResult.Cancel)
+                    e.Cancel = true;
+                else if (q == MessageBoxResult.Yes)
+                    OnSave(null);
+            }
         }
     }
 }

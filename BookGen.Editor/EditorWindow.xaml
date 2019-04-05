@@ -10,6 +10,7 @@
     Title="Editor"
     Width="800"
     Height="450"
+    Closing="RibbonWindow_Closing"
     WindowState="Maximized"
     mc:Ignorable="d">
     <Grid>
@@ -25,23 +26,31 @@
                         <Fluent:BackstageTabItem Header="Preview">
                             <view:HTMLView x:Name="HtmlView" />
                         </Fluent:BackstageTabItem>
-                        <Fluent:Button Header="Save" LargeIcon="Icons/editor/icons8-save-48.png" />
-                        <Fluent:Button Header="Exit" LargeIcon="Icons/editor/icons8-exit-48.png" />
+                        <Fluent:Button
+                            Command="{Binding SaveCommand}"
+                            Header="Save"
+                            LargeIcon="Icons/editor/icons8-save-48.png" />
+                        <Fluent:Button
+                            Header="Exit"
+                            LargeIcon="Icons/editor/icons8-exit-48.png" />
                     </Fluent:BackstageTabControl>
                 </Fluent:Backstage>
             </Fluent:Ribbon.Menu>
             <Fluent:RibbonTabItem Header="Home">
-                    <Fluent:RibbonGroupBox Header="Commands">
-                    <Fluent:Button Header="Save" LargeIcon="Icons/editor/icons8-save-48.png" />
+                <Fluent:RibbonGroupBox Header="Commands">
                     <Fluent:Button
-                            Command="{Binding ElementName=Editor, Path=UndoCommand}"
-                            Header="Undo" 
-                            LargeIcon="Icons/editor/icons8-undo-48.png"/>
-                        <Fluent:Button
-                            Command="{Binding ElementName=Editor, Path=RedoCommand}"
-                            Header="Redo"
-                            LargeIcon="Icons/editor/icons8-right-2-48.png"/>
-                    </Fluent:RibbonGroupBox>
+                        Command="{Binding SaveCommand}"
+                        Header="Save"
+                        LargeIcon="Icons/editor/icons8-save-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=UndoCommand}"
+                        Header="Undo"
+                        LargeIcon="Icons/editor/icons8-undo-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=RedoCommand}"
+                        Header="Redo"
+                        LargeIcon="Icons/editor/icons8-right-2-48.png" />
+                </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Clipboard">
                     <Fluent:Button
                         Header="Paste"
@@ -107,19 +116,29 @@
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Link/Image">
                     <Fluent:Button
-                        Command="{Binding ElementName=Editor, Path=InsertPicture}"
-                        Header="Insert Image"/>
+                        Command="{Binding InsertPictureCommand}"
+                        Header="Insert Image" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="View">
                 <Fluent:RibbonGroupBox Header="Non visible">
-                    <Fluent:ToggleButton Header="Line Endings" IsChecked="{Binding ElementName=Editor, Path=ShowLineEndings}" />
-                    <Fluent:ToggleButton Header="Whitespace" IsChecked="{Binding ElementName=Editor, Path=ShowSpaces}" />
-                    <Fluent:ToggleButton Header="Tab" IsChecked="{Binding ElementName=Editor, Path=ShowTabs}" />
+                    <Fluent:ToggleButton
+                        Header="Line Endings"
+                        IsChecked="{Binding ElementName=Editor, Path=ShowLineEndings}" />
+                    <Fluent:ToggleButton
+                        Header="Whitespace"
+                        IsChecked="{Binding ElementName=Editor, Path=ShowSpaces}" />
+                    <Fluent:ToggleButton
+                        Header="Tab"
+                        IsChecked="{Binding ElementName=Editor, Path=ShowTabs}" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Other">
-                    <Fluent:ToggleButton Header="Column Ruler" IsChecked="{Binding ElementName=Editor, Path=ShowColumnRuler}" />
-                    <Fluent:ToggleButton Header="Line numbers" IsChecked="{Binding ElementName=Editor, Path=ShowLineNumbers}" />
+                    <Fluent:ToggleButton
+                        Header="Column Ruler"
+                        IsChecked="{Binding ElementName=Editor, Path=ShowColumnRuler}" />
+                    <Fluent:ToggleButton
+                        Header="Line numbers"
+                        IsChecked="{Binding ElementName=Editor, Path=ShowLineNumbers}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
@@ -133,7 +152,9 @@
             ShowLineNumbers="True"
             SyntaxHighlighting="MarkDown" />
         <Fluent:StatusBar Grid.Row="2">
-            <Fluent:StatusBarItem Margin="0,0,10,0" HorizontalAlignment="Right">
+            <Fluent:StatusBarItem
+                Margin="0,0,10,0"
+                HorizontalAlignment="Right">
                 <TextBlock Text="{Binding ElementName=Editor, Path=Text, Converter={framework:EditorInfoConverter}}" />
             </Fluent:StatusBarItem>
         </Fluent:StatusBar>

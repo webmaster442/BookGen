@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
 using Markdig;
 
 namespace BookGen.Editor.Services
@@ -18,7 +19,7 @@ namespace BookGen.Editor.Services
 
         public static void LaunchEditorFor(string file)
         {
-            EditorWindow editor = new EditorWindow();
+            EditorWindow editor = new EditorWindow(new FsPath(file));
             editor.Show();
         }
 

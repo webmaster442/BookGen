@@ -18,10 +18,12 @@ namespace BookGen.Editor.Dialogs
     public partial class InsertPictureDialog : Window
     {
         private ObservableCollection<string> _files;
+        private readonly FsPath _editedFile;
 
-        public InsertPictureDialog()
+        public InsertPictureDialog(FsPath editedFile)
         {
             InitializeComponent();
+            _editedFile = editedFile;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -57,7 +59,7 @@ namespace BookGen.Editor.Dialogs
             if (LocalImages.ItemsSource is ObservableCollection<string> currentItems)
             {
                 FsPath selected = new FsPath(currentItems[LocalImages.SelectedIndex]);
-                TbUrl.Text = selected.GetRelativePathTo(new FsPath(App.WorkFolder)).ToString();
+                TbUrl.Text = selected.GetRelativePathTo(_editedFile).ToString();
             }
         }
 
