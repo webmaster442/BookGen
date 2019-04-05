@@ -78,6 +78,19 @@
             </StackPanel>
         </Button>
         <Button
+            Command="{Binding BuildCommand}"
+            CommandParameter="clean">
+            <StackPanel Orientation="Horizontal">
+                <Image
+                    Height="32"
+                    Source="../Icons/icons8-code-48.png" />
+                <TextBlock
+                    Margin="3,0"
+                    VerticalAlignment="Center"
+                    Text="Clean output directory..." />
+            </StackPanel>
+        </Button>
+        <Button
             Command="{Binding OpenGitBashCommand}">
             <StackPanel Orientation="Horizontal">
                 <Image

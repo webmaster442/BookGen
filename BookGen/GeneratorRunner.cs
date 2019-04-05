@@ -7,6 +7,7 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework.Server;
+using BookGen.GeneratorSteps;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
@@ -39,6 +40,10 @@ namespace BookGen
                 case "build":
                     if (!Initialize()) return;
                     DoBuild();
+                    break;
+                case "clean":
+                    if (!Initialize()) return;
+                    CreateOutputDirectory.CleanDirectory(new FsPath(_cfg.OutputDir), _log);
                     break;
                 case "test":
                     if (!Initialize()) return;
@@ -163,6 +168,7 @@ namespace BookGen
                 Splash.PressKeyToExit();
             }
         }
+
         #endregion
     }
 }

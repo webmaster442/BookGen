@@ -27,7 +27,7 @@ namespace BookGen.GeneratorSteps
             }
         }
 
-        private void CleanDirectory(FsPath outputDirectory, ILog log)
+        public static void CleanDirectory(FsPath outputDirectory, ILog log)
         {
             DirectoryInfo di = new DirectoryInfo(outputDirectory.ToString());
             foreach (var file in di.GetFiles())
