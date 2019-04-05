@@ -6,37 +6,44 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Insert Image"
     Width="800"
-    Height="450"
+    Height="480"
     Loaded="Window_Loaded"
-    WindowStartupLocation="CenterScreen"
+    ResizeMode="NoResize"
     Style="{StaticResource {x:Type Window}}"
+    WindowStartupLocation="CenterScreen"
     WindowStyle="ToolWindow"
     mc:Ignorable="d">
     <Window.Resources>
-        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+        <Style
+            BasedOn="{StaticResource {x:Type Button}}"
+            TargetType="Button">
             <Setter Property="MinHeight" Value="25" />
             <Setter Property="MinWidth" Value="80" />
             <Setter Property="Margin" Value="3" />
         </Style>
 
-        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+        <Style
+            BasedOn="{StaticResource {x:Type TextBlock}}"
+            TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Margin" Value="3" />
             <Setter Property="FontSize" Value="16" />
         </Style>
 
-        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+        <Style
+            BasedOn="{StaticResource {x:Type TextBox}}"
+            TargetType="TextBox">
             <Setter Property="Margin" Value="10,5" />
         </Style>
 
         <DataTemplate x:Key="Images">
             <StackPanel Margin="5">
                 <Image
-                    Stretch="Uniform"
-                    StretchDirection="DownOnly"
                     MaxHeight="280"
                     Margin="3"
-                    Source="{Binding}" />
+                    Source="{Binding}"
+                    Stretch="Uniform"
+                    StretchDirection="DownOnly" />
                 <TextBlock
                     Margin="5,0"
                     VerticalAlignment="Center"
@@ -57,8 +64,12 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" Text="Url: " />
-        <TextBlock Grid.Row="1" Text="alt-text:" />
+        <TextBlock
+            Grid.Row="0"
+            Text="Url: " />
+        <TextBlock
+            Grid.Row="1"
+            Text="alt-text:" />
         <TextBox
             x:Name="TbUrl"
             Grid.Row="0"
@@ -66,7 +77,8 @@
         <TextBox
             x:Name="TbAlt"
             Grid.Row="1"
-            Grid.Column="1" />
+            Grid.Column="1"
+            Text="alt-text" />
         <TextBlock
             Grid.Row="2"
             Grid.ColumnSpan="2"
@@ -75,16 +87,28 @@
             x:Name="LocalImages"
             Grid.Row="3"
             Grid.ColumnSpan="2"
-            ItemTemplate="{StaticResource Images}">
+            ItemTemplate="{StaticResource Images}"
+            SelectionChanged="LocalImages_SelectionChanged">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Horizontal"/>
+                    <VirtualizingStackPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="0"
+            Text="Filter:" />
+        <TextBox
+            x:Name="TbFilter"
+            Grid.Row="4"
+            Grid.Column="1"
+            Width="150"
+            HorizontalAlignment="Left"
+            TextChanged="TbFilter_TextChanged" />
         <StackPanel
             Grid.Row="4"
-            Grid.ColumnSpan="2"
+            Grid.Column="1"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button

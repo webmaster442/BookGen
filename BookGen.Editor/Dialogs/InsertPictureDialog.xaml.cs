@@ -3,9 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
 using BookGen.Editor.Services;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BookGen.Editor.Dialogs
 {
@@ -14,6 +17,8 @@ namespace BookGen.Editor.Dialogs
     /// </summary>
     public partial class InsertPictureDialog : Window
     {
+        private ObservableCollection<string> _files;
+
         public InsertPictureDialog()
         {
             InitializeComponent();
@@ -21,7 +26,8 @@ namespace BookGen.Editor.Dialogs
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LocalImages.ItemsSource = new ObservableCollection<string>(FileSystemServices.GetImagesInWorkDir());
+            _files = new ObservableCollection<string>(FileSystemServices.GetImagesInWorkDir());
+            LocalImages.ItemsSource = _files;
         }
 
         public string Url
@@ -42,6 +48,35 @@ namespace BookGen.Editor.Dialogs
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+        }
+
+        private void LocalImages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LocalImages == null || LocalImages.SelectedIndex < 0) return;
+
+            if (LocalImages.ItemsSource is ObservableCollection<string> currentItems)
+            {
+                FsPath selected = new FsPath(currentItems[LocalImages.SelectedIndex]);
+                TbUrl.Text = selected.GetRelativePathTo(new FsPath(App.WorkFolder)).ToString();
+            }
+        }
+
+        private void TbFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(TbFilter.Text))
+            {
+                LocalImages.ItemsSource = _files;
+                return;
+            }
+
+
+            var filter = from item in _files
+                         where
+                            item.Contains(TbFilter.Text)
+                         select item;
+
+
+            LocalImages.ItemsSource = new ObservableCollection<string>(filter);
         }
     }
 }

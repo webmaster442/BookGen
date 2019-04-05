@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Contracts;
+using System;
 using System.IO;
 using System.Text;
 
@@ -77,6 +78,22 @@ namespace BookGen.Core
         public static string[] GetAllFiles(this FsPath directory)
         {
             return Directory.GetFiles(directory.ToString(), "*.*", SearchOption.AllDirectories);
+        }
+
+        public static FsPath GetRelativePathTo(this FsPath path, FsPath rootdir)
+        {
+            string filespec = path.ToString();
+            string folder = rootdir.ToString();
+
+            Uri pathUri = new Uri(filespec);
+            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            {
+                folder += Path.DirectorySeparatorChar;
+            }
+            Uri folderUri = new Uri(folder);
+
+            var ret = Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+            return new FsPath(ret);
         }
     }
 }
