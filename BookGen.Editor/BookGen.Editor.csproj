@@ -248,6 +248,8 @@
     <Resource Include="Icons\editor\icons8-underline-48.png" />
     <Resource Include="Icons\editor\icons8-subscript-40.png" />
     <Resource Include="Icons\editor\icons8-superscript-40.png" />
+    <Resource Include="Icons\editor\icons8-checked-checkbox-48.png" />
+    <Resource Include="Icons\editor\icons8-unchecked-checkbox-48.png" />
     <Content Include="Preview.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,6 +13,16 @@
     Closing="RibbonWindow_Closing"
     WindowState="Maximized"
     mc:Ignorable="d">
+    <Fluent:RibbonWindow.Resources>
+        <Style TargetType="Fluent:ToggleButton">
+            <Setter Property="LargeIcon" Value="Icons/editor/icons8-unchecked-checkbox-48.png" />
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="LargeIcon" Value="Icons/editor/icons8-checked-checkbox-48.png" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Fluent:RibbonWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
