@@ -20,6 +20,8 @@ namespace BookGen.Editor.Services
             {
                 FileInfo fi = new FileInfo(file);
 
+                if ((fi.Attributes & FileAttributes.Hidden) != 0) continue;
+                
                 yield return new FileItem
                 {
                     FullPath = file,
@@ -65,10 +67,13 @@ namespace BookGen.Editor.Services
 
             foreach (var directory in Directory.GetDirectories(path))
             {
+                DirectoryInfo di = new DirectoryInfo(directory);
+                if ((di.Attributes & FileAttributes.Hidden) != 0) continue;
+
                 DirectoryItem info = new DirectoryItem
                 {
-                    Name = Path.GetFileName(directory),
-                    FullPath = directory,
+                    Name = di.Name,
+                    FullPath = di.FullName,
                     FileCount = Directory.GetFiles(directory).Length,
                     SubDirs = GetDirectories(directory)
                 };
