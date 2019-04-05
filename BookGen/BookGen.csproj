@@ -78,7 +78,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\Server\EditorServe.cs" />
     <Compile Include="Framework\Server\HTTPServer.cs" />
     <Compile Include="Framework\Server\IRequestHandler.cs" />
     <Compile Include="Framework\Server\MimeTypes.cs" />
@@ -133,7 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
-    <Content Include="Resources\editor.html" />
     <Content Include="Resources\Error404.html" />
     <Content Include="Resources\keywords-bash.txt" />
     <Content Include="Resources\keywords-csharp.txt" />

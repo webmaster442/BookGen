@@ -40,10 +40,6 @@ namespace BookGen
                     if (!Initialize()) return;
                     DoBuild();
                     break;
-                case "editor":
-                    if (!Initialize()) return;
-                    DoEditor();
-                    break;
                 case "test":
                     if (!Initialize()) return;
                     DoTest();
@@ -166,20 +162,6 @@ namespace BookGen
                 Process.Start(_cfg.HostName);
                 Splash.PressKeyToExit();
             }
-        }
-
-        private void DoEditor()
-        {
-            _log.Info("Starting Editor...");
-            using (var server = new HTTPTestServer(Environment.CurrentDirectory, 8080, _log, new EditorServe()))
-            {
-                Console.Clear();
-                _log.Info("Editor running on: http://localhost:8080/editor.html");
-                _log.Info("Serving from: {0}", Environment.CurrentDirectory);
-                Process.Start("http://localhost:8080/editor.html");
-                Splash.PressKeyToExit();
-            }
-
         }
         #endregion
     }

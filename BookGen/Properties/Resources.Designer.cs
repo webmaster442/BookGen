@@ -61,23 +61,6 @@ namespace BookGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!doctype html&gt;
-        ///&lt;html lang=&quot;en&quot;&gt;
-        ///&lt;head&gt;
-        ///    &lt;meta charset=&quot;utf-8&quot;&gt;
-        ///    &lt;title&gt;Markdown Editor&lt;/title&gt;
-        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://uicdn.toast.com/tui-editor/latest/tui-editor.css&quot;/&gt;
-        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://uicdn.toast.com/tui-editor/latest/tui-editor-contents.css&quot;/&gt;
-        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css&quot; /&gt;
-        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string editor {
-            get {
-                return ResourceManager.GetString("editor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
