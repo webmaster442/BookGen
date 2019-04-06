@@ -53,7 +53,6 @@ namespace BookGen.Editor.Services
             }
 
             return html;
-
         }
     }
 }

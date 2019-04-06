@@ -154,6 +154,9 @@
                         Header="Find &amp; Replace"
                         Command="{Binding FindReplaceCommand}"
                         LargeIcon="Icons/editor/icons8-find-and-replace-48.png"/>
+                    <Fluent:Button
+                        Header="Reformat table"
+                        Command="{Binding ReformatTableCommand}"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="View">
