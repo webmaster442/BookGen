@@ -7,6 +7,7 @@ using BookGen.Core;
 using BookGen.Editor.Dialogs;
 using BookGen.Editor.Framework;
 using BookGen.Editor.Services;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -22,6 +23,7 @@ namespace BookGen.Editor
 
         public ICommand SaveCommand { get; }
         public ICommand InsertPictureCommand { get; }
+        public ICommand InsertLinkCommand { get; }
 
         public EditorWindow(FsPath file)
         {
@@ -32,6 +34,22 @@ namespace BookGen.Editor
             _fileHash = HashUtils.GetSHA1(Editor.Text);
             SaveCommand = DelegateCommand.CreateCommand(OnSave, OnCanSave);
             InsertPictureCommand = DelegateCommand.CreateCommand(OnInsertPicture);
+            InsertLinkCommand = DelegateCommand.CreateCommand(OnInsertLink);
+        }
+
+        private void OnInsertLink(object obj)
+        {
+            var lnk = new InsertLinkDialog();
+            if (lnk.ShowDialog() == true)
+            {
+                string md = null;
+                if (string.IsNullOrEmpty(lnk.LinkText))
+                    md = lnk.Link;
+                else
+                    md = $"[{lnk.LinkText}]({lnk.Link})";
+
+                Editor.InsertstringAtCaretPos(md);
+            }
         }
 
         private void OnInsertPicture(object obj)

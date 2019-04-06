@@ -123,11 +123,31 @@
                         CommandParameter="&#x3C;sub&#x3E;"
                         Header="Subscript"
                         LargeIcon="Icons/editor/icons8-subscript-40.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=InsertToken}"
+                        CommandParameter="&#x3E;"
+                        Header="Quote"
+                        LargeIcon="Icons/editor/icons8-get-quote-48.png"/>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Lists">
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=ListUnorderedCommand}"
+                        Header="Unordered list"
+                        LargeIcon="Icons/editor/icons8-bulleted-list-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=ListOrderedCommand}"
+                        Header="Ordered list"
+                        LargeIcon="Icons/editor/icons8-numbered-list-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Link/Image">
                     <Fluent:Button
                         Command="{Binding InsertPictureCommand}"
-                        Header="Insert Image" />
+                        Header="Insert Image"
+                        LargeIcon="Icons/editor/icons8-picture-48.png"/>
+                    <Fluent:Button
+                        Command="{Binding InsertLinkCommand}"
+                        Header="Insert Link"
+                        LargeIcon="Icons/editor/icons8-link-48.png"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="View">

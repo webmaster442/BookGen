@@ -95,6 +95,26 @@ namespace BookGen.Editor.View
         public static readonly DependencyProperty RedoCommandProperty =
             DependencyProperty.Register("RedoCommand", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
 
+        public ICommand ListUnorderedCommand
+        {
+            get { return (ICommand)GetValue(ListUnorderedCommandProperty); }
+            set { SetValue(ListUnorderedCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty ListUnorderedCommandProperty =
+            DependencyProperty.Register("ListUnorderedCommand", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
+
+        public ICommand ListOrderedCommand
+        {
+            get { return (ICommand)GetValue(ListOrderedCommandProperty); }
+            set { SetValue(ListOrderedCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty ListOrderedCommandProperty =
+            DependencyProperty.Register("ListOrderedCommand", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private static void SetViewProperties(EditorWrapper editor)
@@ -111,6 +131,8 @@ namespace BookGen.Editor.View
             TextChanged += EditorWrapper_TextChanged;
             WrapWithToken = new EditorCommand(this, true);
             InsertToken = new EditorCommand(this, false);
+            ListOrderedCommand = new EditorListCommand(this, true);
+            ListUnorderedCommand = new EditorListCommand(this, false);
             UndoCommand = DelegateCommand.CreateCommand(OnUndo, OnCanUndo);
             RedoCommand = DelegateCommand.CreateCommand(OnRedo, OnCanRedo);
         }
