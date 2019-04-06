@@ -79,6 +79,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\FindReplaceDialog.xaml.cs">
+      <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\InsertLinkDialog.xaml.cs">
       <DependentUpon>InsertLinkDialog.xaml</DependentUpon>
     </Compile>
@@ -121,6 +124,10 @@
     <Page Include="Dialogs\ConfigEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\FindReplaceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\InsertLinkDialog.xaml">
       <SubType>Designer</SubType>
@@ -264,6 +271,7 @@
     <Resource Include="Icons\editor\icons8-numbered-list-48.png" />
     <Resource Include="Icons\editor\icons8-picture-48.png" />
     <Resource Include="Icons\editor\icons8-get-quote-48.png" />
+    <Resource Include="Icons\editor\icons8-find-and-replace-48.png" />
     <Content Include="Preview.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

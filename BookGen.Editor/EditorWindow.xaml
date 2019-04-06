@@ -149,6 +149,12 @@
                         Header="Insert Link"
                         LargeIcon="Icons/editor/icons8-link-48.png"/>
                 </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Other">
+                    <Fluent:Button
+                        Header="Find &amp; Replace"
+                        Command="{Binding FindReplaceCommand}"
+                        LargeIcon="Icons/editor/icons8-find-and-replace-48.png"/>
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="View">
                 <Fluent:RibbonGroupBox Header="Non visible">
