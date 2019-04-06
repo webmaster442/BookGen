@@ -63,14 +63,20 @@
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Clipboard">
                     <Fluent:Button
+                        Command="ApplicationCommands.Paste"
+                        CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
                         Header="Paste"
                         KeyTip="V"
                         LargeIcon="Icons/editor/icons8-paste-48.png" />
                     <Fluent:Button
+                        Command="ApplicationCommands.Cut"
+                        CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
                         Header="Cut"
                         KeyTip="X"
                         LargeIcon="Icons/editor/icons8-scissors-48.png" />
                     <Fluent:Button
+                        Command="ApplicationCommands.Copy"
+                        CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
                         Header="Copy"
                         KeyTip="C"
                         LargeIcon="Icons/editor/icons8-copy-48.png" />
