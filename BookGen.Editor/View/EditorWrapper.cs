@@ -51,7 +51,7 @@ namespace BookGen.Editor.View
 
         // Using a DependencyProperty as the backing store for ShowColumnRuler.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowColumnRulerProperty =
-            DependencyProperty.Register("ShowColumnRuler", typeof(bool), typeof(EditorWrapper), new PropertyMetadata(true, ConfigureShow));
+            DependencyProperty.Register("ShowColumnRuler", typeof(bool), typeof(EditorWrapper), new PropertyMetadata(false, ConfigureShow));
 
         private static void ConfigureShow(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -105,7 +105,7 @@ namespace BookGen.Editor.View
             editor.Options.ShowColumnRuler = editor.ShowColumnRuler;
         }
 
-        public EditorWrapper(): base()
+        public EditorWrapper() : base()
         {
             SetViewProperties(this);
             TextChanged += EditorWrapper_TextChanged;

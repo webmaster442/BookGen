@@ -7,8 +7,6 @@ using BookGen.Core;
 using BookGen.Editor.Dialogs;
 using BookGen.Editor.Framework;
 using BookGen.Editor.Services;
-using BookGen.Editor.View;
-using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -59,8 +57,11 @@ namespace BookGen.Editor
 
         private void Backstage_IsOpenChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            string mdHtml = EditorServices.RenderPreview(Editor.Text, _file);
-            HtmlView.RenderPartialHtml(mdHtml);
+            ExceptionHandler.SafeRun(() =>
+            {
+                string mdHtml = EditorServices.RenderPreview(Editor.Text, _file);
+                HtmlView.RenderPartialHtml(mdHtml);
+            });
         }
 
         private void RibbonWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

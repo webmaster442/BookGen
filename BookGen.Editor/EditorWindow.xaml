@@ -149,6 +149,9 @@
                     <Fluent:ToggleButton
                         Header="Line numbers"
                         IsChecked="{Binding ElementName=Editor, Path=ShowLineNumbers}" />
+                    <Fluent:ToggleButton
+                        Header="Word Wrap"
+                        IsChecked="{Binding ElementName=Editor, Path=WordWrap}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
@@ -160,6 +163,7 @@
             Foreground="White"
             LineNumbersForeground="Yellow"
             ShowLineNumbers="True"
+            WordWrap="True"
             SyntaxHighlighting="MarkDown" />
         <Fluent:StatusBar Grid.Row="2">
             <Fluent:StatusBarItem
