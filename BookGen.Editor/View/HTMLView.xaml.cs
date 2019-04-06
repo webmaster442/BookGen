@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace BookGen.Editor.View
 {
@@ -16,6 +18,7 @@ namespace BookGen.Editor.View
         public HTMLView()
         {
             InitializeComponent();
+            Browser.Navigating += Browser_Navigating;
         }
 
         public void RenderHTML(string htmlstring)
@@ -36,6 +39,16 @@ namespace BookGen.Editor.View
 
 
             Browser.NavigateToString(full.ToString());
+        }
+
+        private void Browser_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            //Disable links
+            if (e.Uri != null)
+            {
+                MessageBox.Show($"Link to: {e.Uri}", "Links disabled in preview", MessageBoxButton.OK, MessageBoxImage.Information);
+                e.Cancel = true;
+            }
         }
     }
 }

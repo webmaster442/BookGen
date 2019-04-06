@@ -80,10 +80,10 @@ namespace BookGen.Core
             return Directory.GetFiles(directory.ToString(), "*.*", SearchOption.AllDirectories);
         }
 
-        public static FsPath GetRelativePathTo(this FsPath path, FsPath rootdir)
+        public static FsPath GetRelativePathTo(this FsPath path, FsPath file)
         {
             string filespec = path.ToString();
-            string folder = rootdir.ToString();
+            string folder = Path.GetDirectoryName(file.ToString());
 
             Uri pathUri = new Uri(filespec);
             if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
@@ -94,6 +94,19 @@ namespace BookGen.Core
 
             var ret = Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
             return new FsPath(ret);
+        }
+
+        public static FsPath GetAbsolutePathTo(this FsPath path, FsPath file)
+        {
+            string filespec = path.ToString();
+            string folder = Path.GetDirectoryName(file.ToString());
+            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            {
+                folder += Path.DirectorySeparatorChar;
+            }
+
+            Uri pathUri = new Uri(new Uri(folder), filespec);
+            return new FsPath(pathUri.ToString());
         }
     }
 }

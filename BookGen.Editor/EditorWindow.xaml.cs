@@ -59,7 +59,7 @@ namespace BookGen.Editor
 
         private void Backstage_IsOpenChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            string mdHtml = EditorServices.RenderPreview(Editor.Text);
+            string mdHtml = EditorServices.RenderPreview(Editor.Text, _file);
             HtmlView.RenderPartialHtml(mdHtml);
         }
 

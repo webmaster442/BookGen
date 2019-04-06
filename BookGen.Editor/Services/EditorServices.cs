@@ -5,6 +5,9 @@
 
 using BookGen.Core;
 using Markdig;
+using System.IO;
+using System.Web;
+using System.Xml;
 
 namespace BookGen.Editor.Services
 {
@@ -23,9 +26,34 @@ namespace BookGen.Editor.Services
             editor.Show();
         }
 
-        public static string RenderPreview(string inputMd)
+        public static string RenderPreview(string inputMd, FsPath _file)
         {
-            return Markdown.ToHtml(inputMd, _previewPipeline);
+            var html = "<div>" + Markdown.ToHtml(inputMd, _previewPipeline) + "</div>";
+
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(html);
+
+            var images = xml.SelectNodes("//img");
+
+            foreach (XmlNode image in images)
+            {
+                var src = HttpUtility.UrlDecode(image.Attributes["src"].InnerText);
+                var full = new FsPath(src).GetAbsolutePathTo(_file).ToString();
+                image.Attributes["src"].InnerText = full;
+            }
+
+            using (var stringWriter = new StringWriter())
+            {
+                using (var xmlTextWriter = XmlWriter.Create(stringWriter))
+                {
+                    xml.WriteTo(xmlTextWriter);
+                    xmlTextWriter.Flush();
+                    html = stringWriter.ToString();
+                }
+            }
+
+            return html;
+
         }
     }
 }
