@@ -1,4 +1,10 @@
-﻿using ICSharpCode.AvalonEdit.Document;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Editor.Services;
+using ICSharpCode.AvalonEdit.Document;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,9 +138,11 @@ namespace BookGen.Editor.View
                 return;
             }
 
-            var result = ReformatTable(selectedText);
-
-            _editor.Document.Replace(_editor.SelectionStart, _editor.SelectionLength, result, OffsetChangeMappingType.RemoveAndInsert);
+            ExceptionHandler.SafeRun(() =>
+            {
+               var result = ReformatTable(selectedText);
+               _editor.Document.Replace(_editor.SelectionStart, _editor.SelectionLength, result, OffsetChangeMappingType.RemoveAndInsert);
+            });
 
         }
     }
