@@ -212,7 +212,6 @@
             Foreground="White"
             LineNumbersForeground="Yellow"
             ShowLineNumbers="True"
-            SyntaxHighlighting="MarkDown"
             WordWrap="True" />
         <Fluent:StatusBar Grid.Row="2">
             <Fluent:StatusBarItem

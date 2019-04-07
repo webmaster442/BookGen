@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Editor.Framework;
+using BookGen.Editor.Services;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using System;
@@ -11,6 +12,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace BookGen.Editor.View
 {
@@ -128,6 +130,8 @@ namespace BookGen.Editor.View
         public EditorWrapper() : base()
         {
             SetViewProperties(this);
+            SyntaxHighlighting = EditorServices.LoadHighlightingDefinition();
+            TextArea.TextView.LinkTextForegroundBrush = new SolidColorBrush(Color.FromRgb(0x56, 0x9C, 0xD6));
             TextChanged += EditorWrapper_TextChanged;
             WrapWithToken = new EditorCommand(this, true);
             InsertToken = new EditorCommand(this, false);

@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Markdig;
 using System.IO;
+using System.Resources;
 using System.Web;
 using System.Xml;
 
@@ -24,6 +27,19 @@ namespace BookGen.Editor.Services
         {
             EditorWindow editor = new EditorWindow(new FsPath(file));
             editor.Show();
+        }
+
+        public static IHighlightingDefinition LoadHighlightingDefinition()
+        {
+            var resourceName = "BookGen.Editor.MardkownSyntax.xshd";
+            var type = typeof(EditorServices);
+            using (var stream = type.Assembly.GetManifestResourceStream(resourceName))
+            {
+                using (var reader = new XmlTextReader(stream))
+                {
+                    return HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                }
+            }
         }
 
         public static string RenderPreview(string inputMd, FsPath _file)
