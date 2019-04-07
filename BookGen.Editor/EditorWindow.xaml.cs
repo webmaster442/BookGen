@@ -25,7 +25,8 @@ namespace BookGen.Editor
         public ICommand InsertPictureCommand { get; }
         public ICommand InsertLinkCommand { get; }
         public ICommand FindReplaceCommand { get; }
-        public ICommand ReformatTableCommand { get; }
+        public ICommand ReformatTableLeftCommand { get; }
+        public ICommand ReformatTableRightCommand { get; }
 
         public EditorWindow(FsPath file)
         {
@@ -38,7 +39,8 @@ namespace BookGen.Editor
             InsertPictureCommand = DelegateCommand.CreateCommand(OnInsertPicture);
             InsertLinkCommand = DelegateCommand.CreateCommand(OnInsertLink);
             FindReplaceCommand = DelegateCommand.CreateCommand(OnFindReplace);
-            ReformatTableCommand = new View.ReformatTableCommand(Editor);
+            ReformatTableLeftCommand = new View.ReformatTableCommand(Editor, true);
+            ReformatTableRightCommand = new View.ReformatTableCommand(Editor, false);
         }
 
         private void OnFindReplace(object obj)

@@ -273,6 +273,10 @@
     <Resource Include="Icons\editor\icons8-picture-48.png" />
     <Resource Include="Icons\editor\icons8-get-quote-48.png" />
     <Resource Include="Icons\editor\icons8-find-and-replace-48.png" />
+    <Resource Include="Icons\editor\icons8-code-48.png" />
+    <Resource Include="Icons\editor\icons8-data-sheet-48.png" />
+    <Resource Include="Icons\editor\icons8-left-48.png" />
+    <Resource Include="Icons\editor\icons8-right-48.png" />
     <Content Include="Preview.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -133,7 +133,12 @@
                         Command="{Binding ElementName=Editor, Path=InsertToken}"
                         CommandParameter="&#x3E;"
                         Header="Quote"
-                        LargeIcon="Icons/editor/icons8-get-quote-48.png"/>
+                        LargeIcon="Icons/editor/icons8-get-quote-48.png" />
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=WrapWithToken}"
+                        CommandParameter="```"
+                        Header="Code"
+                        LargeIcon="Icons/editor/icons8-code-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Lists">
                     <Fluent:Button
@@ -149,20 +154,29 @@
                     <Fluent:Button
                         Command="{Binding InsertPictureCommand}"
                         Header="Insert Image"
-                        LargeIcon="Icons/editor/icons8-picture-48.png"/>
+                        LargeIcon="Icons/editor/icons8-picture-48.png" />
                     <Fluent:Button
                         Command="{Binding InsertLinkCommand}"
                         Header="Insert Link"
-                        LargeIcon="Icons/editor/icons8-link-48.png"/>
+                        LargeIcon="Icons/editor/icons8-link-48.png" />
                 </Fluent:RibbonGroupBox>
-                <Fluent:RibbonGroupBox Header="Other">
+                <Fluent:RibbonGroupBox Header="Other tools">
                     <Fluent:Button
-                        Header="Find &amp; Replace"
                         Command="{Binding FindReplaceCommand}"
-                        LargeIcon="Icons/editor/icons8-find-and-replace-48.png"/>
-                    <Fluent:Button
-                        Header="Reformat table"
-                        Command="{Binding ReformatTableCommand}"/>
+                        Header="Find &amp; Replace"
+                        LargeIcon="Icons/editor/icons8-find-and-replace-48.png" />
+                    <Fluent:SplitButton
+                        LargeIcon="Icons/editor/icons8-data-sheet-48.png"
+                        Header="Reformat table">
+                        <Fluent:Button
+                            LargeIcon="Icons/editor/icons8-left-48.png"
+                            Command="{Binding ReformatTableLeftCommand}"
+                            Header="Align left" />
+                        <Fluent:Button
+                            LargeIcon="Icons/editor/icons8-right-48.png"
+                            Command="{Binding ReformatTableRightCommand}"
+                            Header="Align right" />
+                    </Fluent:SplitButton>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="View">
@@ -198,8 +212,8 @@
             Foreground="White"
             LineNumbersForeground="Yellow"
             ShowLineNumbers="True"
-            WordWrap="True"
-            SyntaxHighlighting="MarkDown" />
+            SyntaxHighlighting="MarkDown"
+            WordWrap="True" />
         <Fluent:StatusBar Grid.Row="2">
             <Fluent:StatusBarItem
                 Margin="0,0,10,0"

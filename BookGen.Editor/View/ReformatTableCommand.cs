@@ -19,19 +19,16 @@ namespace BookGen.Editor.View
     {
         private readonly EditorWrapper _editor;
         private readonly Regex _tableExpression;
+        private readonly bool _padLeft;
         private const string _tablePattern = @"((?:(?:[^\n]*?\|[^\n]*)\ *)?(?:\r?\n|^))((?:\|\ *(?::?-+:?|::)\ *|\|?(?:\ *(?::?-+:?|::)\ *\|)+)(?:\ *(?::?-+:?|::)\ *)?\ *\r?\n)((?:(?:[^\n]*?\|[^\n]*)\ *(?:\r?\n|$))+)";
 
         public event EventHandler CanExecuteChanged;
 
-        public ReformatTableCommand(EditorWrapper editor)
+        public ReformatTableCommand(EditorWrapper editor, bool padLeft)
         {
             _editor = editor;
+            _padLeft = padLeft;
             _tableExpression = new Regex(_tablePattern, RegexOptions.Compiled);
-        }
-
-        private bool IsTable(string table)
-        {
-            return _tableExpression.IsMatch(table);
         }
 
         public string ReformatTable(string input)
@@ -93,9 +90,14 @@ namespace BookGen.Editor.View
                 }
 
                 result.Append("| ");
+                string padded = null;
                 for (int j=0; j<table[i].Length; ++j)
                 {
-                    var padded = table[i][j].PadRight(padsizes[j]);
+                    if (_padLeft)
+                        padded = table[i][j].PadLeft(padsizes[j]);
+                    else
+                        padded = table[i][j].PadRight(padsizes[j]);
+
                     result.Append(padded);
                     result.Append(" | ");
                 }
@@ -103,15 +105,20 @@ namespace BookGen.Editor.View
                 ++insetedRow;
             }
 
-            return result.ToString();               
+            return result.ToString();   
         }
 
         private void WriteHeaderDivider(StringBuilder result, List<int> padsizes)
         {
             result.Append("| ");
+            string divider = null;
             foreach (var padsize in padsizes)
             {
-                var divider = ":".PadLeft(padsize, '-');
+                if (_padLeft)
+                    divider = ":".PadLeft(padsize, '-');
+                else
+                    divider = ":".PadRight(padsize, '-');
+
                 result.Append(divider);
                 result.Append(" | ");
             }
@@ -120,7 +127,8 @@ namespace BookGen.Editor.View
 
         private bool DividerRow(IEnumerable<string> columns)
         {
-            return columns.Any(column => column.EndsWith("--:"));
+            return columns.Any(column => column.EndsWith("--:")) ||
+                   columns.Any(column => column.StartsWith(":--"));
         }
 
         public bool CanExecute(object parameter)
