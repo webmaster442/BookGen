@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Windows;
+using System.Windows.Input;
 
 namespace BookGen.Editor.Dialogs
 {
@@ -32,6 +33,20 @@ namespace BookGen.Editor.Dialogs
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+        }
+
+        private void TbInput_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                DialogResult = true;
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Escape)
+            {
+                DialogResult = false;
+                e.Handled = true;
+            }
         }
     }
 }

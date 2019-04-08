@@ -8,6 +8,7 @@
     Title="Insert Link"
     Width="400"
     Height="130"
+    FocusManager.FocusedElement="{Binding ElementName=TbLink}"
     Style="{StaticResource {x:Type Window}}"
     WindowStartupLocation="CenterScreen"
     WindowStyle="ToolWindow"
@@ -52,7 +53,8 @@
             x:Name="TbLink"
             Grid.Row="1"
             Grid.Column="1"
-            Margin="5" />
+            Margin="5"
+            Text="https://" />
         <StackPanel
             Grid.Row="3"
             Grid.Column="1"
