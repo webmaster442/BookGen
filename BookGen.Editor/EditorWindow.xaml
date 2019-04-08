@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:framework="clr-namespace:BookGen.Editor.Framework"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:BookGen.Editor.Properties"
     xmlns:view="clr-namespace:BookGen.Editor.View"
     Title="Editor"
     Width="800"
@@ -41,7 +42,7 @@
                         <Fluent:BackstageTabItem Header="Help">
                             <view:HTMLView x:Name="HelpView" />
                         </Fluent:BackstageTabItem>
-                        <Fluent:SeparatorTabItem Header="Separator" />
+                        <Fluent:SeparatorTabItem />
                         <Fluent:Button
                             Command="{Binding SaveCommand}"
                             Header="Save"
@@ -217,8 +218,12 @@
             FontSize="22"
             Foreground="White"
             LineNumbersForeground="Yellow"
-            ShowLineNumbers="True"
-            WordWrap="True" />
+            ShowColumnRuler="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowColumnRuler}"
+            ShowLineEndings="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowLineEndings}"
+            ShowLineNumbers="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowLineNumbers}"
+            ShowSpaces="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowSpaces}"
+            ShowTabs="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowTabs}"
+            WordWrap="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_WordWrap}" />
         <Fluent:StatusBar Grid.Row="2">
             <Fluent:StatusBarItem
                 Margin="0,0,10,0"
