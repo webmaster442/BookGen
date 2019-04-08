@@ -86,7 +86,6 @@ namespace BookGen.Editor.View
                 {
                     WriteHeaderDivider(result, padsizes);
                     ++insetedRow;
-                    continue;
                 }
 
                 result.Append("| ");
@@ -94,9 +93,9 @@ namespace BookGen.Editor.View
                 for (int j=0; j<table[i].Length; ++j)
                 {
                     if (_padLeft)
-                        padded = table[i][j].PadLeft(padsizes[j]);
-                    else
                         padded = table[i][j].PadRight(padsizes[j]);
+                    else
+                        padded = table[i][j].PadLeft(padsizes[j]);
 
                     result.Append(padded);
                     result.Append(" | ");
@@ -115,9 +114,9 @@ namespace BookGen.Editor.View
             foreach (var padsize in padsizes)
             {
                 if (_padLeft)
-                    divider = ":".PadLeft(padsize, '-');
-                else
                     divider = ":".PadRight(padsize, '-');
+                else
+                    divider = ":".PadLeft(padsize, '-');
 
                 result.Append(divider);
                 result.Append(" | ");
