@@ -41,6 +41,7 @@ namespace BookGen.Editor
             FindReplaceCommand = DelegateCommand.CreateCommand(OnFindReplace);
             ReformatTableLeftCommand = new View.ReformatTableCommand(Editor, true);
             ReformatTableRightCommand = new View.ReformatTableCommand(Editor, false);
+            HelpView.RenderPartialHtml(EditorServices.RenderPreview(Properties.Resources.CheatSheet, null));
         }
 
         private void OnFindReplace(object obj)

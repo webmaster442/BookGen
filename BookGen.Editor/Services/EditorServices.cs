@@ -46,6 +46,8 @@ namespace BookGen.Editor.Services
         {
             var html = "<div>" + Markdown.ToHtml(inputMd, _previewPipeline) + "</div>";
 
+            if (_file == null) return html;
+
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(html);
 

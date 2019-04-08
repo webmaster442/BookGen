@@ -39,7 +39,7 @@ namespace BookGen.Core
         public bool Equals(FsPath other)
         {
             return other != null &&
-                   _path == other._path;
+                   _path == other?._path;
         }
 
         public override int GetHashCode()
@@ -54,7 +54,7 @@ namespace BookGen.Core
 
         public static bool operator ==(FsPath path1, FsPath path2)
         {
-            return path1._path == path2._path;
+            return path1?._path == path2?._path;
         }
 
         public static bool operator !=(FsPath path1, FsPath path2)

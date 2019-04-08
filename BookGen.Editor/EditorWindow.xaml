@@ -38,6 +38,9 @@
                         <Fluent:BackstageTabItem Header="Preview">
                             <view:HTMLView x:Name="HtmlView" />
                         </Fluent:BackstageTabItem>
+                        <Fluent:BackstageTabItem Header="Help">
+                            <view:HTMLView x:Name="HelpView" />
+                        </Fluent:BackstageTabItem>
                         <Fluent:SeparatorTabItem Header="Separator" />
                         <Fluent:Button
                             Command="{Binding SaveCommand}"

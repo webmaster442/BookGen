@@ -61,18 +61,77 @@ namespace BookGen.Editor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to # Headings
+        ///
+        ///```
+        ///# H1
+        ///## H2
+        ///### H3
+        ///#### H4
+        ///##### H5
+        ///```
+        ///
+        ///# Formating
+        ///
+        ///```
+        ///**Bold**
+        ///*Italic*
+        ///__Underline__
+        ///~~StrikeTrough~~
+        ///```
+        ///
+        ///# Lists
+        ///
+        ///```
+        ///* Unordered List item 1
+        ///* Unordered List item 2
+        ///* Unordered List item 3
+        ///```
+        ///
+        ///```
+        ///1. List item
+        ///2. List item
+        ///3. List item
+        ///```
+        ///
+        ///# Links
+        ///
+        ///```
+        ///[Link text](http://link.com)
+        ///http://link.com
+        ///```
+        ///
+        ///# Image
+        ///
+        ///```
+        ///![alt-text](http://link.com/image.jpg)
+        ///```
+        ///
+        ///#Table
+        ///
+        ///```
+        ///| Table Column 1 | Table Column 2 | 
+        ///| :------------- | :-------- [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CheatSheet {
+            get {
+                return ResourceManager.GetString("CheatSheet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
         ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
         ///&lt;head&gt;
         ///    &lt;title&gt;Preview&lt;/title&gt;
-        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot;/&gt;
         ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
         ///    &lt;style type=&quot;text/css&quot;&gt;
         ///        body {
         ///            margin: 5% auto;
         ///            background: #f2f2f2;
         ///            color: #444444;
-        ///            font-family: -apple-system, BlinkMac [rest of string was truncated]&quot;;.
+        ///            font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto,  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Preview {
             get {
