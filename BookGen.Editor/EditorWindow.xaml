@@ -15,10 +15,10 @@
     mc:Ignorable="d">
     <Fluent:RibbonWindow.Resources>
         <Style TargetType="Fluent:ToggleButton">
-            <Setter Property="LargeIcon" Value="Icons/editor/icons8-unchecked-checkbox-48.png" />
+            <Setter Property="LargeIcon" Value="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-unchecked-checkbox-48.png" />
             <Style.Triggers>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="LargeIcon" Value="Icons/editor/icons8-checked-checkbox-48.png" />
+                    <Setter Property="LargeIcon" Value="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-checked-checkbox-48.png" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -31,18 +31,21 @@
         </Grid.RowDefinitions>
         <Fluent:Ribbon Grid.Row="0">
             <Fluent:Ribbon.Menu>
-                <Fluent:Backstage IsOpenChanged="Backstage_IsOpenChanged">
+                <Fluent:Backstage
+                    Header="Editor"
+                    IsOpenChanged="Backstage_IsOpenChanged">
                     <Fluent:BackstageTabControl>
                         <Fluent:BackstageTabItem Header="Preview">
                             <view:HTMLView x:Name="HtmlView" />
                         </Fluent:BackstageTabItem>
+                        <Fluent:SeparatorTabItem Header="Separator" />
                         <Fluent:Button
                             Command="{Binding SaveCommand}"
                             Header="Save"
-                            LargeIcon="Icons/editor/icons8-save-48.png" />
+                            LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-save-48.png" />
                         <Fluent:Button
                             Header="Exit"
-                            LargeIcon="Icons/editor/icons8-exit-48.png" />
+                            LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-exit-48.png" />
                     </Fluent:BackstageTabControl>
                 </Fluent:Backstage>
             </Fluent:Ribbon.Menu>
@@ -51,15 +54,15 @@
                     <Fluent:Button
                         Command="{Binding SaveCommand}"
                         Header="Save"
-                        LargeIcon="Icons/editor/icons8-save-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-save-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=UndoCommand}"
                         Header="Undo"
-                        LargeIcon="Icons/editor/icons8-undo-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-undo-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=RedoCommand}"
                         Header="Redo"
-                        LargeIcon="Icons/editor/icons8-right-2-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-right-2-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Clipboard">
                     <Fluent:Button
@@ -67,115 +70,115 @@
                         CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
                         Header="Paste"
                         KeyTip="V"
-                        LargeIcon="Icons/editor/icons8-paste-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-paste-48.png" />
                     <Fluent:Button
                         Command="ApplicationCommands.Cut"
                         CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
                         Header="Cut"
                         KeyTip="X"
-                        LargeIcon="Icons/editor/icons8-scissors-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-scissors-48.png" />
                     <Fluent:Button
                         Command="ApplicationCommands.Copy"
                         CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
                         Header="Copy"
                         KeyTip="C"
-                        LargeIcon="Icons/editor/icons8-copy-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-copy-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Headers">
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=InsertToken}"
                         CommandParameter="#"
                         Header="H1"
-                        LargeIcon="Icons/editor/icons8-header-1-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-header-1-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=InsertToken}"
                         CommandParameter="##"
                         Header="H2"
-                        LargeIcon="Icons/editor/icons8-header-2-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-header-2-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=InsertToken}"
                         CommandParameter="###"
                         Header="H3"
-                        LargeIcon="Icons/editor/icons8-header-3-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-header-3-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Formatting">
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=WrapWithToken}"
                         CommandParameter="**"
                         Header="Bold"
-                        LargeIcon="Icons/editor/icons8-bold-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-bold-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=WrapWithToken}"
                         CommandParameter="*"
                         Header="Italic"
-                        LargeIcon="Icons/editor/icons8-italic-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-italic-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=WrapWithToken}"
                         CommandParameter="__"
                         Header="Underline"
-                        LargeIcon="Icons/editor/icons8-underline-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-underline-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=WrapWithToken}"
                         CommandParameter="~~"
                         Header="Strikethrough"
-                        LargeIcon="Icons/editor/icons8-strikethrough-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-strikethrough-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=WrapWithToken}"
                         CommandParameter="&#x3C;sup&#x3E;"
                         Header="Superscript"
-                        LargeIcon="Icons/editor/icons8-superscript-40.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-superscript-40.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=WrapWithToken}"
                         CommandParameter="&#x3C;sub&#x3E;"
                         Header="Subscript"
-                        LargeIcon="Icons/editor/icons8-subscript-40.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-subscript-40.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=InsertToken}"
                         CommandParameter="&#x3E;"
                         Header="Quote"
-                        LargeIcon="Icons/editor/icons8-get-quote-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-get-quote-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=WrapWithToken}"
                         CommandParameter="```"
                         Header="Code"
-                        LargeIcon="Icons/editor/icons8-code-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-code-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Lists">
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=ListUnorderedCommand}"
                         Header="Unordered list"
-                        LargeIcon="Icons/editor/icons8-bulleted-list-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-bulleted-list-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=ListOrderedCommand}"
                         Header="Ordered list"
-                        LargeIcon="Icons/editor/icons8-numbered-list-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-numbered-list-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Link/Image">
                     <Fluent:Button
                         Command="{Binding InsertPictureCommand}"
                         Header="Insert Image"
-                        LargeIcon="Icons/editor/icons8-picture-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-picture-48.png" />
                     <Fluent:Button
                         Command="{Binding InsertLinkCommand}"
                         Header="Insert Link"
-                        LargeIcon="Icons/editor/icons8-link-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-link-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Other tools">
                     <Fluent:Button
                         Command="{Binding FindReplaceCommand}"
                         Header="Find &amp; Replace"
-                        LargeIcon="Icons/editor/icons8-find-and-replace-48.png" />
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-find-and-replace-48.png" />
                     <Fluent:SplitButton
-                        LargeIcon="Icons/editor/icons8-data-sheet-48.png"
-                        Header="Reformat table">
+                        Header="Reformat table"
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-data-sheet-48.png">
                         <Fluent:Button
-                            LargeIcon="Icons/editor/icons8-left-48.png"
                             Command="{Binding ReformatTableLeftCommand}"
-                            Header="Align left" />
+                            Header="Align left"
+                            LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-left-48.png" />
                         <Fluent:Button
-                            LargeIcon="Icons/editor/icons8-right-48.png"
                             Command="{Binding ReformatTableRightCommand}"
-                            Header="Align right" />
+                            Header="Align right"
+                            LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-right-48.png" />
                     </Fluent:SplitButton>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>

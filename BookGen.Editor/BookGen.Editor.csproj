@@ -100,6 +100,9 @@
     <Compile Include="Framework\IconConverter.cs" />
     <Compile Include="Model\DirectoryItem.cs" />
     <Compile Include="Model\FileItem.cs" />
+    <Compile Include="RibbonMainWindow.xaml.cs">
+      <DependentUpon>RibbonMainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\EditorServices.cs" />
     <Compile Include="Services\ExceptionHandler.cs" />
     <Compile Include="Services\FileSystemServices.cs" />
@@ -109,9 +112,6 @@
     <Compile Include="ViewModel\FileBrowserViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NofityModel.cs" />
-    <Compile Include="View\ActionsView.xaml.cs">
-      <DependentUpon>ActionsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\EditorCommand.cs" />
     <Compile Include="View\EditorListCommand.cs" />
     <Compile Include="View\EditorWrapper.cs" />
@@ -146,10 +146,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -159,17 +155,13 @@
     </Compile>
     <Compile Include="Framework\DelegateCommand.cs" />
     <Compile Include="Framework\ViewModelBase.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="RibbonMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\ActionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FileBrowserView.xaml">
       <SubType>Designer</SubType>
@@ -229,8 +221,7 @@
     <Resource Include="Icons\files\icons8-xml-file-48.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\icons8-code-48.png" />
-    <Resource Include="Icons\icons8-git-48.png" />
+    <Resource Include="Icons\mainwin\icons8-git-48.png" />
     <Resource Include="Icons\icons8-opened-folder-48.png" />
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +269,14 @@
     <Resource Include="Icons\editor\icons8-data-sheet-48.png" />
     <Resource Include="Icons\editor\icons8-left-48.png" />
     <Resource Include="Icons\editor\icons8-right-48.png" />
+    <Resource Include="Icons\mainwin\icons8-open-document-48.png" />
+    <Resource Include="Icons\mainwin\icons8-pencil-48.png" />
+    <Resource Include="Icons\mainwin\icons8-services-48.png" />
+    <Resource Include="Icons\mainwin\icons8-play-48.png" />
+    <Resource Include="Icons\mainwin\icons8-add-folder-48.png" />
+    <Resource Include="Icons\mainwin\icons8-new-file-48.png" />
+    <Resource Include="Icons\mainwin\icons8-delete-bin-48.png" />
+    <Resource Include="Icons\mainwin\icons8-rename-48.png" />
     <Content Include="Preview.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -14,6 +14,7 @@ namespace BookGen.Editor.ViewModel
         public FileBrowserViewModel FileBrowserModel { get; set; }
         public ActionsViewModel Actions { get; set; }
         public ICommand OpenDirectoryCommand { get; }
+        public ICommand OpenInExplorerCommand { get; }
 
         public MainViewModel()
         {
@@ -22,6 +23,15 @@ namespace BookGen.Editor.ViewModel
             FileBrowserModel.RootDir = Environment.CurrentDirectory;
             Actions.RootDir = Environment.CurrentDirectory;
             OpenDirectoryCommand = DelegateCommand.CreateCommand(OnOpenDirectory);
+            OpenInExplorerCommand = DelegateCommand.CreateCommand(OnOpenInExplorer);
+        }
+
+        private void OnOpenInExplorer(object obj)
+        {
+            var p = new System.Diagnostics.Process();
+            p.StartInfo.FileName = "explorer.exe";
+            p.StartInfo.Arguments = FileBrowserModel.RootDir;
+            p.Start();
         }
 
         private void OnOpenDirectory(object obj)

@@ -50,10 +50,6 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
         <TreeView
             x:Name="Tree"
             Grid.Row="0"
@@ -113,35 +109,6 @@
                     <Setter Property="MinWidth" Value="100"/>
                 </Style>
             </Grid.Resources>
-            <StackPanel
-                Grid.Column="0"
-                HorizontalAlignment="Left"
-                Orientation="Horizontal">
-                <Button
-                    Command="{Binding CreateFile}"
-                    Content="Create File..." />
-                <Button
-                    Command="{Binding CreateDirectory}"
-                    Content="Create Directory..." />
-                <Separator Width="15" />
-                <Button
-                    Command="{Binding DeleteFile}"
-                    Content="Delete.." />
-                <Button
-                    Command="{Binding RenameFile}"
-                    Content="Rename..." />
-            </StackPanel>
-            <StackPanel
-                Grid.Column="2"
-                HorizontalAlignment="Right"
-                Orientation="Horizontal">
-                <Button
-                    Command="{Binding OpenFile}"
-                    Content="Open" />
-                <Button
-                    Command="{Binding EditFile}"
-                    Content="Edit" />
-            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

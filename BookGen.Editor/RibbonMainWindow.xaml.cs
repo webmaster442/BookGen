@@ -3,16 +3,14 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Windows;
-
 namespace BookGen.Editor
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for RibbonMainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class RibbonMainWindow
     {
-        public MainWindow()
+        public RibbonMainWindow()
         {
             InitializeComponent();
         }
