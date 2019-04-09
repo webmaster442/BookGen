@@ -184,6 +184,10 @@
                             Header="Align right"
                             LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-right-48.png" />
                     </Fluent:SplitButton>
+                    <Fluent:Button
+                        Command="{Binding ElementName=Editor, Path=ConfigureSpelling}"
+                        Header="Spell settings"
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-spellcheck-48.png" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <Fluent:RibbonTabItem Header="View">

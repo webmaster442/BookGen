@@ -100,9 +100,18 @@ namespace BookGen.Editor
             {
                 var q = MessageBox.Show("Do you want to save changes?", "Save changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                 if (q == MessageBoxResult.Cancel)
+                {
                     e.Cancel = true;
+                    return;
+                }
                 else if (q == MessageBoxResult.Yes)
+                {
                     OnSave(null);
+                }
+            }
+            if (Editor != null)
+            {
+                Editor.Dispose();
             }
         }
     }

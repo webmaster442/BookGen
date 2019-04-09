@@ -7,8 +7,10 @@ using BookGen.Editor.Framework;
 using BookGen.Editor.Services;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
+using NHunspell;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -16,7 +18,7 @@ using System.Windows.Media;
 
 namespace BookGen.Editor.View
 {
-    internal class EditorWrapper: TextEditor, INotifyPropertyChanged
+    internal sealed class EditorWrapper: TextEditor, INotifyPropertyChanged, IDisposable
     {
         public bool ShowTabs
         {
@@ -117,7 +119,20 @@ namespace BookGen.Editor.View
 
 
 
+        public ICommand ConfigureSpelling
+        {
+            get { return (ICommand)GetValue(ConfigureSpellingProperty); }
+            set { SetValue(ConfigureSpellingProperty, value); }
+        }
+
+        public static readonly DependencyProperty ConfigureSpellingProperty =
+            DependencyProperty.Register("ConfigureSpelling", typeof(ICommand), typeof(EditorWrapper), new PropertyMetadata(null));
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private Hunspell _hunspell;
 
         private static void SetViewProperties(EditorWrapper editor)
         {
@@ -132,6 +147,14 @@ namespace BookGen.Editor.View
             SetViewProperties(this);
             SyntaxHighlighting = EditorServices.LoadHighlightingDefinition();
             TextArea.TextView.LinkTextForegroundBrush = new SolidColorBrush(Color.FromRgb(0x56, 0x9C, 0xD6));
+            if (EditorServices.HunspellConfigured())
+            {
+                _hunspell = new Hunspell(Properties.Settings.Default.Editor_AffFile, Properties.Settings.Default.Editor_DictFile);
+                TextArea.TextView.LineTransformers.Add(new SpellingErrorColorizer(this, _hunspell));
+#if DEBUG
+                Debug.WriteLine("Hunspell configured");
+#endif
+            }
             TextChanged += EditorWrapper_TextChanged;
             WrapWithToken = new EditorCommand(this, true);
             InsertToken = new EditorCommand(this, false);
@@ -139,6 +162,13 @@ namespace BookGen.Editor.View
             ListUnorderedCommand = new EditorListCommand(this, false);
             UndoCommand = DelegateCommand.CreateCommand(OnUndo, OnCanUndo);
             RedoCommand = DelegateCommand.CreateCommand(OnRedo, OnCanRedo);
+            ConfigureSpelling = DelegateCommand.CreateCommand(OnConfigureSpelling);
+        }
+
+        private void OnConfigureSpelling(object obj)
+        {
+            var dlg = new Dialogs.SpellSettingsWindow();
+            dlg.ShowDialog();
         }
 
         private void OnRedo(object obj)
@@ -176,6 +206,23 @@ namespace BookGen.Editor.View
         public void InsertstringAtCaretPos(string md)
         {
             Document.Replace(SelectionStart, SelectionLength, md, OffsetChangeMappingType.RemoveAndInsert);
+        }
+
+        public void Dispose()
+        {
+            if (_hunspell != null)
+            {
+                _hunspell.Dispose();
+                _hunspell = null;
+#if DEBUG
+                Debug.WriteLine("Hunspell disposed");
+#endif
+            }
+        }
+
+        ~EditorWrapper()
+        {
+            Dispose();
         }
     }
 }

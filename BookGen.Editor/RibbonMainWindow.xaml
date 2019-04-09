@@ -10,6 +10,7 @@
     Title="BookGen Gui"
     Width="1024"
     Height="576"
+    Closing="RibbonWindow_Closing"
     Style="{StaticResource {x:Type Window}}"
     mc:Ignorable="d">
     <Window.DataContext>

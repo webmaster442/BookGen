@@ -91,6 +91,9 @@
     <Compile Include="Dialogs\InsertPictureDialog.xaml.cs">
       <DependentUpon>InsertPictureDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\SpellSettingsWindow.xaml.cs">
+      <DependentUpon>SpellSettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\TextInput.xaml.cs">
       <DependentUpon>TextInput.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,7 @@
       <DependentUpon>HTMLView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ReformatTableCommand.cs" />
+    <Compile Include="View\SpellingErrorColorizer.cs" />
     <Page Include="Dialogs\ConfigEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -138,6 +142,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\InsertPictureDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SpellSettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -287,6 +295,7 @@
     <None Include="Hunspellx86.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Resource Include="Icons\editor\icons8-spellcheck-48.png" />
     <Content Include="Preview.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

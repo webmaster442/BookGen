@@ -94,5 +94,29 @@ namespace BookGen.Editor.Properties {
                 this["Editor_ShowColumnRuler"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Editor_DictFile {
+            get {
+                return ((string)(this["Editor_DictFile"]));
+            }
+            set {
+                this["Editor_DictFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Editor_AffFile {
+            get {
+                return ((string)(this["Editor_AffFile"]));
+            }
+            set {
+                this["Editor_AffFile"] = value;
+            }
+        }
     }
 }

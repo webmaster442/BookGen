@@ -7,8 +7,10 @@ using BookGen.Core;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Markdig;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Resources;
+using System.Text;
 using System.Web;
 using System.Xml;
 
@@ -71,6 +73,47 @@ namespace BookGen.Editor.Services
             }
 
             return html;
+        }
+
+        public static Dictionary<int, string> GetWords(string line)
+        {
+            var ret = new Dictionary<int, string>();
+            StringBuilder word = new StringBuilder();
+            int wordstart = -1;
+            for (int i=0; i<line.Length; i++)
+            {
+                if ((line[i] == '\t' 
+                    || line[i] == ' ') && word.Length > 0)
+                {
+                    if (word.ToString().Trim().Length > 0)
+                    {
+                        ret.Add(wordstart, word.ToString());
+                        word.Clear();
+                        wordstart = -1;
+                    }
+                }
+                else
+                {
+                    if (wordstart == -1) wordstart = i;
+                    word.Append(line[i]);
+                }
+            }
+            if (wordstart != -1 && word.Length > 0)
+            {
+                ret.Add(wordstart, word.ToString());
+            }
+            return ret;
+        }
+
+        public static bool HunspellConfigured()
+        {
+            if (!File.Exists(Properties.Settings.Default.Editor_AffFile))
+                return false;
+
+            if (!File.Exists(Properties.Settings.Default.Editor_DictFile))
+                return false;
+
+            return true;
         }
     }
 }
