@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="clr-namespace:BookGen.Editor.View"
     xmlns:viewModel="clr-namespace:BookGen.Editor.ViewModel"
+    xmlns:core="clr-namespace:BookGen.Core;assembly=BookGen.Core"
     Title="BookGen Gui"
     Width="1024"
     Height="576"
@@ -88,22 +89,22 @@
                 <Fluent:RibbonGroupBox Header="Build">
                     <Fluent:Button
                         Command="{Binding Actions.BuildCommand}"
-                        CommandParameter="build"
+                        CommandParameter="{x:Static core:KnownArguments.BuildWeb}"
                         Header="Bild website..."
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
                     <Fluent:Button
                         Command="{Binding Actions.BuildCommand}"
-                        CommandParameter="test"
+                        CommandParameter="{x:Static core:KnownArguments.TestWeb}"
                         Header="Bild test website..."
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
                     <Fluent:Button
                         Command="{Binding Actions.BuildCommand}"
-                        CommandParameter="print"
+                        CommandParameter="{x:Static core:KnownArguments.BuildPrint}"
                         Header="Bild print website..."
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
                     <Fluent:Button
                         Command="{Binding Actions.BuildCommand}"
-                        CommandParameter="clean"
+                        CommandParameter="{x:Static core:KnownArguments.Clean}"
                         Header="Clean output directory..."
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
                 </Fluent:RibbonGroupBox>

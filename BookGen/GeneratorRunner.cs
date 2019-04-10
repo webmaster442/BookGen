@@ -43,23 +43,23 @@ namespace BookGen
 
             switch (action.Value)
             {
-                case "buildweb":
+                case KnownArguments.BuildWeb:
                     if (!Initialize(_workdir)) return;
                     DoBuild();
                     break;
-                case "clean":
+                case KnownArguments.Clean:
                     if (!Initialize(_workdir)) return;
                     CreateOutputDirectory.CleanDirectory(new FsPath(_cfg.OutputDir), _log);
                     break;
-                case "testweb":
+                case KnownArguments.TestWeb:
                     if (!Initialize(_workdir)) return;
                     DoTest();
                     break;
-                case "buildprint":
+                case KnownArguments.BuildPrint:
                     if (!Initialize(_workdir)) return;
                     DoPrint();
                     break;
-                case "createconfig":
+                case KnownArguments.CreateConfig:
                     DoCreateConfig();
                     break;
                 default:

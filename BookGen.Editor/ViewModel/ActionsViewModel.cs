@@ -53,7 +53,7 @@ namespace BookGen.Editor.ViewModel
 
         private void OnCreateConfig(object obj)
         {
-            OnBuild("createconfig");
+            OnBuild(KnownArguments.CreateConfig);
         }
 
         private bool OnCanCreateConfig(object obj)
@@ -88,13 +88,15 @@ namespace BookGen.Editor.ViewModel
 
         private void OnBuild(string obj)
         {
+            string args = $"-a {obj} -d \"{RootDir}\"";
+
             Process p = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BookGen.exe"),
                     WorkingDirectory = RootDir,
-                    Arguments = obj
+                    Arguments = args
                 }
             };
             p.Start();
