@@ -13,6 +13,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -155,6 +157,7 @@ namespace BookGen.Editor.View
                 Debug.WriteLine("Hunspell configured");
 #endif
             }
+            ContextMenuOpening += EditorWrapper_ContextMenuOpening;
             TextChanged += EditorWrapper_TextChanged;
             WrapWithToken = new EditorCommand(this, true);
             InsertToken = new EditorCommand(this, false);
@@ -163,6 +166,76 @@ namespace BookGen.Editor.View
             UndoCommand = DelegateCommand.CreateCommand(OnUndo, OnCanUndo);
             RedoCommand = DelegateCommand.CreateCommand(OnRedo, OnCanRedo);
             ConfigureSpelling = DelegateCommand.CreateCommand(OnConfigureSpelling);
+        }
+
+        private string GetWord(out int start, out int end)
+        {
+            var mousePosition = this.GetPositionFromPoint(Mouse.GetPosition(this));
+
+            if (mousePosition == null)
+            {
+                start = -1;
+                end = -1;
+                return string.Empty;
+            }
+
+            var line = mousePosition.Value.Line;
+            var column = mousePosition.Value.Column;
+            var offset = Document.GetOffset(line, column);
+
+            if (offset >= Document.TextLength)
+                offset--;
+
+            int offsetStart = TextUtilities.GetNextCaretPosition(Document, offset, LogicalDirection.Backward, CaretPositioningMode.WordBorder);
+            int offsetEnd = TextUtilities.GetNextCaretPosition(Document, offset, LogicalDirection.Forward, CaretPositioningMode.WordBorder);
+
+            if (offsetEnd == -1 || offsetStart == -1)
+            {
+                start = offsetStart;
+                end = offsetEnd;
+                return string.Empty;
+            }
+
+            var currentChar = Document.GetText(offset, 1);
+
+            if (string.IsNullOrWhiteSpace(currentChar))
+            {
+                start = -1;
+                end = -1;
+                return string.Empty;
+            }
+
+            start = offsetStart;
+            end = offsetEnd;
+            return Document.GetText(offsetStart, offsetEnd - offsetStart);
+        }
+
+        private void EditorWrapper_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var word = GetWord(out int start, out int end);
+            ContextMenu = null;
+            if (string.IsNullOrEmpty(word)) return;
+
+            if (!_hunspell.Spell(word))
+            {
+                ContextMenu = new ContextMenu();
+                foreach (string corrected in _hunspell.Suggest(word))
+                {
+                    var item = new MenuItem { Header = corrected, FontWeight = FontWeights.Bold };
+                    item.Tag = new Tuple<int, int>(start, end);
+                    item.Click += ReplaceWithCorrectWord;
+                    ContextMenu.Items.Add(item);
+                }
+            }
+        }
+
+        private void ReplaceWithCorrectWord(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem item)
+            {
+                var seg = item.Tag as Tuple<int, int>;
+                Document.Replace(seg.Item1, seg.Item2, item.Header.ToString());
+            }
         }
 
         private void OnConfigureSpelling(object obj)
