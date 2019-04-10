@@ -1,0 +1,116 @@
+﻿<Fluent:RibbonWindow
+    x:Class="BookGen.Editor.RibbonMainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Fluent="urn:fluent-ribbon"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:BookGen.Editor.View"
+    xmlns:viewModel="clr-namespace:BookGen.Editor.ViewModel"
+    Title="BookGen Gui"
+    Width="1024"
+    Height="576"
+    Closing="RibbonWindow_Closing"
+    Style="{StaticResource {x:Type Window}}"
+    mc:Ignorable="d">
+    <Window.DataContext>
+        <viewModel:MainViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Fluent:Ribbon Grid.Row="0">
+            <Fluent:RibbonTabItem Header="File Explorer">
+                <Fluent:RibbonGroupBox Header="Working Folder">
+                    <Fluent:TextBox
+                        Width="245"
+                        VerticalAlignment="Center"
+                        Text="{Binding FileBrowserModel.RootDir}" />
+                    <Fluent:Button
+                        Command="{Binding OpenDirectoryCommand}"
+                        Header="Browse..."
+                        Icon="pack://application:,,,/BookGen.Editor;Component/Icons/icons8-opened-folder-48.png"
+                        SizeDefinition="Middle,Small" />
+                    <Fluent:Button
+                        Command="{Binding OpenInExplorerCommand}"
+                        Header="Open in explorer..."
+                        Icon="pack://application:,,,/BookGen.Editor;Component/Icons/icons8-opened-folder-48.png"
+                        SizeDefinition="Middle,Small" />
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="File Commands">
+                    <Fluent:Button
+                        Command="{Binding FileBrowserModel.CreateFile}"
+                        Header="Create File..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-new-file-48.png" />
+                    <Fluent:Button
+                        Command="{Binding FileBrowserModel.CreateDirectory}"
+                        Header="Create Directory..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-add-folder-48.png" />
+                    <Fluent:Button
+                        Command="{Binding FileBrowserModel.DeleteFile}"
+                        Header="Delete.."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-delete-bin-48.png" />
+                    <Fluent:Button
+                        Command="{Binding FileBrowserModel.RenameFile}"
+                        Header="Rename..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-rename-48.png" />
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Editing">
+                    <Fluent:Button
+                        Command="{Binding FileBrowserModel.OpenFile}"
+                        Header="Open"
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-open-document-48.png" />
+                    <Fluent:Button
+                        Command="{Binding FileBrowserModel.EditFile}"
+                        Header="Edit"
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-pencil-48.png" />
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Version control">
+                    <Fluent:Button
+                        Command="{Binding Actions.OpenGitBashCommand}"
+                        Header="Open Git Bash..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-git-48.png" />
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <Fluent:RibbonTabItem Header="BookGen Commands">
+                <Fluent:RibbonGroupBox Header="Config">
+                    <Fluent:Button
+                        Command="{Binding Actions.CreateConfigCommand}"
+                        Header="Create configuration..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-services-48.png" />
+                    <Fluent:Button
+                        Command="{Binding Actions.EditConfigCommand}"
+                        Header="Edit configuration..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-services-48.png" />
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Build">
+                    <Fluent:Button
+                        Command="{Binding Actions.BuildCommand}"
+                        CommandParameter="build"
+                        Header="Bild website..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
+                    <Fluent:Button
+                        Command="{Binding Actions.BuildCommand}"
+                        CommandParameter="test"
+                        Header="Bild test website..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
+                    <Fluent:Button
+                        Command="{Binding Actions.BuildCommand}"
+                        CommandParameter="print"
+                        Header="Bild print website..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
+                    <Fluent:Button
+                        Command="{Binding Actions.BuildCommand}"
+                        CommandParameter="clean"
+                        Header="Clean output directory..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+        </Fluent:Ribbon>
+        <view:FileBrowserView
+            Grid.Row="1"
+            DataContext="{Binding FileBrowserModel}" />
+    </Grid>
+</Fluent:RibbonWindow>

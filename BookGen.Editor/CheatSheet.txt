@@ -1,0 +1,54 @@
+# Headings
+
+```
+# H1
+## H2
+### H3
+#### H4
+##### H5
+```
+
+# Formating
+
+```
+**Bold**
+*Italic*
+__Underline__
+~~StrikeTrough~~
+```
+
+# Lists
+
+```
+* Unordered List item 1
+* Unordered List item 2
+* Unordered List item 3
+```
+
+```
+1. List item
+2. List item
+3. List item
+```
+
+# Links
+
+```
+[Link text](http://link.com)
+http://link.com
+```
+
+# Image
+
+```
+![alt-text](http://link.com/image.jpg)
+```
+
+#Table
+
+```
+| Table Column 1 | Table Column 2 | 
+| :------------- | :------------- | 
+| Row 1 Column 1 | Row 1 Column 2 | 
+| Row 2 Column 1 | Row 2 Column 2 | 
+```

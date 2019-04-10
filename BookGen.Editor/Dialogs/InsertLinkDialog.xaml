@@ -1,0 +1,73 @@
+﻿<Window
+    x:Class="BookGen.Editor.Dialogs.InsertLinkDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:BookGen.Editor.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Insert Link"
+    Width="400"
+    Height="130"
+    FocusManager.FocusedElement="{Binding ElementName=TbLink}"
+    Style="{StaticResource {x:Type Window}}"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style
+            BasedOn="{StaticResource {x:Type Button}}"
+            TargetType="Button">
+            <Setter Property="MinHeight" Value="25" />
+            <Setter Property="MinWidth" Value="80" />
+            <Setter Property="Margin" Value="3" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="3"
+            VerticalAlignment="Center"
+            Text="Link text:" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="3"
+            VerticalAlignment="Center"
+            Text="Link url:" />
+        <TextBox
+            x:Name="TbLinkText"
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5" />
+        <TextBox
+            x:Name="TbLink"
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5"
+            Text="https://" />
+        <StackPanel
+            Grid.Row="3"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Name="BtnInsert"
+                Click="BtnInsert_Click"
+                Content="Insert" />
+            <Button
+                x:Name="BtnCancel"
+                Click="BtnCancel_Click"
+                Content="Cancel" />
+        </StackPanel>
+    </Grid>
+</Window>
