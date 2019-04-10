@@ -15,17 +15,23 @@ namespace BookGen.GeneratorSteps
     internal class CopyImagesDirectory : IGeneratorStep
     {
         private readonly bool _inlineEnabled;
+        private readonly bool _unlimited;
 
-        public CopyImagesDirectory(bool inlineEnabled)
+        public CopyImagesDirectory(bool inlineEnabled, bool unlimitedinline = false)
         {
             _inlineEnabled = inlineEnabled;
+            _unlimited = unlimitedinline;
+
+            if (unlimitedinline && !inlineEnabled)
+                throw new InvalidOperationException("Inline not enabled, but unlimited inline requested");
         }
 
         public void RunStep(GeneratorSettings settings, ILog log)
         {
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
-            if (settings.Configruation.InlineImageSizeLimit < 0 
-                || !_inlineEnabled)
+
+            if (!_inlineEnabled ||
+                (settings.Configruation.InlineImageSizeLimit < 0 && !_unlimited))
             {
                 log.Info("Copy images to output...");
                 settings.ImageDirectory.CopyDirectory(targetdir, log);
@@ -48,7 +54,6 @@ namespace BookGen.GeneratorSteps
                     }
                     else
                     {
-
                         CopyImg(fi.FullName, fi.Name, targetdir);
                     }
                 }
