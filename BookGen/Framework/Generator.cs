@@ -24,20 +24,21 @@ namespace BookGen.Framework
         protected Template Template { get; }
         protected GeneratorContent GeneratorContent { get; }
 
-        public Generator(Config configuration, ILog log)
+        public Generator(string workdir, Config configuration, ILog log)
         {
+            var dir = new FsPath(workdir);
             Settings = new GeneratorSettings
             {
-                SourceDirectory = new FsPath(Environment.CurrentDirectory),
-                OutputDirectory = configuration.OutputDir.ToPath(),
-                ImageDirectory = configuration.ImageDir.ToPath(),
-                Toc = configuration.TOCFile.ToPath(),
+                SourceDirectory = dir,
+                OutputDirectory = dir.Combine(configuration.OutputDir),
+                ImageDirectory = dir.Combine(configuration.ImageDir),
+                Toc = dir.Combine(configuration.TOCFile),
                 Configruation = configuration,
-                TocContents = MarkdownUtils.ParseToc(configuration.TOCFile.ToPath().ReadFile()),
+                TocContents = MarkdownUtils.ParseToc(dir.Combine(configuration.TOCFile).ReadFile()),
                 Metatadas = new Dictionary<string, string>(100),
                 InlineImgs = new Dictionary<string, string>(100)
             };
-            Template = new Template(configuration.Template.ToPath());
+            Template = new Template(dir.Combine(configuration.Template));
             GeneratorContent = new GeneratorContent(configuration);
             _steps = new List<IGeneratorStep>();
             _log = log;

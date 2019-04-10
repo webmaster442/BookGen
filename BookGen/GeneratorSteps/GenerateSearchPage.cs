@@ -64,7 +64,7 @@ namespace BookGen.GeneratorSteps
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
                     log.Detail("Processing file for search index: {0}", link.Link);
-                    var fileContent = link.Link.ToPath().ReadFile();
+                    var fileContent = settings.SourceDirectory.Combine(link.Link).ReadFile();
                     var rendered = MarkdownUtils.Markdown2Plain(fileContent);
 
                     var file = Path.ChangeExtension(link.Link, ".html");

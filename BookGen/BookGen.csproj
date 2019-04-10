@@ -132,6 +132,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Help.txt" />
     <Content Include="Icon.ico" />
     <Content Include="Resources\Error404.html" />
     <Content Include="Resources\keywords-bash.txt" />

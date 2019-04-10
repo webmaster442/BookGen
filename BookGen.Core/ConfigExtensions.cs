@@ -19,13 +19,15 @@ namespace BookGen.Core
             return false;
         }
 
-        public static bool ValidateConfig(this Config config)
+        public static bool ValidateConfig(this Config config, string workdir)
         {
-            if (!config.Template.ToPath().IsExisting)
+            FsPath dir = new FsPath(workdir);
+
+            if (!dir.Combine(config.Template).IsExisting)
                 return PrintError("Missing template file");
-            if (!config.ImageDir.ToPath().IsExisting)
+            if (!dir.Combine(config.ImageDir).IsExisting)
                 return PrintError("Images directory doesn't exist");
-            if (!config.TOCFile.ToPath().IsExisting)
+            if (!dir.Combine(config.TOCFile).IsExisting)
                 return PrintError("TOC file doesn't exit");
 
             return true;

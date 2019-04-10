@@ -91,6 +91,38 @@ namespace BookGen.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BookGen - Markdown to Book tool
+        ///
+        ///Usage: BookGen -a [action] -d [directory]
+        ///
+        ///Supported Actions: -a or --action switch:
+        ///	
+        ///	buildweb
+        ///		Builds website
+        ///
+        ///	testweb
+        ///		Build website with test params &amp; runs it in browser
+        ///
+        ///	buildprint
+        ///		Build printable html
+        ///
+        ///	createconfig
+        ///		Create configuration file in directory, bookgen.json file
+        ///
+        ///	clean
+        ///		Clean output directory (needs valid config)
+        ///
+        ///If no directory parameter is given Current Directory will be used as working directory.
+        ///
+        ///Alternatively the -d pa [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to if
         ///then
         ///else

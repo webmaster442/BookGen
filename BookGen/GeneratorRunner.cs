@@ -18,59 +18,73 @@ namespace BookGen
 {
     internal class GeneratorRunner
     {
-        private readonly string[] _args;
+        private readonly ArgsList _arguments;
         private readonly ILog _log;
         private FsPath _config;
         private Config _cfg;
+        private string _workdir;
 
         public GeneratorRunner(string[] arguments, ILog log)
         {
-            _args = arguments;
+            _arguments = ArgsList.Parse(arguments);
             _log = log;
-            var logfile = Path.Combine(Environment.CurrentDirectory, "bookgen.log");
-            _log.ConfigureFile(logfile);
-            _config = new FsPath(Environment.CurrentDirectory, "bookgen.json");
-
         }
 
         public void RunGenerator()
         {
-            switch (_args[0])
+            var action = _arguments.GetArgument("a", "action");
+            _workdir = _arguments.GetArgument("d", "dir")?.Value;
+
+            if (action == null) RunHelp();
+            if (_workdir == null) _workdir = Environment.CurrentDirectory;
+
+            var logfile = Path.Combine(_workdir, "bookgen.log");
+            _log.ConfigureFile(logfile);
+
+            switch (action.Value)
             {
-                case "build":
-                    if (!Initialize()) return;
+                case "buildweb":
+                    if (!Initialize(_workdir)) return;
                     DoBuild();
                     break;
                 case "clean":
-                    if (!Initialize()) return;
+                    if (!Initialize(_workdir)) return;
                     CreateOutputDirectory.CleanDirectory(new FsPath(_cfg.OutputDir), _log);
                     break;
-                case "test":
-                    if (!Initialize()) return;
+                case "testweb":
+                    if (!Initialize(_workdir)) return;
                     DoTest();
                     break;
-                case "print":
-                    if (!Initialize()) return;
+                case "buildprint":
+                    if (!Initialize(_workdir)) return;
                     DoPrint();
                     break;
                 case "createconfig":
                     DoCreateConfig();
                     break;
                 default:
-                    DoUnknownArgs();
+                    RunHelp();
                     break;
             }
         }
 
+        private void RunHelp()
+        {
+            Console.WriteLine(Properties.Resources.Help);
+            Environment.Exit(1);
+        }
+
         #region Helpers
-        private bool Initialize()
+        private bool Initialize(string workdir)
         {
             Version version = GetVersion();
             Splash.DoSplash();
             _log.Info("BookGen V{0} Starting...", version);
-            _log.Info("Working directory: {0}", Environment.CurrentDirectory);
+            _log.Info("Working directory: {0}", workdir);
             _log.Info("---------------------------------------------------------\n\n");
             int cfgVersion = (version.Major * 100) + version.Minor;
+
+            _config = new FsPath(workdir, "bookgen.json");
 
             if (!_config.IsExisting)
             {
@@ -84,7 +98,7 @@ namespace BookGen
             _log.Detail("Configuration content: {0}", cfgstring);
 
             _cfg = JsonConvert.DeserializeObject<Config>(cfgstring);
-            if (!_cfg.ValidateConfig())
+            if (!_cfg.ValidateConfig(_workdir))
             {
                 PressKeyToExit();
                 return false;
@@ -130,16 +144,10 @@ namespace BookGen
             WriteConfig(_config, Config.Default);
         }
 
-
-        private void DoUnknownArgs()
-        {
-            Console.WriteLine("usage: bookgen.exe [command] [--log]");
-        }
-
         private void DoBuild()
         {
             _log.Info("Building deploy configuration...");
-            WebsiteBuilder builder = new WebsiteBuilder(_cfg);
+            WebsiteBuilder builder = new WebsiteBuilder(_workdir, _cfg, _log);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
@@ -147,7 +155,7 @@ namespace BookGen
         private void DoPrint()
         {
             _log.Info("Building print configuration...");
-            PrintBuilder builder = new PrintBuilder(_cfg);
+            PrintBuilder builder = new PrintBuilder(_workdir, _cfg, _log);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
@@ -156,7 +164,7 @@ namespace BookGen
         {
             _log.Info("Building test configuration...");
             _cfg.HostName = "http://localhost:8080/";
-            WebsiteBuilder builder = new WebsiteBuilder(_cfg);
+            WebsiteBuilder builder = new WebsiteBuilder(_workdir, _cfg, _log);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
             using (var server = new HTTPTestServer(_cfg.OutputDir, 8080, _log))

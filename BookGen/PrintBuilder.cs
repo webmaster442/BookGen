@@ -4,13 +4,14 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Configuration;
+using BookGen.Core.Contracts;
 using BookGen.Framework;
 
 namespace BookGen
 {
     internal class PrintBuilder: Generator
     {
-        public PrintBuilder(Config configuration) : base(configuration, Program.Log)
+        public PrintBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
         {
             MarkdownPrintModifier.Configuration = configuration;
             AddStep(new GeneratorSteps.CreateOutputDirectory());
