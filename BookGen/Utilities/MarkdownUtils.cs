@@ -5,8 +5,6 @@
 
 using BookGen.Core;
 using BookGen.Domain;
-using BookGen.Framework;
-using Markdig;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

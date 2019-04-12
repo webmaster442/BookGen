@@ -167,7 +167,7 @@ namespace BookGen
             WebsiteBuilder builder = new WebsiteBuilder(_workdir, _cfg, _log);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
-            using (var server = new HTTPTestServer(_cfg.OutputDir, 8080, _log))
+            using (var server = new HTTPTestServer(Path.Combine(_workdir, _cfg.OutputDir), 8080, _log))
             {
                 Console.Clear();
                 _log.Info("Test server running on: http://localhost:8080/");
