@@ -106,7 +106,7 @@ namespace BookGen.Core
             }
 
             Uri pathUri = new Uri(new Uri(folder), filespec);
-            return new FsPath(pathUri.ToString());
+            return new FsPath(pathUri.ToString().Replace("file:///", "").Replace("/", "\\"));
         }
     }
 }

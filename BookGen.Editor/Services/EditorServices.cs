@@ -10,7 +10,6 @@ using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Web;
 using System.Xml;
 
 namespace BookGen.Editor.Services
@@ -39,33 +38,7 @@ namespace BookGen.Editor.Services
 
         public static string RenderPreview(string inputMd, FsPath _file)
         {
-            var html = "<div>" + MarkdownRenderers.Markdown2PreviewHtml(inputMd) + "</div>";
-
-            if (_file == null) return html;
-
-            XmlDocument xml = new XmlDocument();
-            xml.LoadXml(html);
-
-            var images = xml.SelectNodes("//img");
-
-            foreach (XmlNode image in images)
-            {
-                var src = HttpUtility.UrlDecode(image.Attributes["src"].InnerText);
-                var full = new FsPath(src).GetAbsolutePathTo(_file).ToString();
-                image.Attributes["src"].InnerText = full;
-            }
-
-            using (var stringWriter = new StringWriter())
-            {
-                using (var xmlTextWriter = XmlWriter.Create(stringWriter))
-                {
-                    xml.WriteTo(xmlTextWriter);
-                    xmlTextWriter.Flush();
-                    html = stringWriter.ToString();
-                }
-            }
-
-            return html;
+            return MarkdownRenderers.Markdown2PreviewHtml(inputMd, _file);
         }
 
         public static Dictionary<int, string> GetWords(string line)

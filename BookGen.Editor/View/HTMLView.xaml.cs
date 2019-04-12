@@ -24,7 +24,7 @@ namespace BookGen.Editor.View
         private void Browser_NavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e)
         {
             //Disable links
-            if (e.Uri != null)
+            if (e.Uri != null && e.Uri.AbsoluteUri != "about:blank")
             {
                 MessageBox.Show($"Link to: {e.Uri}", "Links disabled in preview", MessageBoxButton.OK, MessageBoxImage.Information);
                 e.Cancel = true;
