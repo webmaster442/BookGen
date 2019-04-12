@@ -7,6 +7,7 @@ using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
+using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
@@ -61,7 +62,7 @@ namespace BookGen.GeneratorSteps
             var inputContent = input.ReadFile();
 
             Content.Title = MarkdownUtils.GetTitle(inputContent);
-            Content.Content = MarkdownUtils.Markdown2WebHTML(inputContent);
+            Content.Content = MarkdownRenderers.Markdown2WebHTML(inputContent, settings);
             var html = Template.ProcessTemplate(Content);
             output.WriteFile(html);
         }

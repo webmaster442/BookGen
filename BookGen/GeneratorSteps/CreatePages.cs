@@ -10,6 +10,7 @@ using BookGen.Framework;
 using BookGen.Utilities;
 using System.IO;
 using BookGen.Core;
+using BookGen.Core.Markdown;
 
 namespace BookGen.GeneratorSteps
 {
@@ -30,7 +31,7 @@ namespace BookGen.GeneratorSteps
                 var inputContent = input.ReadFile();
 
                 Content.Title = MarkdownUtils.GetTitle(inputContent);
-                Content.Content = MarkdownUtils.Markdown2WebHTML(inputContent);
+                Content.Content = MarkdownRenderers.Markdown2WebHTML(inputContent, settings);
                 Content.Metadata = settings.MetataCache[file];
 
                 var html = Template.ProcessTemplate(Content);

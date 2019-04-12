@@ -13,8 +13,6 @@ namespace BookGen
     {
         public WebsiteBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
         {
-            MarkdownModifier.Settings = Settings;
-
             /*if (menuPath.IsExisting)
             {
                 var menuItems = JsonConvert.DeserializeObject<List<HeaderMenuItem>>(menuPath.ReadFile());

@@ -6,6 +6,7 @@
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Contracts;
+using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Utilities;
 using System.Text;
@@ -25,7 +26,7 @@ namespace BookGen.GeneratorSteps
                     var title = $"{settings.Configruation.Metadata.Title} - {link.DisplayString}";
                     var file = settings.SourceDirectory.Combine(link.Link);
 
-                    var description = MarkdownUtils.Markdown2Plain(file.ReadFile()).Replace('\n', ' ').Trim();
+                    var description = MarkdownRenderers.Markdown2Plain(file.ReadFile()).Replace('\n', ' ').Trim();
                     var limit = description.Length < 190 ? description.Length : 190;
                     description = description.Substring(0, limit) + "...";
 

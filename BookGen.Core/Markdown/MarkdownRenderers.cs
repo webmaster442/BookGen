@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Configuration;
+using BookGen.Core.Contracts;
 using BookGen.Core.Markdown.Pipeline;
 using Markdig;
 
@@ -16,7 +18,7 @@ namespace BookGen.Core.Markdown
 
         static MarkdownRenderers()
         {
-            _plainpipeline = new MarkdownPipelineBuilder().Use<WebModifier>().Build();
+            _plainpipeline = new MarkdownPipelineBuilder().Build();
             _webpipeline = new MarkdownPipelineBuilder().Use<WebModifier>().UseAdvancedExtensions().Build();
             _printpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
         }
@@ -26,8 +28,9 @@ namespace BookGen.Core.Markdown
         /// </summary>
         /// <param name="md">Markdown input string</param>
         /// <returns>html page</returns>
-        public static string Markdown2WebHTML(string md)
+        public static string Markdown2WebHTML(string md, IReadonlyRuntimeSettings settings)
         {
+            WebModifier.RuntimeConfig = settings;
             return Markdig.Markdown.ToHtml(md, _webpipeline);
         }
 
@@ -41,8 +44,9 @@ namespace BookGen.Core.Markdown
             return Markdig.Markdown.ToPlainText(md, _plainpipeline);
         }
 
-        public static string Markdown2PrintHTML(string md)
+        public static string Markdown2PrintHTML(string md, Config configuration)
         {
+            PrintModifier.Configuration = configuration;
             return Markdig.Markdown.ToHtml(md, _printpipeline);
         }
     }

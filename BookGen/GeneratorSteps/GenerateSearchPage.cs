@@ -6,6 +6,7 @@
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Contracts;
+using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
@@ -65,7 +66,7 @@ namespace BookGen.GeneratorSteps
                 {
                     log.Detail("Processing file for search index: {0}", link.Link);
                     var fileContent = settings.SourceDirectory.Combine(link.Link).ReadFile();
-                    var rendered = MarkdownUtils.Markdown2Plain(fileContent);
+                    var rendered = MarkdownRenderers.Markdown2Plain(fileContent);
 
                     var file = Path.ChangeExtension(link.Link, ".html");
                     var fullpath = $"{settings.Configruation.HostName}{file}";

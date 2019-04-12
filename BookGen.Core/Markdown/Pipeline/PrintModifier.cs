@@ -36,7 +36,7 @@ namespace BookGen.Core.Markdown.Pipeline
                 htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
 
 
-            //htmlRenderer.ObjectRenderers.AddIfNotAlready(new PrintSyntaxHiglighter(originalCodeBlockRenderer));
+            htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer));
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)

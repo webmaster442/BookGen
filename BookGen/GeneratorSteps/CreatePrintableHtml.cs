@@ -10,6 +10,7 @@ using BookGen.Utilities;
 using System.Text;
 using System.Text.RegularExpressions;
 using BookGen.Core;
+using BookGen.Core.Markdown;
 
 namespace BookGen.GeneratorSteps
 {
@@ -53,7 +54,7 @@ namespace BookGen.GeneratorSteps
                 }
             }
 
-            _content.Append(MarkdownUtils.Markdown2PrintHTML(buffer.ToString()));
+            _content.Append(MarkdownRenderers.Markdown2PrintHTML(buffer.ToString(), settings.Configruation));
 
             CreateFooter();
 

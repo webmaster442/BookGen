@@ -13,7 +13,6 @@ namespace BookGen
     {
         public PrintBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
         {
-            MarkdownPrintModifier.Configuration = configuration;
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyImagesDirectory(false));
             AddStep(new GeneratorSteps.CreatePrintableHtml());
