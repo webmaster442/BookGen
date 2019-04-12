@@ -18,7 +18,7 @@ namespace BookGen
 {
     internal class GeneratorRunner
     {
-        private readonly ArgsList _arguments;
+        private readonly ArgsumentList _arguments;
         private readonly ILog _log;
         private FsPath _config;
         private Config _cfg;
@@ -26,7 +26,7 @@ namespace BookGen
 
         public GeneratorRunner(string[] arguments, ILog log)
         {
-            _arguments = ArgsList.Parse(arguments);
+            _arguments = ArgsumentList.Parse(arguments);
             _log = log;
         }
 

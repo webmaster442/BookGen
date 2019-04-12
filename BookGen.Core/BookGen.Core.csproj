@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgsList.cs" />
+    <Compile Include="ArgsumentList.cs" />
     <Compile Include="ArgumentItem.cs" />
     <Compile Include="ConfigExtensions.cs" />
     <Compile Include="Configuration\Config.cs" />

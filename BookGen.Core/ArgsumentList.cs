@@ -9,11 +9,11 @@ using System.Linq;
 
 namespace BookGen.Core
 {
-    public class ArgsList : IEnumerable<ArgumentItem>
+    public class ArgsumentList : IEnumerable<ArgumentItem>
     {
         private readonly List<ArgumentItem> _items;
 
-        private ArgsList(int count)
+        private ArgsumentList(int count)
         {
             _items = new List<ArgumentItem>(count);
         }
@@ -24,9 +24,9 @@ namespace BookGen.Core
                                               || string.Compare(item.Switch, longname, true) == 0);
         }
 
-        public static ArgsList Parse(string[] args)
+        public static ArgsumentList Parse(string[] args)
         {
-            ArgsList ret = new ArgsList(args.Length);
+            ArgsumentList ret = new ArgsumentList(args.Length);
             int i = 0;
             while (i < args.Length)
             {
