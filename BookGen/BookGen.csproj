@@ -112,9 +112,7 @@
     <Compile Include="Domain\Sitemap\UrlSet.cs" />
     <Compile Include="Domain\TOC.cs" />
     <Compile Include="Framework\Logger.cs" />
-    <Compile Include="Framework\MarkdownPrintModifier.cs" />
     <Compile Include="Framework\Generator.cs" />
-    <Compile Include="Framework\PrintSyntaxHiglighter.cs" />
     <Compile Include="GeneratorSteps\CreateAdditionalPages.cs" />
     <Compile Include="GeneratorSteps\CreateBootstrapMenuStructure.cs" />
     <Compile Include="GeneratorSteps\CreateMetadata.cs" />
@@ -139,7 +137,6 @@
     <Compile Include="GeneratorSteps\CreatePages.cs" />
     <Compile Include="GeneratorSteps\CreatePagesJS.cs" />
     <Compile Include="GeneratorSteps\CreateSubpageIndexes.cs" />
-    <Compile Include="Framework\MarkdownModifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ConsoleExtensions.cs" />

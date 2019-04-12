@@ -16,42 +16,6 @@ namespace BookGen.Utilities
 {
     internal static class MarkdownUtils
     {
-        private static MarkdownPipeline _webpipeline;
-        private static MarkdownPipeline _printpipeline;
-        private static MarkdownPipeline _plainpipeline;
-
-        static MarkdownUtils()
-        {
-            _plainpipeline = new MarkdownPipelineBuilder().Use<MarkdownModifier>().Build();
-            _webpipeline = new MarkdownPipelineBuilder().Use<MarkdownModifier>().UseAdvancedExtensions().Build();
-            _printpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<MarkdownPrintModifier>().Build();
-        }
-
-        /// <summary>
-        /// Generate markdown to html
-        /// </summary>
-        /// <param name="md">Markdown input string</param>
-        /// <returns>html page</returns>
-        public static string Markdown2WebHTML(string md)
-        {
-            return Markdown.ToHtml(md, _webpipeline);
-        }
-
-        public static string Markdown2PrintHTML(string md)
-        {
-            return Markdown.ToHtml(md, _printpipeline);
-        }
-
-        /// <summary>
-        /// Generate markdown to plain text
-        /// </summary>
-        /// <param name="md">Markdown input string</param>
-        /// <returns>plain text</returns>
-        public static string Markdown2Plain(string md)
-        {
-            return Markdown.ToPlainText(md, _plainpipeline);
-        }
-
         /// <summary>
         /// List files to process
         /// </summary>
@@ -133,6 +97,5 @@ namespace BookGen.Utilities
             }
             return string.Empty;
         }
-
     }
 }

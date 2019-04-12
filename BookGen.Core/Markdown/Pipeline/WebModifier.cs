@@ -3,21 +3,19 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain;
+using BookGen.Core.Contracts;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace BookGen.Framework
+namespace BookGen.Core.Markdown.Pipeline
 {
-    public class MarkdownModifier : IMarkdownExtension
+    internal class WebModifier : IMarkdownExtension
     {
-        public static RuntimeSettings Settings { get; set; }
+        public static IReadonlyRuntimeSettings RuntimeConfig { get; set; }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
@@ -37,20 +35,20 @@ namespace BookGen.Framework
 
         private static bool IsOffHostLink(LinkInline link)
         {
-            return !link.Url.StartsWith(Settings.Configruation.HostName);
+            return !link.Url.StartsWith(RuntimeConfig.Configruation.HostName);
         }
 
         private static string ToImgCacheKey(string s)
         {
-            Uri baseUri = new Uri(Settings.Configruation.HostName);
+            Uri baseUri = new Uri(RuntimeConfig.Configruation.HostName);
             Uri full = new Uri(baseUri, s);
-            string fsPath = full.ToString().Replace(Settings.Configruation.HostName, Settings.SourceDirectory.ToString()+"\\");
+            string fsPath = full.ToString().Replace(RuntimeConfig.Configruation.HostName, RuntimeConfig.SourceDirectory.ToString() + "\\");
             return fsPath.Replace("/", "\\");
         }
 
         private static void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
-            if (Settings == null)
+            if (RuntimeConfig == null)
                 throw new InvalidOperationException("Settings not configured");
 
             foreach (var node in document.Descendants())
@@ -60,26 +58,26 @@ namespace BookGen.Framework
                     switch (heading.Level)
                     {
                         case 1:
-                            AddStyleClass(node, Settings.Configruation.StyleClasses.Heading1);
+                            AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.Heading1);
                             break;
                         case 2:
-                            AddStyleClass(node, Settings.Configruation.StyleClasses.Heading2);
+                            AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.Heading2);
                             break;
                         case 3:
-                            AddStyleClass(node, Settings.Configruation.StyleClasses.Heading3);
+                            AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.Heading3);
                             break;
                     }
                 }
                 else if (node is Block)
                 {
                     if (node is Markdig.Extensions.Tables.Table)
-                        AddStyleClass(node, Settings.Configruation.StyleClasses.Table);
+                        AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.Table);
                     else if (node is QuoteBlock)
-                        AddStyleClass(node, Settings.Configruation.StyleClasses.Blockquote);
+                        AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.Blockquote);
                     else if (node is Markdig.Extensions.Figures.Figure)
-                        AddStyleClass(node, Settings.Configruation.StyleClasses.Figure);
+                        AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.Figure);
                     else if (node is Markdig.Extensions.Figures.FigureCaption)
-                        AddStyleClass(node, Settings.Configruation.StyleClasses.FigureCaption);
+                        AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.FigureCaption);
                 }
                 else if (node is LinkInline link)
                 {
@@ -87,33 +85,34 @@ namespace BookGen.Framework
                     {
 
                         var inlinekey = ToImgCacheKey(link.Url);
-                        if (Settings.InlineImgCache.ContainsKey(inlinekey))
+                        if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
                         {
-                            link.Url = Settings.InlineImgCache[inlinekey];
+                            link.Url = RuntimeConfig.InlineImgCache[inlinekey];
                         }
 
-                        AddStyleClass(link, Settings.Configruation.StyleClasses.Image);
+                        AddStyleClass(link, RuntimeConfig.Configruation.StyleClasses.Image);
                     }
                     else
                     {
-                        if (IsOffHostLink(link) && Settings.Configruation.LinksOutSideOfHostOpenNewTab)
+                        if (IsOffHostLink(link) && RuntimeConfig.Configruation.LinksOutSideOfHostOpenNewTab)
                         {
                             link.GetAttributes().AddProperty("target", "_blank");
                         }
                         else
-                            AddStyleClass(node, Settings.Configruation.StyleClasses.Link);
+                            AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.Link);
                     }
                 }
                 else if (node is ListBlock listBlock)
                 {
                     if (listBlock.IsOrdered)
-                        AddStyleClass(node, Settings.Configruation.StyleClasses.OrderedList);
+                        AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.OrderedList);
                     else
-                        AddStyleClass(node, Settings.Configruation.StyleClasses.UnorederedList);
+                        AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.UnorederedList);
                 }
                 else if (node is ListItemBlock)
-                    AddStyleClass(node, Settings.Configruation.StyleClasses.ListItem);
+                    AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.ListItem);
             }
         }
     }
+
 }

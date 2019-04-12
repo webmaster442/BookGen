@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Markdig, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Markdig.0.16.0\lib\net40\Markdig.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -66,7 +69,13 @@
     <Compile Include="HashUtils.cs" />
     <Compile Include="HtmlLink.cs" />
     <Compile Include="KnownArguments.cs" />
+    <Compile Include="Markdown\MarkdownRenderers.cs" />
+    <Compile Include="Markdown\Pipeline\PrintModifier.cs" />
+    <Compile Include="Markdown\Pipeline\WebModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
