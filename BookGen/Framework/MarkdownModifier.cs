@@ -17,7 +17,7 @@ namespace BookGen.Framework
 {
     public class MarkdownModifier : IMarkdownExtension
     {
-        public static GeneratorSettings Settings { get; set; }
+        public static RuntimeSettings Settings { get; set; }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
@@ -87,9 +87,9 @@ namespace BookGen.Framework
                     {
 
                         var inlinekey = ToImgCacheKey(link.Url);
-                        if (Settings.InlineImgs.ContainsKey(inlinekey))
+                        if (Settings.InlineImgCache.ContainsKey(inlinekey))
                         {
-                            link.Url = Settings.InlineImgs[inlinekey];
+                            link.Url = Settings.InlineImgCache[inlinekey];
                         }
 
                         AddStyleClass(link, Settings.Configruation.StyleClasses.Image);

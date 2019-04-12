@@ -57,11 +57,14 @@
     <Compile Include="Configuration\SearchSettings.cs" />
     <Compile Include="Configuration\StyleClasses.cs" />
     <Compile Include="Contracts\ILog.cs" />
+    <Compile Include="Contracts\IReadonlyRuntimeSettings.cs" />
+    <Compile Include="Contracts\ITOC.cs" />
     <Compile Include="Contracts\LogLevel.cs" />
     <Compile Include="CsvConverter.cs" />
     <Compile Include="FsPath.cs" />
     <Compile Include="FsUtils.cs" />
     <Compile Include="HashUtils.cs" />
+    <Compile Include="HtmlLink.cs" />
     <Compile Include="KnownArguments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

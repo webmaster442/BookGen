@@ -14,7 +14,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreateMetadata : IGeneratorStep
     {
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating metadata for pages...");
 
@@ -38,7 +38,7 @@ namespace BookGen.GeneratorSteps
                     metaData.AppendFormat("<meta property=\"og:description\" content=\"{0}\">\n", description);
                     metaData.AppendFormat("<meta property=\"og:type\" content=\"article\">\n");
 
-                    settings.Metatadas.Add(link.Link, metaData.ToString());
+                    settings.MetataCache.Add(link.Link, metaData.ToString());
 
                 }
             }

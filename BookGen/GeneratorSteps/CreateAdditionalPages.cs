@@ -27,7 +27,7 @@ namespace BookGen.GeneratorSteps
             _menuItems = menuItems;
         }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Creating additional pages...");
             foreach (var header in _menuItems)
@@ -43,7 +43,7 @@ namespace BookGen.GeneratorSteps
             }
         }
 
-        private void Render(GeneratorSettings settings, string link, ILog log)
+        private void Render(RuntimeSettings settings, string link, ILog log)
         {
             if (link.StartsWith("http://")
                 || link.StartsWith("https://")

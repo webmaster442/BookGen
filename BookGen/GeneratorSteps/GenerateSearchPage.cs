@@ -26,7 +26,7 @@ namespace BookGen.GeneratorSteps
             _buffer = new StringBuilder();
         }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating search page...");
             GenerateSearchContents(settings, log);
@@ -40,7 +40,7 @@ namespace BookGen.GeneratorSteps
             output.WriteFile(html);
         }
 
-        private void GenerateSearchForm(GeneratorSettings settings)
+        private void GenerateSearchForm(RuntimeSettings settings)
         {
             var options = settings.Configruation.SearchOptions;
             var replacements = new string[]
@@ -56,7 +56,7 @@ namespace BookGen.GeneratorSteps
             _buffer.Append(result);
         }
 
-        private void GenerateSearchContents(GeneratorSettings settings, ILog log)
+        private void GenerateSearchContents(RuntimeSettings settings, ILog log)
         {
             _buffer.Append("<div id=\"searchcontents\" style=\"display:none;\">\n");
             foreach (var chapter in settings.TocContents.Chapters)

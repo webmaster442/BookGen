@@ -28,7 +28,7 @@ namespace BookGen.GeneratorSteps
             _indexExpression = new Regex(@"(\[\^\d+\])", RegexOptions.Compiled);
         }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating Printable html...");
             var output = settings.OutputDirectory.Combine("print.html");

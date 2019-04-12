@@ -14,7 +14,7 @@ namespace BookGen.GeneratorSteps
     {
         public GeneratorContent Content { get; set; }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating Table of Contents...");
             StringBuilder toc = new StringBuilder();

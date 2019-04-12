@@ -26,7 +26,7 @@ namespace BookGen.GeneratorSteps
                 throw new InvalidOperationException("Inline not enabled, but unlimited inline requested");
         }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
 
@@ -70,11 +70,11 @@ namespace BookGen.GeneratorSteps
             File.Copy(Fullname, target.ToString());
         }
 
-        private void InlineImg(string fullName, string extension, GeneratorSettings settings)
+        private void InlineImg(string fullName, string extension, RuntimeSettings settings)
         {
             byte[] contents = File.ReadAllBytes(fullName);
             string mime = Framework.Server.MimeTypes.GetMimeForExtension(extension);
-            settings.InlineImgs.Add(fullName, $"data:{mime};base64,{Convert.ToBase64String(contents)}");
+            settings.InlineImgCache.Add(fullName, $"data:{mime};base64,{Convert.ToBase64String(contents)}");
         }
     }
 }

@@ -108,7 +108,6 @@
     <Compile Include="Contracts\ITemplatedStep.cs" />
     <Compile Include="Contracts\IGeneratorContentFillStep.cs" />
     <Compile Include="Contracts\IGeneratorStep.cs" />
-    <Compile Include="Domain\HtmlLink.cs" />
     <Compile Include="Domain\Sitemap\Url.cs" />
     <Compile Include="Domain\Sitemap\UrlSet.cs" />
     <Compile Include="Domain\TOC.cs" />

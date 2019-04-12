@@ -17,7 +17,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreatePagesJS : IGeneratorStep
     {
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating pages.js...");
             List<string> pages = new List<string>();

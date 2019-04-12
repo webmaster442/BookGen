@@ -13,7 +13,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreateOutputDirectory : IGeneratorStep
     {
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             if (settings.OutputDirectory.IsExisting)
             {

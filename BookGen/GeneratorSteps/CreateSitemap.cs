@@ -20,7 +20,7 @@ namespace BookGen.GeneratorSteps
 
         private const string w3cTime = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Creating sitemap.xml...");
 

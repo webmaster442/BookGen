@@ -17,7 +17,7 @@ namespace BookGen.GeneratorSteps
         public GeneratorContent Content { get; set; }
         public Template Template { get; set; }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating Index file...");
             var input = settings.SourceDirectory.Combine(settings.Configruation.Index);

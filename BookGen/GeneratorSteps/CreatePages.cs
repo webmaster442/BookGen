@@ -18,7 +18,7 @@ namespace BookGen.GeneratorSteps
         public GeneratorContent Content { get; set; }
         public Template Template { get; set; }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating Sub Markdown Files...");
             foreach (var file in settings.TocContents.Files)
@@ -31,7 +31,7 @@ namespace BookGen.GeneratorSteps
 
                 Content.Title = MarkdownUtils.GetTitle(inputContent);
                 Content.Content = MarkdownUtils.Markdown2WebHTML(inputContent);
-                Content.Metadata = settings.Metatadas[file];
+                Content.Metadata = settings.MetataCache[file];
 
                 var html = Template.ProcessTemplate(Content);
                 output.WriteFile(html);

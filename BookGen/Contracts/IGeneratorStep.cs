@@ -10,6 +10,6 @@ namespace BookGen.Contracts
 {
     internal interface IGeneratorStep
     {
-        void RunStep(GeneratorSettings settings, ILog log);
+        void RunStep(RuntimeSettings settings, ILog log);
     }
 }

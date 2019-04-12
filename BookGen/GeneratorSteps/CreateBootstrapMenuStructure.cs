@@ -24,7 +24,7 @@ namespace BookGen.GeneratorSteps
             _menuItems = items;
         }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Creating menu for Additional pages...");
             StringBuilder buffer = new StringBuilder();
@@ -40,7 +40,7 @@ namespace BookGen.GeneratorSteps
             Content.AdditionalMenus = buffer.ToString();
         }
 
-        private void RenderSingleMenu(GeneratorSettings settings, MenuItem menuitem, StringBuilder buffer)
+        private void RenderSingleMenu(RuntimeSettings settings, MenuItem menuitem, StringBuilder buffer)
         {
             buffer.AppendFormat("<li>{0}<a href=\"{1}\">{2}</a></li>\n", 
                                 RenderFaIcon(menuitem.FontAwesomeIcon),
@@ -48,7 +48,7 @@ namespace BookGen.GeneratorSteps
                                 menuitem.Title);
         }
 
-        public string Relink(GeneratorSettings settings, string link)
+        public string Relink(RuntimeSettings settings, string link)
         {
             if (link.StartsWith("http://")
                 || link.StartsWith("https://")
@@ -72,7 +72,7 @@ namespace BookGen.GeneratorSteps
             return $"<i class=\"{fontAwesomeIcon}\"></i>";
         }
 
-        private void RenderSubmenus(GeneratorSettings settings, HeaderMenuItem menuitem, StringBuilder buffer)
+        private void RenderSubmenus(RuntimeSettings settings, HeaderMenuItem menuitem, StringBuilder buffer)
         {
             buffer.Append("<li class=\"dropdown\">\n");
             buffer.AppendFormat("{0}<a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"{1}\">{2}<span class=\"caret\"></span></a>\n",

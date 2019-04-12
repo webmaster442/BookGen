@@ -17,7 +17,7 @@ namespace BookGen.GeneratorSteps
         public GeneratorContent Content { get; set; }
         public Template Template { get; set; }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating index files for sub content folders...");
             foreach (var file in settings.TocContents.Files)
