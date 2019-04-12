@@ -26,17 +26,7 @@ namespace BookGen.Core.Markdown.Pipeline
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
-            if (renderer == null)
-                throw new ArgumentNullException(nameof(renderer));
-
-            if (!(renderer is TextRendererBase<HtmlRenderer> htmlRenderer)) return;
-
-            var originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
-            if (originalCodeBlockRenderer != null)
-                htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
-
-
-            htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer));
+            SyntaxRendererConfigurator.Setup(pipeline, renderer);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)

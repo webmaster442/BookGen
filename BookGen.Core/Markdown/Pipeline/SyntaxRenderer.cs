@@ -68,7 +68,6 @@ namespace BookGen.Core.Markdown.Pipeline
 
         private string Render(string code, string languageMoniker)
         {
-
             ColorCode.ILanguage lang = FindLanguage(languageMoniker);
             if (lang == null)
                 return code;

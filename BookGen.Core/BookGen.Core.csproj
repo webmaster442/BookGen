@@ -122,8 +122,10 @@
     <Compile Include="Lib\ColorCode\Styling\Color.cs" />
     <Compile Include="Lib\ColorCode\Styling\StyleSheets\DefaultStyleSheet.cs" />
     <Compile Include="Markdown\MarkdownRenderers.cs" />
+    <Compile Include="Markdown\Pipeline\PreviewModifier.cs" />
     <Compile Include="Markdown\Pipeline\PrintModifier.cs" />
     <Compile Include="Markdown\Pipeline\SyntaxRenderer.cs" />
+    <Compile Include="Markdown\Pipeline\SyntaxRendererConfigurator.cs" />
     <Compile Include="Markdown\Pipeline\WebModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

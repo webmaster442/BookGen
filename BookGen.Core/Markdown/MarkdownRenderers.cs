@@ -15,12 +15,14 @@ namespace BookGen.Core.Markdown
         private static MarkdownPipeline _webpipeline;
         private static MarkdownPipeline _printpipeline;
         private static MarkdownPipeline _plainpipeline;
+        private static MarkdownPipeline _previewpipeline;
 
         static MarkdownRenderers()
         {
             _plainpipeline = new MarkdownPipelineBuilder().Build();
             _webpipeline = new MarkdownPipelineBuilder().Use<WebModifier>().UseAdvancedExtensions().Build();
             _printpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
+            _previewpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PreviewModifier>().Build();
         }
 
         /// <summary>
@@ -48,6 +50,11 @@ namespace BookGen.Core.Markdown
         {
             PrintModifier.Configuration = configuration;
             return Markdig.Markdown.ToHtml(md, _printpipeline);
+        }
+
+        public static string Markdown2PreviewHtml(string md)
+        {
+            return Markdig.Markdown.ToHtml(md, _previewpipeline);
         }
     }
 }

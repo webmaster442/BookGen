@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Core.Markdown;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using Markdig;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -18,12 +17,6 @@ namespace BookGen.Editor.Services
 {
     internal static class EditorServices
     {
-        private static MarkdownPipeline _previewPipeline;
-
-        static EditorServices()
-        {
-            _previewPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-        }
 
         public static void LaunchEditorFor(string file)
         {
@@ -46,7 +39,7 @@ namespace BookGen.Editor.Services
 
         public static string RenderPreview(string inputMd, FsPath _file)
         {
-            var html = "<div>" + Markdown.ToHtml(inputMd, _previewPipeline) + "</div>";
+            var html = "<div>" + MarkdownRenderers.Markdown2PreviewHtml(inputMd) + "</div>";
 
             if (_file == null) return html;
 
