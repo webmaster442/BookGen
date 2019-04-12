@@ -98,8 +98,15 @@ namespace BookGen
             _log.Detail("Configuration content: {0}", cfgstring);
 
             _cfg = JsonConvert.DeserializeObject<Config>(cfgstring);
-            if (!_cfg.ValidateConfig(_workdir))
+
+            ConfigValidator validator = new ConfigValidator();
+            if (!validator.Validate(_cfg, _workdir))
             {
+                Console.WriteLine("Errors found in configuration: ");
+                foreach (var error in validator.Errors)
+                {
+                    Console.WriteLine(error);
+                }
                 PressKeyToExit();
                 return false;
             }
