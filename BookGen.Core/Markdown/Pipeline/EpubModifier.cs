@@ -3,19 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using System;
-using System.IO;
-using System.Web;
 
 namespace BookGen.Core.Markdown.Pipeline
 {
-    internal class PreviewModifier : IMarkdownExtension
+    internal class EpubModifier: IMarkdownExtension
     {
-        public static FsPath PreviewFilePath { get; set; }
+        public static IReadonlyRuntimeSettings RuntimeConfig { get; set; }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
@@ -28,22 +26,26 @@ namespace BookGen.Core.Markdown.Pipeline
             PipelineHelpers.SetupSyntaxRender(renderer);
         }
 
+
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
-            if (PreviewFilePath != null)
+            foreach (var node in document.Descendants())
             {
-                foreach (var node in document.Descendants())
+                if (node is HeadingBlock heading)
                 {
-                    if (node is LinkInline link)
+                    ++heading.Level;
+                }
+                else if (node is LinkInline link)
+                {
+                    if (link.IsImage)
                     {
-                        if (link.IsImage)
+                        var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig);
+                        if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
                         {
-                            var file = new FsPath(link.Url).GetAbsolutePathTo(PreviewFilePath).ToString();
-                            byte[] contents = File.ReadAllBytes(file);
-                            var mime = MimeMapping.GetMimeMapping(file);
-                            link.Url = $"data:{mime};base64,{Convert.ToBase64String(contents)}";
+                            link.Url = RuntimeConfig.InlineImgCache[inlinekey];
                         }
                     }
+
                 }
             }
         }

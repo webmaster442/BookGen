@@ -12,10 +12,11 @@ namespace BookGen.Core.Markdown
 {
     public static class MarkdownRenderers
     {
-        private static MarkdownPipeline _webpipeline;
-        private static MarkdownPipeline _printpipeline;
-        private static MarkdownPipeline _plainpipeline;
-        private static MarkdownPipeline _previewpipeline;
+        private static readonly MarkdownPipeline _webpipeline;
+        private static readonly MarkdownPipeline _printpipeline;
+        private static readonly MarkdownPipeline _plainpipeline;
+        private static readonly MarkdownPipeline _previewpipeline;
+        private static readonly MarkdownPipeline _epubpipeline;
 
         static MarkdownRenderers()
         {
@@ -23,6 +24,7 @@ namespace BookGen.Core.Markdown
             _webpipeline = new MarkdownPipelineBuilder().Use<WebModifier>().UseAdvancedExtensions().Build();
             _printpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
             _previewpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PreviewModifier>().Build();
+            _epubpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<EpubModifier>().Build();
         }
 
         /// <summary>
@@ -34,6 +36,12 @@ namespace BookGen.Core.Markdown
         {
             WebModifier.RuntimeConfig = settings;
             return Markdig.Markdown.ToHtml(md, _webpipeline);
+        }
+
+        public static string Markdown2EpubHtml(string md, IReadonlyRuntimeSettings settings)
+        {
+            EpubModifier.RuntimeConfig = settings;
+            return Markdig.Markdown.ToHtml(md, _epubpipeline);
         }
 
         /// <summary>

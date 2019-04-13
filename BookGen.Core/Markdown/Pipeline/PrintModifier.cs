@@ -6,10 +6,8 @@
 using BookGen.Core.Configuration;
 using Markdig;
 using Markdig.Renderers;
-using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using System;
 using System.Linq;
 
 namespace BookGen.Core.Markdown.Pipeline
@@ -26,7 +24,7 @@ namespace BookGen.Core.Markdown.Pipeline
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
-            SyntaxRendererConfigurator.Setup(pipeline, renderer);
+            PipelineHelpers.SetupSyntaxRender(renderer);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)

@@ -64,6 +64,11 @@ namespace BookGen
                     break;
                 case KnownArguments.ValidateConfig:
                     Initialize(_workdir);
+                    PressKeyToExit();
+                    break;
+                case KnownArguments.BuildEpub:
+                    if (!Initialize(_workdir)) return;
+                    DoEpub();
                     break;
                 default:
                     RunHelp();
@@ -173,6 +178,15 @@ namespace BookGen
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
+
+        private void DoEpub()
+        {
+            _log.Info("Building epub configuration...");
+            EpubBuilder builder = new EpubBuilder(_workdir, _cfg, _log);
+            var runTime = builder.Run();
+            _log.Info("Runtime: {0}", runTime);
+        }
+
 
         private void DoTest()
         {

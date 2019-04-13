@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
@@ -10,9 +11,9 @@ using System;
 
 namespace BookGen.Core.Markdown.Pipeline
 {
-    internal static class SyntaxRendererConfigurator
+    internal static class PipelineHelpers
     {
-        public static void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
+        public static void SetupSyntaxRender(IMarkdownRenderer renderer)
         {
             if (renderer == null)
                 throw new ArgumentNullException(nameof(renderer));
@@ -25,6 +26,14 @@ namespace BookGen.Core.Markdown.Pipeline
 
 
             htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer));
+        }
+
+        public static string ToImgCacheKey(string url, IReadonlyRuntimeSettings RuntimeConfig)
+        {
+            Uri baseUri = new Uri(RuntimeConfig.Configruation.HostName);
+            Uri full = new Uri(baseUri, url);
+            string fsPath = full.ToString().Replace(RuntimeConfig.Configruation.HostName, RuntimeConfig.SourceDirectory.ToString() + "\\");
+            return fsPath.Replace("/", "\\");
         }
     }
 }

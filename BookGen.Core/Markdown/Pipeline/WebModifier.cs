@@ -38,14 +38,6 @@ namespace BookGen.Core.Markdown.Pipeline
             return !link.Url.StartsWith(RuntimeConfig.Configruation.HostName);
         }
 
-        private static string ToImgCacheKey(string s)
-        {
-            Uri baseUri = new Uri(RuntimeConfig.Configruation.HostName);
-            Uri full = new Uri(baseUri, s);
-            string fsPath = full.ToString().Replace(RuntimeConfig.Configruation.HostName, RuntimeConfig.SourceDirectory.ToString() + "\\");
-            return fsPath.Replace("/", "\\");
-        }
-
         private static void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
             if (RuntimeConfig == null)
@@ -84,7 +76,7 @@ namespace BookGen.Core.Markdown.Pipeline
                     if (link.IsImage)
                     {
 
-                        var inlinekey = ToImgCacheKey(link.Url);
+                        var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig);
                         if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
                         {
                             link.Url = RuntimeConfig.InlineImgCache[inlinekey];

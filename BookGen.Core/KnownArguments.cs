@@ -13,5 +13,6 @@ namespace BookGen.Core
         public const string BuildPrint = "buildprint";
         public const string CreateConfig = "createconfig";
         public const string ValidateConfig = "validateconfig";
+        public const string BuildEpub = "buildepub";
     }
 }
