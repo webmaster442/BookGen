@@ -62,6 +62,9 @@ namespace BookGen
                 case KnownArguments.CreateConfig:
                     DoCreateConfig();
                     break;
+                case KnownArguments.ValidateConfig:
+                    Initialize(_workdir);
+                    break;
                 default:
                     RunHelp();
                     break;
@@ -109,6 +112,10 @@ namespace BookGen
                 }
                 PressKeyToExit();
                 return false;
+            }
+            else
+            {
+                Console.WriteLine("Config file contains no errors");
             }
 
             if (_cfg.Version < cfgVersion)

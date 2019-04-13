@@ -12,5 +12,6 @@ namespace BookGen.Core
         public const string TestWeb = "testweb";
         public const string BuildPrint = "buildprint";
         public const string CreateConfig = "createconfig";
+        public const string ValidateConfig = "validateconfig";
     }
 }

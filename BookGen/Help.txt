@@ -16,6 +16,10 @@ Supported Actions: -a or --action switch:
 	createconfig
 		Create configuration file in directory, bookgen.json file
 
+	validateconfig
+		Validates configurarion file, bookgen.json and prints out a list of
+		issues in the config file, if there are.
+
 	clean
 		Clean output directory (needs valid config)
 

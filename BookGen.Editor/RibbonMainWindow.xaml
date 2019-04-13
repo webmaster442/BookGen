@@ -85,6 +85,11 @@
                         Command="{Binding Actions.EditConfigCommand}"
                         Header="Edit configuration..."
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-services-48.png" />
+                    <Fluent:Button
+                        Command="{Binding Actions.BuildCommand}"
+                        CommandParameter="{x:Static core:KnownArguments.ValidateConfig}"
+                        Header="Validate Config"
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-services-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Build">
                     <Fluent:Button
