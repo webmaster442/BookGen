@@ -112,6 +112,7 @@
     <Compile Include="Framework\Generator.cs" />
     <Compile Include="GeneratorSteps\CreateAdditionalPages.cs" />
     <Compile Include="GeneratorSteps\CreateBootstrapMenuStructure.cs" />
+    <Compile Include="GeneratorSteps\CreateEpubStructure.cs" />
     <Compile Include="GeneratorSteps\CreateMetadata.cs" />
     <Compile Include="GeneratorSteps\CreatePrintableHtml.cs" />
     <Compile Include="GeneratorSteps\CreateSitemap.cs" />

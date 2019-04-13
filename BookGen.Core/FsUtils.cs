@@ -7,6 +7,7 @@ using BookGen.Core.Contracts;
 using System;
 using System.IO;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace BookGen.Core
 {
@@ -94,6 +95,15 @@ namespace BookGen.Core
 
             var ret = Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
             return new FsPath(ret);
+        }
+
+        public static void SerializeXml<T>(this FsPath path, T obj)
+        {
+            XmlSerializer xs = new XmlSerializer(typeof(T));
+            using (var writer = File.Create(path.ToString()))
+            {
+                xs.Serialize(writer, obj);
+            }
         }
 
         public static FsPath GetAbsolutePathTo(this FsPath path, FsPath file)

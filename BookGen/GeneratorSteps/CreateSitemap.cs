@@ -11,7 +11,6 @@ using BookGen.Domain.Sitemap;
 using System;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 
 namespace BookGen.GeneratorSteps
 {
@@ -39,12 +38,8 @@ namespace BookGen.GeneratorSteps
                 log.Detail("Creating sitemap entry for: {0}", page);
             }
 
-            XmlSerializer xs = new XmlSerializer(typeof(UrlSet));
             var output = settings.OutputDirectory.Combine("sitemap.xml");
-            using (var fs = File.Create(output.ToString()))
-            {
-                xs.Serialize(fs, sitemap);
-            }
+            output.SerializeXml(sitemap);
         }
 
         private Url CreateEntry(string page)
