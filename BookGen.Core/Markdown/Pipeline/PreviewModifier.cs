@@ -38,7 +38,7 @@ namespace BookGen.Core.Markdown.Pipeline
                     {
                         if (link.IsImage)
                         {
-                            var file = new FsPath(link.Url).GetAbsolutePathTo(PreviewFilePath).ToString();
+                            var file = new FsPath(link.Url).GetAbsolutePathRelativeTo(PreviewFilePath).ToString();
                             byte[] contents = File.ReadAllBytes(file);
                             var mime = MimeMapping.GetMimeMapping(file);
                             link.Url = $"data:{mime};base64,{Convert.ToBase64String(contents)}";

@@ -14,6 +14,13 @@ namespace BookGen.Utilities
 {
     internal static class MarkdownUtils
     {
+        private static readonly Regex _indexExpression;
+
+        static MarkdownUtils()
+        {
+            _indexExpression = new Regex(@"(\[\^\d+\])", RegexOptions.Compiled);
+        }
+
         /// <summary>
         /// List files to process
         /// </summary>
@@ -94,6 +101,30 @@ namespace BookGen.Utilities
                 }
             }
             return string.Empty;
+        }
+
+        public static string Reindex(string inputContent, ref int index)
+        {
+            int numMatches = _indexExpression.Matches(inputContent).Count;
+
+            if (numMatches < 1)
+                return inputContent;
+
+            inputContent = _indexExpression.Replace(inputContent, "REG$0");
+
+            Regex r = null;
+            for (int i = 0; i < (numMatches / 2); i++)
+            {
+                string expression = $"(REG\\[\\^{i + 1}\\])";
+                r = new Regex(expression, RegexOptions.Compiled);
+                if (r.IsMatch(inputContent))
+                {
+                    inputContent = r.Replace(inputContent, $"[^{index}]");
+                    ++index;
+                }
+            }
+
+            return inputContent;
         }
     }
 }

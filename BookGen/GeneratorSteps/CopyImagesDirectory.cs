@@ -43,7 +43,7 @@ namespace BookGen.GeneratorSteps
                 foreach (var file in settings.ImageDirectory.GetAllFiles())
                 {
                     FileInfo fi = new FileInfo(file);
-                    if (fi.Length < settings.Configruation.InlineImageSizeLimit
+                    if ((fi.Length < settings.Configruation.InlineImageSizeLimit || _unlimited)
                         && (fi.Extension == ".jpg"
                          || fi.Extension == ".png"
                          || fi.Extension == ".jpeg"

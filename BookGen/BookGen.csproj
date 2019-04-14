@@ -112,6 +112,7 @@
     <Compile Include="Framework\Generator.cs" />
     <Compile Include="GeneratorSteps\CreateAdditionalPages.cs" />
     <Compile Include="GeneratorSteps\CreateBootstrapMenuStructure.cs" />
+    <Compile Include="GeneratorSteps\CreateEpubPages.cs" />
     <Compile Include="GeneratorSteps\CreateEpubStructure.cs" />
     <Compile Include="GeneratorSteps\CreateMetadata.cs" />
     <Compile Include="GeneratorSteps\CreatePrintableHtml.cs" />
@@ -151,8 +152,7 @@
     <Content Include="Help.txt" />
     <Content Include="Icon.ico" />
     <Content Include="Resources\Error404.html" />
-    <Content Include="Resources\keywords-bash.txt" />
-    <Content Include="Resources\keywords-csharp.txt" />
+    <Content Include="Resources\html5header.html" />
     <Content Include="Resources\searchform.html" />
   </ItemGroup>
   <ItemGroup>

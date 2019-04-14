@@ -35,7 +35,7 @@ namespace BookGen.GeneratorSteps
 
             output.SerializeXml(container);
 
-            var oebps = output.Combine("OEBPS");
+            var oebps = settings.OutputDirectory.Combine("OEBPS");
             oebps.CreateDir(log);
         }
     }

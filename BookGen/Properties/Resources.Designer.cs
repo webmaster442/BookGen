@@ -109,16 +109,30 @@ namespace BookGen.Properties {
         ///	createconfig
         ///		Create configuration file in directory, bookgen.json file
         ///
+        ///	validateconfig
+        ///		Validates configurarion file, bookgen.json and prints out a list of
+        ///		issues in the config file, if there are.
+        ///
         ///	clean
-        ///		Clean output directory (needs valid config)
-        ///
-        ///If no directory parameter is given Current Directory will be used as working directory.
-        ///
-        ///Alternatively the -d pa [rest of string was truncated]&quot;;.
+        ///		Clean output directory (nee [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!doctype html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///&lt;meta charset=&quot;utf-8&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;.
+        /// </summary>
+        internal static string html5header {
+            get {
+                return ResourceManager.GetString("html5header", resourceCulture);
             }
         }
         
