@@ -23,13 +23,15 @@ namespace BookGen.GeneratorSteps
             log.Detail("Creating META-INF\\container.xml file...");
             var output = settings.OutputDirectory.Combine("META-INF\\container.xml");
 
-            var container = new Domain.Epub.Container();
-            container.Rootfiles = new Domain.Epub.Rootfiles
+            var container = new Domain.Epub.Container
             {
-                Rootfile = new Domain.Epub.Rootfile
+                Rootfiles = new Domain.Epub.Rootfiles
                 {
-                    Fullpath = "OEBPS/content.opf",
-                    Mediatype = "application/oebps-package+xml",
+                    Rootfile = new Domain.Epub.Rootfile
+                    {
+                        Fullpath = "OEBPS/content.opf",
+                        Mediatype = "application/oebps-package+xml",
+                    }
                 }
             };
 

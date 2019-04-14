@@ -17,6 +17,7 @@ namespace BookGen
             AddStep(new GeneratorSteps.CopyImagesDirectory(true, true));
             AddStep(new GeneratorSteps.CreateEpubStructure());
             AddStep(new GeneratorSteps.CreateEpubPages());
+            AddStep(new GeneratorSteps.CreateEpubToc());
         }
     }
 }
