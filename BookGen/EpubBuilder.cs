@@ -18,6 +18,8 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateEpubStructure());
             AddStep(new GeneratorSteps.CreateEpubPages());
             AddStep(new GeneratorSteps.CreateEpubToc());
+            AddStep(new GeneratorSteps.CreateEpubContent());
+            AddStep(new GeneratorSteps.CreateEpubPack());
         }
     }
 }

@@ -16,10 +16,12 @@ namespace BookGen.GeneratorSteps
     {
         public void RunStep(RuntimeSettings settings, ILog log)
         {
-            log.Info("Creating epub TOC...");
-            var output = settings.OutputDirectory.Combine("OEBPS\\toc.ncx");
+            log.Info("Creating epub toc.ncx...");
+            var output = settings.OutputDirectory.Combine("epubtemp\\OEBPS\\toc.ncx");
             Ncx toc = new Ncx
             {
+                Version = "2005-1",
+                Xmlns = "http://www.daisy.org/z3986/2005/ncx/",
                 Head = new Head
                 {
                     Meta = new List<MetaNcx>

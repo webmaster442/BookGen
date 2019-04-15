@@ -17,14 +17,16 @@ namespace BookGen.GeneratorSteps
             log.Info("Creating epub structure...");
 
             log.Detail("Creating mimetype file...");
-            var mime = settings.OutputDirectory.Combine("mimetype");
+            var mime = settings.OutputDirectory.Combine("epubtemp\\mimetype");
             mime.WriteFile("application/epub+zip");
 
             log.Detail("Creating META-INF\\container.xml file...");
-            var output = settings.OutputDirectory.Combine("META-INF\\container.xml");
+            var output = settings.OutputDirectory.Combine("epubtemp\\META-INF\\container.xml");
 
             var container = new Domain.Epub.Container
             {
+                Version = "1.0",
+                Xmlns = "urn:oasis:names:tc:opendocument:xmlns:container",
                 Rootfiles = new Domain.Epub.Rootfiles
                 {
                     Rootfile = new Domain.Epub.Rootfile
@@ -37,7 +39,7 @@ namespace BookGen.GeneratorSteps
 
             output.SerializeXml(container);
 
-            var oebps = settings.OutputDirectory.Combine("OEBPS");
+            var oebps = settings.OutputDirectory.Combine("epubtemp\\OEBPS");
             oebps.CreateDir(log);
         }
     }

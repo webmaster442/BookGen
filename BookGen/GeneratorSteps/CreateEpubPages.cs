@@ -23,7 +23,7 @@ namespace BookGen.GeneratorSteps
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 int index = 1;
-                var output = settings.OutputDirectory.Combine($"OEBPS\\chapter_{chaptercounter:D2}.html");
+                var output = settings.OutputDirectory.Combine($"epubtemp\\OEBPS\\chapter_{chaptercounter:D2}.html");
                 StringBuilder buffer = new StringBuilder();
                 buffer.AppendFormat("<h1>{0}</h1>\r\n\r\n", chapter);
 
@@ -40,7 +40,7 @@ namespace BookGen.GeneratorSteps
 
                 var rendered = MarkdownRenderers.Markdown2EpubHtml(buffer.ToString(), settings);
                 log.Info("Writing epub chapter: {0}", chaptercounter);
-                output.WriteFile(Properties.Resources.html5header, rendered, "</body></html>");
+                output.WriteFile(Properties.Resources.xhtmlheader, rendered, "</body></html>");
                 ++chaptercounter;
             }
         }

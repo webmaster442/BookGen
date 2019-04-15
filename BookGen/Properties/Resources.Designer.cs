@@ -159,5 +159,20 @@ namespace BookGen.Properties {
                 return ResourceManager.GetString("searchform", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+        ///&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
+        ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;/&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;.
+        /// </summary>
+        internal static string xhtmlheader {
+            get {
+                return ResourceManager.GetString("xhtmlheader", resourceCulture);
+            }
+        }
     }
 }

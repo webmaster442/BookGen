@@ -65,6 +65,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
@@ -112,6 +113,8 @@
     <Compile Include="Framework\Generator.cs" />
     <Compile Include="GeneratorSteps\CreateAdditionalPages.cs" />
     <Compile Include="GeneratorSteps\CreateBootstrapMenuStructure.cs" />
+    <Compile Include="GeneratorSteps\CreateEpubContent.cs" />
+    <Compile Include="GeneratorSteps\CreateEpubPack.cs" />
     <Compile Include="GeneratorSteps\CreateEpubPages.cs" />
     <Compile Include="GeneratorSteps\CreateEpubStructure.cs" />
     <Compile Include="GeneratorSteps\CreateEpubToc.cs" />
@@ -127,6 +130,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="Resources\xhtmlheader.html" />
     <Compile Include="Splash.cs" />
     <Compile Include="Domain\GeneratorContent.cs" />
     <Compile Include="Domain\GeneratorSettings.cs" />
