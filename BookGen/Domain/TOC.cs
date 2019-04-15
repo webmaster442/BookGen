@@ -3,12 +3,14 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
+using BookGen.Core.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BookGen.Domain
 {
-    public class TOC
+    public class TOC: ITOC
     {
         private readonly Dictionary<string, List<HtmlLink>> _tocContents;
 

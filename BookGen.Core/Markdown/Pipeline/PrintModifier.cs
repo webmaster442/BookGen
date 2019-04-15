@@ -3,19 +3,16 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
 using BookGen.Core.Configuration;
 using Markdig;
 using Markdig.Renderers;
-using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using System;
 using System.Linq;
 
-namespace BookGen.Framework
+namespace BookGen.Core.Markdown.Pipeline
 {
-    public class MarkdownPrintModifier : IMarkdownExtension
+    internal class PrintModifier : IMarkdownExtension
     {
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
@@ -27,17 +24,7 @@ namespace BookGen.Framework
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
-            if (renderer == null)
-                throw new ArgumentNullException(nameof(renderer));
-
-            if (!(renderer is TextRendererBase<HtmlRenderer> htmlRenderer)) return;
-
-            var originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
-            if (originalCodeBlockRenderer != null)
-                htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
-
-
-            htmlRenderer.ObjectRenderers.AddIfNotAlready(new PrintSyntaxHiglighter(originalCodeBlockRenderer));
+            PipelineHelpers.SetupSyntaxRender(renderer);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
@@ -46,7 +33,7 @@ namespace BookGen.Framework
             {
                 if (node is HeadingBlock heading)
                 {
-                    heading.Level += 1;
+                    ++heading.Level;
                 }
                 else if (node is LinkInline link)
                 {
@@ -58,8 +45,6 @@ namespace BookGen.Framework
 
         private string RewiteToHostUrl(string url)
         {
-            var imgDir = Configuration.ImageDir.ToPath();
-
             var parts = url.Split('/').ToList();
             var imgdirIndex = parts.IndexOf(Configuration.ImageDir);
 

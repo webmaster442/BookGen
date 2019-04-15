@@ -56,9 +56,6 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Markdig, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Markdig.0.16.0\lib\net40\Markdig.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -68,6 +65,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
@@ -79,6 +77,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Epub\Package.cs" />
+    <Compile Include="Domain\Epub\Guide.cs" />
+    <Compile Include="Domain\Epub\Reference.cs" />
+    <Compile Include="Domain\Epub\Spine.cs" />
+    <Compile Include="Domain\Epub\Container.cs" />
+    <Compile Include="Domain\Epub\Content.cs" />
+    <Compile Include="Domain\Epub\DocAuthor.cs" />
+    <Compile Include="Domain\Epub\DocTitle.cs" />
+    <Compile Include="Domain\Epub\Head.cs" />
+    <Compile Include="Domain\Epub\Identifier.cs" />
+    <Compile Include="Domain\Epub\Item.cs" />
+    <Compile Include="Domain\Epub\Itemref.cs" />
+    <Compile Include="Domain\Epub\Manifest.cs" />
+    <Compile Include="Domain\Epub\Meta.cs" />
+    <Compile Include="Domain\Epub\Metadata.cs" />
+    <Compile Include="Domain\Epub\NavLabel.cs" />
+    <Compile Include="Domain\Epub\NavMap.cs" />
+    <Compile Include="Domain\Epub\NavPoint.cs" />
+    <Compile Include="Domain\Epub\Ncx.cs" />
+    <Compile Include="Domain\Epub\RootFile.cs" />
+    <Compile Include="Domain\Epub\Rootfiles.cs" />
+    <Compile Include="EpubBuilder.cs" />
     <Compile Include="Framework\Server\HTTPServer.cs" />
     <Compile Include="Framework\Server\IRequestHandler.cs" />
     <Compile Include="Framework\Server\MimeTypes.cs" />
@@ -86,16 +106,18 @@
     <Compile Include="Contracts\ITemplatedStep.cs" />
     <Compile Include="Contracts\IGeneratorContentFillStep.cs" />
     <Compile Include="Contracts\IGeneratorStep.cs" />
-    <Compile Include="Domain\HtmlLink.cs" />
     <Compile Include="Domain\Sitemap\Url.cs" />
     <Compile Include="Domain\Sitemap\UrlSet.cs" />
     <Compile Include="Domain\TOC.cs" />
     <Compile Include="Framework\Logger.cs" />
-    <Compile Include="Framework\MarkdownPrintModifier.cs" />
     <Compile Include="Framework\Generator.cs" />
-    <Compile Include="Framework\PrintSyntaxHiglighter.cs" />
     <Compile Include="GeneratorSteps\CreateAdditionalPages.cs" />
     <Compile Include="GeneratorSteps\CreateBootstrapMenuStructure.cs" />
+    <Compile Include="GeneratorSteps\CreateEpubContent.cs" />
+    <Compile Include="GeneratorSteps\CreateEpubPack.cs" />
+    <Compile Include="GeneratorSteps\CreateEpubPages.cs" />
+    <Compile Include="GeneratorSteps\CreateEpubStructure.cs" />
+    <Compile Include="GeneratorSteps\CreateEpubToc.cs" />
     <Compile Include="GeneratorSteps\CreateMetadata.cs" />
     <Compile Include="GeneratorSteps\CreatePrintableHtml.cs" />
     <Compile Include="GeneratorSteps\CreateSitemap.cs" />
@@ -108,6 +130,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="Resources\xhtmlheader.html" />
     <Compile Include="Splash.cs" />
     <Compile Include="Domain\GeneratorContent.cs" />
     <Compile Include="Domain\GeneratorSettings.cs" />
@@ -118,7 +141,6 @@
     <Compile Include="GeneratorSteps\CreatePages.cs" />
     <Compile Include="GeneratorSteps\CreatePagesJS.cs" />
     <Compile Include="GeneratorSteps\CreateSubpageIndexes.cs" />
-    <Compile Include="Framework\MarkdownModifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ConsoleExtensions.cs" />
@@ -132,10 +154,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Help.txt" />
     <Content Include="Icon.ico" />
     <Content Include="Resources\Error404.html" />
-    <Content Include="Resources\keywords-bash.txt" />
-    <Content Include="Resources\keywords-csharp.txt" />
+    <Content Include="Resources\html5header.html" />
     <Content Include="Resources\searchform.html" />
   </ItemGroup>
   <ItemGroup>

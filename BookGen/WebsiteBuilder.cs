@@ -4,16 +4,15 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Configuration;
+using BookGen.Core.Contracts;
 using BookGen.Framework;
 
 namespace BookGen
 {
     internal class WebsiteBuilder : Generator
     {
-        public WebsiteBuilder(Config configuration) : base(configuration, Program.Log)
+        public WebsiteBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
         {
-            MarkdownModifier.Settings = Settings;
-
             /*if (menuPath.IsExisting)
             {
                 var menuItems = JsonConvert.DeserializeObject<List<HeaderMenuItem>>(menuPath.ReadFile());

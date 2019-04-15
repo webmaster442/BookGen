@@ -121,13 +121,16 @@
   <data name="Error404" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Error404.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="keywords_bash" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\keywords-bash.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  <data name="Help" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Help.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="keywords_csharp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\keywords-csharp.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  <data name="html5header" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\html5header.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
   </data>
   <data name="searchform" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\searchform.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="xhtmlheader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xhtmlheader.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
   </data>
 </root>

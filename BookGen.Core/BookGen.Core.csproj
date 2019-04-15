@@ -34,9 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Markdig, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Markdig.0.16.0\lib\net40\Markdig.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgsumentList.cs" />
+    <Compile Include="ArgumentItem.cs" />
     <Compile Include="ConfigExtensions.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\HeaderMenuItem.cs" />
@@ -54,13 +60,95 @@
     <Compile Include="Configuration\Precompile.cs" />
     <Compile Include="Configuration\SearchSettings.cs" />
     <Compile Include="Configuration\StyleClasses.cs" />
+    <Compile Include="ConfigValidator.cs" />
     <Compile Include="Contracts\ILog.cs" />
+    <Compile Include="Contracts\IReadonlyRuntimeSettings.cs" />
+    <Compile Include="Contracts\ITOC.cs" />
     <Compile Include="Contracts\LogLevel.cs" />
     <Compile Include="CsvConverter.cs" />
     <Compile Include="FsPath.cs" />
     <Compile Include="FsUtils.cs" />
     <Compile Include="HashUtils.cs" />
+    <Compile Include="HtmlLink.cs" />
+    <Compile Include="KnownArguments.cs" />
+    <Compile Include="Lib\ColorCode\CodeColorizer.cs" />
+    <Compile Include="Lib\ColorCode\Common\ExtensionMethods.cs" />
+    <Compile Include="Lib\ColorCode\Common\Guard.cs" />
+    <Compile Include="Lib\ColorCode\Common\ILanguageRepository.cs" />
+    <Compile Include="Lib\ColorCode\Common\LanguageId.cs" />
+    <Compile Include="Lib\ColorCode\Common\LanguageRepository.cs" />
+    <Compile Include="Lib\ColorCode\Common\ScopeName.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\CompiledLanguage.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\ILanguageCompiler.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\LanguageCompiler.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Asax.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Ashx.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Aspx.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\AspxCs.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\AspxVb.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Cpp.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\CSharp.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Css.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\FSharp.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Haskell.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Html.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Java.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\JavaScript.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Koka.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Markdown.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Php.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\PowerShell.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Sql.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Typescript.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\VbDotNet.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\Languages\Xml.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\RuleCaptures.cs" />
+    <Compile Include="Lib\ColorCode\Compilation\RuleFormats.cs" />
+    <Compile Include="Lib\ColorCode\Formatters.cs" />
+    <Compile Include="Lib\ColorCode\Formatting\HtmlClassFormatter.cs" />
+    <Compile Include="Lib\ColorCode\Formatting\HtmlFormatter.cs" />
+    <Compile Include="Lib\ColorCode\Formatting\HttpUtility.cs" />
+    <Compile Include="Lib\ColorCode\Formatting\TextInsertion.cs" />
+    <Compile Include="Lib\ColorCode\ICodeColorizer.cs" />
+    <Compile Include="Lib\ColorCode\IFormatter.cs" />
+    <Compile Include="Lib\ColorCode\ILanguage.cs" />
+    <Compile Include="Lib\ColorCode\IStyleSheet.cs" />
+    <Compile Include="Lib\ColorCode\LanguageRule.cs" />
+    <Compile Include="Lib\ColorCode\Languages.cs" />
+    <Compile Include="Lib\ColorCode\Parsing\ILanguageParser.cs" />
+    <Compile Include="Lib\ColorCode\Parsing\LanguageParser.cs" />
+    <Compile Include="Lib\ColorCode\Parsing\Scope.cs" />
+    <Compile Include="Lib\ColorCode\Style.cs" />
+    <Compile Include="Lib\ColorCode\StyleDictionary.cs" />
+    <Compile Include="Lib\ColorCode\StyleSheets.cs" />
+    <Compile Include="Lib\ColorCode\Styling\Color.cs" />
+    <Compile Include="Lib\ColorCode\Styling\StyleSheets\DefaultStyleSheet.cs" />
+    <Compile Include="Markdown\MarkdownRenderers.cs" />
+    <Compile Include="Markdown\Pipeline\EpubModifier.cs" />
+    <Compile Include="Markdown\Pipeline\PreviewModifier.cs" />
+    <Compile Include="Markdown\Pipeline\PrintModifier.cs" />
+    <Compile Include="Markdown\Pipeline\SyntaxRenderer.cs" />
+    <Compile Include="Markdown\Pipeline\PipelineHelpers.cs" />
+    <Compile Include="Markdown\Pipeline\WebModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\ColorCode\Assets\icon.png" />
+    <Content Include="Lib\ColorCode\Assets\icon.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

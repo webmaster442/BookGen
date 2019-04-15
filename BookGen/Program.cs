@@ -11,12 +11,10 @@ namespace BookGen
 {
     internal static class Program
     {
-        public static ILog Log { get; private set; }
-
         [STAThread]
         public static void Main(string[] args)
         {
-            using (Log = new Logger())
+            using (var Log = new Logger())
             {
                 var argumentParser = new GeneratorRunner(args, Log);
                 argumentParser.RunGenerator();

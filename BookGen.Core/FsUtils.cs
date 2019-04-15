@@ -5,8 +5,10 @@
 
 using BookGen.Core.Contracts;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace BookGen.Core
 {
@@ -56,6 +58,22 @@ namespace BookGen.Core
             }
         }
 
+        public static void WriteFile(this FsPath target, params string[] contents)
+        {
+            FileInfo fileInfo = new FileInfo(target.ToString());
+
+            if (!fileInfo.Exists)
+                Directory.CreateDirectory(fileInfo.Directory.FullName);
+
+            using (var writer = File.CreateText(target.ToString()))
+            {
+                foreach (var content in contents)
+                {
+                    writer.Write(content);
+                }
+            }
+        }
+
         public static string ReadFile(this FsPath path)
         {
             using (var reader = File.OpenText(path.ToString()))
@@ -96,7 +114,33 @@ namespace BookGen.Core
             return new FsPath(ret);
         }
 
-        public static FsPath GetAbsolutePathTo(this FsPath path, FsPath file)
+        public static void SerializeXml<T>(this FsPath path, T obj, IList<Tuple<string, string>> nslist = null)
+        {
+            FileInfo fileInfo = new FileInfo(path.ToString());
+
+            if (!fileInfo.Exists)
+                Directory.CreateDirectory(fileInfo.Directory.FullName);
+
+            XmlSerializerNamespaces xnames = null;
+            if (nslist != null)
+            {
+                xnames = new XmlSerializerNamespaces();
+                foreach (var ns in nslist)
+                {
+                    xnames.Add(ns.Item1, ns.Item2);
+                }
+            }
+            XmlSerializer xs = new XmlSerializer(typeof(T));
+            using (var writer = File.Create(path.ToString()))
+            {
+                if (xnames == null)
+                    xs.Serialize(writer, obj);
+                else
+                    xs.Serialize(writer, obj, xnames);
+            }
+        }
+
+        public static FsPath GetAbsolutePathRelativeTo(this FsPath path, FsPath file)
         {
             string filespec = path.ToString();
             string folder = Path.GetDirectoryName(file.ToString());
@@ -106,7 +150,7 @@ namespace BookGen.Core
             }
 
             Uri pathUri = new Uri(new Uri(folder), filespec);
-            return new FsPath(pathUri.ToString());
+            return new FsPath(pathUri.ToString().Replace("file:///", "").Replace("/", "\\"));
         }
     }
 }

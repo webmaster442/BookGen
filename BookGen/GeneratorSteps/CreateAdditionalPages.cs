@@ -7,6 +7,7 @@ using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
+using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
@@ -27,7 +28,7 @@ namespace BookGen.GeneratorSteps
             _menuItems = menuItems;
         }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Creating additional pages...");
             foreach (var header in _menuItems)
@@ -43,7 +44,7 @@ namespace BookGen.GeneratorSteps
             }
         }
 
-        private void Render(GeneratorSettings settings, string link, ILog log)
+        private void Render(RuntimeSettings settings, string link, ILog log)
         {
             if (link.StartsWith("http://")
                 || link.StartsWith("https://")
@@ -61,7 +62,7 @@ namespace BookGen.GeneratorSteps
             var inputContent = input.ReadFile();
 
             Content.Title = MarkdownUtils.GetTitle(inputContent);
-            Content.Content = MarkdownUtils.Markdown2WebHTML(inputContent);
+            Content.Content = MarkdownRenderers.Markdown2WebHTML(inputContent, settings);
             var html = Template.ProcessTemplate(Content);
             output.WriteFile(html);
         }

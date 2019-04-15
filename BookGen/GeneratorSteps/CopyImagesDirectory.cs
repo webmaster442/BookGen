@@ -15,17 +15,23 @@ namespace BookGen.GeneratorSteps
     internal class CopyImagesDirectory : IGeneratorStep
     {
         private readonly bool _inlineEnabled;
+        private readonly bool _unlimited;
 
-        public CopyImagesDirectory(bool inlineEnabled)
+        public CopyImagesDirectory(bool inlineEnabled, bool unlimitedinline = false)
         {
             _inlineEnabled = inlineEnabled;
+            _unlimited = unlimitedinline;
+
+            if (unlimitedinline && !inlineEnabled)
+                throw new InvalidOperationException("Inline not enabled, but unlimited inline requested");
         }
 
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
-            if (settings.Configruation.InlineImageSizeLimit < 0 
-                || !_inlineEnabled)
+
+            if (!_inlineEnabled ||
+                (settings.Configruation.InlineImageSizeLimit < 0 && !_unlimited))
             {
                 log.Info("Copy images to output...");
                 settings.ImageDirectory.CopyDirectory(targetdir, log);
@@ -37,7 +43,7 @@ namespace BookGen.GeneratorSteps
                 foreach (var file in settings.ImageDirectory.GetAllFiles())
                 {
                     FileInfo fi = new FileInfo(file);
-                    if (fi.Length < settings.Configruation.InlineImageSizeLimit
+                    if ((fi.Length < settings.Configruation.InlineImageSizeLimit || _unlimited)
                         && (fi.Extension == ".jpg"
                          || fi.Extension == ".png"
                          || fi.Extension == ".jpeg"
@@ -48,7 +54,6 @@ namespace BookGen.GeneratorSteps
                     }
                     else
                     {
-
                         CopyImg(fi.FullName, fi.Name, targetdir);
                     }
                 }
@@ -65,11 +70,11 @@ namespace BookGen.GeneratorSteps
             File.Copy(Fullname, target.ToString());
         }
 
-        private void InlineImg(string fullName, string extension, GeneratorSettings settings)
+        private void InlineImg(string fullName, string extension, RuntimeSettings settings)
         {
             byte[] contents = File.ReadAllBytes(fullName);
             string mime = Framework.Server.MimeTypes.GetMimeForExtension(extension);
-            settings.InlineImgs.Add(fullName, $"data:{mime};base64,{Convert.ToBase64String(contents)}");
+            settings.InlineImgCache.Add(fullName, $"data:{mime};base64,{Convert.ToBase64String(contents)}");
         }
     }
 }

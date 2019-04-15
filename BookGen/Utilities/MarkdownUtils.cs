@@ -3,9 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
 using BookGen.Domain;
-using BookGen.Framework;
-using Markdig;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,40 +14,11 @@ namespace BookGen.Utilities
 {
     internal static class MarkdownUtils
     {
-        private static MarkdownPipeline _webpipeline;
-        private static MarkdownPipeline _printpipeline;
-        private static MarkdownPipeline _plainpipeline;
+        private static readonly Regex _indexExpression;
 
         static MarkdownUtils()
         {
-            _plainpipeline = new MarkdownPipelineBuilder().Use<MarkdownModifier>().Build();
-            _webpipeline = new MarkdownPipelineBuilder().Use<MarkdownModifier>().UseAdvancedExtensions().Build();
-            _printpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<MarkdownPrintModifier>().Build();
-        }
-
-        /// <summary>
-        /// Generate markdown to html
-        /// </summary>
-        /// <param name="md">Markdown input string</param>
-        /// <returns>html page</returns>
-        public static string Markdown2WebHTML(string md)
-        {
-            return Markdown.ToHtml(md, _webpipeline);
-        }
-
-        public static string Markdown2PrintHTML(string md)
-        {
-            return Markdown.ToHtml(md, _printpipeline);
-        }
-
-        /// <summary>
-        /// Generate markdown to plain text
-        /// </summary>
-        /// <param name="md">Markdown input string</param>
-        /// <returns>plain text</returns>
-        public static string Markdown2Plain(string md)
-        {
-            return Markdown.ToPlainText(md, _plainpipeline);
+            _indexExpression = new Regex(@"(\[\^\d+\])", RegexOptions.Compiled);
         }
 
         /// <summary>
@@ -133,5 +103,28 @@ namespace BookGen.Utilities
             return string.Empty;
         }
 
+        public static string Reindex(string inputContent, ref int index)
+        {
+            int numMatches = _indexExpression.Matches(inputContent).Count;
+
+            if (numMatches < 1)
+                return inputContent;
+
+            inputContent = _indexExpression.Replace(inputContent, "REG$0");
+
+            Regex r = null;
+            for (int i = 0; i < (numMatches / 2); i++)
+            {
+                string expression = $"(REG\\[\\^{i + 1}\\])";
+                r = new Regex(expression, RegexOptions.Compiled);
+                if (r.IsMatch(inputContent))
+                {
+                    inputContent = r.Replace(inputContent, $"[^{index}]");
+                    ++index;
+                }
+            }
+
+            return inputContent;
+        }
     }
 }

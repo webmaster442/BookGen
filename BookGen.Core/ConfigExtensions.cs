@@ -19,18 +19,6 @@ namespace BookGen.Core
             return false;
         }
 
-        public static bool ValidateConfig(this Config config)
-        {
-            if (!config.Template.ToPath().IsExisting)
-                return PrintError("Missing template file");
-            if (!config.ImageDir.ToPath().IsExisting)
-                return PrintError("Images directory doesn't exist");
-            if (!config.TOCFile.ToPath().IsExisting)
-                return PrintError("TOC file doesn't exit");
-
-            return true;
-        }
-
         public static void UpgradeTo(this Config config, int targetVersion)
         {
             if (config.Version == 0 || config.Version < targetVersion)

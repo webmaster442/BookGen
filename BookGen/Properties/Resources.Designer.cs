@@ -91,111 +91,48 @@ namespace BookGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to if
-        ///then
-        ///else
-        ///elif
-        ///fi
-        ///case
-        ///esac
-        ///for
-        ///select
-        ///while
-        ///until
-        ///do
-        ///done
-        ///in
-        ///function
-        ///time
-        ///{
-        ///}
-        ///!
-        ///[[
-        ///]]
-        ///coproc.
+        ///   Looks up a localized string similar to BookGen - Markdown to Book tool
+        ///
+        ///Usage: BookGen -a [action] -d [directory]
+        ///
+        ///Supported Actions: -a or --action switch:
+        ///	
+        ///	buildweb
+        ///		Builds website
+        ///
+        ///	testweb
+        ///		Build website with test params &amp; runs it in browser
+        ///
+        ///	buildprint
+        ///		Build printable html
+        ///
+        ///	createconfig
+        ///		Create configuration file in directory, bookgen.json file
+        ///
+        ///	validateconfig
+        ///		Validates configurarion file, bookgen.json and prints out a list of
+        ///		issues in the config file, if there are.
+        ///
+        ///	clean
+        ///		Clean output directory (nee [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string keywords_bash {
+        internal static string Help {
             get {
-                return ResourceManager.GetString("keywords_bash", resourceCulture);
+                return ResourceManager.GetString("Help", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to abstract
-        ///as
-        ///base
-        ///bool
-        ///add
-        ///alias
-        ///ascending
-        ///async
-        ///await
-        ///by
-        ///break
-        ///byte
-        ///case
-        ///catch
-        ///char
-        ///checked
-        ///class
-        ///const
-        ///continue
-        ///decimal
-        ///default
-        ///delegate
-        ///descending
-        ///dynamic
-        ///equals
-        ///do
-        ///double
-        ///else
-        ///enum
-        ///event
-        ///explicit
-        ///extern
-        ///false
-        ///finally
-        ///fixed
-        ///float
-        ///for
-        ///foreach
-        ///goto
-        ///if
-        ///implicit
-        ///from
-        ///get
-        ///global
-        ///group
-        ///into
-        ///join
-        ///in
-        ///int
-        ///interface
-        ///internal
-        ///is
-        ///lock
-        ///long
-        ///namespace
-        ///let
-        ///nameof
-        ///on
-        ///new
-        ///null
-        ///object
-        ///operator
-        ///orderby
-        ///partial
-        ///out
-        ///override
-        ///params
-        ///private
-        ///protected
-        ///public
-        /// [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;!doctype html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///&lt;meta charset=&quot;utf-8&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;.
         /// </summary>
-        internal static string keywords_csharp {
+        internal static string html5header {
             get {
-                return ResourceManager.GetString("keywords_csharp", resourceCulture);
+                return ResourceManager.GetString("html5header", resourceCulture);
             }
         }
         
@@ -220,6 +157,21 @@ namespace BookGen.Properties {
         internal static string searchform {
             get {
                 return ResourceManager.GetString("searchform", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+        ///&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
+        ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;/&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;.
+        /// </summary>
+        internal static string xhtmlheader {
+            get {
+                return ResourceManager.GetString("xhtmlheader", resourceCulture);
             }
         }
     }

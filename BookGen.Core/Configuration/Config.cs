@@ -21,8 +21,8 @@ namespace BookGen.Core.Configuration
         public string AssetsDir { get; set; }
         [Description("Template file for webpage")]
         public string Template { get; set; }
-        [Description("Template file for epub")]
-        public string TemplateEpub { get; set; }
+        [Description("CSS file for epub documents.")]
+        public string EpubCss { get; set; }
         [Description("Index page")]
         public string Index { get; set; }
         [Browsable(false)]
@@ -57,7 +57,7 @@ namespace BookGen.Core.Configuration
                     HostName = "http://localhost:8080/",
                     AssetsDir = "Path to static assets required by template or null",
                     Template = "Path of template file",
-                    TemplateEpub = "Path of epub template file",
+                    EpubCss = "Path to epub css file",
                     StyleClasses = new StyleClasses(),
                     SearchOptions = SearchSettings.Default,
                     Metadata = Metadata.Default,

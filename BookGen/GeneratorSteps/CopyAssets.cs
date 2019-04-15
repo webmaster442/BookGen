@@ -12,7 +12,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class CopyAssets : IGeneratorStep
     {
-        public void RunStep(GeneratorSettings settings, ILog log)
+        public void RunStep(RuntimeSettings settings, ILog log)
         {
             var assets = settings.SourceDirectory.Combine(settings.Configruation.AssetsDir);
 
