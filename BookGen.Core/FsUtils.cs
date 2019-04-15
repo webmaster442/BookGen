@@ -5,6 +5,7 @@
 
 using BookGen.Core.Contracts;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
@@ -113,17 +114,29 @@ namespace BookGen.Core
             return new FsPath(ret);
         }
 
-        public static void SerializeXml<T>(this FsPath path, T obj)
+        public static void SerializeXml<T>(this FsPath path, T obj, IList<Tuple<string, string>> nslist = null)
         {
             FileInfo fileInfo = new FileInfo(path.ToString());
 
             if (!fileInfo.Exists)
                 Directory.CreateDirectory(fileInfo.Directory.FullName);
 
+            XmlSerializerNamespaces xnames = null;
+            if (nslist != null)
+            {
+                xnames = new XmlSerializerNamespaces();
+                foreach (var ns in nslist)
+                {
+                    xnames.Add(ns.Item1, ns.Item2);
+                }
+            }
             XmlSerializer xs = new XmlSerializer(typeof(T));
             using (var writer = File.Create(path.ToString()))
             {
-                xs.Serialize(writer, obj);
+                if (xnames == null)
+                    xs.Serialize(writer, obj);
+                else
+                    xs.Serialize(writer, obj, xnames);
             }
         }
 

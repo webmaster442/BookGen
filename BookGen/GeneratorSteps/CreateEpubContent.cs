@@ -81,7 +81,11 @@ namespace BookGen.GeneratorSteps
             };
             GenerateItems(pack.Manifest.Item, settings);
             GenerateSpine(pack.Spine.Itemref, settings);
-            output.SerializeXml(pack);
+            var namespaces = new List<System.Tuple<string, string>>
+            {
+                new System.Tuple<string, string>("dc", "http://purl.org/dc/elements/1.1/")
+            };
+            output.SerializeXml(pack, namespaces);
         }
 
         private void GenerateSpine(List<Itemref> itemref, RuntimeSettings settings)
