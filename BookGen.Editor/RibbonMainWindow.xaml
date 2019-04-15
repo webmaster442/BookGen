@@ -109,6 +109,11 @@
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
                     <Fluent:Button
                         Command="{Binding Actions.BuildCommand}"
+                        CommandParameter="{x:Static core:KnownArguments.BuildEpub}"
+                        Header="Bild epub..."
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
+                    <Fluent:Button
+                        Command="{Binding Actions.BuildCommand}"
                         CommandParameter="{x:Static core:KnownArguments.Clean}"
                         Header="Clean output directory..."
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />

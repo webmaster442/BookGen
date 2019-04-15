@@ -20,7 +20,7 @@ namespace BookGen.Editor.Framework
                 case ".gitignore":
                 case ".gitattributes":
                 case ".gitkeep":
-                    return "pack://application:,,,/BookGen.Editor;component/Icons/icons8-git-48.png";
+                    return "pack://application:,,,/BookGen.Editor;component/Icons/mainwin/icons8-git-48.png";
                 case ".sh":
                 case ".psh":
                 case ".bat":
