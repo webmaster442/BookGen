@@ -40,6 +40,7 @@ namespace BookGen
 
             var logfile = Path.Combine(_workdir, "bookgen.log");
             _log.ConfigureFile(logfile);
+            _config = new FsPath(_workdir, "bookgen.json");
 
             switch (action.Value)
             {
@@ -91,8 +92,6 @@ namespace BookGen
             _log.Info("Working directory: {0}", workdir);
             _log.Info("---------------------------------------------------------\n\n");
             int cfgVersion = (version.Major * 100) + version.Minor;
-
-            _config = new FsPath(workdir, "bookgen.json");
 
             if (!_config.IsExisting)
             {

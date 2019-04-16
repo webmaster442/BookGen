@@ -6,15 +6,18 @@
     xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Settings"
-    Width="500"
+    Width="800"
     Height="400"
     Loaded="Window_Loaded"
     Style="{StaticResource {x:Type Window}}"
     WindowStartupLocation="CenterScreen"
     WindowStyle="ToolWindow"
+    ResizeMode="NoResize"
     mc:Ignorable="d">
     <Window.Resources>
-        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+        <Style
+            BasedOn="{StaticResource {x:Type Button}}"
+            TargetType="Button">
             <Setter Property="MinHeight" Value="25" />
             <Setter Property="MinWidth" Value="80" />
             <Setter Property="Margin" Value="3" />
@@ -26,9 +29,14 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
         <TabControl
             x:Name="SectionSelector"
             Grid.Row="0"
+            Grid.Column="0"
             SelectionChanged="SectionSelector_SelectionChanged">
             <TabItem Header="General settings" />
             <TabItem Header="Stlyes" />
@@ -36,11 +44,28 @@
             <TabItem Header="Metadata" />
             <TabItem Header="Precompile" />
         </TabControl>
-        <WindowsFormsHost Grid.Row="1">
+        <WindowsFormsHost
+            Grid.Row="1"
+            Grid.Column="0">
             <forms:PropertyGrid x:Name="PropertyEditor" />
         </WindowsFormsHost>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            FontWeight="Bold"
+            Text="Configuration:" />
+        <TextBox
+            x:Name="TbConfigString"
+            AcceptsReturn="True"
+            AcceptsTab="True"
+            VerticalScrollBarVisibility="Visible"
+            Grid.Row="1"
+            Grid.Column="1"
+            IsReadOnly="True" />
         <StackPanel
             Grid.Row="2"
+            Grid.ColumnSpan="2"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button

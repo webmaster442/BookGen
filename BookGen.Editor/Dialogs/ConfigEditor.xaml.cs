@@ -33,6 +33,8 @@ namespace BookGen.Editor.Dialogs
                 var cfgstring = _config.ReadFile();
                 _cfg = JsonConvert.DeserializeObject<Config>(cfgstring);
                 PropertyEditor.SelectedObject = _cfg;
+                TbConfigString.Text = cfgstring;
+                PropertyEditor.PropertyValueChanged += PropertyEditor_PropertyValueChanged;
             }
             catch (Exception ex)
             {
@@ -40,6 +42,11 @@ namespace BookGen.Editor.Dialogs
                 Close();
             }
 
+        }
+
+        private void PropertyEditor_PropertyValueChanged(object s, System.Windows.Forms.PropertyValueChangedEventArgs e)
+        {
+            TbConfigString.Text = JsonConvert.SerializeObject(_cfg, Formatting.Indented);
         }
 
         private void SectionSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
