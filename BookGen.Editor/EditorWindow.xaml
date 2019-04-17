@@ -23,6 +23,16 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style
+            x:Key="PreviewTextBox"
+            TargetType="TextBox">
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="AcceptsTab" Value="True" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
     </Fluent:RibbonWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -38,6 +48,14 @@
                     <Fluent:BackstageTabControl>
                         <Fluent:BackstageTabItem Header="Preview">
                             <view:HTMLView x:Name="HtmlView" />
+                        </Fluent:BackstageTabItem>
+                        <Fluent:BackstageTabItem Header="Preview - HTML">
+                            <TextBox
+                                x:Name="PreviewHTML"
+                                Margin="10"
+                                FontFamily="Consolas"
+                                FontSize="22"
+                                Style="{StaticResource PreviewTextBox}" />
                         </Fluent:BackstageTabItem>
                         <Fluent:BackstageTabItem Header="Help">
                             <view:HTMLView x:Name="HelpView" />

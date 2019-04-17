@@ -42,6 +42,11 @@ namespace BookGen.Editor.Dialogs
             get { return TbAlt.Text; }
         }
 
+        public bool IsFigure
+        {
+            get { return CbInsertAsFigure.IsChecked ?? false; }
+        }
+
         private void BtnInsert_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;

@@ -7,7 +7,6 @@ using BookGen.Core;
 using BookGen.Editor.Dialogs;
 using BookGen.Editor.Framework;
 using BookGen.Editor.Services;
-using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -69,7 +68,12 @@ namespace BookGen.Editor
             var pict = new InsertPictureDialog(_file);
             if (pict.ShowDialog() == true)
             {
-                string md = $"![{pict.Alt}]({pict.Url})";
+                string md = "";
+                if (pict.IsFigure)
+                    md = $"^^^\r\n![{pict.Alt}]({pict.Url})\r\n^^^{pict.Alt}\r\n";
+                else
+                    md = $"![{pict.Alt}]({pict.Url})";
+
                 Editor.InsertstringAtCaretPos(md);
             }
         }
@@ -90,6 +94,7 @@ namespace BookGen.Editor
             ExceptionHandler.SafeRun(() =>
             {
                 string mdHtml = EditorServices.RenderPreview(Editor.Text, _file);
+                PreviewHTML.Text = mdHtml;
                 HtmlView.RenderPartialHtml(mdHtml);
             });
         }
