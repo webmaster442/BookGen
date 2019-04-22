@@ -53,7 +53,7 @@ namespace BookGen.Editor
             var lnk = new InsertLinkDialog();
             if (lnk.ShowDialog() == true)
             {
-                string md = null;
+                string md;
                 if (string.IsNullOrEmpty(lnk.LinkText))
                     md = lnk.Link;
                 else
@@ -114,10 +114,7 @@ namespace BookGen.Editor
                     OnSave(null);
                 }
             }
-            if (Editor != null)
-            {
-                Editor.Dispose();
-            }
+            Editor?.Dispose();
         }
     }
 }

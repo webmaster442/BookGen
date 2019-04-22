@@ -234,7 +234,8 @@ namespace BookGen.Editor.View
             if (sender is MenuItem item)
             {
                 var seg = item.Tag as Tuple<int, int>;
-                Document.Replace(seg.Item1, seg.Item2, item.Header.ToString());
+                int len = seg.Item2 - seg.Item1;
+                Document.Replace(seg.Item1, len, item.Header.ToString());
             }
         }
 
