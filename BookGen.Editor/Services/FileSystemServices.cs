@@ -14,23 +14,36 @@ namespace BookGen.Editor.Services
 {
     internal static class FileSystemServices
     {
-        public static IEnumerable<FileItem> ListDirectory(string path)
+        public static IEnumerable<FileItem> ListDirectory(string path, string filter = null)
         {
             foreach (var file in Directory.GetFiles(path))
             {
                 FileInfo fi = new FileInfo(file);
 
                 if ((fi.Attributes & FileAttributes.Hidden) != 0) continue;
-                
-                yield return new FileItem
-                {
-                    FullPath = file,
-                    Name = fi.Name,
-                    Size = fi.Length,
-                    FileType = fi.Extension,
-                    LastModified = fi.LastWriteTime
-                };
 
+                if (string.IsNullOrEmpty(filter))
+                {
+                    yield return new FileItem
+                    {
+                        FullPath = file,
+                        Name = fi.Name,
+                        Size = fi.Length,
+                        FileType = fi.Extension,
+                        LastModified = fi.LastWriteTime
+                    };
+                }
+                else if (fi.Name.Contains(filter))
+                {
+                    yield return new FileItem
+                    {
+                        FullPath = file,
+                        Name = fi.Name,
+                        Size = fi.Length,
+                        FileType = fi.Extension,
+                        LastModified = fi.LastWriteTime
+                    };
+                }
             }
         }
 

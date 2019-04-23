@@ -18,6 +18,7 @@ namespace BookGen.Editor.ViewModel
         private ObservableCollection<DirectoryItem> _directories;
         private string _currentdirectory;
         private string _rootDir;
+        private string _filter;
         private NofityModel _nofityModel;
         private FileItem _selectedFile;
 
@@ -69,6 +70,16 @@ namespace BookGen.Editor.ViewModel
         {
             get { return _selectedFile; }
             set { SetValue(ref _selectedFile, value); }
+        }
+
+        public string Filter
+        {
+            get { return _filter; }
+            set
+            {
+                SetValue(ref _filter, value);
+                Files = new ObservableCollection<FileItem>(FileSystemServices.ListDirectory(_currentdirectory, _filter));
+            }
         }
 
         public string RootDir
