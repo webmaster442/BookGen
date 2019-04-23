@@ -3,37 +3,57 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.ComponentModel;
-
 namespace BookGen.Core.Configuration
 {
-    
-    public class SearchSettings
-    {
-        [Description("Search Page title")]
-        public string SearchPageTitle { get; set; }
-        [Description("Search Page search text placeholder text")]
-        public string SearchTextBoxText { get; set; }
-        [Description("Search Page search button text")]
-        public string SearchButtonText { get; set; }
-        [Description("Text to display number of search results")]
-        public string SearchResults { get; set; }
-        [Description("Text to display, when there are no search results")]
-        public string NoResults { get; set; }
 
-        public static SearchSettings Default
+    public class SearchSettings : ConfigurationBase
+    {
+        private string _SearchPageTitle;
+        private string _SearchTextBoxText;
+        private string _SearchButtonText;
+        private string _SearchResults;
+        private string _NoResults;
+
+        public string SearchPageTitle
         {
-            get
+            get => _SearchPageTitle;
+            set => SetValue(ref _SearchPageTitle, value);
+        }
+
+        public string SearchTextBoxText
+        {
+            get => _SearchTextBoxText;
+            set => SetValue(ref _SearchTextBoxText, value);
+        }
+
+        public string SearchButtonText
+        {
+            get => _SearchButtonText;
+            set => SetValue(ref _SearchButtonText, value);
+        }
+
+        public string SearchResults
+        {
+            get => _SearchResults;
+            set => SetValue(ref _SearchResults, value);
+        }
+
+        public string NoResults
+        {
+            get => _NoResults;
+            set => SetValue(ref _NoResults, value);
+        }
+
+        public static SearchSettings CreateDefault()
+        {
+            return new SearchSettings
             {
-                return new SearchSettings
-                {
-                    SearchPageTitle = "Search",
-                    SearchTextBoxText = "Type here to search",
-                    SearchButtonText = "Search",
-                    SearchResults = "Results",
-                    NoResults = "No Results found"
-                };
-            }
+                _SearchPageTitle = "Search",
+                _SearchTextBoxText = "Type here to search",
+                _SearchButtonText = "Search",
+                _SearchResults = "Results",
+                _NoResults = "No Results found"
+            };
         }
     }
 }

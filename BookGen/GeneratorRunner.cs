@@ -159,7 +159,7 @@ namespace BookGen
         private void DoCreateConfig()
         {
             _log.Info("Creating default config file: {0}", _config.ToString());
-            WriteConfig(_config, Config.Default);
+            WriteConfig(_config, Config.CreateDefault());
         }
 
         private void DoBuild()

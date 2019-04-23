@@ -47,7 +47,7 @@ namespace BookGen.Editor.ViewModel
 
         private void OnEditConfig(object obj)
         {
-            ConfigEditor editor = new ConfigEditor(new FsPath(RootDir).Combine(_configfile));
+            ConfigurationEditor editor = new ConfigurationEditor(new FsPath(RootDir).Combine(_configfile));
             editor.ShowDialog();
         }
 

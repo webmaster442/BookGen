@@ -25,6 +25,9 @@ namespace BookGen.Core
 
         public bool Validate(Config config, string workdir)
         {
+            if (Errors.Count > 0)
+                Errors.Clear();
+
             var WorkDirectory = new FsPath(workdir);
 
             if (!WorkDirectory.Combine(config.Template).IsExisting)

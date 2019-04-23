@@ -5,23 +5,39 @@
 
 namespace BookGen.Core.Configuration
 {
-    public class Metadata
+    public class Metadata : ConfigurationBase
     {
-        public string Author { get; set; }
-        public string CoverImage { get; set; }
-        public string Title { get; set; }
+        private string _Author;
+        private string _CoverImage;
+        private string _Title;
 
-        public static Metadata Default
+
+        public string Author
         {
-            get
+            get => _Author;
+            set => SetValue(ref _Author, value);
+        }
+
+        public string CoverImage
+        {
+            get => _CoverImage;
+            set => SetValue(ref _CoverImage, value);
+        }
+
+        public string Title
+        {
+            get => _Title;
+            set => SetValue(ref _Title, value);
+        }
+
+        public static Metadata CreateDefault()
+        {
+            return new Metadata
             {
-                return new Metadata
-                {
-                    Author = "Place author name here",
-                    CoverImage = "Place cover here",
-                    Title = "Book title"
-                };
-            }
+                Author = "Place author name here",
+                CoverImage = "Place cover here",
+                Title = "Book title"
+            };
         }
     }
 }

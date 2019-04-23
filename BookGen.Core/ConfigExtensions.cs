@@ -28,13 +28,13 @@ namespace BookGen.Core
                 config.StyleClasses = new StyleClasses();
 
             if (config.SearchOptions == null)
-                config.SearchOptions = SearchSettings.Default;
+                config.SearchOptions = SearchSettings.CreateDefault();
 
             if (config.Metadata == null)
-                config.Metadata = Metadata.Default;
+                config.Metadata = Metadata.CreateDefault();
 
             if (config.PrecompileHeader == null)
-                config.PrecompileHeader = Precompile.Default;
+                config.PrecompileHeader = Precompile.CreateDefault();
         }
     }
 }

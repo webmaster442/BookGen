@@ -63,9 +63,7 @@
       <HintPath>..\packages\NHunspell.1.2.5554.16953\lib\net\NHunspell.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Design" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -73,7 +71,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -88,6 +85,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\ConfigurationEditor.xaml.cs">
+      <DependentUpon>ConfigurationEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
@@ -124,6 +124,21 @@
     <Compile Include="ViewModel\FileBrowserViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NofityModel.cs" />
+    <Compile Include="View\ConfigEditors\ConfigurationBaseEditor.xaml.cs">
+      <DependentUpon>ConfigurationBaseEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigEditors\MetadataEditor.xaml.cs">
+      <DependentUpon>MetadataEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigEditors\PrecompileEditor.xaml.cs">
+      <DependentUpon>PrecompileEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigEditors\SearchEditor.xaml.cs">
+      <DependentUpon>SearchEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigEditors\StyleEditor.xaml.cs">
+      <DependentUpon>StyleEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditorCommand.cs" />
     <Compile Include="View\EditorListCommand.cs" />
     <Compile Include="View\EditorWrapper.cs" />
@@ -135,9 +150,9 @@
     </Compile>
     <Compile Include="View\ReformatTableCommand.cs" />
     <Compile Include="View\SpellingErrorColorizer.cs" />
-    <Page Include="Dialogs\ConfigEditor.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Dialogs\ConfigurationEditor.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\FindReplaceDialog.xaml">
       <SubType>Designer</SubType>
@@ -167,9 +182,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Dialogs\ConfigEditor.xaml.cs">
-      <DependentUpon>ConfigEditor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Framework\DelegateCommand.cs" />
     <Compile Include="Framework\ViewModelBase.cs" />
     <Page Include="RibbonMainWindow.xaml">
@@ -179,6 +191,26 @@
     <Page Include="Themes\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ConfigEditors\ConfigurationBaseEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigEditors\MetadataEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ConfigEditors\PrecompileEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigEditors\SearchEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigEditors\StyleEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FileBrowserView.xaml">
       <SubType>Designer</SubType>

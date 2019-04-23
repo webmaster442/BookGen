@@ -3,33 +3,46 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.ComponentModel;
-using BookGen.Core;
 
 namespace BookGen.Core.Configuration
 {
-    public class Precompile
+
+    public class Precompile: ConfigurationBase
     {
-        [Description("List of CSS files to inline in header of template")]
-        [Editor(@"System.Windows.Forms.Design.StringCollectionEditor," + "System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
-        [TypeConverter(typeof(CsvConverter))]
         public List<string> CSSFiles { get; set; }
-        [Description("List of JS files to inline in header of template")]
-        [Editor(@"System.Windows.Forms.Design.StringCollectionEditor," + "System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",  typeof(System.Drawing.Design.UITypeEditor))]
-        [TypeConverter(typeof(CsvConverter))]
         public List<string> JavascriptFiles { get; set; }
 
-        public static Precompile Default
+        [JsonIgnore]
+        public string CSSFilesString
         {
-            get
+            get { return string.Join("\r\n", CSSFiles); }
+            set
             {
-                return new Precompile
-                {
-                    CSSFiles = new List<string>(),
-                    JavascriptFiles = new List<string>(),
-                };
+                CSSFiles = new List<string>(value.Split(new char[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries));
+                base.OnPropertyChanged();
             }
+        }
+
+        [JsonIgnore]
+        public string JavascriptFilesString
+        {
+            get { return string.Join("\r\n", JavascriptFiles); }
+            set
+            {
+                JavascriptFiles = new List<string>(value.Split(new char[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries));
+                base.OnPropertyChanged();
+            }
+        }
+
+        public static Precompile CreateDefault()
+        {
+            return new Precompile
+            {
+                CSSFiles = new List<string>(),
+                JavascriptFiles = new List<string>(),
+            };
         }
 
     }
