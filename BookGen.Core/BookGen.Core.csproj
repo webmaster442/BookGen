@@ -69,7 +69,6 @@
     <Compile Include="Contracts\IReadonlyRuntimeSettings.cs" />
     <Compile Include="Contracts\ITOC.cs" />
     <Compile Include="Contracts\LogLevel.cs" />
-    <Compile Include="CsvConverter.cs" />
     <Compile Include="FsPath.cs" />
     <Compile Include="FsUtils.cs" />
     <Compile Include="HashUtils.cs" />
