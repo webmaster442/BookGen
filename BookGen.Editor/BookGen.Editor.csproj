@@ -343,6 +343,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Resource Include="Icons\editor\icons8-spellcheck-48.png" />
+    <Resource Include="Icons\editor\icons8-calculator-48.png" />
+    <Resource Include="Icons\editor\icons8-gamma-48.png" />
+    <Resource Include="Icons\editor\icons8-windows8-48.png" />
     <Content Include="Preview.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

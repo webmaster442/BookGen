@@ -85,15 +85,18 @@
                     <Fluent:Button
                         Command="{Binding Actions.CreateConfigCommand}"
                         Header="Create configuration..."
+                        Fluent:RibbonGroupBoxWrapPanel.ExcludeFromSharedSize="True"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-services-48.png" />
                     <Fluent:Button
                         Command="{Binding Actions.EditConfigCommand}"
                         Header="Edit configuration..."
+                        Fluent:RibbonGroupBoxWrapPanel.ExcludeFromSharedSize="True"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-services-48.png" />
                     <Fluent:Button
                         Command="{Binding Actions.BuildCommand}"
                         CommandParameter="{x:Static core:KnownArguments.ValidateConfig}"
                         Header="Validate Config"
+                        Fluent:RibbonGroupBoxWrapPanel.ExcludeFromSharedSize="True"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-services-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Build">
@@ -101,26 +104,31 @@
                         Command="{Binding Actions.BuildCommand}"
                         CommandParameter="{x:Static core:KnownArguments.BuildWeb}"
                         Header="Bild website..."
+                        Fluent:RibbonGroupBoxWrapPanel.ExcludeFromSharedSize="True"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
                     <Fluent:Button
                         Command="{Binding Actions.BuildCommand}"
                         CommandParameter="{x:Static core:KnownArguments.TestWeb}"
                         Header="Bild test website..."
+                        Fluent:RibbonGroupBoxWrapPanel.ExcludeFromSharedSize="True"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
                     <Fluent:Button
                         Command="{Binding Actions.BuildCommand}"
                         CommandParameter="{x:Static core:KnownArguments.BuildPrint}"
                         Header="Bild print website..."
+                        Fluent:RibbonGroupBoxWrapPanel.ExcludeFromSharedSize="True"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
                     <Fluent:Button
                         Command="{Binding Actions.BuildCommand}"
                         CommandParameter="{x:Static core:KnownArguments.BuildEpub}"
                         Header="Bild epub..."
+                        Fluent:RibbonGroupBoxWrapPanel.ExcludeFromSharedSize="True"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
                     <Fluent:Button
                         Command="{Binding Actions.BuildCommand}"
                         CommandParameter="{x:Static core:KnownArguments.Clean}"
                         Header="Clean output directory..."
+                        Fluent:RibbonGroupBoxWrapPanel.ExcludeFromSharedSize="True"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-play-48.png" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>

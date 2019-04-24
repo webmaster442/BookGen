@@ -31,6 +31,11 @@ namespace BookGen.Core
             }
         }
 
+        public string Filename
+        {
+            get { return Path.GetFileName(_path); }
+        }
+
         public override bool Equals(object obj)
         {
             return Equals(obj as FsPath);

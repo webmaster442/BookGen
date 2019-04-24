@@ -15,10 +15,23 @@
     WindowState="Maximized"
     mc:Ignorable="d">
     <Window.InputBindings>
-        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveCommand}"/>
-        <KeyBinding Key="F" Modifiers="Ctrl" Command="{Binding FindReplaceCommand}"/>
-        <KeyBinding Key="H" Modifiers="Ctrl" Command="{Binding FindReplaceCommand}" CommandParameter="replace"/>
-        <KeyBinding Key="Z" Modifiers="Ctrl" Command="{Binding ElementName=Editor, Path=UndoCommand}"/>
+        <KeyBinding
+            Key="S"
+            Command="{Binding SaveCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="F"
+            Command="{Binding FindReplaceCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="H"
+            Command="{Binding FindReplaceCommand}"
+            CommandParameter="replace"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="Z"
+            Command="{Binding ElementName=Editor, Path=UndoCommand}"
+            Modifiers="Ctrl" />
     </Window.InputBindings>
     <Fluent:RibbonWindow.Resources>
         <Style TargetType="Fluent:ToggleButton">
@@ -80,14 +93,14 @@
             <Fluent:RibbonTabItem Header="Home">
                 <Fluent:RibbonGroupBox Header="Commands">
                     <Fluent:Button
+                        Fluent:KeyTip.Keys="CTRL+S"
                         Command="{Binding SaveCommand}"
                         Header="Save"
-                        Fluent:KeyTip.Keys="CTRL+S"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-save-48.png" />
                     <Fluent:Button
+                        Fluent:KeyTip.Keys="CTRL+Z"
                         Command="{Binding ElementName=Editor, Path=UndoCommand}"
                         Header="Undo"
-                        Fluent:KeyTip.Keys="CTRL+Z"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-undo-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=RedoCommand}"
@@ -195,9 +208,9 @@
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Other tools">
                     <Fluent:Button
+                        Fluent:KeyTip.Keys="CTRL+F"
                         Command="{Binding FindReplaceCommand}"
                         Header="Find &amp; Replace"
-                        Fluent:KeyTip.Keys="CTRL+F"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-find-and-replace-48.png" />
                     <Fluent:SplitButton
                         Header="Reformat table"
@@ -210,6 +223,20 @@
                             Command="{Binding ReformatTableRightCommand}"
                             Header="Align right"
                             LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-right-48.png" />
+                    </Fluent:SplitButton>
+                    <Fluent:SplitButton
+                        Header="Windows tools"
+                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-windows8-48.png">
+                        <Fluent:Button
+                            Command="{Binding RunCommand}"
+                            CommandParameter="charmap.exe"
+                            Header="Character Map"
+                            LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-gamma-48.png" />
+                        <Fluent:Button
+                            Command="{Binding RunCommand}"
+                            CommandParameter="calc.exe"
+                            Header="Calculator"
+                            LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-calculator-48.png" />
                     </Fluent:SplitButton>
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=ConfigureSpelling}"
@@ -252,13 +279,13 @@
             FontSize="22"
             Foreground="White"
             LineNumbersForeground="Yellow"
+            ScrollBelowDocument="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ScrollBelowDocument}"
             ShowColumnRuler="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowColumnRuler}"
             ShowLineEndings="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowLineEndings}"
             ShowLineNumbers="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowLineNumbers}"
             ShowSpaces="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowSpaces}"
             ShowTabs="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowTabs}"
-            WordWrap="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_WordWrap}"
-            ScrollBelowDocument="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ScrollBelowDocument}"/>
+            WordWrap="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_WordWrap}" />
         <Fluent:StatusBar Grid.Row="2">
             <Fluent:StatusBarItem
                 Margin="0,0,10,0"

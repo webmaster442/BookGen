@@ -7,6 +7,7 @@ using BookGen.Core;
 using BookGen.Editor.Dialogs;
 using BookGen.Editor.Framework;
 using BookGen.Editor.Services;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -26,12 +27,15 @@ namespace BookGen.Editor
         public ICommand FindReplaceCommand { get; }
         public ICommand ReformatTableLeftCommand { get; }
         public ICommand ReformatTableRightCommand { get; }
+        public ICommand RunCommand { get; }
 
         public EditorWindow(FsPath file)
         {
             InitializeComponent();
             DataContext = this;
             _file = file;
+            Title = $"BookGen Editor - {_file.Filename}";
+
             Editor.Text = _file.ReadFile();
             _fileHash = HashUtils.GetSHA1(Editor.Text);
             SaveCommand = DelegateCommand.CreateCommand(OnSave, OnCanSave);
@@ -41,6 +45,12 @@ namespace BookGen.Editor
             ReformatTableLeftCommand = new View.ReformatTableCommand(Editor, true);
             ReformatTableRightCommand = new View.ReformatTableCommand(Editor, false);
             HelpView.RenderPartialHtml(EditorServices.RenderPreview(Properties.Resources.CheatSheet, null));
+            RunCommand = new DelegateCommand<string>(OnRun);
+        }
+
+        private void OnRun(string obj)
+        {
+            System.Diagnostics.Process.Start(obj);
         }
 
         private void OnFindReplace(object obj)
