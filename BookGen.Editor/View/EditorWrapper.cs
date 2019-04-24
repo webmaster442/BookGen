@@ -234,7 +234,14 @@ namespace BookGen.Editor.View
             if (!_hunspell.Spell(word))
             {
                 ContextMenu = new ContextMenu();
-                foreach (string corrected in _hunspell.Suggest(word))
+                var suggestions = _hunspell.Suggest(word);
+                if (suggestions.Count < 1)
+                {
+                    var item = new MenuItem { Header = "Unknown word", FontWeight = FontWeights.Bold };
+                    ContextMenu.Items.Add(item);
+                    return;
+                }
+                foreach (string corrected in suggestions)
                 {
                     var item = new MenuItem { Header = corrected, FontWeight = FontWeights.Bold };
                     item.Tag = new Tuple<int, int>(start, end);
