@@ -59,6 +59,20 @@ namespace BookGen.Editor.View
         public static readonly DependencyProperty ShowColumnRulerProperty =
             DependencyProperty.Register("ShowColumnRuler", typeof(bool), typeof(EditorWrapper), new PropertyMetadata(false, ConfigureShow));
 
+
+
+        public bool ScrollBelowDocument
+        {
+            get { return (bool)GetValue(ScrollBelowDocumentProperty); }
+            set { SetValue(ScrollBelowDocumentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ScrollBelowDocument.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ScrollBelowDocumentProperty =
+            DependencyProperty.Register("ScrollBelowDocument", typeof(bool), typeof(EditorWrapper), new PropertyMetadata(true, ConfigureShow));
+
+
+
         private static void ConfigureShow(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is EditorWrapper editor)
@@ -142,6 +156,7 @@ namespace BookGen.Editor.View
             editor.Options.ShowSpaces = editor.ShowSpaces;
             editor.Options.ShowTabs = editor.ShowTabs;
             editor.Options.ShowColumnRuler = editor.ShowColumnRuler;
+            editor.Options.AllowScrollBelowDocument = editor.ScrollBelowDocument;
         }
 
         public EditorWrapper() : base()

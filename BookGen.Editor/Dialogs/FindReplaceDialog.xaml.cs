@@ -145,20 +145,34 @@ namespace BookGen.Editor.Dialogs
 
         private static FindReplaceDialog theDialog = null;
 
+        public static void ShowForFind(TextEditor editor)
+        {
+            ShowFor(editor, 0);
+        }
+
         public static void ShowForReplace(TextEditor editor)
+        {
+            ShowFor(editor, 1);
+        }
+
+        private static void ShowFor(TextEditor editor, int index)
         {
             if (theDialog == null)
             {
                 theDialog = new FindReplaceDialog(editor);
-                theDialog.tabMain.SelectedIndex = 1;
                 theDialog.Show();
                 theDialog.Activate();
             }
             else
             {
-                theDialog.tabMain.SelectedIndex = 1;
+                theDialog.Visibility = Visibility.Visible;
                 theDialog.Activate();
             }
+
+            theDialog.Dispatcher.Invoke(() =>
+            {
+                theDialog.tabMain.SelectedIndex = index;
+            });
 
             if (!editor.TextArea.Selection.IsMultiline)
             {

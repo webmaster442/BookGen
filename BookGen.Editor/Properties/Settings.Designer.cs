@@ -118,5 +118,17 @@ namespace BookGen.Editor.Properties {
                 this["Editor_AffFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Editor_ScrollBelowDocument {
+            get {
+                return ((bool)(this["Editor_ScrollBelowDocument"]));
+            }
+            set {
+                this["Editor_ScrollBelowDocument"] = value;
+            }
+        }
     }
 }

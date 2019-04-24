@@ -9,11 +9,17 @@
     xmlns:properties="clr-namespace:BookGen.Editor.Properties"
     xmlns:view="clr-namespace:BookGen.Editor.View"
     Title="Editor"
-    Width="800"
+    Width="1200"
     Height="450"
     Closing="RibbonWindow_Closing"
     WindowState="Maximized"
     mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveCommand}"/>
+        <KeyBinding Key="F" Modifiers="Ctrl" Command="{Binding FindReplaceCommand}"/>
+        <KeyBinding Key="H" Modifiers="Ctrl" Command="{Binding FindReplaceCommand}" CommandParameter="replace"/>
+        <KeyBinding Key="Z" Modifiers="Ctrl" Command="{Binding ElementName=Editor, Path=UndoCommand}"/>
+    </Window.InputBindings>
     <Fluent:RibbonWindow.Resources>
         <Style TargetType="Fluent:ToggleButton">
             <Setter Property="LargeIcon" Value="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-unchecked-checkbox-48.png" />
@@ -76,10 +82,12 @@
                     <Fluent:Button
                         Command="{Binding SaveCommand}"
                         Header="Save"
+                        Fluent:KeyTip.Keys="CTRL+S"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-save-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=UndoCommand}"
                         Header="Undo"
+                        Fluent:KeyTip.Keys="CTRL+Z"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-undo-48.png" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=RedoCommand}"
@@ -189,6 +197,7 @@
                     <Fluent:Button
                         Command="{Binding FindReplaceCommand}"
                         Header="Find &amp; Replace"
+                        Fluent:KeyTip.Keys="CTRL+F"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-find-and-replace-48.png" />
                     <Fluent:SplitButton
                         Header="Reformat table"
@@ -222,6 +231,9 @@
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Other">
                     <Fluent:ToggleButton
+                        Header="Scroll below content"
+                        IsChecked="{Binding ElementName=Editor, Path=ScrollBelowDocument}" />
+                    <Fluent:ToggleButton
                         Header="Column Ruler"
                         IsChecked="{Binding ElementName=Editor, Path=ShowColumnRuler}" />
                     <Fluent:ToggleButton
@@ -245,7 +257,8 @@
             ShowLineNumbers="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowLineNumbers}"
             ShowSpaces="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowSpaces}"
             ShowTabs="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowTabs}"
-            WordWrap="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_WordWrap}" />
+            WordWrap="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_WordWrap}"
+            ScrollBelowDocument="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ScrollBelowDocument}"/>
         <Fluent:StatusBar Grid.Row="2">
             <Fluent:StatusBarItem
                 Margin="0,0,10,0"

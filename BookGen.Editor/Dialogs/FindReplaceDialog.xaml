@@ -7,6 +7,7 @@
     Title="Find &amp; Replace"
     Width="400"
     Height="250"
+    Closed="Window_Closed"
     Style="{StaticResource {x:Type Window}}"
     WindowStartupLocation="CenterScreen"
     WindowStyle="ToolWindow"

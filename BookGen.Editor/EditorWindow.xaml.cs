@@ -45,7 +45,10 @@ namespace BookGen.Editor
 
         private void OnFindReplace(object obj)
         {
-            FindReplaceDialog.ShowForReplace(Editor);
+            if (obj == null)
+                FindReplaceDialog.ShowForFind(Editor);
+            else
+                FindReplaceDialog.ShowForReplace(Editor);
         }
 
         private void OnInsertLink(object obj)
