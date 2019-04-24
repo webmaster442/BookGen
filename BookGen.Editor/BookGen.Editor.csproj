@@ -36,6 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
@@ -112,6 +113,9 @@
     <Compile Include="Framework\IconConverter.cs" />
     <Compile Include="Model\DirectoryItem.cs" />
     <Compile Include="Model\FileItem.cs" />
+    <Compile Include="PreviewWindow.xaml.cs">
+      <DependentUpon>PreviewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RibbonMainWindow.xaml.cs">
       <DependentUpon>RibbonMainWindow.xaml</DependentUpon>
     </Compile>
@@ -184,6 +188,10 @@
     </Compile>
     <Compile Include="Framework\DelegateCommand.cs" />
     <Compile Include="Framework\ViewModelBase.cs" />
+    <Page Include="PreviewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RibbonMainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -77,6 +77,20 @@ namespace BookGen.Editor.Services
         public static IList<DirectoryItem> GetDirectories(string path)
         {
             List<DirectoryItem> ret = new List<DirectoryItem>();
+            DirectoryInfo root = new DirectoryInfo(path);
+            ret.Add(new DirectoryItem
+            {
+                Name = root.Name,
+                FullPath = root.FullName,
+                FileCount = Directory.GetFiles(path).Length,
+                SubDirs = GetSubDirectories(path)
+            });
+            return ret;
+        }
+
+        public static IList<DirectoryItem> GetSubDirectories(string path)
+        {
+            List<DirectoryItem> ret = new List<DirectoryItem>();
 
             foreach (var directory in Directory.GetDirectories(path))
             {
@@ -88,7 +102,7 @@ namespace BookGen.Editor.Services
                     Name = di.Name,
                     FullPath = di.FullName,
                     FileCount = Directory.GetFiles(directory).Length,
-                    SubDirs = GetDirectories(directory)
+                    SubDirs = GetSubDirectories(directory)
                 };
                 ret.Add(info);
             }

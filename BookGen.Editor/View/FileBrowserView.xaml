@@ -90,13 +90,73 @@
             HorizontalContentAlignment="Stretch"
             ItemTemplate="{StaticResource FilesTemplate}"
             ItemsSource="{Binding Files}"
-            SelectedItem="{Binding SelectedFile}" />
+            SelectedItem="{Binding SelectedFile}">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        Command="{Binding FileBrowserModel.OpenFile}"
+                        Header="Open">
+                        <MenuItem.Icon>
+                            <Image
+                                Height="16"
+                                Source="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-open-document-48.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem
+                        Command="{Binding FileBrowserModel.EditFile}"
+                        Header="Edit">
+                        <MenuItem.Icon>
+                            <Image
+                                Height="16"
+                                Source="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-pencil-48.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem
+                        Command="{Binding CreateFile}"
+                        Header="Create File...">
+                        <MenuItem.Icon>
+                            <Image
+                                Height="16"
+                                Source="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-new-file-48.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem
+                        Command="{Binding CreateDirectory}"
+                        Header="Create Directory...">
+                        <MenuItem.Icon>
+                            <Image
+                                Height="16"
+                                Source="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-add-folder-48.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem
+                        Command="{Binding DeleteFile}"
+                        Header="Delete..">
+                        <MenuItem.Icon>
+                            <Image
+                                Height="16"
+                                Source="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-delete-bin-48.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem
+                        Command="{Binding RenameFile}"
+                        Header="Rename...">
+                        <MenuItem.Icon>
+                            <Image
+                                Height="16"
+                                Source="pack://application:,,,/BookGen.Editor;Component/Icons/mainwin/icons8-rename-48.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
         <Grid
             Grid.Row="1"
             Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition/>
+                <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.Resources>
@@ -106,7 +166,7 @@
                     <Setter Property="Margin" Value="3,2" />
                     <Setter Property="MinHeight" Value="32" />
                     <Setter Property="Padding" Value="5,0" />
-                    <Setter Property="MinWidth" Value="100"/>
+                    <Setter Property="MinWidth" Value="100" />
                 </Style>
             </Grid.Resources>
         </Grid>
