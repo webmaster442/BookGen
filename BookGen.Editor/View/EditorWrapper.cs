@@ -148,8 +148,6 @@ namespace BookGen.Editor.View
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Hunspell _hunspell;
-
         private static void SetViewProperties(EditorWrapper editor)
         {
             editor.Options.ShowEndOfLine = editor.ShowLineEndings;
@@ -159,19 +157,14 @@ namespace BookGen.Editor.View
             editor.Options.AllowScrollBelowDocument = editor.ScrollBelowDocument;
         }
 
+        private SpellCheck _spellCheck;
+
         public EditorWrapper() : base()
         {
+            _spellCheck = new SpellCheck(TextArea.TextView);
             SetViewProperties(this);
             SyntaxHighlighting = EditorServices.LoadHighlightingDefinition();
             TextArea.TextView.LinkTextForegroundBrush = new SolidColorBrush(Color.FromRgb(0x56, 0x9C, 0xD6));
-            if (EditorServices.HunspellConfigured())
-            {
-                _hunspell = new Hunspell(Properties.Settings.Default.Editor_AffFile, Properties.Settings.Default.Editor_DictFile);
-                TextArea.TextView.LineTransformers.Add(new SpellingErrorColorizer(this, _hunspell));
-#if DEBUG
-                Debug.WriteLine("Hunspell configured");
-#endif
-            }
             ContextMenuOpening += EditorWrapper_ContextMenuOpening;
             TextChanged += EditorWrapper_TextChanged;
             WrapWithToken = new EditorCommand(this, true);
@@ -181,6 +174,14 @@ namespace BookGen.Editor.View
             UndoCommand = DelegateCommand.CreateCommand(OnUndo, OnCanUndo);
             RedoCommand = DelegateCommand.CreateCommand(OnRedo, OnCanRedo);
             ConfigureSpelling = DelegateCommand.CreateCommand(OnConfigureSpelling);
+            TextArea.TextView.VisualLinesChanged += TextView_VisualLinesChanged;
+        }
+
+        private void TextView_VisualLinesChanged(object sender, EventArgs e)
+        {
+            if (_spellCheck == null) return;
+            if (CaretOffset == Document.TextLength) return;
+            _spellCheck.DoSpellCheck();
         }
 
         private string GetWord(out int start, out int end)
@@ -231,10 +232,10 @@ namespace BookGen.Editor.View
             ContextMenu = null;
             if (string.IsNullOrEmpty(word)) return;
 
-            if (!_hunspell.Spell(word))
+            if (!_spellCheck.Spell(word))
             {
                 ContextMenu = new ContextMenu();
-                var suggestions = _hunspell.Suggest(word);
+                var suggestions = _spellCheck.Suggest(word);
                 if (suggestions.Count < 1)
                 {
                     var item = new MenuItem { Header = "Unknown word", FontWeight = FontWeights.Bold };
@@ -306,14 +307,7 @@ namespace BookGen.Editor.View
 
         public void Dispose()
         {
-            if (_hunspell != null)
-            {
-                _hunspell.Dispose();
-                _hunspell = null;
-#if DEBUG
-                Debug.WriteLine("Hunspell disposed");
-#endif
-            }
+            _spellCheck.Dispose();
         }
 
         ~EditorWrapper()

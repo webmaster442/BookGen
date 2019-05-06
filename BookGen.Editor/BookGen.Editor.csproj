@@ -152,9 +152,9 @@
     <Compile Include="View\HTMLView.xaml.cs">
       <DependentUpon>HTMLView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MarkdownSyntax.cs" />
     <Compile Include="View\ReformatTableCommand.cs" />
-    <Compile Include="View\SpellingErrorColorizer.cs" />
+    <Compile Include="View\SpellCheck.cs" />
+    <Compile Include="View\SpellingColorizer.cs" />
     <Page Include="Dialogs\ConfigurationEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
