@@ -2,7 +2,7 @@
 	<Color name="Heading" foreground="#D69D85" fontWeight="bold" exampleText="# Title #" />
 	<Color name="Emphasis" fontStyle="italic" exampleText="*this* is important!" />
 	<Color name="StrongEmphasis" fontWeight="bold" exampleText="**this** is more important!" />
-	<Color name="Code" exampleText="this is `int.GetHashCode()`" />
+	<Color name="Code" foreground="#808080" exampleText="this is `int.GetHashCode()`" />
 	<Color name="BlockQuote" foreground="#4EC9AD" exampleText="&gt; This is a\r\n&gt; quote." />
 	<Color name="Link" foreground="#569CD6" exampleText="[text](http://example.com)" />
 	<Color name="Image" foreground="#57A64A" exampleText="[text][http://example.com/test.png]" />
@@ -27,15 +27,19 @@
 		<Rule color="Code">
 			`.*`
 		</Rule>
-		<Span color="Code" ruleSet="C#/" multiline="true">
+		<Span color="Code" multiline="true">
 			<Begin>^\t</Begin>
 			<End>^(?!\t)</End>
 		</Span>
-		<Span color="Code" ruleSet="C#/" multiline="true">
-			<Begin>^[ ]{4}</Begin>
-			<End>^(?![ ]{4})</End>
-		</Span>
-		<Span color="BlockQuote" multiline="true">
+    <Span color="Code" multiline="true">
+      <Begin>^[~]{3,}</Begin>
+      <End>^[~]{3,}</End>
+    </Span>
+    <Span color="Code" multiline="true">
+      <Begin>^[`]{3,}</Begin>
+      <End>[`]{3,}</End>
+    </Span>
+    <Span color="BlockQuote" multiline="true">
 			<Begin>^&gt;</Begin>
 			<End>^(?!&gt;)</End>
 		</Span>
