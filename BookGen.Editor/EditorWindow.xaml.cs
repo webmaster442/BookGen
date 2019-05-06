@@ -7,7 +7,6 @@ using BookGen.Core;
 using BookGen.Editor.Dialogs;
 using BookGen.Editor.Framework;
 using BookGen.Editor.Services;
-using System;
 using System.Windows;
 using System.Windows.Input;
 

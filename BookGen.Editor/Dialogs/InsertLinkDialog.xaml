@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:BookGen.Editor.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Insert Link"
     Width="400"
@@ -12,7 +11,8 @@
     Style="{StaticResource {x:Type Window}}"
     WindowStartupLocation="CenterScreen"
     WindowStyle="ToolWindow"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    KeyDown="Window_KeyDown">
     <Window.Resources>
         <Style
             BasedOn="{StaticResource {x:Type Button}}"
@@ -63,11 +63,11 @@
             <Button
                 x:Name="BtnInsert"
                 Click="BtnInsert_Click"
-                Content="Insert" />
+                Content="Insert [Ctrl+Enter]" />
             <Button
                 x:Name="BtnCancel"
                 Click="BtnCancel_Click"
-                Content="Cancel" />
+                Content="Cancel [Esc]" />
         </StackPanel>
     </Grid>
 </Window>

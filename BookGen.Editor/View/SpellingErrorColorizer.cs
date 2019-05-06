@@ -20,7 +20,7 @@ namespace BookGen.Editor.View
         private readonly TextDecorationCollection collection;
         private Hunspell _hunspell;
         private readonly Regex _sanitizer;
-        private const string _sanitizePattern = @"(\(|\)|\[|\]|\{|\}|\.|\?|\!|\<|\>|\#|\,|\;|\-|\|)";
+        private const string _sanitizePattern = @"(\(|\)|\[|\]|\{|\}|\.|\?|\!|\<|\>|\#|\,|\;|\:|\-|\|)";
 
         public SpellingErrorColorizer(EditorWrapper editor, Hunspell hunspell)
         {

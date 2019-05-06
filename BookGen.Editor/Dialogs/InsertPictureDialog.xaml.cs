@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace BookGen.Editor.Dialogs
 {
@@ -84,6 +85,21 @@ namespace BookGen.Editor.Dialogs
 
 
             LocalImages.ItemsSource = new ObservableCollection<string>(filter);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Escape)
+            {
+                DialogResult = false;
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Enter
+                     && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+            {
+                DialogResult = true;
+                e.Handled = true;
+            }
         }
     }
 }

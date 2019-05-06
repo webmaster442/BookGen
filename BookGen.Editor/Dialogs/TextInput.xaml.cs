@@ -35,9 +35,10 @@ namespace BookGen.Editor.Dialogs
             DialogResult = false;
         }
 
-        private void TbInput_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Return)
+            if (e.Key == Key.Return
+                && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
             {
                 DialogResult = true;
                 e.Handled = true;

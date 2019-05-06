@@ -104,8 +104,10 @@ namespace BookGen.Editor.ViewModel
             {
                 if (SetValue(ref _currentdirectory, value))
                 {
+                    _filter = string.Empty;
                     Files = new ObservableCollection<FileItem>(FileSystemServices.ListDirectory(_currentdirectory));
                     _nofityModel.CurrentDirectory = _currentdirectory;
+                    OnPropertyChanged(nameof(Filter));
                 }
             }
         }
@@ -118,6 +120,8 @@ namespace BookGen.Editor.ViewModel
         private void _nofityModel_RefreshCurrentDirFiles(object sender, EventArgs e)
         {
             Files = new ObservableCollection<FileItem>(FileSystemServices.ListDirectory(_currentdirectory));
+            _filter = string.Empty;
+            OnPropertyChanged(nameof(Filter));
         }
 
         private void OnChangeDir(DirectoryItem obj)

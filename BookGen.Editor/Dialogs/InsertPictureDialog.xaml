@@ -7,6 +7,8 @@
     Title="Insert Image"
     Width="800"
     Height="480"
+    FocusManager.FocusedElement="{Binding ElementName=TbUrl}"
+    KeyDown="Window_KeyDown"
     Loaded="Window_Loaded"
     ResizeMode="NoResize"
     Style="{StaticResource {x:Type Window}}"
@@ -119,11 +121,11 @@
             <Button
                 x:Name="BtnInsert"
                 Click="BtnInsert_Click"
-                Content="Insert" />
+                Content="Insert [Ctrl+Enter]" />
             <Button
                 x:Name="BtnCancel"
                 Click="BtnCancel_Click"
-                Content="Cancel" />
+                Content="Cancel [Esc]" />
         </StackPanel>
     </Grid>
 </Window>

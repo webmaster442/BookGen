@@ -8,6 +8,7 @@
     Width="300"
     Height="100"
     FocusManager.FocusedElement="{Binding ElementName=TbInput}"
+    KeyDown="Window_KeyDown"
     Style="{StaticResource {x:Type Window}}"
     WindowStartupLocation="CenterScreen"
     WindowStyle="ToolWindow"
@@ -33,7 +34,6 @@
         </Grid.ColumnDefinitions>
         <TextBox
             x:Name="TbInput"
-            KeyDown="TbInput_KeyDown"
             Grid.Row="0"
             Grid.ColumnSpan="3"
             Margin="5" />
@@ -42,12 +42,12 @@
             Grid.Row="1"
             Grid.Column="1"
             Click="BtnOk_Click"
-            Content="Ok" />
+            Content="Ok [Ctrl+Enter]" />
         <Button
             x:Name="BtnCancel"
             Grid.Row="1"
             Grid.Column="2"
             Click="BtnCancel_Click"
-            Content="Cancel" />
+            Content="Cancel [Esc]" />
     </Grid>
 </Window>

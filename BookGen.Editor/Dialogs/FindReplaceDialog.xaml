@@ -11,6 +11,7 @@
     Style="{StaticResource {x:Type Window}}"
     WindowStartupLocation="CenterScreen"
     WindowStyle="ToolWindow"
+    KeyDown="Window_KeyDown"
     mc:Ignorable="d">
     <Grid Margin="0,4">
         <Grid.RowDefinitions>
@@ -35,11 +36,12 @@
                         Name="txtFind"
                         Margin="3" />
                     <Button
+                        Height="25"
                         Width="80"
                         Margin="5"
                         HorizontalAlignment="Right"
                         Click="FindNextClick"
-                        Content="Find Next" />
+                        Content="Find Next [F3]" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Replace">
@@ -58,23 +60,23 @@
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
                         <Button
-                            Width="80"
                             Margin="5"
+                            Height="25"
                             HorizontalAlignment="Right"
                             Click="FindNext2Click"
-                            Content="Find Next" />
+                            Content="Find Next [F3]" />
                         <Button
-                            Width="80"
                             Margin="5"
+                            Height="25"
                             HorizontalAlignment="Right"
                             Click="ReplaceClick"
-                            Content="Replace" />
+                            Content="Replace [Alt+R]" />
                         <Button
-                            Width="80"
                             Margin="5"
+                            Height="25"
                             HorizontalAlignment="Right"
                             Click="ReplaceAllClick"
-                            Content="Replace All" />
+                            Content="Replace All [Alt+A]" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>

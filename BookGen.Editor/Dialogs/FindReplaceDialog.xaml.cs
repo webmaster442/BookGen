@@ -5,9 +5,12 @@
 
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
+using System.Diagnostics;
 using System.Media;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace BookGen.Editor.Dialogs
 {
@@ -181,6 +184,44 @@ namespace BookGen.Editor.Dialogs
                 theDialog.txtFind2.SelectAll();
                 theDialog.txtFind2.Focus();
             }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (tabMain.SelectedIndex == 0)
+            {
+                if (e.Key == Key.F3)
+                {
+                    FindNextClick(this, null);
+                    e.Handled = true;
+                }
+            }
+            else
+            {
+                var key = (e.Key == Key.System ? e.SystemKey : e.Key);
+                bool alt = e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Alt);
+                if (key == Key.F3)
+                {
+                    FindNext2Click(this, null);
+                    e.Handled = true;
+                }
+                else if (key == Key.R && alt)
+                {
+                    ReplaceClick(this, null);
+                    e.Handled = true;
+                }
+                else if (key == Key.A && alt)
+                {
+                    ReplaceAllClick(this, null);
+                    e.Handled = true;
+                }
+                else if (key == Key.Escape)
+                {
+                    Close();
+                    e.Handled = true;
+                }
+            }
+
         }
     }
 }
