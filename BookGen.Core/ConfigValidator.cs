@@ -10,43 +10,40 @@ using System.IO;
 
 namespace BookGen.Core
 {
-    public class ConfigValidator
+    public class ConfigValidator: Validator
     {
-        public List<string> Errors { get; }
+        private readonly Config _config;
+        private readonly string _workdir;
 
-        public ConfigValidator()
+        public ConfigValidator(Config config, string workdir)
         {
-            Errors = new List<string>();
+            _config = config;
+            _workdir = workdir;
         }
 
-        private void AddError(string format, params string[] values)
-        {
-            Errors.Add(string.Format(format, values));
-        }
-
-        public bool Validate(Config config, string workdir)
+        public override void Validate()
         {
             if (Errors.Count > 0)
                 Errors.Clear();
 
-            var WorkDirectory = new FsPath(workdir);
+            var WorkDirectory = new FsPath(_workdir);
 
-            if (!WorkDirectory.Combine(config.Template).IsExisting)
-                AddError(Resources.MissingTemplateFile, config.Template);
+            if (!WorkDirectory.Combine(_config.Template).IsExisting)
+                AddError(Resources.MissingTemplateFile, _config.Template);
 
-            if (!string.IsNullOrEmpty(config.ImageDir) && !WorkDirectory.Combine(config.ImageDir).IsExisting)
-                AddError(Resources.MissingImageDir, config.ImageDir);
+            if (!string.IsNullOrEmpty(_config.ImageDir) && !WorkDirectory.Combine(_config.ImageDir).IsExisting)
+                AddError(Resources.MissingImageDir, _config.ImageDir);
 
-            if (!WorkDirectory.Combine(config.TOCFile).IsExisting)
-                AddError(Resources.MissingTocFile, config.TOCFile);
+            if (!WorkDirectory.Combine(_config.TOCFile).IsExisting)
+                AddError(Resources.MissingTocFile, _config.TOCFile);
 
-            if (string.IsNullOrEmpty(config.HostName))
+            if (string.IsNullOrEmpty(_config.HostName))
                 AddError(Resources.MissingHostName);
 
-            if (config.Assets == null)
+            if (_config.Assets == null)
                 AddError(Resources.MissingAssets);
                 
-            foreach (var asset in config.Assets)
+            foreach (var asset in _config.Assets)
             {
                 var source = WorkDirectory.Combine(asset.Source);
 
@@ -54,31 +51,28 @@ namespace BookGen.Core
                     AddError(Resources.MissingAsset, source.ToString());
             }
 
-            if (string.IsNullOrEmpty(config.Index))
+            if (string.IsNullOrEmpty(_config.Index))
                 AddError(Resources.MissingIndex);
 
-            if (config.StyleClasses == null)
+            if (_config.StyleClasses == null)
                 AddError(Resources.MissingStyleClasses);
 
-            if (config.SearchOptions == null)
+            if (_config.SearchOptions == null)
                 AddError(Resources.MissingSearchOptions);
 
-            if (string.IsNullOrEmpty(config.SearchOptions.NoResults)
-                || string.IsNullOrEmpty(config.SearchOptions.SearchButtonText)
-                || string.IsNullOrEmpty(config.SearchOptions.SearchPageTitle)
-                || string.IsNullOrEmpty(config.SearchOptions.SearchResults)
-                || string.IsNullOrEmpty(config.SearchOptions.SearchTextBoxText))
+            if (string.IsNullOrEmpty(_config.SearchOptions.NoResults)
+                || string.IsNullOrEmpty(_config.SearchOptions.SearchButtonText)
+                || string.IsNullOrEmpty(_config.SearchOptions.SearchPageTitle)
+                || string.IsNullOrEmpty(_config.SearchOptions.SearchResults)
+                || string.IsNullOrEmpty(_config.SearchOptions.SearchTextBoxText))
                 AddError(Resources.MissingSearchOptionsText);
 
 
-            if (config.Metadata == null)
+            if (_config.Metadata == null)
                 AddError(Resources.MissingMetadata);
 
-            if (config.PrecompileHeader == null)
+            if (_config.PrecompileHeader == null)
                 AddError(Resources.MissingPrecompile);
-
-            return Errors.Count == 0;
         }
-
     }
 }

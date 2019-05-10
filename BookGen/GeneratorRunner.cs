@@ -8,6 +8,7 @@ using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
+using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
@@ -116,9 +117,10 @@ namespace BookGen
                 return false;
             }
 
-            ConfigValidator validator = new ConfigValidator();
-
-            if (!validator.Validate(_cfg, _workdir))
+            ConfigValidator validator = new ConfigValidator(_cfg, _workdir);
+            validator.Validate();
+            
+            if (!validator.IsValid)
             {
                 Console.WriteLine("Errors found in configuration: ");
                 foreach (var error in validator.Errors)
@@ -130,7 +132,24 @@ namespace BookGen
             }
             else
             {
-                Console.WriteLine("Config file contains no errors");
+                var tocFile = new FsPath(workdir).Combine(_cfg.TOCFile);
+                var toc = MarkdownUtils.ParseToc(tocFile.ReadFile());
+                TocValidator tocValidator = new TocValidator(toc, workdir);
+                tocValidator.Validate();
+                if (!tocValidator.IsValid)
+                {
+                    Console.WriteLine("Errors found in TOC file: ");
+                    foreach (var error in tocValidator.Errors)
+                    {
+                        Console.WriteLine(error);
+                    }
+                    PressKeyToExit();
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("Config file contains no errors");
+                }
             }
 
             return true;
