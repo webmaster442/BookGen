@@ -48,8 +48,10 @@ namespace BookGen.Core
                 
             foreach (var asset in config.Assets)
             {
-                if (!File.Exists(asset.Source))
-                    AddError(Resources.MissingAsset, asset.Source);
+                var source = WorkDirectory.Combine(asset.Source);
+
+                if (!source.IsExisting)
+                    AddError(Resources.MissingAsset, source.ToString());
             }
 
             if (string.IsNullOrEmpty(config.Index))

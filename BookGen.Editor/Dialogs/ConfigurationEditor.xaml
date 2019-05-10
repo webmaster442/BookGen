@@ -69,7 +69,7 @@
                 <Expander
                     Header="Additional assets"
                     IsExpanded="True">
-                    <editors:AssetEditor DataContext="{Binding ElementName=Win, Path=Config.Assets}" />
+                    <editors:AssetEditor DataContext="{Binding ElementName=Win, Path=Config}" />
                 </Expander>            
             </StackPanel>
         </ScrollViewer>

@@ -22,9 +22,7 @@ namespace BookGen.GeneratorSteps
                 FsPath target = settings.OutputDirectory.Combine(asset.Target);
 
                 if (source.IsExisting &&
-                    source.Extension == ".md" &&
-                    target.Extension != ".html" &&
-                    target.Extension != ".htm")
+                    source.Extension != ".md")
                 {
                     source.Copy(target, log);
                 }
