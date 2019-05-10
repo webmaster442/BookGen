@@ -58,8 +58,6 @@
     <Compile Include="ConfigExtensions.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\ConfigurationBase.cs" />
-    <Compile Include="Configuration\HeaderMenuItem.cs" />
-    <Compile Include="Configuration\MenuItem.cs" />
     <Compile Include="Configuration\Metadata.cs" />
     <Compile Include="Configuration\Precompile.cs" />
     <Compile Include="Configuration\SearchSettings.cs" />

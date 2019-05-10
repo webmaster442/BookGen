@@ -111,8 +111,6 @@
     <Compile Include="Domain\TOC.cs" />
     <Compile Include="Framework\Logger.cs" />
     <Compile Include="Framework\Generator.cs" />
-    <Compile Include="GeneratorSteps\CreateAdditionalPages.cs" />
-    <Compile Include="GeneratorSteps\CreateBootstrapMenuStructure.cs" />
     <Compile Include="GeneratorSteps\CreateEpubContent.cs" />
     <Compile Include="GeneratorSteps\CreateEpubPack.cs" />
     <Compile Include="GeneratorSteps\CreateEpubPages.cs" />

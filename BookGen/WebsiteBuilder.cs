@@ -13,12 +13,6 @@ namespace BookGen
     {
         public WebsiteBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
         {
-            /*if (menuPath.IsExisting)
-            {
-                var menuItems = JsonConvert.DeserializeObject<List<HeaderMenuItem>>(menuPath.ReadFile());
-                AddStep(new GeneratorSteps.CreateBootstrapMenuStructure(menuItems));
-                AddStep(new GeneratorSteps.CreateAdditionalPages(menuItems));
-            }*/
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets());
             AddStep(new GeneratorSteps.CopyImagesDirectory(true));
