@@ -12,7 +12,7 @@ namespace BookGen.Core.Contracts
         void AddChapter(string chapter, List<HtmlLink> files);
         IEnumerable<string> Chapters { get; }
         IEnumerable<string> GetFilesForChapter(string chapter);
-        IEnumerable<HtmlLink> GetLinksForChapter(string chapter);
+        IEnumerable<HtmlLink> GetLinksForChapter(string chapter = null);
         IEnumerable<string> Files { get; }
     }
 }

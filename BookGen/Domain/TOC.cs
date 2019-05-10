@@ -34,9 +34,19 @@ namespace BookGen.Domain
             return _tocContents[chapter].Select(l => l.Link);
         }
 
-        public IEnumerable<HtmlLink> GetLinksForChapter(string chapter)
+        public IEnumerable<HtmlLink> GetLinksForChapter(string chapter = null)
         {
-            return _tocContents[chapter];
+            if (string.IsNullOrEmpty(chapter))
+            {
+                List<HtmlLink> merged = new List<HtmlLink>();
+                foreach (var v in _tocContents.Values)
+                {
+                    merged.AddRange(v);
+                }
+                return merged;
+            }
+            else
+                return _tocContents[chapter];
         }
 
         public IEnumerable<string> Files
