@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MissingAssetsDir" xml:space="preserve">
-    <value>Assets directory can't be found: {0}</value>
+  <data name="MissingAsset" xml:space="preserve">
+    <value>Asset file not found: {0}</value>
+  </data>
+  <data name="MissingAssets" xml:space="preserve">
+    <value>Assets field not found in configuraton</value>
   </data>
   <data name="MissingHostName" xml:space="preserve">
     <value>Deployment Host name not set</value>

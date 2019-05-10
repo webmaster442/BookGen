@@ -122,6 +122,7 @@
     <Compile Include="GeneratorSteps\CreateTOCForWebsite.cs" />
     <Compile Include="GeneratorSteps\GenerateSearchPage.cs" />
     <Compile Include="GeneratorSteps\PrecompileHeader.cs" />
+    <Compile Include="GeneratorSteps\ProcessAssetMd.cs" />
     <Compile Include="PrintBuilder.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

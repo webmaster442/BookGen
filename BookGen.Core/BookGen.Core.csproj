@@ -56,6 +56,7 @@
     <Compile Include="ArgsumentList.cs" />
     <Compile Include="ArgumentItem.cs" />
     <Compile Include="ConfigExtensions.cs" />
+    <Compile Include="Configuration\Asset.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\ConfigurationBase.cs" />
     <Compile Include="Configuration\Metadata.cs" />

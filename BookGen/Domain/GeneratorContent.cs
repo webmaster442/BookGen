@@ -50,14 +50,13 @@ namespace BookGen.Domain
             get { return _table["host"]; }
         }
 
-        public string AssetsUrl
-        {
-            get { return _table["assets"]; }
-        }
-
         public string BuildTime
         {
-            get { return _table["buildtime"]; }
+            get
+            {
+                _table["buildtime"] = DateTime.Now.ToString();
+                return _table["buildtime"];
+            }
         }
 
         public string PrecompiledHeader
@@ -75,7 +74,6 @@ namespace BookGen.Domain
                 { "content", string.Empty },
                 { "menus", string.Empty },
                 { "host", cfg.HostName },
-                { "assets", Path.Combine(cfg.HostName, cfg.AssetsDir) },
                 { "buildtime", DateTime.Now.ToString() },
                 { "metadata", string.Empty },
                 { "precompiledheader", string.Empty }

@@ -31,6 +31,14 @@ namespace BookGen.Core
             }
         }
 
+        public string Extension
+        {
+            get
+            {
+                return Path.GetExtension(_path);
+            }
+        }
+
         public string Filename
         {
             get { return Path.GetFileName(_path); }

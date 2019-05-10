@@ -106,7 +106,18 @@ namespace BookGen
 
             _cfg = JsonConvert.DeserializeObject<Config>(cfgstring);
 
+            if (_cfg.Version < cfgVersion)
+            {
+                _cfg.UpgradeTo(cfgVersion);
+                WriteConfig(_config, _cfg);
+                _log.Info("Configuration file migrated to new version.");
+                _log.Info("Review configuration then run program again");
+                PressKeyToExit();
+                return false;
+            }
+
             ConfigValidator validator = new ConfigValidator();
+
             if (!validator.Validate(_cfg, _workdir))
             {
                 Console.WriteLine("Errors found in configuration: ");
@@ -120,16 +131,6 @@ namespace BookGen
             else
             {
                 Console.WriteLine("Config file contains no errors");
-            }
-
-            if (_cfg.Version < cfgVersion)
-            {
-                _cfg.UpgradeTo(cfgVersion);
-                WriteConfig(_config, _cfg);
-                _log.Info("Configuration file migrated to new version.");
-                _log.Info("Review configuration then run program again");
-                PressKeyToExit();
-                return false;
             }
 
             return true;

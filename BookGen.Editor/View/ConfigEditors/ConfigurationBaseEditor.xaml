@@ -21,7 +21,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock Text="Table of contents md file" />
@@ -80,16 +79,9 @@
             Text="{Binding Path=InlineImageSizeLimit, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" />
         <TextBlock
             Grid.Row="8"
-            Text="Additional assets directory. Will be copied to output directory" />
-        <TextBox
-            Grid.Row="8"
-            Grid.Column="1"
-            Text="{Binding Path=AssetsDir, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" />
-        <TextBlock
-            Grid.Row="9"
             Text="Open links that point outside of the host in new tab" />
         <CheckBox
-            Grid.Row="9"
+            Grid.Row="8"
             Grid.Column="1"
             IsChecked="{Binding Path=LinksOutSideOfHostOpenNewTab, Mode=TwoWay}" />
     </Grid>

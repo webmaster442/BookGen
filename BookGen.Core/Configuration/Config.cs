@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Collections.ObjectModel;
+
 namespace BookGen.Core.Configuration
 {
     public class Config : ConfigurationBase
@@ -11,7 +13,6 @@ namespace BookGen.Core.Configuration
         private string _TOCFile;
         private string _ImageDir;
         private string _HostName;
-        private string _AssetsDir;
         private string _Template;
         private string _EpubCss;
         private string _Index;
@@ -47,10 +48,10 @@ namespace BookGen.Core.Configuration
             set => SetValue(ref _HostName, value);
         }
 
-        public string AssetsDir
+        public ObservableCollection<Asset> Assets
         {
-            get => _AssetsDir;
-            set => SetValue(ref _AssetsDir, value);
+            get;
+            set;
         }
 
         public string Template
@@ -122,7 +123,7 @@ namespace BookGen.Core.Configuration
                 Index = "Path of startup (index) file",
                 ImageDir = "Path to images directory",
                 HostName = "http://localhost:8080/",
-                AssetsDir = "Path to static assets required by template or null",
+                Assets = new ObservableCollection<Asset>(),
                 Template = "Path of template file",
                 EpubCss = "Path to epub css file",
                 StyleClasses = new StyleClasses(),

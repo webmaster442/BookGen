@@ -6,6 +6,7 @@
 using BookGen.Core.Configuration;
 using BookGen.Core.Properties;
 using System.Collections.Generic;
+using System.IO;
 
 namespace BookGen.Core
 {
@@ -42,8 +43,14 @@ namespace BookGen.Core
             if (string.IsNullOrEmpty(config.HostName))
                 AddError(Resources.MissingHostName);
 
-            if (!string.IsNullOrEmpty(config.AssetsDir) && !WorkDirectory.Combine(config.AssetsDir).IsExisting)
-                AddError(Resources.MissingAssetsDir, config.AssetsDir);
+            if (config.Assets == null)
+                AddError(Resources.MissingAssets);
+                
+            foreach (var asset in config.Assets)
+            {
+                if (!File.Exists(asset.Source))
+                    AddError(Resources.MissingAsset, asset.Source);
+            }
 
             if (string.IsNullOrEmpty(config.Index))
                 AddError(Resources.MissingIndex);

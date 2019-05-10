@@ -10,15 +10,6 @@ namespace BookGen.Core
 {
     public static class ConfigExtensions
     {
-        private static bool PrintError(string error)
-        {
-            var color = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Error: {0}", error);
-            Console.ForegroundColor = color;
-            return false;
-        }
-
         public static void UpgradeTo(this Config config, int targetVersion)
         {
             if (config.Version == 0 || config.Version < targetVersion)
@@ -35,6 +26,9 @@ namespace BookGen.Core
 
             if (config.PrecompileHeader == null)
                 config.PrecompileHeader = Precompile.CreateDefault();
+
+            if (config.Assets == null)
+                config.Assets = new System.Collections.ObjectModel.ObservableCollection<Asset>();
         }
     }
 }

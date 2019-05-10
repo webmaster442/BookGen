@@ -33,7 +33,10 @@ namespace BookGen.Core
         public static void CopyDirectory(this FsPath sourceDirectory, FsPath TargetDir, ILog log)
         {
             if (!Directory.Exists(TargetDir.ToString()))
+            {
+                log.Detail("Creating directory: {0}", TargetDir);
                 Directory.CreateDirectory(TargetDir.ToString());
+            }
 
             //Copy all the files & Replaces any files with the same name
             foreach (string newPath in Directory.GetFiles(sourceDirectory.ToString(), "*.*",
@@ -43,6 +46,24 @@ namespace BookGen.Core
                 log?.Detail("Copy file: {0} to {1}", newPath, targetfile);
                 File.Copy(newPath, targetfile, true);
             }
+        }
+
+        public static void Copy(this FsPath source, FsPath target, ILog log)
+        {
+            if (!source.IsExisting)
+            {
+                log.Detail("Source doesn't exist, skipping: {0}");
+                return;
+            }
+
+            var dir = Path.GetDirectoryName(target.ToString());
+            if (!Directory.Exists(dir))
+            {
+                log.Detail("Creating directory: {0}", dir);
+                Directory.CreateDirectory(dir);
+            }
+
+            File.Copy(source.ToString(), target.ToString());
         }
 
         public static void WriteFile(this FsPath target, string content)

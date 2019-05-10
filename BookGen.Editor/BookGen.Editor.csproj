@@ -131,6 +131,9 @@
     <Compile Include="ViewModel\FileBrowserViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NofityModel.cs" />
+    <Compile Include="View\ConfigEditors\AssetEditor.xaml.cs">
+      <DependentUpon>AssetEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ConfigEditors\ConfigurationBaseEditor.xaml.cs">
       <DependentUpon>ConfigurationBaseEditor.xaml</DependentUpon>
     </Compile>
@@ -207,6 +210,10 @@
     <Page Include="Themes\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ConfigEditors\AssetEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ConfigEditors\ConfigurationBaseEditor.xaml">
       <SubType>Designer</SubType>

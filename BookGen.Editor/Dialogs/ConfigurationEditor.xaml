@@ -66,6 +66,11 @@
                     IsExpanded="True">
                     <editors:PrecompileEditor DataContext="{Binding ElementName=Win, Path=Config.PrecompileHeader}" />
                 </Expander>
+                <Expander
+                    Header="Additional assets"
+                    IsExpanded="True">
+                    <editors:AssetEditor DataContext="{Binding ElementName=Win, Path=Config.Assets}" />
+                </Expander>            
             </StackPanel>
         </ScrollViewer>
         <StackPanel

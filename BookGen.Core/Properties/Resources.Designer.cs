@@ -61,11 +61,20 @@ namespace BookGen.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assets directory can&apos;t be found: {0}.
+        ///   Looks up a localized string similar to Asset file not found: {0}.
         /// </summary>
-        internal static string MissingAssetsDir {
+        internal static string MissingAsset {
             get {
-                return ResourceManager.GetString("MissingAssetsDir", resourceCulture);
+                return ResourceManager.GetString("MissingAsset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assets field not found in configuraton.
+        /// </summary>
+        internal static string MissingAssets {
+            get {
+                return ResourceManager.GetString("MissingAssets", resourceCulture);
             }
         }
         
