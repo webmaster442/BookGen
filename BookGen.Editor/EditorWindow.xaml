@@ -32,6 +32,10 @@
             Key="Z"
             Command="{Binding ElementName=Editor, Path=UndoCommand}"
             Modifiers="Ctrl" />
+        <KeyBinding
+            Key="G"
+            Command="{Binding GotoLineCommand}"
+            Modifiers="Ctrl" />
     </Window.InputBindings>
     <Fluent:RibbonWindow.Resources>
         <Style TargetType="Fluent:ToggleButton">
@@ -101,31 +105,35 @@
                         Fluent:KeyTip.Keys="CTRL+Z"
                         Command="{Binding ElementName=Editor, Path=UndoCommand}"
                         Header="Undo"
-                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-undo-48.png" />
+                        Icon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-undo-48.png"
+                        Size="Middle" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=RedoCommand}"
                         Header="Redo"
-                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-right-2-48.png" />
+                        Icon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-right-2-48.png"
+                        Size="Middle" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Clipboard">
+                    <Fluent:Button
+                        Command="ApplicationCommands.Cut"
+                        CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
+                        Header="Cut"
+                        Icon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-scissors-48.png"
+                        KeyTip="X"
+                        Size="Middle" />
+                    <Fluent:Button
+                        Command="ApplicationCommands.Copy"
+                        CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
+                        Header="Copy"
+                        Icon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-copy-48.png"
+                        KeyTip="C"
+                        Size="Middle" />
                     <Fluent:Button
                         Command="ApplicationCommands.Paste"
                         CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
                         Header="Paste"
                         KeyTip="V"
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-paste-48.png" />
-                    <Fluent:Button
-                        Command="ApplicationCommands.Cut"
-                        CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
-                        Header="Cut"
-                        KeyTip="X"
-                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-scissors-48.png" />
-                    <Fluent:Button
-                        Command="ApplicationCommands.Copy"
-                        CommandTarget="{Binding ElementName=Editor, Path=TextArea}"
-                        Header="Copy"
-                        KeyTip="C"
-                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-copy-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Headers">
                     <Fluent:Button
@@ -137,12 +145,14 @@
                         Command="{Binding ElementName=Editor, Path=InsertToken}"
                         CommandParameter="##"
                         Header="H2"
-                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-header-2-48.png" />
+                        Icon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-header-2-48.png"
+                        Size="Middle" />
                     <Fluent:Button
                         Command="{Binding ElementName=Editor, Path=InsertToken}"
                         CommandParameter="###"
                         Header="H3"
-                        LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-header-3-48.png" />
+                        Icon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-header-3-48.png"
+                        Size="Middle" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Formatting">
                     <Fluent:Button
@@ -207,6 +217,10 @@
                         LargeIcon="pack://application:,,,/BookGen.Editor;Component/Icons/editor/icons8-link-48.png" />
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Other tools">
+                    <Fluent:Button
+                        Fluent:KeyTip.Keys="CTRL+G"
+                        Command="{Binding GotoLineCommand}"
+                        Header="Go to line" />
                     <Fluent:Button
                         Fluent:KeyTip.Keys="CTRL+F"
                         Command="{Binding FindReplaceCommand}"

@@ -92,6 +92,9 @@
     <Compile Include="Dialogs\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\GotoLineDialog.xaml.cs">
+      <DependentUpon>GotoLineDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\InsertLinkDialog.xaml.cs">
       <DependentUpon>InsertLinkDialog.xaml</DependentUpon>
     </Compile>
@@ -160,6 +163,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\FindReplaceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\GotoLineDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

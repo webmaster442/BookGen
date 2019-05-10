@@ -24,6 +24,7 @@ namespace BookGen.Editor
         public ICommand InsertPictureCommand { get; }
         public ICommand InsertLinkCommand { get; }
         public ICommand FindReplaceCommand { get; }
+        public ICommand GotoLineCommand { get; }
         public ICommand ReformatTableLeftCommand { get; }
         public ICommand ReformatTableRightCommand { get; }
         public ICommand RunCommand { get; }
@@ -41,10 +42,23 @@ namespace BookGen.Editor
             InsertPictureCommand = DelegateCommand.CreateCommand(OnInsertPicture);
             InsertLinkCommand = DelegateCommand.CreateCommand(OnInsertLink);
             FindReplaceCommand = DelegateCommand.CreateCommand(OnFindReplace);
+            GotoLineCommand = DelegateCommand.CreateCommand(OnGotoLine);
             ReformatTableLeftCommand = new View.ReformatTableCommand(Editor, true);
             ReformatTableRightCommand = new View.ReformatTableCommand(Editor, false);
             HelpView.RenderPartialHtml(EditorServices.RenderPreview(Properties.Resources.CheatSheet, null));
             RunCommand = new DelegateCommand<string>(OnRun);
+        }
+
+        private void OnGotoLine(object obj)
+        {
+            var currentline = Editor.Document.GetLineByOffset(Editor.CaretOffset).LineNumber;
+            var dialog = new GotoLineDialog(Editor.Document.LineCount, currentline);
+
+            if (dialog.ShowDialog() == true)
+            {
+                Editor.ScrollToLine(dialog.Line);
+                Editor.CaretOffset = Editor.Document.GetLineByNumber(dialog.Line).Offset;
+            }
         }
 
         private void OnRun(string obj)
