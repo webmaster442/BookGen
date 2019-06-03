@@ -98,6 +98,7 @@
     <Compile Include="Domain\Epub\Ncx.cs" />
     <Compile Include="Domain\Epub\RootFile.cs" />
     <Compile Include="Domain\Epub\Rootfiles.cs" />
+    <Compile Include="Domain\MetaTag.cs" />
     <Compile Include="EpubBuilder.cs" />
     <Compile Include="Framework\Server\HTTPServer.cs" />
     <Compile Include="Framework\Server\IRequestHandler.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Utilities\ConsoleExtensions.cs" />
     <Compile Include="Utilities\MarkdownUtils.cs" />
     <Compile Include="Framework\Template.cs" />
+    <Compile Include="Utilities\MetaExtensions.cs" />
     <Compile Include="Utilities\TextUtils.cs" />
     <Compile Include="WebsiteBuilder.cs" />
   </ItemGroup>

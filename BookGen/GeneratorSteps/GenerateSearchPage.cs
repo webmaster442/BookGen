@@ -5,11 +5,13 @@
 
 using BookGen.Contracts;
 using BookGen.Core;
+using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
+using System;
 using System.IO;
 using System.Text;
 
@@ -29,6 +31,8 @@ namespace BookGen.GeneratorSteps
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            Content.Metadata = FillMeta(settings.Configruation);
+
             log.Info("Generating search page...");
             GenerateSearchContents(settings, log);
             GenerateSearchForm(settings);
@@ -39,6 +43,15 @@ namespace BookGen.GeneratorSteps
 
             var html = Template.ProcessTemplate(Content);
             output.WriteFile(html);
+        }
+
+        private string FillMeta(Config configruation)
+        {
+            var meta = new MetaTag().FillWithConfigDefaults(configruation);
+            meta.Title = $"{configruation.Metadata.Title} - {configruation.SearchOptions.SearchPageTitle}";
+            meta.Description = configruation.SearchOptions.SearchPageTitle;
+            meta.Url = $"{configruation.HostName}search.html";
+            return meta.GetHtmlMeta();
         }
 
         private void GenerateSearchForm(RuntimeSettings settings)
