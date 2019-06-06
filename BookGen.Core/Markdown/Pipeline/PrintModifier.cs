@@ -8,6 +8,7 @@ using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
+using System;
 using System.Linq;
 
 namespace BookGen.Core.Markdown.Pipeline
@@ -45,7 +46,7 @@ namespace BookGen.Core.Markdown.Pipeline
 
         private string RewiteToHostUrl(string url)
         {
-            var parts = url.Split('/').ToList();
+            var parts = url.Replace("\\", "/").Split('/').ToList();
             var imgdirIndex = parts.IndexOf(Configuration.ImageDir);
 
             return string.Join("/", parts.ToArray(), imgdirIndex, parts.Count - imgdirIndex);
