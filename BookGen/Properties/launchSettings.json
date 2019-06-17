@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BookGen": {
+      "commandName": "Project",
+      "workingDirectory": "E:\\csharpkonyv\\konyv"
+    }
+  }
+}

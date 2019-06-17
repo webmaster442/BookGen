@@ -81,6 +81,9 @@ namespace BookGen
         private void RunHelp()
         {
             Console.WriteLine(Properties.Resources.Help);
+#if DEBUG
+            Console.ReadKey();
+#endif
             Environment.Exit(1);
         }
 
