@@ -5,12 +5,33 @@
 
 using BookGen.Core.Contracts;
 using System;
-using System.Diagnostics;
+using System.Text;
 
 namespace BookGen.Framework
 {
-    internal sealed class ConsoleLog : ILog
+    public class EventedLogger : ILog
     {
+        private StringBuilder _builder;
+
+        public event EventHandler LogWritten;
+
+        public string LogText
+        {
+            get { return _builder.ToString(); }
+        }
+
+        public int Lines
+        {
+            get;
+            private set;
+        }
+
+        public EventedLogger()
+        {
+            _builder = new StringBuilder();
+            Lines = 0;
+        }
+
         public void Critical(string format, params object[] args)
         {
             Log(LogLevel.Critical, format, args);
@@ -46,12 +67,9 @@ namespace BookGen.Framework
             string text = string.Format(format, args);
             string line = string.Format("{0}|{1}|{2}", DateTime.Now, logLevel, text);
 
-            if (logLevel != LogLevel.Detail)
-                Console.WriteLine("{0}: {1}", logLevel, text);
-
-#if DEBUG
-            Debug.WriteLine(line);
-#endif
+            _builder.Append(line);
+            Lines++;
+            LogWritten?.Invoke(this, EventArgs.Empty);
         }
     }
 }

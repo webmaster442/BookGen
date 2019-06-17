@@ -7,6 +7,7 @@ using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Framework;
 using BookGen.GeneratorSteps;
+using BookGen.Gui;
 using System;
 using System.Diagnostics;
 
@@ -21,15 +22,23 @@ namespace BookGen
         {
             try
             {
-                ILog Log = new Logger();
+                ILog Log = new ConsoleLog();
                 ArgsumentList arguments = ArgsumentList.Parse(args);
 
                 var action = arguments.GetArgument("a", "action");
+                var gui = arguments.GetArgument("g", "gui");
                 var dir = arguments.GetArgument("d", "dir")?.Value;
 
                 if (dir == null) dir = Environment.CurrentDirectory;
 
                 Runner = new GeneratorRunner(Log);
+
+                if (gui != null && gui.HasSwitch)
+                {
+                    ConsoleGui ui = new ConsoleGui();
+                    ui.Run();
+                    return;
+                }
 
                 switch (action?.Value)
                 {
