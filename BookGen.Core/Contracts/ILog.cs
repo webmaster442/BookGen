@@ -7,9 +7,8 @@ using System;
 
 namespace BookGen.Core.Contracts
 {
-    public interface ILog : IDisposable
+    public interface ILog
     {
-        void ConfigureFile(string path);
         void Log(LogLevel logLevel, string format, params object[] args);
         void Critical(string format, params object[] args);
         void Critical(Exception ex);

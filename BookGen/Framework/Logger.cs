@@ -5,14 +5,12 @@
 
 using BookGen.Core.Contracts;
 using System;
-using System.IO;
+using System.Diagnostics;
 
 namespace BookGen.Framework
 {
     internal sealed class Logger : ILog
     {
-        private StreamWriter _fileout;
-
         public void Critical(string format, params object[] args)
         {
             Log(LogLevel.Critical, format, args);
@@ -51,29 +49,9 @@ namespace BookGen.Framework
             if (logLevel != LogLevel.Detail)
                 Console.WriteLine("{0}: {1}", logLevel, text);
 
-            _fileout?.WriteLine(line);
-        }
-
-        public void ConfigureFile(string path)
-        {
-            try
-            {
-                _fileout = File.CreateText(path);
-            }
-            catch (IOException)
-            {
-                _fileout = null;
-                Console.WriteLine("Coudn't create log file: {0}", path);
-            }
-        }
-
-        public void Dispose()
-        {
-            if (_fileout != null)
-            {
-                _fileout.Dispose();
-                _fileout = null;
-            }
+#if DEBUG
+            Debug.WriteLine(line);
+#endif
         }
     }
 }

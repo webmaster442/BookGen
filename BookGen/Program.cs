@@ -6,6 +6,7 @@
 using BookGen.Core.Contracts;
 using BookGen.Framework;
 using System;
+using System.Diagnostics;
 
 namespace BookGen
 {
@@ -14,10 +15,19 @@ namespace BookGen
         [STAThread]
         public static void Main(string[] args)
         {
-            using (var Log = new Logger())
+            try
             {
+                ILog Log = new Logger();
                 var argumentParser = new GeneratorRunner(args, Log);
                 argumentParser.RunGenerator();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unhandled exception");
+                Console.WriteLine(ex);
+#if DEBUG
+                Debugger.Break();
+#endif
             }
         }
     }

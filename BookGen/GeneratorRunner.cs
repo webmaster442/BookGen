@@ -40,7 +40,6 @@ namespace BookGen
             if (_workdir == null) _workdir = Environment.CurrentDirectory;
 
             var logfile = Path.Combine(_workdir, "bookgen.log");
-            _log.ConfigureFile(logfile);
             _config = new FsPath(_workdir, "bookgen.json");
 
             switch (action.Value)
