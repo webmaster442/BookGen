@@ -1,17 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7506F904-59E3-4BFC-83D3-A809850D1E89}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>BookGen</RootNamespace>
-    <AssemblyName>BookGen</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>net472</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,132 +18,44 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
+    <AssemblyTitle>BookGen</AssemblyTitle>
+    <Company>Ruzsinszki Gábor</Company>
+    <Product>BookGen</Product>
+    <Description>A static Markdown book generator</Description>
+    <Copyright>Copyright ©  2019</Copyright>
+    <AssemblyVersion>1.8.0.0</AssemblyVersion>
+    <FileVersion>1.8.0.0</FileVersion>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <Prefer32Bit>false</Prefer32Bit>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Design" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="System.IO.Compression" Version="4.*" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.*" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.*" />
+    <PackageReference Include="System.Net.Http" Version="4.*" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Epub\Package.cs" />
-    <Compile Include="Domain\Epub\Guide.cs" />
-    <Compile Include="Domain\Epub\Reference.cs" />
-    <Compile Include="Domain\Epub\Spine.cs" />
-    <Compile Include="Domain\Epub\Container.cs" />
-    <Compile Include="Domain\Epub\Content.cs" />
-    <Compile Include="Domain\Epub\DocAuthor.cs" />
-    <Compile Include="Domain\Epub\DocTitle.cs" />
-    <Compile Include="Domain\Epub\Head.cs" />
-    <Compile Include="Domain\Epub\Identifier.cs" />
-    <Compile Include="Domain\Epub\Item.cs" />
-    <Compile Include="Domain\Epub\Itemref.cs" />
-    <Compile Include="Domain\Epub\Manifest.cs" />
-    <Compile Include="Domain\Epub\Meta.cs" />
-    <Compile Include="Domain\Epub\Metadata.cs" />
-    <Compile Include="Domain\Epub\NavLabel.cs" />
-    <Compile Include="Domain\Epub\NavMap.cs" />
-    <Compile Include="Domain\Epub\NavPoint.cs" />
-    <Compile Include="Domain\Epub\Ncx.cs" />
-    <Compile Include="Domain\Epub\RootFile.cs" />
-    <Compile Include="Domain\Epub\Rootfiles.cs" />
-    <Compile Include="Domain\MetaTag.cs" />
-    <Compile Include="EpubBuilder.cs" />
-    <Compile Include="Framework\Server\HTTPServer.cs" />
-    <Compile Include="Framework\Server\IRequestHandler.cs" />
-    <Compile Include="Framework\Server\MimeTypes.cs" />
-    <Compile Include="GeneratorRunner.cs" />
-    <Compile Include="Contracts\ITemplatedStep.cs" />
-    <Compile Include="Contracts\IGeneratorContentFillStep.cs" />
-    <Compile Include="Contracts\IGeneratorStep.cs" />
-    <Compile Include="Domain\Sitemap\Url.cs" />
-    <Compile Include="Domain\Sitemap\UrlSet.cs" />
-    <Compile Include="Domain\TOC.cs" />
-    <Compile Include="Framework\Logger.cs" />
-    <Compile Include="Framework\Generator.cs" />
-    <Compile Include="GeneratorSteps\CreateEpubContent.cs" />
-    <Compile Include="GeneratorSteps\CreateEpubPack.cs" />
-    <Compile Include="GeneratorSteps\CreateEpubPages.cs" />
-    <Compile Include="GeneratorSteps\CreateEpubStructure.cs" />
-    <Compile Include="GeneratorSteps\CreateEpubToc.cs" />
-    <Compile Include="GeneratorSteps\CreateMetadata.cs" />
-    <Compile Include="GeneratorSteps\CreatePrintableHtml.cs" />
-    <Compile Include="GeneratorSteps\CreateSitemap.cs" />
-    <Compile Include="GeneratorSteps\CreateTOCForWebsite.cs" />
-    <Compile Include="GeneratorSteps\GenerateSearchPage.cs" />
-    <Compile Include="GeneratorSteps\PrecompileHeader.cs" />
-    <Compile Include="GeneratorSteps\ProcessAssetMd.cs" />
-    <Compile Include="PrintBuilder.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Content Include="Resources\xhtmlheader.html" />
-    <Compile Include="Splash.cs" />
-    <Compile Include="Domain\GeneratorContent.cs" />
-    <Compile Include="Domain\GeneratorSettings.cs" />
-    <Compile Include="GeneratorSteps\CopyAssets.cs" />
-    <Compile Include="GeneratorSteps\CopyImagesDirectory.cs" />
-    <Compile Include="GeneratorSteps\CreateIndexHtml.cs" />
-    <Compile Include="GeneratorSteps\CreateOutputDirectory.cs" />
-    <Compile Include="GeneratorSteps\CreatePages.cs" />
-    <Compile Include="GeneratorSteps\CreatePagesJS.cs" />
-    <Compile Include="GeneratorSteps\CreateSubpageIndexes.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\ConsoleExtensions.cs" />
-    <Compile Include="Utilities\MarkdownUtils.cs" />
-    <Compile Include="Framework\Template.cs" />
-    <Compile Include="Utilities\MetaExtensions.cs" />
-    <Compile Include="Utilities\TextUtils.cs" />
-    <Compile Include="WebsiteBuilder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Help.txt" />
@@ -167,28 +70,6 @@
     <Content Include="DefaultTemplate\Template.html" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.7">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
+    <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj">
-      <Project>{ddd2dd75-b014-4f4b-9cda-510fdd4af583}</Project>
-      <Name>BookGen.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

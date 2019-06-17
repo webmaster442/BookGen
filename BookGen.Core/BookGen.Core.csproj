@@ -1,158 +1,37 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DDD2DD75-B014-4F4B-9CDA-510FDD4AF583}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BookGen.Core</RootNamespace>
-    <AssemblyName>BookGen.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyTitle>BookGen.Core</AssemblyTitle>
+    <Product>BookGen.Core</Product>
+    <Copyright>Copyright ©  2019</Copyright>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Markdig, Version=0.17.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Markdig.0.17.0\lib\net40\Markdig.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.*" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.*" />
+    <PackageReference Include="System.Net.Http" Version="4.*" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgsumentList.cs" />
-    <Compile Include="ArgumentItem.cs" />
-    <Compile Include="ConfigExtensions.cs" />
-    <Compile Include="Configuration\Asset.cs" />
-    <Compile Include="Configuration\Config.cs" />
-    <Compile Include="Configuration\ConfigurationBase.cs" />
-    <Compile Include="Configuration\Metadata.cs" />
-    <Compile Include="Configuration\Precompile.cs" />
-    <Compile Include="Configuration\SearchSettings.cs" />
-    <Compile Include="Configuration\StyleClasses.cs" />
-    <Compile Include="ConfigValidator.cs" />
-    <Compile Include="Contracts\ILog.cs" />
-    <Compile Include="Contracts\IReadonlyRuntimeSettings.cs" />
-    <Compile Include="Contracts\ITOC.cs" />
-    <Compile Include="Contracts\LogLevel.cs" />
-    <Compile Include="FsPath.cs" />
-    <Compile Include="FsUtils.cs" />
-    <Compile Include="HashUtils.cs" />
-    <Compile Include="HtmlLink.cs" />
-    <Compile Include="KnownArguments.cs" />
-    <Compile Include="Lib\ColorCode\CodeColorizer.cs" />
-    <Compile Include="Lib\ColorCode\Common\ExtensionMethods.cs" />
-    <Compile Include="Lib\ColorCode\Common\Guard.cs" />
-    <Compile Include="Lib\ColorCode\Common\ILanguageRepository.cs" />
-    <Compile Include="Lib\ColorCode\Common\LanguageId.cs" />
-    <Compile Include="Lib\ColorCode\Common\LanguageRepository.cs" />
-    <Compile Include="Lib\ColorCode\Common\ScopeName.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\CompiledLanguage.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\ILanguageCompiler.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\LanguageCompiler.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Asax.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Ashx.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Aspx.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\AspxCs.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\AspxVb.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Cpp.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\CSharp.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Css.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\FSharp.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Haskell.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Html.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Java.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\JavaScript.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Koka.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Markdown.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Php.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\PowerShell.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Sql.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Typescript.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\VbDotNet.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\Languages\Xml.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\RuleCaptures.cs" />
-    <Compile Include="Lib\ColorCode\Compilation\RuleFormats.cs" />
-    <Compile Include="Lib\ColorCode\Formatters.cs" />
-    <Compile Include="Lib\ColorCode\Formatting\HtmlClassFormatter.cs" />
-    <Compile Include="Lib\ColorCode\Formatting\HtmlFormatter.cs" />
-    <Compile Include="Lib\ColorCode\Formatting\HttpUtility.cs" />
-    <Compile Include="Lib\ColorCode\Formatting\TextInsertion.cs" />
-    <Compile Include="Lib\ColorCode\ICodeColorizer.cs" />
-    <Compile Include="Lib\ColorCode\IFormatter.cs" />
-    <Compile Include="Lib\ColorCode\ILanguage.cs" />
-    <Compile Include="Lib\ColorCode\IStyleSheet.cs" />
-    <Compile Include="Lib\ColorCode\LanguageRule.cs" />
-    <Compile Include="Lib\ColorCode\Languages.cs" />
-    <Compile Include="Lib\ColorCode\Parsing\ILanguageParser.cs" />
-    <Compile Include="Lib\ColorCode\Parsing\LanguageParser.cs" />
-    <Compile Include="Lib\ColorCode\Parsing\Scope.cs" />
-    <Compile Include="Lib\ColorCode\Style.cs" />
-    <Compile Include="Lib\ColorCode\StyleDictionary.cs" />
-    <Compile Include="Lib\ColorCode\StyleSheets.cs" />
-    <Compile Include="Lib\ColorCode\Styling\Color.cs" />
-    <Compile Include="Lib\ColorCode\Styling\StyleSheets\DefaultStyleSheet.cs" />
-    <Compile Include="Markdown\MarkdownRenderers.cs" />
-    <Compile Include="Markdown\Pipeline\EpubModifier.cs" />
-    <Compile Include="Markdown\Pipeline\PreviewModifier.cs" />
-    <Compile Include="Markdown\Pipeline\PrintModifier.cs" />
-    <Compile Include="Markdown\Pipeline\SyntaxRenderer.cs" />
-    <Compile Include="Markdown\Pipeline\PipelineHelpers.cs" />
-    <Compile Include="Markdown\Pipeline\WebModifier.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <PackageReference Include="Markdig" Version="0.17.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TocValidator.cs" />
-    <Compile Include="Validator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\ColorCode\Assets\icon.png" />
     <Content Include="Lib\ColorCode\Assets\icon.svg" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
