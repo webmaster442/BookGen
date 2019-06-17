@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen", "BookGen\BookGen.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen.Core", "BookGen.Core\BookGen.Core.csproj", "{DDD2DD75-B014-4F4B-9CDA-510FDD4AF583}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen.Editor", "BookGen.Editor\BookGen.Editor.csproj", "{237465DB-9F9D-4402-8106-A7920102FDB3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2D6081D5-186C-45EC-B45A-BB4AB7792DF2}"
 	ProjectSection(SolutionItems) = preProject
 		build.cake = build.cake
@@ -28,10 +26,6 @@ Global
 		{DDD2DD75-B014-4F4B-9CDA-510FDD4AF583}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDD2DD75-B014-4F4B-9CDA-510FDD4AF583}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDD2DD75-B014-4F4B-9CDA-510FDD4AF583}.Release|Any CPU.Build.0 = Release|Any CPU
-		{237465DB-9F9D-4402-8106-A7920102FDB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{237465DB-9F9D-4402-8106-A7920102FDB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{237465DB-9F9D-4402-8106-A7920102FDB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{237465DB-9F9D-4402-8106-A7920102FDB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
