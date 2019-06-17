@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen", "BookGen\BookGen.csproj", "{7506F904-59E3-4BFC-83D3-A809850D1E89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen", "BookGen\BookGen.csproj", "{7506F904-59E3-4BFC-83D3-A809850D1E89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen.Core", "BookGen.Core\BookGen.Core.csproj", "{DDD2DD75-B014-4F4B-9CDA-510FDD4AF583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Core", "BookGen.Core\BookGen.Core.csproj", "{DDD2DD75-B014-4F4B-9CDA-510FDD4AF583}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2D6081D5-186C-45EC-B45A-BB4AB7792DF2}"
 	ProjectSection(SolutionItems) = preProject
-		build.cake = build.cake
+		build.sh = build.sh
 	EndProjectSection
 EndProject
 Global
