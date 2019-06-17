@@ -15,7 +15,6 @@ namespace BookGen.Core.Markdown
         private static readonly MarkdownPipeline _webpipeline;
         private static readonly MarkdownPipeline _printpipeline;
         private static readonly MarkdownPipeline _plainpipeline;
-        private static readonly MarkdownPipeline _previewpipeline;
         private static readonly MarkdownPipeline _epubpipeline;
 
         static MarkdownRenderers()
@@ -23,7 +22,6 @@ namespace BookGen.Core.Markdown
             _plainpipeline = new MarkdownPipelineBuilder().Build();
             _webpipeline = new MarkdownPipelineBuilder().Use<WebModifier>().UseAdvancedExtensions().Build();
             _printpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
-            _previewpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PreviewModifier>().Build();
             _epubpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<EpubModifier>().Build();
         }
 
@@ -58,12 +56,6 @@ namespace BookGen.Core.Markdown
         {
             PrintModifier.Configuration = configuration;
             return Markdig.Markdown.ToHtml(md, _printpipeline);
-        }
-
-        public static string Markdown2PreviewHtml(string md, FsPath previewFile)
-        {
-            PreviewModifier.PreviewFilePath = previewFile;
-            return Markdig.Markdown.ToHtml(md, _previewpipeline);
         }
     }
 }
