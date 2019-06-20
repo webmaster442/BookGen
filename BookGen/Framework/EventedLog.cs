@@ -9,9 +9,9 @@ using System.Text;
 
 namespace BookGen.Framework
 {
-    public class EventedLogger : ILog
+    public class EventedLog : ILog
     {
-        private StringBuilder _builder;
+        private readonly StringBuilder _builder;
 
         public event EventHandler LogWritten;
 
@@ -26,7 +26,7 @@ namespace BookGen.Framework
             private set;
         }
 
-        public EventedLogger()
+        public EventedLog()
         {
             _builder = new StringBuilder();
             Lines = 0;

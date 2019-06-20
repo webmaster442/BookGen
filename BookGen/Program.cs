@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
-using BookGen.Core.Contracts;
 using BookGen.Framework;
 using BookGen.GeneratorSteps;
 using BookGen.Gui;
@@ -22,7 +21,6 @@ namespace BookGen
         {
             try
             {
-                ILog Log = new ConsoleLog();
                 ArgsumentList arguments = ArgsumentList.Parse(args);
 
                 var action = arguments.GetArgument("a", "action");
@@ -31,57 +29,61 @@ namespace BookGen
 
                 if (dir == null) dir = Environment.CurrentDirectory;
 
-                Runner = new GeneratorRunner(Log);
-
-                if (gui != null && gui.HasSwitch)
+                if (gui?.HasSwitch == true)
                 {
-                    ConsoleGui ui = new ConsoleGui();
+                    var log = new EventedLog();
+                    Runner = new GeneratorRunner(log);
+                    ConsoleGui ui = new ConsoleGui(log, Runner);
                     ui.Run();
-                    return;
                 }
-
-                switch (action?.Value)
+                else
                 {
-                    case KnownArguments.BuildWeb:
-                        if (Runner.Initialize())
-                        {
-                            Runner.DoBuild();
-                        };
-                        break;
-                    case KnownArguments.Clean:
-                        if (Runner.Initialize())
-                        {
-                            CreateOutputDirectory.CleanDirectory(new FsPath(Runner.Configuration.OutputDir), Log);
-                        }
-                        break;
-                    case KnownArguments.TestWeb:
-                        if (Runner.Initialize())
-                        {
-                            Runner.DoTest();
-                        }
-                        break;
-                    case KnownArguments.BuildPrint:
-                        if (Runner.Initialize())
-                        {
-                            Runner.DoPrint();
-                        }
-                        break;
-                    case KnownArguments.CreateConfig:
-                        Runner.DoCreateConfig();
-                        break;
-                    case KnownArguments.ValidateConfig:
-                        Runner.Initialize();
-                        GeneratorRunner.PressKeyToExit();
-                        break;
-                    case KnownArguments.BuildEpub:
-                        if (Runner.Initialize())
-                        {
-                            Runner.DoEpub();
-                        }
-                        break;
-                    default:
-                        Runner.RunHelp();
-                        break;
+                    var Consolelog = new ConsoleLog();
+                    Runner = new GeneratorRunner(Consolelog);
+
+                    switch (action?.Value)
+                    {
+                        case KnownArguments.BuildWeb:
+                            if (Runner.Initialize())
+                            {
+                                Runner.DoBuild();
+                            };
+                            break;
+                        case KnownArguments.Clean:
+                            if (Runner.Initialize())
+                            {
+                                CreateOutputDirectory.CleanDirectory(new FsPath(Runner.Configuration.OutputDir), Consolelog);
+                            }
+                            break;
+                        case KnownArguments.TestWeb:
+                            if (Runner.Initialize())
+                            {
+                                Runner.DoTest();
+                            }
+                            break;
+                        case KnownArguments.BuildPrint:
+                            if (Runner.Initialize())
+                            {
+                                Runner.DoPrint();
+                            }
+                            break;
+                        case KnownArguments.CreateConfig:
+                            Runner.DoCreateConfig();
+                            break;
+                        case KnownArguments.ValidateConfig:
+                            Runner.Initialize();
+                            GeneratorRunner.PressKeyToExit();
+                            break;
+                        case KnownArguments.BuildEpub:
+                            if (Runner.Initialize())
+                            {
+                                Runner.DoEpub();
+                            }
+                            break;
+                        default:
+                            Runner.RunHelp();
+                            break;
+                    }
                 }
             }
             catch (Exception ex)

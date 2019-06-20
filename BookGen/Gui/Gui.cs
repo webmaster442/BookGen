@@ -3,16 +3,20 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Framework;
+using System;
 using Terminal.Gui;
 
 namespace BookGen.Gui
 {
     internal class ConsoleGui
     {
-        private MainWindow main;
+        private readonly MainWindow _main;
+        private readonly EventedLog _log;
 
-        public ConsoleGui()
+        public ConsoleGui(EventedLog log, GeneratorRunner runner)
         {
+            _log = log;
             Application.Init();
             Toplevel top = Application.Top;
 
@@ -20,17 +24,38 @@ namespace BookGen.Gui
             {
                  new MenuBarItem("_File", new MenuItem[]
                  {
-                     new MenuItem("Create config", "Create configuration file", null),
-                     new MenuItem("Validate config", "Validate configuration file", null),
-                     new MenuItem("Exit", "Exit program", () => top.Running = false),
+                     new MenuItem("Create config", "Create configuration file", () =>
+                     {
+                         runner.DoCreateConfig();
+                     }),
+                     new MenuItem("Validate config", "Validate configuration file", () =>
+                     {
+
+                     }),
+                     new MenuItem("Exit", "Exit program", Stop),
                  }),
                  new MenuBarItem("_Build", new MenuItem[]
                  {
-                     new MenuItem("Clean", "Clean output directory", null),
-                     new MenuItem("Test web", "Build test website", null),
-                     new MenuItem("Web", "Build release website", null),
-                     new MenuItem("Print", "Build print html", null),
-                     new MenuItem("E-pub", "Build E-pub", null),
+                     new MenuItem("Clean", "Clean output directory", () =>
+                     {
+                         //runner
+                     }),
+                     new MenuItem("Test web", "Build test website", () =>
+                     {
+                         runner.DoTest();
+                     }),
+                     new MenuItem("Web", "Build release website", () =>
+                     {
+                         runner.DoBuild();
+                     }),
+                     new MenuItem("Print", "Build print html", () =>
+                     {
+                         runner.DoPrint();
+                     }),
+                     new MenuItem("E-pub", "Build E-pub", () =>
+                     {
+                         runner.DoEpub();
+                     }),
                  }),
                  new MenuBarItem("_Help", new MenuItem[]
                  {
@@ -38,15 +63,27 @@ namespace BookGen.Gui
                  }),
             });
 
-            main = new MainWindow();
+            _main = new MainWindow();
 
             top.Add(menu);
-            top.Add(main);
+            top.Add(_main);
+        }
+
+        private void Stop()
+        {
+            _log.LogWritten -= _log_LogWritten;
+            Application.Top.Running = false;
         }
 
         public void Run()
         {
+            _log.LogWritten += _log_LogWritten;
             Application.Run();
+        }
+
+        private void _log_LogWritten(object sender, EventArgs e)
+        {
+            _main.UpdateLog(_log.LogText, _log.Lines);
         }
     }
 }
