@@ -5,10 +5,10 @@
 
 using BookGen.Core;
 using BookGen.Framework;
-using BookGen.GeneratorSteps;
 using BookGen.Gui;
 using System;
 using System.Diagnostics;
+using Terminal.Gui;
 
 namespace BookGen
 {
@@ -16,11 +16,29 @@ namespace BookGen
     {
         internal static GeneratorRunner Runner { get; private set; }
 
+        internal static bool IsInGuiMode { get; set; }
+
+        public static void ShowMessageBox(string text, params object[] args)
+        {
+            if (IsInGuiMode)
+            {
+                string msg = string.Format(text, args);
+                MessageBox.Query(80, 10, "Message", msg, "Ok");
+            }
+            else
+            {
+                Console.WriteLine(text, args);
+                Console.ReadKey();
+            }
+        }
+
+
         [STAThread]
         public static void Main(string[] args)
         {
             try
             {
+                IsInGuiMode = false;
                 ArgsumentList arguments = ArgsumentList.Parse(args);
 
                 var action = arguments.GetArgument("a", "action");
@@ -31,6 +49,7 @@ namespace BookGen
 
                 if (gui?.HasSwitch == true)
                 {
+                    IsInGuiMode = true;
                     var log = new EventedLog();
                     Runner = new GeneratorRunner(log);
                     ConsoleGui ui = new ConsoleGui(log, Runner);
@@ -72,7 +91,6 @@ namespace BookGen
                             break;
                         case KnownArguments.ValidateConfig:
                             Runner.Initialize();
-                            GeneratorRunner.PressKeyToExit();
                             break;
                         case KnownArguments.BuildEpub:
                             if (Runner.Initialize())
@@ -88,8 +106,7 @@ namespace BookGen
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Unhandled exception");
-                Console.WriteLine(ex);
+                ShowMessageBox("Unhandled exception\r\n{0}", ex);
 #if DEBUG
                 Debugger.Break();
 #endif

@@ -21,8 +21,9 @@ namespace BookGen
     {
         private readonly ILog _log;
         private FsPath _config;
+        private const string exitString = "Press a key to exit...";
 
-        public Config Configuration { get; private set; }
+        public Config Configuration { get; private set; }      
 
         private string _workdir;
 
@@ -45,7 +46,7 @@ namespace BookGen
         {
             _log.Info(Properties.Resources.Help);
 #if DEBUG
-            Console.ReadKey();
+            Program.ShowMessageBox("Press a key to continue");
 #endif
             Environment.Exit(1);
         }
@@ -54,7 +55,7 @@ namespace BookGen
         public bool Initialize()
         {
             Version version = GetVersion();
-            Splash.DoSplash();
+            _log.Info("---------------------------------------------------------\n\n");
             _log.Info("BookGen V{0} Starting...", version);
             _log.Info("Working directory: {0}", _workdir);
             _log.Info("---------------------------------------------------------\n\n");
@@ -63,7 +64,7 @@ namespace BookGen
             if (!_config.IsExisting)
             {
                 _log.Info("No bookgen.json config found.");
-                PressKeyToExit();
+                Program.ShowMessageBox(exitString);
                 return false;
             }
 
@@ -79,7 +80,7 @@ namespace BookGen
                 WriteConfig(_config, Configuration);
                 _log.Info("Configuration file migrated to new version.");
                 _log.Info("Review configuration then run program again");
-                PressKeyToExit();
+                Program.ShowMessageBox(exitString);
                 return false;
             }
 
@@ -93,7 +94,7 @@ namespace BookGen
                 {
                     _log.Warning(error);
                 }
-                PressKeyToExit();
+                Program.ShowMessageBox(exitString);
                 return false;
             }
             else
@@ -109,7 +110,7 @@ namespace BookGen
                     {
                         _log.Warning(error);
                     }
-                    PressKeyToExit();
+                    Program.ShowMessageBox(exitString);
                     return false;
                 }
                 else
@@ -136,12 +137,6 @@ namespace BookGen
         {
             var def = JsonConvert.SerializeObject(configuration, Formatting.Indented);
             configFile.WriteFile(def);
-        }
-
-        public static void PressKeyToExit()
-        {
-            Console.WriteLine("Press a key to exit...");
-            Console.ReadKey();
         }
         #endregion
 
@@ -191,7 +186,7 @@ namespace BookGen
                 _log.Info("Test server running on: http://localhost:8080/");
                 _log.Info("Serving from: {0}", Configuration.OutputDir);
                 Process.Start(Configuration.HostName);
-                Splash.PressKeyToExit();
+                Program.ShowMessageBox(exitString);
             }
         }
 
