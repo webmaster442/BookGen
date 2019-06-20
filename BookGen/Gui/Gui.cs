@@ -30,7 +30,7 @@ namespace BookGen.Gui
                      }),
                      new MenuItem("Validate config", "Validate configuration file", () =>
                      {
-
+                         runner.Initialize();
                      }),
                      new MenuItem("Exit", "Exit program", Stop),
                  }),
@@ -38,28 +38,35 @@ namespace BookGen.Gui
                  {
                      new MenuItem("Clean", "Clean output directory", () =>
                      {
-                         //runner
+                         runner.DoClean();
                      }),
                      new MenuItem("Test web", "Build test website", () =>
                      {
-                         runner.DoTest();
+                         if (runner.Initialize())
+                             runner.DoTest();
                      }),
                      new MenuItem("Web", "Build release website", () =>
                      {
-                         runner.DoBuild();
+                         if (runner.Initialize())
+                             runner.DoBuild();
                      }),
                      new MenuItem("Print", "Build print html", () =>
                      {
-                         runner.DoPrint();
+                         if (runner.Initialize())
+                             runner.DoPrint();
                      }),
                      new MenuItem("E-pub", "Build E-pub", () =>
                      {
-                         runner.DoEpub();
+                         if (runner.Initialize())
+                             runner.DoEpub();
                      }),
                  }),
                  new MenuBarItem("_Help", new MenuItem[]
                  {
-                     new MenuItem("Command line args", null, null)
+                     new MenuItem("Command line args", null, () =>
+                     {
+                         runner.RunHelp();
+                     })
                  }),
             });
 

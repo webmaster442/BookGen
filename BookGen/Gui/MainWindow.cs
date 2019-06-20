@@ -9,8 +9,8 @@ namespace BookGen.Gui
 {
     internal class MainWindow : Window
     {
-        private TextView logView;
-        private Label workDir;
+        private readonly TextView logView;
+        private readonly Label workDir;
 
 
         public MainWindow() : base("BookGen Gui")

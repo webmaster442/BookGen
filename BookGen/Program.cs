@@ -52,7 +52,7 @@ namespace BookGen
                         case KnownArguments.Clean:
                             if (Runner.Initialize())
                             {
-                                CreateOutputDirectory.CleanDirectory(new FsPath(Runner.Configuration.OutputDir), Consolelog);
+                                Runner.DoClean();
                             }
                             break;
                         case KnownArguments.TestWeb:

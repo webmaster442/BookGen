@@ -7,6 +7,7 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework.Server;
+using BookGen.GeneratorSteps;
 using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;
@@ -42,7 +43,7 @@ namespace BookGen
 
         public void RunHelp()
         {
-            Console.WriteLine(Properties.Resources.Help);
+            _log.Info(Properties.Resources.Help);
 #if DEBUG
             Console.ReadKey();
 #endif
@@ -87,10 +88,10 @@ namespace BookGen
             
             if (!validator.IsValid)
             {
-                Console.WriteLine("Errors found in configuration: ");
+                _log.Warning("Errors found in configuration: ");
                 foreach (var error in validator.Errors)
                 {
-                    Console.WriteLine(error);
+                    _log.Warning(error);
                 }
                 PressKeyToExit();
                 return false;
@@ -103,21 +104,26 @@ namespace BookGen
                 tocValidator.Validate();
                 if (!tocValidator.IsValid)
                 {
-                    Console.WriteLine("Errors found in TOC file: ");
+                    _log.Warning("Errors found in TOC file: ");
                     foreach (var error in tocValidator.Errors)
                     {
-                        Console.WriteLine(error);
+                        _log.Warning(error);
                     }
                     PressKeyToExit();
                     return false;
                 }
                 else
                 {
-                    Console.WriteLine("Config file contains no errors");
+                    _log.Info("Config file contains no errors");
                 }
             }
 
             return true;
+        }
+
+        public void DoClean()
+        {
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.OutputDir), _log);
         }
 
         private static Version GetVersion()
