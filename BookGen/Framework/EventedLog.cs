@@ -72,6 +72,8 @@ namespace BookGen.Framework
             if (logLevel != LogLevel.Detail)
             {
                 _builder.Append(text);
+                if (text.LastOrDefault() != '\n')
+                    _builder.Append("\n");
                 Lines += line.Count(x => x == '\n');
                 LogWritten?.Invoke(this, EventArgs.Empty);
             }
