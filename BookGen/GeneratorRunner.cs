@@ -23,32 +23,32 @@ namespace BookGen
         private FsPath _config;
         private const string exitString = "Press a key to exit...";
 
-        public Config Configuration { get; private set; }      
+        public Config Configuration { get; private set; }
 
         private string _workdir;
 
-        public string WorkDir
+        public string WorkDirectory
         {
             get { return _workdir; }
-            set
-            {
-                _workdir = value;
-                _config = new FsPath(_workdir, "bookgen.json");
-            }
         }
 
-        public GeneratorRunner(ILog log)
+        public GeneratorRunner(ILog log, string workDir)
         {
             _log = log;
+            _workdir = workDir;
+            _config = new FsPath(_workdir, "bookgen.json");
         }
 
         public void RunHelp()
         {
             _log.Info(Properties.Resources.Help);
+            if (!Program.IsInGuiMode)
+            {
 #if DEBUG
-            Program.ShowMessageBox("Press a key to continue");
+                Program.ShowMessageBox("Press a key to continue");
 #endif
-            Environment.Exit(1);
+                Environment.Exit(1);
+            }
         }
 
         #region Helpers

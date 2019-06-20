@@ -16,7 +16,10 @@ namespace BookGen
     {
         internal static GeneratorRunner Runner { get; private set; }
 
-        internal static bool IsInGuiMode { get; set; }
+        internal static bool IsInGuiMode
+        {
+            get { return Application.Top.Running; }
+        }
 
         public static void ShowMessageBox(string text, params object[] args)
         {
@@ -38,7 +41,6 @@ namespace BookGen
         {
             try
             {
-                IsInGuiMode = false;
                 ArgsumentList arguments = ArgsumentList.Parse(args);
 
                 var action = arguments.GetArgument("a", "action");
@@ -49,16 +51,15 @@ namespace BookGen
 
                 if (gui?.HasSwitch == true)
                 {
-                    IsInGuiMode = true;
                     var log = new EventedLog();
-                    Runner = new GeneratorRunner(log);
+                    Runner = new GeneratorRunner(log, dir);
                     ConsoleGui ui = new ConsoleGui(log, Runner);
                     ui.Run();
                 }
                 else
                 {
                     var Consolelog = new ConsoleLog();
-                    Runner = new GeneratorRunner(Consolelog);
+                    Runner = new GeneratorRunner(Consolelog, dir);
 
                     switch (action?.Value)
                     {
@@ -106,6 +107,8 @@ namespace BookGen
             }
             catch (Exception ex)
             {
+                Application.Top.Running = false;
+                Console.Clear();
                 ShowMessageBox("Unhandled exception\r\n{0}", ex);
 #if DEBUG
                 Debugger.Break();

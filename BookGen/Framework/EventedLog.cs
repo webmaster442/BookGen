@@ -5,6 +5,8 @@
 
 using BookGen.Core.Contracts;
 using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace BookGen.Framework
@@ -64,12 +66,18 @@ namespace BookGen.Framework
 
         public void Log(LogLevel logLevel, string format, params object[] args)
         {
-            string text = string.Format(format, args);
+            string text = string.Format(format, args).Replace("\r", "");
             string line = string.Format("{0}|{1}|{2}", DateTime.Now, logLevel, text);
 
-            _builder.Append(line);
-            Lines++;
-            LogWritten?.Invoke(this, EventArgs.Empty);
+            if (logLevel != LogLevel.Detail)
+            {
+                _builder.Append(text);
+                Lines += line.Count(x => x == '\n');
+                LogWritten?.Invoke(this, EventArgs.Empty);
+            }
+#if DEBUG
+            Debug.WriteLine(line);
+#endif
         }
     }
 }

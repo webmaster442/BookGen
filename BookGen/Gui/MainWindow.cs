@@ -13,30 +13,30 @@ namespace BookGen.Gui
         private readonly Label workDir;
 
 
-        public MainWindow() : base("BookGen Gui")
+        public MainWindow(string workDirPath) : base("BookGen Gui")
         {
             const int indent = 2;
 
             X = 0;
             Y = 1;
             Width = Dim.Fill();
-            Height = Dim.Fill() - 1;
+            Height = Dim.Fill() - 2;
 
             logView = new TextView
             {
                 Text = "",
-                ReadOnly = true
+                ReadOnly = true,
             };
 
             var frame = new FrameView("Log:")
             {
                 X = 0,
                 Y = 4,
-                Height = Dim.Fill(),
+                Height = Dim.Fill() -1,
             };
             frame.Add(logView);
 
-            workDir = new Label("")
+            workDir = new Label(workDirPath)
             {
                 X = indent * 2,
                 Y = 2

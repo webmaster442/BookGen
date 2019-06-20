@@ -38,7 +38,8 @@ namespace BookGen.Gui
                  {
                      new MenuItem("Clean", "Clean output directory", () =>
                      {
-                         runner.DoClean();
+                         if (runner.Initialize())
+                             runner.DoClean();
                      }),
                      new MenuItem("Test web", "Build test website", () =>
                      {
@@ -70,7 +71,7 @@ namespace BookGen.Gui
                  }),
             });
 
-            _main = new MainWindow();
+            _main = new MainWindow(runner.WorkDirectory);
 
             top.Add(menu);
             top.Add(_main);

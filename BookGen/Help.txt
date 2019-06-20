@@ -3,25 +3,25 @@
 Usage: BookGen -a [action] -d [directory]
 
 Supported Actions: -a or --action switch:
-	
-	buildweb
-		Builds website
+    
+    buildweb
+        Builds website
 
-	testweb
-		Build website with test params & runs it in browser
+    testweb
+        Build website with test params & runs it in browser
 
-	buildprint
-		Build printable html
+    buildprint
+        Build printable html
 
-	createconfig
-		Create configuration file in directory, bookgen.json file
+    createconfig
+        Create configuration file in directory, bookgen.json file
 
-	validateconfig
-		Validates configurarion file, bookgen.json and prints out a list of
-		issues in the config file, if there are.
+    validateconfig
+        Validates configurarion file, bookgen.json and prints out a list of
+        issues in the config file, if there are.
 
-	clean
-		Clean output directory (needs valid config)
+    clean
+        Clean output directory (needs valid config)
 
 If no directory parameter is given Current Directory will be used as working directory.
 
