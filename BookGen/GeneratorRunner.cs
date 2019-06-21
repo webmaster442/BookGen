@@ -185,7 +185,11 @@ namespace BookGen
                 Console.Clear();
                 _log.Info("Test server running on: http://localhost:8080/");
                 _log.Info("Serving from: {0}", Configuration.OutputDir);
-                Process.Start(Configuration.HostName);
+
+                Process p = new Process();
+                p.StartInfo.UseShellExecute = true;
+                p.StartInfo.FileName = Configuration.HostName;
+                p.Start();
                 Program.ShowMessageBox(exitString);
             }
         }

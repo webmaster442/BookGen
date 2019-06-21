@@ -18,7 +18,7 @@ namespace BookGen
 
         internal static bool IsInGuiMode
         {
-            get { return Application.Top.Running; }
+            get { return Application.Top?.Running ?? false; }
         }
 
         public static void ShowMessageBox(string text, params object[] args)
