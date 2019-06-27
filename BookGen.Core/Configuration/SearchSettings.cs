@@ -6,53 +6,47 @@
 namespace BookGen.Core.Configuration
 {
 
-    public class SearchSettings : ConfigurationBase
+    public class SearchSettings
     {
-        private string _SearchPageTitle;
-        private string _SearchTextBoxText;
-        private string _SearchButtonText;
-        private string _SearchResults;
-        private string _NoResults;
-
         public string SearchPageTitle
         {
-            get => _SearchPageTitle;
-            set => SetValue(ref _SearchPageTitle, value);
+            get;
+            set;
         }
 
         public string SearchTextBoxText
         {
-            get => _SearchTextBoxText;
-            set => SetValue(ref _SearchTextBoxText, value);
+            get;
+            set;
         }
 
         public string SearchButtonText
         {
-            get => _SearchButtonText;
-            set => SetValue(ref _SearchButtonText, value);
+            get;
+            set;
         }
 
         public string SearchResults
         {
-            get => _SearchResults;
-            set => SetValue(ref _SearchResults, value);
+            get;
+            set;
         }
 
         public string NoResults
         {
-            get => _NoResults;
-            set => SetValue(ref _NoResults, value);
+            get;
+            set;
         }
 
         public static SearchSettings CreateDefault()
         {
             return new SearchSettings
             {
-                _SearchPageTitle = "Search",
-                _SearchTextBoxText = "Type here to search",
-                _SearchButtonText = "Search",
-                _SearchResults = "Results",
-                _NoResults = "No Results found"
+                SearchPageTitle = "Search",
+                SearchTextBoxText = "Type here to search",
+                SearchButtonText = "Search",
+                SearchResults = "Results",
+                NoResults = "No Results found"
             };
         }
     }

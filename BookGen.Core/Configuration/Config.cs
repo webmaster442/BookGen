@@ -7,45 +7,30 @@ using System.Collections.ObjectModel;
 
 namespace BookGen.Core.Configuration
 {
-    public class Config : ConfigurationBase
+    public class Config
     {
-        private string _OutputDir;
-        private string _TOCFile;
-        private string _ImageDir;
-        private string _HostName;
-        private string _Template;
-        private string _EpubCss;
-        private string _Index;
-        private int _Version;
-        private bool _LinksOutSideOfHostOpenNewTab;
-        private long _InlineImageSizeLimit;
-        private StyleClasses _StyleClasses;
-        private SearchSettings _SearchOptions;
-        private Metadata _Metadata;
-        private Precompile _PrecompileHeader;
-
         public string OutputDir
         {
-            get => _OutputDir;
-            set => SetValue(ref _OutputDir, value);
+            get;
+            set;
         }
 
         public string TOCFile
         {
-            get => _TOCFile;
-            set => SetValue(ref _TOCFile, value);
+            get;
+            set;
         }
 
         public string ImageDir
         {
-            get => _ImageDir;
-            set => SetValue(ref _ImageDir, value);
+            get;
+            set;
         }
 
         public string HostName
         {
-            get => _HostName;
-            set => SetValue(ref _HostName, value);
+            get;
+            set;
         }
 
         public ObservableCollection<Asset> Assets
@@ -56,62 +41,62 @@ namespace BookGen.Core.Configuration
 
         public string Template
         {
-            get => _Template;
-            set => SetValue(ref _Template, value);
+            get;
+            set;
         }
 
         public string EpubCss
         {
-            get => _EpubCss;
-            set => SetValue(ref _EpubCss, value);
+            get;
+            set;
         }
 
         public string Index
         {
-            get => _Index;
-            set => SetValue(ref _Index, value);
+            get;
+            set;
         }
 
         public int Version
         {
-            get => _Version;
-            set => SetValue(ref _Version, value);
+            get;
+            set;
         }
 
         public bool LinksOutSideOfHostOpenNewTab
         {
-            get => _LinksOutSideOfHostOpenNewTab;
-            set => SetValue(ref _LinksOutSideOfHostOpenNewTab, value);
+            get;
+            set;
         }
 
         public long InlineImageSizeLimit
         {
-            get => _InlineImageSizeLimit;
-            set => SetValue(ref _InlineImageSizeLimit, value);
+            get;
+            set;
         }
 
         public StyleClasses StyleClasses
         {
-            get => _StyleClasses;
-            set => SetValue(ref _StyleClasses, value);
+            get;
+            set;
         }
 
         public SearchSettings SearchOptions
         {
-            get => _SearchOptions;
-            set => SetValue(ref _SearchOptions, value);
+            get;
+            set;
         }
 
         public Metadata Metadata
         {
-            get => _Metadata;
-            set => SetValue(ref _Metadata, value);
+            get;
+            set;
         }
 
         public Precompile PrecompileHeader
         {
-            get => _PrecompileHeader;
-            set => SetValue(ref _PrecompileHeader, value);
+            get;
+            set;
         }
 
         public static Config CreateDefault()

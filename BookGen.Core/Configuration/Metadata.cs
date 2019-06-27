@@ -5,29 +5,24 @@
 
 namespace BookGen.Core.Configuration
 {
-    public class Metadata : ConfigurationBase
+    public class Metadata
     {
-        private string _Author;
-        private string _CoverImage;
-        private string _Title;
-
-
         public string Author
         {
-            get => _Author;
-            set => SetValue(ref _Author, value);
+            get;
+            set;
         }
 
         public string CoverImage
         {
-            get => _CoverImage;
-            set => SetValue(ref _CoverImage, value);
+            get;
+            set;
         }
 
         public string Title
         {
-            get => _Title;
-            set => SetValue(ref _Title, value);
+            get;
+            set;
         }
 
         public static Metadata CreateDefault()

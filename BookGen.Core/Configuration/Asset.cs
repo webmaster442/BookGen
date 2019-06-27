@@ -5,21 +5,21 @@
 
 namespace BookGen.Core.Configuration
 {
-    public class Asset: ConfigurationBase
+    public class Asset
     {
         private string _source;
         private string _target;
 
         public string Source
         {
-            get { return _source; }
-            set { SetValue(ref _source, value); }
+            get;
+            set;
         }
 
         public string Target
         {
-            get { return _target; }
-            set { SetValue(ref _target, value); }
+            get;
+            set;
         }
     }
 }

@@ -9,32 +9,10 @@ using System.Collections.Generic;
 namespace BookGen.Core.Configuration
 {
 
-    public class Precompile: ConfigurationBase
+    public class Precompile
     {
         public List<string> CSSFiles { get; set; }
         public List<string> JavascriptFiles { get; set; }
-
-        [JsonIgnore]
-        public string CSSFilesString
-        {
-            get { return string.Join("\r\n", CSSFiles); }
-            set
-            {
-                CSSFiles = new List<string>(value.Split(new char[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries));
-                base.OnPropertyChanged();
-            }
-        }
-
-        [JsonIgnore]
-        public string JavascriptFilesString
-        {
-            get { return string.Join("\r\n", JavascriptFiles); }
-            set
-            {
-                JavascriptFiles = new List<string>(value.Split(new char[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries));
-                base.OnPropertyChanged();
-            }
-        }
 
         public static Precompile CreateDefault()
         {
