@@ -27,7 +27,8 @@ namespace BookGen.Core
                 if (!char.IsLetterOrDigit(chr) 
                     && chr != '-'
                     && chr != '.'
-                    && chr != '_' )
+                    && chr != '_'
+                    && chr != '/')
                 {
                     return false;
                 }
