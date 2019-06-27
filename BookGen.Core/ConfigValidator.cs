@@ -5,8 +5,6 @@
 
 using BookGen.Core.Configuration;
 using BookGen.Core.Properties;
-using System.Collections.Generic;
-using System.IO;
 
 namespace BookGen.Core
 {
@@ -38,7 +36,13 @@ namespace BookGen.Core
                 AddError(Resources.MissingTocFile, _config.TOCFile);
 
             if (string.IsNullOrEmpty(_config.HostName))
+            {
                 AddError(Resources.MissingHostName);
+            }
+            else if (!_config.HostName.EndsWith("/"))
+            {
+                AddError(Resources.MissingTrailingSlash);
+            }
 
             if (_config.Assets == null)
                 AddError(Resources.MissingAssets);

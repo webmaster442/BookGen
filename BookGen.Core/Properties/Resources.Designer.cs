@@ -169,6 +169,15 @@ namespace BookGen.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Host name must end with a / char.
+        /// </summary>
+        internal static string MissingTrailingSlash {
+            get {
+                return ResourceManager.GetString("MissingTrailingSlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Source file in toc doesn&apos;t exist: {0}.
         /// </summary>
         internal static string TOCFileNotExists {

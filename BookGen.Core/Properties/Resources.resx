@@ -153,6 +153,9 @@
   <data name="MissingTocFile" xml:space="preserve">
     <value>Table of Contents file not found: {0}</value>
   </data>
+  <data name="MissingTrailingSlash" xml:space="preserve">
+    <value>Host name must end with a / char</value>
+  </data>
   <data name="TOCFileNotExists" xml:space="preserve">
     <value>Source file in toc doesn't exist: {0}</value>
   </data>
