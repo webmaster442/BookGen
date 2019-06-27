@@ -153,4 +153,13 @@
   <data name="MissingTocFile" xml:space="preserve">
     <value>Table of Contents file not found: {0}</value>
   </data>
+  <data name="TOCFileNotExists" xml:space="preserve">
+    <value>Source file in toc doesn't exist: {0}</value>
+  </data>
+  <data name="TOCInvalidFilePathChars" xml:space="preserve">
+    <value>File path contains invalid chars: {0}. Valid chars: Numbers, letters, -, _</value>
+  </data>
+  <data name="TOCNoChapters" xml:space="preserve">
+    <value>TOC file contains no chapters</value>
+  </data>
 </root>

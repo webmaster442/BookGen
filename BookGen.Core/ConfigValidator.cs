@@ -65,8 +65,9 @@ namespace BookGen.Core
                 || string.IsNullOrEmpty(_config.SearchOptions.SearchPageTitle)
                 || string.IsNullOrEmpty(_config.SearchOptions.SearchResults)
                 || string.IsNullOrEmpty(_config.SearchOptions.SearchTextBoxText))
+            {
                 AddError(Resources.MissingSearchOptionsText);
-
+            }
 
             if (_config.Metadata == null)
                 AddError(Resources.MissingMetadata);
