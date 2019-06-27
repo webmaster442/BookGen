@@ -36,64 +36,98 @@ namespace BookGen
         }
 
 
+        private static ParsedOptions ParseOptions(string[] args)
+        {
+            ParsedOptions parsed = new ParsedOptions
+            {
+                WorkingDirectory = Environment.CurrentDirectory,
+                GuiReqested = false,
+                ShowHelp = true,
+                Action = null
+            };
+
+            ArgsumentList arguments = ArgsumentList.Parse(args);
+
+            var dir = arguments.GetArgument("d", "dir");
+
+            if (dir != null)
+                parsed.WorkingDirectory = dir.Value;
+
+            var gui = arguments.GetArgument("g", "gui");
+
+            if (gui?.HasSwitch == true)
+            {
+                parsed.ShowHelp = false;
+                parsed.GuiReqested = true;
+            }
+
+            var action = arguments.GetArgument("a", "action");
+            if (action != null)
+            {
+                bool succes = Enum.TryParse(action.Value, true, out ParsedOptions.ActionType genAction);
+                if (succes)
+                {
+                    parsed.ShowHelp = false;
+                    parsed.Action = genAction;
+                }
+            }
+
+            return parsed;
+        }
+
         [STAThread]
         public static void Main(string[] args)
         {
             try
             {
-                ArgsumentList arguments = ArgsumentList.Parse(args);
+                ParsedOptions options = ParseOptions(args);
 
-                var action = arguments.GetArgument("a", "action");
-                var gui = arguments.GetArgument("g", "gui");
-                var dir = arguments.GetArgument("d", "dir")?.Value;
 
-                if (dir == null) dir = Environment.CurrentDirectory;
-
-                if (gui?.HasSwitch == true)
+                if (options.GuiReqested)
                 {
                     var log = new EventedLog();
-                    Runner = new GeneratorRunner(log, dir);
+                    Runner = new GeneratorRunner(log, options.WorkingDirectory);
                     ConsoleGui ui = new ConsoleGui(log, Runner);
                     ui.Run();
                 }
                 else
                 {
                     var Consolelog = new ConsoleLog();
-                    Runner = new GeneratorRunner(Consolelog, dir);
+                    Runner = new GeneratorRunner(Consolelog, options.WorkingDirectory);
 
-                    switch (action?.Value)
+                    switch (options.Action)
                     {
-                        case KnownArguments.BuildWeb:
+                        case ParsedOptions.ActionType.BuildWeb:
                             if (Runner.Initialize())
                             {
                                 Runner.DoBuild();
                             };
                             break;
-                        case KnownArguments.Clean:
+                        case ParsedOptions.ActionType.Clean:
                             if (Runner.Initialize())
                             {
                                 Runner.DoClean();
                             }
                             break;
-                        case KnownArguments.TestWeb:
+                        case ParsedOptions.ActionType.Test:
                             if (Runner.Initialize())
                             {
                                 Runner.DoTest();
                             }
                             break;
-                        case KnownArguments.BuildPrint:
+                        case ParsedOptions.ActionType.BuildPrint:
                             if (Runner.Initialize())
                             {
                                 Runner.DoPrint();
                             }
                             break;
-                        case KnownArguments.CreateConfig:
+                        case ParsedOptions.ActionType.CreateConfig:
                             Runner.DoCreateConfig();
                             break;
-                        case KnownArguments.ValidateConfig:
+                        case ParsedOptions.ActionType.ValidateConfig:
                             Runner.Initialize();
                             break;
-                        case KnownArguments.BuildEpub:
+                        case ParsedOptions.ActionType.BuildEpub:
                             if (Runner.Initialize())
                             {
                                 Runner.DoEpub();
