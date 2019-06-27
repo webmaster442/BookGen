@@ -14,6 +14,7 @@ using BookGen.Utilities;
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BookGen.GeneratorSteps
 {
@@ -22,11 +23,13 @@ namespace BookGen.GeneratorSteps
         public Template Template { get; set; }
         public GeneratorContent Content { get; set; }
 
-        private StringBuilder _buffer;
+        private readonly StringBuilder _buffer;
+        private readonly Regex _spaces;
 
         public GenerateSearchPage()
         {
             _buffer = new StringBuilder();
+            _spaces = new Regex(@"\s+", RegexOptions.Compiled);
         }
 
         public void RunStep(RuntimeSettings settings, ILog log)
@@ -70,6 +73,12 @@ namespace BookGen.GeneratorSteps
             _buffer.Append(result);
         }
 
+        private string RenderAndCompressForSearch(string filecontent)
+        {
+            var rendered = MarkdownRenderers.Markdown2Plain(filecontent);
+            return _spaces.Replace(rendered, " ");
+        }
+
         private void GenerateSearchContents(RuntimeSettings settings, ILog log)
         {
             _buffer.Append("<div id=\"searchcontents\" style=\"display:none;\">\n");
@@ -79,13 +88,13 @@ namespace BookGen.GeneratorSteps
                 {
                     log.Detail("Processing file for search index: {0}", link.Link);
                     var fileContent = settings.SourceDirectory.Combine(link.Link).ReadFile();
-                    var rendered = MarkdownRenderers.Markdown2Plain(fileContent);
+                    var rendered = RenderAndCompressForSearch(fileContent);
 
                     var file = Path.ChangeExtension(link.Link, ".html");
                     var fullpath = $"{settings.Configruation.HostName}{file}";
 
-                    _buffer.AppendFormat("<div title=\"{0}\" data-link=\"{1}\">\n", link.DisplayString, fullpath);
-                    _buffer.Append(rendered.Trim().Replace('\n', ' '));
+                    _buffer.AppendFormat("<div title=\"{0}\" data-link=\"{1}\">", link.DisplayString, fullpath);
+                    _buffer.Append(rendered);
                     _buffer.Append("</div>\n");
                 }
             }
