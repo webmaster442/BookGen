@@ -7,9 +7,6 @@ namespace BookGen.Core.Configuration
 {
     public class Asset
     {
-        private string _source;
-        private string _target;
-
         public string Source
         {
             get;
