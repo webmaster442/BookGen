@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace BookGen.Framework
 {
-    internal sealed class Logger : ILog
+    internal sealed class ConsoleLog : ILog
     {
         public void Critical(string format, params object[] args)
         {

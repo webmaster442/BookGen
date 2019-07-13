@@ -11,7 +11,7 @@ namespace BookGen.Core
     {
         public List<string> Errors { get; }
 
-        public Validator()
+        protected Validator()
         {
             Errors = new List<string>();
         }

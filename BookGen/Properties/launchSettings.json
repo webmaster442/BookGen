@@ -2,6 +2,7 @@
   "profiles": {
     "BookGen": {
       "commandName": "Project",
+      "commandLineArgs": "-a Test",
       "workingDirectory": "E:\\csharpkonyv\\konyv"
     }
   }

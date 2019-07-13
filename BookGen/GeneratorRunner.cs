@@ -7,6 +7,7 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework.Server;
+using BookGen.GeneratorSteps;
 using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;
@@ -20,40 +21,41 @@ namespace BookGen
     {
         private readonly ILog _log;
         private FsPath _config;
+        private const string exitString = "Press a key to exit...";
 
         public Config Configuration { get; private set; }
 
         private string _workdir;
 
-        public string WorkDir
+        public string WorkDirectory
         {
             get { return _workdir; }
-            set
-            {
-                _workdir = value;
-                _config = new FsPath(_workdir, "bookgen.json");
-            }
         }
 
-        public GeneratorRunner(ILog log)
+        public GeneratorRunner(ILog log, string workDir)
         {
             _log = log;
+            _workdir = workDir;
+            _config = new FsPath(_workdir, "bookgen.json");
         }
 
         public void RunHelp()
         {
-            Console.WriteLine(Properties.Resources.Help);
+            _log.Info(Properties.Resources.Help);
+            if (!Program.IsInGuiMode)
+            {
 #if DEBUG
-            Console.ReadKey();
+                Program.ShowMessageBox("Press a key to continue");
 #endif
-            Environment.Exit(1);
+                Environment.Exit(1);
+            }
         }
 
         #region Helpers
         public bool Initialize()
         {
             Version version = GetVersion();
-            Splash.DoSplash();
+            _log.Info("---------------------------------------------------------\n\n");
             _log.Info("BookGen V{0} Starting...", version);
             _log.Info("Working directory: {0}", _workdir);
             _log.Info("---------------------------------------------------------\n\n");
@@ -62,7 +64,7 @@ namespace BookGen
             if (!_config.IsExisting)
             {
                 _log.Info("No bookgen.json config found.");
-                PressKeyToExit();
+                Program.ShowMessageBox(exitString);
                 return false;
             }
 
@@ -78,7 +80,7 @@ namespace BookGen
                 WriteConfig(_config, Configuration);
                 _log.Info("Configuration file migrated to new version.");
                 _log.Info("Review configuration then run program again");
-                PressKeyToExit();
+                Program.ShowMessageBox(exitString);
                 return false;
             }
 
@@ -87,12 +89,12 @@ namespace BookGen
             
             if (!validator.IsValid)
             {
-                Console.WriteLine("Errors found in configuration: ");
+                _log.Warning("Errors found in configuration: ");
                 foreach (var error in validator.Errors)
                 {
-                    Console.WriteLine(error);
+                    _log.Warning(error);
                 }
-                PressKeyToExit();
+                Program.ShowMessageBox(exitString);
                 return false;
             }
             else
@@ -103,21 +105,26 @@ namespace BookGen
                 tocValidator.Validate();
                 if (!tocValidator.IsValid)
                 {
-                    Console.WriteLine("Errors found in TOC file: ");
+                    _log.Warning("Errors found in TOC file: ");
                     foreach (var error in tocValidator.Errors)
                     {
-                        Console.WriteLine(error);
+                        _log.Warning(error);
                     }
-                    PressKeyToExit();
+                    Program.ShowMessageBox(exitString);
                     return false;
                 }
                 else
                 {
-                    Console.WriteLine("Config file contains no errors");
+                    _log.Info("Config file contains no errors");
                 }
             }
 
             return true;
+        }
+
+        public void DoClean()
+        {
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.OutputDir), _log);
         }
 
         private static Version GetVersion()
@@ -130,12 +137,6 @@ namespace BookGen
         {
             var def = JsonConvert.SerializeObject(configuration, Formatting.Indented);
             configFile.WriteFile(def);
-        }
-
-        public static void PressKeyToExit()
-        {
-            Console.WriteLine("Press a key to exit...");
-            Console.ReadKey();
         }
         #endregion
 
@@ -184,8 +185,12 @@ namespace BookGen
                 Console.Clear();
                 _log.Info("Test server running on: http://localhost:8080/");
                 _log.Info("Serving from: {0}", Configuration.OutputDir);
-                Process.Start(Configuration.HostName);
-                Splash.PressKeyToExit();
+
+                Process p = new Process();
+                p.StartInfo.UseShellExecute = true;
+                p.StartInfo.FileName = Configuration.HostName;
+                p.Start();
+                Program.ShowMessageBox(exitString);
             }
         }
 

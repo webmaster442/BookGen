@@ -1,28 +1,36 @@
 ﻿BookGen - Markdown to Book tool
 
-Usage: BookGen -a [action] -d [directory]
+Usage: 
+    BookGen -a, --action [action] -d, --dir [directory]
+    BookGen -g, --gui -d, --dir [directory]
 
-Supported Actions: -a or --action switch:
-	
-	buildweb
-		Builds website
+Arguments:
 
-	testweb
-		Build website with test params & runs it in browser
+    -a, --action         Specify build action
+    -g, --gui            Start in gui mode.
+    -d, --dir            Specity working directory
+    
+Supported Actions:
 
-	buildprint
-		Build printable html
+    Test
+        Build website with test params & runs it in browser
+        
+    BuildPrint
+        Build printable html
+        
+    BuildEpub
+        Build epub document
 
-	createconfig
-		Create configuration file in directory, bookgen.json file
+    Clean
+        Clean output directory (needs valid config)
 
-	validateconfig
-		Validates configurarion file, bookgen.json and prints out a list of
-		issues in the config file, if there are.
+    CreateConfig
+        Create configuration file in directory, bookgen.json file
+    
+    ValidateConfig
+        Validates configurarion file, bookgen.json and prints out a list of
+        issues in the config file, if there are.
 
-	clean
-		Clean output directory (needs valid config)
+If no directory parameter is given Current Directory will be used as working 
+directory.
 
-If no directory parameter is given Current Directory will be used as working directory.
-
-Alternatively the -d parameter can be given with --dir

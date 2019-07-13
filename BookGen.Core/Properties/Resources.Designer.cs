@@ -167,5 +167,41 @@ namespace BookGen.Core.Properties {
                 return ResourceManager.GetString("MissingTocFile", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Host name must end with a / char.
+        /// </summary>
+        internal static string MissingTrailingSlash {
+            get {
+                return ResourceManager.GetString("MissingTrailingSlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source file in toc doesn&apos;t exist: {0}.
+        /// </summary>
+        internal static string TOCFileNotExists {
+            get {
+                return ResourceManager.GetString("TOCFileNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File path contains invalid chars: {0}. Valid chars: Numbers, letters, -, _.
+        /// </summary>
+        internal static string TOCInvalidFilePathChars {
+            get {
+                return ResourceManager.GetString("TOCInvalidFilePathChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TOC file contains no chapters.
+        /// </summary>
+        internal static string TOCNoChapters {
+            get {
+                return ResourceManager.GetString("TOCNoChapters", resourceCulture);
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ using BookGen.Utilities;
 
 namespace BookGen.GeneratorSteps
 {
-    class ProcessAssetMd : ITemplatedStep
+    internal class ProcessAssetMd : ITemplatedStep
     {
         public GeneratorContent Content { get; set; }
         public Template Template { get; set; }
@@ -26,14 +26,13 @@ namespace BookGen.GeneratorSteps
                 FsPath source = settings.SourceDirectory.Combine(asset.Source);
                 FsPath target = settings.OutputDirectory.Combine(asset.Target);
 
-                if (source.IsExisting &&
-                    source.Extension == ".md" &&
-                    target.Extension != ".html" &&
-                    target.Extension != ".htm")
+                if (source.IsExisting
+                    && source.Extension == ".md"
+                    && target.Extension != ".html"
+                    && target.Extension != ".htm")
                 {
                     log.Detail("Processing file: {0}", source);
                     var inputContent = source.ReadFile();
-
 
                     Content.Title = MarkdownUtils.GetTitle(inputContent);
                     Content.Content = MarkdownRenderers.Markdown2WebHTML(inputContent, settings);

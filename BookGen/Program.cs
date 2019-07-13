@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
-using BookGen.Core.Contracts;
 using BookGen.Framework;
-using BookGen.GeneratorSteps;
+using BookGen.Gui;
 using System;
 using System.Diagnostics;
+using Terminal.Gui;
 
 namespace BookGen
 {
@@ -16,69 +16,134 @@ namespace BookGen
     {
         internal static GeneratorRunner Runner { get; private set; }
 
+        internal static bool IsInGuiMode
+        {
+            get { return Application.Top?.Running ?? false; }
+        }
+
+        public static void ShowMessageBox(string text, params object[] args)
+        {
+            if (IsInGuiMode)
+            {
+                string msg = string.Format(text, args);
+                MessageBox.Query(80, 10, "Message", msg, "Ok");
+            }
+            else
+            {
+                Console.WriteLine(text, args);
+                Console.ReadKey();
+            }
+        }
+
+
+        private static ParsedOptions ParseOptions(string[] args)
+        {
+            ParsedOptions parsed = new ParsedOptions
+            {
+                WorkingDirectory = Environment.CurrentDirectory,
+                GuiReqested = false,
+                ShowHelp = true,
+                Action = null
+            };
+
+            ArgsumentList arguments = ArgsumentList.Parse(args);
+
+            var dir = arguments.GetArgument("d", "dir");
+
+            if (dir != null)
+                parsed.WorkingDirectory = dir.Value;
+
+            var gui = arguments.GetArgument("g", "gui");
+
+            if (gui?.HasSwitch == true)
+            {
+                parsed.ShowHelp = false;
+                parsed.GuiReqested = true;
+            }
+
+            var action = arguments.GetArgument("a", "action");
+            if (action != null)
+            {
+                bool succes = Enum.TryParse(action.Value, true, out ParsedOptions.ActionType genAction);
+                if (succes)
+                {
+                    parsed.ShowHelp = false;
+                    parsed.Action = genAction;
+                }
+            }
+
+            return parsed;
+        }
+
         [STAThread]
         public static void Main(string[] args)
         {
             try
             {
-                ILog Log = new Logger();
-                ArgsumentList arguments = ArgsumentList.Parse(args);
+                ParsedOptions options = ParseOptions(args);
 
-                var action = arguments.GetArgument("a", "action");
-                var dir = arguments.GetArgument("d", "dir")?.Value;
 
-                if (dir == null) dir = Environment.CurrentDirectory;
-
-                Runner = new GeneratorRunner(Log);
-
-                switch (action?.Value)
+                if (options.GuiReqested)
                 {
-                    case KnownArguments.BuildWeb:
-                        if (Runner.Initialize())
-                        {
-                            Runner.DoBuild();
-                        };
-                        break;
-                    case KnownArguments.Clean:
-                        if (Runner.Initialize())
-                        {
-                            CreateOutputDirectory.CleanDirectory(new FsPath(Runner.Configuration.OutputDir), Log);
-                        }
-                        break;
-                    case KnownArguments.TestWeb:
-                        if (Runner.Initialize())
-                        {
-                            Runner.DoTest();
-                        }
-                        break;
-                    case KnownArguments.BuildPrint:
-                        if (Runner.Initialize())
-                        {
-                            Runner.DoPrint();
-                        }
-                        break;
-                    case KnownArguments.CreateConfig:
-                        Runner.DoCreateConfig();
-                        break;
-                    case KnownArguments.ValidateConfig:
-                        Runner.Initialize();
-                        GeneratorRunner.PressKeyToExit();
-                        break;
-                    case KnownArguments.BuildEpub:
-                        if (Runner.Initialize())
-                        {
-                            Runner.DoEpub();
-                        }
-                        break;
-                    default:
-                        Runner.RunHelp();
-                        break;
+                    var log = new EventedLog();
+                    Runner = new GeneratorRunner(log, options.WorkingDirectory);
+                    ConsoleGui ui = new ConsoleGui(log, Runner);
+                    ui.Run();
+                }
+                else
+                {
+                    var Consolelog = new ConsoleLog();
+                    Runner = new GeneratorRunner(Consolelog, options.WorkingDirectory);
+
+                    switch (options.Action)
+                    {
+                        case ParsedOptions.ActionType.BuildWeb:
+                            if (Runner.Initialize())
+                            {
+                                Runner.DoBuild();
+                            };
+                            break;
+                        case ParsedOptions.ActionType.Clean:
+                            if (Runner.Initialize())
+                            {
+                                Runner.DoClean();
+                            }
+                            break;
+                        case ParsedOptions.ActionType.Test:
+                            if (Runner.Initialize())
+                            {
+                                Runner.DoTest();
+                            }
+                            break;
+                        case ParsedOptions.ActionType.BuildPrint:
+                            if (Runner.Initialize())
+                            {
+                                Runner.DoPrint();
+                            }
+                            break;
+                        case ParsedOptions.ActionType.CreateConfig:
+                            Runner.DoCreateConfig();
+                            break;
+                        case ParsedOptions.ActionType.ValidateConfig:
+                            Runner.Initialize();
+                            break;
+                        case ParsedOptions.ActionType.BuildEpub:
+                            if (Runner.Initialize())
+                            {
+                                Runner.DoEpub();
+                            }
+                            break;
+                        default:
+                            Runner.RunHelp();
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Unhandled exception");
-                Console.WriteLine(ex);
+                Application.Top.Running = false;
+                Console.Clear();
+                ShowMessageBox("Unhandled exception\r\n{0}", ex);
 #if DEBUG
                 Debugger.Break();
 #endif
