@@ -30,8 +30,8 @@ namespace ColorCode
         /// <param name="languageParser">The language parser that the <see cref="CodeColorizer"/> instance will use for its lifetime.</param>
         public CodeColorizer(ILanguageParser languageParser)
         {
-            Guard.ArgNotNull(languageParser, "languageParser");
-            
+            Guard.ArgNotNull(languageParser, nameof(languageParser));
+
             this.languageParser = languageParser;
         }
 
@@ -80,10 +80,10 @@ namespace ColorCode
                              IStyleSheet styleSheet,
                              TextWriter textWriter)
         {
-            Guard.ArgNotNull(language, "language");
-            Guard.ArgNotNull(formatter, "formatter");
-            Guard.ArgNotNull(styleSheet, "styleSheet");
-            Guard.ArgNotNull(textWriter, "textWriter");
+            Guard.ArgNotNull(language, nameof(language));
+            Guard.ArgNotNull(formatter, nameof(formatter));
+            Guard.ArgNotNull(styleSheet, nameof(styleSheet));
+            Guard.ArgNotNull(textWriter, nameof(textWriter));
 
             formatter.WriteHeader(styleSheet, language, textWriter);
 

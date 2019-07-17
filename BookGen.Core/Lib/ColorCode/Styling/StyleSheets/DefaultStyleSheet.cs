@@ -7,11 +7,9 @@ namespace ColorCode.Styling.StyleSheets
     public class DefaultStyleSheet : IStyleSheet
     {
         private static readonly Color DullRed = new Color(163, 21, 21);
-        private static readonly StyleDictionary styles;
 
-        static DefaultStyleSheet()
-        {
-            styles = new StyleDictionary
+        private static readonly StyleDictionary styles
+            = new StyleDictionary
                          {
                              new Style(ScopeName.PlainText)
                                  {
@@ -256,7 +254,6 @@ namespace ColorCode.Styling.StyleSheets
                                     CssClassName = "bold"
                                 },
                          };
-        }
 
         public string Name
         {

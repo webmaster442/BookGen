@@ -65,15 +65,15 @@ namespace ColorCode.Compilation.Languages
                           {
                               { 0, ScopeName.Comment },
                           }),
-           
+
                    // Line comments
                    new LanguageRule(
                         @"(//.*?)\r?$",
                         new Dictionary<int, string>
                             {
                                 { 1, ScopeName.Comment }
-                            }),            
-            
+                            }),
+
                     // operator keywords
                     new LanguageRule(
                         @"(?<!" + symbol + ")(" + opkeywords + @")(?!" + symbol + @")",
@@ -81,15 +81,15 @@ namespace ColorCode.Compilation.Languages
                             {
                                 { 1, ScopeName.Keyword }
                             }),
-            
+
                     // Types
                     new LanguageRule(
                         // Type highlighting using named balanced groups to balance parenthesized sub types
                         // 'toptype' captures two groups: type keyword and type variables 
                         // each 'nestedtype' captures three groups: parameter names, type keywords and type variables
                         @"(?:" + @"\b(type|struct|cotype|rectype)\b|"
-                               + @"::?(?!" + symbol + ")|" 
-                               + @"\b(alias)\s+[a-z]\w+\s*(?:<[^>]*>\s*)?(=)" + ")" 
+                               + @"::?(?!" + symbol + ")|"
+                               + @"\b(alias)\s+[a-z]\w+\s*(?:<[^>]*>\s*)?(=)" + ")"
                                + toptype + "*" +
                         @"(?:" +
                          @"(?:(?<type>[\(\[<])(?:" + nestedtype + @"|[,]" + @")*)+" +
@@ -98,21 +98,21 @@ namespace ColorCode.Compilation.Languages
                         @"", //(?=(?:[,\)\{\}\]<>]|(" + keywords +")\b))",
                         new Dictionary<int,string> {
                             { 0, ScopeName.Type },
-                    
+
                             { 1, ScopeName.Keyword },   // type struct etc
                             { 2, ScopeName.Keyword },   // alias
                             { 3, ScopeName.Keyword },   //  =
-                    
+
                             { 4, ScopeName.Keyword},
                             { 5, ScopeName.TypeVariable },
-                    
-                            { 6, ScopeName.PlainText }, 
+
+                            { 6, ScopeName.PlainText },
                             { 7, ScopeName.Keyword },
                             { 8, ScopeName.TypeVariable },
-                    
+
                             { 9, ScopeName.PlainText },
                             { 10, ScopeName.Keyword },
-                            { 11, ScopeName.TypeVariable },                
+                            { 11, ScopeName.TypeVariable },
                         }),
 
                     // module and imports
@@ -135,7 +135,7 @@ namespace ColorCode.Compilation.Languages
                                 { 4, ScopeName.Keyword },
                                 { 5, ScopeName.NameSpace },
                             }),
-            
+
                     // keywords
                     new LanguageRule(
                         @"\b(" + plainKeywords + "|" + typeKeywords + @")\b",
@@ -155,7 +155,7 @@ namespace ColorCode.Compilation.Languages
                             {
                                 { 1, ScopeName.PseudoKeyword }
                             }),
-            
+
                     // Names
                     new LanguageRule(
                         @"([a-z]\w*/)*([a-z]\w*|\(" + symbols + @"\))",

@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ColorCode.Styling
 {
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public class Color
+    public sealed class Color : IEquatable<Color>
     {
         public Color(byte r, byte g, byte b) : this(255, r, g, b)
         {
@@ -20,7 +19,7 @@ namespace ColorCode.Styling
 
         public string Name { get; private set; }
 
-        public byte Alpha { get; set; } = 255;
+        public byte Alpha { get; set; }
         public byte R { get; set; }
         public byte G { get; set; }
         public byte B { get; set; }
@@ -328,6 +327,11 @@ namespace ColorCode.Styling
         private bool IsEmpty { get; set; }
         public static Color Empty => new Color(0, 0, 0) {IsEmpty = true};
 
+        public bool Equals(Color other)
+        {
+            return (other.IsEmpty && IsEmpty) || ((other.R == R) && (other.G == G) && (other.B == B));
+        }
+
         public override bool Equals(object obj)
         {
             var color = obj as Color;
@@ -336,12 +340,12 @@ namespace ColorCode.Styling
 
         public static bool operator ==(Color left, Color right)
         {
-            if ((object) left == null && (object) right == null) return true;
-            if ((object) left == null && right.IsEmpty) return true;
-            if ((object) left != null && left.IsEmpty && (object) right == null) return true;
-            if ((object) left != null && left.IsEmpty && (object) right != null && right.IsEmpty) return true;
+            if (left is null && right is null) return true;
+            if (left is null && right.IsEmpty) return true;
+            if (!(left is null) && left.IsEmpty && right is null) return true;
+            if (!(left is null) && left.IsEmpty && !(right is null) && right.IsEmpty) return true;
 
-            if ((object) left == null || (object) right == null) return false;
+            if (left is null || right is null) return false;
 
             return left.IsEmpty && right.IsEmpty && (left.R == right.R) && (left.G == right.G) && (left.B == right.B);
         }
@@ -349,11 +353,6 @@ namespace ColorCode.Styling
         public static bool operator !=(Color left, Color right)
         {
             return !(left == right);
-        }
-
-        private bool Equals(Color other)
-        {
-            return (other.IsEmpty && IsEmpty) || (other.R == R) && (other.G == G) && (other.B == B);
         }
 
         public override int GetHashCode()

@@ -19,10 +19,13 @@ namespace ColorCode.Common
                 throw new ArgumentNullException(paramName);
 
             if (string.IsNullOrEmpty(arg))
+            {
                 throw new ArgumentException(string.Format("The {0} argument value must not be empty.", paramName), paramName);
+            }
         }
 
-        public static void EnsureParameterIsNotNullAndNotEmpty<TKey, TValue>(IDictionary<TKey, TValue> parameter, string parameterName)
+        public static void EnsureParameterIsNotNullAndNotEmpty<TKey, TValue>(IReadOnlyDictionary<TKey, TValue> parameter, string parameterName)
+
         {
             if (parameter == null || parameter.Count == 0)
                 throw new ArgumentNullException(parameterName);

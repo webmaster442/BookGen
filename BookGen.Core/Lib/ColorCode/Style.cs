@@ -16,8 +16,8 @@ namespace ColorCode
         /// <param name="scopeName">The name of the scope the style defines.</param>
         public Style(string scopeName)
         {
-            Guard.ArgNotNullAndNotEmpty(scopeName, "scopeName");
-            
+            Guard.ArgNotNullAndNotEmpty(scopeName, nameof(scopeName));
+
             ScopeName = scopeName;
         }
 
@@ -26,16 +26,19 @@ namespace ColorCode
         /// </summary>
         /// <value>The background color.</value>
         public Color Background { get; set; }
+
         /// <summary>
         /// Gets or sets the foreground color.
         /// </summary>
         /// <value>The foreground color.</value>
         public Color Foreground { get; set; }
+
         /// <summary>
         /// Gets or sets the name of the scope the style defines.
         /// </summary>
         /// <value>The name of the scope the style defines.</value>
         public string ScopeName { get; set; }
+
         /// <summary>
         /// Gets or sets the name of the CSS class.
         /// </summary>

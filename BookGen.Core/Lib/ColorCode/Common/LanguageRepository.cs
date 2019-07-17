@@ -25,10 +25,10 @@ namespace ColorCode.Common
 
         public ILanguage FindById(string languageId)
         {
-            Guard.ArgNotNullAndNotEmpty(languageId, "languageId");
-            
+            Guard.ArgNotNullAndNotEmpty(languageId, nameof(languageId));
+
             ILanguage language = null;
-            
+
             loadLock.EnterReadLock();
 
             try
@@ -36,8 +36,8 @@ namespace ColorCode.Common
                 // If we have a matching name for the language then use it
                 // otherwise check if any languages have that string as an
                 // alias. For example: "js" is an alias for Javascript.
-                language = loadedLanguages.FirstOrDefault(x => (x.Key.ToLower() == languageId.ToLower()) ||
-                                                               (x.Value.HasAlias(languageId))).Value;
+                language = loadedLanguages.FirstOrDefault(x => (string.Equals(x.Key, languageId, StringComparison.OrdinalIgnoreCase))
+                                                               || (x.Value.HasAlias(languageId))).Value;
             }
             finally
             {
@@ -49,11 +49,11 @@ namespace ColorCode.Common
 
         public void Load(ILanguage language)
         {
-            Guard.ArgNotNull(language, "language");
+            Guard.ArgNotNull(language, nameof(language));
 
             if (string.IsNullOrEmpty(language.Id))
-                throw new ArgumentException("The language identifier must not be null or empty.", "language");
-            
+                throw new ArgumentException("The language identifier must not be null or empty.", nameof(language));
+
             loadLock.EnterWriteLock();
 
             try

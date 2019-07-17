@@ -39,7 +39,9 @@ namespace ColorCode.Parsing
             Match regexMatch = compiledLanguage.Regex.Match(sourceCode);
 
             if (!regexMatch.Success)
+            {
                 parseHandler(sourceCode, new List<Scope>());
+            }
             else
             {
                 int currentIndex = 0;
@@ -110,7 +112,6 @@ namespace ColorCode.Parsing
             }
         }
 
-
         private List<Scope> GetCapturedStyles(Match regexMatch,
                                                       int currentIndex,
                                                       CompiledLanguage compiledLanguage)
@@ -143,7 +144,9 @@ namespace ColorCode.Parsing
                 AppendCapturedStylesForNestedLanguage(regexCapture, regexCapture.Index - currentIndex, nestedGrammarId, capturedStyles);
             }
             else
+            {
                 capturedStyles.Add(new Scope(styleName, regexCapture.Index - currentIndex, regexCapture.Length));
+            }
         }
 
         private void AppendCapturedStylesForNestedLanguage(Capture regexCapture,
@@ -154,16 +157,16 @@ namespace ColorCode.Parsing
             ILanguage nestedLanguage = languageRepository.FindById(nestedLanguageId);
 
             if (nestedLanguage == null)
+            {
                 throw new InvalidOperationException("The nested language was not found in the language repository.");
+            }
             else
             {
                 CompiledLanguage nestedCompiledLanguage = languageCompiler.Compile(nestedLanguage);
 
                 Match regexMatch = nestedCompiledLanguage.Regex.Match(regexCapture.Value, 0, regexCapture.Value.Length);
 
-                if (!regexMatch.Success)
-                    return;
-                else
+                if (regexMatch.Success)
                 {
                     while (regexMatch.Success)
                     {

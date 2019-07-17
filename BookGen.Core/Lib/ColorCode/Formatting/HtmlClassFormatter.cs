@@ -39,9 +39,9 @@ namespace ColorCode.Formatting
                                 ILanguage language,
                                 TextWriter textWriter)
         {
-            Guard.ArgNotNull(styleSheet, "styleSheet");
-            Guard.ArgNotNull(language, "language");
-            Guard.ArgNotNull(textWriter, "textWriter");
+            Guard.ArgNotNull(styleSheet, nameof(styleSheet));
+            Guard.ArgNotNull(language, nameof(language));
+            Guard.ArgNotNull(textWriter, nameof(textWriter));
 
             textWriter.WriteLine();
             WriteHeaderPreEnd(textWriter);
@@ -52,9 +52,9 @@ namespace ColorCode.Formatting
                                 ILanguage language,
                                 TextWriter textWriter)
         {
-            Guard.ArgNotNull(styleSheet, "styleSheet");
-            Guard.ArgNotNull(language, "language");
-            Guard.ArgNotNull(textWriter, "textWriter");
+            Guard.ArgNotNull(styleSheet, nameof(styleSheet));
+            Guard.ArgNotNull(language, nameof(language));
+            Guard.ArgNotNull(textWriter, nameof(textWriter));
 
             WriteHeaderDivStart(styleSheet, language, textWriter);
             WriteHeaderPreStart(textWriter);
@@ -68,7 +68,6 @@ namespace ColorCode.Formatting
                 Index = scope.Index,
                 Scope = scope
             });
-
 
             foreach (Scope childScope in scope.Children)
                 GetStyleInsertionsForCapturedStyle(childScope, styleInsertions);

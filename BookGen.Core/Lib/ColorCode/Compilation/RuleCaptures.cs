@@ -7,18 +7,11 @@ namespace ColorCode.Compilation
 {
     public static class RuleCaptures
     {
-        public static IDictionary<int, string> JavaScript;
-        public static IDictionary<int, string> CSharpScript;
-        public static IDictionary<int, string> VbDotNetScript;
+        public static readonly IReadOnlyDictionary<int, string> JavaScript = BuildCaptures(LanguageId.JavaScript);
+        public static readonly IReadOnlyDictionary<int, string> CSharpScript = BuildCaptures(LanguageId.CSharp);
+        public static readonly IReadOnlyDictionary<int, string> VbDotNetScript = BuildCaptures(LanguageId.VbDotNet);
 
-        static RuleCaptures()
-        {
-            JavaScript = BuildCaptures(LanguageId.JavaScript);
-            CSharpScript = BuildCaptures(LanguageId.CSharp);
-            VbDotNetScript = BuildCaptures(LanguageId.VbDotNet);
-        }
-
-        private static IDictionary<int, string> BuildCaptures(string languageId)
+        private static IReadOnlyDictionary<int, string> BuildCaptures(string languageId)
         {
             return new Dictionary<int, string>
                        {

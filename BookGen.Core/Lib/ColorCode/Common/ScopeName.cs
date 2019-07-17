@@ -2,7 +2,7 @@
 
 namespace ColorCode.Common
 {
-    public class ScopeName
+    public static class ScopeName
     {
         public const string ClassName = "Class Name";
         public const string Comment = "Comment";

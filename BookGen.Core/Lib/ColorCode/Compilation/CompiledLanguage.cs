@@ -13,11 +13,11 @@ namespace ColorCode.Compilation
                                 Regex regex,
                                 IList<string> captures)
         {
-            Guard.ArgNotNullAndNotEmpty(id, "id");
-            Guard.ArgNotNullAndNotEmpty(name, "name");
-            Guard.ArgNotNull(regex, "regex");
-            Guard.ArgNotNullAndNotEmpty(captures, "captures");
-            
+            Guard.ArgNotNullAndNotEmpty(id, nameof(id));
+            Guard.ArgNotNullAndNotEmpty(name, nameof(name));
+            Guard.ArgNotNull(regex, nameof(regex));
+            Guard.ArgNotNullAndNotEmpty(captures, nameof(captures));
+
             Id = id;
             Name = name;
             Regex = regex;

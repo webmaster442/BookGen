@@ -4,23 +4,18 @@ namespace ColorCode.Compilation
 {
     public static class RuleFormats
     {
-        public static string JavaScript;
-        public static string ServerScript;
-
-        static RuleFormats()
-        {
-            const string script = @"(?xs)(<)(script)
+        private const string script = @"(?xs)(<)(script)
                                         {0}[\s\n]+({1})[\s\n]*(=)[\s\n]*(""{2}""){0}[\s\n]*(>)
                                         (.*?)
                                         (</)(script)(>)";
 
-            const string attributes = @"(?:[\s\n]+([a-z0-9-_]+)[\s\n]*(=)[\s\n]*([^\s\n""']+?)
+        private const string attributes = @"(?:[\s\n]+([a-z0-9-_]+)[\s\n]*(=)[\s\n]*([^\s\n""']+?)
                                            |[\s\n]+([a-z0-9-_]+)[\s\n]*(=)[\s\n]*(""[^\n]+?"")
                                            |[\s\n]+([a-z0-9-_]+)[\s\n]*(=)[\s\n]*('[^\n]+?')
                                            |[\s\n]+([a-z0-9-_]+) )*";
 
-            JavaScript = string.Format(script, attributes, "type|language", "[^\n]*javascript");
-            ServerScript = string.Format(script, attributes, "runat", "server");
-        }
+        public static readonly string JavaScript = string.Format(script, attributes, "type|language", "[^\n]*javascript");
+
+        public static readonly string ServerScript = string.Format(script, attributes, "runat", "server");
     }
 }

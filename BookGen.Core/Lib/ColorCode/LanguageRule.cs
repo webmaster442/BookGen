@@ -16,10 +16,10 @@ namespace ColorCode
         /// <param name="regex">The regular expression that defines what the language rule matches and captures.</param>
         /// <param name="captures">The scope indices and names of the regular expression's captures.</param>
         public LanguageRule(string regex,
-                            IDictionary<int, string> captures)
+                            IReadOnlyDictionary<int, string> captures)
         {
-            Guard.ArgNotNullAndNotEmpty(regex, "regex");
-            Guard.EnsureParameterIsNotNullAndNotEmpty(captures, "captures");
+            Guard.ArgNotNullAndNotEmpty(regex, nameof(regex));
+            Guard.EnsureParameterIsNotNullAndNotEmpty(captures, nameof(captures));
 
             Regex = regex;
             Captures = captures;
@@ -29,11 +29,12 @@ namespace ColorCode
         /// Gets the regular expression that defines what the language rule matches and captures.
         /// </summary>
         /// <value>The regular expression that defines what the language rule matches and captures.</value>
-        public string Regex { get; private set; }
+        public string Regex { get; }
+
         /// <summary>
         /// Gets the scope indices and names of the regular expression's captures.
         /// </summary>
         /// <value>The scope indices and names of the regular expression's captures.</value>
-        public IDictionary<int, string> Captures { get; private set; }
+        public IReadOnlyDictionary<int, string> Captures { get; }
     }
 }

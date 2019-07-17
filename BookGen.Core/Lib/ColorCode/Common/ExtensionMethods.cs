@@ -11,7 +11,7 @@ namespace ColorCode.Common
         public static void SortStable<T>(this IList<T> list,
                                          Comparison<T> comparison)
         {
-            Guard.ArgNotNull(list, "list");
+            Guard.ArgNotNull(list, nameof(list));
 
             int count = list.Count;
 

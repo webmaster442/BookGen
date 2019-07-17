@@ -24,11 +24,11 @@ namespace ColorCode.Compilation
 
         public CompiledLanguage Compile(ILanguage language)
         {
-            Guard.ArgNotNull(language, "language");
+            Guard.ArgNotNull(language, nameof(language));
 
             if (string.IsNullOrEmpty(language.Id))
-                throw new ArgumentException("The language identifier must not be null.", "language");
-            
+                throw new ArgumentException("The language identifier must not be null.", nameof(language));
+
             CompiledLanguage compiledLanguage;
 
             compileLock.EnterReadLock();
@@ -49,7 +49,9 @@ namespace ColorCode.Compilation
             try
             {
                 if (compiledLanguages.ContainsKey(language.Id))
+                {
                     compiledLanguage = compiledLanguages[language.Id];
+                }
                 else
                 {
                     compileLock.EnterWriteLock();
@@ -57,11 +59,11 @@ namespace ColorCode.Compilation
                     try
                     {
                         if (string.IsNullOrEmpty(language.Name))
-                            throw new ArgumentException("The language name must not be null or empty.", "language");
-                        
+                            throw new ArgumentException("The language name must not be null or empty.", nameof(language));
+
                         if (language.Rules == null || language.Rules.Count == 0)
-                            throw new ArgumentException("The language rules collection must not be empty.", "language");
-                        
+                            throw new ArgumentException("The language rules collection must not be empty.", nameof(language));
+
                         compiledLanguage = CompileLanguage(language);
 
                         compiledLanguages.Add(compiledLanguage.Id, compiledLanguage);
@@ -82,8 +84,7 @@ namespace ColorCode.Compilation
 
         private static RegexOptions Compiled()
         {
-            RegexOptions compiledOption;
-            if (Enum.TryParse("Compiled", out compiledOption))
+            if (Enum.TryParse("Compiled", out RegexOptions compiledOption))
             {
                 return compiledOption;
             }
@@ -94,10 +95,8 @@ namespace ColorCode.Compilation
         {
             string id = language.Id;
             string name = language.Name;
-            Regex regex;
-            IList<string> captures;
 
-            CompileRules(language.Rules, out regex, out captures);
+            CompileRules(language.Rules, out Regex regex, out IList<string> captures);
 
             return new CompiledLanguage(id, name, regex, captures);
         }
@@ -120,7 +119,6 @@ namespace ColorCode.Compilation
             regex = new Regex(regexBuilder.ToString());
         }
 
-
         private static void CompileRule(LanguageRule languageRule,
                                                  StringBuilder regex,
                                                  ICollection<string> captures,
@@ -133,7 +131,7 @@ namespace ColorCode.Compilation
                 regex.AppendLine("|");
                 regex.AppendLine();
             }
-            
+
             regex.AppendFormat("(?-xis)(?m)({0})(?x)", languageRule.Regex);
 
             int numberOfCaptures = GetNumberOfCaptures(languageRule.Regex);

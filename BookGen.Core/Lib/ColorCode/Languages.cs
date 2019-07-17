@@ -14,7 +14,7 @@ namespace ColorCode
     {
         internal static readonly LanguageRepository LanguageRepository;
         internal static readonly Dictionary<string, ILanguage> LoadedLanguages;
-        internal static Dictionary<string, CompiledLanguage> CompiledLanguages;
+        internal readonly static Dictionary<string, CompiledLanguage> CompiledLanguages;
 
         static Languages()
         {
@@ -48,7 +48,7 @@ namespace ColorCode
         /// <summary>
         /// Gets an enumerable list of all loaded languages.
         /// </summary>
-        public static IEnumerable<ILanguage> All 
+        public static IEnumerable<ILanguage> All
         {
             get { return LanguageRepository.All; }
         }
