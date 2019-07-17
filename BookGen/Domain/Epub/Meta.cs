@@ -12,6 +12,7 @@ namespace BookGen.Domain.Epub
     {
         [XmlAttribute(AttributeName = "name")]
         public string Name { get; set; }
+
         [XmlAttribute(AttributeName = "content")]
         public string Content { get; set; }
     }
@@ -21,6 +22,7 @@ namespace BookGen.Domain.Epub
     {
         [XmlAttribute(AttributeName = "content")]
         public string Content { get; set; }
+
         [XmlAttribute(AttributeName = "name")]
         public string Name { get; set; }
     }

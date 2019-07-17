@@ -10,7 +10,7 @@ using System.Text;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreateTOCForWebsite : IGeneratorContentFillStep
+    internal class CreateToCForWebsite : IGeneratorContentFillStep
     {
         public GeneratorContent Content { get; set; }
 

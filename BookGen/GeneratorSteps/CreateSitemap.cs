@@ -16,7 +16,6 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreateSitemap : IGeneratorStep
     {
-
         private const string w3cTime = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
 
         public void RunStep(RuntimeSettings settings, ILog log)

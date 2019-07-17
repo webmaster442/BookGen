@@ -109,7 +109,7 @@ namespace BookGen.GeneratorSteps
                 var nitem = $"chapter_{chaptercounter:D2}";
                 item.Add(new Item
                 {
-                    Href = nitem+".html",
+                    Href = nitem + ".html",
                     Id = nitem,
                     Mediatype = "application/xhtml+xml"
                 });

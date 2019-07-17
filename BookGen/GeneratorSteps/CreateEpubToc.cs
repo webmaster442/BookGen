@@ -64,7 +64,7 @@ namespace BookGen.GeneratorSteps
                     {
                         Src = $"chapter_{chaptercounter:D2}.html"
                     }
-                    
+
                 });
                 ++chaptercounter;
             }

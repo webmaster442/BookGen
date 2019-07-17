@@ -14,12 +14,7 @@ namespace BookGen.Utilities
 {
     internal static class MarkdownUtils
     {
-        private static readonly Regex _indexExpression;
-
-        static MarkdownUtils()
-        {
-            _indexExpression = new Regex(@"(\[\^\d+\])", RegexOptions.Compiled);
-        }
+        private static readonly Regex _indexExpression = new Regex(@"(\[\^\d+\])", RegexOptions.Compiled);
 
         /// <summary>
         /// List files to process
@@ -38,7 +33,7 @@ namespace BookGen.Utilities
                                           RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
                 string currentchapter = null;
-                List<HtmlLink> chapter = null;
+                List<HtmlLink> chapter = new List<HtmlLink>(50);
 
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -50,14 +45,13 @@ namespace BookGen.Utilities
                     {
                         InsertChapter(toc, ref currentchapter, ref chapter);
                         currentchapter = line.Replace("#", "");
-                        chapter = new List<HtmlLink>(50);
                     }
                     else
                     {
                         var parts = from part in myRegex.Split(line)
                                     where
-                                        !string.IsNullOrWhiteSpace(part) &&
-                                        part.Trim() != "*"
+                                        !string.IsNullOrWhiteSpace(part)
+                                        && part.Trim() != "*"
                                     select
                                         part;
 
@@ -94,10 +88,12 @@ namespace BookGen.Utilities
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (line.StartsWith("# ") ||
-                        line.StartsWith("## ") ||
-                        line.StartsWith("### "))
+                    if (line.StartsWith("# ")
+                        || line.StartsWith("## ")
+                        || line.StartsWith("### "))
+                    {
                         return line.Replace("#", "");
+                    }
                 }
             }
             return string.Empty;
@@ -111,12 +107,10 @@ namespace BookGen.Utilities
                 return inputContent;
 
             inputContent = _indexExpression.Replace(inputContent, "REG$0");
-
-            Regex r = null;
             for (int i = 0; i < (numMatches / 2); i++)
             {
                 string expression = $"(REG\\[\\^{i + 1}\\])";
-                r = new Regex(expression, RegexOptions.Compiled);
+                Regex r = new Regex(expression, RegexOptions.Compiled);
                 if (r.IsMatch(inputContent))
                 {
                     inputContent = r.Replace(inputContent, $"[^{index}]");

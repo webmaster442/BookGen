@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Contracts;
+using BookGen.Core;
 using BookGen.Core.Contracts;
+using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
 using System.IO;
-using BookGen.Core;
-using BookGen.Core.Markdown;
 
 namespace BookGen.GeneratorSteps
 {

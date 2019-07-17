@@ -24,14 +24,8 @@ namespace BookGen.Gui
             {
                  new MenuBarItem("_File", new MenuItem[]
                  {
-                     new MenuItem("Create config", "Create configuration file", () =>
-                     {
-                         runner.DoCreateConfig();
-                     }),
-                     new MenuItem("Validate config", "Validate configuration file", () =>
-                     {
-                         runner.Initialize();
-                     }),
+                     new MenuItem("Create config", "Create configuration file", () => runner.DoCreateConfig()),
+                     new MenuItem("Validate config", "Validate configuration file", () => runner.Initialize()),
                      new MenuItem("Exit", "Exit program", Stop),
                  }),
                  new MenuBarItem("_Build", new MenuItem[]
@@ -64,10 +58,7 @@ namespace BookGen.Gui
                  }),
                  new MenuBarItem("_Help", new MenuItem[]
                  {
-                     new MenuItem("Command line args", null, () =>
-                     {
-                         runner.RunHelp();
-                     })
+                     new MenuItem("Command line args", null, () => runner.RunHelp())
                  }),
             });
 
@@ -79,17 +70,17 @@ namespace BookGen.Gui
 
         private void Stop()
         {
-            _log.LogWritten -= _log_LogWritten;
+            _log.LogWritten -= LogWritten;
             Application.Top.Running = false;
         }
 
         public void Run()
         {
-            _log.LogWritten += _log_LogWritten;
+            _log.LogWritten += LogWritten;
             Application.Run();
         }
 
-        private void _log_LogWritten(object sender, EventArgs e)
+        private void LogWritten(object sender, EventArgs e)
         {
             _main.UpdateLog(_log.LogText, _log.Lines);
         }

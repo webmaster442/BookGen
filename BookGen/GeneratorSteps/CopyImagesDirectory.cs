@@ -30,8 +30,8 @@ namespace BookGen.GeneratorSteps
         {
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
 
-            if (!_inlineEnabled ||
-                (settings.Configruation.InlineImageSizeLimit < 0 && !_unlimited))
+            if (!_inlineEnabled
+                || (settings.Configruation.InlineImageSizeLimit < 0 && !_unlimited))
             {
                 log.Info("Copy images to output...");
                 settings.ImageDirectory.CopyDirectory(targetdir, log);

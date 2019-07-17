@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace BookGen.Domain
 {
-    public class RuntimeSettings: IReadonlyRuntimeSettings
+    public class RuntimeSettings : IReadonlyRuntimeSettings
     {
         public FsPath OutputDirectory { get; set; }
         public FsPath SourceDirectory { get; set; }

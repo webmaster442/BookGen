@@ -9,7 +9,7 @@ using BookGen.Framework;
 
 namespace BookGen
 {
-    internal class PrintBuilder: Generator
+    internal class PrintBuilder : Generator
     {
         public PrintBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
         {

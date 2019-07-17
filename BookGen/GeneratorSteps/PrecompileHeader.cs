@@ -37,13 +37,10 @@ namespace BookGen.GeneratorSteps
 
         private string GetFileContents(string url, FsPath sourceDirectory)
         {
-            if (url.StartsWith("https://") || 
-                url.StartsWith("http://"))
-            {
-                return DownloadFile(url);
-            }
-            else
-                return sourceDirectory.Combine(url).ReadFile();
+            return url.StartsWith("https://")
+                || url.StartsWith("http://")
+                ? DownloadFile(url)
+                : sourceDirectory.Combine(url).ReadFile();
         }
 
         private string DownloadFile(string url)
@@ -51,7 +48,7 @@ namespace BookGen.GeneratorSteps
             using (var client = new WebClient())
             {
                 IWebProxy defaultProxy = WebRequest.DefaultWebProxy;
-                if (defaultProxy !=null)
+                if (defaultProxy != null)
                 {
                     defaultProxy.Credentials = CredentialCache.DefaultCredentials;
                     client.Proxy = defaultProxy;

@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Contracts;
 using BookGen.Core.Contracts;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BookGen.Framework.Server
 {
-    internal class HTTPTestServer : IDisposable
+    internal sealed class HttpTestServer : IDisposable
     {
         private readonly string _path;
         private readonly ILog _log;
@@ -28,7 +27,7 @@ namespace BookGen.Framework.Server
 
         public List<string> IndexFiles { get; }
 
-        public HTTPTestServer(string path, int port, ILog log, params IRequestHandler[] handlers)
+        public HttpTestServer(string path, int port, ILog log, params IRequestHandler[] handlers)
         {
             _sem = new Semaphore(1, 3);
             _cts = new CancellationTokenSource();
@@ -44,7 +43,7 @@ namespace BookGen.Framework.Server
             Port = port;
             _log = log;
             _listener = new HttpListener();
-            _listener.Prefixes.Add("http://localhost:" + Port.ToString() + "/");
+            _listener.Prefixes.Add($"http://localhost:{Port.ToString()}/");
             _listener.Start();
             Task.Run(Serve, _cts.Token);
         }
@@ -56,7 +55,7 @@ namespace BookGen.Framework.Server
                 _sem.WaitOne();
                 try
                 {
-                    HttpListenerContext context = await _listener.GetContextAsync();
+                    HttpListenerContext context = await _listener.GetContextAsync().ConfigureAwait(false);
                     Process(context);
                     _sem.Release();
                 }
@@ -94,8 +93,9 @@ namespace BookGen.Framework.Server
                         filename = filename.Substring(1);
 
                         if (string.IsNullOrEmpty(filename))
+                        {
                             filename = GetIndexFile(_path);
-
+                        }
                         else
                         {
                             filename = Path.Combine(_path, filename);
@@ -162,7 +162,7 @@ namespace BookGen.Framework.Server
 
         public void Dispose()
         {
-            if (_cts != null && !_cts.IsCancellationRequested)
+            if (_cts?.IsCancellationRequested == false)
             {
                 _cts.Cancel();
                 _cts.Dispose();
@@ -179,6 +179,7 @@ namespace BookGen.Framework.Server
                 _sem.Dispose();
                 _sem = null;
             }
+            GC.SuppressFinalize(this);
         }
     }
 }

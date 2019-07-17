@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace BookGen.Domain
 {
-    public class TOC: ITOC
+    public class TOC : ITOC
     {
         private readonly Dictionary<string, List<HtmlLink>> _tocContents;
 

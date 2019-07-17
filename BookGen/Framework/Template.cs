@@ -11,7 +11,7 @@ namespace BookGen.Framework
 {
     internal class Template
     {
-        private string _template;
+        private readonly string _template;
 
         public Template(FsPath templatePath)
         {

@@ -16,7 +16,7 @@ using System.Text;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreateSubpageIndexes: ITemplatedStep
+    internal class CreateSubpageIndexes : ITemplatedStep
     {
         public GeneratorContent Content { get; set; }
         public Template Template { get; set; }
@@ -32,7 +32,7 @@ namespace BookGen.GeneratorSteps
                 if (!output.IsExisting)
                 {
                     var mdcontent = CreateContentLinks(settings, dir);
-                    
+
                     Content.Title = dir;
                     Content.Content = MarkdownRenderers.Markdown2WebHTML(mdcontent, settings);
                     Content.Metadata = "";

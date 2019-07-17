@@ -29,7 +29,7 @@ namespace BookGen.Utilities
             metaData.AppendFormat("<meta property=\"og:title\" content=\"{0}\">\n", tag.Title);
             metaData.AppendFormat("<meta property=\"og:url\" content=\"{0}\">\n", tag.Url);
             metaData.AppendFormat("<meta property=\"og:description\" content=\"{0}\">\n", tag.Description);
-            metaData.AppendFormat("<meta property=\"og:type\" content=\"article\">\n");
+            metaData.Append("<meta property=\"og:type\" content=\"article\">\n");
 
             return metaData.ToString();
         }

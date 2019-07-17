@@ -19,5 +19,4 @@ namespace BookGen.Domain.Sitemap
             Url = new List<Url>();
         }
     }
-
 }

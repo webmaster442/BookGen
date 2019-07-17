@@ -32,7 +32,7 @@ namespace BookGen.Gui
             {
                 X = 0,
                 Y = 4,
-                Height = Dim.Fill() -1,
+                Height = Dim.Fill() - 1,
             };
             frame.Add(logView);
 

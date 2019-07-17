@@ -7,11 +7,10 @@ using BookGen.Core.Configuration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 
 namespace BookGen.Domain
 {
-    public class GeneratorContent: IEnumerable<KeyValuePair<string, string>>
+    public class GeneratorContent : IEnumerable<KeyValuePair<string, string>>
     {
         private Dictionary<string, string> _table;
 

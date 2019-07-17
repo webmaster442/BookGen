@@ -13,5 +13,4 @@ namespace BookGen.Domain.Epub
         [XmlAttribute(AttributeName = "src")]
         public string Src { get; set; }
     }
-
 }

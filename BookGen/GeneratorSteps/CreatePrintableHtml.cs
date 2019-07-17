@@ -15,7 +15,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreatePrintableHtml : IGeneratorStep
     {
-        private StringBuilder _content;
+        private readonly StringBuilder _content;
         private int _index;
 
         private const string NewPage = "<p style=\"page-break-before: always\"></p>\r\n";

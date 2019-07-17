@@ -21,8 +21,8 @@ namespace BookGen.GeneratorSteps
                 FsPath source = settings.SourceDirectory.Combine(asset.Source);
                 FsPath target = settings.OutputDirectory.Combine(asset.Target);
 
-                if (source.IsExisting &&
-                    source.Extension != ".md")
+                if (source.IsExisting
+                    && source.Extension != ".md")
                 {
                     source.Copy(target, log);
                 }

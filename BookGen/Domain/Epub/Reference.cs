@@ -12,10 +12,11 @@ namespace BookGen.Domain.Epub
     {
         [XmlAttribute(AttributeName = "href")]
         public string Href { get; set; }
+
         [XmlAttribute(AttributeName = "title")]
         public string Title { get; set; }
+
         [XmlAttribute(AttributeName = "type")]
         public string Type { get; set; }
     }
-
 }

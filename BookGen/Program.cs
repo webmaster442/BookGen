@@ -35,7 +35,6 @@ namespace BookGen
             }
         }
 
-
         private static ParsedOptions ParseOptions(string[] args)
         {
             ParsedOptions parsed = new ParsedOptions
@@ -82,7 +81,6 @@ namespace BookGen
             {
                 ParsedOptions options = ParseOptions(args);
 
-
                 if (options.GuiReqested)
                 {
                     var log = new EventedLog();
@@ -101,7 +99,7 @@ namespace BookGen
                             if (Runner.Initialize())
                             {
                                 Runner.DoBuild();
-                            };
+                            }
                             break;
                         case ParsedOptions.ActionType.Clean:
                             if (Runner.Initialize())

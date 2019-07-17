@@ -7,9 +7,7 @@ using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Domain;
-using BookGen.Utilities;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 

@@ -24,7 +24,7 @@ namespace BookGen.Framework
         protected Template Template { get; }
         protected GeneratorContent GeneratorContent { get; }
 
-        public Generator(string workdir, Config configuration, ILog log)
+        protected Generator(string workdir, Config configuration, ILog log)
         {
             var dir = new FsPath(workdir);
             Settings = new RuntimeSettings

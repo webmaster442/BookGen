@@ -14,5 +14,4 @@ namespace BookGen.Domain.Epub
         [XmlElement(ElementName = "reference", Namespace = "http://www.idpf.org/2007/opf")]
         public List<Reference> Reference { get; set; }
     }
-
 }

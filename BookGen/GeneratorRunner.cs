@@ -20,23 +20,21 @@ namespace BookGen
     internal class GeneratorRunner
     {
         private readonly ILog _log;
-        private FsPath _config;
+        private readonly FsPath _config;
         private const string exitString = "Press a key to exit...";
 
         public Config Configuration { get; private set; }
 
-        private string _workdir;
-
         public string WorkDirectory
         {
-            get { return _workdir; }
+            get;
         }
 
         public GeneratorRunner(ILog log, string workDir)
         {
             _log = log;
-            _workdir = workDir;
-            _config = new FsPath(_workdir, "bookgen.json");
+            WorkDirectory = workDir;
+            _config = new FsPath(WorkDirectory, "bookgen.json");
         }
 
         public void RunHelp()
@@ -57,7 +55,7 @@ namespace BookGen
             Version version = GetVersion();
             _log.Info("---------------------------------------------------------\n\n");
             _log.Info("BookGen V{0} Starting...", version);
-            _log.Info("Working directory: {0}", _workdir);
+            _log.Info("Working directory: {0}", WorkDirectory);
             _log.Info("---------------------------------------------------------\n\n");
             int cfgVersion = (version.Major * 100) + version.Minor;
 
@@ -84,9 +82,9 @@ namespace BookGen
                 return false;
             }
 
-            ConfigValidator validator = new ConfigValidator(Configuration, _workdir);
+            ConfigValidator validator = new ConfigValidator(Configuration, WorkDirectory);
             validator.Validate();
-            
+
             if (!validator.IsValid)
             {
                 _log.Warning("Errors found in configuration: ");
@@ -99,9 +97,9 @@ namespace BookGen
             }
             else
             {
-                var tocFile = new FsPath(_workdir).Combine(Configuration.TOCFile);
+                var tocFile = new FsPath(WorkDirectory).Combine(Configuration.TOCFile);
                 var toc = MarkdownUtils.ParseToc(tocFile.ReadFile());
-                TocValidator tocValidator = new TocValidator(toc, _workdir);
+                TocValidator tocValidator = new TocValidator(toc, WorkDirectory);
                 tocValidator.Validate();
                 if (!tocValidator.IsValid)
                 {
@@ -151,7 +149,7 @@ namespace BookGen
         public void DoBuild()
         {
             _log.Info("Building deploy configuration...");
-            WebsiteBuilder builder = new WebsiteBuilder(_workdir, Configuration, _log);
+            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
@@ -159,7 +157,7 @@ namespace BookGen
         public void DoPrint()
         {
             _log.Info("Building print configuration...");
-            PrintBuilder builder = new PrintBuilder(_workdir, Configuration, _log);
+            PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
@@ -167,20 +165,19 @@ namespace BookGen
         public void DoEpub()
         {
             _log.Info("Building epub configuration...");
-            EpubBuilder builder = new EpubBuilder(_workdir, Configuration, _log);
+            EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
-
 
         public void DoTest()
         {
             _log.Info("Building test configuration...");
             Configuration.HostName = "http://localhost:8080/";
-            WebsiteBuilder builder = new WebsiteBuilder(_workdir, Configuration, _log);
+            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
-            using (var server = new HTTPTestServer(Path.Combine(_workdir, Configuration.OutputDir), 8080, _log))
+            using (var server = new HttpTestServer(Path.Combine(WorkDirectory, Configuration.OutputDir), 8080, _log))
             {
                 Console.Clear();
                 _log.Info("Test server running on: http://localhost:8080/");

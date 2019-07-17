@@ -12,6 +12,7 @@ namespace BookGen.Domain.Epub
     {
         [XmlAttribute(AttributeName = "full-path")]
         public string Fullpath { get; set; }
+
         [XmlAttribute(AttributeName = "media-type")]
         public string Mediatype { get; set; }
     }

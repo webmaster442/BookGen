@@ -13,5 +13,4 @@ namespace BookGen.Domain.Epub
         [XmlElement(ElementName = "text", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
         public string Text { get; set; }
     }
-
 }

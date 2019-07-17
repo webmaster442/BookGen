@@ -9,7 +9,6 @@ using BookGen.Core.Contracts;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
-using BookGen.Utilities;
 
 namespace BookGen.GeneratorSteps
 {

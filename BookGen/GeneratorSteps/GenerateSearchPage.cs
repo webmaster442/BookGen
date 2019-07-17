@@ -11,7 +11,6 @@ using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
-using System;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;

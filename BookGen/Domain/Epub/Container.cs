@@ -12,8 +12,10 @@ namespace BookGen.Domain.Epub
     {
         [XmlElement(ElementName = "rootfiles", Namespace = "urn:oasis:names:tc:opendocument:xmlns:container")]
         public Rootfiles Rootfiles { get; set; }
+
         [XmlAttribute(AttributeName = "version")]
         public string Version { get; set; }
+
         [XmlAttribute(AttributeName = "xmlns")]
         public string Xmlns { get; set; }
     }

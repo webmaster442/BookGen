@@ -7,7 +7,7 @@ using BookGen.Framework;
 
 namespace BookGen.Contracts
 {
-    internal interface ITemplatedStep : IGeneratorStep, IGeneratorContentFillStep
+    internal interface ITemplatedStep : IGeneratorContentFillStep
     {
         Template Template { get; set; }
     }
