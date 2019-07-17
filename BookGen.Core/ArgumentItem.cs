@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace BookGen.Core
 {
-    public class ArgumentItem : IEquatable<ArgumentItem>
+    public sealed class ArgumentItem : IEquatable<ArgumentItem>
     {
         public string Switch { get; set; }
         public string Value { get; set; }
@@ -30,16 +30,16 @@ namespace BookGen.Core
 
         public bool Equals(ArgumentItem other)
         {
-            return other != null &&
-                   Switch == other.Switch &&
-                   Value == other.Value;
+            return other != null
+                   && Switch == other.Switch
+                   && Value == other.Value;
         }
 
         public override int GetHashCode()
         {
             var hashCode = 1656223395;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Switch);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Value);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Switch);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Value);
             return hashCode;
         }
     }

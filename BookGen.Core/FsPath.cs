@@ -9,9 +9,9 @@ using System.IO;
 
 namespace BookGen.Core
 {
-    public class FsPath : IEquatable<FsPath>
+    public sealed class FsPath : IEquatable<FsPath>
     {
-        private string _path;
+        private readonly string _path;
 
         public FsPath(params string[] pathParts)
         {
@@ -51,8 +51,8 @@ namespace BookGen.Core
 
         public bool Equals(FsPath other)
         {
-            return other != null &&
-                   _path == other?._path;
+            return other != null
+                   && _path == other?._path;
         }
 
         public override int GetHashCode()

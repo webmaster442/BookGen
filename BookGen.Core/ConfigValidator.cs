@@ -46,7 +46,7 @@ namespace BookGen.Core
 
             if (_config.Assets == null)
                 AddError(Resources.MissingAssets);
-                
+
             foreach (var asset in _config.Assets)
             {
                 var source = WorkDirectory.Combine(asset.Source);

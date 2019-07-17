@@ -16,7 +16,7 @@ namespace BookGen.Domain
         public FsPath SourceDirectory { get; set; }
         public FsPath ImageDirectory { get; set; }
         public FsPath TocPath { get; set; }
-        public ITOC TocContents { get; set; }
+        public IToC TocContents { get; set; }
         public Config Configruation { get; set; }
         public Dictionary<string, string> MetataCache { get; set; }
         public Dictionary<string, string> InlineImgCache { get; set; }

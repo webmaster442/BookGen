@@ -5,7 +5,6 @@
 
 namespace BookGen.Core.Configuration
 {
-
     public class SearchSettings
     {
         public string SearchPageTitle

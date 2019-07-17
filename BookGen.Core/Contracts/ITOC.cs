@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace BookGen.Core.Contracts
 {
-    public interface ITOC
+    public interface IToC
     {
         void AddChapter(string chapter, List<HtmlLink> files);
         IEnumerable<string> Chapters { get; }

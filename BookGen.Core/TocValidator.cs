@@ -11,10 +11,10 @@ namespace BookGen.Core
 {
     public class TocValidator : Validator
     {
-        private readonly ITOC _toc;
+        private readonly IToC _toc;
         private readonly FsPath _workdir;
 
-        public TocValidator(ITOC toc, string workdir)
+        public TocValidator(IToC toc, string workdir)
         {
             _toc = toc;
             _workdir = new FsPath(workdir);
@@ -24,7 +24,7 @@ namespace BookGen.Core
         {
             foreach (var chr in name)
             {
-                if (!char.IsLetterOrDigit(chr) 
+                if (!char.IsLetterOrDigit(chr)
                     && chr != '-'
                     && chr != '.'
                     && chr != '_'

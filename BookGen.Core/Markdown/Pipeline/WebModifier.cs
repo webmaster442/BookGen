@@ -25,6 +25,7 @@ namespace BookGen.Core.Markdown.Pipeline
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
+            // Method intentionally left empty.
         }
 
         private static void AddStyleClass(MarkdownObject node, string style)
@@ -75,7 +76,6 @@ namespace BookGen.Core.Markdown.Pipeline
                 {
                     if (link.IsImage)
                     {
-
                         var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig);
                         if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
                         {
@@ -91,7 +91,9 @@ namespace BookGen.Core.Markdown.Pipeline
                             link.GetAttributes().AddProperty("target", "_blank");
                         }
                         else
+                        {
                             AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.Link);
+                        }
                     }
                 }
                 else if (node is ListBlock listBlock)
@@ -102,9 +104,10 @@ namespace BookGen.Core.Markdown.Pipeline
                         AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.UnorederedList);
                 }
                 else if (node is ListItemBlock)
+                {
                     AddStyleClass(node, RuntimeConfig.Configruation.StyleClasses.ListItem);
+                }
             }
         }
     }
-
 }

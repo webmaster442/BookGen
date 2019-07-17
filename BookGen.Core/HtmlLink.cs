@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace BookGen.Core
 {
-    public class HtmlLink : IEquatable<HtmlLink>
+    public sealed class HtmlLink : IEquatable<HtmlLink>
     {
         public string DisplayString { get; }
         public string Link { get; }
@@ -31,9 +31,9 @@ namespace BookGen.Core
 
         public bool Equals(HtmlLink other)
         {
-            return other != null &&
-                   DisplayString == other.DisplayString &&
-                   Link == other.Link;
+            return other != null
+                   && DisplayString == other.DisplayString
+                   && Link == other.Link;
         }
 
         public string GetLinkOnHost(string host)
@@ -45,8 +45,8 @@ namespace BookGen.Core
         public override int GetHashCode()
         {
             var hashCode = -2003123855;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DisplayString);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Link);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(DisplayString);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Link);
             return hashCode;
         }
     }

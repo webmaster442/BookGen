@@ -36,10 +36,9 @@ namespace BookGen.Core.Markdown.Pipeline
                 {
                     ++heading.Level;
                 }
-                else if (node is LinkInline link)
+                else if (node is LinkInline link && link.IsImage)
                 {
-                    if (link.IsImage)
-                        link.Url = RewiteToHostUrl(link.Url);
+                    link.Url = RewiteToHostUrl(link.Url);
                 }
             }
         }

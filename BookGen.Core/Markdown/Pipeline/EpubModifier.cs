@@ -26,7 +26,6 @@ namespace BookGen.Core.Markdown.Pipeline
             PipelineHelpers.SetupSyntaxRender(renderer);
         }
 
-
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
             foreach (var node in document.Descendants())
@@ -35,17 +34,13 @@ namespace BookGen.Core.Markdown.Pipeline
                 {
                     ++heading.Level;
                 }
-                else if (node is LinkInline link)
+                else if (node is LinkInline link && link.IsImage)
                 {
-                    if (link.IsImage)
+                    var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig);
+                    if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
                     {
-                        var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig);
-                        if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
-                        {
-                            link.Url = RuntimeConfig.InlineImgCache[inlinekey];
-                        }
+                        link.Url = RuntimeConfig.InlineImgCache[inlinekey];
                     }
-
                 }
             }
         }

@@ -44,8 +44,7 @@ namespace BookGen.Core.Markdown.Pipeline
 
         protected override void Write(HtmlRenderer renderer, CodeBlock obj)
         {
-            var parser = obj.Parser as FencedCodeBlockParser;
-            if (!(obj is FencedCodeBlock fencedCodeBlock) || parser == null)
+            if (!(obj is FencedCodeBlock fencedCodeBlock) || !(obj.Parser is FencedCodeBlockParser parser))
             {
                 _underlyingRenderer.Write(renderer, obj);
                 return;
@@ -58,8 +57,7 @@ namespace BookGen.Core.Markdown.Pipeline
                 return;
             }
 
-            string firstLine;
-            var code = GetCode(obj, out firstLine);
+            var code = GetCode(obj, out _);
 
             var rendered = Render(code, languageMoniker);
 

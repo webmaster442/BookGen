@@ -24,7 +24,6 @@ namespace BookGen.Core.Markdown.Pipeline
             if (originalCodeBlockRenderer != null)
                 htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
 
-
             htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer));
         }
 
@@ -32,11 +31,6 @@ namespace BookGen.Core.Markdown.Pipeline
         {
             FsPath requested = new FsPath(url);
             return requested.GetAbsolutePathRelativeTo(RuntimeConfig.OutputDirectory).ToString();
-            /*
-            Uri baseUri = new Uri(RuntimeConfig.Configruation.HostName);
-            Uri full = new Uri(baseUri, url);
-            string fsPath = full.ToString().Replace(RuntimeConfig.Configruation.HostName, RuntimeConfig.SourceDirectory.ToString() + "\\");
-            return fsPath.Replace("/", "\\");*/
         }
     }
 }

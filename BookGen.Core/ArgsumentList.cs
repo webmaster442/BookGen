@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace BookGen.Core
 {
-    public class ArgsumentList : IEnumerable<ArgumentItem>
+    public sealed class ArgsumentList : IEnumerable<ArgumentItem>
     {
         private readonly List<ArgumentItem> _items;
 
@@ -20,20 +20,21 @@ namespace BookGen.Core
 
         public ArgumentItem GetArgument(string switchname, string longname)
         {
-            return _items.FirstOrDefault(item => string.Compare(item.Switch, switchname, true) == 0
-                                              || string.Compare(item.Switch, longname, true) == 0);
+            return _items.Find(item => string.Compare(item.Switch, switchname, true) == 0
+                               || string.Compare(item.Switch, longname, true) == 0);
         }
 
         public static ArgsumentList Parse(string[] args)
         {
             ArgsumentList ret = new ArgsumentList(args.Length);
             int i = 0;
+            bool nextIsswitch, currentIsSwitch;
             while (i < args.Length)
             {
                 var current = args[i].ToLower();
-                var next = i + 1 < args.Length ? args[i + 1].ToLower() : "";
-                bool nextIsswitch = next.StartsWith("-");
-                bool currentIsSwitch = current.StartsWith("-");
+                var next = (i + 1) < args.Length ? args[i + 1].ToLower() : string.Empty;
+                nextIsswitch = next.StartsWith("-");
+                currentIsSwitch = current.StartsWith("-");
 
                 if (currentIsSwitch && !nextIsswitch)
                 {

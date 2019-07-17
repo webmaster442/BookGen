@@ -12,18 +12,10 @@ namespace BookGen.Core.Markdown
 {
     public static class MarkdownRenderers
     {
-        private static readonly MarkdownPipeline _webpipeline;
-        private static readonly MarkdownPipeline _printpipeline;
-        private static readonly MarkdownPipeline _plainpipeline;
-        private static readonly MarkdownPipeline _epubpipeline;
-
-        static MarkdownRenderers()
-        {
-            _plainpipeline = new MarkdownPipelineBuilder().Build();
-            _webpipeline = new MarkdownPipelineBuilder().Use<WebModifier>().UseAdvancedExtensions().Build();
-            _printpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
-            _epubpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<EpubModifier>().Build();
-        }
+        private static readonly MarkdownPipeline _webpipeline = new MarkdownPipelineBuilder().Use<WebModifier>().UseAdvancedExtensions().Build();
+        private static readonly MarkdownPipeline _printpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
+        private static readonly MarkdownPipeline _plainpipeline = new MarkdownPipelineBuilder().Build();
+        private static readonly MarkdownPipeline _epubpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<EpubModifier>().Build();
 
         /// <summary>
         /// Generate markdown to html
