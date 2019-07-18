@@ -32,12 +32,6 @@ namespace BookGen.Domain
             set { _table["toc"] = value; }
         }
 
-        public string AdditionalMenus
-        {
-            get { return _table["menus"]; }
-            set { _table["menus"] = value; }
-        }
-
         public string Metadata
         {
             get { return _table["metadata"]; }
@@ -47,15 +41,6 @@ namespace BookGen.Domain
         public string HostUrl
         {
             get { return _table["host"]; }
-        }
-
-        public string BuildTime
-        {
-            get
-            {
-                _table["buildtime"] = DateTime.Now.ToString();
-                return _table["buildtime"];
-            }
         }
 
         public string PrecompiledHeader
@@ -71,9 +56,7 @@ namespace BookGen.Domain
                 { "toc", string.Empty },
                 { "title", string.Empty },
                 { "content", string.Empty },
-                { "menus", string.Empty },
                 { "host", cfg.HostName },
-                { "buildtime", DateTime.Now.ToString() },
                 { "metadata", string.Empty },
                 { "precompiledheader", string.Empty }
             };
