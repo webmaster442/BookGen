@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace BookGen
@@ -98,7 +99,9 @@ namespace BookGen
             else
             {
                 var tocFile = new FsPath(WorkDirectory).Combine(Configuration.TOCFile);
+                _log.Info("Parsing TOC file...");
                 var toc = MarkdownUtils.ParseToc(tocFile.ReadFile());
+                _log.Info("Found {0} chapters and {1} files", toc.ChapterCount, toc.FilesCount);
                 TocValidator tocValidator = new TocValidator(toc, WorkDirectory);
                 tocValidator.Validate();
                 if (!tocValidator.IsValid)

@@ -21,9 +21,9 @@ namespace BookGen.Utilities
         /// </summary>
         /// <param name="summaryFile">SUMMARY.md content</param>
         /// <returns>List of files</returns>
-        public static TOC ParseToc(string summaryContent)
+        public static ToC ParseToc(string summaryContent)
         {
-            TOC toc = new TOC();
+            ToC toc = new ToC();
 
             using (var reader = new StringReader(summaryContent))
             {
@@ -33,7 +33,7 @@ namespace BookGen.Utilities
                                           RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
                 string currentchapter = null;
-                List<HtmlLink> chapter = new List<HtmlLink>(50);
+                List<HtmlLink> chapter = new List<HtmlLink>();
 
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -45,6 +45,7 @@ namespace BookGen.Utilities
                     {
                         InsertChapter(toc, ref currentchapter, ref chapter);
                         currentchapter = line.Replace("#", "");
+                        chapter = new List<HtmlLink>(50);
                     }
                     else
                     {
@@ -66,7 +67,7 @@ namespace BookGen.Utilities
             return toc;
         }
 
-        private static void InsertChapter(TOC toc, ref string currentchapter, ref List<HtmlLink> chapter)
+        private static void InsertChapter(ToC toc, ref string currentchapter, ref List<HtmlLink> chapter)
         {
             if (currentchapter != null && chapter != null)
             {

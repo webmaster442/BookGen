@@ -139,7 +139,11 @@ namespace BookGen
             }
             catch (Exception ex)
             {
-                Application.Top.Running = false;
+                if (Application.Top != null)
+                {
+                    Application.Top.Running = false;
+                }
+
                 Console.Clear();
                 ShowMessageBox("Unhandled exception\r\n{0}", ex);
 #if DEBUG

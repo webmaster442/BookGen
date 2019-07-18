@@ -10,11 +10,30 @@ using System.Linq;
 
 namespace BookGen.Domain
 {
-    public class TOC : IToC
+    public class ToC : IToC
     {
         private readonly Dictionary<string, List<HtmlLink>> _tocContents;
 
-        public TOC()
+        public int ChapterCount
+        {
+            get { return _tocContents.Keys.Count; }
+        }
+
+        public int FilesCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (var chapter in _tocContents.Keys)
+                {
+                    count += _tocContents[chapter].Count;
+                }
+                return count;
+            }
+        }
+
+
+        public ToC()
         {
             _tocContents = new Dictionary<string, List<HtmlLink>>();
         }
