@@ -21,10 +21,10 @@ namespace BookGen.Framework
         private readonly ILog _log;
 
         protected RuntimeSettings Settings { get; }
-        private Template Template { get; }
-        protected GeneratorContent GeneratorContent { get; }
 
-        protected Generator(string workdir, Config configuration, ILog log)
+        protected Template Template { get; }
+
+        protected Generator(string workdir, Config configuration, ILog log, ShortCodeLoader loader)
         {
             var dir = new FsPath(workdir);
             Settings = new RuntimeSettings
@@ -38,25 +38,25 @@ namespace BookGen.Framework
                 MetataCache = new Dictionary<string, string>(100),
                 InlineImgCache = new Dictionary<string, string>(100)
             };
-            Template = ConfigureTemplate();
-            GeneratorContent = new GeneratorContent(configuration);
+            Template = new Template(configuration, new ShortCodeParser(loader.Imports));
+            Template.TemplateContent = ConfigureTemplate();
             _steps = new List<IGeneratorStep>();
             _log = log;
         }
 
-        protected abstract Template ConfigureTemplate();
+        protected abstract string ConfigureTemplate();
 
         public void AddStep(IGeneratorStep step)
         {
             switch (step)
             {
                 case ITemplatedStep templated:
-                    templated.Content = GeneratorContent;
+                    templated.Content = Template;
                     templated.Template = Template;
                     _steps.Add(templated);
                     break;
                 case IGeneratorContentFillStep contentFill:
-                    contentFill.Content = GeneratorContent;
+                    contentFill.Content = Template;
                     _steps.Add(contentFill);
                     break;
                 default:

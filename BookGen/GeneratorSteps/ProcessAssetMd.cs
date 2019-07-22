@@ -15,7 +15,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class ProcessAssetMd : ITemplatedStep
     {
-        public GeneratorContent Content { get; set; }
+        public IContent Content { get; set; }
         public Template Template { get; set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
@@ -38,7 +38,7 @@ namespace BookGen.GeneratorSteps
                     Content.Content = MarkdownRenderers.Markdown2WebHTML(inputContent, settings);
                     Content.Metadata = string.Empty;
 
-                    var html = Template.ProcessTemplate(Content);
+                    var html = Template.Render();
                     target.WriteFile(html);
                 }
             }

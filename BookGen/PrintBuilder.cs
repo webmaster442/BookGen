@@ -12,16 +12,16 @@ namespace BookGen
 {
     internal class PrintBuilder : Generator
     {
-        public PrintBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
+        public PrintBuilder(string workdir, Config configuration, ILog log, ShortCodeLoader loader) : base(workdir, configuration, log, loader)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyImagesDirectory(false));
             AddStep(new GeneratorSteps.CreatePrintableHtml());
         }
 
-        protected override Template ConfigureTemplate()
+        protected override string ConfigureTemplate()
         {
-            return new Template(Resources.TemplatePrint);
+            return Resources.TemplatePrint;
         }
     }
 }

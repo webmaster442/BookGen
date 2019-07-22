@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Template.Properties;
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Configuration;
@@ -11,6 +12,7 @@ using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,7 +22,7 @@ namespace BookGen.GeneratorSteps
     internal class GenerateSearchPage : ITemplatedStep
     {
         public Template Template { get; set; }
-        public GeneratorContent Content { get; set; }
+        public IContent Content { get; set; }
 
         private readonly StringBuilder _buffer;
         private readonly Regex _spaces;
@@ -43,7 +45,7 @@ namespace BookGen.GeneratorSteps
             Content.Title = settings.Configruation.SearchOptions.SearchPageTitle;
             Content.Content = _buffer.ToString();
 
-            var html = Template.ProcessTemplate(Content);
+            var html = Template.Render();
             output.WriteFile(html);
         }
 
@@ -68,8 +70,20 @@ namespace BookGen.GeneratorSteps
                 options.NoResults
             };
 
-            var result = Properties.Resources.searchform.ReplaceTags(replacements);
+            var result = ReplaceTags(Resources.Searchform, replacements);
             _buffer.Append(result);
+        }
+
+        private static string ReplaceTags(string input, IEnumerable<string> values)
+        {
+            StringBuilder builder = new StringBuilder(input);
+            int i = 0;
+            foreach (var value in values)
+            {
+                builder.Replace($"[[{i}]]", value);
+                ++i;
+            }
+            return builder.ToString();
         }
 
         private string RenderAndCompressForSearch(string filecontent)

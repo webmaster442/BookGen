@@ -16,7 +16,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreatePages : ITemplatedStep
     {
-        public GeneratorContent Content { get; set; }
+        public IContent Content { get; set; }
         public Template Template { get; set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
@@ -34,7 +34,7 @@ namespace BookGen.GeneratorSteps
                 Content.Content = MarkdownRenderers.Markdown2WebHTML(inputContent, settings);
                 Content.Metadata = settings.MetataCache[file];
 
-                var html = Template.ProcessTemplate(Content);
+                var html = Template.Render();
                 output.WriteFile(html);
             }
         }

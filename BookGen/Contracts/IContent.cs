@@ -3,12 +3,15 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain;
-
 namespace BookGen.Contracts
 {
-    internal interface IGeneratorContentFillStep : IGeneratorStep
+    public interface IContent
     {
-        IContent Content { get; set; }
+        string Content { get; set; }
+        string Title { get; set; }
+        string TableOfContents { get; set; }
+        string Metadata { get; set; }
+        string HostUrl { get; }
+        string PrecompiledHeader { get; set; }
     }
 }

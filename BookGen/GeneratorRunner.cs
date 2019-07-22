@@ -156,7 +156,7 @@ namespace BookGen
         public void DoBuild()
         {
             _log.Info("Building deploy configuration...");
-            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
+            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log, _shortCodeLoader);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
@@ -164,7 +164,7 @@ namespace BookGen
         public void DoPrint()
         {
             _log.Info("Building print configuration...");
-            PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, _log);
+            PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, _log, _shortCodeLoader);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
@@ -172,7 +172,7 @@ namespace BookGen
         public void DoEpub()
         {
             _log.Info("Building epub configuration...");
-            EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, _log);
+            EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, _log, _shortCodeLoader);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
@@ -181,7 +181,7 @@ namespace BookGen
         {
             _log.Info("Building test configuration...");
             Configuration.HostName = "http://localhost:8080/";
-            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
+            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log, _shortCodeLoader);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
             using (var server = new HttpTestServer(Path.Combine(WorkDirectory, Configuration.OutputDir), 8080, _log))

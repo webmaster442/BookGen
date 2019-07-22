@@ -12,7 +12,7 @@ namespace BookGen
 {
     internal class WebsiteBuilder : Generator
     {
-        public WebsiteBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
+        public WebsiteBuilder(string workdir, Config configuration, ILog log, ShortCodeLoader loader) : base(workdir, configuration, log, loader)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets());
@@ -29,9 +29,9 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateSitemap());
         }
 
-        protected override Template ConfigureTemplate()
+        protected override string ConfigureTemplate()
         {
-            return new Template(Resources.TemplateEpub);
+            return Resources.TemplateEpub;
         }
     }
 }

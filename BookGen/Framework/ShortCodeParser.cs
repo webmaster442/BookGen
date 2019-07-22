@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Template.ShortCodeImplementations;
 using BookGen.Core.Contracts;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +14,24 @@ namespace BookGen.Framework
 {
     internal class ShortCodeParser
     {
-        private readonly IList<ITemplateShortCode> _shortCodes;
+        private readonly List<ITemplateShortCode> _shortCodes;
         private readonly Dictionary<string, Regex> _codeMatches;
 
         public ShortCodeParser(IList<ITemplateShortCode> shortCodes)
         {
-            _shortCodes = shortCodes;
+            _shortCodes = new List<ITemplateShortCode>(shortCodes);
             _codeMatches = new Dictionary<string, Regex>(shortCodes.Count);
             BuildRegexes();
+        }
+
+        public void ConfigureDelegatedShortCodes(IList<DelegateShortCode> delegates)
+        {
+            _shortCodes.AddRange(delegates);
+            foreach (var shortcode in delegates)
+            {
+                Regex match = new Regex($"(\\[{shortcode.Tag} .+\\])|(\\[{shortcode.Tag}\\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                _codeMatches.Add(shortcode.Tag, match);
+            }
         }
 
         private void BuildRegexes()

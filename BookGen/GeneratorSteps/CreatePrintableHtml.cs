@@ -16,17 +16,15 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreatePrintableHtml : ITemplatedStep
     {
-        private readonly StringBuilder _content;
         private int _index;
 
         private const string NewPage = "<p style=\"page-break-before: always\"></p>\r\n";
 
         public Template Template { get; set; }
-        public GeneratorContent Content { get; set; }
+        public IContent Content { get; set; }
 
         public CreatePrintableHtml()
         {
-            _content = new StringBuilder();
             _index = 1;
         }
 
@@ -34,8 +32,6 @@ namespace BookGen.GeneratorSteps
         {
             log.Info("Generating Printable html...");
             var output = settings.OutputDirectory.Combine("print.html");
-
-            _content.AppendLine(Properties.Resources.html5header);
 
             StringBuilder buffer = new StringBuilder();
 
@@ -55,11 +51,8 @@ namespace BookGen.GeneratorSteps
                 }
             }
 
-            _content.Append(MarkdownRenderers.Markdown2PrintHTML(buffer.ToString(), settings.Configruation));
-
-            _content.Append("</body></html>");
-
-            output.WriteFile(_content.ToString());
+            Content.Content = MarkdownRenderers.Markdown2PrintHTML(buffer.ToString(), settings.Configruation);
+            output.WriteFile(Template.Render());
         }
     }
 }

@@ -14,7 +14,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class PrecompileHeader : IGeneratorContentFillStep
     {
-        public GeneratorContent Content { get; set; }
+        public IContent Content { get; set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {

@@ -14,7 +14,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreateIndexHtml : ITemplatedStep
     {
-        public GeneratorContent Content { get; set; }
+        public IContent Content { get; set; }
         public Template Template { get; set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
@@ -24,7 +24,7 @@ namespace BookGen.GeneratorSteps
             var output = settings.OutputDirectory.Combine("index.html");
 
             Content.Content = MarkdownRenderers.Markdown2WebHTML(input.ReadFile(), settings);
-            var html = Template.ProcessTemplate(Content);
+            var html = Template.Render();
             output.WriteFile(html);
         }
     }
