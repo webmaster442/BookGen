@@ -6,6 +6,7 @@
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework;
+using Bookgen.Template.Properties;
 
 namespace BookGen
 {
@@ -16,6 +17,11 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyImagesDirectory(false));
             AddStep(new GeneratorSteps.CreatePrintableHtml());
+        }
+
+        protected override Template ConfigureTemplate()
+        {
+            return new Template(Resources.TemplatePrint);
         }
     }
 }

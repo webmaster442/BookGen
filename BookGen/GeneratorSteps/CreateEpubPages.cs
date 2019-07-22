@@ -8,13 +8,17 @@ using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
+using BookGen.Framework;
 using BookGen.Utilities;
 using System.Text;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreateEpubPages : IGeneratorStep
+    internal class CreateEpubPages : ITemplatedStep
     {
+        public Template Template { get; set; }
+        public GeneratorContent Content { get; set; }
+
         public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating epub pages...");
@@ -38,9 +42,14 @@ namespace BookGen.GeneratorSteps
                     buffer.AppendLine(inputContent);
                 }
 
-                var rendered = MarkdownRenderers.Markdown2EpubHtml(buffer.ToString(), settings);
                 log.Info("Writing epub chapter: {0}", chaptercounter);
-                output.WriteFile(Properties.Resources.xhtmlheader, rendered, "</body></html>");
+
+                Content.Title = chapter;
+                Content.Content = MarkdownRenderers.Markdown2EpubHtml(buffer.ToString(), settings);
+
+                var html = Template.ProcessTemplate(Content);
+
+                output.WriteFile(html);
                 ++chaptercounter;
             }
         }

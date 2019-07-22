@@ -6,18 +6,24 @@
 using BookGen.Core.Contracts;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 
 namespace Bookgen.Template.ShortCodeImplementations
 {
-    [Export(typeof(ITemplateShortCode))]
-    public class BuildTime : ITemplateShortCode
+    public class DelegateShortCode : ITemplateShortCode
     {
-        public string Tag => nameof(BuildTime);
+        private readonly Func<IReadOnlyDictionary<string, string>, string> _generator;
+
+        public DelegateShortCode(string tag, Func<IReadOnlyDictionary<string, string>, string> generator)
+        {
+            Tag = tag;
+            _generator = generator;
+        }
+
+        public string Tag { get;  }
 
         public string Generate(IReadOnlyDictionary<string, string> arguments)
         {
-            return DateTime.Now.ToString();
+            return _generator.Invoke(arguments);
         }
     }
 }

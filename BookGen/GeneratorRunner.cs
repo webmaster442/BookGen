@@ -23,6 +23,7 @@ namespace BookGen
         private readonly ILog _log;
         private readonly FsPath _config;
         private const string exitString = "Press a key to exit...";
+        private readonly ShortCodeLoader _shortCodeLoader;
 
         public Config Configuration { get; private set; }
 
@@ -36,6 +37,7 @@ namespace BookGen
             _log = log;
             WorkDirectory = workDir;
             _config = new FsPath(WorkDirectory, "bookgen.json");
+            _shortCodeLoader = new ShortCodeLoader(log);
         }
 
         public void RunHelp()
@@ -119,6 +121,8 @@ namespace BookGen
                     _log.Info("Config file contains no errors");
                 }
             }
+
+            _shortCodeLoader.LoadAll();
 
             return true;
         }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BookGen.Properties {
+namespace Bookgen.Template.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace BookGen.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BookGen.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Bookgen.Template.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,62 +61,56 @@ namespace BookGen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;html&gt;
-        ///&lt;head&gt;
-        ///    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/_errors/main.css&quot; /&gt;
-        ///    &lt;title&gt;Error 404&lt;/title&gt;
-        ///    &lt;style&gt;
-        ///        html {
-        ///            display: flex;
-        ///            align-items: center;
-        ///            justify-content: center;
-        ///            height: 100vh;
-        ///        }
+        ///   Looks up a localized string similar to &lt;div class=&quot;jumbotron&quot;&gt;
+        ///    &lt;h2&gt;[[0]]&lt;/h2&gt;
+        ///    &lt;div class=&quot;form-group&quot;&gt;
+        ///        &lt;input type=&quot;text&quot; id=&quot;searchtext&quot; autocomplete=&quot;off&quot; class=&quot;form-control&quot; placeholder=&quot;[[1]]&quot;&gt;
+        ///        &lt;br/&gt;
+        ///        &lt;button type=&quot;button&quot; id=&quot;searchbutton&quot; class=&quot;btn btn-primary&quot;&gt;[[2]]&lt;/button&gt;
+        ///    &lt;/div&gt;
+        ///&lt;/div&gt;
+        ///&lt;div id=&quot;searchresults&quot;&gt;&lt;/div&gt;
+        ///&lt;script type=&quot;text/javascript&quot;&gt;
+        ///    $(&quot;#searchbutton&quot;).click(function () {
         ///
-        ///        body {
-        ///            display: flex;
-        ///            align-items: center;
-        ///            justify-content: center;
-        ///        }
-        ///
-        ///        #Error {
-        ///            display: block;
-        ///            vertical-align: mid [rest of string was truncated]&quot;;.
+        ///        var html = &quot;&quot;;
+        ///        var matches = 0;
+        ///        var terms = $(&quot;#searchtext&quot;).val();
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string Error404 {
+        public static string Searchform {
             get {
-                return ResourceManager.GetString("Error404", resourceCulture);
+                return ResourceManager.GetString("Searchform", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BookGen - Markdown to Book tool
-        ///
-        ///Usage: 
-        ///    BookGen -a, --action [action] -d, --dir [directory]
-        ///    BookGen -g, --gui -d, --dir [directory]
-        ///
-        ///Arguments:
-        ///
-        ///    -a, --action         Specify build action
-        ///    -g, --gui            Start in gui mode.
-        ///    -d, --dir            Specity working directory
-        ///    
-        ///Supported Actions:
-        ///
-        ///    Test
-        ///        Build website with test params &amp; runs it in browser
-        ///        
-        ///    BuildPrint
-        ///        Build printable html
-        ///        
-        ///    BuildEpub
-        ///        Build epub documen [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+        ///&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
+        ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;/&gt;
+        ///    &lt;title&gt;&lt;/title&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;.
         /// </summary>
-        public static string Help {
+        public static string TemplateEpub {
             get {
-                return ResourceManager.GetString("Help", resourceCulture);
+                return ResourceManager.GetString("TemplateEpub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!doctype html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///&lt;meta charset=&quot;utf-8&quot;&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;.
+        /// </summary>
+        public static string TemplatePrint {
+            get {
+                return ResourceManager.GetString("TemplatePrint", resourceCulture);
             }
         }
     }

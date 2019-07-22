@@ -21,7 +21,7 @@ namespace BookGen.Framework
         private readonly ILog _log;
 
         protected RuntimeSettings Settings { get; }
-        protected Template Template { get; }
+        private Template Template { get; }
         protected GeneratorContent GeneratorContent { get; }
 
         protected Generator(string workdir, Config configuration, ILog log)
@@ -38,11 +38,13 @@ namespace BookGen.Framework
                 MetataCache = new Dictionary<string, string>(100),
                 InlineImgCache = new Dictionary<string, string>(100)
             };
-            Template = new Template(dir.Combine(configuration.Template));
+            Template = ConfigureTemplate();
             GeneratorContent = new GeneratorContent(configuration);
             _steps = new List<IGeneratorStep>();
             _log = log;
         }
+
+        protected abstract Template ConfigureTemplate();
 
         public void AddStep(IGeneratorStep step)
         {

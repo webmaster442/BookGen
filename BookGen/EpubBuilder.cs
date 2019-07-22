@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Template.Properties;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework;
@@ -20,6 +21,11 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateEpubToc());
             AddStep(new GeneratorSteps.CreateEpubContent());
             AddStep(new GeneratorSteps.CreateEpubPack());
+        }
+
+        protected override Template ConfigureTemplate()
+        {
+            return new Template(Resources.TemplateEpub);
         }
     }
 }

@@ -9,18 +9,20 @@ using BookGen.Utilities;
 
 namespace BookGen.Framework
 {
-    internal class Template
+    internal class Template: 
     {
-        private readonly string _template;
+        private readonly string _content;
 
-        public Template(FsPath templatePath)
+
+
+        public Template(string content)
         {
-            _template = templatePath.ReadFile();
+            _content = content;
         }
 
-        public string ProcessTemplate(GeneratorContent contents)
+        public string Render()
         {
-            return _template.ReplaceTags(contents);
+            return string.Empty;
         }
     }
 }

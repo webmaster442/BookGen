@@ -8,17 +8,21 @@ using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
+using BookGen.Framework;
 using BookGen.Utilities;
 using System.Text;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreatePrintableHtml : IGeneratorStep
+    internal class CreatePrintableHtml : ITemplatedStep
     {
         private readonly StringBuilder _content;
         private int _index;
 
         private const string NewPage = "<p style=\"page-break-before: always\"></p>\r\n";
+
+        public Template Template { get; set; }
+        public GeneratorContent Content { get; set; }
 
         public CreatePrintableHtml()
         {
