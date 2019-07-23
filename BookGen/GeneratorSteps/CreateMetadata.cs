@@ -22,17 +22,17 @@ namespace BookGen.GeneratorSteps
             {
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
-                    var title = $"{settings.Configruation.Metadata.Title} - {link.DisplayString}";
+                    var title = $"{settings.Configuration.Metadata.Title} - {link.DisplayString}";
                     var file = settings.SourceDirectory.Combine(link.Link);
 
                     var description = MarkdownRenderers.Markdown2Plain(file.ReadFile()).Replace('\n', ' ').Trim();
                     var limit = description.Length < 190 ? description.Length : 190;
                     description = description.Substring(0, limit) + "...";
 
-                    var meta = new MetaTag().FillWithConfigDefaults(settings.Configruation);
+                    var meta = new MetaTag().FillWithConfigDefaults(settings.Configuration);
 
                     meta.Title = title;
-                    meta.Url = link.GetLinkOnHost(settings.Configruation.HostName);
+                    meta.Url = link.GetLinkOnHost(settings.Configuration.HostName);
                     meta.Description = description;
                     settings.MetataCache.Add(link.Link, meta.GetHtmlMeta());
                 }

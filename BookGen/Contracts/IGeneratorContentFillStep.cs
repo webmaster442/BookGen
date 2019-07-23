@@ -9,6 +9,6 @@ namespace BookGen.Contracts
 {
     internal interface IGeneratorContentFillStep : IGeneratorStep
     {
-        GeneratorContent Content { get; set; }
+        IContent Content { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace BookGen.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace BookGen.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BookGen.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace BookGen.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -84,7 +84,7 @@ namespace BookGen.Properties {
         ///            display: block;
         ///            vertical-align: mid [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Error404 {
+        public static string Error404 {
             get {
                 return ResourceManager.GetString("Error404", resourceCulture);
             }
@@ -93,85 +93,46 @@ namespace BookGen.Properties {
         /// <summary>
         ///   Looks up a localized string similar to BookGen - Markdown to Book tool
         ///
-        ///Usage: BookGen -a [action] -d [directory]
+        ///Usage: 
+        ///    BookGen -a, --action [action] -d, --dir [directory]
+        ///    BookGen -g, --gui -d, --dir [directory]
         ///
-        ///Supported Actions: -a or --action switch:
-        ///	
-        ///	buildweb
-        ///		Builds website
+        ///Arguments:
         ///
-        ///	testweb
-        ///		Build website with test params &amp; runs it in browser
+        ///    -a, --action         Specify build action
+        ///    -g, --gui            Start in gui mode.
+        ///    -d, --dir            Specity working directory
+        ///    
+        ///Supported Actions:
         ///
-        ///	buildprint
-        ///		Build printable html
-        ///
-        ///	createconfig
-        ///		Create configuration file in directory, bookgen.json file
-        ///
-        ///	validateconfig
-        ///		Validates configurarion file, bookgen.json and prints out a list of
-        ///		issues in the config file, if there are.
-        ///
-        ///	clean
-        ///		Clean output directory (nee [rest of string was truncated]&quot;;.
+        ///    Test
+        ///        Build website with test params &amp; runs it in browser
+        ///        
+        ///    BuildPrint
+        ///        Build printable html
+        ///        
+        ///    BuildEpub
+        ///        Build epub documen [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Help {
+        public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!doctype html&gt;
-        ///&lt;html&gt;
-        ///&lt;head&gt;
-        ///&lt;meta charset=&quot;utf-8&quot;&gt;
-        ///&lt;/head&gt;
-        ///&lt;body&gt;.
+        ///   Looks up a localized string similar to   ____              _     _____               _____       _ 
+        /// |  _ \            | |   / ____|             / ____|     (_)
+        /// | |_) | ___   ___ | | _| |  __  ___ _ __   | |  __ _   _ _ 
+        /// |  _ &lt; / _ \ / _ \| |/ / | |_ |/ _ \ &apos;_ \  | | |_ | | | | |
+        /// | |_) | (_) | (_) |   &lt;| |__| |  __/ | | | | |__| | |_| | |
+        /// |____/ \___/ \___/|_|\_\\_____|\___|_| |_|  \_____|\__,_|_|
+        ///                                                            
+        ///                                                            .
         /// </summary>
-        internal static string html5header {
+        public static string Splash {
             get {
-                return ResourceManager.GetString("html5header", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;div class=&quot;jumbotron&quot;&gt;
-        ///    &lt;h2&gt;[[0]]&lt;/h2&gt;
-        ///    &lt;div class=&quot;form-group&quot;&gt;
-        ///        &lt;input type=&quot;text&quot; id=&quot;searchtext&quot; autocomplete=&quot;off&quot; class=&quot;form-control&quot; placeholder=&quot;[[1]]&quot;&gt;
-        ///        &lt;br/&gt;
-        ///        &lt;button type=&quot;button&quot; id=&quot;searchbutton&quot; class=&quot;btn btn-primary&quot;&gt;[[2]]&lt;/button&gt;
-        ///    &lt;/div&gt;
-        ///&lt;/div&gt;
-        ///&lt;div id=&quot;searchresults&quot;&gt;&lt;/div&gt;
-        ///&lt;script type=&quot;text/javascript&quot;&gt;
-        ///    $(&quot;#searchbutton&quot;).click(function () {
-        ///
-        ///        var html = &quot;&quot;;
-        ///        var matches = 0;
-        ///        var terms = $(&quot;#searchtext&quot;).val();
-        ///    [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string searchform {
-            get {
-                return ResourceManager.GetString("searchform", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-        ///&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
-        ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot;&gt;
-        ///&lt;head&gt;
-        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;/&gt;
-        ///&lt;/head&gt;
-        ///&lt;body&gt;.
-        /// </summary>
-        internal static string xhtmlheader {
-            get {
-                return ResourceManager.GetString("xhtmlheader", resourceCulture);
+                return ResourceManager.GetString("Splash", resourceCulture);
             }
         }
     }

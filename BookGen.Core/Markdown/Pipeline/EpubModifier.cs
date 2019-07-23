@@ -28,6 +28,9 @@ namespace BookGen.Core.Markdown.Pipeline
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
+            PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetEpub,
+                                        document);
+
             foreach (var node in document.Descendants())
             {
                 if (node is HeadingBlock heading)
@@ -36,7 +39,7 @@ namespace BookGen.Core.Markdown.Pipeline
                 }
                 else if (node is LinkInline link && link.IsImage)
                 {
-                    var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig);
+                    var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
                     if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
                     {
                         link.Url = RuntimeConfig.InlineImgCache[inlinekey];

@@ -15,7 +15,7 @@ namespace BookGen.Core.Contracts
         FsPath ImageDirectory { get; }
         FsPath TocPath { get; }
         IToC TocContents { get; }
-        Config Configruation { get; }
+        Config Configuration { get; }
         Dictionary<string, string> MetataCache { get; }
         Dictionary<string, string> InlineImgCache { get; }
     }

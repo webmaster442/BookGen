@@ -3,25 +3,24 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Configuration;
+using BookGen.Core.Contracts;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using System;
 using System.Linq;
 
 namespace BookGen.Core.Markdown.Pipeline
 {
     internal class PrintModifier : IMarkdownExtension
     {
+        public static IReadonlyRuntimeSettings RuntimeConfig { get; set; }
+
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
             pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
             pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
         }
-
-        public static Config Configuration { get; set; }
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
@@ -30,6 +29,8 @@ namespace BookGen.Core.Markdown.Pipeline
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
+            PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetPrint, document);
+
             foreach (var node in document.Descendants())
             {
                 if (node is HeadingBlock heading)
@@ -46,7 +47,7 @@ namespace BookGen.Core.Markdown.Pipeline
         private string RewiteToHostUrl(string url)
         {
             var parts = url.Replace("\\", "/").Split('/').ToList();
-            var imgdirIndex = parts.IndexOf(Configuration.ImageDir);
+            var imgdirIndex = parts.IndexOf(RuntimeConfig.Configuration.ImageDir);
 
             return string.Join("/", parts.ToArray(), imgdirIndex, parts.Count - imgdirIndex);
         }

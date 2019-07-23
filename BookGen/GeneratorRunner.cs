@@ -23,6 +23,7 @@ namespace BookGen
         private readonly ILog _log;
         private readonly FsPath _config;
         private const string exitString = "Press a key to exit...";
+        private readonly ShortCodeLoader _shortCodeLoader;
 
         public Config Configuration { get; private set; }
 
@@ -36,18 +37,16 @@ namespace BookGen
             _log = log;
             WorkDirectory = workDir;
             _config = new FsPath(WorkDirectory, "bookgen.json");
+            _shortCodeLoader = new ShortCodeLoader(log);
         }
 
         public void RunHelp()
         {
             _log.Info(Properties.Resources.Help);
-            if (!Program.IsInGuiMode)
-            {
 #if DEBUG
-                Program.ShowMessageBox("Press a key to continue");
+            Program.ShowMessageBox("Press a key to continue");
 #endif
-                Environment.Exit(1);
-            }
+            Environment.Exit(1);
         }
 
         #region Helpers
@@ -120,12 +119,16 @@ namespace BookGen
                 }
             }
 
+            _shortCodeLoader.LoadAll();
+
             return true;
         }
 
         public void DoClean()
         {
-            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.OutputDir), _log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWeb.OutPutDirectory), _log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetPrint.OutPutDirectory), _log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetEpub.OutPutDirectory), _log);
         }
 
         private static Version GetVersion()
@@ -152,7 +155,7 @@ namespace BookGen
         public void DoBuild()
         {
             _log.Info("Building deploy configuration...");
-            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
+            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log, _shortCodeLoader);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
@@ -160,7 +163,7 @@ namespace BookGen
         public void DoPrint()
         {
             _log.Info("Building print configuration...");
-            PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, _log);
+            PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, _log, _shortCodeLoader);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
@@ -168,7 +171,7 @@ namespace BookGen
         public void DoEpub()
         {
             _log.Info("Building epub configuration...");
-            EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, _log);
+            EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, _log, _shortCodeLoader);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
         }
@@ -177,14 +180,14 @@ namespace BookGen
         {
             _log.Info("Building test configuration...");
             Configuration.HostName = "http://localhost:8080/";
-            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
+            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log, _shortCodeLoader);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
-            using (var server = new HttpTestServer(Path.Combine(WorkDirectory, Configuration.OutputDir), 8080, _log))
+            using (var server = new HttpTestServer(Path.Combine(WorkDirectory, Configuration.TargetWeb.OutPutDirectory), 8080, _log))
             {
                 Console.Clear();
                 _log.Info("Test server running on: http://localhost:8080/");
-                _log.Info("Serving from: {0}", Configuration.OutputDir);
+                _log.Info("Serving from: {0}", Configuration.TargetWeb.OutPutDirectory);
 
                 Process p = new Process();
                 p.StartInfo.UseShellExecute = true;

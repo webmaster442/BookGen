@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Core.Markdown.Pipeline;
 using Markdig;
@@ -44,9 +43,9 @@ namespace BookGen.Core.Markdown
             return Markdig.Markdown.ToPlainText(md, _plainpipeline);
         }
 
-        public static string Markdown2PrintHTML(string md, Config configuration)
+        public static string Markdown2PrintHTML(string md, IReadonlyRuntimeSettings settings)
         {
-            PrintModifier.Configuration = configuration;
+            PrintModifier.RuntimeConfig = settings;
             return Markdig.Markdown.ToHtml(md, _printpipeline);
         }
     }

@@ -32,11 +32,11 @@ namespace BookGen.GeneratorSteps
                 },
                 DocTitle = new DocTitle
                 {
-                    Text = settings.Configruation.Metadata.Title
+                    Text = settings.Configuration.Metadata.Title
                 },
                 DocAuthor = new DocAuthor
                 {
-                    Text = settings.Configruation.Metadata.Author
+                    Text = settings.Configuration.Metadata.Author
                 },
                 NavMap = new NavMap
                 {

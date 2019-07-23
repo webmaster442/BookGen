@@ -31,7 +31,7 @@ namespace BookGen.GeneratorSteps
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
 
             if (!_inlineEnabled
-                || (settings.Configruation.InlineImageSizeLimit < 0 && !_unlimited))
+                || (settings.Configuration.InlineImageSizeLimit < 0 && !_unlimited))
             {
                 log.Info("Copy images to output...");
                 settings.ImageDirectory.CopyDirectory(targetdir, log);
@@ -43,7 +43,7 @@ namespace BookGen.GeneratorSteps
                 foreach (var file in settings.ImageDirectory.GetAllFiles())
                 {
                     FileInfo fi = new FileInfo(file);
-                    if ((fi.Length < settings.Configruation.InlineImageSizeLimit || _unlimited)
+                    if ((fi.Length < settings.Configuration.InlineImageSizeLimit || _unlimited)
                         && (fi.Extension == ".jpg"
                          || fi.Extension == ".png"
                          || fi.Extension == ".jpeg"

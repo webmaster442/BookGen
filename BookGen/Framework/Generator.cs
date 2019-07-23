@@ -21,40 +21,45 @@ namespace BookGen.Framework
         private readonly ILog _log;
 
         protected RuntimeSettings Settings { get; }
-        protected Template Template { get; }
-        protected GeneratorContent GeneratorContent { get; }
 
-        protected Generator(string workdir, Config configuration, ILog log)
+        protected Template Template { get; }
+
+        protected FsPath WorkDir { get; }
+
+        protected Generator(string workdir, Config configuration, ILog log, ShortCodeLoader loader)
         {
-            var dir = new FsPath(workdir);
+            WorkDir = new FsPath(workdir);
             Settings = new RuntimeSettings
             {
-                SourceDirectory = dir,
-                OutputDirectory = dir.Combine(configuration.OutputDir),
-                ImageDirectory = dir.Combine(configuration.ImageDir),
-                TocPath = dir.Combine(configuration.TOCFile),
-                Configruation = configuration,
-                TocContents = MarkdownUtils.ParseToc(dir.Combine(configuration.TOCFile).ReadFile()),
+                SourceDirectory = WorkDir,
+                ImageDirectory = WorkDir.Combine(configuration.ImageDir),
+                TocPath = WorkDir.Combine(configuration.TOCFile),
+                Configuration = configuration,
+                TocContents = MarkdownUtils.ParseToc(WorkDir.Combine(configuration.TOCFile).ReadFile()),
                 MetataCache = new Dictionary<string, string>(100),
                 InlineImgCache = new Dictionary<string, string>(100)
             };
-            Template = new Template(dir.Combine(configuration.Template));
-            GeneratorContent = new GeneratorContent(configuration);
+            Template = new Template(configuration, new ShortCodeParser(loader.Imports));
+
             _steps = new List<IGeneratorStep>();
             _log = log;
         }
+
+        protected abstract string ConfigureTemplate();
+
+        protected abstract FsPath ConfigureOutputDirectory(FsPath workingDirectory);
 
         public void AddStep(IGeneratorStep step)
         {
             switch (step)
             {
                 case ITemplatedStep templated:
-                    templated.Content = GeneratorContent;
+                    templated.Content = Template;
                     templated.Template = Template;
                     _steps.Add(templated);
                     break;
                 case IGeneratorContentFillStep contentFill:
-                    contentFill.Content = GeneratorContent;
+                    contentFill.Content = Template;
                     _steps.Add(contentFill);
                     break;
                 default:
@@ -65,6 +70,9 @@ namespace BookGen.Framework
 
         public TimeSpan Run()
         {
+            Settings.OutputDirectory = ConfigureOutputDirectory(WorkDir);
+            Template.TemplateContent = ConfigureTemplate();
+
             DateTime start = DateTime.Now;
             try
             {

@@ -18,7 +18,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreateSubpageIndexes : ITemplatedStep
     {
-        public GeneratorContent Content { get; set; }
+        public IContent Content { get; set; }
         public Template Template { get; set; }
         public List<HtmlLink> Chapters { get; private set; }
 
@@ -36,7 +36,7 @@ namespace BookGen.GeneratorSteps
                     Content.Title = dir;
                     Content.Content = MarkdownRenderers.Markdown2WebHTML(mdcontent, settings);
                     Content.Metadata = "";
-                    var html = Template.ProcessTemplate(Content);
+                    var html = Template.Render();
                     output.WriteFile(html);
                     log.Detail("Creating file: {0}", output);
                 }
