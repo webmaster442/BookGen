@@ -43,13 +43,10 @@ namespace BookGen
         public void RunHelp()
         {
             _log.Info(Properties.Resources.Help);
-            if (!Program.IsInGuiMode)
-            {
 #if DEBUG
-                Program.ShowMessageBox("Press a key to continue");
+            Program.ShowMessageBox("Press a key to continue");
 #endif
-                Environment.Exit(1);
-            }
+            Environment.Exit(1);
         }
 
         #region Helpers

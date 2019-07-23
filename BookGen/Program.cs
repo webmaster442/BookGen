@@ -8,7 +8,6 @@ using BookGen.Framework;
 using BookGen.Gui;
 using System;
 using System.Diagnostics;
-using Terminal.Gui;
 
 namespace BookGen
 {
@@ -16,23 +15,10 @@ namespace BookGen
     {
         internal static GeneratorRunner Runner { get; private set; }
 
-        internal static bool IsInGuiMode
-        {
-            get { return Application.Top?.Running ?? false; }
-        }
-
         public static void ShowMessageBox(string text, params object[] args)
         {
-            if (IsInGuiMode)
-            {
-                string msg = string.Format(text, args);
-                MessageBox.Query(80, 10, "Message", msg, "Ok");
-            }
-            else
-            {
-                Console.WriteLine(text, args);
-                Console.ReadKey();
-            }
+            Console.WriteLine(text, args);
+            Console.ReadKey();
         }
 
         private static ParsedOptions ParseOptions(string[] args)
@@ -80,17 +66,16 @@ namespace BookGen
             try
             {
                 ParsedOptions options = ParseOptions(args);
+                var Consolelog = new ConsoleLog();
 
                 if (options.GuiReqested)
                 {
-                    var log = new EventedLog();
-                    Runner = new GeneratorRunner(log, options.WorkingDirectory);
-                    ConsoleGui ui = new ConsoleGui(log, Runner);
+                    Runner = new GeneratorRunner(Consolelog, options.WorkingDirectory);
+                    ConsoleGui ui = new ConsoleGui(Runner);
                     ui.Run();
                 }
                 else
                 {
-                    var Consolelog = new ConsoleLog();
                     Runner = new GeneratorRunner(Consolelog, options.WorkingDirectory);
 
                     switch (options.Action)
@@ -139,10 +124,7 @@ namespace BookGen
             }
             catch (Exception ex)
             {
-                if (Application.Top != null)
-                {
-                    Application.Top.Running = false;
-                }
+                ConsoleGui.ShouldRun = false;
 
                 Console.Clear();
                 ShowMessageBox("Unhandled exception\r\n{0}", ex);

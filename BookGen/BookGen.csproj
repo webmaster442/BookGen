@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="Terminal.Gui" Version="0.24.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -56,14 +55,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Content Include="Resources\xhtmlheader.html" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Help.txt" />
     <Content Include="Icon.ico" />
     <Content Include="Resources\Error404.html" />
-    <Content Include="Resources\html5header.html" />
-    <Content Include="Resources\searchform.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
