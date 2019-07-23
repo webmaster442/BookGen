@@ -3,37 +3,49 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Gui.Elements;
+using BookGen.Gui.Renderering;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BookGen.Gui
 {
     internal class ConsoleGui
     {
-        public List<Button> _buttons;
+        public List<ConsoleUiElement> _uiElements;
+        private readonly Renderer _renderer;
 
         public ConsoleGui(GeneratorRunner runner)
         {
             ShouldRun = true;
-            _buttons = new List<Button>
+            _renderer = new Renderer();
+            _renderer.SetWindowTitle("BookGen");
+            _uiElements = new List<ConsoleUiElement>
             {
+                new TextBlock
+                {
+                    Text = Properties.Resources.Splash
+                },
+                new TextBlock
+                {
+                    Text = "Config Actions:\r\n\r\n"
+                },
                 new Button
                 {
                     Action = () => runner.DoCreateConfig(),
-                    ActivatorKey = ConsoleKey.F1,
+                    ActivatorKey = ConsoleKey.F2,
                     Content = "Create config"
                 },
                 new Button
                 {
                     Action = () => runner.Initialize(),
-                    ActivatorKey = ConsoleKey.F2,
+                    ActivatorKey = ConsoleKey.F3,
                     Content = "Validate config"
                 },
-                new Button
+                new TextBlock
                 {
-                    Action = () => Environment.Exit(0),
-                    ActivatorKey = ConsoleKey.Escape,
-                    Content = "Exit program"
+                    Text = "\r\nBuild:\r\n\r\n"
                 },
                 new Button
                 {
@@ -79,16 +91,38 @@ namespace BookGen.Gui
                     },
                     ActivatorKey = ConsoleKey.F8,
                     Content = "Build E-pub"
-                }
+                },
+                new TextBlock
+                {
+                    Text = "\r\nGeneral\r\n"
+                },
+                new Button
+                {
+                    Action = () => UsageInfo(),
+                    ActivatorKey = ConsoleKey.F1,
+                    Content = "Display usage info"
+                },
+                new Button
+                {
+                    Action = () => Environment.Exit(0),
+                    ActivatorKey = ConsoleKey.Escape,
+                    Content = "Exit program"
+                },
             };
+        }
+
+        private void UsageInfo()
+        {
+            Console.WriteLine(Properties.Resources.Help);
+            _renderer.PressKeyContinue();
         }
 
         private void Render()
         {
-            Console.WriteLine("Actions: ");
-            foreach (var button in _buttons)
+            _renderer.Clear();
+            foreach (var uiElement in _uiElements)
             {
-                Console.WriteLine("   {0}: {1}", button.ActivatorKey, button.Content);
+                uiElement.Render(_renderer);
             }
         }
 
@@ -96,19 +130,27 @@ namespace BookGen.Gui
 
         public void Run()
         {
+            Render();
             while (ShouldRun)
             {
-                Render();
                 var keyInfo = Console.ReadKey();
-                var action = _buttons.Find(b => b.ActivatorKey == keyInfo.Key);
+                var actionToDo = (from item in _uiElements
+                                  where
+                                     item is Button b
+                                     && b.ActivatorKey == keyInfo.Key
+                                  select
+                                     item as Button).FirstOrDefault();
 
-                if (action == null)
+                if (actionToDo == null)
                 {
-                    Console.Write("\rUnrecognised Option");
+                    Render();
+                    _renderer.DisplayError($"\rUnrecognised key: {keyInfo.Key}\r\n");
                 }
                 else
                 {
-                    action.Action();
+                    actionToDo.Action();
+                    _renderer.PressKeyContinue();
+                    Render();
                 }
             }
         }

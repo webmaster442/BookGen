@@ -119,5 +119,21 @@ namespace BookGen.Properties {
                 return ResourceManager.GetString("Help", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to   ____              _     _____               _____       _ 
+        /// |  _ \            | |   / ____|             / ____|     (_)
+        /// | |_) | ___   ___ | | _| |  __  ___ _ __   | |  __ _   _ _ 
+        /// |  _ &lt; / _ \ / _ \| |/ / | |_ |/ _ \ &apos;_ \  | | |_ | | | | |
+        /// | |_) | (_) | (_) |   &lt;| |__| |  __/ | | | | |__| | |_| | |
+        /// |____/ \___/ \___/|_|\_\\_____|\___|_| |_|  \_____|\__,_|_|
+        ///                                                            
+        ///                                                            .
+        /// </summary>
+        public static string Splash {
+            get {
+                return ResourceManager.GetString("Splash", resourceCulture);
+            }
+        }
     }
 }

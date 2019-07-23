@@ -3,14 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-
-namespace BookGen.Gui
+namespace BookGen.Gui.Renderering
 {
-    internal class Button
+    public enum TextFormat
     {
-        public Action Action { get; set; }
-        public string Content { get; set; }
-        public ConsoleKey ActivatorKey { get; set; }
+        Default = 0,
+        BoldBright = 1,
+        Underline = 4,
+        Negative = 7,
     }
 }
