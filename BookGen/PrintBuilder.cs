@@ -7,6 +7,7 @@ using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework;
 using Bookgen.Template.Properties;
+using BookGen.Core;
 
 namespace BookGen
 {
@@ -18,6 +19,11 @@ namespace BookGen
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetPrint));
             AddStep(new GeneratorSteps.CopyImagesDirectory(false));
             AddStep(new GeneratorSteps.CreatePrintableHtml());
+        }
+
+        protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)
+        {
+            return workingDirectory.Combine(Configuration.TargetPrint.OutPutDirectory);
         }
 
         protected override string ConfigureTemplate()

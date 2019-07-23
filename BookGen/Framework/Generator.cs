@@ -20,17 +20,20 @@ namespace BookGen.Framework
         private readonly List<IGeneratorStep> _steps;
         private readonly ILog _log;
 
+        protected Config Configuration { get; }
+
         protected RuntimeSettings Settings { get; }
 
         protected Template Template { get; }
 
         protected Generator(string workdir, Config configuration, ILog log, ShortCodeLoader loader)
         {
+            Configuration = configuration;
             var dir = new FsPath(workdir);
             Settings = new RuntimeSettings
             {
                 SourceDirectory = dir,
-                OutputDirectory = dir.Combine(configuration.OutputDir),
+                OutputDirectory = ConfigureOutputDirectory(dir),
                 ImageDirectory = dir.Combine(configuration.ImageDir),
                 TocPath = dir.Combine(configuration.TOCFile),
                 Configruation = configuration,
@@ -45,6 +48,8 @@ namespace BookGen.Framework
         }
 
         protected abstract string ConfigureTemplate();
+
+        protected abstract FsPath ConfigureOutputDirectory(FsPath workingDirectory);
 
         public void AddStep(IGeneratorStep step)
         {

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template.Properties;
+using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework;
@@ -22,6 +23,11 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateEpubToc());
             AddStep(new GeneratorSteps.CreateEpubContent());
             AddStep(new GeneratorSteps.CreateEpubPack());
+        }
+
+        protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)
+        {
+            return workingDirectory.Combine(Configuration.TargetEpub.OutPutDirectory);
         }
 
         protected override string ConfigureTemplate()

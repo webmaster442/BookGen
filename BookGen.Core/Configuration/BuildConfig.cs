@@ -18,7 +18,7 @@ namespace BookGen.Core.Configuration
         {
             return new BuildConfig
             {
-                OutPutDirectory = "Path of output",
+                OutPutDirectory = "Path to output directory",
                 TemplateFile = "",
                 TemplateAssets = new List<Asset>
                 {

@@ -30,6 +30,11 @@ namespace BookGen.GeneratorSteps
         public static void CleanDirectory(FsPath outputDirectory, ILog log)
         {
             DirectoryInfo di = new DirectoryInfo(outputDirectory.ToString());
+            if (!di.Exists)
+            {
+                log.Warning("Directory doesn't exist: {0}", outputDirectory);
+                return;
+            }
             foreach (var file in di.GetFiles())
             {
                 log.Detail("Deleting: {0}", file);

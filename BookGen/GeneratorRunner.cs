@@ -129,7 +129,9 @@ namespace BookGen
 
         public void DoClean()
         {
-            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.OutputDir), _log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWeb.OutPutDirectory), _log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetPrint.OutPutDirectory), _log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetEpub.OutPutDirectory), _log);
         }
 
         private static Version GetVersion()
@@ -184,11 +186,11 @@ namespace BookGen
             WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log, _shortCodeLoader);
             var runTime = builder.Run();
             _log.Info("Runtime: {0}", runTime);
-            using (var server = new HttpTestServer(Path.Combine(WorkDirectory, Configuration.OutputDir), 8080, _log))
+            using (var server = new HttpTestServer(Path.Combine(WorkDirectory, Configuration.TargetWeb.OutPutDirectory), 8080, _log))
             {
                 Console.Clear();
                 _log.Info("Test server running on: http://localhost:8080/");
-                _log.Info("Serving from: {0}", Configuration.OutputDir);
+                _log.Info("Serving from: {0}", Configuration.TargetWeb.OutPutDirectory);
 
                 Process p = new Process();
                 p.StartInfo.UseShellExecute = true;

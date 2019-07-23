@@ -3,18 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.ObjectModel;
-
 namespace BookGen.Core.Configuration
 {
     public class Config
     {
-        public string OutputDir
-        {
-            get;
-            set;
-        }
-
         public string TOCFile
         {
             get;
@@ -91,7 +83,6 @@ namespace BookGen.Core.Configuration
         {
             return new Config
             {
-                OutputDir = "Path to output directory",
                 TOCFile = "Path of table of contents",
                 Index = "Path of startup (index) file",
                 ImageDir = "Path to images directory",

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template.Properties;
+using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework;
@@ -25,6 +26,11 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateSubpageIndexes());
             AddStep(new GeneratorSteps.GenerateSearchPage());
             AddStep(new GeneratorSteps.CreateSitemap());
+        }
+
+        protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)
+        {
+            return workingDirectory.Combine(Configuration.TargetWeb.OutPutDirectory);
         }
 
         protected override string ConfigureTemplate()
