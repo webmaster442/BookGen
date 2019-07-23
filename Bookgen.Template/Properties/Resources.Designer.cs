@@ -129,6 +129,7 @@ namespace Bookgen.Template.Properties {
         ///    &lt;title&gt;&lt;/title&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
+        ///    [content]
         ///&lt;/body&gt;
         ///&lt;/html&gt;.
         /// </summary>
@@ -145,6 +146,7 @@ namespace Bookgen.Template.Properties {
         ///    &lt;meta charset=&quot;utf-8&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
+        ///    [content]
         ///&lt;/body&gt;
         ///&lt;/html&gt;.
         /// </summary>

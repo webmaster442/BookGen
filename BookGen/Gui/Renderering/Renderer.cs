@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -44,10 +45,25 @@ namespace BookGen.Gui.Renderering
 
         private void EnableVTConsoleIfWin10()
         {
+            var terminal = Environment.GetEnvironmentVariable("TERM");
             var versionString = RuntimeInformation.OSDescription.Replace("Microsoft Windows ", "");
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT
-                && Version.TryParse(versionString, out Version OsVersion)
-                && OsVersion >= new Version(10, 0, 1511))
+            bool isOkWindows = false;
+
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                if (Version.TryParse(versionString, out Version OsVersion)
+                    && OsVersion >= new Version(10, 0, 1511))
+                {
+                    isOkWindows = true;
+                }
+                else
+                {
+                    Console.WriteLine("Windows 10 build 1511 is at least required for GUI");
+                    Environment.Exit(-2);
+                }
+            }
+
+            if (string.IsNullOrEmpty(terminal) && isOkWindows)
             {
                 var iStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
                 if (!GetConsoleMode(iStdOut, out uint outConsoleMode))
@@ -61,11 +77,6 @@ namespace BookGen.Gui.Renderering
                     Console.WriteLine($"failed to set output console mode, error code: {GetLastError()}");
                     Environment.Exit(-2);
                 }
-            }
-            else
-            {
-                Console.WriteLine("Windows 10 build 1511 is at least required for GUI");
-                Environment.Exit(-2);
             }
         }
 
