@@ -26,6 +26,12 @@ namespace BookGen.GeneratorSteps
 
             foreach (var asset in _target.TemplateAssets)
             {
+                if (string.IsNullOrEmpty(asset.Source) || string.IsNullOrEmpty(asset.Target))
+                {
+                    log.Warning("Skipping Asset, because no source or target defined");
+                    continue;
+                }
+
                 FsPath source = settings.SourceDirectory.Combine(asset.Source);
                 FsPath target = settings.OutputDirectory.Combine(asset.Target);
 
