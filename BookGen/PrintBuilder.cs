@@ -15,6 +15,7 @@ namespace BookGen
         public PrintBuilder(string workdir, Config configuration, ILog log, ShortCodeLoader loader) : base(workdir, configuration, log, loader)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
+            AddStep(new GeneratorSteps.CopyAssets(configuration.TargetPrint));
             AddStep(new GeneratorSteps.CopyImagesDirectory(false));
             AddStep(new GeneratorSteps.CreatePrintableHtml());
         }

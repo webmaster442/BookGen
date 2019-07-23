@@ -61,6 +61,42 @@ namespace Bookgen.Template.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /* PrismJS 1.15.0
+        ///https://prismjs.com/download.html#themes=prism&amp;languages=markup+clike+csharp+batch+fsharp+json+python&amp;plugins=line-numbers */
+        ////**
+        /// * prism.js default theme for JavaScript, CSS and HTML
+        /// * Based on dabblet (http://dabblet.com)
+        /// * @author Lea Verou
+        /// */
+        ///
+        ///code[class*=&quot;language-&quot;],
+        ///pre[class*=&quot;language-&quot;] {
+        ///	color: black;
+        ///	background: none;
+        ///	text-shadow: 0 1px white;
+        ///	font-family: Consolas, Monaco, &apos;Andale Mono&apos;, &apos;Ubuntu Mono&apos;, monospace;
+        ///	text-align: left;
+        ///	white-space: pre;
+        ///	w [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string PrismCss {
+            get {
+                return ResourceManager.GetString("PrismCss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /* PrismJS 1.15.0
+        ///https://prismjs.com/download.html#themes=prism&amp;languages=markup+clike+csharp+batch+fsharp+json+python&amp;plugins=line-numbers */
+        ///var _self=&quot;undefined&quot;!=typeof window?window:&quot;undefined&quot;!=typeof WorkerGlobalScope&amp;&amp;self instanceof WorkerGlobalScope?self:{},Prism=function(){var e=/\blang(?:uage)?-([\w-]+)\b/i,t=0,n=_self.Prism={manual:_self.Prism&amp;&amp;_self.Prism.manual,disableWorkerMessageHandler:_self.Prism&amp;&amp;_self.Prism.disableWorkerMessageHandler,util:{encode:function(e){return e instanceof a?ne [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string PrismJs {
+            get {
+                return ResourceManager.GetString("PrismJs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;div class=&quot;jumbotron&quot;&gt;
         ///    &lt;h2&gt;[[0]]&lt;/h2&gt;
         ///    &lt;div class=&quot;form-group&quot;&gt;
@@ -85,14 +121,16 @@ namespace Bookgen.Template.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
         ///&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;
         ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot;&gt;
         ///&lt;head&gt;
-        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;/&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
         ///    &lt;title&gt;&lt;/title&gt;
         ///&lt;/head&gt;
-        ///&lt;body&gt;.
+        ///&lt;body&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
         /// </summary>
         public static string TemplateEpub {
             get {
@@ -104,9 +142,11 @@ namespace Bookgen.Template.Properties {
         ///   Looks up a localized string similar to &lt;!doctype html&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
-        ///&lt;meta charset=&quot;utf-8&quot;&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot;&gt;
         ///&lt;/head&gt;
-        ///&lt;body&gt;.
+        ///&lt;body&gt;
+        ///&lt;/body&gt;
+        ///&lt;/html&gt;.
         /// </summary>
         public static string TemplatePrint {
             get {

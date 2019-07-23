@@ -27,4 +27,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TemplateWeb\Assets\" />
+  </ItemGroup>
+
 </Project>

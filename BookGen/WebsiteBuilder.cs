@@ -15,10 +15,8 @@ namespace BookGen
         public WebsiteBuilder(string workdir, Config configuration, ILog log, ShortCodeLoader loader) : base(workdir, configuration, log, loader)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
-            AddStep(new GeneratorSteps.CopyAssets());
-            AddStep(new GeneratorSteps.ProcessAssetMd());
+            AddStep(new GeneratorSteps.CopyAssets(configuration.TargetWeb));
             AddStep(new GeneratorSteps.CopyImagesDirectory(true));
-            AddStep(new GeneratorSteps.PrecompileHeader());
             AddStep(new GeneratorSteps.CreateToCForWebsite());
             AddStep(new GeneratorSteps.CreateMetadata());
             AddStep(new GeneratorSteps.CreateIndexHtml());

@@ -33,24 +33,6 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        public ObservableCollection<Asset> Assets
-        {
-            get;
-            set;
-        }
-
-        public string Template
-        {
-            get;
-            set;
-        }
-
-        public string EpubCss
-        {
-            get;
-            set;
-        }
-
         public string Index
         {
             get;
@@ -75,12 +57,6 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        public StyleClasses StyleClasses
-        {
-            get;
-            set;
-        }
-
         public SearchSettings SearchOptions
         {
             get;
@@ -93,7 +69,19 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        public Precompile PrecompileHeader
+        public BuildConfig TargetWeb
+        {
+            get;
+            set;
+        }
+
+        public BuildConfig TargetPrint
+        {
+            get;
+            set;
+        }
+
+        public BuildConfig TargetEpub
         {
             get;
             set;
@@ -108,13 +96,8 @@ namespace BookGen.Core.Configuration
                 Index = "Path of startup (index) file",
                 ImageDir = "Path to images directory",
                 HostName = "http://localhost:8080/",
-                Assets = new ObservableCollection<Asset>(),
-                Template = "Path of template file",
-                EpubCss = "Path to epub css file",
-                StyleClasses = new StyleClasses(),
                 SearchOptions = SearchSettings.CreateDefault(),
                 Metadata = Metadata.CreateDefault(),
-                PrecompileHeader = Precompile.CreateDefault(),
                 Version = 100,
                 LinksOutSideOfHostOpenNewTab = true,
                 InlineImageSizeLimit = 50 * 1024

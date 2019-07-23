@@ -10,13 +10,47 @@ namespace BookGen.Core
 {
     public class ConfigValidator: Validator
     {
+        public ValidateFor ValidationLevel { get; set; }
+
+        public enum ValidateFor
+        {
+            Web,
+            Print,
+            Epub,
+            All,
+        }
+
         private readonly Config _config;
         private readonly string _workdir;
 
         public ConfigValidator(Config config, string workdir)
         {
+            ValidationLevel = ValidateFor.All;
             _config = config;
             _workdir = workdir;
+        }
+
+        private void ValidateBuildConfig(FsPath WorkDirectory, BuildConfig target)
+        {
+            if (!string.IsNullOrEmpty(target.TemplateFile)
+                && !WorkDirectory.Combine(target.TemplateFile).IsExisting)
+            {
+                AddError(Resources.MissingTemplateFile, target.TemplateFile);
+            }
+
+            if (target.TemplateAssets == null)
+                AddError(Resources.MissingAssets);
+
+            foreach (var asset in target.TemplateAssets)
+            {
+                var source = WorkDirectory.Combine(asset.Source);
+
+                if (!source.IsExisting)
+                    AddError(Resources.MissingAsset, source.ToString());
+            }
+
+            if (target.StyleClasses == null)
+                AddError(Resources.MissingStyleClasses);
         }
 
         public override void Validate()
@@ -26,8 +60,23 @@ namespace BookGen.Core
 
             var WorkDirectory = new FsPath(_workdir);
 
-            if (!WorkDirectory.Combine(_config.Template).IsExisting)
-                AddError(Resources.MissingTemplateFile, _config.Template);
+            switch (ValidationLevel)
+            {
+                case ValidateFor.Epub:
+                    ValidateBuildConfig(WorkDirectory, _config.TargetEpub);
+                    break;
+                case ValidateFor.Print:
+                    ValidateBuildConfig(WorkDirectory, _config.TargetPrint);
+                    break;
+                case ValidateFor.Web:
+                    ValidateBuildConfig(WorkDirectory, _config.TargetWeb);
+                    break;
+                case ValidateFor.All:
+                    ValidateBuildConfig(WorkDirectory, _config.TargetEpub);
+                    ValidateBuildConfig(WorkDirectory, _config.TargetPrint);
+                    ValidateBuildConfig(WorkDirectory, _config.TargetWeb);
+                    break;
+            }
 
             if (!string.IsNullOrEmpty(_config.ImageDir) && !WorkDirectory.Combine(_config.ImageDir).IsExisting)
                 AddError(Resources.MissingImageDir, _config.ImageDir);
@@ -44,22 +93,8 @@ namespace BookGen.Core
                 AddError(Resources.MissingTrailingSlash);
             }
 
-            if (_config.Assets == null)
-                AddError(Resources.MissingAssets);
-
-            foreach (var asset in _config.Assets)
-            {
-                var source = WorkDirectory.Combine(asset.Source);
-
-                if (!source.IsExisting)
-                    AddError(Resources.MissingAsset, source.ToString());
-            }
-
             if (string.IsNullOrEmpty(_config.Index))
                 AddError(Resources.MissingIndex);
-
-            if (_config.StyleClasses == null)
-                AddError(Resources.MissingStyleClasses);
 
             if (_config.SearchOptions == null)
                 AddError(Resources.MissingSearchOptions);
@@ -75,9 +110,6 @@ namespace BookGen.Core
 
             if (_config.Metadata == null)
                 AddError(Resources.MissingMetadata);
-
-            if (_config.PrecompileHeader == null)
-                AddError(Resources.MissingPrecompile);
         }
     }
 }

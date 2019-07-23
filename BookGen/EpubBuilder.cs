@@ -15,6 +15,7 @@ namespace BookGen
         public EpubBuilder(string workdir, Config configuration, ILog log, ShortCodeLoader loader) : base(workdir, configuration, log, loader)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
+            AddStep(new GeneratorSteps.CopyAssets(configuration.TargetEpub));
             AddStep(new GeneratorSteps.CopyImagesDirectory(true, true));
             AddStep(new GeneratorSteps.CreateEpubStructure());
             AddStep(new GeneratorSteps.CreateEpubPages());

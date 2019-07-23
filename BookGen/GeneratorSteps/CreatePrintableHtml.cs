@@ -51,7 +51,7 @@ namespace BookGen.GeneratorSteps
                 }
             }
 
-            Content.Content = MarkdownRenderers.Markdown2PrintHTML(buffer.ToString(), settings.Configruation);
+            Content.Content = MarkdownRenderers.Markdown2PrintHTML(buffer.ToString(), settings);
             output.WriteFile(Template.Render());
         }
     }

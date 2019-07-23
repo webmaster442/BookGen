@@ -35,6 +35,11 @@
     <SonarQubeTestProject>False</SonarQubeTestProject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="DefaultTemplate\**" />
+    <EmbeddedResource Remove="DefaultTemplate\**" />
+    <None Remove="DefaultTemplate\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="System.ComponentModel.Composition" Version="4.5.0" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
@@ -59,11 +64,6 @@
     <Content Include="Resources\Error404.html" />
     <Content Include="Resources\html5header.html" />
     <Content Include="Resources\searchform.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DefaultTemplate\assets\prism.css" />
-    <Content Include="DefaultTemplate\assets\prism.js" />
-    <Content Include="DefaultTemplate\Template.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
