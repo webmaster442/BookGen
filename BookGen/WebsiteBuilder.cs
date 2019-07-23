@@ -40,7 +40,7 @@ namespace BookGen
 
         protected override string ConfigureTemplate()
         {
-            if (!string.IsNullOrEmpty(Configuration.TargetWeb.TemplateFile))
+            if (string.IsNullOrEmpty(Configuration.TargetWeb.TemplateFile))
             {
                 _templateAssets = new (string content, string targetPath)[]
                 {
