@@ -153,5 +153,22 @@ namespace Bookgen.Template.Properties {
                 return ResourceManager.GetString("TemplatePrint", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html prefix=&quot;og: http://ogp.me/ns#&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;title&gt;[title]&lt;/title&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+        ///    [metadata]
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css&quot;&gt;
+        ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://use.fontawesome.com/releases/v5.7.0/css/all.css&quot; integrity=&quot;sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ&quot; crossorigin=&quot;anonymous [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string TemplateWeb {
+            get {
+                return ResourceManager.GetString("TemplateWeb", resourceCulture);
+            }
+        }
     }
 }

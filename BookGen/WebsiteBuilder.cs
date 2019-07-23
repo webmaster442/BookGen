@@ -13,9 +13,14 @@ namespace BookGen
 {
     internal class WebsiteBuilder : Generator
     {
+        private (string content, string targetPath)[] _templateAssets;
+
         public WebsiteBuilder(string workdir, Config configuration, ILog log, ShortCodeLoader loader) : base(workdir, configuration, log, loader)
         {
+            _templateAssets = new (string content, string targetPath)[0];
+
             AddStep(new GeneratorSteps.CreateOutputDirectory());
+            AddStep(new GeneratorSteps.ExtractTemplateAssets(_templateAssets));
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetWeb));
             AddStep(new GeneratorSteps.CopyImagesDirectory(true));
             AddStep(new GeneratorSteps.CreateToCForWebsite());
@@ -35,7 +40,17 @@ namespace BookGen
 
         protected override string ConfigureTemplate()
         {
-            return Resources.TemplateEpub;
+            if (!string.IsNullOrEmpty(Configuration.TargetWeb.TemplateFile))
+            {
+                _templateAssets = new (string content, string targetPath)[]
+                {
+                    (Resources.PrismCss, "Assets\\prism.css"),
+                    (Resources.PrismJs, "Assets\\prism.js"),
+                };
+                return Resources.TemplateWeb;
+
+            }
+            return Configuration.TargetWeb.TemplateFile;
         }
     }
 }

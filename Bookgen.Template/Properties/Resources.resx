@@ -133,4 +133,7 @@
   <data name="TemplatePrint" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\templateprint\templateprint.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
   </data>
+  <data name="TemplateWeb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\templateweb\templateweb.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

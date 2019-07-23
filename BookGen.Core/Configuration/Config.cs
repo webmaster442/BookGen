@@ -83,6 +83,9 @@ namespace BookGen.Core.Configuration
         {
             return new Config
             {
+                TargetWeb = BuildConfig.CreateDefault(),
+                TargetEpub = BuildConfig.CreateDefault(),
+                TargetPrint = BuildConfig.CreateDefault(),
                 TOCFile = "Path of table of contents",
                 Index = "Path of startup (index) file",
                 ImageDir = "Path to images directory",
