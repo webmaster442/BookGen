@@ -67,7 +67,6 @@ namespace BookGen.Gui.Renderering
                 Console.WriteLine("Windows 10 build 1511 is at least required for GUI");
                 Environment.Exit(-2);
             }
-            Console.WriteLine("\u001b[31mHello World!\u001b[0m");
         }
 
         public void Text(string text, 
