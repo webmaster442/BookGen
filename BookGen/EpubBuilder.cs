@@ -27,7 +27,7 @@ namespace BookGen
 
         protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)
         {
-            return workingDirectory.Combine(Configuration.TargetEpub.OutPutDirectory);
+            return workingDirectory.Combine(Settings.Configuration.TargetEpub.OutPutDirectory);
         }
 
         protected override string ConfigureTemplate()

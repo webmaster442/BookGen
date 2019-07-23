@@ -32,7 +32,7 @@ namespace BookGen.GeneratorSteps
 
             foreach (var page in pages)
             {
-                var reallink = $"{settings.Configruation.HostName}{page.Replace("\\", "/")}";
+                var reallink = $"{settings.Configuration.HostName}{page.Replace("\\", "/")}";
                 sitemap.Url.Add(CreateEntry(reallink));
                 log.Detail("Creating sitemap entry for: {0}", page);
             }

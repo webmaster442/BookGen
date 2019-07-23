@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Contracts;
@@ -13,19 +12,20 @@ namespace BookGen.GeneratorSteps
 {
     public class ExtractTemplateAssets : IGeneratorStep
     {
-        private readonly (string content, string targetPath)[] _assets;
-
-        public ExtractTemplateAssets(params (string content, string targetPath)[] assets)
-        {
-            _assets = assets;
-        }
+        public (string content, string targetPath)[] Assets { get; set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
-            foreach (var asset in _assets)
+            if (Assets == null)
             {
-                var output = settings.OutputDirectory.Combine(asset.targetPath);
-                output.WriteFile(asset.content);
+                log.Warning("External template used, skipping asset extract");
+                return;
+            }
+
+            foreach (var (content, targetPath) in Assets)
+            {
+                var output = settings.OutputDirectory.Combine(targetPath);
+                output.WriteFile(content);
             }
         }
     }

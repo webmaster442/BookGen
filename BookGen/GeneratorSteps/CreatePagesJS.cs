@@ -21,7 +21,7 @@ namespace BookGen.GeneratorSteps
             List<string> pages = new List<string>();
             foreach (var file in settings.TocContents.Files)
             {
-                pages.Add(settings.Configruation.HostName + Path.ChangeExtension(file, ".html"));
+                pages.Add(settings.Configuration.HostName + Path.ChangeExtension(file, ".html"));
             }
             FsPath target = settings.OutputDirectory.Combine("pages.js");
             target.WriteFile("var pages=" + JsonConvert.SerializeObject(pages) + ";");

@@ -30,7 +30,7 @@ namespace BookGen.Core.Markdown.Pipeline
 
         private static bool IsOffHostLink(LinkInline link)
         {
-            return !link.Url.StartsWith(RuntimeConfig.Configruation.HostName);
+            return !link.Url.StartsWith(RuntimeConfig.Configuration.HostName);
         }
 
         private static void PipelineOnDocumentProcessed(MarkdownDocument document)
@@ -38,7 +38,7 @@ namespace BookGen.Core.Markdown.Pipeline
             if (RuntimeConfig == null)
                 throw new InvalidOperationException("Settings not configured");
 
-            PipelineHelpers.ApplyStyles(RuntimeConfig.Configruation.TargetWeb,
+            PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetWeb,
                                         document);
 
             foreach (var node in document.Descendants())
@@ -53,7 +53,7 @@ namespace BookGen.Core.Markdown.Pipeline
                             link.Url = RuntimeConfig.InlineImgCache[inlinekey];
                         }
                     }
-                    else if (IsOffHostLink(link) && RuntimeConfig.Configruation.LinksOutSideOfHostOpenNewTab)
+                    else if (IsOffHostLink(link) && RuntimeConfig.Configuration.LinksOutSideOfHostOpenNewTab)
                     {
                         link.GetAttributes().AddProperty("target", "_blank");
                     }

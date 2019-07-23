@@ -20,7 +20,7 @@ namespace BookGen.GeneratorSteps
         public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating Index file...");
-            var input = settings.SourceDirectory.Combine(settings.Configruation.Index);
+            var input = settings.SourceDirectory.Combine(settings.Configuration.Index);
             var output = settings.OutputDirectory.Combine("index.html");
 
             Content.Content = MarkdownRenderers.Markdown2WebHTML(input.ReadFile(), settings);

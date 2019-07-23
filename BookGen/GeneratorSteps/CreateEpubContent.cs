@@ -26,8 +26,8 @@ namespace BookGen.GeneratorSteps
                 Version = "2.0",
                 Metadata = new Metadata
                 {
-                    Title = settings.Configruation.Metadata.Title,
-                    Creator = settings.Configruation.Metadata.Author,
+                    Title = settings.Configuration.Metadata.Title,
+                    Creator = settings.Configuration.Metadata.Author,
                     Identifier = new Identifier
                     {
                         Id = "bookid",
@@ -45,7 +45,7 @@ namespace BookGen.GeneratorSteps
                         new MetaOpf
                         {
                             Name = "cover",
-                            Content = settings.Configruation.Metadata.CoverImage
+                            Content = settings.Configuration.Metadata.CoverImage
                         }
                     }
                 },

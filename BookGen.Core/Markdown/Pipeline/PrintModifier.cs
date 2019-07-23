@@ -29,7 +29,7 @@ namespace BookGen.Core.Markdown.Pipeline
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
-            PipelineHelpers.ApplyStyles(RuntimeConfig.Configruation.TargetPrint, document);
+            PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetPrint, document);
 
             foreach (var node in document.Descendants())
             {
@@ -47,7 +47,7 @@ namespace BookGen.Core.Markdown.Pipeline
         private string RewiteToHostUrl(string url)
         {
             var parts = url.Replace("\\", "/").Split('/').ToList();
-            var imgdirIndex = parts.IndexOf(RuntimeConfig.Configruation.ImageDir);
+            var imgdirIndex = parts.IndexOf(RuntimeConfig.Configuration.ImageDir);
 
             return string.Join("/", parts.ToArray(), imgdirIndex, parts.Count - imgdirIndex);
         }

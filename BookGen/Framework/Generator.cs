@@ -20,29 +20,27 @@ namespace BookGen.Framework
         private readonly List<IGeneratorStep> _steps;
         private readonly ILog _log;
 
-        protected Config Configuration { get; }
-
         protected RuntimeSettings Settings { get; }
 
         protected Template Template { get; }
 
+        protected FsPath WorkDir { get; }
+
         protected Generator(string workdir, Config configuration, ILog log, ShortCodeLoader loader)
         {
-            Configuration = configuration;
-            var dir = new FsPath(workdir);
+            WorkDir = new FsPath(workdir);
             Settings = new RuntimeSettings
             {
-                SourceDirectory = dir,
-                OutputDirectory = ConfigureOutputDirectory(dir),
-                ImageDirectory = dir.Combine(configuration.ImageDir),
-                TocPath = dir.Combine(configuration.TOCFile),
-                Configruation = configuration,
-                TocContents = MarkdownUtils.ParseToc(dir.Combine(configuration.TOCFile).ReadFile()),
+                SourceDirectory = WorkDir,
+                ImageDirectory = WorkDir.Combine(configuration.ImageDir),
+                TocPath = WorkDir.Combine(configuration.TOCFile),
+                Configuration = configuration,
+                TocContents = MarkdownUtils.ParseToc(WorkDir.Combine(configuration.TOCFile).ReadFile()),
                 MetataCache = new Dictionary<string, string>(100),
                 InlineImgCache = new Dictionary<string, string>(100)
             };
             Template = new Template(configuration, new ShortCodeParser(loader.Imports));
-            Template.TemplateContent = ConfigureTemplate();
+
             _steps = new List<IGeneratorStep>();
             _log = log;
         }
@@ -72,6 +70,9 @@ namespace BookGen.Framework
 
         public TimeSpan Run()
         {
+            Settings.OutputDirectory = ConfigureOutputDirectory(WorkDir);
+            Template.TemplateContent = ConfigureTemplate();
+
             DateTime start = DateTime.Now;
             try
             {

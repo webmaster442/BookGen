@@ -28,7 +28,7 @@ namespace BookGen.Core.Markdown.Pipeline
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
-            PipelineHelpers.ApplyStyles(RuntimeConfig.Configruation.TargetEpub,
+            PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetEpub,
                                         document);
 
             foreach (var node in document.Descendants())

@@ -13,14 +13,14 @@ namespace BookGen
 {
     internal class WebsiteBuilder : Generator
     {
-        private (string content, string targetPath)[] _templateAssets;
+        private readonly GeneratorSteps.ExtractTemplateAssets _extractAssets;
 
         public WebsiteBuilder(string workdir, Config configuration, ILog log, ShortCodeLoader loader) : base(workdir, configuration, log, loader)
         {
-            _templateAssets = new (string content, string targetPath)[0];
+            _extractAssets = new GeneratorSteps.ExtractTemplateAssets();
 
             AddStep(new GeneratorSteps.CreateOutputDirectory());
-            AddStep(new GeneratorSteps.ExtractTemplateAssets(_templateAssets));
+            AddStep(_extractAssets);
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetWeb));
             AddStep(new GeneratorSteps.CopyImagesDirectory(true));
             AddStep(new GeneratorSteps.CreateToCForWebsite());
@@ -35,22 +35,21 @@ namespace BookGen
 
         protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)
         {
-            return workingDirectory.Combine(Configuration.TargetWeb.OutPutDirectory);
+            return workingDirectory.Combine(Settings.Configuration.TargetWeb.OutPutDirectory);
         }
 
         protected override string ConfigureTemplate()
         {
-            if (string.IsNullOrEmpty(Configuration.TargetWeb.TemplateFile))
+            if (string.IsNullOrEmpty(Settings.Configuration.TargetWeb.TemplateFile))
             {
-                _templateAssets = new (string content, string targetPath)[]
+                _extractAssets.Assets = new (string content, string targetPath)[]
                 {
                     (Resources.PrismCss, "Assets\\prism.css"),
                     (Resources.PrismJs, "Assets\\prism.js"),
                 };
                 return Resources.TemplateWeb;
-
             }
-            return Configuration.TargetWeb.TemplateFile;
+            return Settings.Configuration.TargetWeb.TemplateFile;
         }
     }
 }

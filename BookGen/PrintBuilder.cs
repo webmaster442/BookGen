@@ -23,7 +23,7 @@ namespace BookGen
 
         protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)
         {
-            return workingDirectory.Combine(Configuration.TargetPrint.OutPutDirectory);
+            return workingDirectory.Combine(Settings.Configuration.TargetPrint.OutPutDirectory);
         }
 
         protected override string ConfigureTemplate()

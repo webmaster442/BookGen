@@ -25,7 +25,7 @@ namespace BookGen.GeneratorSteps
                 toc.Append("<ul>");
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
-                    toc.AppendFormat("<li><a href=\"{0}\">{1}</a></li>", link.GetLinkOnHost(settings.Configruation.HostName), link.DisplayString);
+                    toc.AppendFormat("<li><a href=\"{0}\">{1}</a></li>", link.GetLinkOnHost(settings.Configuration.HostName), link.DisplayString);
                 }
                 toc.Append("</ul>");
                 toc.Append("</details>");
