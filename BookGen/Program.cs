@@ -71,7 +71,7 @@ namespace BookGen
                 if (options.GuiReqested)
                 {
                     Runner = new GeneratorRunner(Consolelog, options.WorkingDirectory);
-                    ConsoleGui ui = new ConsoleGui(Runner);
+                    var ui = new ConsoleMenu(Runner);
                     ui.Run();
                 }
                 else
@@ -124,7 +124,7 @@ namespace BookGen
             }
             catch (Exception ex)
             {
-                ConsoleGui.ShouldRun = false;
+                ConsoleMenu.ShouldRun = false;
 
                 Console.Clear();
                 ShowMessageBox("Unhandled exception\r\n{0}", ex);

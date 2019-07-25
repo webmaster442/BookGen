@@ -11,7 +11,7 @@ namespace BookGen.Gui.Elements
     {
         public string Text { get; set; }
 
-        public override void Render(Renderer target)
+        public override void Render(ITerminalRenderer target)
         {
             target.Text(Text, Foreground, Background, TextFormat.Default);
         }

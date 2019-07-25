@@ -12,11 +12,11 @@ namespace BookGen.Gui.Elements
     {
         public Action Action { get; set; }
         public string Content { get; set; }
-        public ConsoleKey ActivatorKey { get; set; }
+        public int Entry { get; set; }
 
-        public override void Render(Renderer target)
+        public override void Render(ITerminalRenderer target)
         {
-            string activatorkey = ActivatorKey.ToString().PadRight(8);
+            string activatorkey = $"{Entry}.".PadRight(4);
 
             target.Text("   {0}", Color.Green, Background, TextFormat.BoldBright, activatorkey);
             target.Text(" : {0}", Foreground, Background, TextFormat.Default, Content);

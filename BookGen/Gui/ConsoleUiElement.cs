@@ -19,6 +19,6 @@ namespace BookGen.Gui
             Foreground = Color.White;
         }
 
-        public abstract void Render(Renderer target);
+        public abstract void Render(ITerminalRenderer target);
     }
 }
