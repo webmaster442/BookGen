@@ -44,5 +44,12 @@ namespace BookGen.Tests
             var result = _sut.Parse("[Arguments parameter=\"success\"]");
             Assert.AreEqual("success", result);
         }
+
+        [Test]
+        public void EnshureThat_ShortCodeParser_Parse_Works_ForFilePath()
+        {
+            var result = _sut.Parse("[Arguments parameter=\"c:\\asd folder\foo.txt\"]");
+            Assert.AreEqual("c:\\asd folder\foo.txt", result);
+        }
     }
 }

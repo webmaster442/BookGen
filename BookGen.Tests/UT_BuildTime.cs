@@ -29,7 +29,7 @@ namespace BookGen.Tests
         {
             var sut = new BuildTime();
 
-            var expected = nameof(BuildTime);
+            const string expected = nameof(BuildTime);
 
             Assert.AreEqual(expected, sut.Tag);
         }

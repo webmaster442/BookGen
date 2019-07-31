@@ -16,4 +16,10 @@
     <ProjectReference Include="..\BookGen\BookGen.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Environment\TestFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
