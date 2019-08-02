@@ -13,7 +13,7 @@ namespace BookGen
 {
     internal class PrintBuilder : Generator
     {
-        public PrintBuilder(string workdir, Config configuration, ILog log, ShortCodeLoader loader) : base(workdir, configuration, log, loader)
+        public PrintBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetPrint));

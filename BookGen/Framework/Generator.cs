@@ -26,7 +26,9 @@ namespace BookGen.Framework
 
         protected FsPath WorkDir { get; }
 
-        protected Generator(string workdir, Config configuration, ILog log, ShortCodeLoader loader)
+        protected readonly ShortCodeLoader _loader;
+
+        protected Generator(string workdir, Config configuration, ILog log)
         {
             WorkDir = new FsPath(workdir);
             Settings = new RuntimeSettings
@@ -39,7 +41,11 @@ namespace BookGen.Framework
                 MetataCache = new Dictionary<string, string>(100),
                 InlineImgCache = new Dictionary<string, string>(100)
             };
-            Template = new Template(configuration, new ShortCodeParser(loader.Imports));
+
+            _loader = new ShortCodeLoader(log, Settings);
+            _loader.LoadAll();
+
+            Template = new Template(configuration, new ShortCodeParser(_loader.Imports));
 
             _steps = new List<IGeneratorStep>();
             _log = log;

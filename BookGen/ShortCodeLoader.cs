@@ -15,17 +15,26 @@ namespace BookGen
     public class ShortCodeLoader
     {
         [ImportMany]
-        public List<ITemplateShortCode> Imports { get; private set; }
+        public List<ITemplateShortCode> Imports { get; }
 
+        [Export(typeof(ILog))]
         private readonly ILog _log;
+
+        [Export(typeof(IReadonlyRuntimeSettings))]
+        private readonly IReadonlyRuntimeSettings _settings;
+
+
         private readonly CompositionContainer _container;
 
-        public ShortCodeLoader(ILog log)
+        public ShortCodeLoader(ILog log, IReadonlyRuntimeSettings settings)
         {
+            _log = log;
+            _settings = settings;
+
             var catalog = new AggregateCatalog();
+            catalog.Catalogs.Add(new TypeCatalog(typeof(ILog), typeof(IReadonlyRuntimeSettings)));
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(DelegateShortCode).Assembly));
             Imports = new List<ITemplateShortCode>();
-            _log = log;
             _container = new CompositionContainer(catalog);
         }
 
@@ -34,6 +43,7 @@ namespace BookGen
             try
             {
                 _container.ComposeParts(this);
+                _container.SatisfyImportsOnce(this);
             }
             catch (Exception ex)
             {

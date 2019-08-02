@@ -9,9 +9,9 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BookGen.Framework
+namespace BookGen.Core
 {
-    internal static class SriGenerator
+    public static class SriGenerator
     {
         public static string GetSRI(string content)
         {
