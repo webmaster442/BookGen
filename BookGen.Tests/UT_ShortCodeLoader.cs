@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template.ShortCodeImplementations;
-using BookGen.Core.Configuration;
 using BookGen.Framework;
 using BookGen.Tests.Environment;
 using NUnit.Framework;
@@ -21,7 +20,7 @@ namespace BookGen.Tests
         public void Setup()
         {
             var log = new ConsoleLog();
-            _sut = new ShortCodeLoader(log, TestEnvironment.GetMockedSettings().Object);
+            _sut = new ShortCodeLoader(log, TestEnvironment.GetMockedSettings());
             _sut.LoadAll();
         }
 

@@ -41,7 +41,7 @@ namespace Bookgen.Template.ShortCodeImplementations
             }
             else if (path.Extension == ".css")
             {
-                return $"<link rel=\"stylesheet\" href=\"{file}\" integrity=\"{sri}\" crossorigin=\"anonymous\"";
+                return $"<link rel=\"stylesheet\" href=\"{file}\" integrity=\"{sri}\" crossorigin=\"anonymous\"/>";
             }
             else
             {

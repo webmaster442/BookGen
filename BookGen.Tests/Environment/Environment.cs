@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
+using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using Moq;
 using System;
@@ -17,14 +19,28 @@ namespace BookGen.Tests.Environment
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Environment", file);
         }
 
-        public static Mock<ILog> GetMockedLog()
+        public static string GetTestFolder()
         {
-            return new Mock<ILog>();
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Environment");
         }
 
-        public static Mock<IReadonlyRuntimeSettings> GetMockedSettings()
+        public static ILog GetMockedLog()
         {
-            return new Mock<IReadonlyRuntimeSettings>();
+            var mock = new Mock<ILog>();
+
+            return mock.Object;
+        }
+
+        public static IReadonlyRuntimeSettings GetMockedSettings()
+        {
+            var testConfig = Config.CreateDefault();
+            testConfig.HostName = "http://test.com/";
+
+            var mock = new Mock<IReadonlyRuntimeSettings>();
+            mock.SetupGet(m => m.Configuration).Returns(testConfig);
+            mock.SetupGet(m => m.OutputDirectory).Returns(new FsPath(GetTestFolder()));
+
+            return mock.Object;
         }
     }
 }

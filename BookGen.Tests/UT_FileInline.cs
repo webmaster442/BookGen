@@ -17,7 +17,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_InlineFile_ReturnsCorrectString()
         {
-            var sut = new InlineFile(TestEnvironment.GetMockedLog().Object);
+            var sut = new InlineFile(TestEnvironment.GetMockedLog());
             var arguments = new Dictionary<string, string>
             {
                 { "File", TestEnvironment.GetFile("TestFile.txt") }
@@ -29,7 +29,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_InlineFile_Tag_MatchesClassName()
         {
-            var sut = new InlineFile(TestEnvironment.GetMockedLog().Object);
+            var sut = new InlineFile(TestEnvironment.GetMockedLog());
 
             const string expected = nameof(InlineFile);
 
