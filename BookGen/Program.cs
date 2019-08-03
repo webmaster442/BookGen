@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Core.Contracts;
 using BookGen.Framework;
 using BookGen.Gui;
 using System;
@@ -28,6 +29,7 @@ namespace BookGen
                 WorkingDirectory = Environment.CurrentDirectory,
                 GuiReqested = false,
                 ShowHelp = true,
+                VerboseLog = false,
                 Action = null
             };
 
@@ -44,6 +46,13 @@ namespace BookGen
             {
                 parsed.ShowHelp = false;
                 parsed.GuiReqested = true;
+            }
+
+            var verbose = arguments.GetArgument("v", "verbose");
+
+            if (verbose?.HasSwitch == true)
+            {
+                parsed.VerboseLog = true;
             }
 
             var action = arguments.GetArgument("a", "action");
@@ -65,8 +74,14 @@ namespace BookGen
         {
             try
             {
+                LogLevel logLevel = LogLevel.Info;
+
                 ParsedOptions options = ParseOptions(args);
-                var Consolelog = new ConsoleLog();
+
+                if (options.VerboseLog)
+                    logLevel = LogLevel.Detail;
+
+                var Consolelog = new ConsoleLog(logLevel);
 
                 if (options.GuiReqested)
                 {

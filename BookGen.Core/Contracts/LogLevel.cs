@@ -7,9 +7,9 @@ namespace BookGen.Core.Contracts
 {
     public enum LogLevel
     {
-        Warning,
-        Critical,
-        Info,
-        Detail
+        Critical = 0,
+        Warning = 1,
+        Info = 2,
+        Detail = 3
     }
 }

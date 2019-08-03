@@ -21,6 +21,7 @@ namespace BookGen
         public ActionType? Action { get; set; }
         public bool GuiReqested { get; set; }
         public bool ShowHelp { get; set; }
+        public bool VerboseLog { get; set; }
         public string WorkingDirectory { get; set; }
     }
 }
