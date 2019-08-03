@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template.Properties;
+using Bookgen.Template;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
@@ -32,7 +32,7 @@ namespace BookGen
 
         protected override string ConfigureTemplate()
         {
-            return Resources.TemplateEpub;
+            return BuiltInTemplates.Epub;
         }
     }
 }

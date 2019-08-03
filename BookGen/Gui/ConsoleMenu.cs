@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
 using BookGen.Gui.Elements;
 using System;
 
@@ -21,7 +22,7 @@ namespace BookGen.Gui
             {
                 new TextBlock
                 {
-                    Text = Properties.Resources.Splash
+                    Text = ResourceLocator.GetResourceFile<ConsoleMenu>("Resources/Splash.txt")
                 },
                 new TextBlock
                 {
@@ -95,7 +96,7 @@ namespace BookGen.Gui
 
         private void UsageInfo()
         {
-            Console.WriteLine(Properties.Resources.Help);
+            Console.WriteLine(ResourceLocator.GetResourceFile<ConsoleMenu>("Resources/Help.txt"));
             Renderer.PressKeyContinue();
         }
 

@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template.Properties;
+using Bookgen.Template;
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Configuration;
@@ -70,7 +70,7 @@ namespace BookGen.GeneratorSteps
                 options.NoResults
             };
 
-            var result = ReplaceTags(Resources.Searchform, replacements);
+            var result = ReplaceTags(BuiltInTemplates.Searchform, replacements);
             _buffer.Append(result);
         }
 

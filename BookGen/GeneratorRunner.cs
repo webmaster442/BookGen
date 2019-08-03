@@ -40,7 +40,9 @@ namespace BookGen
 
         public void RunHelp()
         {
-            _log.Info(Properties.Resources.Help);
+            var help = ResourceLocator.GetResourceFile<GeneratorRunner>("Resources/Help.txt");
+
+            _log.Info(help);
 #if DEBUG
             Program.ShowMessageBox("Press a key to continue");
 #endif

@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template.Properties;
+using Bookgen.Template;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
@@ -44,10 +44,10 @@ namespace BookGen
             {
                 _extractAssets.Assets = new (string content, string targetPath)[]
                 {
-                    (Resources.PrismCss, "Assets\\prism.css"),
-                    (Resources.PrismJs, "Assets\\prism.js"),
+                    (BuiltInTemplates.AssetPrismCss, "Assets\\prism.css"),
+                    (BuiltInTemplates.AssetPrismJs, "Assets\\prism.js"),
                 };
-                return Resources.TemplateWeb;
+                return BuiltInTemplates.TemplateWeb;
             }
             return Settings.Configuration.TargetWeb.TemplateFile;
         }

@@ -3,11 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Template;
+using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework;
-using Bookgen.Template.Properties;
-using BookGen.Core;
 
 namespace BookGen
 {
@@ -28,7 +28,7 @@ namespace BookGen
 
         protected override string ConfigureTemplate()
         {
-            return Resources.TemplatePrint;
+            return BuiltInTemplates.Print;
         }
     }
 }
