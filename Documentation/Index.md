@@ -1,4 +1,4 @@
-#BookGen Documentation
+# BookGen Documentation
 
 * [Workflow](Workflow.md)
 * [Command line options](CommandLine.md)

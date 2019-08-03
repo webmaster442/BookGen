@@ -17,7 +17,7 @@ Features:
 
 ## Documentation
 
-The Documentation  of the program can be found [here](Documentation/index.md);
+The Documentation  of the program can be found [here](https://github.com/webmaster442/BookGen/blob/dotnetcore/Documentation/Index.md)
 
 ---
 Icon source: https://icons8.com/
