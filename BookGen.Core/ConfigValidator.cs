@@ -32,6 +32,12 @@ namespace BookGen.Core
 
         private void ValidateBuildConfig(FsPath WorkDirectory, BuildConfig target)
         {
+            if (target == null)
+            {
+                AddError(Resources.MissingSection);
+                return;
+            }
+
             if (!string.IsNullOrEmpty(target.TemplateFile)
                 && !WorkDirectory.Combine(target.TemplateFile).IsExisting)
             {

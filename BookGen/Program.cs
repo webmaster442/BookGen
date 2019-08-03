@@ -15,11 +15,15 @@ namespace BookGen
     internal static class Program
     {
         internal static GeneratorRunner Runner { get; private set; }
+        internal static bool IsInGuiMode { get; private set; }
 
         public static void ShowMessageBox(string text, params object[] args)
         {
             Console.WriteLine(text, args);
-            Console.ReadKey();
+            if (!IsInGuiMode)
+            {
+                Console.ReadKey();
+            }
         }
 
         private static ParsedOptions ParseOptions(string[] args)
@@ -46,6 +50,7 @@ namespace BookGen
             {
                 parsed.ShowHelp = false;
                 parsed.GuiReqested = true;
+                IsInGuiMode = true;
             }
 
             var verbose = arguments.GetArgument("v", "verbose");
@@ -74,6 +79,7 @@ namespace BookGen
         {
             try
             {
+                IsInGuiMode = false;
                 LogLevel logLevel = LogLevel.Info;
 
                 ParsedOptions options = ParseOptions(args);

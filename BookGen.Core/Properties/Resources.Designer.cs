@@ -142,6 +142,15 @@ namespace BookGen.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Corrucpt Configuration File. Please create a new one.
+        /// </summary>
+        internal static string MissingSection {
+            get {
+                return ResourceManager.GetString("MissingSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Style class definitions can&apos;t be found. Possibly corrupted config?.
         /// </summary>
         internal static string MissingStyleClasses {

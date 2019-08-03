@@ -144,6 +144,9 @@
   <data name="MissingSearchOptionsText" xml:space="preserve">
     <value>Search option texts can't be empty. One or more settings have emty values</value>
   </data>
+  <data name="MissingSection" xml:space="preserve">
+    <value>Corrucpt Configuration File. Please create a new one</value>
+  </data>
   <data name="MissingStyleClasses" xml:space="preserve">
     <value>Style class definitions can't be found. Possibly corrupted config?</value>
   </data>

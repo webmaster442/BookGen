@@ -51,10 +51,10 @@ namespace BookGen
         public bool Initialize()
         {
             Version version = GetVersion();
-            _log.Info("---------------------------------------------------------\n\n");
+            _log.Info("---------------------------------------------------------");
             _log.Info("BookGen V{0} Starting...", version);
             _log.Info("Working directory: {0}", WorkDirectory);
-            _log.Info("---------------------------------------------------------\n\n");
+            _log.Info("---------------------------------------------------------");
             int cfgVersion = (version.Major * 100) + version.Minor;
 
             if (!_config.IsExisting)
