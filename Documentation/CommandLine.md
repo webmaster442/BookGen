@@ -1,4 +1,4 @@
-## Usage
+# Command line options
 
 ```bash
 	BookGen -a, --action [action] -d, --dir [directory]
@@ -10,6 +10,7 @@
 ```-a, --action```  - Specify build action
 ```-g, --gui``` - Start in GUI mode.
 ```-d, --dir``` - Specify working directory
+```-v, --verbose``` - 
     
 Supported Actions:
 

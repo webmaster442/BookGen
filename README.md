@@ -10,31 +10,14 @@ Features:
 * Single bookgen.json configuration (if run without args, creates default config)
 * Customizeable
 
-## Template tags:
+## Development Requirements
 
-**[[Content]]**
+* Visual Studio 2019 or Visual Studio Core configured for .NET Core Development
+* .NET Core 2.2 SDK
 
-Will be replaced with rendered HTML
+## Documentation
 
-**[[Title]]**
-
-Page title, first heading content will be rendered here from the document.
-
-**[[TableOfContents]]**
-
-Table of contents file contents will be rendered here.
-
-**[[HostUrl]]**
-
-The server Host address. Can be used to include pages & stuff
-
-**[[AssetsUrl]]**
-
-Assets directory for templates. Can be used to include pages & stuff
-
-**[[BuildTime]]**
-
-Inserts the current build timestamp
+The Documentation  of the program can be found [here](Documentation/index.md);
 
 ---
 Icon source: https://icons8.com/
