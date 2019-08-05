@@ -9,38 +9,45 @@ namespace BookGen.Gui.Renderering
 {
     internal class DumbRenderer : ITerminalRenderer
     {
+        /// <inheritdoc/>
         public void Clear()
         {
             Console.Clear();
         }
 
+        /// <inheritdoc/>
         public void DisplayError(string msg)
         {
             Console.WriteLine(msg);
         }
 
+        /// <inheritdoc/>
         public void NewLine()
         {
             Console.WriteLine();
         }
 
+        /// <inheritdoc/>
         public void PressKeyContinue()
         {
             Console.WriteLine("Press ENTER to continue...");
             Console.ReadLine();
         }
 
+        /// <inheritdoc/>
         public void SetWindowTitle(string title)
         {
             //Not implemented
         }
 
+        /// <inheritdoc/>
         public void Text(string text, Color foreground, Color background, TextFormat format, params object[] arguments)
         {
             Console.Write(text, arguments);
         }
 
-        public int GetInputChoice()
+        /// <inheritdoc/>
+        public int? GetInputChoice()
         {
             Console.Write("\r\nEnter Choice: ");
             var str = Console.ReadLine();
@@ -48,7 +55,14 @@ namespace BookGen.Gui.Renderering
             {
                 return value;
             }
-            return -1;
+            return null;
+        }
+
+        /// <inheritdoc/>
+        public char ReadChar()
+        {
+            int value = Console.Read();
+            return Convert.ToChar(value);
         }
     }
 }

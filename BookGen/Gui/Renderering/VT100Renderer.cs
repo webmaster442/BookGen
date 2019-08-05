@@ -17,18 +17,21 @@ namespace BookGen.Gui.Renderering
         private const string TitleFormat = ESC + "]2;{0}" + BEL; //ESC ] 2 ; <string> BEL
         private const string ClearFormat = ESC + "[2J" + ESC + "[;H";
 
+        /// <inheritdoc/>
         public void Clear()
         {
             Console.Write(ClearFormat);
         }
 
+        /// <inheritdoc/>
         public void DisplayError(string msg)
         {
             Text(msg, Color.Red, Color.Black, TextFormat.BoldBright);
             Text("", Color.White, Color.Black, TextFormat.Default);
         }
 
-        public int GetInputChoice()
+        /// <inheritdoc/>
+        public int? GetInputChoice()
         {
             Text("\r\nEnter Choice", Color.Red, Color.Black, TextFormat.BoldBright);
             Text(": ", Color.White, Color.Black, TextFormat.Default);
@@ -37,14 +40,23 @@ namespace BookGen.Gui.Renderering
             {
                 return value;
             }
-            return -1;
+            return null;
         }
 
+        /// <inheritdoc/>
+        public char ReadChar()
+        {
+            int value = Console.Read();
+            return Convert.ToChar(value);
+        }
+
+        /// <inheritdoc/>
         public void NewLine()
         {
             Console.Write("\r\n");
         }
 
+        /// <inheritdoc/>
         public void PressKeyContinue()
         {
             Text("Press ENTER to continue...", Color.Green, Color.Black, TextFormat.BoldBright);
@@ -52,11 +64,13 @@ namespace BookGen.Gui.Renderering
             Console.ReadLine();
         }
 
+        /// <inheritdoc/>
         public void SetWindowTitle(string title)
         {
             Console.WriteLine(TitleFormat, title);
         }
 
+        /// <inheritdoc/>
         public void Text(string text,
                          Color foreground,
                          Color background,

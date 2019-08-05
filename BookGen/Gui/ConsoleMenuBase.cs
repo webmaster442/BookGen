@@ -1,22 +1,22 @@
-﻿using BookGen.Gui.Renderering;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
 using BookGen.Gui.Elements;
+using BookGen.Gui.Renderering;
+using System.Collections.Generic;
 
 namespace BookGen.Gui
 {
     internal abstract class ConsoleMenuBase
     {
-        private bool DoRenderWarCalled = false;
-
         protected ITerminalRenderer Renderer { get; }
         protected GeneratorRunner Runner { get; }
 
         public static bool ShouldRun { get; set; }
 
-        private readonly List<ConsoleUiElement> Elements;
+        protected List<ConsoleUiElement> Elements { get; private set; }
 
         public abstract ConsoleUiElement[] CreateElements();
 
@@ -25,24 +25,14 @@ namespace BookGen.Gui
             ShouldRun = true;
             Renderer = NativeWrapper.GetRenderer();
             Runner = runner;
-            Elements = new List<ConsoleUiElement>(CreateElements());
-            Elements.Add(new TextBlock
-            {
-                Text = "\r\nExit program\r\n"
-            });
-            Elements.Add(new Button
-            {
-                Action = () => Environment.Exit(0),
-                Content = "Exit program"
-            });
         }
 
-        private void DoRender()
+        protected void DoRender()
         {
-            if (!DoRenderWarCalled)
+            if (Elements == null)
             {
+                Elements = new List<ConsoleUiElement>(CreateElements());
                 ReindexButtonsInElements();
-                DoRenderWarCalled = true;
             }
             Renderer.Clear();
             foreach (var uiElement in Elements)
@@ -56,8 +46,7 @@ namespace BookGen.Gui
             int btnEntry = 1;
             foreach (var element in Elements)
             {
-                var button = element as Button;
-                if (button != null)
+                if (element is Button button)
                 {
                     button.Entry = btnEntry;
                     ++btnEntry;
@@ -65,33 +54,9 @@ namespace BookGen.Gui
             }
         }
 
-        public void Run()
+        public virtual void Run()
         {
-            DoRender();
-            while (ShouldRun)
-            {
-                int index = Renderer.GetInputChoice();
-
-                var actionToDo = (from item in Elements
-                                  where
-                                     item is Button b
-                                     && b.Entry == index
-                                  select
-                                     item as Button).FirstOrDefault();
-
-                if (actionToDo == null)
-                {
-                    DoRender();
-                    Renderer.DisplayError($"\rUnrecognised item: {index}\r\n");
-
-                }
-                else
-                {
-                    actionToDo.Action();
-                    Renderer.PressKeyContinue();
-                    DoRender();
-                }
-            }
+            //Base method
         }
     }
 }
