@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Ruzsinszki Gábor</Authors>
+    <Company>Ruzsinszki Gábor</Company>
+    <Product>BookGen</Product>
+    <Description>BookGen default template files &amp; template processor</Description>
+    <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
+    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
+    <AssemblyVersion>1.8.0.0</AssemblyVersion>
+    <FileVersion>1.8.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -2,11 +2,19 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyTitle>BookGen.Core</AssemblyTitle>
-    <Product>BookGen.Core</Product>
-    <Copyright>Copyright ©  2019</Copyright>
+    <Product>BookGen</Product>
+    <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <Authors>Ruzsinszki Gábor</Authors>
+    <Company />
+    <Description>BookGen common classes</Description>
+    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
+    <AssemblyVersion>1.8.0.0</AssemblyVersion>
+    <FileVersion>1.8.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />

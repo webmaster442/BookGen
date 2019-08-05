@@ -23,7 +23,7 @@
     <Company>Ruzsinszki Gábor</Company>
     <Product>BookGen</Product>
     <Description>A static Markdown book generator</Description>
-    <Copyright>Copyright ©  2019</Copyright>
+    <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
     <AssemblyVersion>1.8.0.0</AssemblyVersion>
     <FileVersion>1.8.0.0</FileVersion>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
@@ -33,6 +33,11 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <SonarQubeTestProject>False</SonarQubeTestProject>
+    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
+    <PackageTags>Book; Markdown</PackageTags>
+    <Authors>Ruzsinszki Gábor</Authors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="DefaultTemplate\**" />
