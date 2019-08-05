@@ -6,25 +6,39 @@
 using BookGen.Gui.Elements;
 using BookGen.Gui.Renderering;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BookGen.Gui
 {
     internal abstract class ConsoleMenuBase
     {
         protected ITerminalRenderer Renderer { get; }
-        protected GeneratorRunner Runner { get; }
 
-        public static bool ShouldRun { get; set; }
+        public bool ShouldRun { get; set; }
 
         protected List<ConsoleUiElement> Elements { get; private set; }
 
-        public abstract ConsoleUiElement[] CreateElements();
+        public abstract IEnumerable<ConsoleUiElement> CreateElements();
 
-        protected ConsoleMenuBase(GeneratorRunner runner)
+        protected ConsoleMenuBase()
         {
             ShouldRun = true;
             Renderer = NativeWrapper.GetRenderer();
-            Runner = runner;
+        }
+
+        protected ConsoleUiElement FindElement(string name)
+        {
+            return Elements.FirstOrDefault(element => element.Name == name);
+        }
+
+        protected T FindElement<T>(string name) where T : ConsoleUiElement
+        {
+            var item = FindElement(name);
+
+            if (item == null)
+                return null;
+
+            return (T)item;
         }
 
         protected void DoRender()
@@ -54,9 +68,15 @@ namespace BookGen.Gui
             }
         }
 
-        public virtual void Run()
+        public void Run()
         {
-            //Base method
+            DoRender();
+            while (ShouldRun)
+            {
+                ProcessInputs();
+            }
         }
+
+        protected abstract void ProcessInputs();
     }
 }

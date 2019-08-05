@@ -13,10 +13,13 @@ namespace BookGen.Gui
 
         public Color Foreground { get; set; }
 
+        public string Name { get; set; }
+
         protected ConsoleUiElement()
         {
             Background = Color.Black;
             Foreground = Color.White;
+            Name = string.Empty;
         }
 
         public abstract void Render(ITerminalRenderer target);

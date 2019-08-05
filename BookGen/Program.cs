@@ -16,6 +16,7 @@ namespace BookGen
     {
         internal static GeneratorRunner Runner { get; private set; }
         internal static bool IsInGuiMode { get; private set; }
+        internal static ConsoleMenu UI { get; private set; }
 
         public static void ShowMessageBox(string text, params object[] args)
         {
@@ -92,8 +93,8 @@ namespace BookGen
                 if (options.GuiReqested)
                 {
                     Runner = new GeneratorRunner(Consolelog, options.WorkingDirectory);
-                    var ui = new ConsoleMenu(Runner);
-                    ui.Run();
+                    UI = new ConsoleMenu(Runner);
+                    UI.Run();
                 }
                 else
                 {
@@ -125,8 +126,8 @@ namespace BookGen
                                 Runner.DoPrint();
                             }
                             break;
-                        case ParsedOptions.ActionType.CreateConfig:
-                            Runner.DoCreateConfig();
+                        case ParsedOptions.ActionType.Initialize:
+                            Runner.DoInteractiveInitialize();
                             break;
                         case ParsedOptions.ActionType.ValidateConfig:
                             Runner.Initialize();
@@ -145,7 +146,7 @@ namespace BookGen
             }
             catch (Exception ex)
             {
-                ConsoleMenu.ShouldRun = false;
+                UI.ShouldRun = false;
 
                 Console.Clear();
                 ShowMessageBox("Unhandled exception\r\n{0}", ex);

@@ -14,7 +14,7 @@ namespace BookGen
             BuildWeb,
             BuildEpub,
             Clean,
-            CreateConfig,
+            Initialize,
             ValidateConfig,
         }
 

@@ -8,12 +8,12 @@ using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
+using BookGen.Gui;
 using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace BookGen
@@ -21,10 +21,12 @@ namespace BookGen
     internal class GeneratorRunner
     {
         private readonly ILog _log;
-        private readonly FsPath _config;
+
         private const string exitString = "Press a key to exit...";
 
         public Config Configuration { get; private set; }
+
+        public FsPath ConfigFile { get; private set; }
 
         public string WorkDirectory
         {
@@ -35,7 +37,13 @@ namespace BookGen
         {
             _log = log;
             WorkDirectory = workDir;
-            _config = new FsPath(WorkDirectory, "bookgen.json");
+            ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
+        }
+
+        internal void DoInteractiveInitialize()
+        {
+            var menu = new InteractiveInitializer(_log, new FsPath(WorkDirectory));
+            menu.Run();
         }
 
         public void RunHelp()
@@ -59,14 +67,14 @@ namespace BookGen
             _log.Info("---------------------------------------------------------");
             int cfgVersion = (version.Major * 100) + version.Minor;
 
-            if (!_config.IsExisting)
+            if (!ConfigFile.IsExisting)
             {
                 _log.Info("No bookgen.json config found.");
                 Program.ShowMessageBox(exitString);
                 return false;
             }
 
-            var cfgstring = _config.ReadFile();
+            var cfgstring = ConfigFile.ReadFile();
 
             _log.Detail("Configuration content: {0}", cfgstring);
 
@@ -75,7 +83,7 @@ namespace BookGen
             if (Configuration.Version < cfgVersion)
             {
                 Configuration.UpgradeTo(cfgVersion);
-                WriteConfig(_config, Configuration);
+                WriteConfig(ConfigFile, Configuration);
                 _log.Info("Configuration file migrated to new version.");
                 _log.Info("Review configuration then run program again");
                 Program.ShowMessageBox(exitString);
@@ -143,12 +151,6 @@ namespace BookGen
         #endregion
 
         #region Argument handlers
-
-        public void DoCreateConfig()
-        {
-            _log.Info("Creating default config file: {0}", _config.ToString());
-            WriteConfig(_config, Config.CreateDefault());
-        }
 
         public void DoBuild()
         {
