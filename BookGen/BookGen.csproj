@@ -62,4 +62,12 @@
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
     <ProjectReference Include="..\Bookgen.Template\Bookgen.Template.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="BookGen">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BookGen.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
