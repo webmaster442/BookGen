@@ -12,7 +12,9 @@ namespace BookGen.Gui
 {
     internal class InteractiveInitializer : ConsoleMenuBase
     {
-        const string CreateConfig = "CreateConfig";
+        private const string CreateConfig = "CreateConfig";
+        private const string CreateMdFiles = "CreateMdFiles";
+        private const string CreateTemplates = "CreateTemplates";
 
         private readonly ILog _log;
         private readonly FsPath _configFile;
@@ -42,6 +44,16 @@ namespace BookGen.Gui
             {
                 yield return new BoolInput
                 {
+                    Name = CreateMdFiles,
+                    Content = "Create summary.md and index.md files?"
+                };
+                yield return new BoolInput
+                {
+                    Name = CreateTemplates,
+                    Content = "Extract templates for customization?"
+                };
+                yield return new BoolInput
+                {
                     Name = CreateConfig,
                     Content = "Create Default configuration file?"
                 };
@@ -50,9 +62,21 @@ namespace BookGen.Gui
 
         protected override void ProcessInputs()
         {
+            bool extractedTemlate =false;
+            bool createdmdfiles = false;
+            if (FindElement<BoolInput>(CreateMdFiles)?.Value == true)
+            {
+                InitializerMethods.DoCreateMdFiles(_log, _workDir);
+                createdmdfiles = true;
+            }
+            if (FindElement<BoolInput>(CreateTemplates)?.Value == true)
+            {
+                InitializerMethods.ExtractTemplates(_log, _workDir);
+                extractedTemlate = true;
+            }
             if (FindElement<BoolInput>(CreateConfig)?.Value == true)
             {
-                InitializerMethods.DoCreateConfig(_log, _configFile);
+                InitializerMethods.DoCreateConfig(_log, _configFile, createdmdfiles, extractedTemlate);
             }
             ShouldRun = false;
         }

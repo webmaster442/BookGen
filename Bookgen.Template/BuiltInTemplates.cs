@@ -7,8 +7,20 @@ using BookGen.Core;
 
 namespace Bookgen.Template
 {
-    public abstract class BuiltInTemplates
+    public sealed class BuiltInTemplates
     {
+        private BuiltInTemplates() {}
+
+        public static string IndexMd
+        {
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplateMarkdown/index.md"); }
+        }
+
+        public static string SummaryMd
+        {
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplateMarkdown/summary.md"); }
+        }
+
         public static string Epub
         {
             get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplateEpub/TemplateEpub.html"); }

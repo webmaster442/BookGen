@@ -23,6 +23,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TemplateMarkdown\index.md" />
+    <None Remove="TemplateMarkdown\summary.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateMarkdown\index.md" />
+    <EmbeddedResource Include="TemplateMarkdown\summary.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.ComponentModel.Composition" Version="4.5.0" />
   </ItemGroup>
 
