@@ -64,6 +64,17 @@
     <EmbeddedResource Include="Resources\Splash.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Scripts\BookGen" Link="BookGen">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Scripts\BookGen.cmd" Link="BookGen.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Scripts\BookGenShell.cmd" Link="BookGenShell.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
     <ProjectReference Include="..\Bookgen.Template\Bookgen.Template.csproj" />
   </ItemGroup>
