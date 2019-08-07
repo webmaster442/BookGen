@@ -5,6 +5,9 @@ rem  This code is licensed under MIT license (see LICENSE for details)
 rem -----------------------------------------------------------------------------
 
 :setup
+SET bookgenPath=%cd%
+SET PATH=%bookgenPath%;%PATH%
+
 PROMPT $P$_$G
 IF [%1]==[] (
 	rem exit prevention
@@ -12,9 +15,6 @@ IF [%1]==[] (
 )
 WHERE dotnet 2> nul
 IF %ERRORLEVEL% NEQ 0 goto notfound
-
-SET bookgenPath=%cd%
-SET PATH=%bookgenPath%;%PATH%
 
 goto exit
 

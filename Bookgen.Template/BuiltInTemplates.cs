@@ -13,41 +13,41 @@ namespace Bookgen.Template
 
         public static string IndexMd
         {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplateMarkdown/index.md"); }
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateMarkdown/index.md"); }
         }
 
         public static string SummaryMd
         {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplateMarkdown/summary.md"); }
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateMarkdown/summary.md"); }
         }
 
         public static string Epub
         {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplateEpub/TemplateEpub.html"); }
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateEpub/TemplateEpub.html"); }
         }
 
         public static string Print
         {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplatePrint/TemplatePrint.html"); }
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplatePrint/TemplatePrint.html"); }
         }
 
         public static string TemplateWeb
         {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplatePrint/TemplateWeb.html"); }
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/TemplateWeb.html"); }
         }
 
         public static string Searchform
         {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplatePrint/Searchform.html"); }
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Searchform.html"); }
         }
         public static string AssetPrismCss
         {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplatePrint/Assets/prism.css"); }
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/prism.css"); }
         }
 
         public static string AssetPrismJs
         {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("TemplatePrint/Assets/prism.js"); }
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/prism.js"); }
         }
     }
 }

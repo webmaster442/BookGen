@@ -20,7 +20,10 @@ namespace BookGen.Core
         public static string GetResourceFile<AssemblyLocatorType>(string resource)
         {
             var assembly = typeof(AssemblyLocatorType).GetTypeInfo().Assembly;
-            var resourceName = assembly.GetManifestResourceNames().First(s => s.EndsWith(TranslateResourcePath(resource), StringComparison.CurrentCultureIgnoreCase));
+
+            var resources = assembly.GetManifestResourceNames();
+
+            var resourceName = resources.First(s => s.EndsWith(TranslateResourcePath(resource), StringComparison.CurrentCultureIgnoreCase));
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             {
                 if (stream == null)

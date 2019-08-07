@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Linq;
 
 namespace BookGen.Gui.Renderering
 {
@@ -61,8 +62,7 @@ namespace BookGen.Gui.Renderering
         /// <inheritdoc/>
         public char ReadChar()
         {
-            int value = Console.Read();
-            return Convert.ToChar(value);
+            return Console.ReadLine().FirstOrDefault();
         }
     }
 }

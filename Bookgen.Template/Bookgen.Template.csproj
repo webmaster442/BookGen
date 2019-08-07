@@ -23,13 +23,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TemplateEpub\TemplateEpub.html" />
     <None Remove="TemplateMarkdown\index.md" />
     <None Remove="TemplateMarkdown\summary.md" />
+    <None Remove="TemplatePrint\TemplatePrint.html" />
+    <None Remove="TemplateWeb\Assets\prism.css" />
+    <None Remove="TemplateWeb\Assets\prism.js" />
+    <None Remove="TemplateWeb\Searchform.html" />
+    <None Remove="TemplateWeb\TemplateWeb.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="TemplateEpub\TemplateEpub.html" />
     <EmbeddedResource Include="TemplateMarkdown\index.md" />
     <EmbeddedResource Include="TemplateMarkdown\summary.md" />
+    <EmbeddedResource Include="TemplatePrint\TemplatePrint.html" />
+    <EmbeddedResource Include="TemplateWeb\Assets\prism.css" />
+    <EmbeddedResource Include="TemplateWeb\Assets\prism.js" />
+    <EmbeddedResource Include="TemplateWeb\Searchform.html" />
+    <EmbeddedResource Include="TemplateWeb\TemplateWeb.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,7 +54,6 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="TemplateWeb\Assets\" />
   </ItemGroup>
 
 </Project>
