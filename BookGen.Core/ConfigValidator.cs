@@ -102,18 +102,8 @@ namespace BookGen.Core
             if (string.IsNullOrEmpty(_config.Index))
                 AddError(Resources.MissingIndex);
 
-            if (_config.SearchOptions == null)
-                AddError(Resources.MissingSearchOptions);
-
-            if (string.IsNullOrEmpty(_config.SearchOptions.NoResults)
-                || string.IsNullOrEmpty(_config.SearchOptions.SearchButtonText)
-                || string.IsNullOrEmpty(_config.SearchOptions.SearchPageTitle)
-                || string.IsNullOrEmpty(_config.SearchOptions.SearchResults)
-                || string.IsNullOrEmpty(_config.SearchOptions.SearchTextBoxText))
-            {
-                AddError(Resources.MissingSearchOptionsText);
-            }
-
+            if (_config.Translations == null)
+                AddError(Resources.MissingTranslations);
             if (_config.Metadata == null)
                 AddError(Resources.MissingMetadata);
         }

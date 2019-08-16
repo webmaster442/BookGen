@@ -37,10 +37,12 @@ namespace Bookgen.Template.ShortCodeImplementations
 
             if (path.Extension == ".js")
             {
+                _log.Detail("Creating SRI script tag for: {0}", path);
                 return $"<script src=\"{file}\" integrity=\"{sri}\" crossorigin=\"anonymous\"></script>";
             }
             else if (path.Extension == ".css")
             {
+                _log.Detail("Creating SRI css tag for: {0}", path);
                 return $"<link rel=\"stylesheet\" href=\"{file}\" integrity=\"{sri}\" crossorigin=\"anonymous\"/>";
             }
             else

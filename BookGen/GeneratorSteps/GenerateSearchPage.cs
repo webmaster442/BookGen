@@ -12,7 +12,6 @@ using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -42,7 +41,7 @@ namespace BookGen.GeneratorSteps
             GenerateSearchForm(settings);
 
             var output = settings.OutputDirectory.Combine("search.html");
-            Content.Title = settings.Configuration.SearchOptions.SearchPageTitle;
+            Content.Title = settings.Configuration.Translations[Translations.SearchPageTitle];
             Content.Content = _buffer.ToString();
 
             var html = Template.Render();
@@ -52,38 +51,16 @@ namespace BookGen.GeneratorSteps
         private string FillMeta(Config configruation)
         {
             var meta = new MetaTag().FillWithConfigDefaults(configruation);
-            meta.Title = $"{configruation.Metadata.Title} - {configruation.SearchOptions.SearchPageTitle}";
-            meta.Description = configruation.SearchOptions.SearchPageTitle;
+            meta.Title = $"{configruation.Metadata.Title} - {configruation.Translations[Translations.SearchPageTitle]}";
+            meta.Description = configruation.Translations[Translations.SearchPageTitle];
             meta.Url = $"{configruation.HostName}search.html";
             return meta.GetHtmlMeta();
         }
 
         private void GenerateSearchForm(RuntimeSettings settings)
         {
-            var options = settings.Configuration.SearchOptions;
-            var replacements = new string[]
-            {
-                options.SearchPageTitle,
-                options.SearchTextBoxText,
-                options.SearchButtonText,
-                options.SearchResults,
-                options.NoResults
-            };
-
-            var result = ReplaceTags(BuiltInTemplates.Searchform, replacements);
+            var result = TranslationApplier.ApplyTranslations(BuiltInTemplates.Searchform, settings.Configuration.Translations);
             _buffer.Append(result);
-        }
-
-        private static string ReplaceTags(string input, IEnumerable<string> values)
-        {
-            StringBuilder builder = new StringBuilder(input);
-            int i = 0;
-            foreach (var value in values)
-            {
-                builder.Replace($"[[{i}]]", value);
-                ++i;
-            }
-            return builder.ToString();
         }
 
         private string RenderAndCompressForSearch(string filecontent)

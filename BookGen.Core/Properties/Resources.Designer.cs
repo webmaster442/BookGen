@@ -124,24 +124,6 @@ namespace BookGen.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search settings can&apos;t be found.  Possibly corrupted config?.
-        /// </summary>
-        internal static string MissingSearchOptions {
-            get {
-                return ResourceManager.GetString("MissingSearchOptions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search option texts can&apos;t be empty. One or more settings have emty values.
-        /// </summary>
-        internal static string MissingSearchOptionsText {
-            get {
-                return ResourceManager.GetString("MissingSearchOptionsText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Corrucpt Configuration File. Please create a new one.
         /// </summary>
         internal static string MissingSection {
@@ -183,6 +165,15 @@ namespace BookGen.Core.Properties {
         internal static string MissingTrailingSlash {
             get {
                 return ResourceManager.GetString("MissingTrailingSlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translations can&apos;t be found. Possibly corrupted config?.
+        /// </summary>
+        internal static string MissingTranslations {
+            get {
+                return ResourceManager.GetString("MissingTranslations", resourceCulture);
             }
         }
         

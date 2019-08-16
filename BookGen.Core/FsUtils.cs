@@ -66,6 +66,16 @@ namespace BookGen.Core
             File.Copy(source.ToString(), target.ToString());
         }
 
+        public static void CreateBackup(this FsPath source, ILog log)
+        {
+            if (!source.IsExisting)
+            {
+                log.Detail("Source doesn't exist, skipping: {0}");
+                return;
+            }
+            File.Copy(source.ToString(), source.ToString() + "_backup");
+        }
+
         public static void WriteFile(this FsPath target, string content)
         {
             FileInfo fileInfo = new FileInfo(target.ToString());

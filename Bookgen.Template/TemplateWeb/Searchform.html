@@ -1,9 +1,9 @@
 ﻿<div class="jumbotron">
-    <h2>[[0]]</h2>
+    <h2>{Search_PageTitle}</h2>
     <div class="form-group">
-        <input type="text" id="searchtext" autocomplete="off" class="form-control" placeholder="[[1]]">
+        <input type="text" id="searchtext" autocomplete="off" class="form-control" placeholder="{Search_TextBoxText}">
         <br/>
-        <button type="button" id="searchbutton" class="btn btn-primary">[[2]]</button>
+        <button type="button" id="searchbutton" class="btn btn-primary">{Search_ButtonText}</button>
     </div>
 </div>
 <div id="searchresults"></div>
@@ -41,13 +41,13 @@
             html += content;
         });
 
-        var final = "<p>[[3]] : " + matches + "</p>" + html;
+        var final = "<p>{Search_Results} : " + matches + "</p>" + html;
 
         if (html.length > 0) {
             $("#searchresults").html(final);
         }
         else {
-            var error = "[[4]]";
+            var error = "{Search_NoResults}";
             $("#searchresults").html(error);
         }
     });

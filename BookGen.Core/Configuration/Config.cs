@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace BookGen.Core.Configuration
 {
     public class Config
@@ -49,12 +51,6 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        public SearchSettings SearchOptions
-        {
-            get;
-            set;
-        }
-
         public Metadata Metadata
         {
             get;
@@ -79,6 +75,12 @@ namespace BookGen.Core.Configuration
             set;
         }
 
+        public Translations Translations
+        {
+            get;
+            set;
+        }
+
         public static Config CreateDefault()
         {
             return new Config
@@ -86,11 +88,11 @@ namespace BookGen.Core.Configuration
                 TargetWeb = BuildConfig.CreateDefault(),
                 TargetEpub = BuildConfig.CreateDefault(),
                 TargetPrint = BuildConfig.CreateDefault(),
+                Translations = Translations.CreateDefault(),
                 TOCFile = "Path of table of contents",
                 Index = "Path of startup (index) file",
                 ImageDir = "Path to images directory",
                 HostName = "http://localhost:8080/",
-                SearchOptions = SearchSettings.CreateDefault(),
                 Metadata = Metadata.CreateDefault(),
                 Version = 100,
                 LinksOutSideOfHostOpenNewTab = true,

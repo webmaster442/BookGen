@@ -13,6 +13,11 @@ namespace BookGen.Core
         {
             if (config.Version == 0 || config.Version < targetVersion)
                 config.Version = targetVersion;
+
+            if (config.Translations == null)
+            {
+                config.Translations = Translations.CreateDefault();
+            }
         }
     }
 }

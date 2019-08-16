@@ -138,12 +138,6 @@
   <data name="MissingPrecompile" xml:space="preserve">
     <value>Precompile header settings can't be found.  Possibly corrupted config?</value>
   </data>
-  <data name="MissingSearchOptions" xml:space="preserve">
-    <value>Search settings can't be found.  Possibly corrupted config?</value>
-  </data>
-  <data name="MissingSearchOptionsText" xml:space="preserve">
-    <value>Search option texts can't be empty. One or more settings have emty values</value>
-  </data>
   <data name="MissingSection" xml:space="preserve">
     <value>Corrucpt Configuration File. Please create a new one</value>
   </data>
@@ -158,6 +152,9 @@
   </data>
   <data name="MissingTrailingSlash" xml:space="preserve">
     <value>Host name must end with a / char</value>
+  </data>
+  <data name="MissingTranslations" xml:space="preserve">
+    <value>Translations can't be found. Possibly corrupted config?</value>
   </data>
   <data name="TOCFileNotExists" xml:space="preserve">
     <value>Source file in toc doesn't exist: {0}</value>

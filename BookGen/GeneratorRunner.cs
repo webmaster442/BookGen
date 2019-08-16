@@ -65,7 +65,7 @@ namespace BookGen
             _log.Info("BookGen V{0} Starting...", version);
             _log.Info("Working directory: {0}", WorkDirectory);
             _log.Info("---------------------------------------------------------");
-            int cfgVersion = (version.Major * 100) + version.Minor;
+            int cfgVersion = (version.Major * 1000) + (version.Minor * 100) + version.Build;
 
             if (!ConfigFile.IsExisting)
             {
@@ -82,6 +82,7 @@ namespace BookGen
 
             if (Configuration.Version < cfgVersion)
             {
+                ConfigFile.CreateBackup(_log);
                 Configuration.UpgradeTo(cfgVersion);
                 WriteConfig(ConfigFile, Configuration);
                 _log.Info("Configuration file migrated to new version.");
