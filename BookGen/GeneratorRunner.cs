@@ -193,7 +193,7 @@ namespace BookGen
                 p.StartInfo.UseShellExecute = true;
                 p.StartInfo.FileName = Configuration.HostName;
                 p.Start();
-                Program.ShowMessageBox(exitString);
+                Program.ShowMessageAndWait(exitString);
             }
         }
 

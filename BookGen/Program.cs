@@ -27,6 +27,12 @@ namespace BookGen
             }
         }
 
+        public static void ShowMessageAndWait(string text)
+        {
+            Console.WriteLine(text);
+            Console.ReadLine();
+        }
+
         private static ParsedOptions ParseOptions(string[] args)
         {
             ParsedOptions parsed = new ParsedOptions

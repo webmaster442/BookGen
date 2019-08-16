@@ -3,7 +3,7 @@
     "BookGen": {
       "commandName": "Project",
       "commandLineArgs": "-g",
-      "workingDirectory": "E:\\csharpkonyv\\BookGen\\bin\\Debug\\netcoreapp2.2\\test"
+      "workingDirectory": "E:\\csharpkonyv\\konyv"
     }
   }
 }
