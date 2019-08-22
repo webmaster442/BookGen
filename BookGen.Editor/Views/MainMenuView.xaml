@@ -1,0 +1,110 @@
+﻿<UserControl
+    x:Class="BookGen.Editor.Views.MainMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:BookGen.Editor.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="Popup">
+            <Setter Property="StaysOpen" Value="False" />
+        </Style>
+        <Style TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{StaticResource {x:Static SystemColors.MenuBrushKey}}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="2" />
+        </Style>
+        <Style
+            BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+            TargetType="{x:Type Button}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+    </UserControl.Resources>
+    <ToolBarTray>
+        <ToolBar>
+            <Button
+                Content="{StaticResource Save}"
+                ToolTip="Save" />
+            <Separator />
+            <Button
+                Content="{StaticResource Undo}"
+                ToolTip="Undo" />
+            <Button
+                Content="{StaticResource Redo}"
+                ToolTip="Redo" />
+            <Separator />
+            <Button
+                Content="{StaticResource Cut}"
+                ToolTip="Cut" />
+            <Button
+                Content="{StaticResource Copy}"
+                ToolTip="Copy" />
+            <Button
+                Content="{StaticResource Paste}"
+                ToolTip="Paste" />
+            <Separator />
+            <ToggleButton
+                x:Name="BtnHeader"
+                Content="{StaticResource H0}"
+                ToolTip="Headings" />
+            <Popup
+                IsOpen="{Binding ElementName=BtnHeader, Path=IsChecked}"
+                PlacementTarget="{Binding ElementName=BtnHeader}">
+                <Border>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="{StaticResource H1}" />
+                        <Button Content="{StaticResource H2}" />
+                        <Button Content="{StaticResource H3}" />
+                        <Button Content="{StaticResource H4}" />
+                        <Button Content="{StaticResource H5}" />
+                        <Button Content="{StaticResource H6}" />
+                    </StackPanel>
+                </Border>
+            </Popup>
+            <Button
+                Content="{StaticResource Bold}"
+                ToolTip="Bold" />
+            <Button
+                Content="{StaticResource Italic}"
+                ToolTip="Italic" />
+            <Button
+                Content="{StaticResource Underline}"
+                ToolTip="Underline" />
+            <Button
+                Content="{StaticResource Strikethrough}"
+                ToolTip="Strikethrough" />
+            <Button
+                Content="{StaticResource Superscript}"
+                ToolTip="Superscript" />
+            <Button
+                Content="{StaticResource Subscript}"
+                ToolTip="Subscript" />
+            <Separator />
+            <Button
+                Content="{StaticResource Quote}"
+                ToolTip="Quote" />
+            <Button
+                Content="{StaticResource Code}"
+                ToolTip="Code" />
+            <Separator />
+            <Button
+                Content="{StaticResource UnorderedList}"
+                ToolTip="Unordered list" />
+            <Button
+                Content="{StaticResource OrderedList}"
+                ToolTip="Ordered list" />
+            <Separator />
+            <Button
+                Content="{StaticResource Image}"
+                ToolTip="Insert Image..." />
+            <Button
+                Content="{StaticResource Link}"
+                ToolTip="Insert Link..." />
+        </ToolBar>
+    </ToolBarTray>
+
+</UserControl>
