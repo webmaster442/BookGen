@@ -11,9 +11,9 @@ using BookGen.Framework;
 
 namespace BookGen
 {
-    internal class PrintBuilder : Generator
+    internal class PrintBuilder : Builder
     {
-        public PrintBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
+        public PrintBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log, configuration.TargetPrint)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetPrint));

@@ -15,11 +15,13 @@ namespace BookGen.Framework
     {
         private readonly Dictionary<string, string> _table;
         private readonly ShortCodeParser _parser;
+        private readonly Config _configuration;
 
         public string TemplateContent { get; set; }
 
         public Template(Config cfg, ShortCodeParser shortCodeParser)
         {
+            _configuration = cfg;
             _table = new Dictionary<string, string>
             {
                 { "toc", string.Empty },
@@ -83,7 +85,9 @@ namespace BookGen.Framework
             if (TemplateContent == null)
                 throw new InvalidOperationException("Can't generate while TemplateContent is null");
 
-            return _parser.Parse(TemplateContent);
+            string shortcodes = _parser.Parse(TemplateContent);
+
+            return TranslationApplier.ApplyTranslations(shortcodes, _configuration.Translations);
         }
     }
 }

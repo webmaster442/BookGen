@@ -73,7 +73,20 @@ namespace BookGen.Core
                 log.Detail("Source doesn't exist, skipping: {0}");
                 return;
             }
-            File.Copy(source.ToString(), source.ToString() + "_backup");
+            string targetname = $"{source.ToString()}_backup";
+            if (File.Exists(targetname))
+            {
+                bool exists = true;
+                int counter = 1;
+                do
+                {
+                    targetname = $"{source.ToString()}_backup{counter}";
+                    ++counter;
+                    exists = File.Exists(targetname);
+                }
+                while (exists);
+            }
+            File.Copy(source.ToString(), targetname);
         }
 
         public static void WriteFile(this FsPath target, string content)

@@ -18,5 +18,6 @@ namespace BookGen.Core.Contracts
         Config Configuration { get; }
         Dictionary<string, string> MetataCache { get; }
         Dictionary<string, string> InlineImgCache { get; }
+        BuildConfig CurrentBuildConfig { get; }
     }
 }

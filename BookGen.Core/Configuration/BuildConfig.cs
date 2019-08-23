@@ -13,6 +13,7 @@ namespace BookGen.Core.Configuration
         public string TemplateFile { get; set; }
         public List<Asset> TemplateAssets { get; set; }
         public StyleClasses StyleClasses { get; set; }
+        public TemplateOptions TemplateOptions { get; set; }
 
         public static BuildConfig CreateDefault()
         {
@@ -28,6 +29,7 @@ namespace BookGen.Core.Configuration
                         Target = ""
                     }
                 },
+                TemplateOptions = TemplateOptions.CreateDefaultOptions(),
                 StyleClasses = new StyleClasses()
             };
         }

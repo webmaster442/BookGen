@@ -24,8 +24,8 @@
     <Product>BookGen</Product>
     <Description>A static Markdown book generator</Description>
     <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.2.0</FileVersion>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
