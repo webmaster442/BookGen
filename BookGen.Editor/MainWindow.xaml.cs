@@ -24,6 +24,7 @@ namespace BookGen.Editor
         public MainWindow()
         {
             InitializeComponent();
+            App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
     }
 }

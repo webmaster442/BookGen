@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen.Editor", "BookGen.Editor\BookGen.Editor.csproj", "{945D0C3E-14FA-4C37-9818-82CD048270D1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Core", "BookGen.Core\BookGen.Core.csproj", "{1C019BCC-6351-423E-A0DD-A68B81E79820}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{945D0C3E-14FA-4C37-9818-82CD048270D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{945D0C3E-14FA-4C37-9818-82CD048270D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{945D0C3E-14FA-4C37-9818-82CD048270D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C019BCC-6351-423E-A0DD-A68B81E79820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C019BCC-6351-423E-A0DD-A68B81E79820}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C019BCC-6351-423E-A0DD-A68B81E79820}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C019BCC-6351-423E-A0DD-A68B81E79820}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

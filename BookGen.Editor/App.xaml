@@ -4,8 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d1p1:Ignorable="d"
-    StartupUri="MainWindow.xaml">
+    d1p1:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,6 +19,7 @@
                 <ResourceDictionary Source="Styles/MainToolbarIcons.xaml" />
                 <ResourceDictionary Source="Styles/FilesContextMenuIcons.xaml" />
                 <ResourceDictionary Source="Styles/FileTypeIcons.xaml" />
+                <ResourceDictionary Source="Styles/ControlStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

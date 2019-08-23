@@ -12,10 +12,5 @@ namespace BookGen.Editor
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            Locator.Initialize();
-            base.OnStartup(e);
-        }
     }
 }
