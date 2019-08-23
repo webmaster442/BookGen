@@ -20,5 +20,6 @@ namespace BookGen.Domain
         public Config Configuration { get; set; }
         public Dictionary<string, string> MetataCache { get; set; }
         public Dictionary<string, string> InlineImgCache { get; set; }
+        public BuildConfig CurrentBuildConfig { get; set; }
     }
 }

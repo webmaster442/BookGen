@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace BookGen.Framework
 {
-    internal abstract class Generator
+    internal abstract class Builder
     {
         private readonly List<IGeneratorStep> _steps;
         private readonly ILog _log;
@@ -28,7 +28,7 @@ namespace BookGen.Framework
 
         protected readonly ShortCodeLoader _loader;
 
-        protected Generator(string workdir, Config configuration, ILog log)
+        protected Builder(string workdir, Config configuration, ILog log, BuildConfig current)
         {
             WorkDir = new FsPath(workdir);
             Settings = new RuntimeSettings
@@ -39,7 +39,8 @@ namespace BookGen.Framework
                 Configuration = configuration,
                 TocContents = MarkdownUtils.ParseToc(WorkDir.Combine(configuration.TOCFile).ReadFile()),
                 MetataCache = new Dictionary<string, string>(100),
-                InlineImgCache = new Dictionary<string, string>(100)
+                InlineImgCache = new Dictionary<string, string>(100),
+                CurrentBuildConfig = current,
             };
 
             _loader = new ShortCodeLoader(log, Settings);

@@ -11,11 +11,11 @@ using BookGen.Framework;
 
 namespace BookGen
 {
-    internal class WebsiteBuilder : Generator
+    internal class WebsiteBuilder : Builder
     {
         private readonly GeneratorSteps.ExtractTemplateAssets _extractAssets;
 
-        public WebsiteBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
+        public WebsiteBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log, configuration.TargetWeb)
         {
             _extractAssets = new GeneratorSteps.ExtractTemplateAssets();
 

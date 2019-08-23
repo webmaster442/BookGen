@@ -11,9 +11,9 @@ using BookGen.Framework;
 
 namespace BookGen
 {
-    internal class EpubBuilder : Generator
+    internal class EpubBuilder : Builder
     {
-        public EpubBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log)
+        public EpubBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log, configuration.TargetEpub)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetEpub));

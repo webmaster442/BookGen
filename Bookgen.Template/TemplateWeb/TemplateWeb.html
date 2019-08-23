@@ -14,37 +14,6 @@
     [SriDependency file="Assets/prism.js"]
     [SriDependency file="pages.js"]
     <style type="text/css">
-
-        .cookiealert {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            margin: 0 !important;
-            z-index: 999;
-            opacity: 0;
-            border-radius: 0;
-            transform: translateY(100%);
-            transition: all 500ms ease-out;
-            color: #ecf0f1;
-            background: #212327;
-        }
-
-            .cookiealert.show {
-                opacity: 1;
-                transform: translateY(0%);
-                transition-delay: 1000ms;
-            }
-
-            .cookiealert a {
-                text-decoration: underline
-            }
-
-            .cookiealert .acceptcookies {
-                margin-left: 10px;
-                vertical-align: baseline;
-            }
-
         #content {
             margin-top: 70px;
         }
@@ -184,21 +153,11 @@
     </style>
 </head>
 <body>
-
     <div id="lightbox">
         <span id="lightboxClose">&times;</span>
         <img id="lightboxcontent">
         <div id="lightboxcaption"></div>
     </div>
-
-    <div class="alert text-center cookiealert" role="alert">
-        <b>Szereted a sütiket?</b> &#x1F36A; Ez az oldal sütiket használ a felhasználói élmény javításának érdekében. <a href="https://cookiesandyou.com/" target="_blank">További információk</a>
-
-        <button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
-            Rendben
-        </button>
-    </div>
-
 
     <div id="toc">
         <a href="#closetoc" id="closebtn">&times;</a>
@@ -270,7 +229,6 @@
 
     <script type="text/javascript">
         var currentindex = pages.indexOf(window.location.href);
-        var debugcookie = window.location.href.startsWith('http://localhost') && true;
 
         window.onscroll = function () {
             if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
@@ -278,39 +236,6 @@
             } else {
                 $('#topbutton').css("display", "none");
             }
-        }
-
-        function getCookie(cname) {
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) === ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) === 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
-
-        function setCookie(cname, cvalue, exdays) {
-            var d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            var expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        }
-
-        if (!getCookie("acceptCookies") || debugcookie) {
-            $('.cookiealert').addClass('show');
-
-            $('.acceptcookies').click(function () {
-                setCookie("acceptCookies", true, 365);
-                $('.cookiealert').removeClass('show');
-            });
-
         }
 
         $('img').click(function () {
@@ -357,5 +282,6 @@
             $('#toc-local').modal('toggle');
         });
     </script>
+    [CookieWarnIfEnabledInTarget]
 </body>
 </html>

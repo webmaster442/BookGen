@@ -38,7 +38,7 @@ namespace BookGen.GeneratorSteps
 
             log.Info("Generating search page...");
             GenerateSearchContents(settings, log);
-            GenerateSearchForm(settings);
+            _buffer.Append(BuiltInTemplates.Searchform);
 
             var output = settings.OutputDirectory.Combine("search.html");
             Content.Title = settings.Configuration.Translations[Translations.SearchPageTitle];
@@ -55,12 +55,6 @@ namespace BookGen.GeneratorSteps
             meta.Description = configruation.Translations[Translations.SearchPageTitle];
             meta.Url = $"{configruation.HostName}search.html";
             return meta.GetHtmlMeta();
-        }
-
-        private void GenerateSearchForm(RuntimeSettings settings)
-        {
-            var result = TranslationApplier.ApplyTranslations(BuiltInTemplates.Searchform, settings.Configuration.Translations);
-            _buffer.Append(result);
         }
 
         private string RenderAndCompressForSearch(string filecontent)

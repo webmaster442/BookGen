@@ -40,6 +40,12 @@ namespace Bookgen.Template
         {
             get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Searchform.html"); }
         }
+
+        public static string CookieWarningCode
+        {
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/CookieWarning.html"); }
+        }
+
         public static string AssetPrismCss
         {
             get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/prism.css"); }

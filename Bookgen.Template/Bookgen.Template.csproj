@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -29,6 +29,7 @@
     <None Remove="TemplatePrint\TemplatePrint.html" />
     <None Remove="TemplateWeb\Assets\prism.css" />
     <None Remove="TemplateWeb\Assets\prism.js" />
+    <None Remove="TemplateWeb\CookieWarning.html" />
     <None Remove="TemplateWeb\Searchform.html" />
     <None Remove="TemplateWeb\TemplateWeb.html" />
   </ItemGroup>
@@ -40,6 +41,7 @@
     <EmbeddedResource Include="TemplatePrint\TemplatePrint.html" />
     <EmbeddedResource Include="TemplateWeb\Assets\prism.css" />
     <EmbeddedResource Include="TemplateWeb\Assets\prism.js" />
+    <EmbeddedResource Include="TemplateWeb\CookieWarning.html" />
     <EmbeddedResource Include="TemplateWeb\Searchform.html" />
     <EmbeddedResource Include="TemplateWeb\TemplateWeb.html" />
   </ItemGroup>
