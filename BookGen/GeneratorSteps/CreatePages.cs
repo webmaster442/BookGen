@@ -11,6 +11,7 @@ using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace BookGen.GeneratorSteps
 {
@@ -22,7 +23,7 @@ namespace BookGen.GeneratorSteps
         public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating Sub Markdown Files...");
-            foreach (var file in settings.TocContents.Files)
+            Parallel.ForEach(settings.TocContents.Files, file =>
             {
                 var input = settings.SourceDirectory.Combine(file);
                 var output = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
@@ -36,7 +37,7 @@ namespace BookGen.GeneratorSteps
 
                 var html = Template.Render();
                 output.WriteFile(html);
-            }
+            });
         }
     }
 }
