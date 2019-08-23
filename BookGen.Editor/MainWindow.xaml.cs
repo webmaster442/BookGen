@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using BookGen.Editor.ViewModel;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace BookGen.Editor
         {
             InitializeComponent();
             App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            DataContext = Locator.Resolve<MainViewModel>();
         }
     }
 }

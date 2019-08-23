@@ -10,7 +10,18 @@
     Width="1280"
     Height="720"
     mc:Ignorable="d">
-    <Grid>
+    <mah:MetroWindow.Flyouts>
+        <mah:FlyoutsControl>
+            <mah:Flyout
+                IsOpen="True"
+                Width="{Binding ElementName=MainGrid, Path=ActualWidth}"
+                Header="Files"
+                Position="Right">
+                <views:FilesFoldersView x:Name="FileExplorer" DataContext="{Binding FileExplorer}" />
+            </mah:Flyout>
+        </mah:FlyoutsControl>
+    </mah:MetroWindow.Flyouts>
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -18,17 +29,14 @@
         </Grid.RowDefinitions>
         <views:MainMenuView Grid.Row="0" />
         <Rectangle
-            Fill="Black"
             Grid.Row="1"
             Height="2"
-            Margin="15,2" />
+            Margin="15,2"
+            Fill="Black" />
         <TabControl Grid.Row="2">
-            <TabItem Header="Editor">
-            </TabItem>
-            <TabItem Header="Preview">
-            </TabItem>
-            <TabItem Header="Comment">
-            </TabItem>
+            <TabItem Header="Editor" />
+            <TabItem Header="Preview" />
+            <TabItem Header="Comment" />
         </TabControl>
     </Grid>
 </mah:MetroWindow>

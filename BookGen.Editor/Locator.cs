@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Editor.ServiceContracts;
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 
@@ -14,11 +15,13 @@ namespace BookGen.Editor
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            SimpleIoc.Default.Register<ServiceContracts.IExceptionHandler, Services.ExceptionHandler>();
-            SimpleIoc.Default.Register<ServiceContracts.IFileSystemServices, Services.FileSystemServices>();
+            SimpleIoc.Default.Register<IExceptionHandler, Services.ExceptionHandler>();
+            SimpleIoc.Default.Register<IFileSystemServices, Services.FileSystemServices>();
 
-            SimpleIoc.Default.Register<ViewModel.FileBrowserViewModel>();
-
+            SimpleIoc.Default.Register<ViewModel.MainViewModel>(() =>
+            {
+                return new ViewModel.MainViewModel(Resolve<IFileSystemServices>(), Resolve<IExceptionHandler>());
+            });
         }
 
         public static T Resolve<T>()
