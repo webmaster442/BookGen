@@ -13,11 +13,14 @@
     <mah:MetroWindow.Flyouts>
         <mah:FlyoutsControl>
             <mah:Flyout
-                IsOpen="True"
                 Width="{Binding ElementName=MainGrid, Path=ActualWidth}"
                 Header="Files"
-                Position="Right">
-                <views:FilesFoldersView x:Name="FileExplorer" DataContext="{Binding FileExplorer}" />
+                IsOpen="True"
+                Position="Right"
+                Theme="Accent">
+                <views:FilesFoldersView
+                    x:Name="FileExplorer"
+                    DataContext="{Binding FileExplorer}" />
             </mah:Flyout>
         </mah:FlyoutsControl>
     </mah:MetroWindow.Flyouts>
