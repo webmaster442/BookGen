@@ -37,6 +37,22 @@ namespace BookGen.Tests
             Assert.AreEqual("Genrated", result);
         }
 
+        [Test]
+        public void EnshureThat_ShortCodeParser_Parse_Works_ForComplexStrings()
+        {
+            var input = "Lorem ipsum dolor sit [Dumy], consectetur adipiscing elit. Nam non porttitor ligula. Proin eget pulvinar nisi. Suspendisse urna quam, vehicula nec felis eget, faucibus vestibulum diam. Etiam ultrices dignissim laoreet. Cras porttitor, nisi sit amet commodo porttitor, enim felis tempus eros, ac mattis sapien ante sed nunc. Praesent sodales porttitor nisi in dictum. Proin ut sapien turpis. Mauris mattis aliquet condimentum. Nullam imperdiet libero sit amet risus placerat, in eleifend arcu vestibulum. Morbi aliquam rutrum turpis, sit amet ultrices lorem tempor sit amet. Curabitur mollis placerat mi, ut auctor dui bibendum in. Aenean quis placerat lorem, [Dumy] mollis elit. Proin.";
+            var expected = "Lorem ipsum dolor sit Genrated, consectetur adipiscing elit. Nam non porttitor ligula. Proin eget pulvinar nisi. Suspendisse urna quam, vehicula nec felis eget, faucibus vestibulum diam. Etiam ultrices dignissim laoreet. Cras porttitor, nisi sit amet commodo porttitor, enim felis tempus eros, ac mattis sapien ante sed nunc. Praesent sodales porttitor nisi in dictum. Proin ut sapien turpis. Mauris mattis aliquet condimentum. Nullam imperdiet libero sit amet risus placerat, in eleifend arcu vestibulum. Morbi aliquam rutrum turpis, sit amet ultrices lorem tempor sit amet. Curabitur mollis placerat mi, ut auctor dui bibendum in. Aenean quis placerat lorem, Genrated mollis elit. Proin.";
+            var result = _sut.Parse(input);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void EnsureThat_ShortCodeParser_Parse_Works_WhenNoMatches()
+        {
+            var result = _sut.Parse("test");
+            Assert.AreEqual("test", result);
+        }
+
 
         [Test]
         public void EnshureThat_ShortCodeParser_Parse_Works_ForArgumented()
