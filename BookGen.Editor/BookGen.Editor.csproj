@@ -94,6 +94,7 @@
     <Compile Include="Models\FileItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ServiceContracts\IFileSystemServices.cs" />
+    <Compile Include="Services\Class1.cs" />
     <Compile Include="Services\ExceptionHandler.cs" />
     <Compile Include="Services\FileSystemServices.cs" />
     <Compile Include="ServiceContracts\IExceptionHandler.cs" />
