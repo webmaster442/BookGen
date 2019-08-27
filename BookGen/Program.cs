@@ -132,6 +132,12 @@ namespace BookGen
                                 Runner.DoPrint();
                             }
                             break;
+                        case ParsedOptions.ActionType.BuildWordpress:
+                            if (Runner.Initialize())
+                            {
+                                Runner.DoWordpress();
+                            }
+                            break;
                         case ParsedOptions.ActionType.Initialize:
                             Runner.DoInteractiveInitialize();
                             break;
