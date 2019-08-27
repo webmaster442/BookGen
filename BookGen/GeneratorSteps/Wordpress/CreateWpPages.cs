@@ -16,6 +16,13 @@ namespace BookGen.GeneratorSteps.Wordpress
 {
     internal class CreateWpPages : ITemplatedStep
     {
+        private readonly Session _session;
+
+        public CreateWpPages(Session session)
+        {
+            _session = session;
+        }
+
         public Template Template { get; set; }
         public IContent Content { get; set; }
 
