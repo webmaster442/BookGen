@@ -8,6 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Domain;
 using BookGen.Domain.Sitemap;
+using BookGen.Utilities;
 using System;
 using System.IO;
 using System.Linq;
@@ -16,8 +17,6 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreateSitemap : IGeneratorStep
     {
-        private const string w3cTime = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
-
         public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Creating sitemap.xml...");
@@ -46,7 +45,7 @@ namespace BookGen.GeneratorSteps
             return new Url
             {
                 Loc = page,
-                Lastmod = DateTime.Now.ToString(w3cTime)
+                Lastmod = DateTime.Now.ToW3CTimeFormat()
             };
         }
     }

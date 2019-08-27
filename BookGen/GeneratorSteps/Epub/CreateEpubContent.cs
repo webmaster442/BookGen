@@ -11,7 +11,7 @@ using BookGen.Domain.Epub;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BookGen.GeneratorSteps
+namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubContent : IGeneratorStep
     {

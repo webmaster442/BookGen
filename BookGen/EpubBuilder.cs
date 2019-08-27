@@ -18,11 +18,11 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetEpub));
             AddStep(new GeneratorSteps.CopyImagesDirectory(true, true));
-            AddStep(new GeneratorSteps.CreateEpubStructure());
-            AddStep(new GeneratorSteps.CreateEpubPages());
-            AddStep(new GeneratorSteps.CreateEpubToc());
-            AddStep(new GeneratorSteps.CreateEpubContent());
-            AddStep(new GeneratorSteps.CreateEpubPack());
+            AddStep(new GeneratorSteps.Epub.CreateEpubStructure());
+            AddStep(new GeneratorSteps.Epub.CreateEpubPages());
+            AddStep(new GeneratorSteps.Epub.CreateEpubToc());
+            AddStep(new GeneratorSteps.Epub.CreateEpubContent());
+            AddStep(new GeneratorSteps.Epub.CreateEpubPack());
         }
 
         protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)
