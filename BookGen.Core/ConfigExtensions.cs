@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
 using BookGen.Core.Configuration;
 
 namespace BookGen.Core
@@ -20,9 +19,26 @@ namespace BookGen.Core
                 config.Translations = Translations.CreateDefault();
             }
 
+            UpgradeTranslations(config.Translations);
+
             UpgradeBuildTarget(config.TargetWeb);
             UpgradeBuildTarget(config.TargetEpub);
             UpgradeBuildTarget(config.TargetPrint);
+
+            if (config.TargetWordpress == null)
+                config.TargetWordpress = BuildConfig.CreateDefault(ConfigurationFactories.CreateWordpressOptions());
+        }
+
+        private static void UpgradeTranslations(Translations translations)
+        {
+            var defaults = Translations.CreateDefault();
+            foreach (var item in defaults)
+            {
+                if (!translations.ContainsKey(item.Key))
+                {
+                    translations.Add(item.Key, item.Value);
+                }
+            }
         }
 
         private static void UpgradeBuildTarget(BuildConfig target)

@@ -28,7 +28,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             {
                 Title = settings.Configuration.Metadata.Title,
                 Link = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],
-                PubDate = DateTime.UtcNow.ToW3CTimeFormat(),
+                PubDate = DateTime.UtcNow.ToWpTimeFormat(),
                 Language = string.Empty,
                 Wxr_version = "1.2",
                 Base_site_url = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],

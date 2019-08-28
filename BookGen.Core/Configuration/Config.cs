@@ -92,7 +92,7 @@ namespace BookGen.Core.Configuration
                 TargetWeb = BuildConfig.CreateDefault(),
                 TargetEpub = BuildConfig.CreateDefault(),
                 TargetPrint = BuildConfig.CreateDefault(),
-                TargetWordpress = BuildConfig.CreateDefault(),
+                TargetWordpress = BuildConfig.CreateDefault(ConfigurationFactories.CreateWordpressOptions()),
                 Translations = Translations.CreateDefault(),
                 TOCFile = "Path of table of contents",
                 Index = "Path of startup (index) file",

@@ -15,6 +15,8 @@ namespace BookGen
         public WordpressBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log, configuration.TargetWordpress)
         {
             var session = new GeneratorSteps.Wordpress.Session();
+            AddStep(new GeneratorSteps.CreateOutputDirectory());
+            AddStep(new GeneratorSteps.CopyImagesDirectory(true, true));
             AddStep(new GeneratorSteps.Wordpress.CreateWpChannel(session));
             AddStep(new GeneratorSteps.Wordpress.CreateWpPages(session));
             AddStep(new GeneratorSteps.Wordpress.WriteExportXmlFile(session));

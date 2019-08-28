@@ -81,9 +81,9 @@ namespace BookGen.GeneratorSteps.Epub
             };
             GenerateItems(pack.Manifest.Item, settings);
             GenerateSpine(pack.Spine.Itemref, settings);
-            var namespaces = new List<System.Tuple<string, string>>
+            var namespaces = new List<(string, string)>
             {
-                new System.Tuple<string, string>("dc", "http://purl.org/dc/elements/1.1/")
+                ("dc", "http://purl.org/dc/elements/1.1/")
             };
             output.SerializeXml(pack, namespaces);
         }

@@ -8,6 +8,8 @@ using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Domain;
 using BookGen.Domain.wordpress;
+using System;
+using System.Collections.Generic;
 
 namespace BookGen.GeneratorSteps.Wordpress
 {
@@ -25,7 +27,18 @@ namespace BookGen.GeneratorSteps.Wordpress
         {
             log.Info("Writing wordpressExport.xml file...");
             FsPath outFile = settings.OutputDirectory.Combine("wordpressExport.xml");
-            outFile.SerializeXml<Channel>(_session.CurrentChannel);
+
+            var namespaces = new List<(string, string)>
+            {
+                ("excerpt", "http://wordpress.org/export/1.2/excerpt/"),
+                ("content", "http://purl.org/rss/1.0/modules/content/"),
+                ("wfw", "http://wellformedweb.org/CommentAPI/"),
+                ("dc", "http://purl.org/dc/elements/1.1/"),
+                ("wp", "http://wordpress.org/export/1.2/")
+
+            };
+
+            outFile.SerializeXml<Channel>(_session.CurrentChannel, namespaces);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace BookGen.Domain.wordpress
     public class Guid
     {
         [XmlAttribute(AttributeName = "isPermaLink")]
-        public string IsPermaLink { get; set; }
+        public bool IsPermaLink { get; set; }
         [XmlText]
         public string Text { get; set; }
     }

@@ -11,8 +11,8 @@ namespace BookGen.Domain.wordpress
     public class Postmeta
     {
         [XmlElement(ElementName = "meta_key", Namespace = "http://wordpress.org/export/1.2/")]
-        public string Meta_key { get; set; }
+        public CData Meta_key { get; set; }
         [XmlElement(ElementName = "meta_value", Namespace = "http://wordpress.org/export/1.2/")]
-        public string Meta_value { get; set; }
+        public CData Meta_value { get; set; }
     }
 }
