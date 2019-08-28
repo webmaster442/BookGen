@@ -102,7 +102,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             var host = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost];
 
             int mainorder = 0;
-            int uid = 1000;
+            int uid = 2000;
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 string fillerPage = CreateFillerPage(settings.TocContents.GetLinksForChapter(chapter));
