@@ -38,7 +38,13 @@ namespace BookGen.GeneratorSteps.Wordpress
 
             };
 
-            outFile.SerializeXml<Channel>(_session.CurrentChannel, namespaces);
+            Rss output = new Rss()
+            {
+                Version = "2.0",
+                Channel = _session.CurrentChannel
+            };
+
+            outFile.SerializeXml<Rss>(output, namespaces);
         }
     }
 }
