@@ -38,8 +38,8 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Content = content,
                 Title = title,
                 PubDate = DateTime.Now.ToWpTimeFormat(),
-                Post_date = DateTime.Now.ToWpTimeFormat(),
-                Post_date_gmt = DateTime.UtcNow.ToWpTimeFormat(),
+                Post_date = DateTime.Now.ToWpPostDate(),
+                Post_date_gmt = DateTime.UtcNow.ToWpPostDate(),
                 Menu_order = order,
                 Ping_status = "closed",
                 Comment_status = "closed",
@@ -68,7 +68,7 @@ namespace BookGen.GeneratorSteps.Wordpress
 
         private string Encode(string title)
         {
-            var normalizedString = title.Normalize(NormalizationForm.FormD);
+            var normalizedString = title.Trim().Normalize(NormalizationForm.FormD);
             var stringBuilder = new StringBuilder();
 
             foreach (var c in normalizedString)

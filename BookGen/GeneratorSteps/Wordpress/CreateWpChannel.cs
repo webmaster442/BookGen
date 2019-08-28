@@ -29,7 +29,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Title = settings.Configuration.Metadata.Title,
                 Link = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],
                 PubDate = DateTime.UtcNow.ToWpTimeFormat(),
-                Language = string.Empty,
+                Language = "hu",
                 Wxr_version = "1.2",
                 Base_site_url = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],
                 Base_blog_url = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],
