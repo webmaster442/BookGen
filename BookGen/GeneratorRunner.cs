@@ -177,6 +177,14 @@ namespace BookGen
             _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
 
+        public void DoWordpress()
+        {
+            _log.Info("Building Wordpress configuration...");
+            WordpressBuilder builder = new WordpressBuilder(WorkDirectory, Configuration, _log);
+            var runTime = builder.Run();
+            _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+        }
+
         public void DoTest()
         {
             _log.Info("Building test configuration...");

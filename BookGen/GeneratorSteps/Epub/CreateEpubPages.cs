@@ -12,7 +12,7 @@ using BookGen.Framework;
 using BookGen.Utilities;
 using System.Text;
 
-namespace BookGen.GeneratorSteps
+namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubPages : ITemplatedStep
     {

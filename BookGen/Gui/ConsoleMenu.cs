@@ -85,6 +85,14 @@ namespace BookGen.Gui
                 },
                 Content = "Build E-pub"
             };
+            yield return new Button
+            {
+                Action = () =>
+                {
+                    if (_runner.Initialize()) _runner.DoWordpress();
+                },
+                Content = "Build Wordpress export file"
+            };
             yield return new TextBlock
             {
                 Content = "\r\nGeneral\r\n"

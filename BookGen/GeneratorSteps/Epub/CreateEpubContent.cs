@@ -11,7 +11,7 @@ using BookGen.Domain.Epub;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BookGen.GeneratorSteps
+namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubContent : IGeneratorStep
     {
@@ -81,9 +81,9 @@ namespace BookGen.GeneratorSteps
             };
             GenerateItems(pack.Manifest.Item, settings);
             GenerateSpine(pack.Spine.Itemref, settings);
-            var namespaces = new List<System.Tuple<string, string>>
+            var namespaces = new List<(string, string)>
             {
-                new System.Tuple<string, string>("dc", "http://purl.org/dc/elements/1.1/")
+                ("dc", "http://purl.org/dc/elements/1.1/")
             };
             output.SerializeXml(pack, namespaces);
         }

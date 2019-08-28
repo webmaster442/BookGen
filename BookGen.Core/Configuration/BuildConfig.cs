@@ -15,9 +15,9 @@ namespace BookGen.Core.Configuration
         public StyleClasses StyleClasses { get; set; }
         public TemplateOptions TemplateOptions { get; set; }
 
-        public static BuildConfig CreateDefault()
+        public static BuildConfig CreateDefault(TemplateOptions options = null)
         {
-            return new BuildConfig
+            var config = new BuildConfig
             {
                 OutPutDirectory = "Path to output directory",
                 TemplateFile = "",
@@ -32,6 +32,11 @@ namespace BookGen.Core.Configuration
                 TemplateOptions = TemplateOptions.CreateDefaultOptions(),
                 StyleClasses = new StyleClasses()
             };
+
+            if (options != null)
+                config.TemplateOptions = options;
+
+            return config;
         }
     }
 }

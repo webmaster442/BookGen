@@ -79,6 +79,12 @@ namespace BookGen.Core.Configuration
             set;
         }
 
+        public BuildConfig TargetWordpress
+        {
+            get;
+            set;
+        }
+
         public static Config CreateDefault()
         {
             return new Config
@@ -86,6 +92,7 @@ namespace BookGen.Core.Configuration
                 TargetWeb = BuildConfig.CreateDefault(),
                 TargetEpub = BuildConfig.CreateDefault(),
                 TargetPrint = BuildConfig.CreateDefault(),
+                TargetWordpress = BuildConfig.CreateDefault(ConfigurationFactories.CreateWordpressOptions()),
                 Translations = Translations.CreateDefault(),
                 TOCFile = "Path of table of contents",
                 Index = "Path of startup (index) file",

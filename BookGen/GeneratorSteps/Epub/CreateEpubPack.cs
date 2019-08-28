@@ -8,7 +8,7 @@ using BookGen.Core.Contracts;
 using BookGen.Domain;
 using System.IO.Compression;
 
-namespace BookGen.GeneratorSteps
+namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubPack : IGeneratorStep
     {
