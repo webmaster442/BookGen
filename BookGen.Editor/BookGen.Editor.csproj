@@ -119,6 +119,19 @@
     <Compile Include="StartupDialog.xaml.cs">
       <DependentUpon>StartupDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\DialogCommons.cs" />
+    <Compile Include="Views\Dialogs\FindReplaceDialog.xaml.cs">
+      <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\GotoLineDialog.xaml.cs">
+      <DependentUpon>GotoLineDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\InsertLinkDialog.xaml.cs">
+      <DependentUpon>InsertLinkDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\TextInputDialog.xaml.cs">
+      <DependentUpon>TextInputDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FilesFoldersView.xaml.cs">
       <DependentUpon>FilesFoldersView.xaml</DependentUpon>
     </Compile>
@@ -154,6 +167,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StartupDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\FindReplaceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\GotoLineDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\InsertLinkDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\TextInputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
