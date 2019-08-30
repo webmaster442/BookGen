@@ -49,7 +49,7 @@ namespace BookGen.Framework
             foreach (var shortcode in _shortCodes)
             {
                 var regex = _codeMatches[shortcode.Tag];
-                var matches = regex.Matches(result.ToString());
+                var matches = regex.Matches(content);
                 foreach (Match match in matches)
                 {
                     var generated = shortcode.Generate(GetArguments(match.Value));

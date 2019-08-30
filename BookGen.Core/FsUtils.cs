@@ -158,7 +158,7 @@ namespace BookGen.Core
             return new FsPath(ret);
         }
 
-        public static void SerializeXml<T>(this FsPath path, T obj, IList<Tuple<string, string>> nslist = null)
+        public static void SerializeXml<T>(this FsPath path, T obj, IList<(string prefix, string namespac)> nslist = null)
         {
             FileInfo fileInfo = new FileInfo(path.ToString());
 
@@ -171,7 +171,7 @@ namespace BookGen.Core
                 xnames = new XmlSerializerNamespaces();
                 foreach (var ns in nslist)
                 {
-                    xnames.Add(ns.Item1, ns.Item2);
+                    xnames.Add(ns.prefix, ns.namespac);
                 }
             }
             XmlSerializer xs = new XmlSerializer(typeof(T));

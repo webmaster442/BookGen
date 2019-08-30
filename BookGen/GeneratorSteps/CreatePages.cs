@@ -23,7 +23,12 @@ namespace BookGen.GeneratorSteps
         public void RunStep(RuntimeSettings settings, ILog log)
         {
             log.Info("Generating Sub Markdown Files...");
+#if DEBUG
+            foreach (var file in settings.TocContents.Files)
+#endif
+#if RELEASE
             Parallel.ForEach(settings.TocContents.Files, file =>
+#endif
             {
                 var input = settings.SourceDirectory.Combine(file);
                 var output = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
@@ -37,7 +42,10 @@ namespace BookGen.GeneratorSteps
 
                 var html = Template.Render();
                 output.WriteFile(html);
-            });
+            }
+#if RELEASE
+            );
+#endif
         }
     }
 }

@@ -13,6 +13,7 @@ namespace BookGen
             BuildPrint,
             BuildWeb,
             BuildEpub,
+            BuildWordpress,
             Clean,
             Initialize,
             ValidateConfig,

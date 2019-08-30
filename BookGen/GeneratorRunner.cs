@@ -158,7 +158,7 @@ namespace BookGen
             _log.Info("Building deploy configuration...");
             WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
-            _log.Info("Runtime: {0}", runTime);
+            _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
 
         public void DoPrint()
@@ -166,7 +166,7 @@ namespace BookGen
             _log.Info("Building print configuration...");
             PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
-            _log.Info("Runtime: {0}", runTime);
+            _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
 
         public void DoEpub()
@@ -174,7 +174,15 @@ namespace BookGen
             _log.Info("Building epub configuration...");
             EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
-            _log.Info("Runtime: {0}", runTime);
+            _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+        }
+
+        public void DoWordpress()
+        {
+            _log.Info("Building Wordpress configuration...");
+            WordpressBuilder builder = new WordpressBuilder(WorkDirectory, Configuration, _log);
+            var runTime = builder.Run();
+            _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
 
         public void DoTest()
@@ -183,10 +191,11 @@ namespace BookGen
             Configuration.HostName = "http://localhost:8080/";
             WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
-            _log.Info("Runtime: {0}", runTime);
+            
             using (var server = new HttpTestServer(Path.Combine(WorkDirectory, Configuration.TargetWeb.OutPutDirectory), 8080, _log))
             {
                 Console.Clear();
+                _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
                 _log.Info("Test server running on: http://localhost:8080/");
                 _log.Info("Serving from: {0}", Configuration.TargetWeb.OutPutDirectory);
 

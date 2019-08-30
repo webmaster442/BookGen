@@ -11,6 +11,13 @@ namespace BookGen.Core.Configuration
     public class TemplateOptions : Dictionary<string, string>
     {
         public const string CookieDisplayBannerEnabled = nameof(CookieDisplayBannerEnabled);
+        public const string WordpressTargetHost = nameof(WordpressTargetHost);
+        public const string WordpressAuthorDisplayName = nameof(WordpressAuthorDisplayName);
+        public const string WordpressAuthorLastName = nameof(WordpressAuthorLastName);
+        public const string WordpressAuthorFirstName = nameof(WordpressAuthorFirstName);
+        public const string WordpressAuthorEmail = nameof(WordpressAuthorEmail);
+        public const string WordpressAuthorLogin = nameof(WordpressAuthorLogin);
+        public const string WordpressAuthorId = nameof(WordpressAuthorId);
 
         internal static TemplateOptions CreateDefaultOptions()
         {

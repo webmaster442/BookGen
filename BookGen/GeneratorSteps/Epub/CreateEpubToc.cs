@@ -10,7 +10,7 @@ using BookGen.Domain;
 using BookGen.Domain.Epub;
 using System.Collections.Generic;
 
-namespace BookGen.GeneratorSteps
+namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubToc : IGeneratorStep
     {
