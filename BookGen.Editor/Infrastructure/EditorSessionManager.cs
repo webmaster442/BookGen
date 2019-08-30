@@ -34,6 +34,19 @@ namespace BookGen.Editor.Infrastructure
             {
                 CurrentSession = new EditorSession();
             }
+
+
+            var appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            FsPath path = new FsPath(appdata, "BookGenEditor");
+            if (!path.IsExisting)
+                path.CreateDir(null);
+
+            FsPath dictionaries = path.Combine("Dictionaries");
+            if (!dictionaries.IsExisting)
+                dictionaries.CreateDir(null);
+
+            CurrentSession.DictionaryPath = dictionaries.ToString();
         }
 
         public static void Close()

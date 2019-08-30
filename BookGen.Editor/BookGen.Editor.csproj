@@ -53,11 +53,17 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHunspell, Version=1.2.5554.16953, Culture=neutral, PublicKeyToken=1ac793ea843b4366, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHunspell.1.2.5554.16953\lib\net\NHunspell.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -83,9 +89,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EditorControl\EditorCommand.cs" />
+    <Compile Include="EditorControl\EditorListCommand.cs" />
+    <Compile Include="EditorControl\MarkdownEditor.cs" />
+    <Compile Include="EditorControl\ReformatTableCommand.cs" />
+    <Compile Include="EditorControl\SpellCheck.cs" />
+    <Compile Include="EditorControl\SpellingColorizer.cs" />
     <Compile Include="Infrastructure\DoubleClickBehaviour.cs" />
     <Compile Include="Infrastructure\EditorInfoConverter.cs" />
     <Compile Include="Infrastructure\EditorSessionManager.cs" />
+    <Compile Include="Infrastructure\Log.cs" />
     <Compile Include="Models\EditorSession.cs" />
     <Compile Include="Infrastructure\FileSizeConverter.cs" />
     <Compile Include="Infrastructure\IconConverter.cs" />
@@ -93,8 +106,10 @@
     <Compile Include="Models\DirectoryItem.cs" />
     <Compile Include="Models\FileItem.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ServiceContracts\IDialogService.cs" />
     <Compile Include="ServiceContracts\IFileSystemServices.cs" />
-    <Compile Include="Services\Class1.cs" />
+    <Compile Include="ServiceContracts\INHunspellServices.cs" />
+    <Compile Include="Services\NHunspellServices.cs" />
     <Compile Include="Services\ExceptionHandler.cs" />
     <Compile Include="Services\FileSystemServices.cs" />
     <Compile Include="ServiceContracts\IExceptionHandler.cs" />
@@ -169,6 +184,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditorControl\MardkownSyntax.xshd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -184,6 +200,13 @@
       <Name>BookGen.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Hunspellx64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Hunspellx86.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

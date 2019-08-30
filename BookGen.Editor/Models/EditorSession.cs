@@ -12,7 +12,13 @@ namespace BookGen.Editor.Models
     {
         [JsonIgnore]
         public string WorkDirectory { get; set; }
+
+        [JsonIgnore]
+        public string DictionaryPath { get; set; }
+
         public HashSet<string> PreviousWorkdirs { get; set; }
+
+        public string SelectedLanguage { get; set; }
 
         public EditorSession()
         {
