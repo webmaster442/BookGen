@@ -17,8 +17,8 @@ namespace BookGen.Editor.Infrastructure
         {
             string input = value as string;
 
-            var lines = input?.Count(x => x == '\n') ?? 0;
-            var words = input?.Count(x => x == ' ') ?? 0;
+            var lines = input?.Count(x => x == '\n') +1 ?? 0;
+            var words = input?.Count(x => x == ' ') + 1 ?? 0;
             var chars = input?.Length ?? 0;
             var size = FileSizeConverter.GetFileSize(chars);
 

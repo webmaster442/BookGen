@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:editor="clr-namespace:BookGen.Editor.EditorControl"
+    xmlns:infrastructure="clr-namespace:BookGen.Editor.Infrastructure"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:BookGen.Editor.Properties"
     xmlns:views="clr-namespace:BookGen.Editor.Views"
     Title="MainWindow"
     Width="1280"
@@ -41,7 +43,27 @@
             Fill="Black" />
         <TabControl Grid.Row="2">
             <TabItem Header="Editor">
-                <editor:MarkdownEditor x:Name="MdEditor" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <editor:MarkdownEditor
+                        x:Name="MdEditor"
+                        Grid.Row="0"
+                        FontFamily="Consolas"
+                        FontSize="22"
+                        ScrollBelowDocument="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ScrollBelowDocument}"
+                        ShowColumnRuler="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowColumnRuler}"
+                        ShowLineEndings="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowLineEndings}"
+                        ShowLineNumbers="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowLineNumbers}"
+                        ShowSpaces="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowSpaces}"
+                        ShowTabs="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowTabs}"
+                        WordWrap="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_WordWrap}" />
+                    <Border Grid.Row="1">
+                        <TextBlock Text="{Binding ElementName=MdEditor, Path=Text, Converter={infrastructure:EditorInfoConverter}}" />
+                    </Border>
+                </Grid>
             </TabItem>
             <TabItem Header="Preview" />
             <TabItem Header="Comment" />
