@@ -1,19 +1,13 @@
-﻿using BookGen.Editor.ViewModel;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Editor.ServiceContracts;
+using BookGen.Editor.ViewModel;
 using MahApps.Metro.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BookGen.Editor
 {
@@ -25,8 +19,21 @@ namespace BookGen.Editor
         public MainWindow()
         {
             InitializeComponent();
+            if (!DesignerProperties.GetIsInDesignMode(this))
+            {
+                ConfigureApp();
+            }
+        }
+
+        private void ConfigureApp()
+        {
             App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
-            DataContext = Locator.Resolve<MainViewModel>();
+            var dc = Locator.Resolve<MainViewModel>();
+            dc.Editor = MdEditor;
+            DataContext = dc;
+
+            MdEditor.NHunspellServices = Locator.Resolve<INHunspellServices>();
+            MdEditor.DialogService = Locator.Resolve<IDialogService>();
         }
     }
 }

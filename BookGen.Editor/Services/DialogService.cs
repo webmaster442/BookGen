@@ -3,18 +3,16 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Windows.Controls;
+using BookGen.Editor.ServiceContracts;
+using System;
 
-namespace BookGen.Editor.Views
+namespace BookGen.Editor.Services
 {
-    /// <summary>
-    /// Interaction logic for MainMenuView.xaml
-    /// </summary>
-    internal partial class MainMenuView : UserControl
+    internal class DialogService : IDialogService
     {
-        public MainMenuView()
+        public void ShowSpellSettingsConfiguration()
         {
-            InitializeComponent();
+            throw new NotImplementedException();
         }
     }
 }

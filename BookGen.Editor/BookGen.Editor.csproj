@@ -91,6 +91,7 @@
     </ApplicationDefinition>
     <Compile Include="EditorControl\EditorCommand.cs" />
     <Compile Include="EditorControl\EditorListCommand.cs" />
+    <Compile Include="EditorControl\IMarkdownEditor.cs" />
     <Compile Include="EditorControl\MarkdownEditor.cs" />
     <Compile Include="EditorControl\ReformatTableCommand.cs" />
     <Compile Include="EditorControl\SpellCheck.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="ServiceContracts\IDialogService.cs" />
     <Compile Include="ServiceContracts\IFileSystemServices.cs" />
     <Compile Include="ServiceContracts\INHunspellServices.cs" />
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\NHunspellServices.cs" />
     <Compile Include="Services\ExceptionHandler.cs" />
     <Compile Include="Services\FileSystemServices.cs" />

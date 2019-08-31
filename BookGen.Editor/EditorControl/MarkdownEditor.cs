@@ -22,7 +22,7 @@ using System.Windows.Media;
 
 namespace BookGen.Editor.EditorControl
 {
-    internal sealed class MarkdownEditor : TextEditor, INotifyPropertyChanged, IDisposable
+    internal sealed class MarkdownEditor : TextEditor, IMarkdownEditor
     {
         public bool ShowTabs
         {
@@ -159,7 +159,6 @@ namespace BookGen.Editor.EditorControl
 
         public MarkdownEditor() : base()
         {
-            ReloadSpellCheck();
             SetViewProperties(this);
             SyntaxHighlighting = LoadHighlightingDefinition();
             TextArea.TextView.LinkTextForegroundBrush = new SolidColorBrush(Color.FromRgb(0x56, 0x9C, 0xD6));
@@ -173,6 +172,11 @@ namespace BookGen.Editor.EditorControl
             RedoCommand = new RelayCommand<object>(OnRedo, OnCanRedo);
             ConfigureSpelling = new RelayCommand<object>(OnConfigureSpelling);
             TextArea.TextView.VisualLinesChanged += TextView_VisualLinesChanged;
+
+            if (!DesignerProperties.GetIsInDesignMode(this))
+            {
+                ReloadSpellCheck();
+            }
         }
 
         private void ReloadSpellCheck()
@@ -184,7 +188,7 @@ namespace BookGen.Editor.EditorControl
             }
             _spellCheck = null;
 
-            _hunspell = NHunspellServices.CreateConfiguredHunspell(EditorSessionManager.CurrentSession.SelectedLanguage);
+            _hunspell = NHunspellServices?.CreateConfiguredHunspell(EditorSessionManager.CurrentSession.SelectedLanguage);
             _spellCheck = new SpellCheck(TextArea.TextView, _hunspell);
         }
 
