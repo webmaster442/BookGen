@@ -7,7 +7,7 @@
 function build
 {
 	printf "\nBuilding BookGen ..."
-	dotnet publish -c Release -f netcoreapp2.2 -o ../bin/BookGen
+	dotnet publish BookGen.sln -c Release -f netcoreapp2.2 -o ../bin/BookGen
 	cd bin
 	cd BookGen
 	rm *.pdb
