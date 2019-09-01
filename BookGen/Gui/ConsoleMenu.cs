@@ -146,7 +146,6 @@ namespace BookGen.Gui
         private void UsageInfo()
         {
             Console.WriteLine(ResourceLocator.GetResourceFile<ConsoleMenu>("Resources/Help.txt"));
-            Renderer.PressKeyContinue();
         }
 
     }
