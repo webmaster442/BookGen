@@ -22,6 +22,9 @@ Supported Actions:
     BuildEpub
         Build epub document
 
+	BuildWordpress
+		Build Wordpress compatible XML export file
+
     Clean
         Clean output directory (needs valid config)
 
