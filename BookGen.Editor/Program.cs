@@ -17,6 +17,9 @@ namespace BookGen.Editor
             EditorSessionManager.Initialize();
             Locator.Initialize();
 
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+
             App app = new App();
             app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             app.InitializeComponent();
