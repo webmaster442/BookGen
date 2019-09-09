@@ -97,7 +97,6 @@
     <Compile Include="EditorControl\SpellCheck.cs" />
     <Compile Include="EditorControl\SpellingColorizer.cs" />
     <Compile Include="Infrastructure\DoubleClickBehaviour.cs" />
-    <Compile Include="Infrastructure\EditorInfoConverter.cs" />
     <Compile Include="Infrastructure\EditorSessionManager.cs" />
     <Compile Include="Infrastructure\Log.cs" />
     <Compile Include="Models\EditorSession.cs" />

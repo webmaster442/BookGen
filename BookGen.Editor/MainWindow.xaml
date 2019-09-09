@@ -61,7 +61,26 @@
                         ShowTabs="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowTabs}"
                         WordWrap="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_WordWrap}" />
                     <Border Grid.Row="1">
-                        <TextBlock Text="{Binding ElementName=MdEditor, Path=Text, Converter={infrastructure:EditorInfoConverter}}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,0"
+                                Text="{Binding ElementName=MdEditor, Path=Chars}" />
+                            <TextBlock Text="chars" />
+                            <TextBlock
+                                Margin="5,0"
+                                Text="|" />
+                            <TextBlock
+                                Margin="5,0"
+                                Text="{Binding ElementName=MdEditor, Path=LineCount}" />
+                            <TextBlock Text="lines" />
+                            <TextBlock
+                                Margin="5,0"
+                                Text="|" />
+                            <TextBlock
+                                Margin="5,0"
+                                Text="{Binding ElementName=MdEditor, Path=Chars, Converter={infrastructure:FileSizeConverter}}" />
+                        </StackPanel>
+
                     </Border>
                 </Grid>
             </TabItem>

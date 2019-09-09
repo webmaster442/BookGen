@@ -138,7 +138,10 @@ namespace BookGen.Editor.EditorControl
         public static readonly DependencyProperty ConfigureSpellingProperty =
             DependencyProperty.Register("ConfigureSpelling", typeof(ICommand), typeof(MarkdownEditor), new PropertyMetadata(null));
 
-
+        public int Chars
+        {
+            get { return Document.TextLength; }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -321,6 +324,8 @@ namespace BookGen.Editor.EditorControl
             FirePropertyChange(nameof(Text));
             FirePropertyChange(nameof(CanUndo));
             FirePropertyChange(nameof(CanRedo));
+            FirePropertyChange(nameof(LineCount));
+            FirePropertyChange(nameof(Chars));
         }
 
         private void FirePropertyChange([CallerMemberName]string name = null)
