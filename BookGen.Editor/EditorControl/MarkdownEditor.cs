@@ -160,6 +160,11 @@ namespace BookGen.Editor.EditorControl
         public INHunspellServices NHunspellServices { get; set; }
         public IDialogService DialogService { get; set; }
 
+        IDocument IMarkdownEditor.Document
+        {
+            get { return Document; }
+        }
+
         public MarkdownEditor() : base()
         {
             SetViewProperties(this);
@@ -345,7 +350,16 @@ namespace BookGen.Editor.EditorControl
                 _hunspell.Dispose();
                 _hunspell = null;
             }
-            GC.SuppressFinalize(this);
+        }
+
+        public void ShowFindDialog()
+        {
+            FindReplaceDialog.ShowForFind(this);
+        }
+
+        public void ShowReplaceDialog()
+        {
+            FindReplaceDialog.ShowForReplace(this);
         }
 
         ~MarkdownEditor()

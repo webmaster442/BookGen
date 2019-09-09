@@ -124,7 +124,7 @@
       <DependentUpon>StartupDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\DialogCommons.cs" />
-    <Compile Include="Views\Dialogs\FindReplaceDialog.xaml.cs">
+    <Compile Include="EditorControl\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\GotoLineDialog.xaml.cs">
@@ -174,7 +174,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Dialogs\FindReplaceDialog.xaml">
+    <Page Include="EditorControl\FindReplaceDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

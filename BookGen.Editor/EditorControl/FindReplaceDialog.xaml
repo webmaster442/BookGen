@@ -1,5 +1,5 @@
 ﻿<Window
-    x:Class="BookGen.Editor.Views.Dialogs.FindReplaceDialog"
+    x:Class="BookGen.Editor.EditorControl.FindReplaceDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,6 +7,7 @@
     Title="Find &amp; Replace"
     Width="400"
     Height="250"
+    x:ClassModifier="internal"
     Closed="Window_Closed"
     KeyDown="Window_KeyDown"
     Style="{StaticResource {x:Type Window}}"

@@ -57,6 +57,20 @@
                 Content="{StaticResource Paste}"
                 ToolTip="Paste" />
             <Separator />
+            <Button
+                Command="{Binding DialogFindReplaceCommand}"
+                Content="{StaticResource Find}"
+                ToolTip="Find..." />
+            <Button
+                Command="{Binding DialogFindReplaceCommand}"
+                CommandParameter="replace"
+                Content="{StaticResource Replace}"
+                ToolTip="Replace..." />
+            <Button
+                Command="{Binding DialogGotoLineCommand}"
+                Content="{StaticResource GotoLine}"
+                ToolTip="Go to line..." />
+            <Separator />
             <ToggleButton
                 x:Name="BtnHeader"
                 Content="{StaticResource H0}"
@@ -145,9 +159,11 @@
                 ToolTip="Ordered list" />
             <Separator />
             <Button
+                Command="{Binding DialogInsertPictureCommand}"
                 Content="{StaticResource Image}"
                 ToolTip="Insert Image..." />
             <Button
+                Command="{Binding DialogInsertLinkCommand}"
                 Content="{StaticResource Link}"
                 ToolTip="Insert Link..." />
         </ToolBar>

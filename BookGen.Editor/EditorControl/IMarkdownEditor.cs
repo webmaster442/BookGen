@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Editor.ServiceContracts;
+using ICSharpCode.AvalonEdit.Document;
 using System;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -17,6 +18,8 @@ namespace BookGen.Editor.EditorControl
         bool ShowLineEndings { get; set; }
         bool ShowColumnRuler { get; set; }
         bool ScrollBelowDocument { get; set; }
+        IDocument Document { get; }
+        int CaretOffset { get; set; }
         ICommand WrapWithToken { get; }
         ICommand InsertToken { get; }
         ICommand UndoCommand { get; }
@@ -27,5 +30,10 @@ namespace BookGen.Editor.EditorControl
 
         INHunspellServices NHunspellServices { get; set; }
         IDialogService DialogService { get; set; }
+
+        void ScrollToLine(int line);
+        void ShowFindDialog();
+        void ShowReplaceDialog();
+        void InsertstringAtCaretPos(string text);
     }
 }

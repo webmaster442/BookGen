@@ -10,12 +10,12 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
-namespace BookGen.Editor.Views.Dialogs
+namespace BookGen.Editor.EditorControl
 {
     /// <summary>
     /// Interaction logic for FindReplaceDialog.xaml
     /// </summary>
-    public partial class FindReplaceDialog : Window
+    internal partial class FindReplaceDialog : Window
     {
         private static string textToFind = "";
         private static bool caseSensitive = true;
