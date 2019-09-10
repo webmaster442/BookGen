@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 <!--  Custom styles  -->
                 <ResourceDictionary Source="Styles/MainToolbarIcons.xaml" />
+                <ResourceDictionary Source="Styles/BuildToolbarIcons.xaml"/>
                 <ResourceDictionary Source="Styles/FilesContextMenuIcons.xaml" />
                 <ResourceDictionary Source="Styles/FileTypeIcons.xaml" />
                 <ResourceDictionary Source="Styles/ControlStyles.xaml"/>

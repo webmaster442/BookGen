@@ -109,9 +109,11 @@
     <Compile Include="Models\DirectoryItem.cs" />
     <Compile Include="Models\FileItem.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ServiceContracts\IBookGenServices.cs" />
     <Compile Include="ServiceContracts\IDialogService.cs" />
     <Compile Include="ServiceContracts\IFileSystemServices.cs" />
     <Compile Include="ServiceContracts\INHunspellServices.cs" />
+    <Compile Include="Services\BookGenServices.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\NHunspellServices.cs" />
     <Compile Include="Services\ExceptionHandler.cs" />
@@ -122,6 +124,9 @@
     <Compile Include="ViewModel\NofityModel.cs" />
     <Compile Include="StartupDialog.xaml.cs">
       <DependentUpon>StartupDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BuildMenuView.xaml.cs">
+      <DependentUpon>BuildMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\DialogCommons.cs" />
     <Compile Include="EditorControl\FindReplaceDialog.xaml.cs">
@@ -157,6 +162,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\BuildToolbarIcons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ControlStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -178,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditorControl\FindReplaceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BuildMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

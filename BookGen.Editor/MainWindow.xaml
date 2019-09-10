@@ -33,15 +33,26 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <views:MainMenuView
             x:Name="MainMenu"
-            Grid.Row="0" />
+            Grid.Row="0"
+            Grid.ColumnSpan="2" />
         <Rectangle
             Grid.Row="1"
+            Grid.ColumnSpan="2"
             Height="2"
             Margin="15,2"
             Fill="Black" />
-        <TabControl Grid.Row="2">
+        <views:BuildMenuView
+            Grid.Row="2"
+            Grid.Column="1" />
+        <TabControl
+            Grid.Row="2"
+            Grid.Column="0">
             <TabItem Header="Editor">
                 <Grid>
                     <Grid.RowDefinitions>
