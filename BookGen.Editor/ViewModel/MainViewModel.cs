@@ -3,14 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
 using BookGen.Editor.EditorControl;
 using BookGen.Editor.Infrastructure;
 using BookGen.Editor.ServiceContracts;
 using GalaSoft.MvvmLight;
-using System.Windows.Input;
 using GalaSoft.MvvmLight.CommandWpf;
-using System;
-using BookGen.Core;
+using System.Windows.Input;
 
 namespace BookGen.Editor.ViewModel
 {
@@ -18,6 +17,7 @@ namespace BookGen.Editor.ViewModel
     {
 
         private IMarkdownEditor _editor;
+        private readonly IExceptionHandler _exceptionHandler;
         private FsPath _editedFile;
         private string _editedFileHash;
 
@@ -26,7 +26,11 @@ namespace BookGen.Editor.ViewModel
         public IMarkdownEditor Editor
         {
             get { return _editor; }
-            set { Set(ref _editor, value); }
+            set
+            {
+                Set(ref _editor, value);
+                FormatTableCommand = new ReformatTableCommand(_editor, _exceptionHandler);
+            }
         }
 
         public ICommand SaveCommand { get; }
@@ -34,6 +38,8 @@ namespace BookGen.Editor.ViewModel
         public ICommand DialogInsertLinkCommand { get; }
         public ICommand DialogFindReplaceCommand { get; }
         public ICommand DialogGotoLineCommand { get; }
+        public ICommand FormatTableCommand { get; set; }
+
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
@@ -41,6 +47,7 @@ namespace BookGen.Editor.ViewModel
         public MainViewModel(IFileSystemServices fileSystemServices,
                              IExceptionHandler exceptionHandler)
         {
+            _exceptionHandler = exceptionHandler;
             FileExplorer = new FileBrowserViewModel(fileSystemServices, exceptionHandler);
             FileExplorer.RootDir = EditorSessionManager.CurrentSession.WorkDirectory;
 
@@ -54,7 +61,9 @@ namespace BookGen.Editor.ViewModel
 
         private bool OnCanSave()
         {
-            return _editedFileHash != HashUtils.GetSHA1(Editor.Text);
+            return _editedFile!= null
+                && _editedFile.IsExisting
+                && _editedFileHash != HashUtils.GetSHA1(Editor.Text);
         }
 
         private void OnSave()

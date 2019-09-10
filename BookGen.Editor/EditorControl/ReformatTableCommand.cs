@@ -17,19 +17,18 @@ namespace BookGen.Editor.EditorControl
 {
     internal class ReformatTableCommand : ICommand
     {
-        private readonly MarkdownEditor _editor;
+        private readonly IMarkdownEditor _editor;
         private readonly Regex _tableExpression;
-        private readonly bool _padLeft;
+        private bool _padLeft;
         private readonly IExceptionHandler _exceptionHandler;
         private const string _tablePattern = @"((?:(?:[^\n]*?\|[^\n]*)\ *)?(?:\r?\n|^))((?:\|\ *(?::?-+:?|::)\ *|\|?(?:\ *(?::?-+:?|::)\ *\|)+)(?:\ *(?::?-+:?|::)\ *)?\ *\r?\n)((?:(?:[^\n]*?\|[^\n]*)\ *(?:\r?\n|$))+)";
 
         public event EventHandler CanExecuteChanged;
 
-        public ReformatTableCommand(MarkdownEditor editor, IExceptionHandler exceptionHandler, bool padLeft)
+        public ReformatTableCommand(IMarkdownEditor editor, IExceptionHandler exceptionHandler)
         {
             _exceptionHandler = exceptionHandler;
             _editor = editor;
-            _padLeft = padLeft;
             _tableExpression = new Regex(_tablePattern, RegexOptions.Compiled);
         }
 
@@ -42,6 +41,18 @@ namespace BookGen.Editor.EditorControl
         {
             var selectedText = _editor.Document.GetText(_editor.SelectionStart, _editor.SelectionLength);
 
+            if (parameter is string param)
+            {
+                if (param == "left")
+                    _padLeft = true;
+                else
+                    _padLeft = false;
+            }
+            else
+            {
+                _padLeft = false;
+            }
+
             if (!_tableExpression.IsMatch(selectedText))
             {
                 MessageBox.Show("Selected text isn't a table", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -51,7 +62,7 @@ namespace BookGen.Editor.EditorControl
             _exceptionHandler.SafeRun(() =>
             {
                 var result = ReformatTable(selectedText);
-                _editor.Document.Replace(_editor.SelectionStart, _editor.SelectionLength, result, OffsetChangeMappingType.RemoveAndInsert);
+                _editor.Document.Replace(_editor.SelectionStart, _editor.SelectionLength, result);
             });
         }
 
