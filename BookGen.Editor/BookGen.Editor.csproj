@@ -133,6 +133,9 @@
     <Compile Include="Views\Dialogs\InsertLinkDialog.xaml.cs">
       <DependentUpon>InsertLinkDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\InsertPictureDialog.xaml.cs">
+      <DependentUpon>InsertPictureDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\TextInputDialog.xaml.cs">
       <DependentUpon>TextInputDialog.xaml</DependentUpon>
     </Compile>
@@ -183,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\InsertLinkDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\InsertPictureDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

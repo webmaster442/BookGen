@@ -20,6 +20,7 @@ namespace BookGen.Editor.EditorControl
         bool ScrollBelowDocument { get; set; }
         IDocument Document { get; }
         int CaretOffset { get; set; }
+        string Text { get; set; }
         ICommand WrapWithToken { get; }
         ICommand InsertToken { get; }
         ICommand UndoCommand { get; }

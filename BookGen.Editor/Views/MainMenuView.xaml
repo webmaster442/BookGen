@@ -166,6 +166,8 @@
                 Command="{Binding DialogInsertLinkCommand}"
                 Content="{StaticResource Link}"
                 ToolTip="Insert Link..." />
+            <Separator />
+            
         </ToolBar>
     </ToolBarTray>
 
