@@ -6,12 +6,24 @@
 using BookGen.Editor.ServiceContracts;
 using BookGen.Editor.Views.Dialogs;
 using ICSharpCode.AvalonEdit.Document;
+using MahApps.Metro.Controls;
 using System;
 
 namespace BookGen.Editor.Services
 {
     internal class DialogService : IDialogService
     {
+        public void CloseFlyouts()
+        {
+            if (App.Current.MainWindow is MetroWindow mw)
+            {
+                foreach (Flyout flyout in mw.Flyouts.Items)
+                {
+                    flyout.IsOpen = false;
+                }
+            }
+        }
+
         public bool ShowGotoLineDialog(IDocument currentDocument, int carretOffset, out int line)
         {
             var currentline = currentDocument.GetLineByOffset(carretOffset).LineNumber;

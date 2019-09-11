@@ -108,6 +108,7 @@
     <Compile Include="Locator.cs" />
     <Compile Include="Models\DirectoryItem.cs" />
     <Compile Include="Models\FileItem.cs" />
+    <Compile Include="Models\OpenFileMessage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ServiceContracts\IDialogService.cs" />
     <Compile Include="ServiceContracts\IFileSystemServices.cs" />

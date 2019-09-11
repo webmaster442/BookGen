@@ -6,9 +6,11 @@
 using BookGen.Core;
 using BookGen.Editor.EditorControl;
 using BookGen.Editor.Infrastructure;
+using BookGen.Editor.Models;
 using BookGen.Editor.ServiceContracts;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using System;
 using System.Windows.Input;
 
 namespace BookGen.Editor.ViewModel
@@ -65,10 +67,11 @@ namespace BookGen.Editor.ViewModel
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public MainViewModel(IFileSystemServices fileSystemServices,
-                             IExceptionHandler exceptionHandler)
+                             IExceptionHandler exceptionHandler,
+                             IDialogService dialogService)
         {
             _exceptionHandler = exceptionHandler;
-            FileExplorer = new FileBrowserViewModel(fileSystemServices, exceptionHandler);
+            FileExplorer = new FileBrowserViewModel(fileSystemServices, exceptionHandler, dialogService);
             FileExplorer.RootDir = EditorSessionManager.CurrentSession.WorkDirectory;
             BuildModel = new BuildViewModel(_exceptionHandler);
 
@@ -77,7 +80,13 @@ namespace BookGen.Editor.ViewModel
             DialogInsertLinkCommand = new RelayCommand(OnInsertLink);
             DialogFindReplaceCommand = new RelayCommand<string>(OnFindReplace);
             DialogGotoLineCommand = new RelayCommand(OnGotoLine);
+            MessengerInstance.Register<OpenFileMessage>(this, OnOpenFile);
 
+        }
+
+        private void OnOpenFile(OpenFileMessage obj)
+        {
+            EditedFile = obj.File;
         }
 
         private bool OnCanSave()

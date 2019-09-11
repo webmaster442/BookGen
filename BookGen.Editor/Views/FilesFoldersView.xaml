@@ -95,11 +95,11 @@
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem
-                        Command="{Binding FileBrowserModel.OpenFile}"
+                        Command="{Binding OpenFile}"
                         Header="Open"
                         Icon="{StaticResource OpenDocument}" />
                     <MenuItem
-                        Command="{Binding FileBrowserModel.EditFile}"
+                        Command="{Binding EditFile}"
                         Header="Edit"
                         Icon="{StaticResource EditFile}" />
                     <Separator />

@@ -10,6 +10,8 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using GalaSoft.MvvmLight.Messaging;
+using BookGen.Editor.Views.Dialogs;
 
 namespace BookGen.Editor.ViewModel
 {
@@ -17,6 +19,7 @@ namespace BookGen.Editor.ViewModel
     {
         private readonly IFileSystemServices _fileSystemServices;
         private readonly IExceptionHandler _exceptionHandler;
+        private readonly IDialogService _dialogService;
 
         private ObservableCollection<FileItem> _files;
         private ObservableCollection<DirectoryItem> _directories;
@@ -27,10 +30,12 @@ namespace BookGen.Editor.ViewModel
         private FileItem _selectedFile;
 
         public FileBrowserViewModel(IFileSystemServices fileSystemServices,
-                                    IExceptionHandler exceptionHandler)
+                                    IExceptionHandler exceptionHandler,
+                                    IDialogService dialogService)
         {
             _fileSystemServices = fileSystemServices;
             _exceptionHandler = exceptionHandler;
+            _dialogService = dialogService;
 
             ChangeDirectory = new RelayCommand<DirectoryItem>(OnChangeDir, CanChangeDir);
             _nofityModel = new NofityModel();
@@ -188,8 +193,12 @@ namespace BookGen.Editor.ViewModel
 
         private void OnEditFile()
         {
-            /*if (SelectedFile == null) return;
-            _exceptionHandler.SafeRun(() => EditorServices.LaunchEditorFor(SelectedFile.FullPath));*/
+            if (SelectedFile == null) return;
+            MessengerInstance.Send(new OpenFileMessage
+            {
+                File = new Core.FsPath(SelectedFile.FullPath)
+            });
+            _dialogService.CloseFlyouts();
         }
     }
 }

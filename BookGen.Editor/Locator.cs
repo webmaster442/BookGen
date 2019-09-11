@@ -22,7 +22,9 @@ namespace BookGen.Editor
 
             SimpleIoc.Default.Register<ViewModel.MainViewModel>(() =>
             {
-                return new ViewModel.MainViewModel(Resolve<IFileSystemServices>(), Resolve<IExceptionHandler>());
+                return new ViewModel.MainViewModel(Resolve<IFileSystemServices>(), 
+                                                   Resolve<IExceptionHandler>(),
+                                                   Resolve<IDialogService>());
             });
         }
 
