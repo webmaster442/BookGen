@@ -10,18 +10,32 @@
     <ToolBarTray Orientation="Vertical">
         <ToolBar>
             <Button
+                Command="{Binding InitCommand}"
+                Content="{StaticResource BuildInit}"
+                ToolTip="Init..." />
+            <Button
+                Command="{Binding CleanCommand}"
+                Content="{StaticResource BuildClean}"
+                ToolTip="Clean..." />
+            <Separator />
+            <Button
+                Command="{Binding BuildTestWebsiteCommand}"
                 Content="{StaticResource BuildTest}"
                 ToolTip="Build Test website..." />
             <Button
+                Command="{Binding BuildWebsiteCommand}"
                 Content="{StaticResource BuildWeb}"
                 ToolTip="Build Website..." />
             <Button
+                Command="{Binding BuildPrintCommand}"
                 Content="{StaticResource BuildPrint}"
                 ToolTip="Build printable HTML..." />
             <Button
+                Command="{Binding BuildEpupCommand}"
                 Content="{StaticResource BuildBook}"
                 ToolTip="Build Epub..." />
             <Button
+                Command="{Binding BuildWordpressCommand}"
                 Content="{StaticResource BuildWordpress}"
                 ToolTip="Build Wordpress compatible export..." />
         </ToolBar>

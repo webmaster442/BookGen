@@ -56,8 +56,8 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
-      <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=6.0.253.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.6.0.0-rc1\lib\net45\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
@@ -109,16 +109,15 @@
     <Compile Include="Models\DirectoryItem.cs" />
     <Compile Include="Models\FileItem.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ServiceContracts\IBookGenServices.cs" />
     <Compile Include="ServiceContracts\IDialogService.cs" />
     <Compile Include="ServiceContracts\IFileSystemServices.cs" />
     <Compile Include="ServiceContracts\INHunspellServices.cs" />
-    <Compile Include="Services\BookGenServices.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\NHunspellServices.cs" />
     <Compile Include="Services\ExceptionHandler.cs" />
     <Compile Include="Services\FileSystemServices.cs" />
     <Compile Include="ServiceContracts\IExceptionHandler.cs" />
+    <Compile Include="ViewModel\BuildViewModel.cs" />
     <Compile Include="ViewModel\FileBrowserViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\NofityModel.cs" />

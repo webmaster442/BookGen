@@ -19,7 +19,6 @@ namespace BookGen.Editor
             SimpleIoc.Default.Register<IFileSystemServices, Services.FileSystemServices>();
             SimpleIoc.Default.Register<INHunspellServices, Services.NHuspellServices>();
             SimpleIoc.Default.Register<IDialogService, Services.DialogService>();
-            SimpleIoc.Default.Register<IBookGenServices, Services.BookGenServices>();
 
             SimpleIoc.Default.Register<ViewModel.MainViewModel>(() =>
             {

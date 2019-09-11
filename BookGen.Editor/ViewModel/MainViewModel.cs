@@ -15,13 +15,13 @@ namespace BookGen.Editor.ViewModel
 {
     internal class MainViewModel : ViewModelBase
     {
-
         private IMarkdownEditor _editor;
         private readonly IExceptionHandler _exceptionHandler;
         private FsPath _editedFile;
         private string _editedFileHash;
 
         public FileBrowserViewModel FileExplorer { get; }
+        public BuildViewModel BuildModel { get; set; }
 
         public IMarkdownEditor Editor
         {
@@ -50,6 +50,7 @@ namespace BookGen.Editor.ViewModel
             _exceptionHandler = exceptionHandler;
             FileExplorer = new FileBrowserViewModel(fileSystemServices, exceptionHandler);
             FileExplorer.RootDir = EditorSessionManager.CurrentSession.WorkDirectory;
+            BuildModel = new BuildViewModel(_exceptionHandler);
 
             SaveCommand = new RelayCommand(OnSave, OnCanSave);
             DialogInsertPictureCommand = new RelayCommand(OnInsertPicture);
