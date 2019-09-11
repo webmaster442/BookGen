@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Editor.ServiceContracts;
+using BookGen.Editor.Views.Dialogs;
 using System;
 using System.Diagnostics;
-using System.Windows;
 
 namespace BookGen.Editor.Services
 {
@@ -17,7 +17,7 @@ namespace BookGen.Editor.Services
 #if DEBUG
             Debugger.Break();
 #endif
-            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            DialogCommons.ShowMessage("Error", ex.Message, false);
         }
 
         public void SafeRun(Action action)

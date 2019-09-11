@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Editor.ServiceContracts;
+using BookGen.Editor.Views.Dialogs;
 using ICSharpCode.AvalonEdit.Document;
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace BookGen.Editor.EditorControl
 
             if (!_tableExpression.IsMatch(selectedText))
             {
-                MessageBox.Show("Selected text isn't a table", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                DialogCommons.ShowMessage("Information", "Selected text isn't a table", false);
                 return;
             }
 

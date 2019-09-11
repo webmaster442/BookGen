@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:BookGen.Editor.Properties"
     xmlns:views="clr-namespace:BookGen.Editor.Views"
-    Title="MainWindow"
+    Title="BookGen Editor"
     Width="1280"
     Height="720"
     mc:Ignorable="d">
@@ -65,6 +65,7 @@
                         Grid.Row="0"
                         FontFamily="Consolas"
                         FontSize="22"
+                        IsEnabled="{Binding EditorEnabled}"
                         ScrollBelowDocument="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ScrollBelowDocument}"
                         ShowColumnRuler="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowColumnRuler}"
                         ShowLineEndings="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowLineEndings}"
@@ -99,5 +100,36 @@
             <TabItem Header="Preview" />
             <TabItem Header="Comment" />
         </TabControl>
+        <Grid
+            Grid.RowSpan="99"
+            Grid.ColumnSpan="99"
+            Margin="325,53,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Directory:" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="Edited file:" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="{Binding FileExplorer.RootDir}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding EditedFile}" />
+        </Grid>
     </Grid>
 </mah:MetroWindow>

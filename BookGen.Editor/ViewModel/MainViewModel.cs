@@ -19,6 +19,7 @@ namespace BookGen.Editor.ViewModel
         private readonly IExceptionHandler _exceptionHandler;
         private FsPath _editedFile;
         private string _editedFileHash;
+        private bool _editEnabled;
 
         public FileBrowserViewModel FileExplorer { get; }
         public BuildViewModel BuildModel { get; set; }
@@ -31,6 +32,25 @@ namespace BookGen.Editor.ViewModel
                 Set(ref _editor, value);
                 FormatTableCommand = new ReformatTableCommand(_editor, _exceptionHandler);
             }
+        }
+
+        public FsPath EditedFile
+        {
+            get { return _editedFile; }
+            set
+            {
+                _editedFile = value;
+                Editor.Text = _editedFile?.ReadFile();
+                _editedFileHash = HashUtils.GetSHA1(Editor.Text);
+                RaisePropertyChanged(nameof(EditedFile));
+                EditorEnabled = value?.IsExisting == true;
+            }
+        }
+
+        public bool EditorEnabled
+        {
+            get { return _editEnabled; }
+            set { Set(ref _editEnabled, value); }
         }
 
         public ICommand SaveCommand { get; }
@@ -70,13 +90,6 @@ namespace BookGen.Editor.ViewModel
         private void OnSave()
         {
             _editedFile.WriteFile(Editor.Text);
-            _editedFileHash = HashUtils.GetSHA1(Editor.Text);
-        }
-
-        public void LoadFile(FsPath path)
-        {
-            _editedFile = path;
-            Editor.Text = path.ReadFile();
             _editedFileHash = HashUtils.GetSHA1(Editor.Text);
         }
 
