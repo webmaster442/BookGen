@@ -8,6 +8,7 @@ using BookGen.Editor.Views.Dialogs;
 using ICSharpCode.AvalonEdit.Document;
 using MahApps.Metro.Controls;
 using System;
+using System.Linq;
 
 namespace BookGen.Editor.Services
 {
@@ -20,6 +21,21 @@ namespace BookGen.Editor.Services
                 foreach (Flyout flyout in mw.Flyouts.Items)
                 {
                     flyout.IsOpen = false;
+                }
+            }
+        }
+
+        public void OpenFileExplorer()
+        {
+            if (App.Current.MainWindow is MetroWindow mw)
+            {
+                foreach (Flyout flyout in mw.Flyouts.Items)
+                {
+                    if (flyout.Name == "FileExplorer")
+                    {
+                        flyout.IsOpen = true;
+                        break;
+                    }
                 }
             }
         }

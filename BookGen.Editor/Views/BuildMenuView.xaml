@@ -10,6 +10,11 @@
     <ToolBarTray Orientation="Vertical">
         <ToolBar>
             <Button
+                Command="{Binding OpenFileExplorerCommand}"
+                Content="{StaticResource OpenFileExplorer}"
+                ToolTip="Open File selector..." />
+            <Separator />
+            <Button
                 Command="{Binding InitCommand}"
                 Content="{StaticResource BuildInit}"
                 ToolTip="Init..." />

@@ -25,6 +25,7 @@ namespace BookGen.Editor.ViewModel
         private const string InitCommandstr = "Initialize";
 
         private readonly IExceptionHandler _exceptionHandler;
+        private readonly IDialogService _dialogService;
 
         public ICommand BuildEpupCommand { get; }
         public ICommand BuildTestWebsiteCommand { get; }
@@ -33,6 +34,7 @@ namespace BookGen.Editor.ViewModel
         public ICommand BuildPrintCommand { get; }
         public ICommand CleanCommand { get; }
         public ICommand InitCommand { get; }
+        public ICommand OpenFileExplorerCommand { get; }
 
         private void RunBookGen(string command)
         {
@@ -48,8 +50,10 @@ namespace BookGen.Editor.ViewModel
             });
         }
 
-        public BuildViewModel(IExceptionHandler exceptionHandler)
+        public BuildViewModel(IExceptionHandler exceptionHandler,
+                              IDialogService dialogService)
         {
+            _dialogService = dialogService; 
             _exceptionHandler = exceptionHandler;
             BuildEpupCommand = new RelayCommand(OnBuildEpub);
             BuildTestWebsiteCommand = new RelayCommand(OnBuildTestWebsite);
@@ -58,6 +62,12 @@ namespace BookGen.Editor.ViewModel
             BuildPrintCommand = new RelayCommand(BuildPrint);
             CleanCommand = new RelayCommand(OnClean);
             InitCommand = new RelayCommand(OnInit);
+            OpenFileExplorerCommand = new RelayCommand(OnOpenFileExplorer);
+        }
+
+        private void OnOpenFileExplorer()
+        {
+            _dialogService.OpenFileExplorer();
         }
 
         private void OnInit()

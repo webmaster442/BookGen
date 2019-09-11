@@ -73,7 +73,7 @@ namespace BookGen.Editor.ViewModel
             _exceptionHandler = exceptionHandler;
             FileExplorer = new FileBrowserViewModel(fileSystemServices, exceptionHandler, dialogService);
             FileExplorer.RootDir = EditorSessionManager.CurrentSession.WorkDirectory;
-            BuildModel = new BuildViewModel(_exceptionHandler);
+            BuildModel = new BuildViewModel(_exceptionHandler, dialogService);
 
             SaveCommand = new RelayCommand(OnSave, OnCanSave);
             DialogInsertPictureCommand = new RelayCommand(OnInsertPicture);

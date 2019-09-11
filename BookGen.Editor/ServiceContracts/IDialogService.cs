@@ -14,5 +14,6 @@ namespace BookGen.Editor.ServiceContracts
         bool ShowInsertLinkDialog(out string link, out string linkText);
         bool ShowInsertPictureDialog(out bool isFigure, out string url, out string alt);
         void CloseFlyouts();
+        void OpenFileExplorer();
     }
 }
