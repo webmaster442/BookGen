@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 using BookGen.Editor.Models;
 using BookGen.Editor.ServiceContracts;
+using BookGen.Editor.Views.Dialogs;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -111,23 +112,26 @@ namespace BookGen.Editor.Services
 
         public void CreateFolder(string path)
         {
-            /*var namedialog = new Dialogs.TextInput("Enter folder name");
+            var namedialog = new TextInputDialog("Enter folder name");
             if (namedialog.ShowDialog() == true)
             {
                 var name = Path.Combine(path, namedialog.Inputstring);
                 if (!Directory.Exists(name))
                     Directory.CreateDirectory(name);
-            }*/
+            }
         }
 
         public void CreateFile(string path)
         {
-            /*var namedialog = new Dialogs.TextInput("Enter file name");
+            var namedialog = new TextInputDialog("Enter file name");
             if (namedialog.ShowDialog() == true)
             {
                 var name = Path.Combine(path, namedialog.Inputstring);
-                using (var fs = File.Create(name)) { }
-            }*/
+                using (var fs = File.Create(name))
+                {
+                    //empty
+                }
+            }
         }
 
         public void DeleteFile(string path)
@@ -142,8 +146,8 @@ namespace BookGen.Editor.Services
 
         public void RenameFile(string path)
         {
-            /*if (!File.Exists(path)) return;
-            var namedialog = new Dialogs.TextInput("Enter new file name");
+            if (!File.Exists(path)) return;
+            var namedialog = new TextInputDialog("Enter new file name");
 
             namedialog.Inputstring = Path.GetFileName(path);
 
@@ -152,7 +156,7 @@ namespace BookGen.Editor.Services
                 var dir = Path.GetDirectoryName(path);
                 var newName = Path.Combine(dir, namedialog.Inputstring);
                 File.Move(path, newName);
-            }*/
+            }
         }
     }
 }
