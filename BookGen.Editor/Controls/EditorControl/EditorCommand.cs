@@ -7,7 +7,7 @@ using ICSharpCode.AvalonEdit.Document;
 using System;
 using System.Windows.Input;
 
-namespace BookGen.Editor.EditorControl
+namespace BookGen.Editor.Controls
 {
     internal class EditorCommand: ICommand
     {

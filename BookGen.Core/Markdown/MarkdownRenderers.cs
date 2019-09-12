@@ -15,6 +15,7 @@ namespace BookGen.Core.Markdown
         private static readonly MarkdownPipeline _printpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
         private static readonly MarkdownPipeline _plainpipeline = new MarkdownPipelineBuilder().Build();
         private static readonly MarkdownPipeline _epubpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<EpubModifier>().Build();
+        private static readonly MarkdownPipeline _previewpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PreviewModifier>().Build();
 
         /// <summary>
         /// Generate markdown to html
@@ -47,6 +48,12 @@ namespace BookGen.Core.Markdown
         {
             PrintModifier.RuntimeConfig = settings;
             return Markdig.Markdown.ToHtml(md, _printpipeline);
+        }
+
+        public static string Markdown2Preview(string md, FsPath rootPath)
+        {
+            PreviewModifier.WorkDir = rootPath;
+            return Markdig.Markdown.ToHtml(md, _previewpipeline);
         }
     }
 }

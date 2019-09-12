@@ -20,7 +20,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace BookGen.Editor.EditorControl
+namespace BookGen.Editor.Controls
 {
     internal sealed class MarkdownEditor : TextEditor, IMarkdownEditor
     {
@@ -202,7 +202,7 @@ namespace BookGen.Editor.EditorControl
 
         private IHighlightingDefinition LoadHighlightingDefinition()
         {
-            var resourceName = "BookGen.Editor.EditorControl.MardkownSyntax.xshd";
+            var resourceName = "BookGen.Editor.Controls.MardkownSyntax.xshd";
             var type = typeof(MarkdownEditor);
             using (var stream = type.Assembly.GetManifestResourceStream(resourceName))
             {

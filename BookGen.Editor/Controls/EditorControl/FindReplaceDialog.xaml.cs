@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 
-namespace BookGen.Editor.EditorControl
+namespace BookGen.Editor.Controls
 {
     /// <summary>
     /// Interaction logic for FindReplaceDialog.xaml

@@ -92,13 +92,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="EditorControl\EditorCommand.cs" />
-    <Compile Include="EditorControl\EditorListCommand.cs" />
-    <Compile Include="EditorControl\IMarkdownEditor.cs" />
-    <Compile Include="EditorControl\MarkdownEditor.cs" />
-    <Compile Include="EditorControl\ReformatTableCommand.cs" />
-    <Compile Include="EditorControl\SpellCheck.cs" />
-    <Compile Include="EditorControl\SpellingColorizer.cs" />
+    <Compile Include="Controls\EditorControl\EditorCommand.cs" />
+    <Compile Include="Controls\EditorControl\EditorListCommand.cs" />
+    <Compile Include="Controls\EditorControl\IMarkdownEditor.cs" />
+    <Compile Include="Controls\EditorControl\MarkdownEditor.cs" />
+    <Compile Include="Controls\EditorControl\ReformatTableCommand.cs" />
+    <Compile Include="Controls\EditorControl\SpellCheck.cs" />
+    <Compile Include="Controls\EditorControl\SpellingColorizer.cs" />
     <Compile Include="Infrastructure\DoubleClickBehaviour.cs" />
     <Compile Include="Infrastructure\EditorSessionManager.cs" />
     <Compile Include="Infrastructure\Log.cs" />
@@ -129,7 +129,7 @@
       <DependentUpon>BuildMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\DialogCommons.cs" />
-    <Compile Include="EditorControl\FindReplaceDialog.xaml.cs">
+    <Compile Include="Controls\EditorControl\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\GotoLineDialog.xaml.cs">
@@ -186,7 +186,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EditorControl\FindReplaceDialog.xaml">
+    <Page Include="Controls\EditorControl\FindReplaceDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -237,7 +237,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditorControl\MardkownSyntax.xshd" />
+    <EmbeddedResource Include="Controls\EditorControl\MardkownSyntax.xshd" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -261,6 +261,9 @@
     <None Include="Hunspellx86.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Controls\Preview\Style.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

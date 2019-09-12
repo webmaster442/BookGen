@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
-using BookGen.Editor.EditorControl;
+using BookGen.Editor.Controls;
 using BookGen.Editor.Infrastructure;
 using BookGen.Editor.Models;
 using BookGen.Editor.ServiceContracts;

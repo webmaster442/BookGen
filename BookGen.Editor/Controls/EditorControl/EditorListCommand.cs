@@ -8,7 +8,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 
-namespace BookGen.Editor.EditorControl
+namespace BookGen.Editor.Controls
 {
     internal class EditorListCommand : ICommand
     {

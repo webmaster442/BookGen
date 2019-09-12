@@ -11,7 +11,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace BookGen.Editor.EditorControl
+namespace BookGen.Editor.Controls
 {
     internal class SpellingColorizer : IBackgroundRenderer
     {
