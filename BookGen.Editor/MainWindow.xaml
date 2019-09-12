@@ -96,7 +96,9 @@
                     </Border>
                 </Grid>
             </TabItem>
-            <TabItem Header="Preview" />
+            <TabItem Header="Preview">
+                <controls:HTMLPreview Markdown="{Binding ElementName=MdEditor, Path=Text}"/>
+            </TabItem>
             <TabItem Header="Comment" />
         </TabControl>
         <Grid

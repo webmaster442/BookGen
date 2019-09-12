@@ -202,7 +202,7 @@ namespace BookGen.Editor.Controls
 
         private IHighlightingDefinition LoadHighlightingDefinition()
         {
-            var resourceName = "BookGen.Editor.Controls.MardkownSyntax.xshd";
+            var resourceName = "BookGen.Editor.Controls.EditorControl.MardkownSyntax.xshd";
             var type = typeof(MarkdownEditor);
             using (var stream = type.Assembly.GetManifestResourceStream(resourceName))
             {
