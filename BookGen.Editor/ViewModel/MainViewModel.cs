@@ -8,6 +8,7 @@ using BookGen.Editor.Controls;
 using BookGen.Editor.Infrastructure;
 using BookGen.Editor.Models;
 using BookGen.Editor.ServiceContracts;
+using BookGen.Editor.Views.Dialogs;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -33,6 +34,15 @@ namespace BookGen.Editor.ViewModel
             {
                 Set(ref _editor, value);
                 FormatTableCommand = new ReformatTableCommand(_editor, _exceptionHandler);
+                _editor.PropertyChanged += _editor_PropertyChanged;
+            }
+        }
+
+        private void _editor_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(_editor.Text))
+            {
+                SaveCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -46,6 +56,7 @@ namespace BookGen.Editor.ViewModel
                 _editedFileHash = HashUtils.GetSHA1(Editor.Text);
                 RaisePropertyChanged(nameof(EditedFile));
                 EditorEnabled = value?.IsExisting == true;
+                SaveCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -55,7 +66,7 @@ namespace BookGen.Editor.ViewModel
             set { Set(ref _editEnabled, value); }
         }
 
-        public ICommand SaveCommand { get; }
+        public RelayCommand SaveCommand { get; }
         public ICommand DialogInsertPictureCommand { get; }
         public ICommand DialogInsertLinkCommand { get; }
         public ICommand DialogFindReplaceCommand { get; }
@@ -84,14 +95,22 @@ namespace BookGen.Editor.ViewModel
 
         }
 
-        private void OnOpenFile(OpenFileMessage obj)
+#pragma warning disable S3168 // "async" methods should not return "void"
+        private async void OnOpenFile(OpenFileMessage obj)
         {
+            if (OnCanSave())
+            {
+                var result = await DialogCommons.ShowMessage("File Save", "File Modified since last save. Save changes?", true);
+                if (result) OnSave();
+            }
             EditedFile = obj.File;
         }
+#pragma warning restore S3168 // "async" methods should not return "void"
 
         private bool OnCanSave()
         {
-            return _editedFile!= null
+            return
+                _editedFile != null
                 && _editedFile.IsExisting
                 && _editedFileHash != HashUtils.GetSHA1(Editor.Text);
         }

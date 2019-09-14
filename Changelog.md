@@ -1,6 +1,7 @@
 # 1.0 Preview 3
 
 * Help now displays Usage informations correctly
+* Editor Preview
 
 # 1.0 Preview 2 - 2019.09.02
 
