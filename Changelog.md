@@ -1,3 +1,7 @@
+# 1.0 Preview 3
+
+* Help now displays Usage informations correctly
+
 # 1.0 Preview 2 - 2019.09.02
 
 * Unix: Fixed shell file line endings (hopefully)

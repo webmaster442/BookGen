@@ -11,30 +11,8 @@ Arguments:
     -d, --dir            Specity working directory
     -v, --verbose        Optional argument. Turns on detailed logging. Usefull for debug.
     
-Supported Actions:
-
-    Test
-        Build website with test params & runs it in browser
-        
-    BuildPrint
-        Build printable html
-        
-    BuildEpub
-        Build epub document
-
-	BuildWordpress
-		Build Wordpress compatible XML export file
-
-    Clean
-        Clean output directory (needs valid config)
-
-    Initialize
-        Interactive setup that allows config creation and book structure
-    
-    ValidateConfig
-        Validates configurarion file, bookgen.json and prints out a list of
-        issues in the config file, if there are.
-
 If no directory parameter is given Current Directory will be used as working 
 directory.
+
+Supported Actions:
 
