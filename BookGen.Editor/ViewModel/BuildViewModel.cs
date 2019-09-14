@@ -5,7 +5,7 @@
 
 using BookGen.Editor.Infrastructure;
 using BookGen.Editor.ServiceContracts;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Diagnostics;
 using System.IO;

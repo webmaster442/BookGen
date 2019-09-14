@@ -39,8 +39,11 @@ namespace BookGen.Editor.Controls
         {
             Progress.Visibility = Visibility.Visible;
             string html = await PreviewRender.RenderPreviewForMd(Markdown);
-            Browser.NavigateToString(html);
-            Progress.Visibility = Visibility.Collapsed;
+            Dispatcher.Invoke(() =>
+            {
+                Browser.NavigateToString(html);
+                Progress.Visibility = Visibility.Collapsed;
+            });
         }
 #pragma warning restore S3168 // "async" methods should not return "void"
 

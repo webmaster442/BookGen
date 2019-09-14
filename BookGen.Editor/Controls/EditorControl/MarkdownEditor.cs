@@ -5,7 +5,7 @@
 
 using BookGen.Editor.Infrastructure;
 using BookGen.Editor.ServiceContracts;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Highlighting;

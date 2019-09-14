@@ -9,7 +9,7 @@ using BookGen.Editor.Infrastructure;
 using BookGen.Editor.Models;
 using BookGen.Editor.ServiceContracts;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Windows.Input;
 
