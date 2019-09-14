@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
+using BookGen.Editor.Infrastructure;
 using BookGen.Editor.ServiceContracts;
 using BookGen.Editor.Views.Dialogs;
 using ICSharpCode.AvalonEdit.Document;
@@ -14,6 +16,13 @@ namespace BookGen.Editor.Services
 {
     internal class DialogService : IDialogService
     {
+        private readonly IFileSystemServices _fileSystemServices;
+
+        public DialogService(IFileSystemServices fileSystemServices)
+        {
+            _fileSystemServices = fileSystemServices;
+        }
+
         public void CloseFlyouts()
         {
             if (App.Current.MainWindow is MetroWindow mw)
@@ -75,7 +84,20 @@ namespace BookGen.Editor.Services
 
         public bool ShowInsertPictureDialog(out bool isFigure, out string url, out string alt)
         {
-            throw new NotImplementedException();
+            var dir = new FsPath(EditorSessionManager.CurrentSession.WorkDirectory);
+            var dialog = new InsertPictureDialog(dir, _fileSystemServices);
+            if (dialog.ShowDialog() == true)
+            {
+                isFigure = dialog.IsFigure;
+                url = dialog.Url;
+                alt = dialog.Alt;
+                return true;
+            }
+
+            isFigure = false;
+            url = string.Empty;
+            alt = string.Empty;
+            return false;
         }
 
         public void ShowSpellSettingsConfiguration()
