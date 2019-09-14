@@ -9,7 +9,7 @@
     <AssemblyTitle>BookGen.Editor</AssemblyTitle>
     <Product>BookGen.Editor</Product>
     <Copyright>Copyright ©  2019</Copyright>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
