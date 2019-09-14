@@ -12,9 +12,12 @@ using BookGen.Gui;
 using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace BookGen
 {
@@ -46,15 +49,32 @@ namespace BookGen
             menu.Run();
         }
 
-        public void RunHelp()
+        public void RunHelp(bool exits = true)
         {
-            var help = ResourceLocator.GetResourceFile<GeneratorRunner>("Resources/Help.txt");
+            var actionString = new StringBuilder(4096);
 
-            _log.Info(help);
+            actionString.AppendLine(ResourceLocator.GetResourceFile<GeneratorRunner>("Resources/Help.txt"));
+
+            Type actionType = typeof(ParsedOptions.ActionType);
+
+            foreach (var action in Enum.GetNames(actionType).OrderBy(o => o))
+            {
+                actionString.Append("    ").AppendLine(action);
+                var memberInfo = actionType.GetMember(action);
+                var desc = memberInfo[0].GetCustomAttribute<DescriptionAttribute>();
+                actionString.Append("      ").AppendLine(desc.Description);
+                actionString.AppendLine();
+            }
+
+            _log.Info(actionString.ToString());
+
+            if (exits)
+            {
 #if DEBUG
-            Program.ShowMessageBox("Press a key to continue");
+                Program.ShowMessageBox("Press a key to continue");
 #endif
-            Environment.Exit(1);
+                Environment.Exit(1);
+            }
         }
 
         #region Helpers
@@ -136,6 +156,7 @@ namespace BookGen
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWeb.OutPutDirectory), _log);
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetPrint.OutPutDirectory), _log);
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetEpub.OutPutDirectory), _log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWordpress.OutPutDirectory), _log);
         }
 
         private static Version GetVersion()

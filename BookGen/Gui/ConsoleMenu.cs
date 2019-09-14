@@ -99,7 +99,7 @@ namespace BookGen.Gui
             };
             yield return new Button
             {
-                Action = () => UsageInfo(),
+                Action = () => _runner.RunHelp(false),
                 Content = "Display usage info"
             };
             yield return new TextBlock
@@ -142,11 +142,5 @@ namespace BookGen.Gui
                 DoRender();
             }
         }
-
-        private void UsageInfo()
-        {
-            Console.WriteLine(ResourceLocator.GetResourceFile<ConsoleMenu>("Resources/Help.txt"));
-        }
-
     }
 }
