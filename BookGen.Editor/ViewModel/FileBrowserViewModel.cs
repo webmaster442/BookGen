@@ -181,7 +181,13 @@ namespace BookGen.Editor.ViewModel
         private void OnOpenFile()
         {
             if (SelectedFile == null) return;
-            _exceptionHandler.SafeRun(() => System.Diagnostics.Process.Start(SelectedFile.FullPath));
+            _exceptionHandler.SafeRun(() =>
+            {
+                using var p = new System.Diagnostics.Process();
+                p.StartInfo.FileName = SelectedFile.FullPath;
+                p.StartInfo.UseShellExecute = true;
+                p.Start();
+            });
         }
 
         private bool CanEditFile()

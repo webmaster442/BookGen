@@ -47,7 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Composition" Version="4.6.0-preview9.19421.4" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.6.0-rc1.19456.4" />
   </ItemGroup>
 
   <ItemGroup>

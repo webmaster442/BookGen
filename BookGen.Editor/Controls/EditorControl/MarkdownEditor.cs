@@ -180,6 +180,7 @@ namespace BookGen.Editor.Controls
             RedoCommand = new RelayCommand<object>(OnRedo, OnCanRedo);
             ConfigureSpelling = new RelayCommand<object>(OnConfigureSpelling);
             TextArea.TextView.VisualLinesChanged += TextView_VisualLinesChanged;
+            Options.AllowToggleOverstrikeMode = true;
 
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
@@ -331,6 +332,8 @@ namespace BookGen.Editor.Controls
             FirePropertyChange(nameof(CanRedo));
             FirePropertyChange(nameof(LineCount));
             FirePropertyChange(nameof(Chars));
+            (UndoCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
+            (RedoCommand as RelayCommand<object>)?.RaiseCanExecuteChanged();
         }
 
         private void FirePropertyChange([CallerMemberName]string name = null)
