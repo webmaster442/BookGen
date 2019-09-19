@@ -1,10 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush Color="#002b36" x:Key="DarkBlue"/>
-    <SolidColorBrush Color="#002b36" x:Key="LighterBlue"/>
-    <SolidColorBrush Color="#7f8f93" x:Key="Grey"/>
-    <SolidColorBrush Color="#e7e7e7" x:Key="TextWhite"/>
+    <SolidColorBrush Color="#002b36" x:Key="ThemeDarkBlue"/>
+    <SolidColorBrush Color="#004052" x:Key="ThemeLighterBlue"/>
+    <SolidColorBrush Color="#7f8f93" x:Key="ThemeGrey"/>
+    <SolidColorBrush Color="#e7e7e7" x:Key="ThemeTextWhite"/>
     
     <!-- Metro colors -->
 

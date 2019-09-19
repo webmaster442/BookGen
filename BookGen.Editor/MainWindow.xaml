@@ -12,6 +12,7 @@
     Title="BookGen Editor"
     Width="1280"
     Height="720"
+    Background="{StaticResource ThemeDarkBlue}"
     TitleCharacterCasing="Normal"
     mc:Ignorable="d">
     <mah:MetroWindow.Flyouts>
@@ -47,7 +48,8 @@
         <views:MainMenuView
             x:Name="MainMenu"
             Grid.Row="0"
-            Grid.ColumnSpan="2" />
+            Grid.ColumnSpan="2"
+            Background="{StaticResource ThemeLighterBlue}" />
         <Rectangle
             Grid.Row="1"
             Grid.ColumnSpan="2"
@@ -57,10 +59,12 @@
         <views:BuildMenuView
             Grid.Row="2"
             Grid.Column="1"
+            Background="{StaticResource ThemeLighterBlue}"
             DataContext="{Binding BuildModel}" />
         <TabControl
             Grid.Row="2"
-            Grid.Column="0">
+            Grid.Column="0"
+            Background="Transparent">
             <TabItem Header="Editor">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -70,8 +74,10 @@
                     <controls:MarkdownEditor
                         x:Name="MdEditor"
                         Grid.Row="0"
+                        Background="Transparent"
                         FontFamily="Consolas"
                         FontSize="22"
+                        Foreground="{StaticResource ThemeTextWhite}"
                         IsEnabled="{Binding EditorEnabled}"
                         ScrollBelowDocument="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ScrollBelowDocument}"
                         ShowColumnRuler="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowColumnRuler}"
@@ -81,26 +87,34 @@
                         ShowTabs="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowTabs}"
                         WordWrap="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_WordWrap}" />
                     <Border Grid.Row="1">
-                        <StackPanel Orientation="Horizontal">
-                            <controls:KeyStatusDisplay
-                                Margin="10,0,0,0"
-                                Editor="{Binding ElementName=MdEditor}" />
+                        <StackPanel
+                            Background="{StaticResource ThemeLighterBlue}"
+                            Orientation="Horizontal">
                             <TextBlock
                                 Margin="5,0"
+                                Foreground="{StaticResource ThemeTextWhite}"
                                 Text="{Binding ElementName=MdEditor, Path=Chars}" />
-                            <TextBlock Text="chars" />
+                            <TextBlock
+                                Foreground="{StaticResource ThemeTextWhite}"
+                                Text="chars" />
                             <TextBlock
                                 Margin="5,0"
+                                Foreground="{StaticResource ThemeTextWhite}"
                                 Text="|" />
                             <TextBlock
                                 Margin="5,0"
+                                Foreground="{StaticResource ThemeTextWhite}"
                                 Text="{Binding ElementName=MdEditor, Path=LineCount}" />
-                            <TextBlock Text="lines" />
+                            <TextBlock
+                                Foreground="{StaticResource ThemeTextWhite}"
+                                Text="lines" />
                             <TextBlock
                                 Margin="5,0"
+                                Foreground="{StaticResource ThemeTextWhite}"
                                 Text="|" />
                             <TextBlock
                                 Margin="5,0"
+                                Foreground="{StaticResource ThemeTextWhite}"
                                 Text="{Binding ElementName=MdEditor, Path=Chars, Converter={infrastructure:FileSizeConverter}}" />
                         </StackPanel>
                     </Border>
@@ -128,18 +142,22 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
+                Foreground="{StaticResource ThemeGrey}"
                 Text="Directory:" />
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="0"
+                Foreground="{StaticResource ThemeGrey}"
                 Text="Edited file:" />
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
+                Foreground="{StaticResource ThemeGrey}"
                 Text="{Binding FileExplorer.RootDir}" />
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="1"
+                Foreground="{StaticResource ThemeGrey}"
                 Text="{Binding EditedFile}" />
         </Grid>
     </Grid>

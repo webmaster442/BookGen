@@ -10,6 +10,7 @@
     Height="450"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
+    Background="{StaticResource ThemeDarkBlue}"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -21,6 +22,7 @@
             Grid.Row="0"
             Margin="5"
             FontSize="22"
+            Foreground="{StaticResource ThemeTextWhite}"
             Text="Latest Projects..." />
         <ItemsControl
             x:Name="WorkDirs"

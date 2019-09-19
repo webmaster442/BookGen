@@ -10,6 +10,8 @@
     x:ClassModifier="internal"
     Closed="Window_Closed"
     KeyDown="Window_KeyDown"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
     WindowStartupLocation="CenterScreen"
     WindowStyle="ToolWindow"
     mc:Ignorable="d">
@@ -36,12 +38,11 @@
                         Name="txtFind"
                         Margin="3" />
                     <Button
-                        Width="80"
-                        Height="25"
                         Margin="5"
                         HorizontalAlignment="Right"
                         Click="FindNextClick"
-                        Content="Find Next [F3]" />
+                        Content="Find Next [F3]"
+                        Style="{StaticResource DialogButton}" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Replace">
@@ -60,23 +61,24 @@
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
                         <Button
-                            Height="25"
                             Margin="5"
                             HorizontalAlignment="Right"
                             Click="FindNext2Click"
-                            Content="Find Next [F3]" />
+                            Content="Find Next [F3]"
+                            Style="{StaticResource DialogButton}" />
                         <Button
-                            Height="25"
                             Margin="5"
                             HorizontalAlignment="Right"
                             Click="ReplaceClick"
-                            Content="Replace [Alt+R]" />
+                            Content="Replace [Alt+R]"
+                            Style="{StaticResource DialogButton}" />
                         <Button
                             Height="25"
                             Margin="5"
                             HorizontalAlignment="Right"
                             Click="ReplaceAllClick"
-                            Content="Replace All [Alt+A]" />
+                            Content="Replace All [Alt+A]"
+                            Style="{StaticResource DialogButton}" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>

@@ -52,7 +52,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Controls\Preview\Style.css" />
+    <EmbeddedResource Include="Controls\Preview\Style.css" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

@@ -121,11 +121,13 @@
             <Button
                 x:Name="BtnInsert"
                 Click="BtnInsert_Click"
-                Content="Insert [Ctrl+Enter]" />
+                Content="Insert [Ctrl+Enter]"
+                Style="{StaticResource DialogButton}" />
             <Button
                 x:Name="BtnCancel"
                 Click="BtnCancel_Click"
-                Content="Cancel [Esc]" />
+                Content="Cancel [Esc]"
+                Style="{StaticResource DialogButton}" />
         </StackPanel>
     </Grid>
 </Window>

@@ -7,7 +7,7 @@
     d:DesignHeight="450"
     d:DesignWidth="50"
     mc:Ignorable="d">
-    <ToolBarTray Orientation="Vertical">
+    <ToolBarTray Orientation="Vertical" Background="Transparent">
         <ToolBar>
             <Button
                 Command="{Binding OpenFileExplorerCommand}"

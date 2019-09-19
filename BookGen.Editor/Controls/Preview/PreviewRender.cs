@@ -41,9 +41,18 @@ namespace BookGen.Editor.Controls
             buffer.AppendLine("<head>");
             buffer.AppendLine("<meta charset=\"utf-8\"/>");
             buffer.AppendLine("<style type=\"text/css\">");
-            buffer.AppendLine("");
+            buffer.AppendLine(ReadCSS());
             buffer.AppendLine("</style>");
             buffer.AppendLine("</head><body>");
+        }
+
+        private static string ReadCSS()
+        {
+            const string cssName = "BookGen.Editor.Controls.Preview.Style.css";
+            var type = typeof(PreviewRender);
+            using var stream = type.Assembly.GetManifestResourceStream(cssName);
+            using var reader = new System.IO.StreamReader(stream);
+            return reader.ReadToEnd();
         }
     }
 }
