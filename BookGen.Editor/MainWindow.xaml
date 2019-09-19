@@ -90,6 +90,15 @@
                         <StackPanel
                             Background="{StaticResource ThemeLighterBlue}"
                             Orientation="Horizontal">
+                            <controls:ZoomComboBox
+                                x:Name="Zoom"
+                                Editor="{Binding ElementName=MdEditor}">
+                                <controls:ZoomComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding StringFormat={}{0} %}" />
+                                    </DataTemplate>
+                                </controls:ZoomComboBox.ItemTemplate>
+                            </controls:ZoomComboBox>
                             <TextBlock
                                 Margin="5,0"
                                 Foreground="{StaticResource ThemeTextWhite}"

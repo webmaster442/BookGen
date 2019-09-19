@@ -7,7 +7,9 @@ using BookGen.Editor.ServiceContracts;
 using BookGen.Editor.ViewModel;
 using MahApps.Metro.Controls;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 
 namespace BookGen.Editor
 {
@@ -22,6 +24,16 @@ namespace BookGen.Editor
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 ConfigureApp();
+            }
+            PreviewMouseWheel += MainWindow_PreviewMouseWheel;
+        }
+
+        private void MainWindow_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                int delta = e.Delta;
+                Zoom.ChangeByDelta(delta);
             }
         }
 
