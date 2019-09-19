@@ -5,7 +5,8 @@
     <SolidColorBrush Color="#004052" x:Key="ThemeLighterBlue"/>
     <SolidColorBrush Color="#7f8f93" x:Key="ThemeGrey"/>
     <SolidColorBrush Color="#e7e7e7" x:Key="ThemeTextWhite"/>
-    
+    <SolidColorBrush Color="#7f8f93" x:Key="ThemeIcons"/>
+
     <!-- Metro colors -->
 
     <SolidColorBrush Color="#99b433" x:Key="LightGreen"/>

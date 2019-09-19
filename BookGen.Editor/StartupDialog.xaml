@@ -8,9 +8,9 @@
     Title="BookGen Editor"
     Width="800"
     Height="450"
+    Background="{StaticResource ThemeDarkBlue}"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
-    Background="{StaticResource ThemeDarkBlue}"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -39,10 +39,14 @@
                             Content="{StaticResource FileType-Folder}" />
                         <Button
                             Grid.Column="1"
+                            Margin="5,0"
+                            VerticalAlignment="Center"
                             Click="Button_Click"
                             CommandParameter="{Binding}"
-                            Margin="3"
-                            Content="{Binding}" />
+                            Content="{Binding}"
+                            FontSize="18"
+                            Foreground="{StaticResource ThemeTextWhite}"
+                            Style="{StaticResource LinkButton}" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -54,7 +58,7 @@
             <Button
                 x:Name="BtnBrowse"
                 Click="BtnBrowse_Click"
-                Content="Browse..."
+                Content="Open Folder..."
                 Style="{StaticResource DialogButton}" />
             <Button
                 x:Name="BtnExit"

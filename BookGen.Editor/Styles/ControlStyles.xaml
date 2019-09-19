@@ -13,4 +13,27 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
+    <Style
+        x:Key="LinkButton"
+        TargetType="Button">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock
+                        x:Name="PART_LINK"
+                        Foreground="{TemplateBinding Foreground}"
+                        TextDecorations="Underline">
+                        <ContentPresenter />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" TargetName="PART_LINK" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
