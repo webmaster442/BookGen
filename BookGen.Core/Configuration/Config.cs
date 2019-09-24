@@ -93,7 +93,7 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        [Doc("Translateable strings that can be used in the template", Alias = typeof(Dictionary<string, string>))]
+        [Doc("Translateable strings that can be used in the template", TypeAlias = typeof(Dictionary<string, string>))]
         public Translations Translations
         {
             get;
