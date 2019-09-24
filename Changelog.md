@@ -1,4 +1,4 @@
-# 1.0
+# 1.0 RC 1
 * Help now displays Usage informations correctly
 * Help now displays config file format
 * Updated to .NET Core 3.0
