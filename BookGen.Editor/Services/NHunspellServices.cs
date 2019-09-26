@@ -8,6 +8,7 @@ using BookGen.Editor.Infrastructure;
 using BookGen.Editor.ServiceContracts;
 using NHunspell;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -30,7 +31,7 @@ namespace BookGen.Editor.Services
             }
         }
 
-        public IEnumerable<string> GetLanguages()
+        public IEnumerable<string> GetAvailableLanguages()
         {
             yield return "Armenian (Eastern)";
             yield return "Armenian (Western)";
@@ -87,12 +88,24 @@ namespace BookGen.Editor.Services
             yield return "be-official";
         }
 
-        public Hunspell CreateConfiguredHunspell(string selectedLanguage)
+        public bool CreateConfiguredHunspell(string selectedLanguage, out Hunspell hunspell)
         {
             FsPath aff = new FsPath(EditorSessionManager.CurrentSession.DictionaryPath, $"{selectedLanguage}.aff");
             FsPath dic = new FsPath(EditorSessionManager.CurrentSession.DictionaryPath, $"{selectedLanguage}.dic");
 
-            return new Hunspell(aff.ToString(), dic.ToString());
+            if (aff.IsExisting && dic.IsExisting)
+            {
+                hunspell = new Hunspell(aff.ToString(), dic.ToString());
+                return true;
+            }
+            hunspell = null;
+            return false;
+        }
+
+        public IEnumerable<string> GetInstalledLanguages()
+        {
+            var files = System.IO.Directory.GetFiles(EditorSessionManager.CurrentSession.DictionaryPath, "*.aff");
+            return files.Select(f => System.IO.Path.GetFileNameWithoutExtension(f));
         }
     }
 }

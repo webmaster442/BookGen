@@ -86,12 +86,18 @@
                         ShowSpaces="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowSpaces}"
                         ShowTabs="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_ShowTabs}"
                         WordWrap="{Binding Source={x:Static properties:Settings.Default}, Path=Editor_WordWrap}" />
-                    <Border Grid.Row="1">
-                        <StackPanel
-                            Background="{StaticResource ThemeLighterBlue}"
-                            Orientation="Horizontal">
+                    <Border
+                        Grid.Row="1"
+                        Background="{StaticResource ThemeLighterBlue}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
                             <controls:ZoomComboBox
                                 x:Name="Zoom"
+                                Grid.Column="0"
                                 Editor="{Binding ElementName=MdEditor}">
                                 <controls:ZoomComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -99,33 +105,54 @@
                                     </DataTemplate>
                                 </controls:ZoomComboBox.ItemTemplate>
                             </controls:ZoomComboBox>
-                            <TextBlock
-                                Margin="5,0"
-                                Foreground="{StaticResource ThemeTextWhite}"
-                                Text="{Binding ElementName=MdEditor, Path=Chars}" />
-                            <TextBlock
-                                Foreground="{StaticResource ThemeTextWhite}"
-                                Text="chars" />
-                            <TextBlock
-                                Margin="5,0"
-                                Foreground="{StaticResource ThemeTextWhite}"
-                                Text="|" />
-                            <TextBlock
-                                Margin="5,0"
-                                Foreground="{StaticResource ThemeTextWhite}"
-                                Text="{Binding ElementName=MdEditor, Path=LineCount}" />
-                            <TextBlock
-                                Foreground="{StaticResource ThemeTextWhite}"
-                                Text="lines" />
-                            <TextBlock
-                                Margin="5,0"
-                                Foreground="{StaticResource ThemeTextWhite}"
-                                Text="|" />
-                            <TextBlock
-                                Margin="5,0"
-                                Foreground="{StaticResource ThemeTextWhite}"
-                                Text="{Binding ElementName=MdEditor, Path=Chars, Converter={infrastructure:FileSizeConverter}}" />
-                        </StackPanel>
+                            <StackPanel
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="5,0"
+                                    Foreground="{StaticResource ThemeTextWhite}"
+                                    Text="{Binding ElementName=MdEditor, Path=Chars}" />
+                                <TextBlock
+                                    Foreground="{StaticResource ThemeTextWhite}"
+                                    Text="chars" />
+                                <TextBlock
+                                    Margin="5,0"
+                                    Foreground="{StaticResource ThemeTextWhite}"
+                                    Text="|" />
+                                <TextBlock
+                                    Margin="5,0"
+                                    Foreground="{StaticResource ThemeTextWhite}"
+                                    Text="{Binding ElementName=MdEditor, Path=LineCount}" />
+                                <TextBlock
+                                    Foreground="{StaticResource ThemeTextWhite}"
+                                    Text="lines" />
+                                <TextBlock
+                                    Margin="5,0"
+                                    Foreground="{StaticResource ThemeTextWhite}"
+                                    Text="|" />
+                                <TextBlock
+                                    Margin="5,0"
+                                    Foreground="{StaticResource ThemeTextWhite}"
+                                    Text="{Binding ElementName=MdEditor, Path=Chars, Converter={infrastructure:FileSizeConverter}}" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Column="3"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="5,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{StaticResource ThemeTextWhite}"
+                                    Text="{Binding ElementName=MdEditor, Path=SpellingErrors, StringFormat={}{0} Error(s)}" />
+                                <ComboBox Margin="5,0" />
+                                <CheckBox
+                                    Margin="5,0"
+                                    Content="Spell checking"
+                                    Foreground="{StaticResource ThemeTextWhite}"
+                                    IsChecked="{Binding ElementName=MdEditor, Path=SpellCheckEnabled}" />
+                            </StackPanel>
+                        </Grid>
                     </Border>
                 </Grid>
             </TabItem>

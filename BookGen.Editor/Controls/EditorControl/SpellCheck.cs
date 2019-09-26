@@ -34,10 +34,10 @@ namespace BookGen.Editor.Controls
             _hunspell = hunspell;
         }
 
-        public void DoSpellCheck()
+        public int DoSpellCheck()
         {
-            if (_hunspell == null) return;
-            if (!_renderTarget.VisualLinesValid) return;
+            if (_hunspell == null) return 0;
+            if (!_renderTarget.VisualLinesValid) return _spellingColorizer.Errors.Count;
 
             _spellingColorizer.Errors.Clear();
 
@@ -75,6 +75,7 @@ namespace BookGen.Editor.Controls
                 }
             }
             _renderTarget.InvalidateLayer(_spellingColorizer.Layer);
+            return _spellingColorizer.Errors.Count;
         }
 
         public bool Spell(string word)

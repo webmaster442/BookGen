@@ -29,7 +29,6 @@ namespace BookGen.Editor.Controls
         ICommand RedoCommand { get; }
         ICommand ListUnorderedCommand { get; }
         ICommand ListOrderedCommand { get; }
-        ICommand ConfigureSpelling { get; }
 
         INHunspellServices NHunspellServices { get; set; }
         IDialogService DialogService { get; set; }

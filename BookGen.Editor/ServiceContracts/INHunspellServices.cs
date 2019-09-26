@@ -12,7 +12,8 @@ namespace BookGen.Editor.ServiceContracts
     public interface INHunspellServices
     {
         Task DownloadDictionary(string code, string target);
-        IEnumerable<string> GetLanguages();
-        Hunspell CreateConfiguredHunspell(string selectedLanguage);
+        IEnumerable<string> GetAvailableLanguages();
+        IEnumerable<string> GetInstalledLanguages();
+        bool CreateConfiguredHunspell(string selectedLanguage, out Hunspell hunspell);
     }
 }

@@ -129,14 +129,31 @@ namespace BookGen.Editor.Controls
         public static readonly DependencyProperty ListOrderedCommandProperty =
             DependencyProperty.Register("ListOrderedCommand", typeof(ICommand), typeof(MarkdownEditor), new PropertyMetadata(null));
 
-        public ICommand ConfigureSpelling
+        public bool SpellCheckEnabled
         {
-            get { return (ICommand)GetValue(ConfigureSpellingProperty); }
-            set { SetValue(ConfigureSpellingProperty, value); }
+            get { return (bool)GetValue(SpellCheckEnabledProperty); }
+            set { SetValue(SpellCheckEnabledProperty, value); }
         }
 
-        public static readonly DependencyProperty ConfigureSpellingProperty =
-            DependencyProperty.Register("ConfigureSpelling", typeof(ICommand), typeof(MarkdownEditor), new PropertyMetadata(null));
+        public static readonly DependencyProperty SpellCheckEnabledProperty =
+            DependencyProperty.Register("SpellCheckEnabled", typeof(bool), typeof(MarkdownEditor), new PropertyMetadata(false, SpellEnabled));
+
+        private static void SpellEnabled(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is MarkdownEditor editor)
+                editor.ReloadSpellCheck();
+        }
+
+        public int SpellingErrors
+        {
+            get { return (int)GetValue(SpellingErrorsProperty); }
+            set { SetValue(SpellingErrorsProperty, value); }
+        }
+
+        public static readonly DependencyProperty SpellingErrorsProperty =
+            DependencyProperty.Register("SpellingErrors", typeof(int), typeof(MarkdownEditor), new PropertyMetadata(0));
+
+
 
         public int Chars
         {
@@ -178,7 +195,6 @@ namespace BookGen.Editor.Controls
             ListUnorderedCommand = new EditorListCommand(this, false);
             UndoCommand = new RelayCommand<object>(OnUndo, OnCanUndo);
             RedoCommand = new RelayCommand<object>(OnRedo, OnCanRedo);
-            ConfigureSpelling = new RelayCommand<object>(OnConfigureSpelling);
             TextArea.TextView.VisualLinesChanged += TextView_VisualLinesChanged;
             Options.AllowToggleOverstrikeMode = true;
 
@@ -196,9 +212,11 @@ namespace BookGen.Editor.Controls
                 _hunspell = null;
             }
             _spellCheck = null;
-
-            _hunspell = NHunspellServices?.CreateConfiguredHunspell(EditorSessionManager.CurrentSession.SelectedLanguage);
-            _spellCheck = new SpellCheck(TextArea.TextView, _hunspell);
+            if (NHunspellServices?.CreateConfiguredHunspell(EditorSessionManager.CurrentSession.SelectedLanguage, out _hunspell) == true)
+            {
+                _spellCheck = new SpellCheck(TextArea.TextView, _hunspell);
+                SpellingErrors = _spellCheck.DoSpellCheck();
+            }
         }
 
         private IHighlightingDefinition LoadHighlightingDefinition()
@@ -214,7 +232,7 @@ namespace BookGen.Editor.Controls
         {
             if (_spellCheck == null) return;
             if (CaretOffset == Document.TextLength) return;
-            _spellCheck.DoSpellCheck();
+            SpellingErrors = _spellCheck.DoSpellCheck();
         }
 
         private string GetWord(out int start, out int end)
@@ -293,12 +311,6 @@ namespace BookGen.Editor.Controls
                 int len = seg.Item2 - seg.Item1;
                 Document.Replace(seg.Item1, len, item.Header.ToString());
             }
-        }
-
-        private void OnConfigureSpelling(object obj)
-        {
-            DialogService.ShowSpellSettingsConfiguration();
-            ReloadSpellCheck();
         }
 
         private void OnRedo(object obj)
