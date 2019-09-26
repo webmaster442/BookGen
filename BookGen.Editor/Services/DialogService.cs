@@ -10,7 +10,6 @@ using BookGen.Editor.Views.Dialogs;
 using ICSharpCode.AvalonEdit.Document;
 using MahApps.Metro.Controls;
 using System;
-using System.Linq;
 
 namespace BookGen.Editor.Services
 {
@@ -34,19 +33,29 @@ namespace BookGen.Editor.Services
             }
         }
 
-        public void OpenFileExplorer()
+        private static void OpenFlyout(string flyoutName)
         {
             if (App.Current.MainWindow is MetroWindow mw)
             {
                 foreach (Flyout flyout in mw.Flyouts.Items)
                 {
-                    if (flyout.Name == "FileExplorer")
+                    if (flyout.Name == flyoutName)
                     {
                         flyout.IsOpen = true;
                         break;
                     }
                 }
             }
+        }
+
+        public void OpenFileExplorer()
+        {
+            OpenFlyout("FileExplorer");
+        }
+
+        public void OpenSettings()
+        {
+            OpenFlyout("Settings");
         }
 
         public bool ShowGotoLineDialog(IDocument currentDocument, int carretOffset, out int line)

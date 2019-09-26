@@ -12,6 +12,7 @@ using BookGen.Editor.Views.Dialogs;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace BookGen.Editor.ViewModel
@@ -20,6 +21,7 @@ namespace BookGen.Editor.ViewModel
     {
         private IMarkdownEditor _editor;
         private readonly IExceptionHandler _exceptionHandler;
+        private readonly IDialogService _dialogService;
         private FsPath _editedFile;
         private string _editedFileHash;
         private bool _editEnabled;
@@ -72,7 +74,9 @@ namespace BookGen.Editor.ViewModel
         public ICommand DialogFindReplaceCommand { get; }
         public ICommand DialogGotoLineCommand { get; }
         public ICommand FormatTableCommand { get; set; }
+        public ICommand OpenSettings { get; set; }
 
+        public ObservableCollection<string> SpellCheckDictionaries { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
@@ -82,6 +86,7 @@ namespace BookGen.Editor.ViewModel
                              IDialogService dialogService)
         {
             _exceptionHandler = exceptionHandler;
+            _dialogService = dialogService;
             FileExplorer = new FileBrowserViewModel(fileSystemServices, exceptionHandler, dialogService);
             FileExplorer.RootDir = EditorSessionManager.CurrentSession.WorkDirectory;
             BuildModel = new BuildViewModel(_exceptionHandler, dialogService);
@@ -92,7 +97,13 @@ namespace BookGen.Editor.ViewModel
             DialogFindReplaceCommand = new RelayCommand<string>(OnFindReplace);
             DialogGotoLineCommand = new RelayCommand(OnGotoLine);
             MessengerInstance.Register<OpenFileMessage>(this, OnOpenFile);
+            OpenSettings = new RelayCommand(OnOpenSettings);
+            SpellCheckDictionaries = new ObservableCollection<string>();
+        }
 
+        private void OnOpenSettings()
+        {
+            _dialogService.OpenSettings();
         }
 
 #pragma warning disable S3168 // "async" methods should not return "void"
@@ -166,7 +177,7 @@ namespace BookGen.Editor.ViewModel
             var result = Editor?.DialogService.ShowInsertPictureDialog(out figure, out url, out alt);
             if (result == true)
             {
-                string md = "";
+                string md;
                 if (figure)
                     md = $"^^^\r\n![{alt}]({url})\r\n^^^{alt}\r\n";
                 else

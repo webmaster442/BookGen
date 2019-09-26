@@ -186,6 +186,11 @@
                     </StackPanel>
                 </Border>
             </Popup>
+            <Separator />
+            <Button
+                Command="{Binding OpenSettings}"
+                Content="{StaticResource EditorViewSettings}"
+                ToolTip="Editor view settings..." />
         </ToolBar>
     </ToolBarTray>
 
