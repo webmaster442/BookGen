@@ -5,10 +5,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace BookGen.Core.Configuration
 {
-    public class TemplateOptions : Dictionary<string, string>
+    [Serializable]
+    public sealed class TemplateOptions : Dictionary<string, string>
     {
         public const string CookieDisplayBannerEnabled = nameof(CookieDisplayBannerEnabled);
         public const string WordpressTargetHost = nameof(WordpressTargetHost);
@@ -18,6 +20,42 @@ namespace BookGen.Core.Configuration
         public const string WordpressAuthorEmail = nameof(WordpressAuthorEmail);
         public const string WordpressAuthorLogin = nameof(WordpressAuthorLogin);
         public const string WordpressAuthorId = nameof(WordpressAuthorId);
+
+        public TemplateOptions() : base()
+        {
+        }
+
+        public TemplateOptions(IDictionary<string, string> dictionary) : base(dictionary)
+        {
+        }
+
+        public TemplateOptions(IDictionary<string, string> dictionary, IEqualityComparer<string> comparer) : base(dictionary, comparer)
+        {
+        }
+
+        public TemplateOptions(IEnumerable<KeyValuePair<string, string>> collection) : base(collection)
+        {
+        }
+
+        public TemplateOptions(IEnumerable<KeyValuePair<string, string>> collection, IEqualityComparer<string> comparer) : base(collection, comparer)
+        {
+        }
+
+        public TemplateOptions(IEqualityComparer<string> comparer) : base(comparer)
+        {
+        }
+
+        public TemplateOptions(int capacity) : base(capacity)
+        {
+        }
+
+        public TemplateOptions(int capacity, IEqualityComparer<string> comparer) : base(capacity, comparer)
+        {
+        }
+
+        private TemplateOptions(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
 
         internal static TemplateOptions CreateDefaultOptions()
         {

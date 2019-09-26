@@ -7,12 +7,21 @@ using System.Collections.Generic;
 
 namespace BookGen.Core.Configuration
 {
-    public class BuildConfig
+    public sealed class BuildConfig
     {
+        [Doc("Output directory, relative to work directory")]
         public string OutPutDirectory { get; set; }
+
+        [Doc("HTML template path, relative to work directory. If not specified built in template is used.", true)]
         public string TemplateFile { get; set; }
+
+        [Doc("List of assets required by the template", true)]
         public List<Asset> TemplateAssets { get; set; }
+
+        [Doc("CSS classes that will be aplied to generated html elements")]
         public StyleClasses StyleClasses { get; set; }
+
+        [Doc("Additional template options", true, TypeAlias = typeof(Dictionary<string, string>))]
         public TemplateOptions TemplateOptions { get; set; }
 
         public static BuildConfig CreateDefault(TemplateOptions options = null)

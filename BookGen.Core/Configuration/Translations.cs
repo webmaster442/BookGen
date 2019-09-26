@@ -3,11 +3,14 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace BookGen.Core.Configuration
 {
-    public class Translations : Dictionary<string, string>
+    [Serializable]
+    public sealed class Translations : Dictionary<string, string>
     {
         public const string SearchPageTitle = "Search_PageTitle";
         public const string SearchTextBoxText = "Search_TextBoxText";
@@ -20,6 +23,42 @@ namespace BookGen.Core.Configuration
         public const string CookieLink = "Cookie_Link";
         public const string CookieLearnMore = "Cookie_LearnMore";
         public const string CookeAccept = "Cookie_Accept";
+
+        public Translations() : base()
+        {
+        }
+
+        public Translations(IDictionary<string, string> dictionary) : base(dictionary)
+        {
+        }
+
+        public Translations(IDictionary<string, string> dictionary, IEqualityComparer<string> comparer) : base(dictionary, comparer)
+        {
+        }
+
+        public Translations(IEnumerable<KeyValuePair<string, string>> collection) : base(collection)
+        {
+        }
+
+        public Translations(IEnumerable<KeyValuePair<string, string>> collection, IEqualityComparer<string> comparer) : base(collection, comparer)
+        {
+        }
+
+        public Translations(IEqualityComparer<string> comparer) : base(comparer)
+        {
+        }
+
+        public Translations(int capacity) : base(capacity)
+        {
+        }
+
+        public Translations(int capacity, IEqualityComparer<string> comparer) : base(capacity, comparer)
+        {
+        }
+
+        private Translations(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
 
         public static Translations CreateDefault()
         {

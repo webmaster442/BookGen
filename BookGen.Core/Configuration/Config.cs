@@ -3,83 +3,98 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace BookGen.Core.Configuration
 {
-    public class Config
+    public sealed class Config
     {
+        [Doc("Table of contents Markdown file")]
         public string TOCFile
         {
             get;
             set;
         }
 
+        [Doc("Image directory relative to workdir")]
         public string ImageDir
         {
             get;
             set;
         }
 
+        [Doc("Publish host name. Must include protocoll (http or https) and must end with a /")]
         public string HostName
         {
             get;
             set;
         }
 
+        [Doc("Index or first page.")]
         public string Index
         {
             get;
             set;
         }
 
+        [Doc("Config file version. !DO NOT CHANGE!")]
         public int Version
         {
             get;
             set;
         }
 
+        [Doc("Config file version. !DO NOT CHANGE!")]
         public bool LinksOutSideOfHostOpenNewTab
         {
             get;
             set;
         }
 
+        [Doc("Inline images as base64 that are less then this size in bytes. 0 = inlines all files")]
         public long InlineImageSizeLimit
         {
             get;
             set;
         }
 
+        [Doc("Metadata information for output")]
         public Metadata Metadata
         {
             get;
             set;
         }
 
+        [Doc("Web output configuration")]
         public BuildConfig TargetWeb
         {
             get;
             set;
         }
 
+        [Doc("Printable HTML output configuration")]
         public BuildConfig TargetPrint
         {
             get;
             set;
         }
 
+        [Doc("e-pub format output configuration")]
         public BuildConfig TargetEpub
         {
             get;
             set;
         }
 
-        public Translations Translations
+        [Doc("Wordpress compatible xml output configuration")]
+        public BuildConfig TargetWordpress
         {
             get;
             set;
         }
 
-        public BuildConfig TargetWordpress
+        [Doc("Translateable strings that can be used in the template", TypeAlias = typeof(Dictionary<string, string>))]
+        public Translations Translations
         {
             get;
             set;

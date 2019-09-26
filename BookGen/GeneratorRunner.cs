@@ -9,15 +9,13 @@ using BookGen.Core.Contracts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
 using BookGen.Gui;
+using BookGen.Help;
 using BookGen.Utilities;
 using Newtonsoft.Json;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace BookGen
 {
@@ -51,22 +49,7 @@ namespace BookGen
 
         public void RunHelp(bool exits = true)
         {
-            var actionString = new StringBuilder(4096);
-
-            actionString.AppendLine(ResourceLocator.GetResourceFile<GeneratorRunner>("Resources/Help.txt"));
-
-            Type actionType = typeof(ParsedOptions.ActionType);
-
-            foreach (var action in Enum.GetNames(actionType).OrderBy(o => o))
-            {
-                actionString.Append("    ").AppendLine(action);
-                var memberInfo = actionType.GetMember(action);
-                var desc = memberInfo[0].GetCustomAttribute<DescriptionAttribute>();
-                actionString.Append("      ").AppendLine(desc.Description);
-                actionString.AppendLine();
-            }
-
-            _log.Info(actionString.ToString());
+            _log.Info(HelpTextCreator.GenerateHelpText());
 
             if (exits)
             {

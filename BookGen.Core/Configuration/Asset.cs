@@ -5,14 +5,16 @@
 
 namespace BookGen.Core.Configuration
 {
-    public class Asset
+    public sealed class Asset
     {
+        [Doc("path relative to input directory", true)]
         public string Source
         {
             get;
             set;
         }
 
+        [Doc("path relative to output directory", true)]
         public string Target
         {
             get;

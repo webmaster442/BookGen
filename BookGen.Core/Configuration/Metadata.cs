@@ -5,20 +5,23 @@
 
 namespace BookGen.Core.Configuration
 {
-    public class Metadata
+    public sealed class Metadata
     {
+        [Doc("Author name")]
         public string Author
         {
             get;
             set;
         }
 
+        [Doc("Cover image for social sites, etc..")]
         public string CoverImage
         {
             get;
             set;
         }
 
+        [Doc("Title")]
         public string Title
         {
             get;

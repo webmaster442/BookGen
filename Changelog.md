@@ -1,7 +1,7 @@
-# 1.0 Preview 3
-
+# 1.0 RC 1 - 2019.09.24
 * Help now displays Usage informations correctly
-* Editor Preview
+* Help now displays config file format
+* Updated to .NET Core 3.0
 
 # 1.0 Preview 2 - 2019.09.02
 
