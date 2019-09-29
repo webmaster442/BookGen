@@ -3,15 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using NHunspell;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace BookGen.Editor.ServiceContracts
 {
     public interface INHunspellServices
     {
-        Task DownloadDictionary(string code, string target);
+        bool DownloadDictionaries(IList<string> codes, IProgress<float> progress, CancellationToken ct);
+        bool DeleteDictionaries(IList<string> codes, IProgress<float> progress, CancellationToken ct);
         IEnumerable<string> GetAvailableLanguages();
         IEnumerable<string> GetInstalledLanguages();
         bool CreateConfiguredHunspell(string selectedLanguage, out Hunspell hunspell);

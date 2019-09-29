@@ -20,7 +20,7 @@ namespace BookGen.Editor.ViewModel
         {
             _dialogService = dialogService;
             _nHunspellServices = hunspellServices;
-            SpellCheckDictionaries = new BindableCollection<string>(_nHunspellServices.GetAvailableLanguages());
+            SpellCheckDictionaries = new BindableCollection<string>(_nHunspellServices.GetInstalledLanguages());
             OpenLanguageDownloadsCommand = new RelayCommand(OnOpenLanguageDownload);
         }
 

@@ -8,12 +8,13 @@ using System.Threading;
 
 namespace BookGen.Editor.Infrastructure.Jobs
 {
-    public  class JobRunnerConfiguration<Tinput, Toutput>
+    public class JobRunnerConfiguration<Tinput, Toutput>
     {
-        public delegate Toutput JobFunction(Tinput inputdata, IProgress<float> progress, CancellationToken ct);
+        public delegate Toutput JobFunctionDelegate(Tinput inputdata, IProgress<float> progress, CancellationToken ct);
         public Tinput JobInput { get; set; }
         public bool ReportTaskBarProgress { get; set; }
         public string JobTitle { get; set; }
         public string JobDescription { get; set; }
+        public JobFunctionDelegate JobFunction { get; set; } 
     }
 }

@@ -12,17 +12,20 @@ namespace BookGen.Editor.Infrastructure.Jobs
 {
     public static class JobRunner
     {
-        public static async Task<JobResult<Toutput>> GetJobResultAsync<Tinput, Toutput>(JobRunnerConfiguration<Tinput, Toutput> configuration)
+        public static async Task<JobResult<Toutput>> GetJobResultAsync<Tinput, Toutput>(JobRunnerConfiguration<Tinput, Toutput> config)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
 
-            var jobWindow = new JobWindow(configuration.JobTitle, configuration.JobDescription, configuration.ReportTaskBarProgress);
+            var jobWindow = new JobWindow(config.JobTitle, config.JobDescription, config.ReportTaskBarProgress);
             try
             {
                 Toutput result = default;
                 Application.Current.Dispatcher.Invoke(() => jobWindow.Show());
-                result = await Task.Run(() => configuration.Job.JobFunction(configuration.JobInput, jobWindow.Reporter, jobWindow.CancelToken)).ConfigureAwait(false);
+                if (config.JobFunction != null)
+                {
+                    result = await Task.Run(() => config.JobFunction(config.JobInput, jobWindow.Reporter, jobWindow.CancelToken)).ConfigureAwait(false);
+                }
                 Application.Current.Dispatcher.Invoke(() => jobWindow.Close());
                 return JobResult<Toutput>.Create(result, true);
             }

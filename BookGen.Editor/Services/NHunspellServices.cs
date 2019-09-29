@@ -7,9 +7,12 @@ using BookGen.Core;
 using BookGen.Editor.Infrastructure;
 using BookGen.Editor.ServiceContracts;
 using NHunspell;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BookGen.Editor.Services
@@ -20,15 +23,55 @@ namespace BookGen.Editor.Services
         private const string BaseUrl = "https://raw.githubusercontent.com/titoBouzout/Dictionaries/master/{0}.{1}";
 #pragma warning restore S1075 // URIs should not be hardcoded
 
-        public async Task DownloadDictionary(string code, string target)
+        public bool DownloadDictionaries(IList<string> codes, IProgress<float> progress, CancellationToken ct)
         {
-            using (var client = new WebClient())
+            float maxitems = codes.Count * 2.0f;
+            int done = 0;
+            using (WebClient client = new WebClient())
             {
-                var aff = string.Format(BaseUrl, code, "aff");
-                var dic = string.Format(BaseUrl, code, "dic");
-                await client.DownloadFileTaskAsync(aff, target).ConfigureAwait(false);
-                await client.DownloadFileTaskAsync(dic, target).ConfigureAwait(false);
+                foreach (var code in codes)
+                {
+                    if (ct.IsCancellationRequested) return false;
+                    var aff = string.Format(BaseUrl, code, "aff");
+                    var dic = string.Format(BaseUrl, code, "dic");
+
+                    var affTarget = Path.Combine(EditorSessionManager.CurrentSession.DictionaryPath, $"{code}.aff");
+                    var dicTarget = Path.Combine(EditorSessionManager.CurrentSession.DictionaryPath, $"{code}.dic");
+
+                    client.DownloadFile(aff, affTarget);
+                    done++;
+                    progress.Report(done / maxitems);
+                    if (ct.IsCancellationRequested) return false;
+                    client.DownloadFile(dic, dicTarget);
+                    done++;
+                    progress.Report(done / maxitems);
+                    if (ct.IsCancellationRequested) return false;
+                }
             }
+
+            return true;
+        }
+
+        public bool DeleteDictionaries(IList<string> codes, IProgress<float> progress, CancellationToken ct)
+        {
+            int done = 0;
+            foreach (var code in codes)
+            {
+                if (ct.IsCancellationRequested) return false;
+
+                var affTarget = Path.Combine(EditorSessionManager.CurrentSession.DictionaryPath, $"{code}.aff");
+                var dicTarget = Path.Combine(EditorSessionManager.CurrentSession.DictionaryPath, $"{code}.dic");
+
+                if (File.Exists(affTarget))
+                    File.Delete(affTarget);
+                if (File.Exists(dicTarget))
+                    File.Delete(dicTarget);
+
+                done++;
+                progress.Report(done / (codes.Count * 2.0f));
+            }
+
+            return true;
         }
 
         public IEnumerable<string> GetAvailableLanguages()
