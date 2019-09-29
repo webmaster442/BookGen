@@ -24,7 +24,8 @@ namespace BookGen.Editor
             {
                 return new ViewModel.MainViewModel(Resolve<IFileSystemServices>(),
                                                    Resolve<IExceptionHandler>(),
-                                                   Resolve<IDialogService>());
+                                                   Resolve<IDialogService>(),
+                                                   Resolve<INHunspellServices>());
             });
         }
 

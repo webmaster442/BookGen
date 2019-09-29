@@ -28,6 +28,7 @@ namespace BookGen.Editor.ViewModel
 
         public FileBrowserViewModel FileExplorer { get; }
         public BuildViewModel BuildModel { get; set; }
+        public SpellCheckViewModel SpellCheckModel { get; set; }
 
         public IMarkdownEditor Editor
         {
@@ -83,13 +84,15 @@ namespace BookGen.Editor.ViewModel
         /// </summary>
         public MainViewModel(IFileSystemServices fileSystemServices,
                              IExceptionHandler exceptionHandler,
-                             IDialogService dialogService)
+                             IDialogService dialogService,
+                             INHunspellServices nHunspellServices)
         {
             _exceptionHandler = exceptionHandler;
             _dialogService = dialogService;
             FileExplorer = new FileBrowserViewModel(fileSystemServices, exceptionHandler, dialogService);
             FileExplorer.RootDir = EditorSessionManager.CurrentSession.WorkDirectory;
             BuildModel = new BuildViewModel(_exceptionHandler, dialogService);
+            SpellCheckModel = new SpellCheckViewModel(nHunspellServices, dialogService);
 
             SaveCommand = new RelayCommand(OnSave, OnCanSave);
             DialogInsertPictureCommand = new RelayCommand(OnInsertPicture);

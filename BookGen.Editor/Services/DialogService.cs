@@ -9,17 +9,18 @@ using BookGen.Editor.ServiceContracts;
 using BookGen.Editor.Views.Dialogs;
 using ICSharpCode.AvalonEdit.Document;
 using MahApps.Metro.Controls;
-using System;
 
 namespace BookGen.Editor.Services
 {
     internal class DialogService : IDialogService
     {
         private readonly IFileSystemServices _fileSystemServices;
+        private readonly INHunspellServices _nHunspellServices;
 
-        public DialogService(IFileSystemServices fileSystemServices)
+        public DialogService(IFileSystemServices fileSystemServices, INHunspellServices nHunspellServices)
         {
             _fileSystemServices = fileSystemServices;
+            _nHunspellServices = nHunspellServices;
         }
 
         public void CloseFlyouts()
@@ -111,7 +112,8 @@ namespace BookGen.Editor.Services
 
         public void ShowSpellSettingsConfiguration()
         {
-            throw new NotImplementedException();
+            var dialog = new DownloadLanguagesDialog(_nHunspellServices);
+            dialog.ShowDialog();
         }
     }
 }
