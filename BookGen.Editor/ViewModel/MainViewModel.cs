@@ -34,6 +34,8 @@ namespace BookGen.Editor.ViewModel
             get { return _editor; }
             set
             {
+                if (_editor != null)
+                    _editor.PropertyChanged -= _editor_PropertyChanged;
                 Set(ref _editor, value);
                 FormatTableCommand = new ReformatTableCommand(_editor, _exceptionHandler);
                 _editor.PropertyChanged += _editor_PropertyChanged;
@@ -76,8 +78,6 @@ namespace BookGen.Editor.ViewModel
         public ICommand FormatTableCommand { get; set; }
         public ICommand OpenSettings { get; set; }
 
-        public ObservableCollection<string> SpellCheckDictionaries { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
@@ -98,7 +98,6 @@ namespace BookGen.Editor.ViewModel
             DialogGotoLineCommand = new RelayCommand(OnGotoLine);
             MessengerInstance.Register<OpenFileMessage>(this, OnOpenFile);
             OpenSettings = new RelayCommand(OnOpenSettings);
-            SpellCheckDictionaries = new ObservableCollection<string>();
         }
 
         private void OnOpenSettings()
