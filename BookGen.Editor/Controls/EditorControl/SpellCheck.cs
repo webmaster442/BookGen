@@ -32,6 +32,14 @@ namespace BookGen.Editor.Controls
             _wordRegex = new Regex("-[^\\w]+|^'[^\\w]+|[^\\w]+'[^\\w]+|[^\\w]+-[^\\w]+|[^\\w]+'$|[^\\w]+-$|^-$|^'$|[^\\w'-]", RegexOptions.Compiled);
 
             _hunspell = hunspell;
+            _renderTarget.BackgroundRenderers.Add(_spellingColorizer);
+        }
+
+        internal void Invalidate()
+        {
+            _spellingColorizer.Errors.Clear();
+            _renderTarget.Redraw();
+            //_renderTarget.InvalidateLayer(_spellingColorizer.Layer);
         }
 
         public int DoSpellCheck()

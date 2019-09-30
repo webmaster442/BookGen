@@ -17,5 +17,6 @@ namespace BookGen.Editor.ServiceContracts
         IEnumerable<string> GetAvailableLanguages();
         IEnumerable<string> GetInstalledLanguages();
         bool CreateConfiguredHunspell(string selectedLanguage, out Hunspell hunspell);
+        string GetCurrentLanguage();
     }
 }

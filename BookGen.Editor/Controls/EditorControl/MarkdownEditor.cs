@@ -141,7 +141,7 @@ namespace BookGen.Editor.Controls
         private static void SpellEnabled(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is MarkdownEditor editor)
-                editor.ReloadSpellCheck();
+                editor.ToggleSpeelCheck();
         }
 
         public int SpellingErrors
@@ -200,19 +200,23 @@ namespace BookGen.Editor.Controls
 
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                ReloadSpellCheck();
+                ToggleSpeelCheck();
             }
         }
 
-        private void ReloadSpellCheck()
+        public void ToggleSpeelCheck()
         {
             if (_hunspell != null)
             {
                 _hunspell.Dispose();
                 _hunspell = null;
             }
+            _spellCheck?.Invalidate();
             _spellCheck = null;
-            if (NHunspellServices?.CreateConfiguredHunspell(EditorSessionManager.CurrentSession.SelectedLanguage, out _hunspell) == true)
+            SpellingErrors = 0;
+
+            if (SpellCheckEnabled 
+                && NHunspellServices?.CreateConfiguredHunspell(NHunspellServices?.GetCurrentLanguage(), out _hunspell) == true)
             {
                 _spellCheck = new SpellCheck(TextArea.TextView, _hunspell);
                 SpellingErrors = _spellCheck.DoSpellCheck();

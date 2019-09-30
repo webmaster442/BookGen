@@ -150,5 +150,10 @@ namespace BookGen.Editor.Services
             var files = System.IO.Directory.GetFiles(EditorSessionManager.CurrentSession.DictionaryPath, "*.aff");
             return files.Select(f => System.IO.Path.GetFileNameWithoutExtension(f));
         }
+
+        public string GetCurrentLanguage()
+        {
+            return Properties.Settings.Default.Editor_SpellCheckLanguage;
+        }
     }
 }

@@ -18,8 +18,6 @@ namespace BookGen.Editor.Models
 
         public HashSet<string> PreviousWorkdirs { get; set; }
 
-        public string SelectedLanguage { get; set; }
-
         public EditorSession()
         {
             PreviousWorkdirs = new HashSet<string>();
