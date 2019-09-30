@@ -62,10 +62,10 @@ namespace BookGen.Editor.ViewModel
         public ICommand ChangeDirectory { get; }
         public ICommand CreateFile { get; }
         public ICommand CreateDirectory { get; }
-        public ICommand DeleteFile { get; }
-        public ICommand RenameFile { get; }
-        public ICommand OpenFile { get; }
-        public ICommand EditFile { get; }
+        public RelayCommand DeleteFile { get; }
+        public RelayCommand RenameFile { get; }
+        public RelayCommand OpenFile { get; }
+        public RelayCommand EditFile { get; }
 
         public ObservableCollection<DirectoryItem> Directories
         {
@@ -82,7 +82,14 @@ namespace BookGen.Editor.ViewModel
         public FileItem SelectedFile
         {
             get { return _selectedFile; }
-            set { Set(ref _selectedFile, value); }
+            set 
+            {
+                Set(ref _selectedFile, value);
+                DeleteFile.RaiseCanExecuteChanged();
+                RenameFile.RaiseCanExecuteChanged();
+                OpenFile.RaiseCanExecuteChanged();
+                EditFile.RaiseCanExecuteChanged();
+            }
         }
 
         public string Filter
