@@ -63,6 +63,12 @@ namespace BookGen.Editor.Controls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             RefreshList();
+            if (SpellCheckDictionaries.Count > 0 
+                && !string.IsNullOrWhiteSpace(Properties.Settings.Default.Editor_SpellCheckLanguage))
+            {
+                int index = SpellCheckDictionaries.IndexOf(Properties.Settings.Default.Editor_SpellCheckLanguage);
+                if (index > -1) LanguageSelection.SelectedIndex = index;
+            }
         }
 
         private void LanguageSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)

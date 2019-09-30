@@ -32,6 +32,7 @@ namespace BookGen.Editor
                 app.MainWindow.BringIntoView();
                 app.Run(app.MainWindow);
             }
+            Properties.Settings.Default.Save();
             EditorSessionManager.Close();
         }
     }
