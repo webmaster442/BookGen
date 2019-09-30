@@ -5,7 +5,10 @@
     <SolidColorBrush Color="#004052" x:Key="ThemeLighterBlue"/>
     <SolidColorBrush Color="#7f8f93" x:Key="ThemeGrey"/>
     <SolidColorBrush Color="#e7e7e7" x:Key="ThemeTextWhite"/>
-    <SolidColorBrush Color="#7f8f93" x:Key="ThemeIcons"/>
+    <SolidColorBrush Color="#bac1b8" x:Key="ThemeIcons"/>
+    <SolidColorBrush Color="#58a4b0" x:Key="ThemeAlt1"/>
+    <SolidColorBrush Color="#0c7c59" x:Key="ThemeAlt2"/>
+    <SolidColorBrush Color="#d64933" x:Key="ThemeAlt3"/>
 
     <!-- Metro colors -->
 
