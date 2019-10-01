@@ -3,6 +3,7 @@
 Bookgen is inspired by Gitbook. Mainly I wrote it, because Node.js development is not my world.
 
 Features:
+ 
 * Lightweight code base
 * Uses MarkDig that support a lot of markdown features
 * Easily extensible templates
