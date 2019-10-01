@@ -28,7 +28,7 @@
                     </TextBlock>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" TargetName="PART_LINK" Value="White" />
+                            <Setter TargetName="PART_LINK" Property="Foreground" Value="White" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -36,4 +36,11 @@
         </Setter>
     </Style>
 
+    <Style
+        x:Key="DialogWindow"
+        BasedOn="{StaticResource {x:Type Window}}"
+        TargetType="Window">
+        <Setter Property="Background" Value="{StaticResource ThemeDarkBlue}" />
+        <Setter Property="Foreground" Value="{StaticResource ThemeTextWhite}" />
+    </Style>
 </ResourceDictionary>

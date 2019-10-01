@@ -23,7 +23,7 @@ namespace BookGen.Editor.Views.Dialogs
             return result;
         }
 
-        internal static bool HandleCloseButtons(KeyEventArgs e)
+        internal static bool? HandleCloseButtons(KeyEventArgs e)
         {
             if (e.Key == Key.Return
                 && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
@@ -40,7 +40,7 @@ namespace BookGen.Editor.Views.Dialogs
             else
             {
                 e.Handled = false;
-                return false;
+                return null;
             }
         }
     }

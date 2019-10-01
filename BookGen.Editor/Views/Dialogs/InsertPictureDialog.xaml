@@ -12,6 +12,7 @@
     KeyDown="Window_KeyDown"
     Loaded="Window_Loaded"
     ResizeMode="NoResize"
+    Style="{StaticResource DialogWindow}"
     WindowStartupLocation="CenterScreen"
     WindowStyle="ToolWindow"
     mc:Ignorable="d">

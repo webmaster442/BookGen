@@ -40,7 +40,11 @@ namespace BookGen.Editor.Views.Dialogs
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            DialogResult = DialogCommons.HandleCloseButtons(e);
+            bool? result = DialogCommons.HandleCloseButtons(e);
+            if (result.HasValue)
+            {
+                DialogResult = result.Value;
+            }
         }
     }
 }

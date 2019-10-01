@@ -107,8 +107,8 @@
                                 </controls:ZoomComboBox.ItemTemplate>
                             </controls:ZoomComboBox>
                             <controls:SpellSelector
-                                Editor="{Binding ElementName=MdEditor}"
-                                Grid.Column="2" />
+                                Grid.Column="2"
+                                Editor="{Binding ElementName=MdEditor}" />
                         </Grid>
                     </Border>
                 </Grid>
@@ -116,7 +116,6 @@
             <TabItem Header="Preview">
                 <controls:HTMLPreview Markdown="{Binding ElementName=MdEditor, Path=Text}" />
             </TabItem>
-            <TabItem Header="Comment" />
         </TabControl>
         <Grid
             Grid.RowSpan="99"
