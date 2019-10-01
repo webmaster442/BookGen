@@ -37,12 +37,12 @@ namespace BookGen.Editor.Controls
 
         public void Draw(TextView textView, DrawingContext drawingContext)
         {
-            foreach (TextSegment current in Errors)
+            foreach (TextSegment segment in Errors)
             {
-                foreach (Rect current2 in BackgroundGeometryBuilder.GetRectsForSegment(textView, current, false))
+                foreach (Rect segmentPosition in BackgroundGeometryBuilder.GetRectsForSegment(textView, segment, false))
                 {
-                    Point bottomLeft = current2.BottomLeft;
-                    Point bottomRight = current2.BottomRight;
+                    Point bottomLeft = segmentPosition.BottomLeft;
+                    Point bottomRight = segmentPosition.BottomRight;
                     Pen pen = new Pen(new SolidColorBrush(Colors.Red), 0.5);
                     pen.Freeze();
                     const double num = 1.0;
