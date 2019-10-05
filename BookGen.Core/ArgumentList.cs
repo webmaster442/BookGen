@@ -9,24 +9,29 @@ using System.Linq;
 
 namespace BookGen.Core
 {
-    public sealed class ArgsumentList : IEnumerable<ArgumentItem>
+    public sealed class ArgumentList : IEnumerable<ArgumentItem>
     {
         private readonly List<ArgumentItem> _items;
 
-        private ArgsumentList(int count)
+        private ArgumentList(int count)
         {
             _items = new List<ArgumentItem>(count);
         }
 
         public ArgumentItem GetArgument(string switchname, string longname)
         {
-            return _items.Find(item => string.Compare(item.Switch, switchname, true) == 0
-                               || string.Compare(item.Switch, longname, true) == 0);
+            if (switchname.StartsWith("-")) switchname = switchname.Substring(1);
+            if (longname.StartsWith("--")) longname = longname.Substring(2);
+
+            var items = _items.Where(item => string.Compare(item.Switch, switchname, true) == 0 ||
+                                     string.Compare(item.Switch, longname, true) == 0);
+
+            return items.FirstOrDefault();
         }
 
-        public static ArgsumentList Parse(string[] args)
+        public static ArgumentList Parse(string[] args)
         {
-            ArgsumentList ret = new ArgsumentList(args.Length);
+            ArgumentList ret = new ArgumentList(args.Length);
             int i = 0;
             bool nextIsswitch, currentIsSwitch;
             while (i < args.Length)
@@ -45,7 +50,8 @@ namespace BookGen.Core
                         Value = next
                     });
                 }
-                else if (currentIsSwitch && nextIsswitch)
+                else if (currentIsSwitch
+                    && nextIsswitch)
                 {
                     ++i;
                     ret._items.Add(new ArgumentItem
