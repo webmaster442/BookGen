@@ -8,13 +8,13 @@ Features:
 * Uses MarkDig that support a lot of markdown features
 * Easily extensible templates
 * Built in debug web server
-* Single bookgen.json configuration (if run without arguments, creates default configuration)
+* Single bookgen.json configuration
 * Customizeable
 
 ## Development Requirements
 
 * Visual Studio 2019 or Visual Studio Core configured for .NET Core Development
-* .NET Core 2.2 SDK
+* .NET Core 3.0 SDK
 
 ## Documentation
 

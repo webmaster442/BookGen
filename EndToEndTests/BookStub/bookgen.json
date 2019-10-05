@@ -3,7 +3,7 @@
   "ImageDir": "",
   "HostName": "http://localhost:8080/",
   "Index": "index.md",
-  "Version": 100,
+  "Version": 1003,
   "LinksOutSideOfHostOpenNewTab": true,
   "InlineImageSizeLimit": 51200,
   "Metadata": {
