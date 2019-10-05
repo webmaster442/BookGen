@@ -34,7 +34,11 @@ namespace BookGen.GeneratorSteps
                     meta.Title = title;
                     meta.Url = link.GetLinkOnHost(settings.Configuration.HostName);
                     meta.Description = description;
-                    settings.MetataCache.Add(link.Link, meta.GetHtmlMeta());
+
+                    if (settings.MetataCache.ContainsKey(link.Link))
+                        settings.MetataCache[link.Link] = meta.GetHtmlMeta();
+                    else
+                        settings.MetataCache.Add(link.Link, meta.GetHtmlMeta());
                 }
             }
         }

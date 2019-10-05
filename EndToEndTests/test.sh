@@ -32,3 +32,8 @@ DoTest "BuildEpub"
 DoTest "BuildPrint"
 DoTest "BuildWeb"
 DoTest "BuildWordpress"
+
+cd $LOGDIR
+cd BookStub
+CleanOutputDir
+cd ..
