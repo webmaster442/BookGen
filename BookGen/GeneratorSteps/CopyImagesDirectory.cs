@@ -28,6 +28,12 @@ namespace BookGen.GeneratorSteps
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            if (FsPath.IsEmptyPath(settings.ImageDirectory))
+            {
+                log.Warning("Images directory is empty string. Skipping image copy & inline step");
+                return;
+            }
+
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
 
             if (!_inlineEnabled

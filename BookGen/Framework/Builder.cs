@@ -34,7 +34,6 @@ namespace BookGen.Framework
             Settings = new RuntimeSettings
             {
                 SourceDirectory = WorkDir,
-                ImageDirectory = WorkDir.Combine(configuration.ImageDir),
                 TocPath = WorkDir.Combine(configuration.TOCFile),
                 Configuration = configuration,
                 TocContents = MarkdownUtils.ParseToc(WorkDir.Combine(configuration.TOCFile).ReadFile()),
@@ -42,6 +41,11 @@ namespace BookGen.Framework
                 InlineImgCache = new Dictionary<string, string>(100),
                 CurrentBuildConfig = current,
             };
+
+            if (string.IsNullOrEmpty(configuration.ImageDir))
+                Settings.ImageDirectory = FsPath.Empty;
+            else
+                Settings.ImageDirectory = WorkDir.Combine(configuration.ImageDir);
 
             _loader = new ShortCodeLoader(log, Settings);
             _loader.LoadAll();
