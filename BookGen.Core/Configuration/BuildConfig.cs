@@ -24,7 +24,7 @@ namespace BookGen.Core.Configuration
         [Doc("Additional template options", true, TypeAlias = typeof(Dictionary<string, string>))]
         public TemplateOptions TemplateOptions { get; set; }
 
-        public static BuildConfig CreateDefault(TemplateOptions options = null)
+        public static BuildConfig CreateDefault(string outdir = null)
         {
             var config = new BuildConfig
             {
@@ -42,8 +42,8 @@ namespace BookGen.Core.Configuration
                 StyleClasses = new StyleClasses()
             };
 
-            if (options != null)
-                config.TemplateOptions = options;
+            if (!string.IsNullOrEmpty(outdir))
+                config.OutPutDirectory = outdir;
 
             return config;
         }

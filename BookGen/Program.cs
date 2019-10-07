@@ -9,6 +9,7 @@ using BookGen.Framework;
 using BookGen.Gui;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace BookGen
 {
@@ -18,6 +19,10 @@ namespace BookGen
         internal static bool IsInGuiMode { get; private set; }
         internal static ConsoleMenu UI { get; private set; }
         internal static bool NoWaitForExit { get; private set; }
+
+        internal static Version ProgramVersion { get; private set; }
+        internal static int ConfigVersion { get; private set; }
+
 
         public static void ShowMessageBox(string text, params object[] args)
         {
@@ -94,6 +99,10 @@ namespace BookGen
         {
             try
             {
+                var asm = Assembly.GetAssembly(typeof(Program));
+                ProgramVersion = asm.GetName().Version;
+                ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
+
                 IsInGuiMode = false;
                 LogLevel logLevel = LogLevel.Info;
 
