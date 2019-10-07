@@ -31,7 +31,7 @@ namespace BookGen.Core.Markdown.Pipeline
             foreach (var node in document.Descendants())
             {
                 if (node is LinkInline link && link.IsImage)
-                {
+               {
                     link.Url = Base64EncodeIfLocal(link.Url);
                 }
             }
@@ -42,13 +42,18 @@ namespace BookGen.Core.Markdown.Pipeline
             if (url.StartsWith("https://") || url.StartsWith("http://"))
                 return url;
 
-            var inlinePath = new FsPath(url).GetAbsolutePathRelativeTo(WorkDir).ToString();
+            var inlinePath = new FsPath(url).GetAbsolutePathRelativeTo(WorkDir);
 
-            byte[] contents = File.ReadAllBytes(inlinePath);
+            if (!inlinePath.IsExisting)
+            {
+                return string.Empty;
+            }
+
+            byte[] contents = File.ReadAllBytes(inlinePath.ToString());
 
             string mime = "application/octet-stream";
 
-            switch (Path.GetExtension(inlinePath))
+            switch (Path.GetExtension(inlinePath.ToString()))
             {
                 case ".jpg":
                 case ".jpeg":

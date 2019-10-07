@@ -6,6 +6,7 @@
 using BookGen.Core;
 using BookGen.Core.Markdown;
 using BookGen.Editor.Infrastructure;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,17 +22,24 @@ namespace BookGen.Editor.Controls
 
         private static string RenderPreviewForMdJob(string md)
         {
-            StringBuilder buffer = new StringBuilder();
+            try
+            {
+                StringBuilder buffer = new StringBuilder();
 
-            RenderHtmlHeaderWithCss(buffer);
+                RenderHtmlHeaderWithCss(buffer);
 
-            var html = MarkdownRenderers.Markdown2Preview(md, new FsPath(EditorSessionManager.CurrentSession.WorkDirectory));
+                var html = MarkdownRenderers.Markdown2Preview(md, new FsPath(EditorSessionManager.CurrentSession.WorkDirectory));
 
-            buffer.AppendLine(html);
+                buffer.AppendLine(html);
 
-            buffer.AppendLine("</body></html>");
+                buffer.AppendLine("</body></html>");
 
-            return buffer.ToString();
+                return buffer.ToString();
+            }
+            catch (Exception ex)
+            {
+                return $"<H1>Input is Unrenderable.</H1><pre>{ex.Message}</pre><pre>{ex.StackTrace}</pre>";
+            }
         }
 
         private static void RenderHtmlHeaderWithCss(StringBuilder buffer)
