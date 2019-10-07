@@ -100,24 +100,29 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        public static Config CreateDefault()
+        public static Config CreateDefault(int version = 100)
         {
-            return new Config
+            var config = new Config
             {
-                TargetWeb = BuildConfig.CreateDefault(),
-                TargetEpub = BuildConfig.CreateDefault(),
-                TargetPrint = BuildConfig.CreateDefault(),
-                TargetWordpress = BuildConfig.CreateDefault(ConfigurationFactories.CreateWordpressOptions()),
+                TargetWeb = BuildConfig.CreateDefault("output/web"),
+                TargetEpub = BuildConfig.CreateDefault("output/epub"),
+                TargetPrint = BuildConfig.CreateDefault("output/print"),
+                TargetWordpress = BuildConfig.CreateDefault("output/wordpress"),
                 Translations = Translations.CreateDefault(),
                 TOCFile = "Path of table of contents",
                 Index = "Path of startup (index) file",
                 ImageDir = "Path to images directory",
                 HostName = "http://localhost:8080/",
                 Metadata = Metadata.CreateDefault(),
-                Version = 100,
+                Version = version,
                 LinksOutSideOfHostOpenNewTab = true,
                 InlineImageSizeLimit = 50 * 1024
             };
+
+            config.AddBootStrapClassesForWeb();
+            config.AddWordpressSettings();
+
+            return config;
         }
     }
 }

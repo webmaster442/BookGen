@@ -33,7 +33,7 @@ namespace Bookgen.Template.ShortCodeImplementations
 
             file = _settings.Configuration.HostName + file;
 
-            var sri = SriGenerator.GetSRI(path);
+            var sri = HashUtils.GetSRI(path);
 
             if (path.Extension == ".js")
             {

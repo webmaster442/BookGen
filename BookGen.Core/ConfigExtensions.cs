@@ -24,9 +24,6 @@ namespace BookGen.Core
             UpgradeBuildTarget(config.TargetWeb);
             UpgradeBuildTarget(config.TargetEpub);
             UpgradeBuildTarget(config.TargetPrint);
-
-            if (config.TargetWordpress == null)
-                config.TargetWordpress = BuildConfig.CreateDefault(ConfigurationFactories.CreateWordpressOptions());
         }
 
         private static void UpgradeTranslations(Translations translations)

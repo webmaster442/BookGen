@@ -40,7 +40,13 @@ namespace BookGen.Framework
             List<DelegateShortCode> internals = new List<DelegateShortCode>(_table.Count);
             foreach (var item in _table)
             {
-                internals.Add(new DelegateShortCode(item.Key, (_) => _table[item.Key]));
+                internals.Add(new DelegateShortCode(item.Key, (_) =>
+                {
+                    if (item.Key == "content")
+                        return _parser.Parse(_table[item.Key]);
+                    else
+                        return _table[item.Key];
+                }));
             }
             return internals;
         }

@@ -14,6 +14,11 @@ namespace BookGen.Core
     {
         private readonly string _path;
 
+        private FsPath()
+        {
+            _path = string.Empty;
+        }
+
         public FsPath(params string[] pathParts)
         {
             if (pathParts == null)
@@ -101,6 +106,16 @@ namespace BookGen.Core
         public static bool operator !=(FsPath path1, FsPath path2)
         {
             return !(path1 == path2);
+        }
+
+        public static FsPath Empty
+        {
+            get { return new FsPath(); }
+        }
+
+        public static bool IsEmptyPath(FsPath path)
+        {
+            return string.IsNullOrEmpty(path._path);
         }
     }
 }

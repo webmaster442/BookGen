@@ -22,7 +22,7 @@
         }
 
         $("#searchcontents div").each(function () {
-            var startindex = $(this).text().indexOf(terms);
+            var startindex = $(this).text().toLowerCase().indexOf(terms.toLowerCase());
             if (startindex < 0) return;
 
             var title = $(this).attr("title");

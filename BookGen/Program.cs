@@ -9,6 +9,7 @@ using BookGen.Framework;
 using BookGen.Gui;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace BookGen
 {
@@ -17,11 +18,16 @@ namespace BookGen
         internal static GeneratorRunner Runner { get; private set; }
         internal static bool IsInGuiMode { get; private set; }
         internal static ConsoleMenu UI { get; private set; }
+        internal static bool NoWaitForExit { get; private set; }
+
+        internal static Version ProgramVersion { get; private set; }
+        internal static int ConfigVersion { get; private set; }
+
 
         public static void ShowMessageBox(string text, params object[] args)
         {
             Console.WriteLine(text, args);
-            if (!IsInGuiMode)
+            if (!IsInGuiMode && !NoWaitForExit)
             {
                 Console.ReadKey();
             }
@@ -41,30 +47,37 @@ namespace BookGen
                 GuiReqested = false,
                 ShowHelp = true,
                 VerboseLog = false,
-                Action = null
+                Action = null,
             };
 
-            ArgsumentList arguments = ArgsumentList.Parse(args);
+            ArgumentList arguments = ArgumentList.Parse(args);
 
             var dir = arguments.GetArgument("d", "dir");
 
             if (dir != null)
                 parsed.WorkingDirectory = dir.Value;
 
-            var gui = arguments.GetArgument("g", "gui");
-
-            if (gui?.HasSwitch == true)
-            {
-                parsed.ShowHelp = false;
-                parsed.GuiReqested = true;
-                IsInGuiMode = true;
-            }
-
             var verbose = arguments.GetArgument("v", "verbose");
 
             if (verbose?.HasSwitch == true)
             {
                 parsed.VerboseLog = true;
+            }
+
+            var gui = arguments.GetArgument("g", "gui");
+            if (gui?.HasSwitch == true)
+            {
+                parsed.ShowHelp = false;
+                parsed.GuiReqested = true;
+                IsInGuiMode = true;
+
+                return parsed;
+            }
+
+            var nowait = arguments.GetArgument("n", "nowait");
+            if (nowait != null)
+            {
+                NoWaitForExit = true;
             }
 
             var action = arguments.GetArgument("a", "action");
@@ -86,6 +99,10 @@ namespace BookGen
         {
             try
             {
+                var asm = Assembly.GetAssembly(typeof(Program));
+                ProgramVersion = asm.GetName().Version;
+                ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
+
                 IsInGuiMode = false;
                 LogLevel logLevel = LogLevel.Info;
 
@@ -155,16 +172,19 @@ namespace BookGen
                             break;
                     }
                 }
+                Environment.Exit(0);
             }
             catch (Exception ex)
             {
-                UI.ShouldRun = false;
+                if (UI != null)
+                    UI.ShouldRun = false;
 
                 Console.Clear();
                 ShowMessageBox("Unhandled exception\r\n{0}", ex);
 #if DEBUG
                 Debugger.Break();
 #endif
+                Environment.Exit(-1);
             }
         }
     }

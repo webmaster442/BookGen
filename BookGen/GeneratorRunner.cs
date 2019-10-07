@@ -63,12 +63,10 @@ namespace BookGen
         #region Helpers
         public bool Initialize()
         {
-            Version version = GetVersion();
             _log.Info("---------------------------------------------------------");
-            _log.Info("BookGen V{0} Starting...", version);
+            _log.Info("BookGen V{0} Starting...", Program.ProgramVersion);
             _log.Info("Working directory: {0}", WorkDirectory);
             _log.Info("---------------------------------------------------------");
-            int cfgVersion = (version.Major * 1000) + (version.Minor * 100) + version.Build;
 
             if (!ConfigFile.IsExisting)
             {
@@ -83,10 +81,10 @@ namespace BookGen
 
             Configuration = JsonConvert.DeserializeObject<Config>(cfgstring);
 
-            if (Configuration.Version < cfgVersion)
+            if (Configuration.Version < Program.ConfigVersion)
             {
                 ConfigFile.CreateBackup(_log);
-                Configuration.UpgradeTo(cfgVersion);
+                Configuration.UpgradeTo(Program.ConfigVersion);
                 WriteConfig(ConfigFile, Configuration);
                 _log.Info("Configuration file migrated to new version.");
                 _log.Info("Review configuration then run program again");
@@ -140,12 +138,6 @@ namespace BookGen
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetPrint.OutPutDirectory), _log);
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetEpub.OutPutDirectory), _log);
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWordpress.OutPutDirectory), _log);
-        }
-
-        private static Version GetVersion()
-        {
-            var asm = Assembly.GetAssembly(typeof(Program));
-            return asm.GetName().Version;
         }
 
         private static void WriteConfig(FsPath configFile, Config configuration)

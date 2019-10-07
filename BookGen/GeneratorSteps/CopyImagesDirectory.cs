@@ -28,6 +28,12 @@ namespace BookGen.GeneratorSteps
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            if (FsPath.IsEmptyPath(settings.ImageDirectory))
+            {
+                log.Warning("Images directory is empty string. Skipping image copy & inline step");
+                return;
+            }
+
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
 
             if (!_inlineEnabled
@@ -50,6 +56,7 @@ namespace BookGen.GeneratorSteps
                          || fi.Extension == ".webp"))
                     {
                         log.Detail("Inlining image: {0}", fi.FullName);
+
                         InlineImg(fi.FullName, fi.Extension, settings);
                     }
                     else
@@ -74,7 +81,9 @@ namespace BookGen.GeneratorSteps
         {
             byte[] contents = File.ReadAllBytes(fullName);
             string mime = Framework.Server.MimeTypes.GetMimeForExtension(extension);
-            settings.InlineImgCache.Add(fullName, $"data:{mime};base64,{Convert.ToBase64String(contents)}");
+            string inlinekey = fullName.Replace(settings.SourceDirectory.ToString(), settings.OutputDirectory.ToString());
+
+            settings.InlineImgCache.Add(inlinekey, $"data:{mime};base64,{Convert.ToBase64String(contents)}");
         }
     }
 }

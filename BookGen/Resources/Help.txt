@@ -1,7 +1,7 @@
 ﻿BookGen - Markdown to Book tool
 
 Usage: 
-    BookGen -a, --action [action]  -v, --verbose -d, --dir [directory]
+    BookGen -a, --action [action]  -v, --verbose -d, --dir [directory] -n, --nowait
     BookGen -g, --gui  -v, --verbose -d, --dir [directory]
 
 Arguments:
@@ -10,6 +10,7 @@ Arguments:
     -g, --gui            Start in gui mode.
     -d, --dir            Specity working directory
     -v, --verbose        Optional argument. Turns on detailed logging. Usefull for debug.
+	-n, --nowait		 Optional argument. Immediately exits without Press key to continue.
     
 If no directory parameter is given Current Directory will be used as working 
 directory.

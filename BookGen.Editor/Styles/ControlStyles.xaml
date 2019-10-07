@@ -1,0 +1,46 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:BookGen.Editor.Styles">
+
+    <Style
+        x:Key="DialogButton"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="MinWidth" Value="50" />
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style
+        x:Key="LinkButton"
+        TargetType="Button">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock
+                        x:Name="PART_LINK"
+                        Foreground="{TemplateBinding Foreground}"
+                        TextDecorations="Underline">
+                        <ContentPresenter />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_LINK" Property="Foreground" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="DialogWindow"
+        BasedOn="{StaticResource {x:Type Window}}"
+        TargetType="Window">
+        <Setter Property="Background" Value="{StaticResource ThemeDarkBlue}" />
+        <Setter Property="Foreground" Value="{StaticResource ThemeTextWhite}" />
+    </Style>
+</ResourceDictionary>

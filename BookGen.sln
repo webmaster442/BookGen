@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Editor", "BookGen.Editor\BookGen.Editor.csproj", "{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{48857A68-15FF-443D-B4D8-57AA520E4BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48857A68-15FF-443D-B4D8-57AA520E4BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48857A68-15FF-443D-B4D8-57AA520E4BD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

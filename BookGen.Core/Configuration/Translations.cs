@@ -23,6 +23,12 @@ namespace BookGen.Core.Configuration
         public const string CookieLink = "Cookie_Link";
         public const string CookieLearnMore = "Cookie_LearnMore";
         public const string CookeAccept = "Cookie_Accept";
+        public const string NavigateNext = "Navigate_Next";
+        public const string NavigatePrevious = "Navigate_Previous";
+        public const string NavigateSearch = "Navigate_Search";
+        public const string NavigateSubChapters = "Navigate_OnThisPage";
+        public const string NavigateContents = "Navigate_Contents";
+        public const string NavigateTop = "Navigate_Top";
 
         public Translations() : base()
         {
@@ -73,7 +79,13 @@ namespace BookGen.Core.Configuration
                 { CookieDescription, "This Site uses cookies." },
                 { CookieLink, "https://cookiesandyou.com/" },
                 { CookieLearnMore, "Learn more" },
-                { CookeAccept, "Okay" }
+                { CookeAccept, "Okay" },
+                { NavigateNext, "Next"},
+                { NavigatePrevious, "Previous"},
+                { NavigateSearch, "Search"},
+                { NavigateSubChapters, "On this page"},
+                { NavigateContents, "Contents"},
+                { NavigateTop, "Go to top"},
             };
         }
     }
