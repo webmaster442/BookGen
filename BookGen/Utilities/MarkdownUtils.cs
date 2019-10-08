@@ -5,9 +5,12 @@
 
 using BookGen.Core;
 using BookGen.Domain;
+using Markdig;
+using Markdig.Extensions.AutoIdentifiers;
+using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace BookGen.Utilities
@@ -21,50 +24,32 @@ namespace BookGen.Utilities
         /// </summary>
         /// <param name="summaryFile">SUMMARY.md content</param>
         /// <returns>List of files</returns>
-        public static ToC ParseToc(string summaryContent)
+        public static ToC ParseToc(string content)
         {
-            ToC toc = new ToC();
+            ToC parsed = new ToC();
+            var pipeline = new MarkdownPipelineBuilder().UseAutoIdentifiers(AutoIdentifierOptions.GitHub).Build();
+            var doc = Markdown.Parse(content, pipeline);
 
-            using (var reader = new StringReader(summaryContent))
+            string chapterTitle = string.Empty;
+            List<HtmlLink> chapterLinks = new List<HtmlLink>();
+            foreach (MarkdownObject item in doc.Descendants())
             {
-                string line;
-                //catch markdown links
-                Regex myRegex = new Regex(@"(\* )\[(.+)\]\((.+)\)",
-                                          RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-
-                string currentchapter = null;
-                List<HtmlLink> chapter = new List<HtmlLink>();
-
-                while ((line = reader.ReadLine()) != null)
+                if (item is HeadingBlock heading)
                 {
-                    line = line.Trim();
-                    //skip empty lines
-                    if (string.IsNullOrWhiteSpace(line)) continue;
-
-                    if (line.StartsWith("#"))
+                    if (chapterLinks.Count > 0)
                     {
-                        InsertChapter(toc, ref currentchapter, ref chapter);
-                        currentchapter = line.Replace("#", "");
-                        chapter = new List<HtmlLink>(50);
+                        InsertChapter(parsed, ref chapterTitle, ref chapterLinks);
                     }
-                    else
-                    {
-                        var parts = from part in myRegex.Split(line)
-                                    where
-                                        !string.IsNullOrWhiteSpace(part)
-                                        && part.Trim() != "*"
-                                    select
-                                        part;
-
-                        var final = parts.ToArray();
-                        var link = new HtmlLink(final[0], final[1]);
-                        chapter.Add(link);
-                    }
+                    chapterTitle = heading.Inline.FirstChild.ToString();
+                    chapterLinks = new List<HtmlLink>(50);
                 }
-                InsertChapter(toc, ref currentchapter, ref chapter);
+                else if (item is LinkInline link && !link.IsImage)
+                {
+                    chapterLinks.Add(new HtmlLink(link.FirstChild.ToString(), link.Url));
+                }
             }
-
-            return toc;
+            InsertChapter(parsed, ref chapterTitle, ref chapterLinks);
+            return parsed;
         }
 
         private static void InsertChapter(ToC toc, ref string currentchapter, ref List<HtmlLink> chapter)
