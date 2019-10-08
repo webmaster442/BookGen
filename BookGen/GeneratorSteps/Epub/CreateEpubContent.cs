@@ -22,7 +22,6 @@ namespace BookGen.GeneratorSteps.Epub
             Package pack = new Package
             {
                 Uniqueidentifier = "bookid",
-                Xmlns = "http://www.idpf.org/2007/opf",
                 Version = "2.0",
                 Metadata = new Metadata
                 {
@@ -35,6 +34,7 @@ namespace BookGen.GeneratorSteps.Epub
                     },
                     Publisher = "",
                     Language = "en",
+                    Rights = string.Empty,
                     Meta = new List<MetaOpf>
                     {
                         new MetaOpf
@@ -83,7 +83,9 @@ namespace BookGen.GeneratorSteps.Epub
             GenerateSpine(pack.Spine.Itemref, settings);
             var namespaces = new List<(string, string)>
             {
-                ("dc", "http://purl.org/dc/elements/1.1/")
+                ("", "http://www.idpf.org/2007/opf"),
+                ("dc", "http://purl.org/dc/elements/1.1/"),
+                ("opf", "http://www.idpf.org/2007/opf")
             };
             output.SerializeXml(pack, namespaces);
         }
