@@ -46,6 +46,10 @@ namespace BookGen
                 {
                     (BuiltInTemplates.AssetPrismCss, "Assets\\prism.css"),
                     (BuiltInTemplates.AssetPrismJs, "Assets\\prism.js"),
+                    (BuiltInTemplates.AssetBootstrapCSS, "Assets\\bootstrap.min.css"),
+                    (BuiltInTemplates.AssetBootstrapJs, "Assets\\bootstrap.min.js"),
+                    (BuiltInTemplates.AssetJqueryJs, "Assets\\jquery.min.js"),
+                    (BuiltInTemplates.AssetPopperJs, "Assets\\popper.min.js"),
                 };
                 return BuiltInTemplates.TemplateWeb;
             }

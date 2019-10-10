@@ -5,6 +5,7 @@
 
 using BookGen.Core;
 using BookGen.Core.Contracts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
@@ -18,12 +19,42 @@ namespace Bookgen.Template.ShortCodeImplementations
 
         public string Tag => nameof(SriDependency);
 
+        private readonly Dictionary<FsPath, string> _cache;
+        private DateTime _lastAcces;
+
         [ImportingConstructor]
         public SriDependency(ILog log, IReadonlyRuntimeSettings settings)
         {
             _log = log;
             _settings = settings;
+            _cache = new Dictionary<FsPath, string>();
+            _lastAcces = DateTime.Now;
         }
+
+        private string GetOrCreateSriForFile(FsPath filePath)
+        {
+            if ((DateTime.Now - _lastAcces).TotalMilliseconds > 5000)
+            {
+                _log.Detail("Clearing SRI Cache, because it's older than 5 seconds");
+                _cache.Clear();
+            }
+
+            if (_cache.ContainsKey(filePath))
+            {
+                _log.Detail("SRI restored from cache for: {0}", filePath);
+                _lastAcces = DateTime.Now;
+                return _cache[filePath];
+            }
+            else
+            {
+                _log.Detail("Computing SRI and caching results for {0}...", filePath);
+                string sri = HashUtils.GetSRI(filePath);
+                _cache.Add(filePath, sri);
+                _lastAcces = DateTime.Now;
+                return sri;
+            }
+        }
+
 
         public string Generate(IReadOnlyDictionary<string, string> arguments)
         {
@@ -33,7 +64,7 @@ namespace Bookgen.Template.ShortCodeImplementations
 
             file = _settings.Configuration.HostName + file;
 
-            var sri = HashUtils.GetSRI(path);
+            var sri = GetOrCreateSriForFile(path);
 
             if (path.Extension == ".js")
             {

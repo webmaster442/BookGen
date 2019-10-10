@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using System.Collections.Generic;
 
 namespace Bookgen.Template
 {
     public sealed class BuiltInTemplates
     {
-        private BuiltInTemplates() {}
+        private BuiltInTemplates() { }
 
         public static string IndexMd
         {
@@ -55,5 +56,26 @@ namespace Bookgen.Template
         {
             get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/prism.js"); }
         }
+
+        public static string AssetBootstrapCSS
+        {
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/bootstrap.min.css"); }
+        }
+
+        public static string AssetBootstrapJs
+        {
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/bootstrap.min.js"); }
+        }
+
+        public static string AssetJqueryJs
+        {
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/jquery.min.js"); }
+        }
+
+        public static string AssetPopperJs
+        {
+            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/popper.min.js"); }
+        }
+
     }
 }

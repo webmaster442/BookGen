@@ -27,6 +27,10 @@
     <None Remove="TemplateMarkdown\index.md" />
     <None Remove="TemplateMarkdown\summary.md" />
     <None Remove="TemplatePrint\TemplatePrint.html" />
+    <None Remove="TemplateWeb\Assets\bootstrap.min.css" />
+    <None Remove="TemplateWeb\Assets\bootstrap.min.js" />
+    <None Remove="TemplateWeb\Assets\jquery.min.js" />
+    <None Remove="TemplateWeb\Assets\popper.min.js" />
     <None Remove="TemplateWeb\Assets\prism.css" />
     <None Remove="TemplateWeb\Assets\prism.js" />
     <None Remove="TemplateWeb\CookieWarning.html" />
@@ -39,6 +43,10 @@
     <EmbeddedResource Include="TemplateMarkdown\index.md" />
     <EmbeddedResource Include="TemplateMarkdown\summary.md" />
     <EmbeddedResource Include="TemplatePrint\TemplatePrint.html" />
+    <EmbeddedResource Include="TemplateWeb\Assets\bootstrap.min.css" />
+    <EmbeddedResource Include="TemplateWeb\Assets\bootstrap.min.js" />
+    <EmbeddedResource Include="TemplateWeb\Assets\jquery.min.js" />
+    <EmbeddedResource Include="TemplateWeb\Assets\popper.min.js" />
     <EmbeddedResource Include="TemplateWeb\Assets\prism.css" />
     <EmbeddedResource Include="TemplateWeb\Assets\prism.js" />
     <EmbeddedResource Include="TemplateWeb\CookieWarning.html" />

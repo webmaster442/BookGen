@@ -83,6 +83,19 @@ namespace BookGen
 
             FsPath prismjs = workdir.Combine("Templates\\Assets\\prism.js");
             prismjs.WriteFile(BuiltInTemplates.AssetPrismJs);
+
+            FsPath bootstrapcss = workdir.Combine("Templates\\Assets\\bootstrap.min.css");
+            bootstrapcss.WriteFile(BuiltInTemplates.AssetBootstrapCSS);
+
+            FsPath bootstrapjs = workdir.Combine("Templates\\Assets\\bootstrap.min.js");
+            bootstrapjs.WriteFile(BuiltInTemplates.AssetBootstrapJs);
+
+            FsPath jquery = workdir.Combine("Templates\\Assets\\jquery.min.js");
+            jquery.WriteFile(BuiltInTemplates.AssetJqueryJs);
+
+            FsPath popper = workdir.Combine("Templates\\Assets\\popper.min.js");
+            popper.WriteFile(BuiltInTemplates.AssetPopperJs);
+
         }
     }
 }
