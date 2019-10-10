@@ -190,7 +190,7 @@ namespace BookGen
             
             using (var server = new HttpTestServer(Path.Combine(WorkDirectory, Configuration.TargetWeb.OutPutDirectory), 8080, _log))
             {
-                Console.Clear();
+                _log.Info("-------------------------------------------------");
                 _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
                 _log.Info("Test server running on: http://localhost:8080/");
                 _log.Info("Serving from: {0}", Configuration.TargetWeb.OutPutDirectory);

@@ -59,6 +59,11 @@ namespace BookGen.Framework.Server
                     HttpListenerContext context = await _listener.GetContextAsync().ConfigureAwait(false);
                     Process(context);
                     _sem.Release();
+
+                }
+                catch (ObjectDisposedException)
+                {
+                    //_listener.GetContextAsync() will throw, no way to abort.
                 }
                 catch (Exception ex)
                 {
@@ -169,6 +174,7 @@ namespace BookGen.Framework.Server
             if (_cts?.IsCancellationRequested == false)
             {
                 _cts.Cancel();
+                Thread.Sleep(100);
                 _cts.Dispose();
                 _cts = null;
             }
