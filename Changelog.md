@@ -1,3 +1,15 @@
+# 1.0 RC 2 - 2019.10.12
+* SRI Generator speed increase with internal cache
+* FontAwesome dependency for default template eliminated
+* Bootstrap is now loaded from host - CDN dependencies eliminated
+* Better ToC file parsing
+* Epub xml tweaks
+* Better config file generation - less work for configuring
+* Content can now include shortcodes
+* Fixes issue with image inlineing
+* Fixes issue with image copy
+* Editor preview
+
 # 1.0 RC 1 - 2019.09.24
 * Help now displays Usage informations correctly
 * Help now displays config file format
