@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Tests", "BookGen.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141-F5F9-44DD-A4D1-57ED6647993F}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.vsconfig = .vsconfig
 		Changelog.md = Changelog.md
 		README.md = README.md
 	EndProjectSection
