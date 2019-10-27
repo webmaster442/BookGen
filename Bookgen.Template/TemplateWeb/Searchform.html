@@ -8,6 +8,13 @@
 </div>
 <div id="searchresults"></div>
 <script type="text/javascript">
+    $('#searchtext').keypress(function (ev) {
+        var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+        if (keycode == '13') {
+            $("#searchbutton").click();
+        }
+    });
+
     $("#searchbutton").click(function () {
 
         var html = "";

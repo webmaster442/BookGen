@@ -28,10 +28,11 @@
             z-index: 1000000;
             top: 0;
             left: 0;
-            background-color: rgba(220, 211, 202, 0.90);
+            background-color: rgba(255,255,255,0.9);
             overflow-x: hidden;
             padding-top: 60px;
             transition: 0.5s;
+            column-count: 1;
         }
 
             #toc #tocinside {
@@ -42,25 +43,13 @@
                     font-size: 24px;
                 }
 
-        @media (min-width: 768px) {
-            #toc #tocinside {
-                column-count: 2;
+            #toc #closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 36px;
+                margin-left: 50px;
             }
-        }
-
-        @media (min-width: 992px) {
-            #toc #tocinside {
-                column-count: 4;
-            }
-        }
-
-        #toc #closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
 
         #topbutton {
             display: none;
@@ -262,7 +251,10 @@
             document.documentElement.scrollTop = 0;
         });
         $('a[href="#toc"]').click(function () {
-            $("#toc").css("width", "100%");
+
+            var width = window.innerWidth > 800 ? 40 : 100;
+
+            $("#toc").css("width", width + "%");
         });
         $('a[href="#closetoc"]').click(function () {
             $("#toc").css("width", "0");
