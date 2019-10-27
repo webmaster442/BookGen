@@ -49,24 +49,26 @@ namespace BookGen.GeneratorSteps.Epub
 
         private void FillNavPoints(List<NavPoint> navPoint, RuntimeSettings settings)
         {
-            int chaptercounter = 1;
-            foreach (var chapter in settings.TocContents.Chapters)
+            int filecounter = 1;
+            foreach (var link in settings.TocContents.GetLinksForChapter())
             {
+                //foreach (var file in settings.TocContents.GetLinksForChapter(chapter))
+
                 navPoint.Add(new NavPoint
                 {
-                    Id = $"navpoint-{chaptercounter}",
-                    PlayOrder = chaptercounter.ToString(),
+                    Id = $"navpoint-{filecounter}",
+                    PlayOrder = filecounter.ToString(),
                     NavLabel = new NavLabel
                     {
-                        Text = chapter
+                        Text = link.DisplayString
                     },
                     Content = new Content
                     {
-                        Src = $"chapter_{chaptercounter:D2}.html"
+                        Src = $"page_{filecounter:D3}.html"
                     }
 
                 });
-                ++chaptercounter;
+                ++filecounter;
             }
         }
     }

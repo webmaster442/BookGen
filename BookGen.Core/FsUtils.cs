@@ -186,6 +186,11 @@ namespace BookGen.Core
 
         public static FsPath GetAbsolutePathRelativeTo(this FsPath path, FsPath file)
         {
+            if (path.ToString().StartsWith("../"))
+            {
+                path = new FsPath(path.ToString().Substring(3));
+            }
+
             string filespec = path.ToString();
             string folder = file.ToString();
             if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))

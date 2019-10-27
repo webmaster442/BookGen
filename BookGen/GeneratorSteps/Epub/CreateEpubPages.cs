@@ -23,34 +23,24 @@ namespace BookGen.GeneratorSteps.Epub
         {
             log.Info("Generating epub pages...");
 
-            int chaptercounter = 1;
-            foreach (var chapter in settings.TocContents.Chapters)
+            int index = 1;
+            foreach (var file in settings.TocContents.Files)
             {
-                int index = 1;
-                var output = settings.OutputDirectory.Combine($"epubtemp\\OEBPS\\chapter_{chaptercounter:D2}.html");
-                StringBuilder buffer = new StringBuilder();
-                buffer.AppendFormat("<h1>{0}</h1>\r\n\r\n", chapter);
 
-                foreach (var file in settings.TocContents.GetFilesForChapter(chapter))
-                {
-                    log.Detail("Processing file for epub output: {0}", file);
-                    var input = settings.SourceDirectory.Combine(file);
+                var output = settings.OutputDirectory.Combine($"epubtemp\\OEBPS\\page_{index:D3}.html");
 
-                    var inputContent = input.ReadFile();
+                log.Detail("Processing file for epub output: {0}", file);
+                var input = settings.SourceDirectory.Combine(file);
 
-                    inputContent = MarkdownUtils.Reindex(inputContent, ref index);
-                    buffer.AppendLine(inputContent);
-                }
+                var inputContent = input.ReadFile();
 
-                log.Info("Writing epub chapter: {0}", chaptercounter);
-
-                Content.Title = chapter;
-                Content.Content = MarkdownRenderers.Markdown2EpubHtml(buffer.ToString(), settings);
+                Content.Title = MarkdownUtils.GetTitle(inputContent);
+                Content.Content = MarkdownRenderers.Markdown2EpubHtml(inputContent, settings);
 
                 var html = Template.Render();
 
                 output.WriteFile(html);
-                ++chaptercounter;
+                ++index;
             }
         }
     }

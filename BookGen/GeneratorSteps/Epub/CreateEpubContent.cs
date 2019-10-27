@@ -72,7 +72,7 @@ namespace BookGen.GeneratorSteps.Epub
                     {
                         new Reference
                         {
-                            Href = "chapter_01.html",
+                            Href = "page_001.html",
                             Type = "text",
                             Title = settings.TocContents.Chapters.FirstOrDefault()
                         }
@@ -93,11 +93,11 @@ namespace BookGen.GeneratorSteps.Epub
         private void GenerateSpine(List<Itemref> itemref, RuntimeSettings settings)
         {
             int chaptercounter = 1;
-            foreach (var chapter in settings.TocContents.Chapters)
+            foreach (var chapter in settings.TocContents.Files)
             {
                 itemref.Add(new Itemref
                 {
-                    Idref = $"chapter_{chaptercounter:D2}"
+                    Idref = $"page_{chaptercounter:D3}"
                 });
                 ++chaptercounter;
             }
@@ -106,9 +106,9 @@ namespace BookGen.GeneratorSteps.Epub
         private void GenerateItems(List<Item> item, RuntimeSettings settings)
         {
             int chaptercounter = 1;
-            foreach (var chapter in settings.TocContents.Chapters)
+            foreach (var chapter in settings.TocContents.Files)
             {
-                var nitem = $"chapter_{chaptercounter:D2}";
+                var nitem = $"page_{chaptercounter:D3}";
                 item.Add(new Item
                 {
                     Href = nitem + ".html",
