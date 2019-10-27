@@ -29,6 +29,10 @@ namespace BookGen.Gui
             };
             yield return new TextBlock
             {
+                Content = $"Work dir: {_runner.WorkDirectory}\r\n\r\n"
+            };
+            yield return new TextBlock
+            {
                 Content = "Config Actions:\r\n\r\n"
             };
             yield return new Button
