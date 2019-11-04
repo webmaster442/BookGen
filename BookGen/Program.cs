@@ -50,22 +50,16 @@ namespace BookGen
                 Action = null,
             };
 
-            ArgumentList arguments = ArgumentList.Parse(args);
+            ArgumentParser arguments = new ArgumentParser(args);
 
-            var dir = arguments.GetArgument("d", "dir");
+            var dir = arguments.GetSwitchWithValue("d", "dir");
 
             if (dir != null)
-                parsed.WorkingDirectory = dir.Value;
+                parsed.WorkingDirectory = dir;
 
-            var verbose = arguments.GetArgument("v", "verbose");
+            parsed.VerboseLog = arguments.GetSwitch("v", "verbose");
 
-            if (verbose?.HasSwitch == true)
-            {
-                parsed.VerboseLog = true;
-            }
-
-            var gui = arguments.GetArgument("g", "gui");
-            if (gui?.HasSwitch == true)
+            if (arguments.GetSwitch("g", "gui"))
             {
                 parsed.ShowHelp = false;
                 parsed.GuiReqested = true;
@@ -74,16 +68,12 @@ namespace BookGen
                 return parsed;
             }
 
-            var nowait = arguments.GetArgument("n", "nowait");
-            if (nowait != null)
-            {
-                NoWaitForExit = true;
-            }
+            NoWaitForExit = arguments.GetSwitch("n", "nowait");
 
-            var action = arguments.GetArgument("a", "action");
+            var action = arguments.GetSwitchWithValue("a", "action");
             if (action != null)
             {
-                bool succes = Enum.TryParse(action.Value, true, out ParsedOptions.ActionType genAction);
+                bool succes = Enum.TryParse(action, true, out ParsedOptions.ActionType genAction);
                 if (succes)
                 {
                     parsed.ShowHelp = false;

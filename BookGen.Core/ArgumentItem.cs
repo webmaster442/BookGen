@@ -10,17 +10,48 @@ namespace BookGen.Core
 {
     public sealed class ArgumentItem : IEquatable<ArgumentItem>
     {
-        public string Switch { get; set; }
-        public string Value { get; set; }
-
-        public bool HasSwitch
+        public ArgumentItem(string switchValue)
         {
-            get { return !string.IsNullOrWhiteSpace(Switch); }
+            Switch = switchValue;
+            Value = string.Empty;
         }
 
-        public bool HasValue
+        public ArgumentItem(string switchValue, string value)
         {
-            get { return !string.IsNullOrWhiteSpace(Value); }
+            Switch = switchValue;
+            Value = value;
+        }
+
+
+        public string Switch { get; }
+        public string Value { get; }
+
+        public bool IsStandaloneSwitch
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(Switch)
+                    && string.IsNullOrWhiteSpace(Value);
+            }
+        }
+
+        public bool IsArgumentedSwitch
+        {
+            get
+            {
+                return
+                    !string.IsNullOrWhiteSpace(Switch)
+                    && !string.IsNullOrWhiteSpace(Value);
+            }
+        }
+
+        public bool IsValue
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(Switch)
+                    && !string.IsNullOrWhiteSpace(Value);
+            }
         }
 
         public override bool Equals(object obj)
