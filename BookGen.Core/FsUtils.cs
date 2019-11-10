@@ -73,14 +73,14 @@ namespace BookGen.Core
                 log.Detail("Source doesn't exist, skipping: {0}");
                 return;
             }
-            string targetname = $"{source.ToString()}_backup";
+            string targetname = $"{source}_backup";
             if (File.Exists(targetname))
             {
                 bool exists = true;
                 int counter = 1;
                 do
                 {
-                    targetname = $"{source.ToString()}_backup{counter}";
+                    targetname = $"{source}_backup{counter}";
                     ++counter;
                     exists = File.Exists(targetname);
                 }
@@ -200,6 +200,11 @@ namespace BookGen.Core
 
             Uri pathUri = new Uri(new Uri(folder), filespec);
             return new FsPath(pathUri.ToString().Replace("file:///", "").Replace("/", "\\"));
+        }
+
+        public static FsPath GetDirectory(this FsPath path)
+        {
+            return new FsPath(Path.GetDirectoryName(path.ToString()));
         }
     }
 }

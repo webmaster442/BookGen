@@ -81,12 +81,17 @@ namespace BookGen.Core
 
             var args = SelectArgsWithMatchingNames(switchname, longname);
 
-            return args.FirstOrDefault(a => a.IsArgumentedSwitch)?.Value;
+            return args.FirstOrDefault(a => a.IsArgumentedSwitch)?.Value ?? string.Empty;
         }
 
         public IEnumerable<string> GetValues()
         {
             return _arguments.Where(a => a.IsValue).Select(a => a.Value);
+        }
+
+        public bool WasHelpRequested()
+        {
+            return GetSwitch("h", "help");
         }
 
         private IEnumerable<ArgumentItem> SelectArgsWithMatchingNames(string switchname, string longname)

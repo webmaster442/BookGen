@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Editor", "BookGen.Editor\BookGen.Editor.csproj", "{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Md2HTML", "Md2HTML\Md2HTML.csproj", "{C43C1C6D-55A8-4D84-AF0E-569AD47BF5C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Md2HTML", "Md2HTML\Md2HTML.csproj", "{80719741-F34E-46CB-A8CC-6BD16647EFEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,10 +54,10 @@ Global
 		{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C43C1C6D-55A8-4D84-AF0E-569AD47BF5C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C43C1C6D-55A8-4D84-AF0E-569AD47BF5C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C43C1C6D-55A8-4D84-AF0E-569AD47BF5C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C43C1C6D-55A8-4D84-AF0E-569AD47BF5C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
