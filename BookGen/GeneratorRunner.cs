@@ -75,7 +75,7 @@ namespace BookGen
                 return false;
             }
 
-            var cfgstring = ConfigFile.ReadFile();
+            var cfgstring = ConfigFile.ReadFile(_log);
 
             _log.Detail("Configuration content: {0}", cfgstring);
 
@@ -109,7 +109,7 @@ namespace BookGen
             {
                 var tocFile = new FsPath(WorkDirectory).Combine(Configuration.TOCFile);
                 _log.Info("Parsing TOC file...");
-                var toc = MarkdownUtils.ParseToc(tocFile.ReadFile());
+                var toc = MarkdownUtils.ParseToc(tocFile.ReadFile(_log));
                 _log.Info("Found {0} chapters and {1} files", toc.ChapterCount, toc.FilesCount);
                 TocValidator tocValidator = new TocValidator(toc, WorkDirectory);
                 tocValidator.Validate();
@@ -140,10 +140,10 @@ namespace BookGen
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWordpress.OutPutDirectory), _log);
         }
 
-        private static void WriteConfig(FsPath configFile, Config configuration)
+        private void WriteConfig(FsPath configFile, Config configuration)
         {
             var def = JsonConvert.SerializeObject(configuration, Formatting.Indented);
-            configFile.WriteFile(def);
+            configFile.WriteFile(_log, def);
         }
         #endregion
 

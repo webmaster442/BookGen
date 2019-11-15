@@ -45,7 +45,7 @@ namespace BookGen.GeneratorSteps
             Content.Content = _buffer.ToString();
 
             var html = Template.Render();
-            output.WriteFile(html);
+            output.WriteFile(log, html);
         }
 
         private string FillMeta(Config configruation)
@@ -71,7 +71,7 @@ namespace BookGen.GeneratorSteps
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
                     log.Detail("Processing file for search index: {0}", link.Link);
-                    var fileContent = settings.SourceDirectory.Combine(link.Link).ReadFile();
+                    var fileContent = settings.SourceDirectory.Combine(link.Link).ReadFile(log);
                     var rendered = RenderAndCompressForSearch(fileContent);
 
                     var file = Path.ChangeExtension(link.Link, ".html");

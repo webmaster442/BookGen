@@ -31,7 +31,7 @@ namespace Bookgen.Template.ShortCodeImplementations
 
             _log.Detail("Inlineing {0}...", file);
 
-            return file.ReadFile();
+            return file.ReadFile(_log);
         }
     }
 }

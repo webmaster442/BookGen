@@ -7,9 +7,9 @@ using BookGen.Core.Contracts;
 using System;
 using System.Diagnostics;
 
-namespace BookGen.Framework
+namespace BookGen.Core
 {
-    internal sealed class ConsoleLog : ILog
+    public sealed class ConsoleLog : ILog
     {
         private readonly LogLevel _logLevel;
 

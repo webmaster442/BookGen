@@ -37,7 +37,7 @@ namespace BookGen.GeneratorSteps
                     Content.Content = MarkdownRenderers.Markdown2WebHTML(mdcontent, settings);
                     Content.Metadata = "";
                     var html = Template.Render();
-                    output.WriteFile(html);
+                    output.WriteFile(log, html);
                     log.Detail("Creating file: {0}", output);
                 }
             }

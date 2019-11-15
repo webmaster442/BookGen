@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template.ShortCodeImplementations;
+using BookGen.Core;
 using BookGen.Framework;
 using BookGen.Tests.Environment;
 using NUnit.Framework;

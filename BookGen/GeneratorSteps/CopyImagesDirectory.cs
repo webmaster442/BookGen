@@ -34,14 +34,14 @@ namespace BookGen.GeneratorSteps
                 return;
             }
 
-            var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.GetName());
+            var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.Filename);
 
             if (!_inlineEnabled
                 || (settings.Configuration.InlineImageSizeLimit < 0 && !_unlimited))
             {
                 log.Info("Copy images to output...");
                 settings.ImageDirectory.CopyDirectory(targetdir, log);
-                targetdir.ProtectDirectory();
+                targetdir.ProtectDirectory(log);
             }
             else
             {

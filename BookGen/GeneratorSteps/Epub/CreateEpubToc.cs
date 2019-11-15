@@ -44,7 +44,7 @@ namespace BookGen.GeneratorSteps.Epub
                 }
             };
             FillNavPoints(toc.NavMap.NavPoint, settings);
-            output.SerializeXml(toc);
+            output.SerializeXml(toc, log);
         }
 
         private void FillNavPoints(List<NavPoint> navPoint, RuntimeSettings settings)

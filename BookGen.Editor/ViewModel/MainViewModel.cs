@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Core.Contracts;
 using BookGen.Editor.Controls;
 using BookGen.Editor.Infrastructure;
 using BookGen.Editor.Models;
@@ -56,7 +57,7 @@ namespace BookGen.Editor.ViewModel
             set
             {
                 _editedFile = value;
-                Editor.Text = _editedFile?.ReadFile();
+                Editor.Text = _editedFile?.ReadFile(Locator.Resolve<ILog>());
                 _editedFileHash = HashUtils.GetSHA1(Editor.Text);
                 RaisePropertyChanged(nameof(EditedFile));
                 EditorEnabled = value?.IsExisting == true;
@@ -127,7 +128,7 @@ namespace BookGen.Editor.ViewModel
 
         private void OnSave()
         {
-            _editedFile.WriteFile(Editor.Text);
+            _editedFile.WriteFile(Locator.Resolve<ILog>(), Editor.Text);
             _editedFileHash = HashUtils.GetSHA1(Editor.Text);
         }
 

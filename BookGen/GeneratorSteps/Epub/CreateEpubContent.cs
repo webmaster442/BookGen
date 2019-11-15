@@ -87,7 +87,7 @@ namespace BookGen.GeneratorSteps.Epub
                 ("dc", "http://purl.org/dc/elements/1.1/"),
                 ("opf", "http://www.idpf.org/2007/opf")
             };
-            output.SerializeXml(pack, namespaces);
+            output.SerializeXml(pack, log, namespaces);
         }
 
         private void GenerateSpine(List<Itemref> itemref, RuntimeSettings settings)

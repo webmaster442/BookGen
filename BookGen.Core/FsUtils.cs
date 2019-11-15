@@ -7,6 +7,7 @@ using BookGen.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -14,119 +15,165 @@ namespace BookGen.Core
 {
     public static class FsUtils
     {
-        public static FsPath ToPath(this string s)
+        public static bool CreateDir(this FsPath path, ILog log)
         {
-            return new FsPath(s);
-        }
-
-        public static void CreateDir(this FsPath path, ILog log)
-        {
-            log?.Detail("Creating directory: {0}", path);
-            Directory.CreateDirectory(path.ToString());
-        }
-
-        public static string GetName(this FsPath path)
-        {
-            return Path.GetFileName(path.ToString());
-        }
-
-        public static void CopyDirectory(this FsPath sourceDirectory, FsPath TargetDir, ILog log)
-        {
-            if (!Directory.Exists(TargetDir.ToString()))
+            try
             {
-                log.Detail("Creating directory: {0}", TargetDir);
-                Directory.CreateDirectory(TargetDir.ToString());
-            }
-
-            //Copy all the files & Replaces any files with the same name
-            foreach (string newPath in Directory.GetFiles(sourceDirectory.ToString(), "*.*",
-                SearchOption.AllDirectories))
-            {
-                var targetfile = newPath.Replace(sourceDirectory.ToString(), TargetDir.ToString());
-                log?.Detail("Copy file: {0} to {1}", newPath, targetfile);
-                File.Copy(newPath, targetfile, true);
-            }
-        }
-
-        public static void Copy(this FsPath source, FsPath target, ILog log)
-        {
-            if (!source.IsExisting)
-            {
-                log.Detail("Source doesn't exist, skipping: {0}");
-                return;
-            }
-
-            var dir = Path.GetDirectoryName(target.ToString());
-            if (!Directory.Exists(dir))
-            {
-                log.Detail("Creating directory: {0}", dir);
-                Directory.CreateDirectory(dir);
-            }
-
-            File.Copy(source.ToString(), target.ToString());
-        }
-
-        public static void CreateBackup(this FsPath source, ILog log)
-        {
-            if (!source.IsExisting)
-            {
-                log.Detail("Source doesn't exist, skipping: {0}");
-                return;
-            }
-            string targetname = $"{source}_backup";
-            if (File.Exists(targetname))
-            {
-                bool exists = true;
-                int counter = 1;
-                do
+                log?.Detail("Creating directory: {0}", path);
+                if (!FsPath.IsEmptyPath(path))
                 {
-                    targetname = $"{source}_backup{counter}";
-                    ++counter;
-                    exists = File.Exists(targetname);
+                    Directory.CreateDirectory(path.ToString());
+                    return true;
                 }
-                while (exists);
-            }
-            File.Copy(source.ToString(), targetname);
-        }
-
-        public static void WriteFile(this FsPath target, string content)
-        {
-            FileInfo fileInfo = new FileInfo(target.ToString());
-
-            if (!fileInfo.Exists)
-                Directory.CreateDirectory(fileInfo.Directory.FullName);
-
-            using (var writer = File.CreateText(target.ToString()))
-            {
-                writer.Write(content);
-            }
-        }
-
-        public static void WriteFile(this FsPath target, params string[] contents)
-        {
-            FileInfo fileInfo = new FileInfo(target.ToString());
-
-            if (!fileInfo.Exists)
-                Directory.CreateDirectory(fileInfo.Directory.FullName);
-
-            using (var writer = File.CreateText(target.ToString()))
-            {
-                foreach (var content in contents)
+                else
                 {
-                    writer.Write(content);
+                    log?.Warning("CreateDir called with empty input path");
+                    return false;
                 }
             }
-        }
-
-        public static string ReadFile(this FsPath path)
-        {
-            using (var reader = File.OpenText(path.ToString()))
+            catch (Exception ex)
             {
-                return reader.ReadToEnd();
+                log.Warning("CreateDir failed: {0}", path);
+                log.Detail(ex.Message);
+                return false;
             }
         }
 
-        public static void ProtectDirectory(this FsPath directory)
+        public static bool CopyDirectory(this FsPath sourceDirectory, FsPath TargetDir, ILog log)
+        {
+            try
+            {
+                if (!Directory.Exists(TargetDir.ToString()))
+                {
+                    log.Detail("Creating directory: {0}", TargetDir);
+                    Directory.CreateDirectory(TargetDir.ToString());
+                }
+
+                //Copy all the files & Replaces any files with the same name
+                foreach (string newPath in Directory.GetFiles(sourceDirectory.ToString(), "*.*",
+                    SearchOption.AllDirectories))
+                {
+                    var targetfile = newPath.Replace(sourceDirectory.ToString(), TargetDir.ToString());
+                    log?.Detail("Copy file: {0} to {1}", newPath, targetfile);
+                    File.Copy(newPath, targetfile, true);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warning("CopyDirectory failed: {0} to {1}", sourceDirectory, TargetDir);
+                log.Detail(ex.Message);
+                return false;
+            }
+        }
+
+        public static bool Copy(this FsPath source, FsPath target, ILog log)
+        {
+            try
+            {
+                if (!source.IsExisting)
+                {
+                    log.Warning("Source doesn't exist, skipping: {0}");
+                    return false;
+                }
+
+                var dir = Path.GetDirectoryName(target.ToString());
+                if (!Directory.Exists(dir))
+                {
+                    log.Detail("Creating directory: {0}", dir);
+                    Directory.CreateDirectory(dir);
+                }
+
+                File.Copy(source.ToString(), target.ToString());
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warning("Copy failed: {0} to {1}", source, target);
+                log.Detail(ex.Message);
+                return false;
+            }
+        }
+
+        public static bool CreateBackup(this FsPath source, ILog log)
+        {
+            try
+            {
+                if (!source.IsExisting)
+                {
+                    log.Detail("Source doesn't exist, skipping: {0}");
+                    return false;
+                }
+                string targetname = $"{source}_backup";
+                if (File.Exists(targetname))
+                {
+                    bool exists = true;
+                    int counter = 1;
+                    do
+                    {
+                        targetname = $"{source}_backup{counter}";
+                        ++counter;
+                        exists = File.Exists(targetname);
+                    }
+                    while (exists);
+                }
+                File.Copy(source.ToString(), targetname);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warning("CreateBackup failed: {0}", source);
+                log.Detail(ex.Message);
+                return false;
+            }
+        }
+
+        public static bool WriteFile(this FsPath target, ILog log, params string[] contents)
+        {
+            try
+            {
+                FileInfo fileInfo = new FileInfo(target.ToString());
+
+                if (!fileInfo.Exists)
+                    Directory.CreateDirectory(fileInfo.Directory.FullName);
+
+                using (var writer = File.CreateText(target.ToString()))
+                {
+                    foreach (var content in contents)
+                    {
+                        writer.Write(content);
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warning("WriteFile failed: {0}", target);
+                log.Detail(ex.Message);
+                return false;
+            }
+        }
+
+        public static string ReadFile(this FsPath path, ILog log)
+        {
+            try
+            {
+                using (var reader = File.OpenText(path.ToString()))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Warning("ReadFile failed: {0}", path);
+                log.Detail(ex.Message);
+                return string.Empty;
+            }
+        }
+
+        public static void ProtectDirectory(this FsPath directory, ILog log)
         {
             var outp = directory.Combine("index.html");
             StringBuilder sb = new StringBuilder(4096);
@@ -134,7 +181,7 @@ namespace BookGen.Core
             {
                 sb.Append("                ");
             }
-            outp.WriteFile(sb.ToString());
+            outp.WriteFile(log, sb.ToString());
         }
 
         public static string[] GetAllFiles(this FsPath directory)
@@ -142,64 +189,97 @@ namespace BookGen.Core
             return Directory.GetFiles(directory.ToString(), "*.*", SearchOption.AllDirectories);
         }
 
-        public static FsPath GetRelativePathTo(this FsPath path, FsPath file)
+        public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IList<(string prefix, string namespac)> nslist = null)
         {
-            string filespec = path.ToString();
-            string folder = Path.GetDirectoryName(file.ToString());
-
-            Uri pathUri = new Uri(filespec);
-            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            try
             {
-                folder += Path.DirectorySeparatorChar;
-            }
-            Uri folderUri = new Uri(folder);
+                FileInfo fileInfo = new FileInfo(path.ToString());
 
-            var ret = Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
-            return new FsPath(ret);
-        }
+                if (!fileInfo.Exists)
+                    Directory.CreateDirectory(fileInfo.Directory.FullName);
 
-        public static void SerializeXml<T>(this FsPath path, T obj, IList<(string prefix, string namespac)> nslist = null)
-        {
-            FileInfo fileInfo = new FileInfo(path.ToString());
-
-            if (!fileInfo.Exists)
-                Directory.CreateDirectory(fileInfo.Directory.FullName);
-
-            XmlSerializerNamespaces xnames = null;
-            if (nslist != null)
-            {
-                xnames = new XmlSerializerNamespaces();
-                foreach (var ns in nslist)
+                XmlSerializerNamespaces xnames = null;
+                if (nslist != null)
                 {
-                    xnames.Add(ns.prefix, ns.namespac);
+                    xnames = new XmlSerializerNamespaces();
+                    foreach (var ns in nslist)
+                    {
+                        xnames.Add(ns.prefix, ns.namespac);
+                    }
                 }
+
+                XmlSerializer xs = new XmlSerializer(typeof(T));
+                using (var writer = File.Create(path.ToString()))
+                {
+                    if (xnames == null)
+                        xs.Serialize(writer, obj);
+                    else
+                        xs.Serialize(writer, obj, xnames);
+                }
+
+                return true;
             }
-            XmlSerializer xs = new XmlSerializer(typeof(T));
-            using (var writer = File.Create(path.ToString()))
+            catch (Exception ex)
             {
-                if (xnames == null)
-                    xs.Serialize(writer, obj);
-                else
-                    xs.Serialize(writer, obj, xnames);
+                log.Warning("SerializeXml failed: {0} type: {1}", path, typeof(T));
+                log.Detail(ex.Message);
+                return false;
             }
         }
 
         public static FsPath GetAbsolutePathRelativeTo(this FsPath path, FsPath file)
         {
-            if (path.ToString().StartsWith("../"))
+            try
             {
-                path = new FsPath(path.ToString().Substring(3));
-            }
+                if (path.ToString().StartsWith("../"))
+                {
+                    path = new FsPath(path.ToString().Substring(3));
+                }
 
-            string filespec = path.ToString();
-            string folder = file.ToString();
-            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                string filespec = path.ToString();
+                string folder = file.ToString();
+                if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    folder += Path.DirectorySeparatorChar;
+                }
+
+                var pathUri = new Uri(new Uri(folder), filespec);
+                return new FsPath(pathUri.ToString().Replace("file:///", "").Replace("/", "\\"));
+            }
+            catch (UriFormatException)
             {
-                folder += Path.DirectorySeparatorChar;
+                return FsPath.Empty;
             }
+        }
 
-            Uri pathUri = new Uri(new Uri(folder), filespec);
-            return new FsPath(pathUri.ToString().Replace("file:///", "").Replace("/", "\\"));
+        public static FsPath GetRelativePathRelativeTo(this FsPath path, FsPath file)
+        {
+            try
+            {
+                string filespec = path.ToString();
+                string folder = file.ToString();
+                
+                if (file.Extension == null)
+                    folder = Path.GetDirectoryName(file.ToString());
+
+                Uri pathUri = new Uri(filespec);
+
+                if (folder?.EndsWith(Path.DirectorySeparatorChar.ToString()) == false)
+                {
+                    folder += Path.DirectorySeparatorChar;
+                }
+
+                Uri folderUri = new Uri(folder);
+
+                var relatvie = folderUri.MakeRelativeUri(pathUri).ToString();
+
+                var ret = Uri.UnescapeDataString(relatvie.Replace('/', Path.DirectorySeparatorChar));
+                return new FsPath(ret);
+            }
+            catch (UriFormatException)
+            {
+                return FsPath.Empty;
+            }
         }
 
         public static FsPath GetDirectory(this FsPath path)

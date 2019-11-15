@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts;
 using BookGen.Editor.ServiceContracts;
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
@@ -19,6 +20,7 @@ namespace BookGen.Editor
             SimpleIoc.Default.Register<IFileSystemServices, Services.FileSystemServices>();
             SimpleIoc.Default.Register<INHunspellServices, Services.NHuspellServices>();
             SimpleIoc.Default.Register<IDialogService, Services.DialogService>();
+            SimpleIoc.Default.Register<ILog, Infrastructure.MemoryLog>();
 
             SimpleIoc.Default.Register<ViewModel.MainViewModel>(() =>
             {

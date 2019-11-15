@@ -24,7 +24,7 @@ namespace BookGen.GeneratorSteps
                 pages.Add(settings.Configuration.HostName + Path.ChangeExtension(file, ".html"));
             }
             FsPath target = settings.OutputDirectory.Combine("pages.js");
-            target.WriteFile("var pages=" + JsonConvert.SerializeObject(pages) + ";");
+            target.WriteFile(log, "var pages=" + JsonConvert.SerializeObject(pages) + ";");
         }
     }
 }

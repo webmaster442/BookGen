@@ -69,7 +69,7 @@ namespace BookGen.Editor.Views.Dialogs
             if (LocalImages.ItemsSource is ObservableCollection<string> currentItems)
             {
                 FsPath selected = new FsPath(currentItems[LocalImages.SelectedIndex]);
-                TbUrl.Text = selected.GetRelativePathTo(_editedFile).ToString();
+                TbUrl.Text = selected.GetRelativePathRelativeTo(_editedFile).ToString();
             }
         }
 

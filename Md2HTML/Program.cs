@@ -5,6 +5,7 @@
 
 using Bookgen.Template;
 using BookGen.Core;
+using BookGen.Core.Contracts;
 using BookGen.Core.Markdown;
 using System;
 
@@ -17,6 +18,8 @@ namespace Md2HTML
         public static void Main(string[] args)
         {
             ArgumentParser parser = new ArgumentParser(args);
+
+            ILog log = new ConsoleLog();
 
             Arguments parsed = new Arguments(
                 parser.GetSwitchWithValue("-i", "--input"),
@@ -37,9 +40,9 @@ namespace Md2HTML
 
             try
             {
-                string md = parsed.InputFile.ReadFile();
+                string md = parsed.InputFile.ReadFile(log);
                 string rendered = BuiltInTemplates.Print.Replace("[content]", MarkdownRenderers.Markdown2Preview(md, parsed.InputFile.GetDirectory()));
-                parsed.OutputFile.WriteFile(rendered);
+                parsed.OutputFile.WriteFile(log, rendered);
 
             }
             catch (Exception ex)

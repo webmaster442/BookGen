@@ -32,14 +32,14 @@ namespace BookGen.GeneratorSteps.Epub
                 log.Detail("Processing file for epub output: {0}", file);
                 var input = settings.SourceDirectory.Combine(file);
 
-                var inputContent = input.ReadFile();
+                var inputContent = input.ReadFile(log);
 
                 Content.Title = MarkdownUtils.GetTitle(inputContent);
                 Content.Content = MarkdownRenderers.Markdown2EpubHtml(inputContent, settings);
 
                 var html = Template.Render();
 
-                output.WriteFile(html);
+                output.WriteFile(log, html);
                 ++index;
             }
         }

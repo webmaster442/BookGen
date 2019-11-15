@@ -43,7 +43,7 @@ namespace BookGen.GeneratorSteps
                     log.Detail("Processing file for print output: {0}", file);
                     var input = settings.SourceDirectory.Combine(file);
 
-                    var inputContent = input.ReadFile();
+                    var inputContent = input.ReadFile(log);
 
                     inputContent = MarkdownUtils.Reindex(inputContent, ref _index);
                     buffer.AppendLine(inputContent);
@@ -52,7 +52,7 @@ namespace BookGen.GeneratorSteps
             }
 
             Content.Content = MarkdownRenderers.Markdown2PrintHTML(buffer.ToString(), settings);
-            output.WriteFile(Template.Render());
+            output.WriteFile(log, Template.Render());
         }
     }
 }

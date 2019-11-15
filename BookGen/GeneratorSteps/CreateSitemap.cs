@@ -37,7 +37,7 @@ namespace BookGen.GeneratorSteps
             }
 
             var output = settings.OutputDirectory.Combine("sitemap.xml");
-            output.SerializeXml(sitemap);
+            output.SerializeXml(sitemap, log);
         }
 
         private Url CreateEntry(string page)

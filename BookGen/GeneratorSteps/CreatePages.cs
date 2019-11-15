@@ -34,14 +34,14 @@ namespace BookGen.GeneratorSteps
                 var output = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
                 log.Detail("Processing file: {0}", input);
 
-                var inputContent = input.ReadFile();
+                var inputContent = input.ReadFile(log);
 
                 Content.Title = MarkdownUtils.GetTitle(inputContent);
                 Content.Content = MarkdownRenderers.Markdown2WebHTML(inputContent, settings);
                 Content.Metadata = settings.MetataCache[file];
 
                 var html = Template.Render();
-                output.WriteFile(html);
+                output.WriteFile(log, html);
             }
 #if RELEASE
             );

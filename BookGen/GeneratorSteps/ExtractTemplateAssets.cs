@@ -25,7 +25,7 @@ namespace BookGen.GeneratorSteps
             foreach (var (content, targetPath) in Assets)
             {
                 var output = settings.OutputDirectory.Combine(targetPath);
-                output.WriteFile(content);
+                output.WriteFile(log, content);
             }
         }
     }

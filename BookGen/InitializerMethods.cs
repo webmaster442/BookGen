@@ -52,7 +52,7 @@ namespace BookGen
 
             log.Info("Creating config file: {0}", ConfigFile.ToString());
             var def = JsonConvert.SerializeObject(configuration, Formatting.Indented);
-            ConfigFile.WriteFile(def);
+            ConfigFile.WriteFile(log, def);
         }
 
         public static void DoCreateMdFiles(ILog log, FsPath workdir)
@@ -60,41 +60,41 @@ namespace BookGen
             log.Info("Creating index.md...");
 
             FsPath index = workdir.Combine("index.md");
-            index.WriteFile(BuiltInTemplates.IndexMd);
+            index.WriteFile(log, BuiltInTemplates.IndexMd);
 
             log.Info("Creating summary.md...");
             FsPath summary = workdir.Combine("summary.md");
-            summary.WriteFile(BuiltInTemplates.SummaryMd);
+            summary.WriteFile(log, BuiltInTemplates.SummaryMd);
         }
 
         public static void ExtractTemplates(ILog log, FsPath workdir)
         {
             FsPath epub = workdir.Combine(EpubTemplateLocation);
-            epub.WriteFile(BuiltInTemplates.Epub);
+            epub.WriteFile(log, BuiltInTemplates.Epub);
 
             FsPath print = workdir.Combine(PrintTemplateLocation);
-            print.WriteFile(BuiltInTemplates.Print);
+            print.WriteFile(log, BuiltInTemplates.Print);
 
             FsPath web = workdir.Combine(WebTemplate);
-            web.WriteFile(BuiltInTemplates.TemplateWeb);
+            web.WriteFile(log, BuiltInTemplates.TemplateWeb);
 
             FsPath prismcss = workdir.Combine("Templates\\Assets\\prism.css");
-            prismcss.WriteFile(BuiltInTemplates.AssetPrismCss);
+            prismcss.WriteFile(log, BuiltInTemplates.AssetPrismCss);
 
             FsPath prismjs = workdir.Combine("Templates\\Assets\\prism.js");
-            prismjs.WriteFile(BuiltInTemplates.AssetPrismJs);
+            prismjs.WriteFile(log, BuiltInTemplates.AssetPrismJs);
 
             FsPath bootstrapcss = workdir.Combine("Templates\\Assets\\bootstrap.min.css");
-            bootstrapcss.WriteFile(BuiltInTemplates.AssetBootstrapCSS);
+            bootstrapcss.WriteFile(log, BuiltInTemplates.AssetBootstrapCSS);
 
             FsPath bootstrapjs = workdir.Combine("Templates\\Assets\\bootstrap.min.js");
-            bootstrapjs.WriteFile(BuiltInTemplates.AssetBootstrapJs);
+            bootstrapjs.WriteFile(log, BuiltInTemplates.AssetBootstrapJs);
 
             FsPath jquery = workdir.Combine("Templates\\Assets\\jquery.min.js");
-            jquery.WriteFile(BuiltInTemplates.AssetJqueryJs);
+            jquery.WriteFile(log, BuiltInTemplates.AssetJqueryJs);
 
             FsPath popper = workdir.Combine("Templates\\Assets\\popper.min.js");
-            popper.WriteFile(BuiltInTemplates.AssetPopperJs);
+            popper.WriteFile(log, BuiltInTemplates.AssetPopperJs);
 
         }
     }

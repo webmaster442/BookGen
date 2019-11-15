@@ -23,9 +23,9 @@ namespace BookGen.GeneratorSteps
             var input = settings.SourceDirectory.Combine(settings.Configuration.Index);
             var output = settings.OutputDirectory.Combine("index.html");
 
-            Content.Content = MarkdownRenderers.Markdown2WebHTML(input.ReadFile(), settings);
+            Content.Content = MarkdownRenderers.Markdown2WebHTML(input.ReadFile(log), settings);
             var html = Template.Render();
-            output.WriteFile(html);
+            output.WriteFile(log, html);
         }
     }
 }

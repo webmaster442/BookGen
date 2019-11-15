@@ -44,7 +44,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Channel = _session.CurrentChannel
             };
 
-            outFile.SerializeXml<Rss>(output, namespaces);
+            outFile.SerializeXml<Rss>(output, log, namespaces);
         }
     }
 }

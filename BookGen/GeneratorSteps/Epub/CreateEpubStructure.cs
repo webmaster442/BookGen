@@ -18,7 +18,7 @@ namespace BookGen.GeneratorSteps.Epub
 
             log.Detail("Creating mimetype file...");
             var mime = settings.OutputDirectory.Combine("epubtemp\\mimetype");
-            mime.WriteFile("application/epub+zip");
+            mime.WriteFile(log, "application/epub+zip");
 
             log.Detail("Creating META-INF\\container.xml file...");
             var output = settings.OutputDirectory.Combine("epubtemp\\META-INF\\container.xml");
@@ -37,7 +37,7 @@ namespace BookGen.GeneratorSteps.Epub
                 }
             };
 
-            output.SerializeXml(container);
+            output.SerializeXml(container, log);
 
             var oebps = settings.OutputDirectory.Combine("epubtemp\\OEBPS");
             oebps.CreateDir(log);
