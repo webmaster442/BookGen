@@ -3,15 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace BookGen.Domain.Epub
 {
-    [XmlRoot(ElementName = "spine", Namespace = "http://www.idpf.org/2007/opf")]
-    public class Spine
+    [XmlRoot(ElementName = "rootfile")]
+    public class Rootfile
     {
-        [XmlElement(ElementName = "itemref", Namespace = "http://www.idpf.org/2007/opf")]
-        public List<Itemref> Itemref { get; set; }
+        [XmlAttribute(AttributeName = "full-path")]
+        public string Fullpath { get; set; }
+
+        [XmlAttribute(AttributeName = "media-type")]
+        public string Mediatype { get; set; }
     }
 }

@@ -184,9 +184,9 @@ namespace BookGen.Core
             outp.WriteFile(log, sb.ToString());
         }
 
-        public static string[] GetAllFiles(this FsPath directory)
+        public static string[] GetAllFiles(this FsPath directory, string mask = "*.*")
         {
-            return Directory.GetFiles(directory.ToString(), "*.*", SearchOption.AllDirectories);
+            return Directory.GetFiles(directory.ToString(), mask, SearchOption.AllDirectories);
         }
 
         public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IList<(string prefix, string namespac)> nslist = null)
