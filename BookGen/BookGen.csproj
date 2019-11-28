@@ -89,4 +89,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\Epub\" />
+  </ItemGroup>
 </Project>
