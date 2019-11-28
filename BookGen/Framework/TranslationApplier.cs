@@ -11,7 +11,7 @@ namespace BookGen.Framework
 {
     public static class TranslationApplier
     {
-        private static Regex translation = new Regex(@"(\{[a-zA-Z0-9_]*\})", RegexOptions.Compiled);
+        private static readonly Regex translation = new Regex(@"(\{{[a-zA-Z0-9_]*\}})", RegexOptions.Compiled);
 
         public static string ApplyTranslations(string input, Translations translations)
         {
@@ -20,7 +20,7 @@ namespace BookGen.Framework
 
             foreach (Match match in matches)
             {
-                var key = match.Value.Replace("{", "").Replace("}", "");
+                var key = match.Value.Replace("{{", "").Replace("}}", "");
                 if (translations.ContainsKey(key))
                 {
                     result.Replace(match.Value, translations[key]);
