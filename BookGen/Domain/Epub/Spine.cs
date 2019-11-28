@@ -1,0 +1,16 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Xml.Serialization;
+
+namespace BookGen.Domain.Epub
+{
+    [XmlRoot(ElementName = "spine", Namespace = "http://www.idpf.org/2007/opf")]
+    public class Spine
+    {
+        [XmlElement(ElementName = "itemref", Namespace = "http://www.idpf.org/2007/opf")]
+        public Itemref Itemref { get; set; }
+    }
+}
