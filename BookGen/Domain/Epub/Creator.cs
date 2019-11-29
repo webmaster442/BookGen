@@ -7,16 +7,12 @@ using System.Xml.Serialization;
 
 namespace BookGen.Domain.Epub
 {
-    [XmlRoot(ElementName = "meta", Namespace = "http://www.idpf.org/2007/opf")]
-    public class Meta
+    [XmlRoot(ElementName = "creator", Namespace = "http://purl.org/dc/elements/1.1/")]
+    public class Creator
     {
-        [XmlAttribute(AttributeName = "property")]
-        public string Property { get; set; }
-
+        [XmlAttribute(AttributeName = "id")]
+        public string Id { get; set; }
         [XmlText]
         public string Text { get; set; }
-
-        [XmlAttribute(AttributeName = "refines")]
-        public string Refines { get; set; }
     }
 }

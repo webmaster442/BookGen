@@ -8,6 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Domain;
 using BookGen.Domain.Epub;
+using System;
 using System.Collections.Generic;
 
 namespace BookGen.GeneratorSteps.Epub
@@ -31,17 +32,29 @@ namespace BookGen.GeneratorSteps.Epub
                 Uniqueidentifier = "q",
                 Metadata = new Metadata
                 {
-                    Title = new Title
+                    Title = new List<Title>
                     {
-                        Id = "title",
-                        Text = settings.Configuration.Metadata.Title
+                        new Title
+                        {
+                            Id = "title",
+                            Text = settings.Configuration.Metadata.Title
+                        },
+                    },
+                    Creator = new List<Creator>
+                    {
+                        new Creator
+                        {
+                            Id = "creator",
+                            Text = settings.Configuration.Metadata.Author
+                        },
                     },
                     Language = "en",
                     Identifier = new Identifier
                     {
                         Id = "q",
                         Text = "NOID",
-                    }
+                    },
+                    Date = DateTime.Now.ToShortDateString(),
                 },
                 Manifest = CreateManifest(),
                 Spine = CreateSpine()
@@ -72,6 +85,12 @@ namespace BookGen.GeneratorSteps.Epub
                 Mediatype = "application/xhtml+xml",
                 Properties = "nav",
             });
+            manifest.Item.Add(new Item
+            {
+               Id = "ncx",
+               Mediatype = "application/x-dtbncx+xml",
+               Href = "toc.ncx"
+            });
 
             foreach (var file in _session.GeneratedFiles)
             {
@@ -92,6 +111,11 @@ namespace BookGen.GeneratorSteps.Epub
             {
                 Itemref = new List<Itemref>(_session.GeneratedFiles.Count)
             };
+
+            spine.Itemref.Add(new Itemref
+            {
+                Idref = "nav"
+            });
 
             foreach (var file in _session.GeneratedFiles)
             {
