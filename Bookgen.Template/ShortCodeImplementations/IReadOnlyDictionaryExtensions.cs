@@ -20,7 +20,7 @@ namespace Bookgen.Template.ShortCodeImplementations
             return arguments[key];
         }
 
-        public static string GetArgument(this IReadOnlyDictionary<string, string> arguments, string argument)
+        public static string? GetArgument(this IReadOnlyDictionary<string, string> arguments, string argument)
         {
             var key = arguments.Keys.FirstOrDefault(k => string.Compare(k, argument, true) == 0);
 
