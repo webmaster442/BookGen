@@ -22,7 +22,7 @@ namespace BookGen.GeneratorSteps.Epub
         private void GenerateTocNcx(RuntimeSettings settings, ILog log)
         {
             log.Info("Creating epub toc.ncx...");
-            var output = settings.OutputDirectory.Combine("epubtemp\\OEBPS\\toc.ncx");
+            var output = settings.OutputDirectory.Combine("epubtemp\\OPS\\toc.ncx");
             Ncx toc = new Ncx
             {
                 Version = "2005-1",

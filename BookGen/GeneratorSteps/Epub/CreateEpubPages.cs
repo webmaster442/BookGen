@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Template;
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Contracts;
@@ -45,7 +46,7 @@ namespace BookGen.GeneratorSteps.Epub
                 Content.Title = MarkdownUtils.GetTitle(inputContent);
                 Content.Content = MarkdownRenderers.Markdown2EpubHtml(inputContent, settings);
 
-                var html = Template.Render();
+                var html = XhtmlNormalizer.NormalizeToXHTML(Template.Render());
 
                 output.WriteFile(log, html);
                 ++index;
