@@ -35,7 +35,7 @@ namespace BookGen.GeneratorSteps.Epub
                         new Meta
                         {
                             Name = "dtb:uid",
-                            Content = ""
+                            Content = "book"
                         },
                     }
                 },
@@ -48,6 +48,14 @@ namespace BookGen.GeneratorSteps.Epub
                     NavPoint = new NavPoint
                     {
                         Id = "root",
+                        NavLabel = new NavLabel
+                        {
+                            Text = "Start"
+                        },
+                        Content = new Content
+                        {
+                            Src = "nav.xhtml",
+                        },
                         NavPoints = FillNavPoints(settings),
                     }
                 }
@@ -77,7 +85,7 @@ namespace BookGen.GeneratorSteps.Epub
                     },
                     Content = new Content
                     {
-                        Src = $"page_{filecounter:D3}.html"
+                        Src = $"page_{filecounter:D3}.xhtml"
                     }
 
                 });
@@ -92,20 +100,24 @@ namespace BookGen.GeneratorSteps.Epub
 
             StringBuilder buffer = new StringBuilder(4096);
 
+            buffer.Append("<nav epub:type=\"toc\" id=\"toc\">\n");
+
             int index = 1;
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 buffer.AppendFormat("<h1>{0}</h1>\n", chapter);
-                buffer.Append("<ol>");
+                buffer.Append("<ol>\n");
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
-                    buffer.AppendFormat("<li><a href=\"page_{0:D3}.html\">{1}</a></li>\n", index, link.DisplayString);
+                    buffer.AppendFormat("<li><a href=\"page_{0:D3}.xhtml\">{1}</a></li>\n", index, link.DisplayString);
                     ++index;
                 }
-                buffer.Append("</ol>");
+                buffer.Append("</ol>\n");
             }
 
-            var output = settings.OutputDirectory.Combine($"epubtemp\\OPS\\nav.html");
+            buffer.Append("</nav>\n");
+
+            var output = settings.OutputDirectory.Combine($"epubtemp\\OPS\\nav.xhtml");
 
             Template.Content = buffer.ToString();
             Template.Title = "";

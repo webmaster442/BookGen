@@ -8,6 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Domain;
 using BookGen.Domain.Epub;
+using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -32,6 +33,14 @@ namespace BookGen.GeneratorSteps.Epub
                 Uniqueidentifier = "q",
                 Metadata = new Metadata
                 {
+                    Meta = new List<Meta>
+                    {
+                        new Meta
+                        {
+                            Property = "dcterms:modified",
+                            Text= DateTime.Now.ToW3CZTimeFormat(),
+                        },
+                    },
                     Title = new List<Title>
                     {
                         new Title
@@ -52,9 +61,9 @@ namespace BookGen.GeneratorSteps.Epub
                     Identifier = new Identifier
                     {
                         Id = "q",
-                        Text = "NOID",
+                        Text = "book",
                     },
-                    Date = DateTime.Now.ToShortDateString(),
+                    Date = DateTime.Now.ToW3CTimeFormat(),
                 },
                 Manifest = CreateManifest(),
                 Spine = CreateSpine()
@@ -81,7 +90,7 @@ namespace BookGen.GeneratorSteps.Epub
             manifest.Item.Add(new Item
             {
                 Id = "nav",
-                Href = "nav.html",
+                Href = "nav.xhtml",
                 Mediatype = "application/xhtml+xml",
                 Properties = "nav",
             });
@@ -97,7 +106,7 @@ namespace BookGen.GeneratorSteps.Epub
                 manifest.Item.Add(new Item
                 {
                     Id = file,
-                    Href = $"{file}.html",
+                    Href = $"{file}.xhtml",
                     Mediatype = "application/xhtml+xml",
                     Properties = null,
                 });
@@ -109,7 +118,8 @@ namespace BookGen.GeneratorSteps.Epub
         {
             var spine = new Spine
             {
-                Itemref = new List<Itemref>(_session.GeneratedFiles.Count)
+                Itemref = new List<Itemref>(_session.GeneratedFiles.Count),
+                Toc = "ncx"
             };
 
             spine.Itemref.Add(new Itemref

@@ -10,12 +10,18 @@ namespace BookGen.Utilities
 {
     public static class DateTimeExtensions
     {
-        private const string w3cTime = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
+        private const string w3cTime = "yyyy-MM-ddTHH:mm:sszzz";
+        private const string w3zTime = "yyyy-MM-ddTHH:mm:ss";
         private const string wpTime = "ddd, d MMM yyyy HH:mm:ss"; //Tue, 27 Aug 2019 18:31:33 +0000
 
         public static string ToW3CTimeFormat(this DateTime dt)
         {
             return dt.ToString(w3cTime);
+        }
+
+        public static string ToW3CZTimeFormat(this DateTime dt)
+        {
+            return dt.ToString(w3zTime) + "Z";
         }
 
         public static string ToWpTimeFormat(this DateTime dt)
