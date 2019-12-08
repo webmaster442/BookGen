@@ -20,7 +20,17 @@ namespace BookGen.Editor.Controls
             _editor = editor;
         }
 
-        public event EventHandler CanExecuteChanged;
+        event EventHandler ICommand.CanExecuteChanged
+        {
+            add
+            {
+                //not used. Required by interface
+            }
+            remove
+            {
+                //not used. Required by interface
+            }
+        }
 
         private bool EditorHasSelection
         {

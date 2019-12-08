@@ -24,13 +24,23 @@ namespace BookGen.Editor.Controls
         private readonly IExceptionHandler _exceptionHandler;
         private const string _tablePattern = @"((?:(?:[^\n]*?\|[^\n]*)\ *)?(?:\r?\n|^))((?:\|\ *(?::?-+:?|::)\ *|\|?(?:\ *(?::?-+:?|::)\ *\|)+)(?:\ *(?::?-+:?|::)\ *)?\ *\r?\n)((?:(?:[^\n]*?\|[^\n]*)\ *(?:\r?\n|$))+)";
 
-        public event EventHandler CanExecuteChanged;
-
         public ReformatTableCommand(IMarkdownEditor editor, IExceptionHandler exceptionHandler)
         {
             _exceptionHandler = exceptionHandler;
             _editor = editor;
             _tableExpression = new Regex(_tablePattern, RegexOptions.Compiled);
+        }
+
+        event EventHandler ICommand.CanExecuteChanged
+        {
+            add
+            {
+                //not used. Required by interface
+            }
+            remove
+            {
+                //not used. Required by interface
+            }
         }
 
         public bool CanExecute(object parameter)
@@ -56,7 +66,10 @@ namespace BookGen.Editor.Controls
 
             if (!_tableExpression.IsMatch(selectedText))
             {
+                // Because this call is not awaited, execution of the current method continues before the call is completed
+#pragma warning disable CS4014
                 DialogCommons.ShowMessage("Information", "Selected text isn't a table", false);
+#pragma warning restore CS4014
                 return;
             }
 

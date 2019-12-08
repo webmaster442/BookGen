@@ -23,7 +23,17 @@ namespace BookGen.Editor.Controls
             _numbering = new Regex(@"(\d+)(\.\s)", RegexOptions.Compiled);
         }
 
-        public event EventHandler CanExecuteChanged;
+        event EventHandler ICommand.CanExecuteChanged
+        {
+            add
+            {
+                //not used. Required by interface
+            }
+            remove
+            {
+                //not used. Required by interface
+            }
+        }
 
         public bool CanExecute(object parameter)
         {
