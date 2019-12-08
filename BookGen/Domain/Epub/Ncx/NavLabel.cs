@@ -5,7 +5,7 @@
 
 using System.Xml.Serialization;
 
-namespace BookGen.Domain.Epub
+namespace BookGen.Domain.Epub.Ncx
 {
     [XmlRoot(ElementName = "navLabel", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
     public class NavLabel

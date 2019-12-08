@@ -5,12 +5,12 @@
 
 using System.Xml.Serialization;
 
-namespace BookGen.Domain.Epub
+namespace BookGen.Domain.Epub.Ncx
 {
-    [XmlRoot(ElementName = "content", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-    public class Content
+    [XmlRoot(ElementName = "docTitle", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
+    public class DocTitle
     {
-        [XmlAttribute(AttributeName = "src")]
-        public string Src { get; set; }
+        [XmlElement(ElementName = "text", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
+        public string Text { get; set; }
     }
 }

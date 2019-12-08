@@ -7,23 +7,16 @@ using System.Xml.Serialization;
 
 namespace BookGen.Domain.Epub
 {
-    [XmlRoot(ElementName = "meta", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-    public class MetaNcx
-    {
-        [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
-
-        [XmlAttribute(AttributeName = "content")]
-        public string Content { get; set; }
-    }
-
     [XmlRoot(ElementName = "meta", Namespace = "http://www.idpf.org/2007/opf")]
-    public class MetaOpf
+    public class Meta
     {
-        [XmlAttribute(AttributeName = "content")]
-        public string Content { get; set; }
+        [XmlAttribute(AttributeName = "property")]
+        public string Property { get; set; }
 
-        [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
+        [XmlText]
+        public string Text { get; set; }
+
+        [XmlAttribute(AttributeName = "refines")]
+        public string Refines { get; set; }
     }
 }

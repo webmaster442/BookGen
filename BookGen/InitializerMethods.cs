@@ -6,7 +6,6 @@ using Bookgen.Template;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace BookGen
@@ -51,8 +50,7 @@ namespace BookGen
             }
 
             log.Info("Creating config file: {0}", ConfigFile.ToString());
-            var def = JsonConvert.SerializeObject(configuration, Formatting.Indented);
-            ConfigFile.WriteFile(log, def);
+            ConfigFile.SerializeJson(configuration, log);
         }
 
         public static void DoCreateMdFiles(ILog log, FsPath workdir)

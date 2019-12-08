@@ -7,69 +7,129 @@ using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Domain;
-using BookGen.Domain.Epub;
+using BookGen.Domain.Epub.Ncx;
+using BookGen.Framework;
 using System.Collections.Generic;
+using System.Text;
 
 namespace BookGen.GeneratorSteps.Epub
 {
-    internal class CreateEpubToc : IGeneratorStep
+    internal class CreateEpubToc : ITemplatedStep
     {
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public Template Template { get; set; }
+        public IContent Content { get; set; }
+
+        private void GenerateTocNcx(RuntimeSettings settings, ILog log)
         {
             log.Info("Creating epub toc.ncx...");
-            var output = settings.OutputDirectory.Combine("epubtemp\\OEBPS\\toc.ncx");
+            var output = settings.OutputDirectory.Combine("epubtemp\\OPS\\toc.ncx");
             Ncx toc = new Ncx
             {
                 Version = "2005-1",
                 Xmlns = "http://www.daisy.org/z3986/2005/ncx/",
+                Lang = "en",
                 Head = new Head
                 {
-                    Meta = new List<MetaNcx>
+                    Meta = new List<Meta>
                     {
-                        new MetaNcx { Name = "dtb:totalPageCount", Content = "0" },
-                        new MetaNcx { Name = "dtb:uid", Content = "0" },
+                        new Meta
+                        {
+                            Name = "dtb:uid",
+                            Content = "book"
+                        },
                     }
                 },
                 DocTitle = new DocTitle
                 {
                     Text = settings.Configuration.Metadata.Title
                 },
-                DocAuthor = new DocAuthor
-                {
-                    Text = settings.Configuration.Metadata.Author
-                },
                 NavMap = new NavMap
                 {
-                    NavPoint = new List<NavPoint>()
+                    NavPoint = new NavPoint
+                    {
+                        Id = "root",
+                        NavLabel = new NavLabel
+                        {
+                            Text = "Start"
+                        },
+                        Content = new Content
+                        {
+                            Src = "nav.xhtml",
+                        },
+                        NavPoints = FillNavPoints(settings),
+                    }
                 }
             };
-            FillNavPoints(toc.NavMap.NavPoint, settings);
-            output.SerializeXml(toc, log);
+
+            var namespaces = new List<(string prefix, string namespac)>
+            {
+                ("", "http://www.daisy.org/z3986/2005/ncx/"),
+                ("ncx", "http://www.daisy.org/z3986/2005/ncx/")
+            };
+
+            output.SerializeXml(toc, log, namespaces);
         }
 
-        private void FillNavPoints(List<NavPoint> navPoint, RuntimeSettings settings)
+        private List<NavPoint> FillNavPoints(RuntimeSettings settings)
         {
+            var navPoint = new List<NavPoint>();
             int filecounter = 1;
             foreach (var link in settings.TocContents.GetLinksForChapter())
             {
-                //foreach (var file in settings.TocContents.GetLinksForChapter(chapter))
-
                 navPoint.Add(new NavPoint
                 {
                     Id = $"navpoint-{filecounter}",
-                    PlayOrder = filecounter.ToString(),
                     NavLabel = new NavLabel
                     {
                         Text = link.DisplayString
                     },
                     Content = new Content
                     {
-                        Src = $"page_{filecounter:D3}.html"
+                        Src = $"page_{filecounter:D3}.xhtml"
                     }
 
                 });
                 ++filecounter;
             }
+            return navPoint;
+        }
+
+        private void GenerateHtmlToc(RuntimeSettings settings, ILog log)
+        {
+            log.Info("Generating epub TOC...");
+
+            StringBuilder buffer = new StringBuilder(4096);
+
+            buffer.Append("<nav epub:type=\"toc\" id=\"toc\">\n");
+
+            int index = 1;
+            foreach (var chapter in settings.TocContents.Chapters)
+            {
+                buffer.AppendFormat("<h1>{0}</h1>\n", chapter);
+                buffer.Append("<ol>\n");
+                foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
+                {
+                    buffer.AppendFormat("<li><a href=\"page_{0:D3}.xhtml\">{1}</a></li>\n", index, link.DisplayString);
+                    ++index;
+                }
+                buffer.Append("</ol>\n");
+            }
+
+            buffer.Append("</nav>\n");
+
+            var output = settings.OutputDirectory.Combine($"epubtemp\\OPS\\nav.xhtml");
+
+            Template.Content = buffer.ToString();
+            Template.Title = "";
+
+            var html = Template.Render();
+            output.WriteFile(log, html);
+        }
+
+        public void RunStep(RuntimeSettings settings, ILog log)
+        {
+            GenerateTocNcx(settings, log);
+            GenerateHtmlToc(settings, log);
         }
     }
 }

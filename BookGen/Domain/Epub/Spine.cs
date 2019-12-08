@@ -14,7 +14,7 @@ namespace BookGen.Domain.Epub
         [XmlElement(ElementName = "itemref", Namespace = "http://www.idpf.org/2007/opf")]
         public List<Itemref> Itemref { get; set; }
 
-        [XmlAttribute(AttributeName = "toc")]
+        [XmlAttribute("toc", Namespace = "http://www.idpf.org/2007/opf")]
         public string Toc { get; set; }
     }
 }

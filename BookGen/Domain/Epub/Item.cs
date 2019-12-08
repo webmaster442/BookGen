@@ -10,13 +10,13 @@ namespace BookGen.Domain.Epub
     [XmlRoot(ElementName = "item", Namespace = "http://www.idpf.org/2007/opf")]
     public class Item
     {
-        [XmlAttribute(AttributeName = "href")]
-        public string Href { get; set; }
-
         [XmlAttribute(AttributeName = "id")]
         public string Id { get; set; }
-
+        [XmlAttribute(AttributeName = "href")]
+        public string Href { get; set; }
         [XmlAttribute(AttributeName = "media-type")]
         public string Mediatype { get; set; }
+        [XmlAttribute(AttributeName = "properties")]
+        public string Properties { get; set; }
     }
 }

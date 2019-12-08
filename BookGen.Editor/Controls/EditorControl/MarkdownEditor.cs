@@ -10,7 +10,6 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using NHunspell;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -206,16 +205,12 @@ namespace BookGen.Editor.Controls
 
         public void ToggleSpeelCheck()
         {
-            if (_hunspell != null)
-            {
-                _hunspell.Dispose();
-                _hunspell = null;
-            }
+            _hunspell = null;
             _spellCheck?.Invalidate();
             _spellCheck = null;
             SpellingErrors = 0;
 
-            if (SpellCheckEnabled 
+            if (SpellCheckEnabled
                 && NHunspellServices?.CreateConfiguredHunspell(NHunspellServices?.GetCurrentLanguage(), out _hunspell) == true)
             {
                 _spellCheck = new SpellCheck(TextArea.TextView, _hunspell);
@@ -353,18 +348,14 @@ namespace BookGen.Editor.Controls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        public void InsertstringAtCaretPos(string md)
+        public void InsertstringAtCaretPos(string text)
         {
-            Document.Replace(SelectionStart, SelectionLength, md, OffsetChangeMappingType.RemoveAndInsert);
+            Document.Replace(SelectionStart, SelectionLength, text, OffsetChangeMappingType.RemoveAndInsert);
         }
 
         public void Dispose()
         {
-            if (_hunspell != null)
-            {
-                _hunspell.Dispose();
-                _hunspell = null;
-            }
+            _hunspell = null;
         }
 
         public void ShowFindDialog()

@@ -15,13 +15,15 @@ namespace BookGen
     {
         public EpubBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log, configuration.TargetEpub)
         {
+            var session = new GeneratorSteps.Epub.EpubSession();
+
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetEpub));
             AddStep(new GeneratorSteps.CopyImagesDirectory(true, true));
             AddStep(new GeneratorSteps.Epub.CreateEpubStructure());
-            AddStep(new GeneratorSteps.Epub.CreateEpubPages());
+            AddStep(new GeneratorSteps.Epub.CreateEpubPages(session));
             AddStep(new GeneratorSteps.Epub.CreateEpubToc());
-            AddStep(new GeneratorSteps.Epub.CreateEpubContent());
+            AddStep(new GeneratorSteps.Epub.CreatePackageOpf(session));
             AddStep(new GeneratorSteps.Epub.CreateEpubPack());
         }
 

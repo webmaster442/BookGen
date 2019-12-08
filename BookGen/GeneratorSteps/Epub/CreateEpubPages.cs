@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Template;
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Contracts;
@@ -10,12 +11,18 @@ using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
-using System.Text;
 
 namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubPages : ITemplatedStep
     {
+        private readonly EpubSession _session;
+
+        public CreateEpubPages(EpubSession session)
+        {
+            _session = session;
+        }
+
         public Template Template { get; set; }
         public IContent Content { get; set; }
 
@@ -26,8 +33,10 @@ namespace BookGen.GeneratorSteps.Epub
             int index = 1;
             foreach (var file in settings.TocContents.Files)
             {
+                _session.GeneratedFiles.Add($"page_{index:D3}");
 
-                var output = settings.OutputDirectory.Combine($"epubtemp\\OEBPS\\page_{index:D3}.html");
+                var output = settings.OutputDirectory.Combine($"epubtemp\\OPS\\page_{index:D3}.xhtml");
+
 
                 log.Detail("Processing file for epub output: {0}", file);
                 var input = settings.SourceDirectory.Combine(file);
@@ -37,7 +46,7 @@ namespace BookGen.GeneratorSteps.Epub
                 Content.Title = MarkdownUtils.GetTitle(inputContent);
                 Content.Content = MarkdownRenderers.Markdown2EpubHtml(inputContent, settings);
 
-                var html = Template.Render();
+                var html = XhtmlNormalizer.NormalizeToXHTML(Template.Render());
 
                 output.WriteFile(log, html);
                 ++index;

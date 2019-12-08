@@ -4,14 +4,16 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
-namespace BookGen.Domain.Epub
+namespace BookGen.GeneratorSteps.Epub
 {
-    [XmlRoot(ElementName = "guide", Namespace = "http://www.idpf.org/2007/opf")]
-    public class Guide
+    internal class EpubSession
     {
-        [XmlElement(ElementName = "reference", Namespace = "http://www.idpf.org/2007/opf")]
-        public List<Reference> Reference { get; set; }
+        public List<string> GeneratedFiles { get; }
+
+        public EpubSession()
+        {
+            GeneratedFiles = new List<string>();
+        }
     }
 }

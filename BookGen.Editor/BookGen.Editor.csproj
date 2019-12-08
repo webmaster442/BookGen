@@ -1,9 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <PublishTrimmed>true</PublishTrimmed>
-    <PublishReadyToRun>true</PublishReadyToRun>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AssemblyTitle>BookGen.Editor</AssemblyTitle>
@@ -27,14 +25,14 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.0.0" />
-    <PackageReference Include="CommonServiceLocator" Version="2.0.4" />
-    <PackageReference Include="ControlzEx" Version="4.1.1" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0490" />
-    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0-preview9.1" />
+    <PackageReference Include="CommonServiceLocator" Version="2.0.5" />
+    <PackageReference Include="ControlzEx" Version="4.2.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0" />
     <PackageReference Include="MvvmLight" Version="5.4.1.1" />
-    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta2" />
-    <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
+    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+    <PackageReference Include="WeCantSpell.Hunspell" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\EditorControl\MardkownSyntax.xshd" />
@@ -42,14 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Hunspellx64.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Hunspellx86.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\Preview\Style.css" />

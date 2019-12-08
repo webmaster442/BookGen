@@ -7,13 +7,13 @@ using System.Xml.Serialization;
 
 namespace BookGen.Domain.Epub
 {
-    [XmlRoot(ElementName = "rootfile", Namespace = "urn:oasis:names:tc:opendocument:xmlns:container")]
-    public class Rootfile
-    {
-        [XmlAttribute(AttributeName = "full-path")]
-        public string Fullpath { get; set; }
 
-        [XmlAttribute(AttributeName = "media-type")]
-        public string Mediatype { get; set; }
+    [XmlRoot(ElementName = "title", Namespace = "http://purl.org/dc/elements/1.1/")]
+    public class Title
+    {
+        [XmlAttribute(AttributeName = "id")]
+        public string Id { get; set; }
+        [XmlText]
+        public string Text { get; set; }
     }
 }

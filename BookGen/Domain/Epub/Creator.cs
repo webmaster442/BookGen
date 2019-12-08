@@ -3,15 +3,16 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace BookGen.Domain.Epub
 {
-    [XmlRoot(ElementName = "head", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-    public class Head
+    [XmlRoot(ElementName = "creator", Namespace = "http://purl.org/dc/elements/1.1/")]
+    public class Creator
     {
-        [XmlElement(ElementName = "meta", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-        public List<MetaNcx> Meta { get; set; }
+        [XmlAttribute(AttributeName = "id")]
+        public string Id { get; set; }
+        [XmlText]
+        public string Text { get; set; }
     }
 }

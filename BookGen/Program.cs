@@ -54,7 +54,7 @@ namespace BookGen
 
             var dir = arguments.GetSwitchWithValue("d", "dir");
 
-            if (dir != null)
+            if (!string.IsNullOrEmpty(dir))
                 parsed.WorkingDirectory = dir;
 
             parsed.VerboseLog = arguments.GetSwitch("v", "verbose");

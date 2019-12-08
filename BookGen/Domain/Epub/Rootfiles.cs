@@ -7,10 +7,10 @@ using System.Xml.Serialization;
 
 namespace BookGen.Domain.Epub
 {
-    [XmlRoot(ElementName = "rootfiles", Namespace = "urn:oasis:names:tc:opendocument:xmlns:container")]
+    [XmlRoot(ElementName = "rootfiles")]
     public class Rootfiles
     {
-        [XmlElement(ElementName = "rootfile", Namespace = "urn:oasis:names:tc:opendocument:xmlns:container")]
+        [XmlElement(ElementName = "rootfile")]
         public Rootfile Rootfile { get; set; }
     }
 }
