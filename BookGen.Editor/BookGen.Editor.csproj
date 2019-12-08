@@ -27,12 +27,12 @@
     <PackageReference Include="AvalonEdit" Version="6.0.0" />
     <PackageReference Include="CommonServiceLocator" Version="2.0.5" />
     <PackageReference Include="ControlzEx" Version="4.2.0" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0490" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0" />
     <PackageReference Include="MvvmLight" Version="5.4.1.1" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
-    <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
     <PackageReference Include="System.Text.Json" Version="4.7.0" />
+    <PackageReference Include="WeCantSpell.Hunspell" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\EditorControl\MardkownSyntax.xshd" />
@@ -40,14 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Hunspellx64.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Hunspellx86.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\Preview\Style.css" />

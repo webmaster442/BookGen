@@ -5,7 +5,6 @@
 
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Rendering;
-using NHunspell;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +38,7 @@ namespace BookGen.Editor.Controls
         {
             _spellingColorizer.Errors.Clear();
             _renderTarget.Redraw();
-            //_renderTarget.InvalidateLayer(_spellingColorizer.Layer);
+            _renderTarget.InvalidateLayer(_spellingColorizer.Layer);
         }
 
         public int DoSpellCheck()
@@ -68,7 +67,7 @@ namespace BookGen.Editor.Controls
                         if (trimcount > -1)
                         {
                             int start = current.FirstDocumentLine.Offset + trimcount;
-                            if (!_hunspell.Spell(trimmed))
+                            if (!_hunspell.IsSpelledCorrectly(trimmed))
                             {
                                 TextSegment item = new TextSegment
                                 {
@@ -88,12 +87,12 @@ namespace BookGen.Editor.Controls
 
         public bool Spell(string word)
         {
-            return _hunspell.Spell(word);
+            return _hunspell.IsSpelledCorrectly(word);
         }
 
         public List<string> Suggest(string word)
         {
-            return _hunspell.Suggest(word);
+            return _hunspell.GetSuggestions(word);
         }
     }
 }

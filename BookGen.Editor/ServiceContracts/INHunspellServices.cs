@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using NHunspell;
+using BookGen.Editor.Controls;
 using System;
 using System.Collections.Generic;
 using System.Threading;

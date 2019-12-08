@@ -4,16 +4,15 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Editor.Controls;
 using BookGen.Editor.Infrastructure;
 using BookGen.Editor.ServiceContracts;
-using NHunspell;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace BookGen.Editor.Services
 {
