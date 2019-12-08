@@ -4,6 +4,13 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
+    <Company>Ruzsinszki Gábor</Company>
+    <Product>BookGen</Product>
+    <Description>A static Markdown book generator</Description>
+    <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

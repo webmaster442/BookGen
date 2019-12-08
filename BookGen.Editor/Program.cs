@@ -14,8 +14,8 @@ namespace BookGen.Editor
         [STAThread]
         public static void Main(string[] args)
         {
-            EditorSessionManager.Initialize();
             Locator.Initialize();
+            EditorSessionManager.Initialize();
 
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
