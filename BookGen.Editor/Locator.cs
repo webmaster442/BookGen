@@ -5,7 +5,6 @@
 
 using BookGen.Core.Contracts;
 using BookGen.Editor.ServiceContracts;
-using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 
 namespace BookGen.Editor
@@ -14,8 +13,6 @@ namespace BookGen.Editor
     {
         public static void Initialize()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
             SimpleIoc.Default.Register<IExceptionHandler, Services.ExceptionHandler>();
             SimpleIoc.Default.Register<IFileSystemServices, Services.FileSystemServices>();
             SimpleIoc.Default.Register<INHunspellServices, Services.NHuspellServices>();
