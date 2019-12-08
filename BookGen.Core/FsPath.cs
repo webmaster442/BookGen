@@ -77,35 +77,9 @@ namespace BookGen.Core
             get { return Path.GetFileName(_path); }
         }
 
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as FsPath);
-        }
-
-        public bool Equals(FsPath other)
-        {
-            return other != null
-                   && _path == other?._path;
-        }
-
-        public override int GetHashCode()
-        {
-            return 2090457805 + EqualityComparer<string>.Default.GetHashCode(_path);
-        }
-
         public override string ToString()
         {
             return _path;
-        }
-
-        public static bool operator ==(FsPath path1, FsPath path2)
-        {
-            return path1?._path == path2?._path;
-        }
-
-        public static bool operator !=(FsPath path1, FsPath path2)
-        {
-            return !(path1 == path2);
         }
 
         public static FsPath Empty
@@ -116,6 +90,32 @@ namespace BookGen.Core
         public static bool IsEmptyPath(FsPath path)
         {
             return string.IsNullOrEmpty(path._path);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as FsPath);
+        }
+
+        public bool Equals(FsPath? other)
+        {
+            return
+                _path == other?._path;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_path);
+        }
+
+        public static bool operator ==(FsPath? left, FsPath? right)
+        {
+            return left?._path == right?._path;
+        }
+
+        public static bool operator !=(FsPath? left, FsPath? right)
+        {
+            return !(left == right);
         }
     }
 }

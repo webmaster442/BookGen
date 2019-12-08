@@ -15,7 +15,7 @@ namespace BookGen.Core.Markdown.Pipeline
 {
     internal class WebModifier : IMarkdownExtension
     {
-        public static IReadonlyRuntimeSettings RuntimeConfig { get; set; }
+        public static IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
@@ -30,7 +30,7 @@ namespace BookGen.Core.Markdown.Pipeline
 
         private static bool IsOffHostLink(LinkInline link)
         {
-            return !link.Url.StartsWith(RuntimeConfig.Configuration.HostName);
+            return !link.Url.StartsWith(RuntimeConfig?.Configuration.HostName);
         }
 
         private static void PipelineOnDocumentProcessed(MarkdownDocument document)

@@ -100,6 +100,20 @@ namespace BookGen.Core.Configuration
             set;
         }
 
+        public Config()
+        {
+            Translations = new Translations();
+            TargetWordpress = new BuildConfig();
+            TargetEpub = new BuildConfig();
+            TargetPrint = new BuildConfig();
+            TargetWeb = new BuildConfig();
+            Metadata = new Metadata();
+            ImageDir = string.Empty;
+            Index = string.Empty;
+            TOCFile = string.Empty;
+            HostName = string.Empty;
+        }
+
         public static Config CreateDefault(int version = 100)
         {
             var config = new Config

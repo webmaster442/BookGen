@@ -45,14 +45,18 @@ namespace BookGen.Core
             }
 
             if (target.TemplateAssets == null)
-                AddError(Resources.MissingAssets);
-
-            foreach (var asset in target.TemplateAssets)
             {
-                var source = WorkDirectory.Combine(asset.Source);
+                AddError(Resources.MissingAssets);
+            }
+            else
+            {
+                foreach (var asset in target.TemplateAssets)
+                {
+                    var source = WorkDirectory.Combine(asset.Source);
 
-                if (!source.IsExisting)
-                    AddError(Resources.MissingAsset, source.ToString());
+                    if (!source.IsExisting)
+                        AddError(Resources.MissingAsset, source.ToString());
+                }
             }
 
             if (target.StyleClasses == null)

@@ -24,23 +24,25 @@ namespace BookGen.Core.Configuration
         [Doc("Additional template options", true, TypeAlias = typeof(Dictionary<string, string>))]
         public TemplateOptions TemplateOptions { get; set; }
 
-        public static BuildConfig CreateDefault(string outdir = null)
+        public BuildConfig()
         {
-            var config = new BuildConfig
+            OutPutDirectory = "Path to output directory";
+            TemplateFile = "";
+            TemplateAssets = new List<Asset>
             {
-                OutPutDirectory = "Path to output directory",
-                TemplateFile = "",
-                TemplateAssets = new List<Asset>
+                new Asset
                 {
-                    new Asset
-                    {
-                        Source = "",
-                        Target = ""
-                    }
-                },
-                TemplateOptions = TemplateOptions.CreateDefaultOptions(),
-                StyleClasses = new StyleClasses()
+                    Source = "",
+                    Target = ""
+                }
             };
+            TemplateOptions = TemplateOptions.CreateDefaultOptions();
+            StyleClasses = new StyleClasses();
+        }
+
+        public static BuildConfig CreateDefault(string? outdir = null)
+        {
+            var config = new BuildConfig();
 
             if (!string.IsNullOrEmpty(outdir))
                 config.OutPutDirectory = outdir;

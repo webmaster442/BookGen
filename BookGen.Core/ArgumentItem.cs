@@ -59,11 +59,11 @@ namespace BookGen.Core
             return Equals(obj as ArgumentItem);
         }
 
-        public bool Equals(ArgumentItem other)
+        public bool Equals(ArgumentItem? other)
         {
-            return other != null
-                   && Switch == other.Switch
-                   && Value == other.Value;
+            return 
+                  Switch == other?.Switch
+                  && Value == other?.Value;
         }
 
         public override int GetHashCode()

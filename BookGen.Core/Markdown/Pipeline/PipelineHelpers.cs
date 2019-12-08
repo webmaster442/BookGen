@@ -26,9 +26,11 @@ namespace BookGen.Core.Markdown.Pipeline
 
             var originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
             if (originalCodeBlockRenderer != null)
+            {
                 htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
 
-            htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer));
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer));
+            }
         }
 
         public static string ToImgCacheKey(string url, FsPath outputDir)

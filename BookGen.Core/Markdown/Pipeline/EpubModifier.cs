@@ -13,7 +13,7 @@ namespace BookGen.Core.Markdown.Pipeline
 {
     internal class EpubModifier: IMarkdownExtension
     {
-        public static IReadonlyRuntimeSettings RuntimeConfig { get; set; }
+        public static IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
@@ -28,6 +28,9 @@ namespace BookGen.Core.Markdown.Pipeline
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
+            if (RuntimeConfig == null)
+                return;
+
             PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetEpub,
                                         document);
 
@@ -39,8 +42,8 @@ namespace BookGen.Core.Markdown.Pipeline
                 }
                 else if (node is LinkInline link && link.IsImage)
                 {
-                    var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
-                    if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
+                    var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig!.OutputDirectory);
+                    if (RuntimeConfig?.InlineImgCache.ContainsKey(inlinekey) == true)
                     {
                         link.Url = RuntimeConfig.InlineImgCache[inlinekey];
                     }

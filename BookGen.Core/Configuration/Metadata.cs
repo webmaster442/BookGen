@@ -28,6 +28,13 @@ namespace BookGen.Core.Configuration
             set;
         }
 
+        public Metadata()
+        {
+            Author = string.Empty;
+            CoverImage = string.Empty;
+            Title = string.Empty;
+        }
+
         public static Metadata CreateDefault()
         {
             return new Metadata

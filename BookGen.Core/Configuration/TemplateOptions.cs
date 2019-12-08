@@ -65,11 +65,11 @@ namespace BookGen.Core.Configuration
             };
         }
 
-        public bool TryGetOption<T>(string setting, out T value)
+        public bool TryGetOption<T>(string setting, out T value) where T: struct
         {
             if (!ContainsKey(setting))
             {
-                value = default(T);
+                value = default;
                 return false;
             }
 
@@ -80,7 +80,7 @@ namespace BookGen.Core.Configuration
             }
             catch(Exception)
             {
-                value = default(T);
+                value = default;
                 return false;
             }
 

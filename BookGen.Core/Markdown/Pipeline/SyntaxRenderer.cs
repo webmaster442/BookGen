@@ -20,7 +20,7 @@ namespace BookGen.Core.Markdown.Pipeline
             _underlyingRenderer = underlyingRenderer ?? new CodeBlockRenderer();
         }
 
-        private static string GetCode(LeafBlock obj, out string firstLine)
+        private static string GetCode(LeafBlock obj, out string? firstLine)
         {
             var code = new StringBuilder();
             firstLine = null;
@@ -66,14 +66,14 @@ namespace BookGen.Core.Markdown.Pipeline
 
         private string Render(string code, string languageMoniker)
         {
-            ColorCode.ILanguage lang = FindLanguage(languageMoniker);
+            ColorCode.ILanguage? lang = FindLanguage(languageMoniker);
             if (lang == null)
                 return code;
             else
                 return new ColorCode.CodeColorizer().Colorize(code, lang);
         }
 
-        private ColorCode.ILanguage FindLanguage(string languageMoniker)
+        private ColorCode.ILanguage? FindLanguage(string languageMoniker)
         {
             switch (languageMoniker.ToLower())
             {

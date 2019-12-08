@@ -23,7 +23,7 @@ namespace BookGen.Core
             {
                 log.Warning("InlineJs failed. type: {1}", typeof(T));
                 log.Detail(ex.Message);
-                return default;
+                return string.Empty;
             }
         }
     }

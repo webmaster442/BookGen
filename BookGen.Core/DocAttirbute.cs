@@ -12,7 +12,7 @@ namespace BookGen.Core
     {
         public bool IsOptional { get; set; }
         public string Description { get; set; }
-        public Type TypeAlias { get; set; }
+        public Type? TypeAlias { get; set; }
 
         public DocAttribute(string description)
         {

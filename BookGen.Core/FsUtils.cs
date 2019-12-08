@@ -189,7 +189,7 @@ namespace BookGen.Core
             return Directory.GetFiles(directory.ToString(), mask, SearchOption.AllDirectories);
         }
 
-        public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IList<(string prefix, string namespac)> nslist = null) where T : class, new()
+        public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IList<(string prefix, string namespac)>? nslist = null) where T : class, new()
         {
             try
             {
@@ -198,7 +198,7 @@ namespace BookGen.Core
                 if (!fileInfo.Exists)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
 
-                XmlSerializerNamespaces xnames = null;
+                XmlSerializerNamespaces? xnames = null;
                 if (nslist != null)
                 {
                     xnames = new XmlSerializerNamespaces();
@@ -258,7 +258,7 @@ namespace BookGen.Core
             }
         }
 
-        public static T DeserializeJson<T>(this FsPath path, ILog log) where T: class, new()
+        public static T? DeserializeJson<T>(this FsPath path, ILog log) where T: class, new()
         {
             try
             {

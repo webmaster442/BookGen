@@ -14,7 +14,7 @@ namespace BookGen.Core.Markdown.Pipeline
 {
     internal class PreviewModifier : IMarkdownExtension
     {
-        public static FsPath WorkDir { get; set; }
+        public static FsPath? WorkDir { get; set; }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
@@ -42,7 +42,16 @@ namespace BookGen.Core.Markdown.Pipeline
             if (url.StartsWith("https://") || url.StartsWith("http://"))
                 return url;
 
-            var inlinePath = new FsPath(url).GetAbsolutePathRelativeTo(WorkDir);
+            FsPath inlinePath;
+
+            if (object.ReferenceEquals(WorkDir, null))
+            {
+                inlinePath = new FsPath(url);
+            }
+            else
+            {
+                inlinePath = new FsPath(url).GetAbsolutePathRelativeTo(WorkDir!);
+            }
 
             if (!inlinePath.IsExisting)
             {

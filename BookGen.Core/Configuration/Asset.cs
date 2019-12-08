@@ -20,5 +20,11 @@ namespace BookGen.Core.Configuration
             get;
             set;
         }
+
+        public Asset()
+        {
+            Source = string.Empty;
+            Target = string.Empty;
+        }
     }
 }

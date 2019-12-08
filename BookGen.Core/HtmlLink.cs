@@ -29,11 +29,11 @@ namespace BookGen.Core
             return Equals(obj as HtmlLink);
         }
 
-        public bool Equals(HtmlLink other)
+        public bool Equals(HtmlLink? other)
         {
-            return other != null
-                   && DisplayString == other.DisplayString
-                   && Link == other.Link;
+            return
+                DisplayString == other?.DisplayString
+                && Link == other?.Link;
         }
 
         public string GetLinkOnHost(string host)
