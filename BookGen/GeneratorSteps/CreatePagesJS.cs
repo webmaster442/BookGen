@@ -7,7 +7,6 @@ using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Domain;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
@@ -24,7 +23,10 @@ namespace BookGen.GeneratorSteps
                 pages.Add(settings.Configuration.HostName + Path.ChangeExtension(file, ".html"));
             }
             FsPath target = settings.OutputDirectory.Combine("pages.js");
-            target.WriteFile(log, "var pages=" + JsonConvert.SerializeObject(pages) + ";");
+
+            string javaScript = JsonInliner.InlineJs("pages", pages, log);
+
+            target.WriteFile(log, javaScript);
         }
     }
 }

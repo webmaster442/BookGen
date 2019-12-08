@@ -11,11 +11,9 @@ using BookGen.GeneratorSteps;
 using BookGen.Gui;
 using BookGen.Help;
 using BookGen.Utilities;
-using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 
 namespace BookGen
 {
@@ -75,17 +73,13 @@ namespace BookGen
                 return false;
             }
 
-            var cfgstring = ConfigFile.ReadFile(_log);
-
-            _log.Detail("Configuration content: {0}", cfgstring);
-
-            Configuration = JsonConvert.DeserializeObject<Config>(cfgstring);
+            Configuration = ConfigFile.DeserializeJson<Config>(_log);
 
             if (Configuration.Version < Program.ConfigVersion)
             {
                 ConfigFile.CreateBackup(_log);
                 Configuration.UpgradeTo(Program.ConfigVersion);
-                WriteConfig(ConfigFile, Configuration);
+                ConfigFile.SerializeJson(Configuration, _log, true);
                 _log.Info("Configuration file migrated to new version.");
                 _log.Info("Review configuration then run program again");
                 Program.ShowMessageBox(exitString);
@@ -138,12 +132,6 @@ namespace BookGen
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetPrint.OutPutDirectory), _log);
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetEpub.OutPutDirectory), _log);
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWordpress.OutPutDirectory), _log);
-        }
-
-        private void WriteConfig(FsPath configFile, Config configuration)
-        {
-            var def = JsonConvert.SerializeObject(configuration, Formatting.Indented);
-            configFile.WriteFile(_log, def);
         }
         #endregion
 

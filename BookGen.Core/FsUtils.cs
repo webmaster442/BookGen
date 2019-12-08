@@ -7,8 +7,8 @@ using BookGen.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 using System.Xml.Serialization;
 
 namespace BookGen.Core
@@ -189,7 +189,7 @@ namespace BookGen.Core
             return Directory.GetFiles(directory.ToString(), mask, SearchOption.AllDirectories);
         }
 
-        public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IList<(string prefix, string namespac)> nslist = null)
+        public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IList<(string prefix, string namespac)> nslist = null) where T : class, new()
         {
             try
             {
@@ -224,6 +224,55 @@ namespace BookGen.Core
                 log.Warning("SerializeXml failed: {0} type: {1}", path, typeof(T));
                 log.Detail(ex.Message);
                 return false;
+            }
+        }
+
+        public static bool SerializeJson<T>(this FsPath path, T obj, ILog log, bool indent = true) where T : class, new()
+        {
+            try
+            {
+
+                FileInfo fileInfo = new FileInfo(path.ToString());
+
+                if (!fileInfo.Exists)
+                    Directory.CreateDirectory(fileInfo.Directory.FullName);
+
+                string serialized = JsonSerializer.Serialize<T>(obj, new JsonSerializerOptions
+                {
+                    WriteIndented = indent
+                });
+
+                using (var writer = File.CreateText(path.ToString()))
+                {
+                    writer.Write(serialized);
+                }
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                log.Warning("SerializeJson failed: {0} type: {1}", path, typeof(T));
+                log.Detail(ex.Message);
+                return false;
+            }
+        }
+
+        public static T DeserializeJson<T>(this FsPath path, ILog log) where T: class, new()
+        {
+            try
+            {
+                using (var reader = File.OpenText(path.ToString()))
+                {
+                    string text = reader.ReadToEnd();
+                    return JsonSerializer.Deserialize<T>(text);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Warning("DeserializeJson failed: {0} type: {1}", path, typeof(T));
+                log.Detail(ex.Message);
+                return default;
             }
         }
 

@@ -6,8 +6,8 @@
 using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Editor.Models;
-using Newtonsoft.Json;
 using System;
+using System.Text.Json;
 
 namespace BookGen.Editor.Infrastructure
 {
@@ -29,7 +29,7 @@ namespace BookGen.Editor.Infrastructure
             if (_setttingsFile.IsExisting)
             {
                 var content = _setttingsFile.ReadFile(Locator.Resolve<ILog>());
-                CurrentSession = JsonConvert.DeserializeObject<EditorSession>(content);
+                CurrentSession = JsonSerializer.Deserialize<EditorSession>(content);
             }
             else
             {
@@ -52,8 +52,7 @@ namespace BookGen.Editor.Infrastructure
 
         public static void Close()
         {
-            var content = JsonConvert.SerializeObject(CurrentSession, Formatting.Indented);
-            _setttingsFile.WriteFile(Locator.Resolve<ILog>(), content);
+            _setttingsFile.SerializeJson(CurrentSession, Locator.Resolve<ILog>());
         }
     }
 }

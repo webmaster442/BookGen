@@ -58,9 +58,6 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta2" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Help.txt" />
     <Content Include="Icon.ico" />
     <EmbeddedResource Include="Resources\Error404.html" />
