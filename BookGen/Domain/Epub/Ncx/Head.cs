@@ -12,6 +12,6 @@ namespace BookGen.Domain.Epub.Ncx
     public class Head
     {
         [XmlElement(ElementName = "meta", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-        public List<Meta> Meta { get; set; }
+        public List<Meta>? Meta { get; set; }
     }
 }

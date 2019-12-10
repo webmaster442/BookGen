@@ -11,6 +11,6 @@ namespace BookGen.Domain.Epub
     public class Rootfiles
     {
         [XmlElement(ElementName = "rootfile")]
-        public Rootfile Rootfile { get; set; }
+        public Rootfile? Rootfile { get; set; }
     }
 }

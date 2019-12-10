@@ -53,7 +53,7 @@ namespace BookGen.Domain
             return _tocContents[chapter].Select(l => l.Link);
         }
 
-        public IEnumerable<HtmlLink> GetLinksForChapter(string chapter = null)
+        public IEnumerable<HtmlLink> GetLinksForChapter(string? chapter = null)
         {
             if (string.IsNullOrEmpty(chapter))
             {

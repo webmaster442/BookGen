@@ -33,9 +33,12 @@ namespace BookGen.Help
             foreach (var action in Enum.GetNames(actionType).OrderBy(o => o))
             {
                 result.Append("    ").AppendLine(action);
-                var memberInfo = actionType.GetMember(action);
-                var desc = memberInfo[0].GetCustomAttribute<DescriptionAttribute>();
-                result.Append("      ").AppendLine(desc.Description);
+                var memberInfo = actionType.GetMember(action).FirstOrDefault();
+                var desc = memberInfo?.GetCustomAttribute<DescriptionAttribute>();
+                if (desc != null)
+                {
+                    result.Append("      ").AppendLine(desc.Description);
+                }
                 result.AppendLine();
             }
         }

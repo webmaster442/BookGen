@@ -8,6 +8,11 @@ namespace BookGen.Gui.Elements
 
         public bool Value { get; set; }
 
+        public BoolInput()
+        {
+            Content = string.Empty;
+        }
+
         public override void Render(ITerminalRenderer target)
         {
             target.Text(Content, Foreground, Background, TextFormat.Default);

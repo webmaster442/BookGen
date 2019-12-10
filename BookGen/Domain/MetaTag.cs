@@ -13,5 +13,15 @@ namespace BookGen.Domain
         public string Title { get; set; }
         public string Url { get; set; }
         public string Description { get; set; }
+
+        public MetaTag()
+        {
+            Author = string.Empty;
+            SiteName = string.Empty;
+            ImageUrl = string.Empty;
+            Title = string.Empty;
+            Url = string.Empty;
+            Description = string.Empty;
+        }
     }
 }

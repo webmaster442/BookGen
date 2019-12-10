@@ -11,6 +11,11 @@ namespace BookGen.Gui.Elements
     {
         public string Content { get; set; }
 
+        public TextBlock()
+        {
+            Content = string.Empty;
+        }
+
         public override void Render(ITerminalRenderer target)
         {
             target.Text(Content, Foreground, Background, TextFormat.Default);

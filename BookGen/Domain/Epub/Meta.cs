@@ -11,12 +11,12 @@ namespace BookGen.Domain.Epub
     public class Meta
     {
         [XmlAttribute(AttributeName = "property")]
-        public string Property { get; set; }
+        public string? Property { get; set; }
 
         [XmlText]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         [XmlAttribute(AttributeName = "refines")]
-        public string Refines { get; set; }
+        public string? Refines { get; set; }
     }
 }

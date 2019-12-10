@@ -12,6 +12,6 @@ namespace BookGen.Domain.Epub
     public class Manifest
     {
         [XmlElement(ElementName = "item", Namespace = "http://www.idpf.org/2007/opf")]
-        public List<Item> Item { get; set; }
+        public List<Item>? Item { get; set; }
     }
 }

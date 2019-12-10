@@ -24,6 +24,7 @@ namespace BookGen.Gui
         {
             ShouldRun = true;
             Renderer = NativeWrapper.GetRenderer();
+            Elements = new List<ConsoleUiElement>();
         }
 
         protected ConsoleUiElement FindElement(string name)
@@ -31,7 +32,7 @@ namespace BookGen.Gui
             return Elements.FirstOrDefault(element => element.Name == name);
         }
 
-        protected T FindElement<T>(string name) where T : ConsoleUiElement
+        protected T? FindElement<T>(string name) where T : ConsoleUiElement
         {
             var item = FindElement(name);
 

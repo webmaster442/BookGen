@@ -34,7 +34,7 @@ namespace BookGen.Gui.Renderering
         private static bool IsNewerThanWindows10Build1511()
         {
             var versionString = RuntimeInformation.OSDescription.Replace("Microsoft Windows ", "");
-            return Version.TryParse(versionString, out Version OsVersion)
+            return Version.TryParse(versionString, out Version? OsVersion)
                     && OsVersion >= new Version(10, 0, 1511);
         }
 

@@ -11,12 +11,12 @@ namespace BookGen.Domain.Epub
     public class Item
     {
         [XmlAttribute(AttributeName = "id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         [XmlAttribute(AttributeName = "href")]
-        public string Href { get; set; }
+        public string? Href { get; set; }
         [XmlAttribute(AttributeName = "media-type")]
-        public string Mediatype { get; set; }
+        public string? Mediatype { get; set; }
         [XmlAttribute(AttributeName = "properties")]
-        public string Properties { get; set; }
+        public string? Properties { get; set; }
     }
 }

@@ -49,7 +49,7 @@ namespace BookGen.Domain.wordpress
             return _value;
         }
 
-        public XmlSchema GetSchema()
+        public XmlSchema? GetSchema()
         {
             return null;
         }

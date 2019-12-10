@@ -18,8 +18,9 @@ namespace BookGen.Framework
             StringBuilder result = new StringBuilder(input);
             var matches = translation.Matches(input);
 
-            foreach (Match match in matches)
+            foreach (Match? match in matches)
             {
+                if (match == null) continue;
                 var key = match.Value.Replace("{{", "").Replace("}}", "");
                 if (translations.ContainsKey(key))
                 {

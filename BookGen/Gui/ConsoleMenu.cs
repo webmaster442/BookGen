@@ -121,7 +121,7 @@ namespace BookGen.Gui
         {
             int? index = Renderer.GetInputChoice();
 
-            Button actionToDo = null;
+            Button? actionToDo = null;
 
             if (index.HasValue)
             {
@@ -141,7 +141,7 @@ namespace BookGen.Gui
             }
             else
             {
-                actionToDo.Action();
+                actionToDo.Action?.Invoke();
                 Renderer.PressKeyContinue();
                 DoRender();
             }

@@ -15,12 +15,12 @@ namespace BookGen
 {
     internal static class Program
     {
-        internal static GeneratorRunner Runner { get; private set; }
+        internal static GeneratorRunner? Runner { get; private set; }
         internal static bool IsInGuiMode { get; private set; }
-        internal static ConsoleMenu UI { get; private set; }
+        internal static ConsoleMenu? UI { get; private set; }
         internal static bool NoWaitForExit { get; private set; }
 
-        internal static Version ProgramVersion { get; private set; }
+        internal static Version? ProgramVersion { get; private set; }
         internal static int ConfigVersion { get; private set; }
 
 
@@ -90,7 +90,7 @@ namespace BookGen
             try
             {
                 var asm = Assembly.GetAssembly(typeof(Program));
-                ProgramVersion = asm.GetName().Version;
+                ProgramVersion = asm?.GetName()?.Version ?? new Version(1, 0);
                 ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
 
                 IsInGuiMode = false;

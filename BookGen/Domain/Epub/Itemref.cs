@@ -11,6 +11,6 @@ namespace BookGen.Domain.Epub
     public class Itemref
     {
         [XmlAttribute(AttributeName = "idref")]
-        public string Idref { get; set; }
+        public string? Idref { get; set; }
     }
 }

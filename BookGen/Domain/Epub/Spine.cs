@@ -12,9 +12,9 @@ namespace BookGen.Domain.Epub
     public class Spine
     {
         [XmlElement(ElementName = "itemref", Namespace = "http://www.idpf.org/2007/opf")]
-        public List<Itemref> Itemref { get; set; }
+        public List<Itemref>? Itemref { get; set; }
 
         [XmlAttribute("toc", Namespace = "http://www.idpf.org/2007/opf")]
-        public string Toc { get; set; }
+        public string? Toc { get; set; }
     }
 }

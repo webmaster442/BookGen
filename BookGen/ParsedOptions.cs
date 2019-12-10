@@ -34,5 +34,10 @@ namespace BookGen
         public bool ShowHelp { get; set; }
         public bool VerboseLog { get; set; }
         public string WorkingDirectory { get; set; }
+
+        public ParsedOptions()
+        {
+            WorkingDirectory = string.Empty;
+        }
     }
 }

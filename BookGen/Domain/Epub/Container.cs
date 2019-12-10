@@ -12,12 +12,12 @@ namespace BookGen.Domain.Epub
     public class Container
     {
         [XmlElement(ElementName = "rootfiles")]
-        public Rootfiles Rootfiles { get; set; }
+        public Rootfiles? Rootfiles { get; set; }
 
         [XmlAttribute(AttributeName = "version")]
-        public string Version { get; set; }
+        public string? Version { get; set; }
 
         [XmlAttribute(AttributeName = "xmlns")]
-        public string Xmlns { get; set; }
+        public string? Xmlns { get; set; }
     }
 }

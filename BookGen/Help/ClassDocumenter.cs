@@ -79,7 +79,7 @@ namespace BookGen.Help
             return result.ToString();
         }
 
-        private static string GetTypeInfo(Type type, Type typeAlias)
+        private static string GetTypeInfo(Type type, Type? typeAlias)
         {
             Type workType = type;
             if (typeAlias != null)

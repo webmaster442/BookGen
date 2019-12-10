@@ -12,26 +12,26 @@ namespace BookGen.Domain.wordpress
     public class Channel
     {
         [XmlElement(ElementName = "title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
         [XmlElement(ElementName = "link")]
-        public string Link { get; set; }
+        public string? Link { get; set; }
         [XmlElement(ElementName = "description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [XmlElement(ElementName = "pubDate")]
-        public string PubDate { get; set; }
+        public string? PubDate { get; set; }
         [XmlElement(ElementName = "language")]
-        public string Language { get; set; }
+        public string? Language { get; set; }
         [XmlElement(ElementName = "wxr_version", Namespace = "http://wordpress.org/export/1.2/")]
-        public string Wxr_version { get; set; }
+        public string? Wxr_version { get; set; }
         [XmlElement(ElementName = "base_site_url", Namespace = "http://wordpress.org/export/1.2/")]
-        public string Base_site_url { get; set; }
+        public string? Base_site_url { get; set; }
         [XmlElement(ElementName = "base_blog_url", Namespace = "http://wordpress.org/export/1.2/")]
-        public string Base_blog_url { get; set; }
+        public string? Base_blog_url { get; set; }
         [XmlElement(ElementName = "author", Namespace = "http://wordpress.org/export/1.2/")]
-        public Author Author { get; set; }
+        public Author? Author { get; set; }
         [XmlElement(ElementName = "generator")]
-        public string Generator { get; set; }
+        public string? Generator { get; set; }
         [XmlElement(ElementName = "item")]
-        public List<Item> Item { get; set; }
+        public List<Item>? Item { get; set; }
     }
 }

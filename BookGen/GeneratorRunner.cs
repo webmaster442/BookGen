@@ -23,7 +23,7 @@ namespace BookGen
 
         private const string exitString = "Press a key to exit...";
 
-        public Config Configuration { get; private set; }
+        public Config? Configuration { get; private set; }
 
         public FsPath ConfigFile { get; private set; }
 
@@ -37,6 +37,7 @@ namespace BookGen
             _log = log;
             WorkDirectory = workDir;
             ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
+            Configuration = new Config();
         }
 
         internal void DoInteractiveInitialize()
@@ -62,7 +63,7 @@ namespace BookGen
         public bool Initialize()
         {
             _log.Info("---------------------------------------------------------");
-            _log.Info("BookGen V{0} Starting...", Program.ProgramVersion);
+            _log.Info("BookGen V{0} Starting...", Program.ProgramVersion ?? new Version(1,0));
             _log.Info("Working directory: {0}", WorkDirectory);
             _log.Info("---------------------------------------------------------");
 
@@ -74,6 +75,12 @@ namespace BookGen
             }
 
             Configuration = ConfigFile.DeserializeJson<Config>(_log);
+
+            if (Configuration == null)
+            {
+                _log.Critical("bookgen.json deserialize error. Invalid config file");
+                return false;
+            }
 
             if (Configuration.Version < Program.ConfigVersion)
             {
@@ -128,6 +135,9 @@ namespace BookGen
 
         public void DoClean()
         {
+            if (Configuration == null)
+                throw new InvalidOperationException("Configuration is null");
+
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWeb.OutPutDirectory), _log);
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetPrint.OutPutDirectory), _log);
             CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetEpub.OutPutDirectory), _log);
@@ -139,6 +149,9 @@ namespace BookGen
 
         public void DoBuild()
         {
+            if (Configuration == null)
+                throw new InvalidOperationException("Configuration is null");
+
             _log.Info("Building deploy configuration...");
             WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
@@ -147,6 +160,9 @@ namespace BookGen
 
         public void DoPrint()
         {
+            if (Configuration == null)
+                throw new InvalidOperationException("Configuration is null");
+
             _log.Info("Building print configuration...");
             PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
@@ -155,6 +171,9 @@ namespace BookGen
 
         public void DoEpub()
         {
+            if (Configuration == null)
+                throw new InvalidOperationException("Configuration is null");
+
             _log.Info("Building epub configuration...");
             EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
@@ -163,6 +182,9 @@ namespace BookGen
 
         public void DoWordpress()
         {
+            if (Configuration == null)
+                throw new InvalidOperationException("Configuration is null");
+
             _log.Info("Building Wordpress configuration...");
             WordpressBuilder builder = new WordpressBuilder(WorkDirectory, Configuration, _log);
             var runTime = builder.Run();
@@ -171,6 +193,9 @@ namespace BookGen
 
         public void DoTest()
         {
+            if (Configuration == null)
+                throw new InvalidOperationException("Configuration is null");
+
             _log.Info("Building test configuration...");
             Configuration.HostName = "http://localhost:8080/";
             WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);

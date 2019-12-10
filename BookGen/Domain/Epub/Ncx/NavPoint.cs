@@ -12,12 +12,12 @@ namespace BookGen.Domain.Epub.Ncx
     public class NavPoint
     {
         [XmlElement(ElementName = "navLabel", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-        public NavLabel NavLabel { get; set; }
+        public NavLabel? NavLabel { get; set; }
         [XmlElement(ElementName = "content", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-        public Content Content { get; set; }
+        public Content? Content { get; set; }
         [XmlAttribute(AttributeName = "id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         [XmlElement(ElementName = "navPoint", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-        public List<NavPoint> NavPoints { get; set; }
+        public List<NavPoint>? NavPoints { get; set; }
     }
 }

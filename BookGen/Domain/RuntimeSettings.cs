@@ -21,5 +21,18 @@ namespace BookGen.Domain
         public Dictionary<string, string> MetataCache { get; set; }
         public Dictionary<string, string> InlineImgCache { get; set; }
         public BuildConfig CurrentBuildConfig { get; set; }
+
+        public RuntimeSettings()
+        {
+            OutputDirectory = FsPath.Empty;
+            SourceDirectory = FsPath.Empty;
+            ImageDirectory = FsPath.Empty;
+            TocPath = FsPath.Empty;
+            TocContents = new ToC();
+            Configuration = new Config();
+            MetataCache = new Dictionary<string, string>();
+            InlineImgCache = new Dictionary<string, string>();
+            CurrentBuildConfig = new BuildConfig();
+        }
     }
 }

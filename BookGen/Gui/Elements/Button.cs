@@ -10,9 +10,14 @@ namespace BookGen.Gui.Elements
 {
     internal class Button: ConsoleUiElement, IHaveContent
     {
-        public Action Action { get; set; }
+        public Action? Action { get; set; }
         public string Content { get; set; }
         public int Entry { get; set; }
+
+        public Button()
+        {
+            Content = string.Empty;
+        }
 
         public override void Render(ITerminalRenderer target)
         {

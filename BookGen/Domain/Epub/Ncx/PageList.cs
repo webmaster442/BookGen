@@ -12,8 +12,8 @@ namespace BookGen.Domain.Epub.Ncx
     public class PageList
     {
         [XmlElement(ElementName = "navInfo", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-        public NavInfo NavInfo { get; set; }
+        public NavInfo? NavInfo { get; set; }
         [XmlElement(ElementName = "pageTarget", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-        public List<PageTarget> PageTarget { get; set; }
+        public List<PageTarget>? PageTarget { get; set; }
     }
 }

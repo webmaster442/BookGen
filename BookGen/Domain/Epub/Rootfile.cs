@@ -11,9 +11,9 @@ namespace BookGen.Domain.Epub
     public class Rootfile
     {
         [XmlAttribute(AttributeName = "full-path")]
-        public string Fullpath { get; set; }
+        public string? Fullpath { get; set; }
 
         [XmlAttribute(AttributeName = "media-type")]
-        public string Mediatype { get; set; }
+        public string? Mediatype { get; set; }
     }
 }

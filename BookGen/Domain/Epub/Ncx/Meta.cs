@@ -11,8 +11,8 @@ namespace BookGen.Domain.Epub.Ncx
     public class Meta
     {
         [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [XmlAttribute(AttributeName = "content")]
-        public string Content { get; set; }
+        public string? Content { get; set; }
     }
 }

@@ -31,6 +31,7 @@ namespace BookGen.Framework
                 { "metadata", string.Empty },
                 { "precompiledheader", string.Empty }
             };
+            TemplateContent = string.Empty;
             _parser = shortCodeParser;
             _parser.ConfigureDelegatedShortCodes(CreateInternalsList());
         }

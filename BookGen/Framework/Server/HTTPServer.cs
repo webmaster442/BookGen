@@ -20,9 +20,9 @@ namespace BookGen.Framework.Server
         private readonly string _path;
         private readonly ILog _log;
         private readonly IEnumerable<IRequestHandler> _handlers;
-        private HttpListener _listener;
-        private Semaphore _sem;
-        private CancellationTokenSource _cts;
+        private HttpListener? _listener;
+        private Semaphore? _sem;
+        private CancellationTokenSource? _cts;
 
         public int Port { get; }
 
@@ -53,12 +53,15 @@ namespace BookGen.Framework.Server
         {
             while (true)
             {
-                _sem.WaitOne();
+                _sem?.WaitOne();
                 try
                 {
-                    HttpListenerContext context = await _listener.GetContextAsync().ConfigureAwait(false);
-                    Process(context);
-                    _sem.Release();
+                    if (_listener != null)
+                    {
+                        HttpListenerContext context = await _listener.GetContextAsync().ConfigureAwait(false);
+                        Process(context);
+                    }
+                    _sem?.Release();
 
                 }
                 catch (ObjectDisposedException)

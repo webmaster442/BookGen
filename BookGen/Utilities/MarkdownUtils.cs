@@ -30,8 +30,8 @@ namespace BookGen.Utilities
             var pipeline = new MarkdownPipelineBuilder().UseAutoIdentifiers(AutoIdentifierOptions.GitHub).Build();
             var doc = Markdown.Parse(content, pipeline);
 
-            string chapterTitle = string.Empty;
-            List<HtmlLink> chapterLinks = new List<HtmlLink>();
+            string? chapterTitle = string.Empty;
+            List<HtmlLink>? chapterLinks = new List<HtmlLink>();
             foreach (MarkdownObject item in doc.Descendants())
             {
                 if (item is HeadingBlock heading)
@@ -45,14 +45,15 @@ namespace BookGen.Utilities
                 }
                 else if (item is LinkInline link && !link.IsImage)
                 {
-                    chapterLinks.Add(new HtmlLink(link.FirstChild.ToString(), link.Url));
+                    if (link.FirstChild != null)
+                        chapterLinks.Add(new HtmlLink(link.FirstChild.ToString()!, link.Url));
                 }
             }
             InsertChapter(parsed, ref chapterTitle, ref chapterLinks);
             return parsed;
         }
 
-        private static void InsertChapter(ToC toc, ref string currentchapter, ref List<HtmlLink> chapter)
+        private static void InsertChapter(ToC toc, ref string? currentchapter, ref List<HtmlLink>? chapter)
         {
             if (currentchapter != null && chapter != null)
             {
@@ -71,7 +72,7 @@ namespace BookGen.Utilities
         {
             using (var reader = new StringReader(md))
             {
-                string line;
+                string? line;
                 while ((line = reader.ReadLine()) != null)
                 {
                     if (line.StartsWith("# ")

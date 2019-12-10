@@ -11,10 +11,10 @@ namespace BookGen.Domain.Epub.Ncx
     public class PageTarget
     {
         [XmlElement(ElementName = "navLabel", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-        public NavLabel NavLabel { get; set; }
+        public NavLabel? NavLabel { get; set; }
         [XmlElement(ElementName = "content", Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
-        public Content Content { get; set; }
+        public Content? Content { get; set; }
         [XmlAttribute(AttributeName = "type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
     }
 }

@@ -12,8 +12,8 @@ namespace BookGen.Domain.Epub
     public class Title
     {
         [XmlAttribute(AttributeName = "id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         [XmlText]
-        public string Text { get; set; }
+        public string? Text { get; set; }
     }
 }

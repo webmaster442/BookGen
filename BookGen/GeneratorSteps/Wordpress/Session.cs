@@ -10,5 +10,10 @@ namespace BookGen.GeneratorSteps.Wordpress
     internal class Session
     {
         public Channel CurrentChannel { get; set; }
+
+        public Session()
+        {
+            CurrentChannel = new Channel();
+        }
     }
 }

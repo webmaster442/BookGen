@@ -48,12 +48,15 @@ namespace BookGen.Framework
             StringBuilder result = new StringBuilder(content);
             foreach (var shortcode in _shortCodes)
             {
-                var regex = _codeMatches[shortcode.Tag];
-                var matches = regex.Matches(content);
-                foreach (Match match in matches)
+                Regex regex = _codeMatches[shortcode.Tag];
+                MatchCollection matches = regex.Matches(content);
+                foreach (Match? match in matches)
                 {
-                    var generated = shortcode.Generate(GetArguments(match.Value));
-                    result.Replace(match.Value, generated);
+                    if (match != null)
+                    {
+                        var generated = shortcode.Generate(GetArguments(match.Value));
+                        result.Replace(match.Value, generated);
+                    }
                 }
             }
             return result.ToString();

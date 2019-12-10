@@ -11,6 +11,6 @@ namespace BookGen.Domain.Epub.Ncx
     public class Content
     {
         [XmlAttribute(AttributeName = "src")]
-        public string Src { get; set; }
+        public string? Src { get; set; }
     }
 }
