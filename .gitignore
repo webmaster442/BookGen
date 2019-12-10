@@ -10,6 +10,7 @@ TestBooks/DemoBook/output/*
 *.user
 *.userosscache
 *.sln.docstates
+**/Properties/launchSettings.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

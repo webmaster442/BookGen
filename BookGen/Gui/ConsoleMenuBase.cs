@@ -44,7 +44,7 @@ namespace BookGen.Gui
 
         protected void DoRender()
         {
-            if (Elements == null)
+            if (Elements.Count < 1) 
             {
                 Elements = new List<ConsoleUiElement>(CreateElements());
                 ReindexButtonsInElements();

@@ -9,6 +9,7 @@ namespace BookGen.Gui.Renderering
 {
     public class Color
     {
+        public bool IsTransparent { get; private set; }
         public byte R { get; set; }
         public byte G { get; set; }
         public byte B { get; set; }
@@ -17,6 +18,16 @@ namespace BookGen.Gui.Renderering
         public static Color Green { get => new Color(0, 0xFF, 0); }
         public static Color Red { get => new Color(0xFF, 0, 0); }
         public static Color Blue { get => new Color(0, 0, 0xFF); }
+        public static Color Transparent
+        {
+            get
+            {
+                Color result = new Color(0, 0, 0);
+                result.IsTransparent = true;
+                return result;
+            }
+        }
+
 
         public Color(byte r, byte g, byte b)
         {

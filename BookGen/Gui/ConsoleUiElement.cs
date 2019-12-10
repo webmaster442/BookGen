@@ -17,7 +17,7 @@ namespace BookGen.Gui
 
         protected ConsoleUiElement()
         {
-            Background = Color.Black;
+            Background = Color.Transparent;
             Foreground = Color.White;
             Name = string.Empty;
         }

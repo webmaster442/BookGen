@@ -79,10 +79,16 @@ namespace BookGen.Gui.Renderering
         {
             StringBuilder combined = new StringBuilder(80);
             combined.Append(FormatStart);
-            combined.Append(foreground.GetForeground());
-            combined.Append(";");
-            combined.Append(background.GetBackgound());
-            combined.Append(";");
+            if (!foreground.IsTransparent)
+            {
+                combined.Append(foreground.GetForeground());
+                combined.Append(";");
+            }
+            if (!background.IsTransparent)
+            {
+                combined.Append(background.GetBackgound());
+                combined.Append(";");
+            }
             combined.Append(((int)format).ToString());
             combined.Append(FormatEnd);
             combined.Append(text);
