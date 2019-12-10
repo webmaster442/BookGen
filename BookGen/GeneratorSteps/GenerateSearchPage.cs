@@ -20,8 +20,8 @@ namespace BookGen.GeneratorSteps
 {
     internal class GenerateSearchPage : ITemplatedStep
     {
-        public Template Template { get; set; }
-        public IContent Content { get; set; }
+        public Template? Template { get; set; }
+        public IContent? Content { get; set; }
 
         private readonly StringBuilder _buffer;
         private readonly Regex _spaces;
@@ -34,6 +34,12 @@ namespace BookGen.GeneratorSteps
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            if (Content == null)
+                throw new DependencyException(nameof(Content));
+
+            if (Template == null)
+                throw new DependencyException(nameof(Template));
+
             Content.Metadata = FillMeta(settings.Configuration);
 
             log.Info("Generating search page...");

@@ -20,8 +20,8 @@ namespace BookGen.GeneratorSteps
 
         private const string NewPage = "<p style=\"page-break-before: always\"></p>\r\n";
 
-        public Template Template { get; set; }
-        public IContent Content { get; set; }
+        public Template? Template { get; set; }
+        public IContent? Content { get; set; }
 
         public CreatePrintableHtml()
         {
@@ -30,6 +30,12 @@ namespace BookGen.GeneratorSteps
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            if (Content == null)
+                throw new DependencyException(nameof(Content));
+
+            if (Template == null)
+                throw new DependencyException(nameof(Template));
+
             log.Info("Generating Printable html...");
             var output = settings.OutputDirectory.Combine("print.html");
 

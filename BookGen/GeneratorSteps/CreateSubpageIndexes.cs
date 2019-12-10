@@ -18,16 +18,28 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreateSubpageIndexes : ITemplatedStep
     {
-        public IContent Content { get; set; }
-        public Template Template { get; set; }
-        public List<HtmlLink> Chapters { get; private set; }
+        public IContent? Content { get; set; }
+        public Template? Template { get; set; }
+        public List<HtmlLink>? Chapters { get; private set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            if (Content == null)
+                throw new DependencyException(nameof(Content));
+
+            if (Template == null)
+                throw new DependencyException(nameof(Template));
+
+            if (Chapters == null)
+                throw new DependencyException(nameof(Chapters));
+
             log.Info("Generating index files for sub content folders...");
             foreach (var file in settings.TocContents.Files)
             {
                 var dir = Path.GetDirectoryName(file);
+
+                if (dir == null) continue;
+
                 var output = settings.OutputDirectory.Combine(dir).Combine("index.html");
                 if (!output.IsExisting)
                 {

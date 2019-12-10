@@ -16,8 +16,8 @@ namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubToc : ITemplatedStep
     {
-        public Template Template { get; set; }
-        public IContent Content { get; set; }
+        public Template? Template { get; set; }
+        public IContent? Content { get; set; }
 
         private void GenerateTocNcx(RuntimeSettings settings, ILog log)
         {
@@ -119,7 +119,7 @@ namespace BookGen.GeneratorSteps.Epub
 
             var output = settings.OutputDirectory.Combine($"epubtemp\\OPS\\nav.xhtml");
 
-            Template.Content = buffer.ToString();
+            Template!.Content = buffer.ToString();
             Template.Title = "";
 
             var html = Template.Render();
@@ -128,6 +128,12 @@ namespace BookGen.GeneratorSteps.Epub
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            if (Content == null)
+                throw new DependencyException(nameof(Content));
+
+            if (Template == null)
+                throw new DependencyException(nameof(Template));
+
             GenerateTocNcx(settings, log);
             GenerateHtmlToc(settings, log);
         }

@@ -17,11 +17,17 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreatePages : ITemplatedStep
     {
-        public IContent Content { get; set; }
-        public Template Template { get; set; }
+        public IContent? Content { get; set; }
+        public Template? Template { get; set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            if (Content == null)
+                throw new DependencyException(nameof(Content));
+
+            if (Template == null)
+                throw new DependencyException(nameof(Template));
+
             log.Info("Generating Sub Markdown Files...");
 #if DEBUG
             foreach (var file in settings.TocContents.Files)

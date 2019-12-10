@@ -14,11 +14,17 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreateIndexHtml : ITemplatedStep
     {
-        public IContent Content { get; set; }
-        public Template Template { get; set; }
+        public IContent? Content { get; set; }
+        public Template? Template { get; set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            if (Content == null)
+                throw new DependencyException(nameof(Content));
+
+            if (Template == null)
+                throw new DependencyException(nameof(Template));
+
             log.Info("Generating Index file...");
             var input = settings.SourceDirectory.Combine(settings.Configuration.Index);
             var output = settings.OutputDirectory.Combine("index.html");

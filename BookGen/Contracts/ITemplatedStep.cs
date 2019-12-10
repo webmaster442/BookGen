@@ -9,6 +9,6 @@ namespace BookGen.Contracts
 {
     internal interface ITemplatedStep : IGeneratorContentFillStep
     {
-        Template Template { get; set; }
+        Template? Template { get; set; }
     }
 }

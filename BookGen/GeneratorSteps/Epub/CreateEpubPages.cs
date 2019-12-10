@@ -23,11 +23,17 @@ namespace BookGen.GeneratorSteps.Epub
             _session = session;
         }
 
-        public Template Template { get; set; }
-        public IContent Content { get; set; }
+        public Template? Template { get; set; }
+        public IContent? Content { get; set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            if (Content == null)
+                throw new DependencyException(nameof(Content));
+
+            if (Template == null)
+                throw new DependencyException(nameof(Template));
+
             log.Info("Generating epub pages...");
 
             int index = 1;

@@ -14,9 +14,14 @@ namespace BookGen.GeneratorSteps
     {
         public (string content, string targetPath)[] Assets { get; set; }
 
+        public ExtractTemplateAssets()
+        {
+            Assets = new (string content, string targetPath)[0];
+        }
+
         public void RunStep(RuntimeSettings settings, ILog log)
         {
-            if (Assets == null)
+            if (Assets == null || Assets.Length < 1)
             {
                 log.Warning("External template used, skipping asset extract");
                 return;
