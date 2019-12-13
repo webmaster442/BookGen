@@ -24,25 +24,9 @@
                 ToolTip="Clean..." />
             <Separator />
             <Button
-                Command="{Binding BuildTestWebsiteCommand}"
+                Command="{Binding RunBookGenCommand}"
                 Content="{StaticResource BuildTest}"
-                ToolTip="Build Test website..." />
-            <Button
-                Command="{Binding BuildWebsiteCommand}"
-                Content="{StaticResource BuildWeb}"
-                ToolTip="Build Website..." />
-            <Button
-                Command="{Binding BuildPrintCommand}"
-                Content="{StaticResource BuildPrint}"
-                ToolTip="Build printable HTML..." />
-            <Button
-                Command="{Binding BuildEpupCommand}"
-                Content="{StaticResource BuildBook}"
-                ToolTip="Build Epub..." />
-            <Button
-                Command="{Binding BuildWordpressCommand}"
-                Content="{StaticResource BuildWordpress}"
-                ToolTip="Build Wordpress compatible export..." />
+                ToolTip="Open BookGen builder..." />
         </ToolBar>
     </ToolBarTray>
 </UserControl>

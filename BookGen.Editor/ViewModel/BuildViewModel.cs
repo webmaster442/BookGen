@@ -15,35 +15,33 @@ namespace BookGen.Editor.ViewModel
 {
     internal class BuildViewModel
     {
-        private const string EpubCommand = "BuildEpub";
-        private const string WordpressCommand = "BuildWordpress";
-        private const string PrintCommand = "BuildPrint";
-        private const string TestCommand = "Test";
-        private const string WebCommand = "BuildWeb";
-
         private const string CleanCommandstr = "Clean";
         private const string InitCommandstr = "Initialize";
 
         private readonly IExceptionHandler _exceptionHandler;
         private readonly IDialogService _dialogService;
 
-        public ICommand BuildEpupCommand { get; }
-        public ICommand BuildTestWebsiteCommand { get; }
-        public ICommand BuildWebsiteCommand { get; }
-        public ICommand BuildWordpressCommand { get; }
-        public ICommand BuildPrintCommand { get; }
         public ICommand CleanCommand { get; }
         public ICommand InitCommand { get; }
+        public ICommand RunBookGenCommand { get; }
+
         public ICommand OpenFileExplorerCommand { get; }
 
-        private void RunBookGen(string command)
+        private void RunBookGen(bool gui, string command)
         {
             _exceptionHandler.SafeRun(() =>
             {
                 using (var process = new Process())
                 {
                     process.StartInfo.FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BookGen.exe");
-                    process.StartInfo.Arguments = $"-d \"{EditorSessionManager.CurrentSession.DictionaryPath}\" -a {command}";
+                    if (gui)
+                    {
+                        process.StartInfo.Arguments = $"-d \"{EditorSessionManager.CurrentSession.DictionaryPath}\" -g";
+                    }
+                    else
+                    {
+                        process.StartInfo.Arguments = $"-d \"{EditorSessionManager.CurrentSession.DictionaryPath}\" -a {command}";
+                    }
                     process.StartInfo.UseShellExecute = false;
                     process.Start();
                 }
@@ -55,14 +53,15 @@ namespace BookGen.Editor.ViewModel
         {
             _dialogService = dialogService; 
             _exceptionHandler = exceptionHandler;
-            BuildEpupCommand = new RelayCommand(OnBuildEpub);
-            BuildTestWebsiteCommand = new RelayCommand(OnBuildTestWebsite);
-            BuildWebsiteCommand = new RelayCommand(OnBuildWebsite);
-            BuildWordpressCommand = new RelayCommand(BuildWordpress);
-            BuildPrintCommand = new RelayCommand(BuildPrint);
             CleanCommand = new RelayCommand(OnClean);
             InitCommand = new RelayCommand(OnInit);
+            RunBookGenCommand = new RelayCommand(OnRunBookGen);
             OpenFileExplorerCommand = new RelayCommand(OnOpenFileExplorer);
+        }
+
+        private void OnRunBookGen()
+        {
+            RunBookGen(true, string.Empty);
         }
 
         private void OnOpenFileExplorer()
@@ -72,37 +71,12 @@ namespace BookGen.Editor.ViewModel
 
         private void OnInit()
         {
-            RunBookGen(InitCommandstr);
+            RunBookGen(false, InitCommandstr);
         }
 
         private void OnClean()
         {
-            RunBookGen(CleanCommandstr);
-        }
-
-        private void BuildPrint()
-        {
-            RunBookGen(PrintCommand);
-        }
-
-        private void BuildWordpress()
-        {
-            RunBookGen(WordpressCommand);
-        }
-
-        private void OnBuildWebsite()
-        {
-            RunBookGen(WebCommand);
-        }
-
-        private void OnBuildTestWebsite()
-        {
-            RunBookGen(TestCommand);
-        }
-
-        private void OnBuildEpub()
-        {
-            RunBookGen(EpubCommand);
+            RunBookGen(false, CleanCommandstr);
         }
     }
 }
