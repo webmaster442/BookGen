@@ -25,7 +25,7 @@
             <Separator />
             <Button
                 Command="{Binding RunBookGenCommand}"
-                Content="{StaticResource BuildTest}"
+                Content="{StaticResource BuildBook}"
                 ToolTip="Open BookGen builder..." />
         </ToolBar>
     </ToolBarTray>

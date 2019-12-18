@@ -50,6 +50,8 @@ namespace BookGen.Editor.Controls
 
         public void Execute(object parameter)
         {
+            if (!_editor.IsEnabled) return;
+
             string token = parameter as string;
             if (string.IsNullOrEmpty(token)) return;
 

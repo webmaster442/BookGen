@@ -50,7 +50,8 @@
             x:Name="MainMenu"
             Grid.Row="0"
             Grid.ColumnSpan="2"
-            Background="{StaticResource ThemeLighterBlue}" />
+            Background="{StaticResource ThemeLighterBlue}"
+            IsEnabled="{Binding EditorEnabled}" />
         <Rectangle
             Grid.Row="1"
             Grid.ColumnSpan="2"
@@ -120,7 +121,7 @@
         <Grid
             Grid.RowSpan="99"
             Grid.ColumnSpan="99"
-            Margin="325,53,0,0"
+            Margin="325,63,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <Grid.ColumnDefinitions>

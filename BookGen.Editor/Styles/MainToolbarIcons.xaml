@@ -1,10 +1,15 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <sys:Double x:Key="ToolBarIconWidth">42</sys:Double>
+    <sys:Double x:Key="ToolBarIconHeight">42</sys:Double>
+    
     <Viewbox
         x:Key="H0"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -16,8 +21,8 @@
 
     <Viewbox
         x:Key="H1"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -29,8 +34,8 @@
 
     <Viewbox
         x:Key="H2"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -42,8 +47,8 @@
 
     <Viewbox
         x:Key="H3"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -55,8 +60,8 @@
 
     <Viewbox
         x:Key="H4"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -68,8 +73,8 @@
 
     <Viewbox
         x:Key="H5"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -81,8 +86,8 @@
 
     <Viewbox
         x:Key="H6"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -94,8 +99,8 @@
 
     <Viewbox
         x:Key="Save"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -107,8 +112,8 @@
 
     <Viewbox
         x:Key="Undo"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -120,8 +125,8 @@
 
     <Viewbox
         x:Key="Redo"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -133,8 +138,8 @@
 
     <Viewbox
         x:Key="Cut"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -146,8 +151,8 @@
 
     <Viewbox
         x:Key="Copy"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -159,8 +164,8 @@
 
     <Viewbox
         x:Key="Paste"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -172,8 +177,8 @@
 
     <Viewbox
         x:Key="Bold"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -185,8 +190,8 @@
 
     <Viewbox
         x:Key="Italic"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -198,8 +203,8 @@
 
     <Viewbox
         x:Key="Underline"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -211,8 +216,8 @@
 
     <Viewbox
         x:Key="Strikethrough"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -224,8 +229,8 @@
 
     <Viewbox
         x:Key="Superscript"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -237,8 +242,8 @@
 
     <Viewbox
         x:Key="Subscript"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -250,8 +255,8 @@
 
     <Viewbox
         x:Key="Quote"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -263,8 +268,8 @@
 
     <Viewbox
         x:Key="Code"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -276,8 +281,8 @@
 
     <Viewbox
         x:Key="UnorderedList"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -289,8 +294,8 @@
 
     <Viewbox
         x:Key="OrderedList"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -302,8 +307,8 @@
 
     <Viewbox
         x:Key="Image"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -315,8 +320,8 @@
 
     <Viewbox
         x:Key="Link"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -328,8 +333,8 @@
 
     <Viewbox
         x:Key="Table"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -341,8 +346,8 @@
 
     <Viewbox
         x:Key="Find"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -354,8 +359,8 @@
 
     <Viewbox
         x:Key="Replace"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -367,8 +372,8 @@
 
     <Viewbox
         x:Key="GotoLine"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -380,8 +385,8 @@
 
     <Viewbox
         x:Key="TableLeft"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -393,8 +398,8 @@
 
     <Viewbox
         x:Key="TableRight"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">
@@ -406,8 +411,8 @@
     
     <Viewbox
         x:Key="EditorViewSettings"
-        Width="32"
-        Height="32">
+        Width="{StaticResource ToolBarIconWidth}"
+        Height="{StaticResource ToolBarIconWidth}">
         <Canvas
             Width="24"
             Height="24">

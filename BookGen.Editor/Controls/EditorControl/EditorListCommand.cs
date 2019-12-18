@@ -42,6 +42,8 @@ namespace BookGen.Editor.Controls
 
         public void Execute(object parameter)
         {
+            if (!_editor.IsEnabled) return;
+
             if (_editor.SelectionLength == 0)
             {
                 if (_ordered)
