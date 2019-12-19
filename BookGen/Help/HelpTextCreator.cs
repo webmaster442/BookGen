@@ -5,6 +5,7 @@
 
 using BookGen.Core;
 using BookGen.Core.Configuration;
+using BookGen.Domain.ArgumentParsing;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace BookGen.Help
 
         private static void DocumentActions(StringBuilder result)
         {
-            Type actionType = typeof(ParsedOptions.ActionType);
+            Type actionType = typeof(ActionType);
 
             foreach (var action in Enum.GetNames(actionType).OrderBy(o => o))
             {

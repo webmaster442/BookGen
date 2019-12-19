@@ -6,11 +6,10 @@
 using BookGen.Domain.Github;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using System.Text.Json;
-using System.Reflection;
 using System.IO;
+using System.Net;
+using System.Reflection;
+using System.Text.Json;
 
 namespace BookGen
 {
