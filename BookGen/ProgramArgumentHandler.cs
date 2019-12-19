@@ -15,6 +15,7 @@ namespace BookGen
         private readonly ArgumentParser _arguments;
 
         public event EventHandler? DoHelp;
+        public event EventHandler? DoConfigHelp;
         public event EventHandler<GuiParameters>? DoGui;
         public event EventHandler<BuildParameters>? DoBuild;
         public event EventHandler<UpdateParameters>? DoUpdate;
@@ -74,7 +75,7 @@ namespace BookGen
         public void Parse()
         {
             string command = _arguments.GetValues().FirstOrDefault() ?? string.Empty;
-            if (!Enum.TryParse<Command>(command, true, out Command subcommand))
+            if (!Enum.TryParse(command, true, out Command subcommand))
             {
                 DoHelp?.Invoke(this, EventArgs.Empty);
                 return;
@@ -92,6 +93,10 @@ namespace BookGen
                      && GetBuildParameters(out BuildParameters buildParams))
             {
                 DoBuild?.Invoke(this, buildParams);
+            }
+            else if (subcommand == Command.ConfigHelp)
+            {
+                DoConfigHelp?.Invoke(this, EventArgs.Empty);
             }
             else
             {

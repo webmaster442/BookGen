@@ -48,7 +48,7 @@ namespace BookGen
 
         public void RunHelp()
         {
-            _log.Info(HelpTextCreator.GenerateHelpText());
+            Console.WriteLine(HelpTextCreator.GenerateHelpText());
         }
 
         #region Helpers

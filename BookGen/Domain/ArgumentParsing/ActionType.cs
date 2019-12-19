@@ -11,13 +11,13 @@ namespace BookGen.Domain.ArgumentParsing
     {
         [Description("Build Test Static Website & Run test server")]
         Test,
-        [Description("Build Printable HTML")]
+        [Description("Build Printable HTML document")]
         BuildPrint,
         [Description("Build Releaseable Static Website")]
         BuildWeb,
-        [Description("Build Ebup")]
+        [Description("Build Ebup 3.2")]
         BuildEpub,
-        [Description("Build Wordpress Export file")]
+        [Description("Build Wordpress Export XML file")]
         BuildWordpress,
         [Description("Clean output folders")]
         Clean,

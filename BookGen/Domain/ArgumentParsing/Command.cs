@@ -14,6 +14,8 @@ namespace BookGen.Domain.ArgumentParsing
         [Description("Update to latest version")]
         Update,
         [Description("Command line gui")]
-        Gui
+        Gui,
+        [Description("Display config file information")]
+        ConfigHelp,
     }
 }

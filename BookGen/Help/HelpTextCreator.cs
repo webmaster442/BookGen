@@ -22,7 +22,6 @@ namespace BookGen.Help
 
             result.AppendLine(ResourceLocator.GetResourceFile<GeneratorRunner>("Resources/Help.txt"));
             DocumentActions(result);
-            DocumentConfiguration(result);
 
             return result.ToString();
         }
@@ -38,14 +37,15 @@ namespace BookGen.Help
                 var desc = memberInfo?.GetCustomAttribute<DescriptionAttribute>();
                 if (desc != null)
                 {
-                    result.Append("      ").AppendLine(desc.Description);
+                    result.Append("        ").AppendLine(desc.Description);
                 }
                 result.AppendLine();
             }
         }
 
-        private static void DocumentConfiguration(StringBuilder result)
+        public static string DocumentConfiguration()
         {
+            StringBuilder result = new StringBuilder(4096);
             result.AppendLine("Configuration properties for current version:");
             result.AppendLine();
             result.AppendLine();
@@ -54,6 +54,8 @@ namespace BookGen.Help
             result.AppendLine();
             result.AppendLine();
             result.AppendLine(types);
+
+            return result.ToString();
         }
     }
 }

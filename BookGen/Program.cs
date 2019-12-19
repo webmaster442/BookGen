@@ -22,6 +22,7 @@ namespace BookGen
                 argumentHandler.DoBuild += ArgumentHandler_DoBuild;
                 argumentHandler.DoGui += ArgumentHandler_DoGui;
                 argumentHandler.DoHelp += ArgumentHandler_DoHelp;
+                argumentHandler.DoConfigHelp += ArgumentHandler_DoConfigHelp;
                 argumentHandler.DoUpdate += ArgumentHandler_DoUpdate;
                 argumentHandler.Parse();
                 Environment.Exit(0);
@@ -42,16 +43,6 @@ namespace BookGen
         private static void ArgumentHandler_DoUpdate(object? sender, UpdateParameters e)
         {
             throw new NotImplementedException();
-        }
-
-        private static void ArgumentHandler_DoHelp(object? sender, EventArgs e)
-        {
-            var help = HelpTextCreator.GenerateHelpText();
-            Console.WriteLine(help);
-#if DEBUG
-            ShowMessageBox("Press a key to continue");
-#endif
-            Environment.Exit(1);
         }
 
         private static void ArgumentHandler_DoGui(object? sender, GuiParameters e)
@@ -92,6 +83,22 @@ namespace BookGen
                     CurrentState.GeneratorRunner.Initialize();
                     break;
             }
+        }
+
+        private static void ArgumentHandler_DoHelp(object? sender, EventArgs e)
+        {
+            Console.WriteLine(HelpTextCreator.GenerateHelpText());
+#if DEBUG
+            ShowMessageBox("Press a key to continue");
+#endif
+            Environment.Exit(1);
+        }
+
+
+        private static void ArgumentHandler_DoConfigHelp(object? sender, EventArgs e)
+        {
+            Console.WriteLine(HelpTextCreator.DocumentConfiguration());
+            Environment.Exit(1);
         }
 
         public static void ShowMessageBox(string text, params object[] args)
