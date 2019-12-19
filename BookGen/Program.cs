@@ -42,7 +42,8 @@ namespace BookGen
 
         private static void ArgumentHandler_DoUpdate(object? sender, UpdateParameters e)
         {
-            var updater = new Updater();
+            var log = new ConsoleLog(LogLevel.Info);
+            var updater = new Updater(log);
             if (e.SearchOnly)
             {
                 updater.FindNewerRelease(e.Prerelease);

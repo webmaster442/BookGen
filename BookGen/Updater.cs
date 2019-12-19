@@ -74,7 +74,7 @@ namespace BookGen
                 return;
             }
 
-            Asset? platformAsset = SelectPlatformAsset(newer);
+            //Asset? platformAsset = SelectPlatformAsset(newer);
         }
     }
 }

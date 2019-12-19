@@ -9,7 +9,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Core", "BookGen.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookgen.Template", "Bookgen.Template\Bookgen.Template.csproj", "{2417BE2B-76AE-471E-B59D-4C629D96D81F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141-F5F9-44DD-A4D1-57ED6647993F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.vsconfig = .vsconfig
+		Changelog.md = Changelog.md
+		publish.sh = publish.sh
+		README.md = README.md
+	EndProjectSection
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Editor", "BookGen.Editor\BookGen.Editor.csproj", "{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Md2HTML", "Md2HTML\Md2HTML.csproj", "{80719741-F34E-46CB-A8CC-6BD16647EFEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +44,10 @@ Global
 		{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

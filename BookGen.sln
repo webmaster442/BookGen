@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141
 		.editorconfig = .editorconfig
 		.vsconfig = .vsconfig
 		Changelog.md = Changelog.md
+		publish.sh = publish.sh
 		README.md = README.md
 	EndProjectSection
 EndProject

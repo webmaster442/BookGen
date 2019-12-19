@@ -76,7 +76,7 @@ namespace BookGen.Utilities
                 byte[] buffer = new byte[4096];
                 using (var client = new WebClient())
                 {
-                    using (var stream = await client.OpenReadTaskAsync(toDownload.DownloadUrl))
+                    using (var stream = await client.OpenReadTaskAsync(toDownload.DownloadUrl).ConfigureAwait(false))
                     {
                         using (var target = File.Create(targetFile))
                         {
@@ -84,7 +84,7 @@ namespace BookGen.Utilities
                             int recieved = 0;
                             do
                             {
-                                recieved = await stream.ReadAsync(buffer, 0, buffer.Length);
+                                recieved = await stream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                                 downloaded += recieved;
                                 target.Write(buffer, 0, recieved);
                                 progress.Report(downloaded / toDownload.Size);
