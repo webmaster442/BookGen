@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts;
 using BookGen.Domain.Github;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace BookGen.Utilities
 {
@@ -45,7 +47,7 @@ namespace BookGen.Utilities
             return _assemblyLinkTime.Value;
         }
 
-        public static bool GetGithubReleases(string endpoint, out List<Release> releases)
+        public static bool GetGithubReleases(string endpoint, ILog log, out List<Release> releases)
         {
             try
             {
@@ -58,7 +60,44 @@ namespace BookGen.Utilities
             }
             catch (Exception ex) when (ex is WebException || ex is JsonException)
             {
+                log.Warning(ex);
                 releases = new List<Release>();
+                return false;
+            }
+        }
+
+        public async static Task<bool> DowloadFileAsyc(Asset toDownload, string targetFile, ILog log, IProgress<double> progress)
+        {
+            if (string.IsNullOrEmpty(toDownload.DownloadUrl))
+                return false;
+
+            try
+            {
+                byte[] buffer = new byte[4096];
+                using (var client = new WebClient())
+                {
+                    using (var stream = await client.OpenReadTaskAsync(toDownload.DownloadUrl))
+                    {
+                        using (var target = File.Create(targetFile))
+                        {
+                            double downloaded = 0;
+                            int recieved = 0;
+                            do
+                            {
+                                recieved = await stream.ReadAsync(buffer, 0, buffer.Length);
+                                downloaded += recieved;
+                                target.Write(buffer, 0, recieved);
+                                progress.Report(downloaded / toDownload.Size);
+                            }
+                            while (recieved > 0);
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (WebException ex)
+            {
+                log.Warning(ex);
                 return false;
             }
         }

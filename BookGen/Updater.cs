@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts;
 using BookGen.Domain.Github;
 using BookGen.Utilities;
 using System;
@@ -14,6 +15,12 @@ namespace BookGen
     internal class Updater
     {
         private const string Endpoint = "https://api.github.com/repos/webmaster442/BookGen/releases";
+        private readonly ILog _log;
+
+        public Updater(ILog log)
+        {
+            _log = log;
+        }
 
         private Release? SelectLatestRelease(IEnumerable<Release> releases, bool prerelease)
         {
@@ -36,7 +43,7 @@ namespace BookGen
 
         public void FindNewerRelease(bool includePrerelease)
         {
-            if (!UpdateUtils.GetGithubReleases(Endpoint, out List<Release> releases))
+            if (!UpdateUtils.GetGithubReleases(Endpoint, _log, out List<Release> releases))
             {
                 Console.WriteLine("Error downloading releases information. Probably no Internet acces?");
                 return;
@@ -53,7 +60,7 @@ namespace BookGen
 
         public void UpdateProgram(bool includePrerelease)
         {
-            if (!UpdateUtils.GetGithubReleases(Endpoint, out List<Release> releases))
+            if (!UpdateUtils.GetGithubReleases(Endpoint, _log, out List<Release> releases))
             {
                 Console.WriteLine("Error downloading releases information. Probably no Internet acces?");
                 return;
@@ -66,6 +73,8 @@ namespace BookGen
                 Console.WriteLine("No releasess found");
                 return;
             }
+
+            Asset? platformAsset = SelectPlatformAsset(newer);
         }
     }
 }
