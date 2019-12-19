@@ -42,7 +42,15 @@ namespace BookGen
 
         private static void ArgumentHandler_DoUpdate(object? sender, UpdateParameters e)
         {
-            throw new NotImplementedException();
+            var updater = new Updater();
+            if (e.SearchOnly)
+            {
+                updater.FindNewerRelease(e.Prerelease);
+            }
+            else
+            {
+                updater.UpdateProgram(e.Prerelease);
+            }
         }
 
         private static void ArgumentHandler_DoGui(object? sender, GuiParameters e)

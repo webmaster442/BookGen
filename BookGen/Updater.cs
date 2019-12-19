@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Github;
+using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Reflection;
-using System.Text.Json;
+using System.Linq;
 
 namespace BookGen
 {
@@ -17,44 +15,57 @@ namespace BookGen
     {
         private const string Endpoint = "https://api.github.com/repos/webmaster442/BookGen/releases";
 
-        private bool GetReleases(out List<Release> releases)
+        private Release? SelectLatestRelease(IEnumerable<Release> releases, bool prerelease)
         {
-            try
-            {
-                using (var client = new WebClient())
-                {
-                    string response = client.DownloadString(Endpoint);
-                    releases = JsonSerializer.Deserialize<List<Release>>(response);
-                    return true;
-                }
-            }
-            catch (Exception ex) when (ex is WebException || ex is JsonException)
-            {
-                releases = new List<Release>();
-                return false;
-            }
+            return (from release in releases
+                    where 
+                        release.PublishDate > UpdateUtils.GetAssemblyLinkerDate()
+                        && release.IsPreRelase == prerelease
+                        && !release.IsDraft
+                    orderby release.PublishDate descending
+                    select release).FirstOrDefault();
         }
 
-        private DateTime GetLinkerDate()
+        private void WriteReleaseInfo(Release release)
         {
-            const int peHeaderOffset = 60;
-            const int linkerTimestampOffset = 8;
-            var bytes = new byte[2048];
+            Console.WriteLine("Latest release: ");
+            const string prerelase = "(Pre Release)";
+            Console.WriteLine("{0}: {1} {2}", release.PublishDate, release.Name, release.IsPreRelase ? prerelase : string.Empty);
+            Console.WriteLine(release.Body);
+        }
 
-            Assembly? current = Assembly.GetAssembly(typeof(Updater));
-
-            if (current == null)
-                return DateTime.Now;
-
-            using (var file = new FileStream(current.Location, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        public void FindNewerRelease(bool includePrerelease)
+        {
+            if (!UpdateUtils.GetGithubReleases(Endpoint, out List<Release> releases))
             {
-                file.Read(bytes, 0, bytes.Length);
+                Console.WriteLine("Error downloading releases information. Probably no Internet acces?");
+                return;
             }
 
-            int headerPos = BitConverter.ToInt32(bytes, peHeaderOffset);
-            int secondsSince1970 = BitConverter.ToInt32(bytes, headerPos + linkerTimestampOffset);
-            var date = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            return date.AddSeconds(secondsSince1970);
+            Release? newer = SelectLatestRelease(releases, includePrerelease);
+
+            if (newer != null)
+                WriteReleaseInfo(newer);
+            else
+                Console.WriteLine("No releasess found");
+
+        }
+
+        public void UpdateProgram(bool includePrerelease)
+        {
+            if (!UpdateUtils.GetGithubReleases(Endpoint, out List<Release> releases))
+            {
+                Console.WriteLine("Error downloading releases information. Probably no Internet acces?");
+                return;
+            }
+
+            Release? newer = SelectLatestRelease(releases, includePrerelease);
+
+            if (newer == null)
+            {
+                Console.WriteLine("No releasess found");
+                return;
+            }
         }
     }
 }
