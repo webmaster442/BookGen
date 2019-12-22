@@ -28,28 +28,37 @@ namespace BookGen.Utilities
             return client;
         }
 
-        public static DateTime GetAssemblyLinkerDate()
+        public static bool GetAssemblyLinkerDate(out DateTime date)
         {
             Assembly? current = Assembly.GetAssembly(typeof(UpdateUtils));
 
             if (current == null)
-                return DateTime.Now;
+            {
+                date = new DateTime();
+                return false;
+            }
 
             Stream? resource = current.GetManifestResourceStream("BookGen.Resources.BuildDate.txt");
 
             if (resource == null)
-                return DateTime.Now;
+            {
+                date = new DateTime();
+                return false;
+            }
 
             using (var reader = new StreamReader(resource))
             {
                 var text = reader.ReadToEnd().Trim();
 
-                if (DateTime.TryParse(text, out DateTime time))
+                if (DateTime.TryParse(text, out DateTime parsedDate))
                 {
-                    return time;
+                    date = parsedDate;
+                    return true;
+                    
                 }
 
-                return DateTime.Now;
+                date = new DateTime();
+                return false;
             }
         }
 
@@ -74,9 +83,14 @@ namespace BookGen.Utilities
 
         public static Release? SelectLatestRelease(IEnumerable<Release> releases, bool prerelease)
         {
+            if (!GetAssemblyLinkerDate(out DateTime date))
+            {
+                return null;
+            }
+
             return (from release in releases
                     where
-                        release.PublishDate > UpdateUtils.GetAssemblyLinkerDate()
+                        release.PublishDate > date
                         && release.IsPreRelase == prerelease
                         && !release.IsDraft
                         && release.Assets != null

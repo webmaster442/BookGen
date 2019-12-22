@@ -27,15 +27,15 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_TranslationApplier_ApplyTranslations_ReplacesAllKnown()
         {
-            var result = TranslationApplier.ApplyTranslations("This is a {asd} words {abc} test string", _translations);
+            var result = TranslationApplier.ApplyTranslations("This is a {{asd}} words {{abc}} test string", _translations);
             Assert.AreEqual("This is a dsa words def test string", result);
         }
 
         [Test]
         public void EnsureThat_TranslationApplier_ApplyTranslations_IndicatesMissings()
         {
-            var result = TranslationApplier.ApplyTranslations("This is a {missing} test", _translations);
-            Assert.AreEqual("This is a translation not found: {missing} test", result);
+            var result = TranslationApplier.ApplyTranslations("This is a {{missing}} test", _translations);
+            Assert.AreEqual("This is a translation not found: {{missing}} test", result);
         }
     }
 }
