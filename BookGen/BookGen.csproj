@@ -28,6 +28,7 @@
     <None Remove="DefaultTemplate\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Resources\BuildDate.txt" />
     <None Remove="Resources\Splash.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -39,6 +40,7 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\BuildDate.txt" />
     <EmbeddedResource Include="Resources\Help.txt" />
     <Content Include="Icon.ico" />
     <EmbeddedResource Include="Resources\Error404.html" />
@@ -61,4 +63,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="echo %25date%25 %25time%25 &gt; &quot;$(ProjectDir)\Resources\BuildDate.txt&quot;" />
+  </Target>
 </Project>
