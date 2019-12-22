@@ -9,6 +9,9 @@ namespace BookGen.Domain.Github
 {
     internal class Asset
     {
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
         [JsonPropertyName("content_type")]
         public string? ContentType { get; set; }
 

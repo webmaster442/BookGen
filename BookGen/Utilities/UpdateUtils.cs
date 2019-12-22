@@ -19,6 +19,16 @@ namespace BookGen.Utilities
     {
         private static DateTime? _assemblyLinkTime = null;
 
+        private static WebClient CreateClient()
+        {
+            var client = new WebClient();
+            IWebProxy proxy = WebRequest.DefaultWebProxy;
+            proxy.Credentials = CredentialCache.DefaultCredentials;
+            client.Proxy = proxy;
+            client.Headers.Add(HttpRequestHeader.UserAgent, "BookGen Autoupdater");
+            return client;
+        }
+
         public static DateTime GetAssemblyLinkerDate()
         {
             if (_assemblyLinkTime.HasValue)
@@ -33,13 +43,15 @@ namespace BookGen.Utilities
             if (current == null)
                 return DateTime.Now;
 
+            var arch = current.GetName().ProcessorArchitecture;
+
             using (var file = new FileStream(current.Location, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 file.Read(bytes, 0, bytes.Length);
             }
 
             int headerPos = BitConverter.ToInt32(bytes, peHeaderOffset);
-            int secondsSince1970 = BitConverter.ToInt32(bytes, headerPos + linkerTimestampOffset);
+            uint secondsSince1970 = BitConverter.ToUInt32(bytes, headerPos + linkerTimestampOffset);
             var date = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
             _assemblyLinkTime = date.AddSeconds(secondsSince1970);
@@ -51,7 +63,7 @@ namespace BookGen.Utilities
         {
             try
             {
-                using (var client = new WebClient())
+                using (var client = CreateClient())
                 {
                     string response = client.DownloadString(endpoint);
                     releases = JsonSerializer.Deserialize<List<Release>>(response);
@@ -74,7 +86,7 @@ namespace BookGen.Utilities
             try
             {
                 byte[] buffer = new byte[4096];
-                using (var client = new WebClient())
+                using (var client = CreateClient())
                 {
                     using (var stream = await client.OpenReadTaskAsync(toDownload.DownloadUrl).ConfigureAwait(false))
                     {

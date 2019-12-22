@@ -58,6 +58,17 @@ namespace BookGen
 
         }
 
+        Asset? SelectAssetToDownload(Release release)
+        {
+            const string zipMime = "application/x-zip-compressed";
+
+            return (from asset in release.Assets
+                    where
+                        asset.ContentType == zipMime
+                    select
+                        asset).FirstOrDefault();
+        }
+
         public void UpdateProgram(bool includePrerelease)
         {
             if (!UpdateUtils.GetGithubReleases(Endpoint, _log, out List<Release> releases))
@@ -66,15 +77,25 @@ namespace BookGen
                 return;
             }
 
-            Release? newer = SelectLatestRelease(releases, includePrerelease);
+            Release? latestRelease = SelectLatestRelease(releases, includePrerelease);
 
-            if (newer == null)
+            if (latestRelease == null)
             {
                 Console.WriteLine("No releasess found");
                 return;
             }
 
-            //Asset? platformAsset = SelectPlatformAsset(newer);
+            WriteReleaseInfo(latestRelease);
+
+            Asset? assetToDownload = SelectAssetToDownload(latestRelease);
+
+            if (assetToDownload == null)
+            {
+                Console.WriteLine("Release contains no files to download");
+                return;
+            }
+
+
         }
     }
 }
