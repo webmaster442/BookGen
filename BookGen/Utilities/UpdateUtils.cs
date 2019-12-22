@@ -11,14 +11,13 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text.Json;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookGen.Utilities
 {
     internal static class UpdateUtils
     {
-        private static DateTime? _assemblyLinkTime = null;
-
         private static WebClient CreateClient()
         {
             var client = new WebClient();
@@ -31,32 +30,27 @@ namespace BookGen.Utilities
 
         public static DateTime GetAssemblyLinkerDate()
         {
-            if (_assemblyLinkTime.HasValue)
-                return _assemblyLinkTime.Value;
-
-            const int peHeaderOffset = 60;
-            const int linkerTimestampOffset = 8;
-            var bytes = new byte[2048];
-
             Assembly? current = Assembly.GetAssembly(typeof(UpdateUtils));
 
             if (current == null)
                 return DateTime.Now;
 
-            var arch = current.GetName().ProcessorArchitecture;
+            Stream? resource = current.GetManifestResourceStream("BookGen.Resources.BuildDate.txt");
 
-            using (var file = new FileStream(current.Location, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            if (resource == null)
+                return DateTime.Now;
+
+            using (var reader = new StreamReader(resource))
             {
-                file.Read(bytes, 0, bytes.Length);
+                var text = reader.ReadToEnd().Trim();
+
+                if (DateTime.TryParse(text, out DateTime time))
+                {
+                    return time;
+                }
+
+                return DateTime.Now;
             }
-
-            int headerPos = BitConverter.ToInt32(bytes, peHeaderOffset);
-            uint secondsSince1970 = BitConverter.ToUInt32(bytes, headerPos + linkerTimestampOffset);
-            var date = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-            _assemblyLinkTime = date.AddSeconds(secondsSince1970);
-
-            return _assemblyLinkTime.Value;
         }
 
         public static bool GetGithubReleases(string endpoint, ILog log, out List<Release> releases)
@@ -76,6 +70,30 @@ namespace BookGen.Utilities
                 releases = new List<Release>();
                 return false;
             }
+        }
+
+        public static Release? SelectLatestRelease(IEnumerable<Release> releases, bool prerelease)
+        {
+            return (from release in releases
+                    where
+                        release.PublishDate > UpdateUtils.GetAssemblyLinkerDate()
+                        && release.IsPreRelase == prerelease
+                        && !release.IsDraft
+                        && release.Assets != null
+                        && release.Assets.Count > 0
+                    orderby release.PublishDate descending
+                    select release).FirstOrDefault();
+        }
+
+        public static Asset? SelectAssetToDownload(Release release)
+        {
+            const string zipMime = "application/x-zip-compressed";
+
+            return (from asset in release.Assets
+                    where
+                        asset.ContentType == zipMime
+                    select
+                        asset).FirstOrDefault();
         }
 
         public async static Task<bool> DowloadFileAsyc(Asset toDownload, string targetFile, ILog log, IProgress<double> progress)

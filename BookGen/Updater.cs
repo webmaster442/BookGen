@@ -22,17 +22,6 @@ namespace BookGen
             _log = log;
         }
 
-        private Release? SelectLatestRelease(IEnumerable<Release> releases, bool prerelease)
-        {
-            return (from release in releases
-                    where 
-                        release.PublishDate > UpdateUtils.GetAssemblyLinkerDate()
-                        && release.IsPreRelase == prerelease
-                        && !release.IsDraft
-                    orderby release.PublishDate descending
-                    select release).FirstOrDefault();
-        }
-
         private void WriteReleaseInfo(Release release)
         {
             Console.WriteLine("Latest release: ");
@@ -49,7 +38,7 @@ namespace BookGen
                 return;
             }
 
-            Release? newer = SelectLatestRelease(releases, includePrerelease);
+            Release? newer = UpdateUtils.SelectLatestRelease(releases, includePrerelease);
 
             if (newer != null)
                 WriteReleaseInfo(newer);
@@ -58,26 +47,17 @@ namespace BookGen
 
         }
 
-        Asset? SelectAssetToDownload(Release release)
+        public void UpdateProgram(bool includePrerelease, List<Release>? releaseOverride = null)
         {
-            const string zipMime = "application/x-zip-compressed";
+            List<Release>? releases = releaseOverride;
 
-            return (from asset in release.Assets
-                    where
-                        asset.ContentType == zipMime
-                    select
-                        asset).FirstOrDefault();
-        }
-
-        public void UpdateProgram(bool includePrerelease)
-        {
-            if (!UpdateUtils.GetGithubReleases(Endpoint, _log, out List<Release> releases))
+            if (releases == null && !UpdateUtils.GetGithubReleases(Endpoint, _log, out releases))
             {
                 Console.WriteLine("Error downloading releases information. Probably no Internet acces?");
                 return;
             }
 
-            Release? latestRelease = SelectLatestRelease(releases, includePrerelease);
+            Release? latestRelease = UpdateUtils.SelectLatestRelease(releases, includePrerelease);
 
             if (latestRelease == null)
             {
@@ -87,7 +67,7 @@ namespace BookGen
 
             WriteReleaseInfo(latestRelease);
 
-            Asset? assetToDownload = SelectAssetToDownload(latestRelease);
+            Asset? assetToDownload = UpdateUtils.SelectAssetToDownload(latestRelease);
 
             if (assetToDownload == null)
             {
