@@ -5,6 +5,8 @@
 
 using BookGen.Core.Contracts;
 using BookGen.Domain.Github;
+using BookGen.Framework.Server;
+using BookGen.Tests.Environment;
 using BookGen.Utilities;
 using Moq;
 using NUnit.Framework;
@@ -13,11 +15,28 @@ using System.Collections.Generic;
 
 namespace BookGen.Tests
 {
-    [TestFixture]
+    [TestFixture, SingleThreaded]
     public class UT_UpdateUtils
     {
         private List<Release> _releasesStub;
         private Mock<ILog> _log;
+        private HttpTestServer _server;
+        private string _tempfile;
+
+        private class Reporter : IProgress<double>
+        {
+            public List<double> Reportings { get; }
+
+            public Reporter()
+            {
+                Reportings = new List<double>(110);
+            }
+
+            public void Report(double value)
+            {
+                Reportings.Add(value);
+            }
+        }
 
         [SetUp]
         public void Setup()
@@ -69,6 +88,13 @@ namespace BookGen.Tests
                     }
                 },
             };
+            _server = new HttpTestServer(TestEnvironment.GetTestFolder(),
+                                         8080,
+                                         _log.Object,
+                                         new Environment.UpdateTestServerJsonHandler(),
+                                         new Environment.UpdateTestStreamHandler());
+
+            _tempfile = System.IO.Path.GetTempFileName();
         }
 
         [TearDown]
@@ -76,6 +102,9 @@ namespace BookGen.Tests
         {
             _releasesStub = null;
             _log = null;
+            _server.Dispose();
+            _server = null;
+            System.IO.File.Delete(_tempfile);
         }
 
 
@@ -120,12 +149,36 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_UpdateUtils_GetGithubReleases_DownloadsResources()
         {
-            const string url = "https://api.github.com/repos/webmaster442/BookGen/releases";
+            const string url = "http://localhost:8080/updatejson";
             bool result = UpdateUtils.GetGithubReleases(url, _log.Object, out List<Release> releases);
 
             Assert.IsTrue(result);
             Assert.IsNotNull(releases);
             Assert.IsTrue(releases.Count > 0);
+        }
+
+        [Test]
+        public void EnsureThat_UpdateUtils_DowloadAsssetAsyc_Downloads()
+        {
+            Asset asset = new Asset
+            {
+                Size = 5 * 1024 * 1024,
+                DownloadUrl = "http://localhost:8080/download"
+            };
+
+            var reporter = new Reporter();
+
+            var task = UpdateUtils.DowloadAsssetAsyc(asset, _tempfile, _log.Object, reporter);
+
+            task.Wait();
+            Assert.IsTrue(task.Result);
+
+            Assert.IsTrue(reporter.Reportings.Count > 0);
+            Assert.IsTrue(reporter.Reportings.Count < 101);
+
+            var fi = new System.IO.FileInfo(_tempfile);
+            Assert.AreEqual(5 * 1024 * 1024, fi.Length);
+
         }
     }
 }

@@ -110,10 +110,12 @@ namespace BookGen.Utilities
                         asset).FirstOrDefault();
         }
 
-        public async static Task<bool> DowloadFileAsyc(Asset toDownload, string targetFile, ILog log, IProgress<double> progress)
+        public async static Task<bool> DowloadAsssetAsyc(Asset toDownload, string targetFile, ILog log, IProgress<double> progress)
         {
             if (string.IsNullOrEmpty(toDownload.DownloadUrl))
                 return false;
+
+            double lastreport = -1;
 
             try
             {
@@ -131,7 +133,15 @@ namespace BookGen.Utilities
                                 recieved = await stream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                                 downloaded += recieved;
                                 target.Write(buffer, 0, recieved);
-                                progress.Report(downloaded / toDownload.Size);
+
+                                double percent = downloaded / toDownload.Size;
+
+                                if (Math.Abs(lastreport - percent) > 0.01)
+                                {
+                                    percent = Math.Round(percent, 3);
+                                    progress.Report(percent);
+                                    lastreport = percent;
+                                }
                             }
                             while (recieved > 0);
                         }
