@@ -4,8 +4,6 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Gui;
 using BookGen.Help;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BookGen
 {
@@ -50,7 +48,7 @@ namespace BookGen
             }
             else
             {
-                updater.UpdateProgram(e.Prerelease);
+                updater.UpdateProgram(e.Prerelease, "BookGen.exe").Wait();
             }
         }
 

@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\BuildDate.txt" />
+    <None Remove="Resources\ReplaceContents.bat" />
     <None Remove="Resources\Splash.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +45,7 @@
     <EmbeddedResource Include="Resources\Help.txt" />
     <Content Include="Icon.ico" />
     <EmbeddedResource Include="Resources\Error404.html" />
+    <EmbeddedResource Include="Resources\ReplaceContents.bat" />
     <EmbeddedResource Include="Resources\Splash.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -8,11 +8,13 @@ using BookGen.Domain.Github;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BookGen
 {
-    internal class Updater
+    internal class Updater: IProgress<double>
     {
         private const string Endpoint = "https://api.github.com/repos/webmaster442/BookGen/releases";
         private readonly ILog _log;
@@ -47,13 +49,36 @@ namespace BookGen
 
         }
 
-        public void UpdateProgram(bool includePrerelease, List<Release>? releaseOverride = null)
+        public void Report(double value)
+        {
+            const int barWidth = 70;
+            StringBuilder bar = new StringBuilder(barWidth);
+            double limit = Math.Floor(value * barWidth);
+            for (int i=0; i<barWidth; i++)
+            {
+                if (i < limit)
+                    bar.Append('=');
+                else
+                    bar.Append(' ');
+            }
+            Console.WriteLine("[{0}] {1}%\r", bar, value * 100);
+        }
+
+        public async Task UpdateProgram(bool includePrerelease, string ProgramName, List<Release>? releaseOverride = null)
         {
             List<Release>? releases = releaseOverride;
+            string? programDir = UpdateUtils.GetProgramDir();
+            string? newProgramDir = UpdateUtils.GetProgramDir("new");
+
+            if (programDir == null || newProgramDir == null)
+            {
+                _log.Warning("Failed to find program directory");
+                return;
+            }
 
             if (releases == null && !UpdateUtils.GetGithubReleases(Endpoint, _log, out releases))
             {
-                Console.WriteLine("Error downloading releases information. Probably no Internet acces?");
+                _log.Warning("Error downloading releases information. Probably no Internet acces?");
                 return;
             }
 
@@ -61,7 +86,7 @@ namespace BookGen
 
             if (latestRelease == null)
             {
-                Console.WriteLine("No releasess found");
+                _log.Warning("No releasess found");
                 return;
             }
 
@@ -71,10 +96,33 @@ namespace BookGen
 
             if (assetToDownload == null)
             {
-                Console.WriteLine("Release contains no files to download");
+                _log.Warning("Release contains no files to download");
                 return;
             }
 
+            var tempfile = Path.GetTempFileName();
+
+            bool result = await UpdateUtils.DowloadAsssetAsyc(assetToDownload, tempfile, _log, this); 
+
+            if (!result)
+            {
+                _log.Warning("Download error");
+                return;
+            }
+
+            if (!UpdateUtils.ExtractZip(tempfile, newProgramDir, _log))
+            {
+                _log.Warning("Downloaded zip file corrupt");
+                return;
+            }
+
+            if (!UpdateUtils.CreateReplaceScript(programDir, ProgramName, tempfile, _log))
+            {
+                _log.Warning("Replace file generation error");
+                return;
+            }
+
+            UpdateUtils.ExecuteReplaceScript(programDir);
 
         }
     }

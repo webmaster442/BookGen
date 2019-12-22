@@ -8,10 +8,11 @@ using BookGen.Domain.Github;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text.Json;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookGen.Utilities
@@ -110,6 +111,17 @@ namespace BookGen.Utilities
                         asset).FirstOrDefault();
         }
 
+        public static string? GetProgramDir(string? additionalDir = null)
+        {
+            string? progdir = AppDomain.CurrentDomain.BaseDirectory;
+            if (additionalDir == null)
+                return progdir;
+            else if (progdir != null)
+                return Path.Combine(progdir, additionalDir);
+            else
+                return null;
+        }
+
         public async static Task<bool> DowloadAsssetAsyc(Asset toDownload, string targetFile, ILog log, IProgress<double> progress)
         {
             if (string.IsNullOrEmpty(toDownload.DownloadUrl))
@@ -150,6 +162,69 @@ namespace BookGen.Utilities
                 return true;
             }
             catch (WebException ex)
+            {
+                log.Warning(ex);
+                return false;
+            }
+        }
+
+        internal static void ExecuteReplaceScript(string programDir)
+        {
+            var process = new System.Diagnostics.Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.Arguments = Path.Combine(programDir, "ReplaceContents.bat");
+            process.Start();
+        }
+
+        public static bool CreateReplaceScript(string targetPath, string ProgramName, string tempfile, ILog log)
+        {
+            Assembly? current = Assembly.GetAssembly(typeof(UpdateUtils));
+
+            if (current == null)
+                return false;
+
+            Stream? resource = current.GetManifestResourceStream("BookGen.Resources.ReplaceContents.bat");
+
+            if (resource == null)
+                return false;
+
+            try
+            {
+                using (var reader = new StreamReader(resource))
+                {
+                    var text = reader.ReadToEnd().Trim();
+                    text = text.Replace("{{program}}", ProgramName);
+                    text = text.Replace("{{tempfile}}", tempfile);
+                    var file = Path.Combine(targetPath, "ReplaceContents.bat");
+                    using (StreamWriter target = File.CreateText(targetPath))
+                    {
+                        target.Write(text);
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex) when (ex is UnauthorizedAccessException
+                                    || ex is PathTooLongException
+                                    || ex is IOException)
+            {
+                log.Warning(ex);
+                return false;
+            }
+        }
+
+        public static bool ExtractZip(string source, string target, ILog log)
+        {
+            try
+            {
+                ZipFile.ExtractToDirectory(source, target, true);
+                return true;
+            }
+            catch (Exception ex) when (ex is PathTooLongException
+                                    || ex is IOException
+                                    || ex is FileNotFoundException
+                                    || ex is UnauthorizedAccessException
+                                    || ex is InvalidDataException)
             {
                 log.Warning(ex);
                 return false;
