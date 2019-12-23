@@ -1,19 +1,49 @@
-﻿BookGen - Markdown to Book tool
+﻿BookGen - Markdown to Book tool.
 
-Usage: 
-    BookGen -a, --action [action]  -v, --verbose -d, --dir [directory] -n, --nowait
-    BookGen -g, --gui  -v, --verbose -d, --dir [directory]
+For the tool to work in the work folder there must be a bookgen.json config file.
+This config file can be created with the following command:
 
-Arguments:
+BookGen Build -a Init
 
-    -a, --action         Specify build action
-    -g, --gui            Start in gui mode.
-    -d, --dir            Specity working directory
-    -v, --verbose        Optional argument. Turns on detailed logging. Usefull for debug.
-	-n, --nowait		 Optional argument. Immediately exits without Press key to continue.
-    
-If no directory parameter is given Current Directory will be used as working 
-directory.
+To get information regarding the configuration file bookgen.json file run:
+Bookgen ConfigHelp.
 
-Supported Actions:
+GUI Usage:
+    BookGen Gui {-v} {-d [directory]}
+    BookGen Gui {--verbose} {--dir [directory]}
 
+    Arguments:
+    -d, --dir:
+        Optional argument. Specifies work directory. If not specified, then
+        the current directory will be used as working directory.
+    -v, --verbose: 
+        Optional argument, turns on detailed logging. Usefull for locating issues
+
+Update Usage:
+    BookGen Update {-p} {-s}
+    BookGen Update {--prerelease} {--searchonly}
+
+    Arguments:
+      -s, --searchonly:
+        Optional argument. Search and display latest release,
+        but don't actually do an update
+     -p, --prerelease:
+        Include pre relase versions.
+
+Build Usage: 
+    BookGen Build -a [action] {-v} {-d [directory]} {-n}
+    BookGen Build --action [action] {--verbose} {--dir [directory]} {--nowait}
+
+  Arguments:
+    -a, --action: 
+        Specifies the build action. See below.
+    -d, --dir:
+        Optional argument. Specifies work directory. If not specified, then
+        the current directory will be used as working directory.
+    -v, --verbose: 
+        Optional argument, turns on detailed logging. Usefull for locating issues
+    -n, --nowait:
+        Optional argument, when specified & the program is fisihed,
+        then it immediately exits, without key press.
+
+  Build Actions:

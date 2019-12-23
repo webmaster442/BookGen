@@ -6,9 +6,8 @@
     <Product>BookGen</Product>
     <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <Authors>Ruzsinszki Gábor</Authors>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
     <Company />
     <Description>BookGen common classes</Description>
     <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>

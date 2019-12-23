@@ -46,24 +46,25 @@ namespace BookGen
             menu.Run();
         }
 
-        public void RunHelp(bool exits = true)
+        public void RunHelp()
         {
-            _log.Info(HelpTextCreator.GenerateHelpText());
-
-            if (exits)
-            {
-#if DEBUG
-                Program.ShowMessageBox("Press a key to continue");
-#endif
-                Environment.Exit(1);
-            }
+            Console.WriteLine(HelpTextCreator.GenerateHelpText());
         }
 
         #region Helpers
+
+        public void InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
+        {
+            if (Initialize())
+            {
+                actionToExecute.Invoke(this);
+            }
+        }
+
         public bool Initialize()
         {
             _log.Info("---------------------------------------------------------");
-            _log.Info("BookGen V{0} Starting...", Program.ProgramVersion ?? new Version(1,0));
+            _log.Info("BookGen V{0} Starting...", Program.CurrentState.ProgramVersion);
             _log.Info("Working directory: {0}", WorkDirectory);
             _log.Info("---------------------------------------------------------");
 
@@ -82,10 +83,10 @@ namespace BookGen
                 return false;
             }
 
-            if (Configuration.Version < Program.ConfigVersion)
+            if (Configuration.Version < Program.CurrentState.ConfigVersion)
             {
                 ConfigFile.CreateBackup(_log);
-                Configuration.UpgradeTo(Program.ConfigVersion);
+                Configuration.UpgradeTo(Program.CurrentState.ConfigVersion);
                 ConfigFile.SerializeJson(Configuration, _log, true);
                 _log.Info("Configuration file migrated to new version.");
                 _log.Info("Review configuration then run program again");
@@ -212,7 +213,9 @@ namespace BookGen
                 p.StartInfo.UseShellExecute = true;
                 p.StartInfo.FileName = Configuration.HostName;
                 p.Start();
-                Program.ShowMessageAndWait(exitString);
+
+                Console.WriteLine(exitString);
+                Console.ReadLine();
             }
         }
 

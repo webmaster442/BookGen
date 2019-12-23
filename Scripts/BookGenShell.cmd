@@ -7,19 +7,20 @@ rem ----------------------------------------------------------------------------
 :setup
 SET bookgenPath=%cd%
 SET PATH=%bookgenPath%;%PATH%
+TITLE BookGen Shell
+
+echo Available commands:
+echo BookGen - BookGen compiler
+echo BookGen.Editor - BookGen Graphical editor
+echo Md2HTML - Single markdown page to html converter
+echo.
 
 PROMPT $P$_$G
 IF [%1]==[] (
 	rem exit prevention
 	CMD /Q /K
 )
-WHERE dotnet 2> nul
-IF %ERRORLEVEL% NEQ 0 goto notfound
-
 goto exit
-
-:notfound
-ECHO This program Requires .NET Core Runtime, but it's not installed. Exiting
 
 :exit
 rem padding begin
@@ -64,5 +65,4 @@ rem ----------------------------------------------------------------------------
 rem -----------------------------------------------------------------------------
 rem -----------------------------------------------------------------------------
 rem -----------------------------------------------------------------------------
-rem -----------------------------------------------------------------------------
-rem -
+rem --------------------------------------------

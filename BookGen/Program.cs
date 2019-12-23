@@ -1,181 +1,131 @@
-﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
-// This code is licensed under MIT license (see LICENSE for details)
-//-----------------------------------------------------------------------------
-
-using BookGen.Core;
+﻿using BookGen.Core;
 using BookGen.Core.Contracts;
-using BookGen.Framework;
+using BookGen.Domain.ArgumentParsing;
 using BookGen.Gui;
+using BookGen.Help;
 using System;
-using System.Diagnostics;
-using System.Reflection;
 
 namespace BookGen
 {
     internal static class Program
     {
-        internal static GeneratorRunner? Runner { get; private set; }
-        internal static bool IsInGuiMode { get; private set; }
-        internal static ConsoleMenu? UI { get; private set; }
-        internal static bool NoWaitForExit { get; private set; }
+        internal static ProgramState CurrentState { get; } = new ProgramState();
+        private static ConsoleMenu? _UI;
 
-        internal static Version? ProgramVersion { get; private set; }
-        internal static int ConfigVersion { get; private set; }
+        public static void Main(string[] args)
+        {
+            try
+            {
+                var argumentHandler = new ProgramArgumentHandler(args);
+                argumentHandler.DoBuild += ArgumentHandler_DoBuild;
+                argumentHandler.DoGui += ArgumentHandler_DoGui;
+                argumentHandler.DoHelp += ArgumentHandler_DoHelp;
+                argumentHandler.DoConfigHelp += ArgumentHandler_DoConfigHelp;
+                argumentHandler.DoUpdate += ArgumentHandler_DoUpdate;
+                argumentHandler.Parse();
+                Environment.Exit(0);
+            }
+            catch (Exception ex)
+            {
+                HandleUncaughtException(ex);
+            }
+        }
 
+        private static GeneratorRunner CreateRunner(bool verbose, string workDir)
+        {
+            LogLevel logLevel = verbose ? LogLevel.Detail : LogLevel.Info;
+            var log = new ConsoleLog(logLevel);
+            return new GeneratorRunner(log, workDir);
+        }
+
+        private static void ArgumentHandler_DoUpdate(object? sender, UpdateParameters e)
+        {
+            var log = new ConsoleLog(LogLevel.Info);
+            var updater = new Updater(log);
+            if (e.SearchOnly)
+            {
+                updater.FindNewerRelease(e.Prerelease);
+            }
+            else
+            {
+                updater.UpdateProgram(e.Prerelease, "BookGen.exe").Wait();
+            }
+        }
+
+        private static void ArgumentHandler_DoGui(object? sender, GuiParameters e)
+        {
+            CurrentState.Gui = true;
+            CurrentState.GeneratorRunner = CreateRunner(e.Verbose, e.WorkDir);
+            _UI = new ConsoleMenu(CurrentState.GeneratorRunner);
+            _UI.Run();
+        }
+
+        private static void ArgumentHandler_DoBuild(object? sender, BuildParameters e)
+        {
+            CurrentState.GeneratorRunner = CreateRunner(e.Verbose, e.WorkDir);
+            switch (e.Action)
+            {
+                case ActionType.BuildWeb:
+                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoBuild());
+                    break;
+                case ActionType.Clean:
+                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoClean());
+                    break;
+                case ActionType.Test:
+                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoTest());
+                    break;
+                case ActionType.BuildPrint:
+                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoPrint());
+                    break;
+                case ActionType.BuildWordpress:
+                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoWordpress());
+                    break;
+                case ActionType.BuildEpub:
+                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoEpub());
+                    break;
+                case ActionType.Initialize:
+                    CurrentState.GeneratorRunner.DoInteractiveInitialize();
+                    break;
+                case ActionType.ValidateConfig:
+                    CurrentState.GeneratorRunner.Initialize();
+                    break;
+            }
+        }
+
+        private static void ArgumentHandler_DoHelp(object? sender, EventArgs e)
+        {
+            Console.WriteLine(HelpTextCreator.GenerateHelpText());
+#if DEBUG
+            ShowMessageBox("Press a key to continue");
+#endif
+            Environment.Exit(1);
+        }
+
+
+        private static void ArgumentHandler_DoConfigHelp(object? sender, EventArgs e)
+        {
+            Console.WriteLine(HelpTextCreator.DocumentConfiguration());
+            Environment.Exit(1);
+        }
 
         public static void ShowMessageBox(string text, params object[] args)
         {
             Console.WriteLine(text, args);
-            if (!IsInGuiMode && !NoWaitForExit)
+            if (!CurrentState.Gui && !CurrentState.NoWaitForExit)
             {
                 Console.ReadKey();
             }
         }
 
-        public static void ShowMessageAndWait(string text)
+        private static void HandleUncaughtException(Exception ex)
         {
-            Console.WriteLine(text);
-            Console.ReadLine();
-        }
-
-        private static ParsedOptions ParseOptions(string[] args)
-        {
-            ParsedOptions parsed = new ParsedOptions
-            {
-                WorkingDirectory = Environment.CurrentDirectory,
-                GuiReqested = false,
-                ShowHelp = true,
-                VerboseLog = false,
-                Action = null,
-            };
-
-            ArgumentParser arguments = new ArgumentParser(args);
-
-            var dir = arguments.GetSwitchWithValue("d", "dir");
-
-            if (!string.IsNullOrEmpty(dir))
-                parsed.WorkingDirectory = dir;
-
-            parsed.VerboseLog = arguments.GetSwitch("v", "verbose");
-
-            if (arguments.GetSwitch("g", "gui"))
-            {
-                parsed.ShowHelp = false;
-                parsed.GuiReqested = true;
-                IsInGuiMode = true;
-
-                return parsed;
-            }
-
-            NoWaitForExit = arguments.GetSwitch("n", "nowait");
-
-            var action = arguments.GetSwitchWithValue("a", "action");
-            if (action != null)
-            {
-                bool succes = Enum.TryParse(action, true, out ParsedOptions.ActionType genAction);
-                if (succes)
-                {
-                    parsed.ShowHelp = false;
-                    parsed.Action = genAction;
-                }
-            }
-
-            return parsed;
-        }
-
-        [STAThread]
-        public static void Main(string[] args)
-        {
-            try
-            {
-                var asm = Assembly.GetAssembly(typeof(Program));
-                ProgramVersion = asm?.GetName()?.Version ?? new Version(1, 0);
-                ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
-
-                IsInGuiMode = false;
-                LogLevel logLevel = LogLevel.Info;
-
-                ParsedOptions options = ParseOptions(args);
-
-                if (options.VerboseLog)
-                    logLevel = LogLevel.Detail;
-
-                var Consolelog = new ConsoleLog(logLevel);
-
-                if (options.GuiReqested)
-                {
-                    Runner = new GeneratorRunner(Consolelog, options.WorkingDirectory);
-                    UI = new ConsoleMenu(Runner);
-                    UI.Run();
-                }
-                else
-                {
-                    Runner = new GeneratorRunner(Consolelog, options.WorkingDirectory);
-
-                    switch (options.Action)
-                    {
-                        case ParsedOptions.ActionType.BuildWeb:
-                            if (Runner.Initialize())
-                            {
-                                Runner.DoBuild();
-                            }
-                            break;
-                        case ParsedOptions.ActionType.Clean:
-                            if (Runner.Initialize())
-                            {
-                                Runner.DoClean();
-                            }
-                            break;
-                        case ParsedOptions.ActionType.Test:
-                            if (Runner.Initialize())
-                            {
-                                Runner.DoTest();
-                            }
-                            break;
-                        case ParsedOptions.ActionType.BuildPrint:
-                            if (Runner.Initialize())
-                            {
-                                Runner.DoPrint();
-                            }
-                            break;
-                        case ParsedOptions.ActionType.BuildWordpress:
-                            if (Runner.Initialize())
-                            {
-                                Runner.DoWordpress();
-                            }
-                            break;
-                        case ParsedOptions.ActionType.Initialize:
-                            Runner.DoInteractiveInitialize();
-                            break;
-                        case ParsedOptions.ActionType.ValidateConfig:
-                            Runner.Initialize();
-                            break;
-                        case ParsedOptions.ActionType.BuildEpub:
-                            if (Runner.Initialize())
-                            {
-                                Runner.DoEpub();
-                            }
-                            break;
-                        default:
-                            Runner.RunHelp();
-                            break;
-                    }
-                }
-                Environment.Exit(0);
-            }
-            catch (Exception ex)
-            {
-                if (UI != null)
-                    UI.ShouldRun = false;
-
-                Console.Clear();
-                ShowMessageBox("Unhandled exception\r\n{0}", ex);
+            if (_UI != null) _UI.ShouldRun = false;
+            Console.Clear();
+            ShowMessageBox("Unhandled exception\r\n{0}", ex);
 #if DEBUG
-                Debugger.Break();
+            System.Diagnostics.Debugger.Break();
 #endif
-                Environment.Exit(-1);
-            }
+            Environment.Exit(-1);
         }
     }
 }

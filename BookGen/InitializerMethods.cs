@@ -21,7 +21,7 @@ namespace BookGen
                                           bool createdmdFiles,
                                           bool extractedTemplate)
         {
-            Config configuration = Config.CreateDefault(Program.ConfigVersion);
+            Config configuration = Config.CreateDefault(Program.CurrentState.ConfigVersion);
 
             if (createdmdFiles)
             {

@@ -53,7 +53,7 @@ namespace BookGen.Gui
             {
                 Action = () =>
                 {
-                    if (_runner.Initialize()) _runner.DoClean();
+                    _runner.InitializeAndExecute(x => x.DoClean());
                 },
                 Content = "Clean output directory"
             };
@@ -61,7 +61,7 @@ namespace BookGen.Gui
             {
                 Action = () =>
                 {
-                    if (_runner.Initialize()) _runner.DoTest();
+                    _runner.InitializeAndExecute(x => x.DoTest());
                 },
                 Content = "Build test website"
             };
@@ -69,7 +69,7 @@ namespace BookGen.Gui
             {
                 Action = () =>
                 {
-                    if (_runner.Initialize()) _runner.DoBuild();
+                    _runner.InitializeAndExecute(x => x.DoBuild());
                 },
                 Content = "Build release website"
             };
@@ -77,7 +77,7 @@ namespace BookGen.Gui
             {
                 Action = () =>
                 {
-                    if (_runner.Initialize()) _runner.DoPrint();
+                    _runner.InitializeAndExecute(x => x.DoPrint());
                 },
                 Content = "Build print html"
             };
@@ -85,7 +85,7 @@ namespace BookGen.Gui
             {
                 Action = () =>
                 {
-                    if (_runner.Initialize()) _runner.DoEpub();
+                    _runner.InitializeAndExecute(x => x.DoEpub());
                 },
                 Content = "Build E-pub"
             };
@@ -93,7 +93,7 @@ namespace BookGen.Gui
             {
                 Action = () =>
                 {
-                    if (_runner.Initialize()) _runner.DoWordpress();
+                    _runner.InitializeAndExecute(x => x.DoWordpress());
                 },
                 Content = "Build Wordpress export file"
             };
@@ -103,7 +103,7 @@ namespace BookGen.Gui
             };
             yield return new Button
             {
-                Action = () => _runner.RunHelp(false),
+                Action = () => _runner.RunHelp(),
                 Content = "Display usage info"
             };
             yield return new TextBlock
