@@ -168,13 +168,20 @@ namespace BookGen.Utilities
             }
         }
 
-        internal static void ExecuteReplaceScript(string programDir)
+        internal static void ExecuteReplaceScript(string programDir, bool terminateCaller = true)
         {
             var process = new System.Diagnostics.Process();
             process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.Arguments = Path.Combine(programDir, "ReplaceContents.bat");
+            process.StartInfo.WorkingDirectory = programDir;
+            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.Arguments = $"/c \"{Path.Combine(programDir, "ReplaceContents.bat")}\"";
             process.Start();
+
+            if (terminateCaller)
+            {
+                var current = System.Diagnostics.Process.GetCurrentProcess();
+                current.Kill();
+            }
         }
 
         public static bool CreateReplaceScript(string targetPath, string ProgramName, string tempfile, ILog log)
@@ -197,7 +204,7 @@ namespace BookGen.Utilities
                     text = text.Replace("{{program}}", ProgramName);
                     text = text.Replace("{{tempfile}}", tempfile);
                     var file = Path.Combine(targetPath, "ReplaceContents.bat");
-                    using (StreamWriter target = File.CreateText(targetPath))
+                    using (StreamWriter target = File.CreateText(file))
                     {
                         target.Write(text);
                         return true;

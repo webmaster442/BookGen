@@ -19,9 +19,29 @@ namespace BookGen
         private const string Endpoint = "https://api.github.com/repos/webmaster442/BookGen/releases";
         private readonly ILog _log;
 
-        public Updater(ILog log)
+        private readonly string _programdir;
+        private readonly string _newprogramdir;
+        private readonly bool _canKillCaller;
+
+        public Updater(ILog log, string? progdir = null, string? downloaddir = null)
         {
             _log = log;
+            _canKillCaller = false;
+
+            string? programDir;
+            string? newProgramDir;
+
+            programDir = progdir ?? UpdateUtils.GetProgramDir();
+            newProgramDir = downloaddir ?? UpdateUtils.GetProgramDir("new");;
+
+            if (programDir == UpdateUtils.GetProgramDir())
+                _canKillCaller = true;
+
+            if (programDir == null || newProgramDir == null)
+                throw new InvalidOperationException();
+
+            _programdir = programDir;
+            _newprogramdir = newProgramDir;
         }
 
         private void WriteReleaseInfo(Release release)
@@ -36,7 +56,7 @@ namespace BookGen
         {
             if (!UpdateUtils.GetGithubReleases(Endpoint, _log, out List<Release> releases))
             {
-                Console.WriteLine("Error downloading releases information. Probably no Internet acces?");
+                _log.Warning("Error downloading releases information. Probably no Internet acces?");
                 return;
             }
 
@@ -64,22 +84,20 @@ namespace BookGen
             Console.WriteLine("[{0}] {1}%\r", bar, value * 100);
         }
 
-        public async Task UpdateProgram(bool includePrerelease, string ProgramName, List<Release>? releaseOverride = null)
+        public async Task<bool> UpdateProgram(bool includePrerelease, string ProgramName, List<Release>? releaseOverride = null)
         {
             List<Release>? releases = releaseOverride;
-            string? programDir = UpdateUtils.GetProgramDir();
-            string? newProgramDir = UpdateUtils.GetProgramDir("new");
 
-            if (programDir == null || newProgramDir == null)
+            if (_programdir == null || _newprogramdir == null)
             {
                 _log.Warning("Failed to find program directory");
-                return;
+                return false;
             }
 
             if (releases == null && !UpdateUtils.GetGithubReleases(Endpoint, _log, out releases))
             {
                 _log.Warning("Error downloading releases information. Probably no Internet acces?");
-                return;
+                return false;
             }
 
             Release? latestRelease = UpdateUtils.SelectLatestRelease(releases, includePrerelease);
@@ -87,7 +105,7 @@ namespace BookGen
             if (latestRelease == null)
             {
                 _log.Warning("No releasess found");
-                return;
+                return false;
             }
 
             WriteReleaseInfo(latestRelease);
@@ -97,7 +115,7 @@ namespace BookGen
             if (assetToDownload == null)
             {
                 _log.Warning("Release contains no files to download");
-                return;
+                return false;
             }
 
             var tempfile = Path.GetTempFileName();
@@ -107,23 +125,24 @@ namespace BookGen
             if (!result)
             {
                 _log.Warning("Download error");
-                return;
+                return false;
             }
 
-            if (!UpdateUtils.ExtractZip(tempfile, newProgramDir, _log))
+            if (!UpdateUtils.ExtractZip(tempfile, _newprogramdir, _log))
             {
                 _log.Warning("Downloaded zip file corrupt");
-                return;
+                return false;
             }
 
-            if (!UpdateUtils.CreateReplaceScript(programDir, ProgramName, tempfile, _log))
+            if (!UpdateUtils.CreateReplaceScript(_programdir, ProgramName, tempfile, _log))
             {
                 _log.Warning("Replace file generation error");
-                return;
+                return false;
             }
 
-            UpdateUtils.ExecuteReplaceScript(programDir);
+            UpdateUtils.ExecuteReplaceScript(_programdir, _canKillCaller);
 
+            return true;
         }
     }
 }

@@ -1,16 +1,14 @@
 @echo off
-REM KILL Running process
-TIMEOUT /t 1 /nobreak > NUL
-TASKKILL /IM {{program}} > NUL
+REM Wait for the calling program to terminate
+TIMEOUT /t 3 /nobreak > NUL
 REM Move update files from new folder to current running folder
-FOR %F in (new\*.*) DO MOVE /Y %F .
+FOR %%F in (new\*.*) DO MOVE /Y %%F .
 REM Move update directories from new folder to current running folder
-FOR /D %D in (new\*.*) DO MOVE /Y %D
+FOR /D %%D in (new\*.*) DO MOVE /Y %%D
 REM remove empty directory
-RM new
+RMDIR new
 REM Delete downloaded zip file
-DEL /y {{tempfile}}
+DEL {{tempfile}}
 ECHO Update complete
-PAUSE
-REM Delete update script
+REM Delete self
 DEL ReplaceContents.bat
