@@ -1,0 +1,1 @@
+const pages = JSON.parse('["http://localhost:8080/Intro.html","http://localhost:8080/Workflow.html","http://localhost:8080/Commandline.html","http://localhost:8080/Config.html","http://localhost:8080/Template.html"]');

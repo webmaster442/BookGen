@@ -3,16 +3,19 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Template.ShortCodeImplementations;
 using BookGen.Core.Configuration;
 using BookGen.Framework;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace BookGen.Tests
 {
     [TestFixture]
-    public class UT_TranslationApplier
+    public class UT_Translate
     {
         private Translations _translations;
+        private Translate _sut;
 
         [SetUp]
         public void Setup()
@@ -22,20 +25,19 @@ namespace BookGen.Tests
                 { "asd", "dsa" },
                 { "abc", "def" }
             };
+            _sut = new Translate(_translations);
         }
 
-        [Test]
-        public void EnsureThat_TranslationApplier_ApplyTranslations_ReplacesAllKnown()
+        [TestCase("asd", "dsa")]
+        [TestCase("abc", "def")]
+        [TestCase("foo", "translation not found: 'foo'")]
+        [TestCase("", "")]
+        public void EnsureThat_Translate_ReturnsCorrectValues(string input, string expected)
         {
-            var result = TranslationApplier.ApplyTranslations("This is a {{asd}} words {{abc}} test string", _translations);
-            Assert.AreEqual("This is a dsa words def test string", result);
-        }
-
-        [Test]
-        public void EnsureThat_TranslationApplier_ApplyTranslations_IndicatesMissings()
-        {
-            var result = TranslationApplier.ApplyTranslations("This is a {{missing}} test", _translations);
-            Assert.AreEqual("This is a translation not found: {{missing}} test", result);
+            var arg = new Dictionary<string, string>();
+            arg.Add(input, "");
+            var result = _sut.Generate(arg);
+            Assert.AreEqual(expected, result);
         }
     }
 }

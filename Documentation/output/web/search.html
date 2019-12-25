@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+    <title>Search</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Ruzsinszki Gabor">
+<meta property="og:site_name" content="BookGen manual - Search">
+<meta property="og:image" content="">
+<meta property="og:title" content="BookGen manual - Search">
+<meta property="og:url" content="http://localhost:8080/search.html">
+<meta property="og:description" content="Search">
+<meta property="og:type" content="article">
+
+    <link rel="stylesheet" href="http://localhost:8080/Assets/bootstrap.min.css" integrity="sha384-T8BvL2pDN59Kgod7e7p4kesUb+oyQPt3tFt8S+sIa0jUenn1byQ97GBKHUN8ZPk0" crossorigin="anonymous"/>
+    <script src="http://localhost:8080/Assets/jquery.min.js" integrity="sha384-K5PE7vslc1v8x816FiQ4Fy7FeC13biD40h9rg1Ipj5sOUG62eS2xqR/ty3j4ZXB8" crossorigin="anonymous"></script>
+    <script src="http://localhost:8080/Assets/popper.min.js" integrity="sha384-+MH6eifHvT2Oq3XO2cZSdl5Ai+6ctVBIwKzWxg1VZmEOssiuwOnz6XNZQ58MkDDq" crossorigin="anonymous"></script>
+    <script src="http://localhost:8080/Assets/bootstrap.min.js" integrity="sha384-lXqCKSCzpmJ9kRbg4c4nQHayMEuwgwGO+SmKQlcp/OuWw054bPqQcHRK9yyRbKpS" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://localhost:8080/Assets/prism.css" integrity="sha384-g1gQa5rSOeKdHvrI+07KkcV1Rs/d8HSvTXrThfsUkQrMOAShU6T35dQT/1u6FPZs" crossorigin="anonymous"/>
+    <script src="http://localhost:8080/Assets/prism.js" integrity="sha384-Xi1BFJY80eNt1A/UwClexPx586TgnxwRncQRXD89uzQO8f/CUSoCEbWTCMJlci6n" crossorigin="anonymous"></script>
+    <script src="http://localhost:8080/pages.js" integrity="sha384-29lpkRikd8k5ZcQUJeoWflmAQo0J/qhHK9LRHG6If5yGAa2GOr3kRGZCx5HlGR99" crossorigin="anonymous"></script>
+    <style type="text/css">
+        #content {
+            margin-top: 70px;
+        }
+
+            #content p {
+                text-align: justify;
+            }
+
+        #toc {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1000000;
+            top: 0;
+            left: 0;
+            background-color: rgba(255,255,255,0.9);
+            overflow-x: hidden;
+            padding-top: 60px;
+            transition: 0.5s;
+            column-count: 1;
+        }
+
+            #toc #tocinside {
+                padding-left: 80px;
+            }
+
+                #toc #tocinside summary {
+                    font-size: 24px;
+                }
+
+            #toc #closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 36px;
+                margin-left: 50px;
+            }
+
+        #topbutton {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+        }
+
+        .figure {
+            display: block;
+            text-align: center;
+        }
+
+        figure img {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+            figure img:hover {
+                opacity: 0.7;
+                cursor: pointer;
+            }
+
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        #lightboxcontent {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        #lightboxcaption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+
+        #lightboxcontent, #lightboxcaption {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+
+            to {
+                transform: scale(1)
+            }
+        }
+
+        #lightboxClose {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 50px;
+        }
+
+            #lightboxClose:hover, #lightboxClose:focus {
+                color: #bbb;
+                text-decoration: none;
+                cursor: pointer;
+            }
+    </style>
+</head>
+<body>
+    <div id="lightbox">
+        <span id="lightboxClose">&times;</span>
+        <img id="lightboxcontent">
+        <div id="lightboxcaption"></div>
+    </div>
+
+    <div id="toc">
+        <a href="#closetoc" id="closebtn">&times;</a>
+        <div id="tocinside"><details open="true"><summary>BookGen manual</summary><ul><li><a href="http://localhost:8080/Intro.html">Intro</a></li><li><a href="http://localhost:8080/Workflow.html">Workflow & Markdown</a></li><li><a href="http://localhost:8080/Commandline.html">Command Line usage</a></li><li><a href="http://localhost:8080/Config.html">Configuration properties for current version</a></li><li><a href="http://localhost:8080/Template.html">Template tags</a></li></ul></details></div>
+    </div>
+
+    <div id="toc-local" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"> On this page</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="localToc">
+                    <p>Some text in the modal.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav id="Header" class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#toc">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="16" height="16">
+                        <path fill="white" opacity="0.5" d="M542.22 32.05c-54.8 3.11-163.72 14.43-230.96 55.59-4.64 2.84-7.27 7.89-7.27 13.17v363.87c0 11.55 12.63 18.85 23.28 13.49 69.18-34.82 169.23-44.32 218.7-46.92 16.89-.89 30.02-14.43 30.02-30.66V62.75c.01-17.71-15.35-31.74-33.77-30.7zM264.73 87.64C197.5 46.48 88.58 35.17 33.78 32.05 15.36 31.01 0 45.04 0 62.75V400.6c0 16.24 13.13 29.78 30.02 30.66 49.49 2.6 149.59 12.11 218.77 46.95 10.62 5.35 23.21-1.94 23.21-13.46V100.63c0-5.29-2.62-10.14-7.27-12.99z" />
+                    </svg>
+                    Contents
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#toc-local">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="16" height="16">
+                        <path fill="white" opacity="0.5" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-72v8c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm96-114.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z" />
+                    </svg>
+                    On this page
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/search.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
+                        <path fill="white" opacity="0.5" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z" />
+                    </svg>
+                    Search
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#previous">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="16" height="16">
+                        <path fill="white" opacity="0.5" d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z" />
+                    </svg>
+                    Previous
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#next">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="16" height="16">
+                        <path fill="white" opacity="0.5" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" />
+                    </svg>
+                    Next
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container-fluid" id="content" style="transition: transform .4s;">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div id="searchcontents" style="display:none;">
+<div title="Intro" data-link="http://localhost:8080/Intro.html">BookGen is a command line toolchain for writing books and documentation in markdown. It was inspired by GitBook. Generaly speeking you can call it a static website generator, but it has some neat features compared to other products. It is designed to be cross platform, but It's developed and tested under Windows. The Editor uses WPF, so it's not portable. MIT Licensed Written in C#, targets .NET Core 3.1 Extremely fast, compared to GitBook and other NodeJs stuff Many output formats: Static website with Bootstrap template Printable or Word processor importable plain HTML EPub v. 3.0 Wordpress compatible XML export file To Build and develop you will need: Visual Studio 2019 with latest updates - https://visualstudio.microsoft.com/vs/ .NET Core 3.1 SDK - https://dotnet.microsoft.com/download </div>
+<div title="Workflow & Markdown" data-link="http://localhost:8080/Workflow.html">Workflow & Markdown Getting started To use BookGen, first you have to create a few files: bookgen.json - Tool configuration file summary.md - Table of contents document with links to the book chapters index.md - Start page/Cover page of your book. The summary.md and index.md file names can be changed, but you have to reference the correct files in the bookgen.json file. The configuration file name (bookgen.json) can't be changed. The tool looks for this file in the specified folder. You don't have to create these fieles manually. You can use the following command that will start an interactive initialization progress: BookGen Build -a Initialize -d {workdir} The -d {workdir} argumeent is optional. If you don't specify the working directory, then the current folder will be used. Editing your book For editing you will need a Text editor of your choice or you can use the BookGen editor to create files for your book. For rendering BookGen uses the Markdig libary that supports GitHub Flavored Markdown https://github.github.com/gfm/ and the following extra options have been turned on: Footnotes - https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/FootnotesSpecs.md Figures, Footers, Cite - https://github.com/lunet-io/markdig/blob/master/src/Markdig.Tests/Specs/FigureFooterAndCiteSpecs.md If your are completely new to markdown I suggest reading the official markdown documentation at https://daringfireball.net/projects/markdown/ Testing For testing purposes BookGen includes a Built-in HTTP test server. To start a test build and preview your book use the following command: BookGen Build -a Test -d {dir} Building If you are ready with your book you can build an export from it with the following commands: BookGen Build -a BuildEpub -d {dir} BookGen Build -a BuildPrint -d {dir} BookGen Build -a BuildWeb -d {dir} BookGen Build -a BuildWordpress -d {dir} Templates BookGen focuses on the content not the looks. But this doesn't mean that you can't style your documents. When you initialize the book you are given the option to extract all the internal templates for customization, or you can specify the template (html) in the config file with the list of required assests. Assets are images, css and js files that are required to make your book work. </div>
+<div title="Command Line usage" data-link="http://localhost:8080/Commandline.html">Command Line usage For the tool to work in the work folder there must be a bookgen.json config file. This config file can be created with the following command: BookGen Build -a Init To get information regarding the configuration file bookgen.json file run: Bookgen ConfigHelp GUI Usage BookGen Gui {-v} {-d [directory]} BookGen Gui {--verbose} {--dir [directory]} Arguments: -d, --dir: Optional argument. Specifies work directory. If not specified, then the current directory will be used as working directory. -v, --verbose: Optional argument, turns on detailed logging. Usefull for locating issues Update Usage BookGen Update {-p} {-s} BookGen Update {--prerelease} {--searchonly} Arguments: -s, --searchonly: Optional argument. Search and display latest release, but don't actually do an update -p, --prerelease: Include pre relase versions. Build Usage BookGen Build -a [action] {-v} {-d [directory]} {-n} BookGen Build --action [action] {--verbose} {--dir [directory]} {--nowait} Arguments: -a, --action: Specifies the build action. See below. -d, --dir: Optional argument. Specifies work directory. If not specified, then the current directory will be used as working directory. -v, --verbose: Optional argument, turns on detailed logging. Usefull for locating issues -n, --nowait: Optional argument, when specified the program is fisihed, then it immediately exits, without key press. Build Actions: BuildEpub - Build Ebup 3.2 BuildPrint - Build Printable HTML document BuildWeb - Build Releaseable Static Website BuildWordpress - Build Wordpress Export XML file Clean - Clean output folders Initialize - Initialize dir as BookGen project Test - Build Test Static Website & Run test server ValidateConfig - Validates the bookgen.json configuration file </div>
+<div title="Configuration properties for current version" data-link="http://localhost:8080/Config.html">Configuration properties for current version TOCFile Type: String Can be left unchanged: no Table of contents Markdown file ImageDir Type: String Can be left unchanged: no Image directory relative to workdir HostName Type: String Can be left unchanged: no Publish host name. Must include protocoll (http or https) and must end with a / Index Type: String Can be left unchanged: no Index or first page. Version Type: Int32 Can be left unchanged: no Config file version. !DO NOT CHANGE! LinksOutSideOfHostOpenNewTab Type: Boolean Can be left unchanged: no If set to true, then links that point out of the given HostName will be opened in a new window/tab InlineImageSizeLimit Type: Int64 Can be left unchanged: no Inline images as base64 that are less then this size in bytes. 0 = inlines all files Metadata Type: Metadata Can be left unchanged: no Metadata information for output TargetWeb Type: BuildConfig Can be left unchanged: no Web output configuration TargetPrint Type: BuildConfig Can be left unchanged: no Printable HTML output configuration TargetEpub Type: BuildConfig Can be left unchanged: no e-pub format output configuration TargetWordpress Type: BuildConfig Can be left unchanged: no Wordpress compatible xml output configuration Translations Type: Dictionary<String, String> Can be left unchanged: no Translateable strings that can be used in the template Properties of type: Metadata Author Type: String Can be left unchanged: no Author name CoverImage Type: String Can be left unchanged: no Cover image for social sites, etc.. Title Type: String Can be left unchanged: no Title of your book Properties of type: Asset Source Type: String Can be left unchanged: yes path relative to input directory Target Type: String Can be left unchanged: yes path relative to output directory Properties of type: StyleClasses Heading1 Type: String Can be left unchanged: yes css classes for: H1 Heading2 Type: String Can be left unchanged: yes css classes for: H2 Heading3 Type: String Can be left unchanged: yes css classes for: H3 Image Type: String Can be left unchanged: yes css classes for: IMG Table Type: String Can be left unchanged: yes css classes for: TABLE Blockquote Type: String Can be left unchanged: yes css classes for: BLOCKQUOTE Figure Type: String Can be left unchanged: yes css classes for: FIGURE FigureCaption Type: String Can be left unchanged: yes css classes for: FIGCAPTION Link Type: String Can be left unchanged: yes css classes for: A OrderedList Type: String Can be left unchanged: yes css classes for: OL UnorederedList Type: String Can be left unchanged: yes css classes for: UL ListItem Type: String Can be left unchanged: yes css classes for: LI Properties of type: BuildConfig OutPutDirectory Type: String Can be left unchanged: no Output directory, relative to work directory TemplateFile Type: String Can be left unchanged: yes HTML template path, relative to work directory. If not specified built in template is used. TemplateAssets Type: List<Asset> Can be left unchanged: yes List of assets required by the template StyleClasses Type: StyleClasses Can be left unchanged: no CSS classes that will be aplied to generated html elements TemplateOptions Type: Dictionary<String, String> Can be left unchanged: yes Additional template options </div>
+<div title="Template tags" data-link="http://localhost:8080/Template.html">Template tags BookGen uses two kinds of template tags, which are called shortcode tags and translatable tags. Translatable tags Translatable tags are strings wrapped in {{ and }} Translatable tags can only contain letters from the english alphabet, the _ char and numbers in any combination. The translatable tags are replaced with strings specified in the Translations section of the bookgen.json configuration. Shortcodes Shortcode tags are strings wrapped with the [ and ] symbols. Shortcode names are case sensitive. Currently the following shortcodes are supported. ** toc** Will be replaced with the contents of the Table of Contents file title Will be replaced with the currently processed page title (1st H1 element of the page) content Will be replaced with the currently processed page content host Will be replaced with the host name specified in the configuration file metadata Will be replaced with the generated HTML metadata for the currently processed page BuildTime Will be replaced with the current time and date. CookieWarnIfEnabledInTarget If the config file has the option enabled, that you will need cookie warnings then this shortcode will be replaced with a cookie consent warning. Shortcodes with arguments InlineFile file=file.html Simply include or inline the specified file SriDependency file=file.css Creates a script tag or a css include with Subresource Integrity. This is a security feature that enables browsers to verify that resources they fetch (for example, from a CDN) are delivered without unexpected manipulation. It works by allowing you to provide a cryptographic hash that a fetched resource must match. For more info see: https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity </div>
+</div><div class="jumbotron">
+    <h2>Search</h2>
+    <div class="form-group">
+        <input type="text" id="searchtext" autocomplete="off" class="form-control" placeholder="Type here to search">
+        <br/>
+        <button type="button" id="searchbutton" class="btn btn-primary">Search</button>
+    </div>
+</div>
+<div id="searchresults"></div>
+<script type="text/javascript">
+    $('#searchtext').keypress(function (ev) {
+        var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+        if (keycode == '13') {
+            $("#searchbutton").click();
+        }
+    });
+
+    $("#searchbutton").click(function () {
+
+        var html = "";
+        var matches = 0;
+        var terms = $("#searchtext").val();
+        $("#searchresults").html("");
+
+        if (terms === "") {
+            var error = "[[4]]";
+            $("#searchresults").html(error);
+            return;
+        }
+
+        $("#searchcontents div").each(function () {
+            var startindex = $(this).text().toLowerCase().indexOf(terms.toLowerCase());
+            if (startindex < 0) return;
+
+            var title = $(this).attr("title");
+            var url = $(this).attr("data-link");
+            var len = $(this).text().length - startindex;
+            if (len > 180) {
+                len = 180;
+            }
+
+            matches += 1;
+
+            var link = "<h3><a href=\"" + url + "\">" + title + "</a></h3>";
+            var content = "<p>" + $(this).text().substr(startindex, len) + "...</p>";
+
+            html += link;
+            html += content;
+        });
+
+        var final = "<p>{Search_Results} : " + matches + "</p>" + html;
+
+        if (html.length > 0) {
+            $("#searchresults").html(final);
+        }
+        else {
+            var error = "{Search_NoResults}";
+            $("#searchresults").html(error);
+        }
+    });
+</script>
+            </div>
+        </div>
+    </div>
+
+    <button id="topbutton" class="btn btn-dark" title="Ugrás a tetejére">
+        Go to top
+    </button>
+
+    <script type="text/javascript">
+        var currentindex = pages.indexOf(window.location.href);
+
+        window.onscroll = function () {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                $('#topbutton').css("display", "block");
+            } else {
+                $('#topbutton').css("display", "none");
+            }
+        }
+
+        $('img').click(function () {
+            $('#lightbox').css("display", "block");
+            $('#lightboxcontent').attr("src", this.src);
+            $('#lightboxcaption').html(this.alt);
+        });
+
+        $('#lightboxClose').click(function () {
+            $('#lightbox').css("display", "none");
+        });
+
+        $('#topbutton').click(function () {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        });
+        $('a[href="#toc"]').click(function () {
+
+            var width = window.innerWidth > 800 ? 40 : 100;
+
+            $("#toc").css("width", width + "%");
+        });
+        $('a[href="#closetoc"]').click(function () {
+            $("#toc").css("width", "0");
+        });
+        $('a[href="#previous"]').click(function () {
+            if (currentindex - 1 < 0) return;
+            var newloc = pages[currentindex - 1];
+            window.location.href = newloc;
+        });
+        $('a[href="#next"]').click(function () {
+            if (currentindex + 1 > (pages.length - 1)) return;
+            var newloc = pages[currentindex + 1];
+            window.location.href = newloc;
+        });
+        var thisPage = "<ul>";
+        $("h1, h2, h3").each(function (i) {
+            var current = $(this);
+            var link = current.attr("id");
+            var append = "<li><a class=\"navigateto\" href=\"#" + link + "\">" + current.html() + "</a></li>\n";
+            thisPage += append;
+        });
+        thisPage += "</ul>";
+        $("#localToc").html(thisPage);
+
+        $('.navigateto').click(function () {
+            $('#toc-local').modal('toggle');
+        });
+    </script>
+    <style type="text/css">
+    .cookiealert {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: 0 !important;
+        z-index: 999;
+        opacity: 0;
+        border-radius: 0;
+        transform: translateY(100%);
+        transition: all 500ms ease-out;
+        color: #ecf0f1;
+        background: #212327;
+    }
+
+        .cookiealert.show {
+            opacity: 1;
+            transform: translateY(0%);
+            transition-delay: 1000ms;
+        }
+
+        .cookiealert a {
+            text-decoration: underline
+        }
+
+        .cookiealert .acceptcookies {
+            margin-left: 10px;
+            vertical-align: baseline;
+        }
+</style>
+<div class="alert text-center cookiealert" role="alert">
+    <b>Do you like Cookies?</b> &#x1F36A; This Site uses cookies. <a href="https://cookiesandyou.com/" target="_blank">Learn more</a>
+
+    <button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
+        Okay
+    </button>
+</div>
+<script type="text/javascript">
+    var debugcookie = window.location.href.startsWith('http://localhost') && true;
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    if (!getCookie("acceptCookies") || debugcookie) {
+        $('.cookiealert').addClass('show');
+
+        $('.acceptcookies').click(function () {
+            setCookie("acceptCookies", true, 365);
+            $('.cookiealert').removeClass('show');
+        });
+
+    }
+</script>
+</body>
+</html>

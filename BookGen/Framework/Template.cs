@@ -6,6 +6,7 @@
 using Bookgen.Template.ShortCodeImplementations;
 using BookGen.Contracts;
 using BookGen.Core.Configuration;
+using BookGen.Core.Contracts;
 using System;
 using System.Collections.Generic;
 
@@ -33,12 +34,12 @@ namespace BookGen.Framework
             };
             TemplateContent = string.Empty;
             _parser = shortCodeParser;
-            _parser.ConfigureDelegatedShortCodes(CreateInternalsList());
+            _parser.ConfigureShortCodes(CreateInternalsList());
         }
 
-        private IList<DelegateShortCode> CreateInternalsList()
+        private IList<ITemplateShortCode> CreateInternalsList()
         {
-            List<DelegateShortCode> internals = new List<DelegateShortCode>(_table.Count);
+            List<ITemplateShortCode> internals = new List<ITemplateShortCode>(_table.Count);
             foreach (var item in _table)
             {
                 internals.Add(new DelegateShortCode(item.Key, (_) =>
@@ -92,9 +93,7 @@ namespace BookGen.Framework
             if (TemplateContent == null)
                 throw new InvalidOperationException("Can't generate while TemplateContent is null");
 
-            string shortcodes = _parser.Parse(TemplateContent);
-
-            return TranslationApplier.ApplyTranslations(shortcodes, _configuration.Translations);
+            return _parser.Parse(TemplateContent);
         }
     }
 }

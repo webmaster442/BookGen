@@ -121,7 +121,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_UpdateUtils_SelectLatestRelease_ReturnsCorrect_NoPrerelease()
         {
-           Release? release =  UpdateUtils.SelectLatestRelease(_releasesStub, false);
+           Release release =  UpdateUtils.SelectLatestRelease(_releasesStub, false);
 
             Assert.NotNull(release);
             Assert.AreEqual("notprerelase", release.Name);

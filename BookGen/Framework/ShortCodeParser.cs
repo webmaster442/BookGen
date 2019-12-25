@@ -19,26 +19,17 @@ namespace BookGen.Framework
 
         public ShortCodeParser(IList<ITemplateShortCode> shortCodes)
         {
-            _shortCodes = new List<ITemplateShortCode>(shortCodes);
+            _shortCodes = new List<ITemplateShortCode>(shortCodes.Count);
             _codeMatches = new Dictionary<string, Regex>(shortCodes.Count);
-            BuildRegexes();
+            ConfigureShortCodes(shortCodes);
         }
 
-        public void ConfigureDelegatedShortCodes(IList<DelegateShortCode> delegates)
+        public void ConfigureShortCodes(IList<ITemplateShortCode> codes)
         {
-            _shortCodes.AddRange(delegates);
-            foreach (var shortcode in delegates)
+            _shortCodes.AddRange(codes);
+            foreach (var shortcode in codes)
             {
-                Regex match = new Regex($"(\\[{shortcode.Tag} .+\\])|(\\[{shortcode.Tag}\\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                _codeMatches.Add(shortcode.Tag, match);
-            }
-        }
-
-        private void BuildRegexes()
-        {
-            foreach (var shortcode in _shortCodes)
-            {
-                Regex match = new Regex($"(\\[{shortcode.Tag} .+\\])|(\\[{shortcode.Tag}\\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                Regex match = new Regex($"(<<{shortcode.Tag} .+>>)|(<<{shortcode.Tag}>>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                 _codeMatches.Add(shortcode.Tag, match);
             }
         }
@@ -80,18 +71,20 @@ namespace BookGen.Framework
                     var pair = ShortCodeArgumentTokenizer.Split(token.Replace("=\"", " \"")).ToArray();
                     if (pair.Length == 2)
                     {
-                        results.TryAdd(pair[0], Clean(pair[1]));
+                        results.TryAdd(pair[0], RemoveStartingSpaceAndEndTags(pair[1]));
+                    }
+                    else
+                    {
+                        results.TryAdd(pair[0].Replace(">>", ""), string.Empty);
                     }
                 }
             }
-
             return results;
-
         }
 
-        private string Clean(string v)
+        private string RemoveStartingSpaceAndEndTags(string v)
         {
-            return v.Substring(1, v.Length - 3);
+            return v.Substring(1, v.Length - 4);
         }
     }
 }
