@@ -50,7 +50,7 @@ namespace BookGen.Framework
             _loader = new ShortCodeLoader(log, Settings);
             _loader.LoadAll();
 
-            Template = new Template(configuration, new ShortCodeParser(_loader.Imports));
+            Template = new Template(configuration, new ShortCodeParser(_loader.Imports, configuration.Translations));
 
             _steps = new List<IGeneratorStep>();
             _log = log;

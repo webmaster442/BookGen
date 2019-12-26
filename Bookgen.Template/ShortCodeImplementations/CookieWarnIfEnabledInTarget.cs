@@ -16,29 +16,15 @@ namespace Bookgen.Template.ShortCodeImplementations
     {
         private readonly ILog _log;
         private readonly IReadonlyRuntimeSettings _settings;
-        private readonly Translations _translations;
+
         public string Tag => nameof(CookieWarnIfEnabledInTarget);
 
         [ImportingConstructor]
-        public CookieWarnIfEnabledInTarget(ILog log, IReadonlyRuntimeSettings settings, Translations translations)
+        public CookieWarnIfEnabledInTarget(ILog log, IReadonlyRuntimeSettings settings)
         {
             _log = log;
             _settings = settings;
-            _translations = translations;
         }
-
-        private string Translate(string input)
-        {
-            StringBuilder cache = new StringBuilder(input);
-
-            foreach (var translation in _translations)
-            {
-                cache.Replace($"<<? {translation.Key}>>", translation.Value);
-            }
-
-            return cache.ToString();
-        }
-
 
         public string Generate(IReadOnlyDictionary<string, string> arguments)
         {
@@ -47,7 +33,7 @@ namespace Bookgen.Template.ShortCodeImplementations
             if (currentconfig.TemplateOptions.TryGetOption(TemplateOptions.CookieDisplayBannerEnabled, out bool value) && value)
             {
                 _log.Detail("Cookies enabled for current target. Generating Code...");
-                return Translate(BuiltInTemplates.CookieWarningCode);
+                return BuiltInTemplates.CookieWarningCode;
             }
             else
             {

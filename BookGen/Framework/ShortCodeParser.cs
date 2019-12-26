@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template.ShortCodeImplementations;
+using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,15 @@ namespace BookGen.Framework
     {
         private readonly List<ITemplateShortCode> _shortCodes;
         private readonly Dictionary<string, Regex> _codeMatches;
+        private readonly Translations _translations;
+        private readonly Regex _translateRegex;
 
-        public ShortCodeParser(IList<ITemplateShortCode> shortCodes)
+        public ShortCodeParser(IList<ITemplateShortCode> shortCodes, Translations translations)
         {
             _shortCodes = new List<ITemplateShortCode>(shortCodes.Count);
             _codeMatches = new Dictionary<string, Regex>(shortCodes.Count);
+            _translations = translations;
+            _translateRegex = new Regex("<<\\? [A-Za-z_0-9]+>>", RegexOptions.Compiled);
             ConfigureShortCodes(shortCodes);
         }
 
@@ -50,7 +55,29 @@ namespace BookGen.Framework
                     }
                 }
             }
-            return result.ToString();
+            return AdditionalTranslate(result.ToString());
+        }
+
+        private string AdditionalTranslate(string input)
+        {
+            MatchCollection matches = _translateRegex.Matches(input);
+
+            if (matches.Count == 0)
+                return input;
+
+            StringBuilder cache = new StringBuilder(input);
+
+            foreach (Match? match in matches)
+            {
+                if (match == null) continue;
+                var key = match.Value.Replace("<<? ", "").Replace(">>", "");
+                if (_translations.ContainsKey(key))
+                {
+                    cache.Replace(match.Value, _translations[key]);
+                }
+            }
+
+            return cache.ToString();
         }
 
         private Dictionary<string, string> GetArguments(string value)
@@ -84,6 +111,7 @@ namespace BookGen.Framework
 
         private string RemoveStartingSpaceAndEndTags(string v)
         {
+            //removes starting space and end >> tags
             return v.Substring(1, v.Length - 4);
         }
     }

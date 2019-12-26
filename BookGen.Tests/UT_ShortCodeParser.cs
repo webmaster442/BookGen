@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework;
 using NUnit.Framework;
@@ -18,12 +19,13 @@ namespace BookGen.Tests
         [SetUp]
         public void Setup()
         {
+            var tranlate = new Translations();
             _sut = new ShortCodeParser(new List<ITemplateShortCode>
             {
                 new Stubs.DumyShortCode(),
                 new Stubs.ArgumentedShortCode(),
                 new Stubs.ArgumentNameYielderShortCode()
-            });
+            }, tranlate);
         }
 
         public void TearDown()
