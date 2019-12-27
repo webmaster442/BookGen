@@ -19,6 +19,12 @@ namespace BookGen.Framework
         private readonly Dictionary<string, Regex> _codeMatches;
         private readonly Translations _translations;
 
+        private const string shortCodeStart = "<!--{";
+        private const string shortCodeEnd = "}-->";
+        private const string shortCodeRegex = "(<!--\\{ASD\\}-->)|(<!--\\{ASD .+\\}-->)";
+        private readonly Regex TranslateRegex = new Regex("(<!--\\{\\? [A-Za-z_0-9]+\\}-->)", RegexOptions.Compiled);
+
+
         public ShortCodeParser(IList<ITemplateShortCode> shortCodes, Translations translations)
         {
             _shortCodes = new List<ITemplateShortCode>(shortCodes.Count);
@@ -32,7 +38,8 @@ namespace BookGen.Framework
             _shortCodes.AddRange(codes);
             foreach (var shortcode in codes)
             {
-                Regex match = new Regex($"(<<{shortcode.Tag} .+>>)|(<<{shortcode.Tag}>>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                string expression = shortCodeRegex.Replace("ASD", shortcode.Tag);
+                Regex match = new Regex(expression, RegexOptions.Compiled | RegexOptions.IgnoreCase);
                 _codeMatches.Add(shortcode.Tag, match);
             }
         }
@@ -58,7 +65,7 @@ namespace BookGen.Framework
 
         private string AdditionalTranslate(string input)
         {
-            MatchCollection matches = Translate.TranslateCheck.Matches(input);
+            MatchCollection matches = TranslateRegex.Matches(input);
 
             if (matches.Count == 0)
                 return input;
@@ -68,7 +75,7 @@ namespace BookGen.Framework
             foreach (Match? match in matches)
             {
                 if (match == null) continue;
-                var key = match.Value.Replace("<<? ", "").Replace(">>", "");
+                var key = match.Value.Replace($"{shortCodeStart}? ", "").Replace(shortCodeEnd, "");
 
                 var text = Translate.DoTranslateForKey(_translations, key);
 
@@ -100,7 +107,7 @@ namespace BookGen.Framework
                     }
                     else
                     {
-                        results.TryAdd(pair[0].Replace(">>", ""), string.Empty);
+                        results.TryAdd(pair[0].Replace(shortCodeEnd, ""), string.Empty);
                     }
                 }
             }
@@ -109,8 +116,9 @@ namespace BookGen.Framework
 
         private string RemoveStartingSpaceAndEndTags(string v)
         {
-            //removes starting space and end >> tags
-            return v.Substring(1, v.Length - 4);
+            //input string will be in following format: "Assets/bootstrap.min.css"}-->
+            //need to retgurn only: Assets/bootstrap.min.css
+            return v.Substring(1, v.Length - (shortCodeEnd.Length + 2));
         }
     }
 }
