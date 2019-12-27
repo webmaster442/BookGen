@@ -18,14 +18,12 @@ namespace BookGen.Framework
         private readonly List<ITemplateShortCode> _shortCodes;
         private readonly Dictionary<string, Regex> _codeMatches;
         private readonly Translations _translations;
-        private readonly Regex _translateRegex;
 
         public ShortCodeParser(IList<ITemplateShortCode> shortCodes, Translations translations)
         {
             _shortCodes = new List<ITemplateShortCode>(shortCodes.Count);
             _codeMatches = new Dictionary<string, Regex>(shortCodes.Count);
             _translations = translations;
-            _translateRegex = new Regex("<<\\? [A-Za-z_0-9]+>>", RegexOptions.Compiled);
             ConfigureShortCodes(shortCodes);
         }
 
@@ -60,7 +58,7 @@ namespace BookGen.Framework
 
         private string AdditionalTranslate(string input)
         {
-            MatchCollection matches = _translateRegex.Matches(input);
+            MatchCollection matches = Translate.TranslateCheck.Matches(input);
 
             if (matches.Count == 0)
                 return input;
@@ -71,10 +69,10 @@ namespace BookGen.Framework
             {
                 if (match == null) continue;
                 var key = match.Value.Replace("<<? ", "").Replace(">>", "");
-                if (_translations.ContainsKey(key))
-                {
-                    cache.Replace(match.Value, _translations[key]);
-                }
+
+                var text = Translate.DoTranslateForKey(_translations, key);
+
+                cache.Replace(match.Value, text);
             }
 
             return cache.ToString();

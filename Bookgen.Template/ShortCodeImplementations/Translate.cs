@@ -11,13 +11,12 @@ namespace Bookgen.Template.ShortCodeImplementations
     public class Translate : ITemplateShortCode
     {
         private readonly Translations _translations;
-        private readonly Regex _check;
+        public static readonly Regex TranslateCheck = new Regex("^([A-Za-z_0-9]+)$", RegexOptions.Compiled);
 
         [ImportingConstructor]
         public Translate(Translations translations)
         {
             _translations = translations;
-            _check = new Regex("[A-Za-z_0-9]+", RegexOptions.Compiled);
         }
 
         public string Tag => "\\?";
@@ -29,15 +28,20 @@ namespace Bookgen.Template.ShortCodeImplementations
             if (arguments.Count > 0)
                 argument = arguments.Keys.First();
 
-            if (!_check.IsMatch(argument))
-                return $"Invalid tranlation key: {argument}";
+            return DoTranslateForKey(_translations, argument);
+        }
 
-            if (string.IsNullOrEmpty(argument))
+        public static string DoTranslateForKey(Translations translations, string key)
+        {
+            if (string.IsNullOrEmpty(key))
                 return string.Empty;
-            else if (_translations.ContainsKey(argument))
-                return _translations[argument];
+
+            if (!TranslateCheck.IsMatch(key))
+                return $"Invalid tranlation key: {key}";
+            else if (translations.ContainsKey(key))
+                return translations[key];
             else
-                return $"translation not found: '{argument}'";
+                return $"translation not found: '{key}'";
         }
     }
 }

@@ -5,7 +5,6 @@
 
 using Bookgen.Template.ShortCodeImplementations;
 using BookGen.Core.Configuration;
-using BookGen.Framework;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -38,6 +37,19 @@ namespace BookGen.Tests
             arg.Add(input, "");
             var result = _sut.Generate(arg);
             Assert.AreEqual(expected, result);
+        }
+
+        [TestCase("test?")]
+        [TestCase("key-lookup")]
+        [TestCase("???")]
+        [TestCase("#&")]
+        [TestCase("foo#")]
+        public void EnsureThat_Translate_ReturnsError_WhenKeyFormatInvalid(string input)
+        {
+            var arg = new Dictionary<string, string>();
+            arg.Add(input, "");
+            var result = _sut.Generate(arg);
+            Assert.AreEqual($"Invalid tranlation key: {input}", result);
         }
     }
 }
