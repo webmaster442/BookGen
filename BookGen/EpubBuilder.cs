@@ -32,9 +32,12 @@ namespace BookGen
             return workingDirectory.Combine(Settings.Configuration.TargetEpub.OutPutDirectory);
         }
 
-        protected override string ConfigureTemplate()
+        protected override string ConfigureTemplateContent()
         {
-            return BuiltInTemplates.Epub;
+            return TemplateLoader.LoadTemplate(Settings.SourceDirectory, 
+                                               Settings.Configuration.TargetEpub,
+                                               _log, 
+                                               BuiltInTemplates.Epub);
         }
     }
 }

@@ -40,7 +40,7 @@
   },
   "TargetPrint": {
     "OutPutDirectory": "../bin/BookGen/Documentation",
-    "TemplateFile": "",
+    "TemplateFile": "Template/DocumentationTemplate.html",
     "TemplateAssets": [
       {
         "Source": "",

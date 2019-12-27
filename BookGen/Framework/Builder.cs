@@ -18,7 +18,8 @@ namespace BookGen.Framework
     internal abstract class Builder
     {
         private readonly List<IGeneratorStep> _steps;
-        private readonly ILog _log;
+
+        protected readonly ILog _log;
 
         protected RuntimeSettings Settings { get; }
 
@@ -56,7 +57,7 @@ namespace BookGen.Framework
             _log = log;
         }
 
-        protected abstract string ConfigureTemplate();
+        protected abstract string ConfigureTemplateContent();
 
         protected abstract FsPath ConfigureOutputDirectory(FsPath workingDirectory);
 
@@ -82,7 +83,7 @@ namespace BookGen.Framework
         public TimeSpan Run()
         {
             Settings.OutputDirectory = ConfigureOutputDirectory(WorkDir);
-            Template.TemplateContent = ConfigureTemplate();
+            Template.TemplateContent = ConfigureTemplateContent();
 
             DateTime start = DateTime.Now;
             try

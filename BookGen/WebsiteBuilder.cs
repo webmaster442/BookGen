@@ -38,9 +38,9 @@ namespace BookGen
             return workingDirectory.Combine(Settings.Configuration.TargetWeb.OutPutDirectory);
         }
 
-        protected override string ConfigureTemplate()
+        protected override string ConfigureTemplateContent()
         {
-            if (string.IsNullOrEmpty(Settings.Configuration.TargetWeb.TemplateFile))
+            if (TemplateLoader.FallbackTemplateRequired(Settings.SourceDirectory, Settings.Configuration.TargetWeb))
             {
                 _extractAssets.Assets = new (string content, string targetPath)[]
                 {
@@ -51,9 +51,12 @@ namespace BookGen
                     (BuiltInTemplates.AssetJqueryJs, "Assets\\jquery.min.js"),
                     (BuiltInTemplates.AssetPopperJs, "Assets\\popper.min.js"),
                 };
-                return BuiltInTemplates.TemplateWeb;
             }
-            return Settings.Configuration.TargetWeb.TemplateFile;
+
+            return TemplateLoader.LoadTemplate(Settings.SourceDirectory,
+                                               Settings.Configuration.TargetWeb,
+                                               _log,
+                                               BuiltInTemplates.TemplateWeb);
         }
     }
 }
