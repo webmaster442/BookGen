@@ -1,6 +1,6 @@
 {
   "TOCFile": "summary.md",
-  "ImageDir": "",
+  "ImageDir": "img",
   "HostName": "http://localhost:8080/",
   "Index": "Intro.md",
   "Version": 1004,

@@ -1,3 +1,5 @@
+![logo](img/logo.png)
+
 BookGen is a command line toolchain for writing books and documentation in markdown. It was inspired by GitBook. Generaly speeking you can call it a static website generator, but it has some neat features compared to other products.
 
 It is designed to be cross platform, but It's developed and tested under Windows. The Editor uses WPF, so it's not portable.

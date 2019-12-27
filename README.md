@@ -1,3 +1,5 @@
+![logo](Documentation/img/logo.png)
+
 # BookGen - A C# documentation generator
 
 BookGen is a command line toolchain for writing books and documentation in markdown. It was inspired by GitBook. Generaly speeking you can call it a static website generator, but it has some neat features compared to other products.
