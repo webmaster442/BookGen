@@ -8,6 +8,7 @@ command -v dotnet >/dev/null 2>&1 || { echo >&2 "This program Requires .NET Core
 
 printf "\nBuilding BookGen ..."
 dotnet publish BookGen.publish.sln -c Release -f netcoreapp3.1 -r win-x64 --self-contained -o ./bin/BookGen
+./bin/BookGen/BookGen Build -a BuildPrint -d ./Documentation
 cd bin/BookGen
 rm *.pdb
 cd ..
