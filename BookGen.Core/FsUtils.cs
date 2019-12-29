@@ -184,9 +184,12 @@ namespace BookGen.Core
             outp.WriteFile(log, sb.ToString());
         }
 
-        public static string[] GetAllFiles(this FsPath directory, string mask = "*.*")
+        public static IEnumerable<FsPath> GetAllFiles(this FsPath directory, string mask = "*.*")
         {
-            return Directory.GetFiles(directory.ToString(), mask, SearchOption.AllDirectories);
+            foreach (var file in Directory.GetFiles(directory.ToString(), mask, SearchOption.AllDirectories))
+            {
+                yield return new FsPath(file);
+            }
         }
 
         public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IList<(string prefix, string namespac)>? nslist = null) where T : class, new()

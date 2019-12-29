@@ -10,7 +10,6 @@ using BookGen.Domain;
 using BookGen.Domain.Sitemap;
 using BookGen.Utilities;
 using System;
-using System.IO;
 using System.Linq;
 
 namespace BookGen.GeneratorSteps
@@ -25,9 +24,9 @@ namespace BookGen.GeneratorSteps
 
             var pages = from file in settings.OutputDirectory.GetAllFiles()
                         where
-                            Path.GetExtension(file) == ".html"
+                            file.Extension == ".html"
                         select
-                            file.Replace(settings.OutputDirectory.ToString(), "");
+                            file.ToString().Replace(settings.OutputDirectory.ToString(), "");
 
             foreach (var page in pages)
             {

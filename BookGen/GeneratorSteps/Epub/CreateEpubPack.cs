@@ -9,6 +9,7 @@ using BookGen.Core.Contracts;
 using BookGen.Domain;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace BookGen.GeneratorSteps.Epub
 {
@@ -22,7 +23,7 @@ namespace BookGen.GeneratorSteps.Epub
 
             output.WriteFile(log, "");
 
-            string[] files = input.GetAllFiles();
+            string[] files = input.GetAllFiles().Select(f => f.ToString()).ToArray();
 
             int removeLength = input.ToString().Length + 1;
 
