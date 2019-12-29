@@ -114,11 +114,15 @@ namespace BookGen.Framework
             return results;
         }
 
-        private string RemoveStartingSpaceAndEndTags(string v)
+        private string RemoveStartingSpaceAndEndTags(string input)
         {
             //input string will be in following format: "Assets/bootstrap.min.css"}-->
-            //need to retgurn only: Assets/bootstrap.min.css
-            return v.Substring(1, v.Length - (shortCodeEnd.Length + 2));
+            if (input.StartsWith("\"") && input.EndsWith("\"}-->"))
+            {
+                //need to retgurn only: Assets/bootstrap.min.css
+                return input.Substring(1, input.Length - (shortCodeEnd.Length + 2));
+            }
+            return input;
         }
     }
 }

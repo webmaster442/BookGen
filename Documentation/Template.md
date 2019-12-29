@@ -46,4 +46,8 @@ Currently the following shortcodes are supported:
     
 * `<!--{? ID}-->`
 
-    In this case the ID represents a translation ID. Translation ID's are defined in the Translations section of the configuration file. A Translatable ID can only contain the following chars: Letters (A-Z and a-z), Numbers (0-9) and the _ (underscore) char. If an ID is found valid and the Translations section of the configuration file contains the ID then it's replaced with the associated string-
+    In this case the ID represents a translation ID. Translation ID's are defined in the Translations section of the configuration file. A Translatable ID can only contain the following chars: Letters (A-Z and a-z), Numbers (0-9) and the _ (underscore) char. If an ID is found valid and the Translations section of the configuration file contains the ID then it's replaced with the associated string.
+	
+* `<!--{JSPageToc ContentsDiv="contents" TargetDiv="toc"}-->`
+
+	Embeds a JavaScript that will render a table of contents. The ContentsDiv specifes the content div, which will be scanned for Headings. The TargetDiv parameter specifies the output div, where the contents will be rendered.
