@@ -14,11 +14,12 @@ namespace BookGen.Framework
         {
         }
 
-        public DependencyException(string? message) : base(message)
+        public DependencyException(string? message) : base("Missing dependecy for: "+message)
         {
+
         }
 
-        public DependencyException(string? message, Exception? innerException) : base(message, innerException)
+        public DependencyException(string? message, Exception? innerException) : base("Missing dependecy for: "+message, innerException)
         {
         }
 

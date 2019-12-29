@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template.ShortCodeImplementations;
+using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace BookGen
         [Export(typeof(IReadonlyRuntimeSettings))]
         private readonly IReadonlyRuntimeSettings _settings;
 
+        [Export(typeof(Translations))]
+        private readonly Translations _tranlsations;
 
         private readonly CompositionContainer _container;
 
@@ -30,6 +33,7 @@ namespace BookGen
         {
             _log = log;
             _settings = settings;
+            _tranlsations = settings.Configuration.Translations;
 
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new TypeCatalog(typeof(ILog), typeof(IReadonlyRuntimeSettings)));

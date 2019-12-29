@@ -271,7 +271,10 @@ namespace BookGen.Core
             catch (Exception ex)
             {
                 log.Warning("DeserializeJson failed: {0} type: {1}", path, typeof(T));
-                log.Detail(ex.Message);
+                if (ex is JsonException)
+                    log.Warning(ex.Message);
+                else
+                    log.Detail(ex.Message);
                 return default;
             }
         }

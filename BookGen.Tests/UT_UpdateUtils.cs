@@ -89,7 +89,7 @@ namespace BookGen.Tests
                 },
             };
             _server = new HttpTestServer(TestEnvironment.GetTestFolder(),
-                                         8080,
+                                         9080,
                                          _log.Object,
                                          new Environment.UpdateTestServerJsonHandler(),
                                          new Environment.UpdateTestStreamHandler());
@@ -121,7 +121,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_UpdateUtils_SelectLatestRelease_ReturnsCorrect_NoPrerelease()
         {
-           Release? release =  UpdateUtils.SelectLatestRelease(_releasesStub, false);
+           Release release =  UpdateUtils.SelectLatestRelease(_releasesStub, false);
 
             Assert.NotNull(release);
             Assert.AreEqual("notprerelase", release.Name);
@@ -149,7 +149,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_UpdateUtils_GetGithubReleases_DownloadsResources()
         {
-            const string url = "http://localhost:8080/updatejson";
+            const string url = "http://localhost:9080/updatejson";
             bool result = UpdateUtils.GetGithubReleases(url, _log.Object, out List<Release> releases);
 
             Assert.IsTrue(result);
@@ -163,7 +163,7 @@ namespace BookGen.Tests
             Asset asset = new Asset
             {
                 Size = 5 * 1024 * 1024,
-                DownloadUrl = "http://localhost:8080/download"
+                DownloadUrl = "http://localhost:9080/download"
             };
 
             var reporter = new Reporter();

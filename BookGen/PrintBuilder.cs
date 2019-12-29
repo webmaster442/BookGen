@@ -26,9 +26,12 @@ namespace BookGen
             return workingDirectory.Combine(Settings.Configuration.TargetPrint.OutPutDirectory);
         }
 
-        protected override string ConfigureTemplate()
+        protected override string ConfigureTemplateContent()
         {
-            return BuiltInTemplates.Print;
+            return TemplateLoader.LoadTemplate(Settings.SourceDirectory,
+                                               Settings.Configuration.TargetPrint,
+                                               _log,
+                                               BuiltInTemplates.Print);
         }
     }
 }

@@ -1,6 +1,4 @@
-![logo](Documentation/img/logo.png)
-
-# BookGen - A C# documentation generator
+![logo](img/logo.png)
 
 BookGen is a command line toolchain for writing books and documentation in markdown. It was inspired by GitBook. Generaly speeking you can call it a static website generator, but it has some neat features compared to other products.
 
@@ -18,11 +16,3 @@ It is designed to be cross platform, but It's developed and tested under Windows
 To Build and develop you will need:
 * Visual Studio 2019 with latest updates - https://visualstudio.microsoft.com/vs/
 * .NET Core 3.1 SDK - https://dotnet.microsoft.com/download
-
-
-## Documentation
-
-The Documentation  of the program can be found [here](https://github.com/webmaster442/BookGen/blob/dotnetcore/Documentation/summary.md)
-
----
-Icon source: https://icons8.com/

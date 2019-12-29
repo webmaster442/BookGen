@@ -44,7 +44,7 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        [Doc("Config file version. !DO NOT CHANGE!")]
+        [Doc("If set to true, then links that point outside of the Hostme specifed will open in new tab")]
         public bool LinksOutSideOfHostOpenNewTab
         {
             get;

@@ -7,6 +7,7 @@ using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Text;
 
 namespace Bookgen.Template.ShortCodeImplementations
 {

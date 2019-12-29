@@ -1,6 +1,4 @@
-TestBooks/BookStub/output/*
-TestBooks/test.log
-TestBooks/DemoBook/output/*
+Documentation/output/*
 BookGen/Resources/BuildDate.txt
 
 ## Ignore Visual Studio temporary files, build results, and

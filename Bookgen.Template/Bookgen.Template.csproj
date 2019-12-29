@@ -25,6 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Scripts\PageToc.js" />
     <None Remove="TemplateEpub\TemplateEpub.html" />
     <None Remove="TemplateMarkdown\index.md" />
     <None Remove="TemplateMarkdown\summary.md" />
@@ -41,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\PageToc.js" />
     <EmbeddedResource Include="TemplateEpub\TemplateEpub.html" />
     <EmbeddedResource Include="TemplateMarkdown\index.md" />
     <EmbeddedResource Include="TemplateMarkdown\summary.md" />

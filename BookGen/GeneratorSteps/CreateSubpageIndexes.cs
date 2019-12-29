@@ -30,9 +30,6 @@ namespace BookGen.GeneratorSteps
             if (Template == null)
                 throw new DependencyException(nameof(Template));
 
-            if (Chapters == null)
-                throw new DependencyException(nameof(Chapters));
-
             log.Info("Generating index files for sub content folders...");
             foreach (var file in settings.TocContents.Files)
             {

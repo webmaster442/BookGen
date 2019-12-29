@@ -27,7 +27,7 @@ namespace BookGen
             return workingDirectory.Combine(Settings.Configuration.TargetWordpress.OutPutDirectory);
         }
 
-        protected override string ConfigureTemplate()
+        protected override string ConfigureTemplateContent()
         {
             return "[content]";
         }

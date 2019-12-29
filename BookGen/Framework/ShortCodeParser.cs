@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template.ShortCodeImplementations;
+using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,29 +17,29 @@ namespace BookGen.Framework
     {
         private readonly List<ITemplateShortCode> _shortCodes;
         private readonly Dictionary<string, Regex> _codeMatches;
+        private readonly Translations _translations;
 
-        public ShortCodeParser(IList<ITemplateShortCode> shortCodes)
+        private const string shortCodeStart = "<!--{";
+        private const string shortCodeEnd = "}-->";
+        private const string shortCodeRegex = "(<!--\\{ASD\\}-->)|(<!--\\{ASD .+\\}-->)";
+        private readonly Regex TranslateRegex = new Regex("(<!--\\{\\? [A-Za-z_0-9]+\\}-->)", RegexOptions.Compiled);
+
+
+        public ShortCodeParser(IList<ITemplateShortCode> shortCodes, Translations translations)
         {
-            _shortCodes = new List<ITemplateShortCode>(shortCodes);
+            _shortCodes = new List<ITemplateShortCode>(shortCodes.Count);
             _codeMatches = new Dictionary<string, Regex>(shortCodes.Count);
-            BuildRegexes();
+            _translations = translations;
+            ConfigureShortCodes(shortCodes);
         }
 
-        public void ConfigureDelegatedShortCodes(IList<DelegateShortCode> delegates)
+        public void ConfigureShortCodes(IList<ITemplateShortCode> codes)
         {
-            _shortCodes.AddRange(delegates);
-            foreach (var shortcode in delegates)
+            _shortCodes.AddRange(codes);
+            foreach (var shortcode in codes)
             {
-                Regex match = new Regex($"(\\[{shortcode.Tag} .+\\])|(\\[{shortcode.Tag}\\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                _codeMatches.Add(shortcode.Tag, match);
-            }
-        }
-
-        private void BuildRegexes()
-        {
-            foreach (var shortcode in _shortCodes)
-            {
-                Regex match = new Regex($"(\\[{shortcode.Tag} .+\\])|(\\[{shortcode.Tag}\\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                string expression = shortCodeRegex.Replace("ASD", shortcode.Tag);
+                Regex match = new Regex(expression, RegexOptions.Compiled | RegexOptions.IgnoreCase);
                 _codeMatches.Add(shortcode.Tag, match);
             }
         }
@@ -59,7 +60,29 @@ namespace BookGen.Framework
                     }
                 }
             }
-            return result.ToString();
+            return AdditionalTranslate(result.ToString());
+        }
+
+        private string AdditionalTranslate(string input)
+        {
+            MatchCollection matches = TranslateRegex.Matches(input);
+
+            if (matches.Count == 0)
+                return input;
+
+            StringBuilder cache = new StringBuilder(input);
+
+            foreach (Match? match in matches)
+            {
+                if (match == null) continue;
+                var key = match.Value.Replace($"{shortCodeStart}? ", "").Replace(shortCodeEnd, "");
+
+                var text = Translate.DoTranslateForKey(_translations, key);
+
+                cache.Replace(match.Value, text);
+            }
+
+            return cache.ToString();
         }
 
         private Dictionary<string, string> GetArguments(string value)
@@ -80,18 +103,26 @@ namespace BookGen.Framework
                     var pair = ShortCodeArgumentTokenizer.Split(token.Replace("=\"", " \"")).ToArray();
                     if (pair.Length == 2)
                     {
-                        results.TryAdd(pair[0], Clean(pair[1]));
+                        results.TryAdd(pair[0], RemoveStartingSpaceAndEndTags(pair[1]));
+                    }
+                    else
+                    {
+                        results.TryAdd(pair[0].Replace(shortCodeEnd, ""), string.Empty);
                     }
                 }
             }
-
             return results;
-
         }
 
-        private string Clean(string v)
+        private string RemoveStartingSpaceAndEndTags(string input)
         {
-            return v.Substring(1, v.Length - 3);
+            //input string will be in following format: "Assets/bootstrap.min.css"}-->
+            if (input.StartsWith("\"") && input.EndsWith("\"}-->"))
+            {
+                //need to retgurn only: Assets/bootstrap.min.css
+                return input.Substring(1, input.Length - (shortCodeEnd.Length + 2));
+            }
+            return input;
         }
     }
 }

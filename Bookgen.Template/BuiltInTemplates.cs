@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
-using System.Collections.Generic;
 
 namespace Bookgen.Template
 {
