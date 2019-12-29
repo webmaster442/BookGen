@@ -7,6 +7,7 @@ using Markdig.Parsers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
+using System;
 using System.Text;
 
 namespace BookGen.Core.Markdown.Pipeline
@@ -51,7 +52,7 @@ namespace BookGen.Core.Markdown.Pipeline
             }
 
             var languageMoniker = fencedCodeBlock.Info.Replace(parser.InfoPrefix, string.Empty);
-            if (string.IsNullOrEmpty(languageMoniker))
+            if (string.IsNullOrEmpty(languageMoniker) || IsUnknown(languageMoniker))
             {
                 _underlyingRenderer.Write(renderer, obj);
                 return;
@@ -62,6 +63,12 @@ namespace BookGen.Core.Markdown.Pipeline
             var rendered = Render(code, languageMoniker);
 
             renderer.Write(rendered);
+        }
+
+        private bool IsUnknown(string languageMoniker)
+        {
+            var moniker = FindLanguage(languageMoniker);
+            return moniker == null;
         }
 
         private string Render(string code, string languageMoniker)
