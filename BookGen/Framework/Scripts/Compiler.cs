@@ -10,6 +10,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
@@ -17,8 +18,20 @@ namespace BookGen.Framework.Scripts
 {
     public class Compiler
     {
-        private readonly List<PortableExecutableReference> _references;
+        private readonly HashSet<PortableExecutableReference> _references;
         private readonly ILog _log;
+        private readonly CSharpCompilationOptions _compilerOptions;
+
+        public Compiler(ILog log)
+        {
+            _references = new HashSet<PortableExecutableReference>();
+            _log = log;
+            AddTypeReference<object>();
+            _compilerOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                .WithPlatform(Platform.AnyCpu)
+                .WithOverflowChecks(true)
+                .WithOptimizationLevel(OptimizationLevel.Release);
+        }
 
         public void AddTypeReference<TType>()
         {
@@ -26,27 +39,26 @@ namespace BookGen.Framework.Scripts
             _references.Add(MetadataReference.CreateFromFile(location));
         }
 
-        public Compiler(ILog log)
+        public IEnumerable<SyntaxTree> ParseToSyntaxTree(IEnumerable<FsPath> files)
         {
-            _references = new List<PortableExecutableReference>();
-            _log = log;
-            AddTypeReference<object>();
-        }
-
-        public Assembly? CompileToAssembly(IEnumerable<FsPath> files)
-        {
-            List<SyntaxTree> syntaxTrees = new List<SyntaxTree>();
-
             foreach (var file in files)
             {
                 string content = file.ReadFile(_log);
-                SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content);
-                syntaxTrees.Add(tree);
+                SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest));
+                yield return tree;
             }
+        }
 
+        public IEnumerable<SyntaxTree> ParseToSyntaxTree(string source)
+        {
+            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest));
+            yield return tree;
+        }
 
+        public Assembly? CompileToAssembly(IEnumerable<SyntaxTree> syntaxTrees)
+        {
             CSharpCompilation compiler = CSharpCompilation.Create("scripts.dll")
-                .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+                .WithOptions(_compilerOptions)
                 .AddReferences(_references.ToArray())
                 .AddSyntaxTrees(syntaxTrees);
 

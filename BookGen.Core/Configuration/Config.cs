@@ -23,6 +23,13 @@ namespace BookGen.Core.Configuration
             set;
         }
 
+        [Doc("Scripts directory. Scipts can extend the functionality of the generator")]
+        public string ScriptsDirectory
+        {
+            get;
+            set;
+        }
+
         [Doc("Publish host name. Must include protocoll (http or https) and must end with a /")]
         public string HostName
         {
@@ -112,6 +119,7 @@ namespace BookGen.Core.Configuration
             Index = string.Empty;
             TOCFile = string.Empty;
             HostName = string.Empty;
+            ScriptsDirectory = string.Empty;
         }
 
         public static Config CreateDefault(int version = 100)

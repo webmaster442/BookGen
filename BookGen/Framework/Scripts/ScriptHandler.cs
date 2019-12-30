@@ -25,16 +25,19 @@ namespace BookGen.Framework.Scripts
             _scriptDir = scripts;
             _log = log;
             _compiler = new Compiler(log);
+            _compiler.AddTypeReference<IScript>();
+            _compiler.AddTypeReference<IReadonlyRuntimeSettings>();
             _scripts = new List<IScript>();
-
         }
 
         public void LoadScripts()
         {
             try
             {
-                var files = _scriptDir.GetAllFiles();
-                Assembly? assembly = _compiler.CompileToAssembly(files);
+                IEnumerable<FsPath> files = _scriptDir.GetAllFiles();
+                IEnumerable<Microsoft.CodeAnalysis.SyntaxTree> trees = _compiler.ParseToSyntaxTree(files);
+
+                Assembly? assembly = _compiler.CompileToAssembly(trees);
                 if (assembly != null)
                 {
                     SearchAndAddTypes(assembly);
