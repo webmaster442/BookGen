@@ -15,14 +15,12 @@ namespace BookGen.Framework.Scripts
 {
     public class ScriptHandler
     {
-        private readonly FsPath _scriptDir;
         private readonly ILog _log;
         private readonly Compiler _compiler;
         private readonly List<IScript> _scripts;
 
-        public ScriptHandler(FsPath scripts, ILog log)
+        public ScriptHandler(ILog log)
         {
-            _scriptDir = scripts;
             _log = log;
             _compiler = new Compiler(log);
             _compiler.AddTypeReference<IScript>();
@@ -30,23 +28,26 @@ namespace BookGen.Framework.Scripts
             _scripts = new List<IScript>();
         }
 
-        public void LoadScripts()
+        public int LoadScripts(FsPath scriptsDir)
         {
             try
             {
-                IEnumerable<FsPath> files = _scriptDir.GetAllFiles();
+                var files = scriptsDir.GetAllFiles();
                 IEnumerable<Microsoft.CodeAnalysis.SyntaxTree> trees = _compiler.ParseToSyntaxTree(files);
 
                 Assembly? assembly = _compiler.CompileToAssembly(trees);
                 if (assembly != null)
                 {
-                    SearchAndAddTypes(assembly);
+                    int count = SearchAndAddTypes(assembly);
+                    return count;
                 }
 
+                return 0;
             }
             catch (Exception ex)
             {
                 _log.Warning(ex);
+                return 0;
             }
 
         }
@@ -73,10 +74,10 @@ namespace BookGen.Framework.Scripts
             }
         }
 
-        private void SearchAndAddTypes(Assembly assembly)
+        private int SearchAndAddTypes(Assembly assembly)
         {
             var iscript = typeof(IScript);
-
+            int loaded = 0;
             foreach (var IScriptType in assembly.GetTypes().Where(x => iscript.IsAssignableFrom(x)))
             {
                 try
@@ -84,6 +85,7 @@ namespace BookGen.Framework.Scripts
                     if (Activator.CreateInstance(IScriptType) is IScript instance)
                     {
                         _scripts.Add(instance);
+                        ++loaded;
                     }
                 }
                 catch (Exception ex)
@@ -91,6 +93,7 @@ namespace BookGen.Framework.Scripts
                     _log.Warning(ex);
                 }
             }
+            return loaded;
         }
     }
 }
