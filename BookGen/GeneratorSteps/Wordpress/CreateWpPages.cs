@@ -15,6 +15,7 @@ using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace BookGen.GeneratorSteps.Wordpress
@@ -117,7 +118,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Item parent = CreateItem(parent_uid, 0, mainorder, fillerPage, chapter, path, settings.CurrentBuildConfig.TemplateOptions);
                 _session.CurrentChannel.Item.Add(parent);
                 int suborder = 0;
-                foreach (var file in settings.TocContents.GetFilesForChapter(chapter))
+                foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Link))
                 {
                     log.Detail("Processing {0}...", file);
                     var input = settings.SourceDirectory.Combine(file);

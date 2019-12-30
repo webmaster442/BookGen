@@ -10,6 +10,7 @@ using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
+using System.Linq;
 using System.Text;
 
 namespace BookGen.GeneratorSteps
@@ -44,7 +45,7 @@ namespace BookGen.GeneratorSteps
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 buffer.AppendFormat("<h1>{0}</h1>\r\n\r\n", chapter);
-                foreach (var file in settings.TocContents.GetFilesForChapter(chapter))
+                foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Link))
                 {
                     log.Detail("Processing file for print output: {0}", file);
                     var input = settings.SourceDirectory.Combine(file);

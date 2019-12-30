@@ -6,7 +6,6 @@
 using BookGen.Core;
 using BookGen.Core.Contracts;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BookGen.Domain
 {
@@ -46,11 +45,6 @@ namespace BookGen.Domain
         public IEnumerable<string> Chapters
         {
             get { return _tocContents.Keys; }
-        }
-
-        public IEnumerable<string> GetFilesForChapter(string chapter)
-        {
-            return _tocContents[chapter].Select(l => l.Link);
         }
 
         public IEnumerable<HtmlLink> GetLinksForChapter(string? chapter = null)
