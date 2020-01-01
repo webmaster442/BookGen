@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,6 +16,10 @@ using System.Runtime.Loader;
 
 namespace BookGen.Framework.Scripts
 {
+    /// <summary>
+    /// Compiles C# script files into Assembly
+    /// Compilation uses Roslyn API & the generated assembly is only in memory
+    /// </summary>
     public class Compiler
     {
         private readonly HashSet<PortableExecutableReference> _references;

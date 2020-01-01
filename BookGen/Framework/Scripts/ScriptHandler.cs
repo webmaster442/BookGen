@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -13,6 +13,9 @@ using System.Reflection;
 
 namespace BookGen.Framework.Scripts
 {
+    /// <summary>
+    /// Handles script loading, compiling, and executing
+    /// </summary>
     public class ScriptHandler
     {
         private readonly ILog _log;
@@ -52,25 +55,23 @@ namespace BookGen.Framework.Scripts
 
         }
 
-        public bool TryExecuteScript(string name, IReadonlyRuntimeSettings settings, out string result)
+        public string ExecuteScript(string name, IReadonlyRuntimeSettings settings, IReadOnlyDictionary<string, string> arguments)
         {
             try
             {
                 IScript? script = _scripts.FirstOrDefault(s => string.Compare(s.InvokeName, name, true) == 0);
                 if (script == null)
                 {
-                    result = string.Empty;
-                    return false;
+                    _log.Warning("Script not found: {0}", name);
+                    return string.Empty;
                 }
 
-                result = script.ScriptMain(settings, _log);
-                return true;
+                return script.ScriptMain(settings, _log, arguments);
             }
             catch (Exception ex)
             {
                 _log.Warning(ex);
-                result = string.Empty;
-                return false;
+                return string.Empty;
             }
         }
 

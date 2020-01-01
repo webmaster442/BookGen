@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain;
-
 namespace BookGen.Contracts
 {
     internal interface IGeneratorContentFillStep : IGeneratorStep

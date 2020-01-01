@@ -7,6 +7,9 @@ using System.Runtime.Serialization;
 
 namespace BookGen.Framework
 {
+    /// <summary>
+    /// A developer exception indicating bad dependecy setup
+    /// </summary>
     [Serializable]
     public class DependencyException : Exception
     {
