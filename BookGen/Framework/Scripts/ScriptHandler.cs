@@ -21,6 +21,7 @@ namespace BookGen.Framework.Scripts
         private readonly ILog _log;
         private readonly Compiler _compiler;
         private readonly List<IScript> _scripts;
+        private readonly HashSet<string> _scriptNames;
 
         public ScriptHandler(ILog log)
         {
@@ -29,6 +30,7 @@ namespace BookGen.Framework.Scripts
             _compiler.AddTypeReference<IScript>();
             _compiler.AddTypeReference<IReadonlyRuntimeSettings>();
             _scripts = new List<IScript>();
+            _scriptNames = new HashSet<string>();
         }
 
         public int LoadScripts(FsPath scriptsDir)
@@ -55,8 +57,22 @@ namespace BookGen.Framework.Scripts
 
         }
 
-        public string ExecuteScript(string name, IReadonlyRuntimeSettings settings, IReadOnlyDictionary<string, string> arguments)
+        public IReadonlyRuntimeSettings? Settings
         {
+            get;
+            set;
+        }
+
+        public bool IsKnownScript(string name)
+        {
+            return _scriptNames.Contains(name);
+        }
+
+        public string ExecuteScript(string name, IReadOnlyDictionary<string, string> arguments)
+        {
+            if (Settings == null)
+                throw new DependencyException(nameof(Settings));
+
             try
             {
                 IScript? script = _scripts.FirstOrDefault(s => string.Compare(s.InvokeName, name, true) == 0);
@@ -66,7 +82,7 @@ namespace BookGen.Framework.Scripts
                     return string.Empty;
                 }
 
-                return script.ScriptMain(settings, _log, arguments);
+                return script.ScriptMain(Settings, _log, arguments);
             }
             catch (Exception ex)
             {
@@ -86,6 +102,7 @@ namespace BookGen.Framework.Scripts
                     if (Activator.CreateInstance(IScriptType) is IScript instance)
                     {
                         _scripts.Add(instance);
+                        _scriptNames.Add(instance.InvokeName);
                         ++loaded;
                     }
                 }

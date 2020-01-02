@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ namespace BookGen.Framework
             };
             TemplateContent = string.Empty;
             _parser = shortCodeParser;
-            _parser.ConfigureShortCodes(CreateInternalsList());
+            _parser.AddShortcodesToLookupIndex(CreateInternalsList());
         }
 
         private IList<ITemplateShortCode> CreateInternalsList()

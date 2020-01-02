@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -184,7 +184,7 @@ namespace BookGen
                 throw new InvalidOperationException("Configuration is null");
 
             _log.Info("Building deploy configuration...");
-            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
+            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
             var runTime = builder.Run();
             _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
@@ -195,7 +195,7 @@ namespace BookGen
                 throw new InvalidOperationException("Configuration is null");
 
             _log.Info("Building print configuration...");
-            PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, _log);
+            PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
             var runTime = builder.Run();
             _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
@@ -206,7 +206,7 @@ namespace BookGen
                 throw new InvalidOperationException("Configuration is null");
 
             _log.Info("Building epub configuration...");
-            EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, _log);
+            EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
             var runTime = builder.Run();
             _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
@@ -217,7 +217,7 @@ namespace BookGen
                 throw new InvalidOperationException("Configuration is null");
 
             _log.Info("Building Wordpress configuration...");
-            WordpressBuilder builder = new WordpressBuilder(WorkDirectory, Configuration, _log);
+            WordpressBuilder builder = new WordpressBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
             var runTime = builder.Run();
             _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
@@ -229,7 +229,7 @@ namespace BookGen
 
             _log.Info("Building test configuration...");
             Configuration.HostName = "http://localhost:8080/";
-            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log);
+            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
             var runTime = builder.Run();
 
             using (var server = new HttpTestServer(Path.Combine(WorkDirectory, Configuration.TargetWeb.OutPutDirectory), 8080, _log))

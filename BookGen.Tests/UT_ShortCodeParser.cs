@@ -1,11 +1,13 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework;
+using BookGen.Framework.Scripts;
+using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -15,17 +17,21 @@ namespace BookGen.Tests
     public class UT_ShortCodeParser
     {
         private ShortCodeParser _sut;
+        private Mock<ILog> _log;
 
         [SetUp]
         public void Setup()
         {
+            _log = new Mock<ILog>();
             var tranlate = new Translations();
+            var handler = new ScriptHandler(_log.Object);
+
             _sut = new ShortCodeParser(new List<ITemplateShortCode>
             {
                 new Stubs.DumyShortCode(),
                 new Stubs.ArgumentedShortCode(),
                 new Stubs.ArgumentNameYielderShortCode()
-            }, tranlate);
+            }, handler, tranlate, _log.Object);
         }
 
         public void TearDown()
@@ -73,7 +79,7 @@ namespace BookGen.Tests
 
         [TestCase("asd")]
         [TestCase("0123")]
-        [TestCase("##")]
+        [TestCase("foo")]
         public void EnshureThat_ShortCodeParser_Parse_HandlesArgumentsWithoutValue(string input)
         {
             var result = _sut.Parse($"<!--{{yield {input}}}-->");

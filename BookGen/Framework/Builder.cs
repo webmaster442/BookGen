@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -8,6 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Domain;
+using BookGen.Framework.Scripts;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace BookGen.Framework
 
         protected readonly ShortCodeLoader _loader;
 
-        protected Builder(string workdir, Config configuration, ILog log, BuildConfig current)
+        protected Builder(string workdir, Config configuration, ILog log, BuildConfig current, ScriptHandler scriptHandler)
         {
             WorkDir = new FsPath(workdir);
             Settings = new RuntimeSettings
@@ -51,7 +52,9 @@ namespace BookGen.Framework
             _loader = new ShortCodeLoader(log, Settings);
             _loader.LoadAll();
 
-            Template = new Template(configuration, new ShortCodeParser(_loader.Imports, configuration.Translations));
+            scriptHandler.Settings = Settings;
+
+            Template = new Template(configuration, new ShortCodeParser(_loader.Imports, scriptHandler, configuration.Translations, log));
 
             _steps = new List<IGeneratorStep>();
             _log = log;

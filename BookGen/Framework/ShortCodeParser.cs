@@ -1,11 +1,12 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template.ShortCodeImplementations;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
+using BookGen.Framework.Scripts;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,52 +16,58 @@ namespace BookGen.Framework
 {
     internal class ShortCodeParser
     {
-        private readonly List<ITemplateShortCode> _shortCodes;
-        private readonly Dictionary<string, Regex> _codeMatches;
+        private readonly Dictionary<string, ITemplateShortCode> _shortCodesIndex;
         private readonly Translations _translations;
+        private readonly ScriptHandler _scriptHandler;
+        private readonly ILog _log;
 
         private const string shortCodeStart = "<!--{";
         private const string shortCodeEnd = "}-->";
-        private const string shortCodeRegex = "(<!--\\{ASD\\}-->)|(<!--\\{ASD .+\\}-->)";
+
         private readonly Regex TranslateRegex = new Regex("(<!--\\{\\? [A-Za-z_0-9]+\\}-->)", RegexOptions.Compiled);
+        private readonly Regex CodeRegex = new Regex(@"(<!--\{.+?\}-->)", RegexOptions.Compiled);
 
-
-        public ShortCodeParser(IList<ITemplateShortCode> shortCodes, Translations translations)
+        public ShortCodeParser(IList<ITemplateShortCode> shortCodes,
+                               ScriptHandler scriptHandler,
+                               Translations translations,
+                               ILog log)
         {
-            _shortCodes = new List<ITemplateShortCode>(shortCodes.Count);
-            _codeMatches = new Dictionary<string, Regex>(shortCodes.Count);
+
+            _shortCodesIndex = new Dictionary<string, ITemplateShortCode>(shortCodes.Count);
+            _scriptHandler = scriptHandler;
             _translations = translations;
-            ConfigureShortCodes(shortCodes);
+            _log = log;
+            AddShortcodesToLookupIndex(shortCodes);
         }
 
-        public void ConfigureShortCodes(IList<ITemplateShortCode> codes)
+        public void AddShortcodesToLookupIndex(IList<ITemplateShortCode> shortCodes)
         {
-            _shortCodes.AddRange(codes);
-            foreach (var shortcode in codes)
+            foreach (var code in shortCodes)
             {
-                string expression = shortCodeRegex.Replace("ASD", shortcode.Tag);
-                Regex match = new Regex(expression, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                _codeMatches.Add(shortcode.Tag, match);
-            }
-        }
-
-        public string Parse(string content)
-        {
-            StringBuilder result = new StringBuilder(content);
-            foreach (var shortcode in _shortCodes)
-            {
-                Regex regex = _codeMatches[shortcode.Tag];
-                MatchCollection matches = regex.Matches(content);
-                foreach (Match? match in matches)
+                if (!_shortCodesIndex.ContainsKey(code.Tag))
                 {
-                    if (match != null)
-                    {
-                        var generated = shortcode.Generate(GetArguments(match.Value));
-                        result.Replace(match.Value, generated);
-                    }
+                    _shortCodesIndex.Add(code.Tag, code);
+                }
+                else
+                {
+                    _log.Warning("Shortcode has allready been registered: {0}. Duplicate entries cause unexpected behaviour.", code.Tag);
                 }
             }
-            return AdditionalTranslate(result.ToString());
+        }
+
+        private string GetTagKey(string value)
+        {
+            string[] parts = value.Split(' ');
+            if (parts.Length == 1)
+            {
+                //value is eg. <!--{foo}-->
+                int len = value.Length - shortCodeStart.Length - shortCodeEnd.Length;
+                return value.Substring(shortCodeStart.Length, len);
+            }
+            else
+            {
+                return parts[0].Substring(shortCodeStart.Length).Trim();
+            }
         }
 
         private string AdditionalTranslate(string input)
@@ -123,6 +130,36 @@ namespace BookGen.Framework
                 return input.Substring(1, input.Length - (shortCodeEnd.Length + 2));
             }
             return input;
+        }
+
+        public string Parse(string content)
+        {
+            StringBuilder result = new StringBuilder(content);
+            MatchCollection matches = CodeRegex.Matches(content);
+            foreach (Match? match in matches)
+            {
+                if (match != null)
+                {
+                    var tagKey = GetTagKey(match.Value);
+                    if (_shortCodesIndex.ContainsKey(tagKey))
+                    {
+                        var shortcode = _shortCodesIndex[tagKey];
+                        var generated = shortcode.Generate(GetArguments(match.Value));
+                        result.Replace(match.Value, generated);
+                    }
+                    else if (_scriptHandler.IsKnownScript(tagKey))
+                    {
+                        var scriptResult = _scriptHandler.ExecuteScript(tagKey, GetArguments(match.Value));
+                        result.Replace(match.Value, scriptResult);
+                    }
+                    else
+                    {
+                        _log.Warning("Unknown shortcode or script: {0}", tagKey);
+                    }
+                }
+            }
+
+            return AdditionalTranslate(result.ToString());
         }
     }
 }
