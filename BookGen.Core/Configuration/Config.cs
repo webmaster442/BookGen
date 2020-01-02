@@ -1,13 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts.Configuration;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BookGen.Core.Configuration
 {
-    public sealed class Config
+    public sealed class Config : IReadOnlyConfig
     {
         [Doc("Table of contents Markdown file")]
         public string TOCFile
@@ -106,6 +108,24 @@ namespace BookGen.Core.Configuration
             get;
             set;
         }
+
+        [JsonIgnore]
+        IReadOnlyMetadata IReadOnlyConfig.Metadata => Metadata;
+
+        [JsonIgnore]
+        IReadOnlyBuildConfig IReadOnlyConfig.TargetEpub => TargetEpub;
+
+        [JsonIgnore]
+        IReadOnlyBuildConfig IReadOnlyConfig.TargetPrint => TargetPrint;
+
+        [JsonIgnore]
+        IReadOnlyBuildConfig IReadOnlyConfig.TargetWeb => TargetWeb;
+
+        [JsonIgnore]
+        IReadOnlyBuildConfig IReadOnlyConfig.TargetWordpress => TargetWordpress;
+
+        [JsonIgnore]
+        IReadOnlyTranslations IReadOnlyConfig.Translations => Translations;
 
         public Config()
         {

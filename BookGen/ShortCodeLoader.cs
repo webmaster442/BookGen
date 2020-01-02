@@ -1,11 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template.ShortCodeImplementations;
-using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
+using BookGen.Core.Contracts.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -24,8 +24,8 @@ namespace BookGen
         [Export(typeof(IReadonlyRuntimeSettings))]
         private readonly IReadonlyRuntimeSettings _settings;
 
-        [Export(typeof(Translations))]
-        private readonly Translations _tranlsations;
+        [Export(typeof(IReadOnlyTranslations))]
+        private readonly IReadOnlyTranslations _tranlsations;
 
         private readonly CompositionContainer _container;
 

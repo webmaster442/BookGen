@@ -1,11 +1,13 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts.Configuration;
+
 namespace BookGen.Core.Configuration
 {
-    public sealed class Asset
+    public sealed class Asset: IReadOnlyAsset
     {
         [Doc("path relative to input directory", true)]
         public string Source

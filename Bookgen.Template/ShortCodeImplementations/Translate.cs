@@ -1,5 +1,10 @@
-﻿using BookGen.Core.Configuration;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2020 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
 using BookGen.Core.Contracts;
+using BookGen.Core.Contracts.Configuration;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -10,11 +15,11 @@ namespace Bookgen.Template.ShortCodeImplementations
     [Export(typeof(ITemplateShortCode))]
     public class Translate : ITemplateShortCode
     {
-        private readonly Translations _translations;
+        private readonly IReadOnlyTranslations _translations;
         public static readonly Regex TranslateCheck = new Regex("^([A-Za-z_0-9]+)$", RegexOptions.Compiled);
 
         [ImportingConstructor]
-        public Translate(Translations translations)
+        public Translate(IReadOnlyTranslations translations)
         {
             _translations = translations;
         }
@@ -31,7 +36,7 @@ namespace Bookgen.Template.ShortCodeImplementations
             return DoTranslateForKey(_translations, argument);
         }
 
-        public static string DoTranslateForKey(Translations translations, string key)
+        public static string DoTranslateForKey(IReadOnlyTranslations translations, string key)
         {
             if (string.IsNullOrEmpty(key))
                 return string.Empty;

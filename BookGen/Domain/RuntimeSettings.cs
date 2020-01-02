@@ -1,11 +1,12 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
+using BookGen.Core.Contracts.Configuration;
 using System.Collections.Generic;
 
 namespace BookGen.Domain
@@ -21,6 +22,14 @@ namespace BookGen.Domain
         public Dictionary<string, string> MetataCache { get; set; }
         public Dictionary<string, string> InlineImgCache { get; set; }
         public BuildConfig CurrentBuildConfig { get; set; }
+
+        IReadOnlyConfig IReadonlyRuntimeSettings.Configuration => Configuration;
+
+        IReadOnlyDictionary<string, string> IReadonlyRuntimeSettings.MetataCache => MetataCache;
+
+        IReadOnlyDictionary<string, string> IReadonlyRuntimeSettings.InlineImgCache => InlineImgCache;
+
+        IReadOnlyBuildConfig IReadonlyRuntimeSettings.CurrentBuildConfig => CurrentBuildConfig;
 
         public RuntimeSettings()
         {

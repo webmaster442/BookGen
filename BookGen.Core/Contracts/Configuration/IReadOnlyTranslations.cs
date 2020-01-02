@@ -1,16 +1,13 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
 
-namespace BookGen.Core.Contracts
+namespace BookGen.Core.Contracts.Configuration
 {
-    public interface IToC
+    public interface IReadOnlyTranslations: IReadOnlyDictionary<string, string>
     {
-        IEnumerable<string> Chapters { get; }
-        IEnumerable<HtmlLink> GetLinksForChapter(string? chapter = null);
-        IEnumerable<string> Files { get; }
     }
 }

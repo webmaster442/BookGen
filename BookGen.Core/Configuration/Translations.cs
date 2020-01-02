@@ -1,8 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -10,7 +11,7 @@ using System.Runtime.Serialization;
 namespace BookGen.Core.Configuration
 {
     [Serializable]
-    public sealed class Translations : Dictionary<string, string>
+    public sealed class Translations : Dictionary<string, string>, IReadOnlyTranslations
     {
         public const string SearchPageTitle = "Search_PageTitle";
         public const string SearchTextBoxText = "Search_TextBoxText";

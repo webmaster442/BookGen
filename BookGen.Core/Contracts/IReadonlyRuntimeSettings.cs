@@ -1,9 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Configuration;
+using BookGen.Core.Contracts.Configuration;
 using System.Collections.Generic;
 
 namespace BookGen.Core.Contracts
@@ -15,9 +15,9 @@ namespace BookGen.Core.Contracts
         FsPath ImageDirectory { get; }
         FsPath TocPath { get; }
         IToC TocContents { get; }
-        Config Configuration { get; }
-        Dictionary<string, string> MetataCache { get; }
-        Dictionary<string, string> InlineImgCache { get; }
-        BuildConfig CurrentBuildConfig { get; }
+        IReadOnlyConfig Configuration { get; }
+        IReadOnlyDictionary<string, string> MetataCache { get; }
+        IReadOnlyDictionary<string, string> InlineImgCache { get; }
+        IReadOnlyBuildConfig CurrentBuildConfig { get; }
     }
 }

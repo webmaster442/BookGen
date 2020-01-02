@@ -1,13 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts.Configuration;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BookGen.Core.Configuration
 {
-    public sealed class BuildConfig
+    public sealed class BuildConfig: IReadOnlyBuildConfig
     {
         [Doc("Output directory, relative to work directory")]
         public string OutPutDirectory { get; set; }
@@ -23,6 +25,15 @@ namespace BookGen.Core.Configuration
 
         [Doc("Additional template options", true, TypeAlias = typeof(Dictionary<string, string>))]
         public TemplateOptions TemplateOptions { get; set; }
+
+        [JsonIgnore]
+        IReadOnlyList<IReadOnlyAsset> IReadOnlyBuildConfig.TemplateAssets => TemplateAssets;
+
+        [JsonIgnore]
+        IReadOnylStyleClasses IReadOnlyBuildConfig.StyleClasses => StyleClasses;
+
+        [JsonIgnore]
+        IReadOnlyTemplateOptions IReadOnlyBuildConfig.TemplateOptions => TemplateOptions;
 
         public BuildConfig()
         {
