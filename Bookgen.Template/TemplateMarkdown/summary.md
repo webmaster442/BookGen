@@ -1,3 +1,3 @@
 ﻿# Chapter 1
 
-[Index](index.md)
+* [Index](index.md)
