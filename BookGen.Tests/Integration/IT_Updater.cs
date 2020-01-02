@@ -15,10 +15,10 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BookGen.Tests
+namespace BookGen.Tests.Integration
 {
     [TestFixture, SingleThreaded]
-    public class UT_Updater
+    public class IT_Updater
     {
         private Updater _sut;
         private Mock<ILog> _logMock;
