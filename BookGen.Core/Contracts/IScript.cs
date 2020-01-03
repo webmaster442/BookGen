@@ -1,12 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Contracts;
 using System.Collections.Generic;
 
-namespace BookGen.Contracts
+namespace BookGen.Core.Contracts
 {
     /// <summary>
     /// Interface for scripts.
