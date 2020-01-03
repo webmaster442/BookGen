@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Linq;
 
 namespace BookGen.Framework.Scripts
 {
@@ -42,10 +43,24 @@ namespace BookGen.Framework.Scripts
 
         private void ReferenceNetStandard()
         {
-            var netstd = MetadataReference.CreateFromFile(Assembly.Load("netstandard, Version=2.1.0.0").Location);
-            _references.Add(netstd);
-            var runtime = MetadataReference.CreateFromFile(Assembly.Load("System.Runtime, Version=4.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a").Location);
-            _references.Add(runtime);
+            if (!(AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") is string trusted))
+                throw new DependencyException("Can't locate Trusted platform assemblies");
+
+            var trustedAssembliesPaths = trusted.Split(Path.PathSeparator);
+
+            var neededAssemblies = new[]
+            {
+                "System.Runtime",
+                "netstandard",
+            };
+            var references = trustedAssembliesPaths
+                .Where(p => neededAssemblies.Contains(Path.GetFileNameWithoutExtension(p)))
+                .Select(p => MetadataReference.CreateFromFile(p));
+
+            foreach(var reference in references)
+            {
+                _references.Add(reference);
+            }
         }
 
         public void AddTypeReference<TType>()
