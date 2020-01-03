@@ -57,12 +57,6 @@ namespace BookGen.Framework.Scripts
 
         }
 
-        public IReadonlyRuntimeSettings? Settings
-        {
-            get;
-            set;
-        }
-
         public bool IsKnownScript(string name)
         {
             return _scriptNames.Contains(name);
@@ -70,9 +64,6 @@ namespace BookGen.Framework.Scripts
 
         public string ExecuteScript(string name, IReadOnlyDictionary<string, string> arguments)
         {
-            if (Settings == null)
-                throw new DependencyException(nameof(Settings));
-
             try
             {
                 IScript? script = _scripts.FirstOrDefault(s => string.Compare(s.InvokeName, name, true) == 0);
@@ -82,7 +73,7 @@ namespace BookGen.Framework.Scripts
                     return string.Empty;
                 }
 
-                return script.ScriptMain(Settings, _log, arguments);
+                return script.ScriptMain(_log, arguments);
             }
             catch (Exception ex)
             {
