@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Environment\TestScript.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
@@ -15,6 +19,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookGen\BookGen.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Environment\TestScript.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

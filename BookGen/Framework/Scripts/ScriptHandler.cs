@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Contracts;
 using System;
@@ -27,6 +26,7 @@ namespace BookGen.Framework.Scripts
         {
             _log = log;
             _compiler = new Compiler(log);
+            _compiler.AddTypeReference<IReadOnlyDictionary<string,string>>();
             _compiler.AddTypeReference<IScript>();
             _compiler.AddTypeReference<IReadonlyRuntimeSettings>();
             _scripts = new List<IScript>();
@@ -37,7 +37,7 @@ namespace BookGen.Framework.Scripts
         {
             try
             {
-                var files = scriptsDir.GetAllFiles();
+                var files = scriptsDir.GetAllFiles("*.cs");
                 IEnumerable<Microsoft.CodeAnalysis.SyntaxTree> trees = _compiler.ParseToSyntaxTree(files);
 
                 Assembly? assembly = _compiler.CompileToAssembly(trees);

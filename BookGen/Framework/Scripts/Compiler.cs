@@ -8,6 +8,7 @@ using BookGen.Core.Contracts;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,11 +31,21 @@ namespace BookGen.Framework.Scripts
         {
             _references = new HashSet<PortableExecutableReference>();
             _log = log;
+            ReferenceNetStandard();
             AddTypeReference<object>();
             _compilerOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
                 .WithPlatform(Platform.AnyCpu)
+                .WithNullableContextOptions(NullableContextOptions.Enable)
                 .WithOverflowChecks(true)
                 .WithOptimizationLevel(OptimizationLevel.Release);
+        }
+
+        private void ReferenceNetStandard()
+        {
+            var netstd = MetadataReference.CreateFromFile(Assembly.Load("netstandard, Version=2.1.0.0").Location);
+            _references.Add(netstd);
+            var runtime = MetadataReference.CreateFromFile(Assembly.Load("System.Runtime, Version=4.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a").Location);
+            _references.Add(runtime);
         }
 
         public void AddTypeReference<TType>()
