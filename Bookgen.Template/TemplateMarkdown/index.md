@@ -2,4 +2,4 @@
 
 This will be the cover of your book.
 
-Build date: [BuildTime]
+Build date: <!--{BuildTime}-->
