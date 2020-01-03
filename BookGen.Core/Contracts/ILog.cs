@@ -12,6 +12,12 @@ namespace BookGen.Core.Contracts
     /// </summary>
     public interface ILog
     {
+        /// <summary>
+        /// Log a message
+        /// </summary>
+        /// <param name="logLevel">Log level</param>
+        /// <param name="format">A fomart string that can be handled by String.Format</param>
+        /// <param name="args">Arguments for formatting</param>
         void Log(LogLevel logLevel, string format, params object[] args);
         void Critical(string format, params object[] args) 
             => Log(LogLevel.Critical, format, args);

@@ -36,7 +36,6 @@ namespace BookGen.Framework
             Settings = new RuntimeSettings
             {
                 SourceDirectory = WorkDir,
-                TocPath = WorkDir.Combine(configuration.TOCFile),
                 Configuration = configuration,
                 TocContents = MarkdownUtils.ParseToc(WorkDir.Combine(configuration.TOCFile).ReadFile(log)),
                 MetataCache = new Dictionary<string, string>(100),

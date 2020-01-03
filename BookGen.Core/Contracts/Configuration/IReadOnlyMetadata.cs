@@ -5,10 +5,22 @@
 
 namespace BookGen.Core.Contracts.Configuration
 {
+    /// <summary>
+    /// Metadata informations
+    /// </summary>
     public interface IReadOnlyMetadata
     {
+        /// <summary>
+        /// Atuhtor name
+        /// </summary>
         string Author { get; }
+        /// <summary>
+        /// Cover Image
+        /// </summary>
         string CoverImage { get; }
+        /// <summary>
+        /// Book title
+        /// </summary>
         string Title { get; }
     }
 }
