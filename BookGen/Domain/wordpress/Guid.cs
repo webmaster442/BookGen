@@ -5,7 +5,7 @@
 
 using System.Xml.Serialization;
 
-namespace BookGen.Domain.wordpress
+namespace BookGen.Domain.Wordpress
 {
     [XmlRoot(ElementName = "guid")]
     public class Guid

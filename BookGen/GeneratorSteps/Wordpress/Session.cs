@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain.wordpress;
+using BookGen.Domain.Wordpress;
 
 namespace BookGen.GeneratorSteps.Wordpress
 {

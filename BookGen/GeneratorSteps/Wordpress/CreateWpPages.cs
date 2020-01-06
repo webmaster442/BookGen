@@ -9,7 +9,7 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
-using BookGen.Domain.wordpress;
+using BookGen.Domain.Wordpress;
 using BookGen.Framework;
 using BookGen.Utilities;
 using System;
@@ -58,7 +58,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Link = path,
                 Creator = TemplateOptions[TemplateOptions.WordpressAuthorLogin],
                 Description = "",
-                Guid = new Domain.wordpress.Guid
+                Guid = new Domain.Wordpress.Guid
                 {
                     IsPermaLink = false,
                     Text = $"{TemplateOptions[TemplateOptions.WordpressTargetHost]}?page_id={uid}",

@@ -6,7 +6,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace BookGen.Domain.wordpress
+namespace BookGen.Domain.Wordpress
 {
     [XmlRoot(ElementName = "channel")]
     public class Channel

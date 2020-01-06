@@ -7,7 +7,7 @@ using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core.Configuration;
 using BookGen.Domain;
-using BookGen.Domain.wordpress;
+using BookGen.Domain.Wordpress;
 using BookGen.Utilities;
 using System;
 
