@@ -16,12 +16,14 @@ namespace BookGen.Framework.Scripts
     /// <summary>
     /// Handles script loading, compiling, and executing
     /// </summary>
-    public class ScriptHandler
+    internal class ScriptHandler
     {
         private readonly ILog _log;
+        private IScriptHost? _host;
         private readonly Compiler _compiler;
         private readonly List<IScript> _scripts;
         private readonly HashSet<string> _scriptNames;
+
 
         public ScriptHandler(ILog log)
         {
@@ -29,7 +31,7 @@ namespace BookGen.Framework.Scripts
             _compiler = new Compiler(log);
             _compiler.AddTypeReference<IReadOnlyDictionary<string,string>>();
             _compiler.AddTypeReference<IScript>();
-            _compiler.AddTypeReference<IReadonlyRuntimeSettings>();
+            _compiler.AddTypeReference<IScriptHost>();
             _scripts = new List<IScript>();
             _scriptNames = new HashSet<string>();
         }
@@ -63,8 +65,16 @@ namespace BookGen.Framework.Scripts
             return _scriptNames.Contains(name);
         }
 
+        public void SetHostFromRuntimeSettings(IReadonlyRuntimeSettings runtimeSettings)
+        {
+            _host = new ScriptHost(runtimeSettings, _log);
+        }
+
         public string ExecuteScript(string name, IReadOnlyDictionary<string, string> arguments)
         {
+            if (_host == null)
+                throw new DependencyException(nameof(_host));
+
             try
             {
                 IScript? script = _scripts.FirstOrDefault(s => string.Compare(s.InvokeName, name, true) == 0);
@@ -74,7 +84,7 @@ namespace BookGen.Framework.Scripts
                     return string.Empty;
                 }
 
-                return script.ScriptMain(_log, arguments);
+                return script.ScriptMain(_host, arguments);
             }
             catch (Exception ex)
             {

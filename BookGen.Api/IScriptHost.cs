@@ -21,5 +21,9 @@ namespace BookGen.Api
         /// Currently active build configuration
         /// </summary>
         IReadOnlyBuildConfig CurrentBuildConfig { get; }
+        /// <summary>
+        /// Script host log
+        /// </summary>
+        ILog Log { get; }
     }
 }

@@ -21,9 +21,9 @@ namespace BookGen.Api
         /// <summary>
         /// The main entrypoint of the script
         /// </summary>
-        /// <param name="log">Logger</param>
+        /// <param name="host">Current script host</param>
         /// <param name="arguments">Arguments</param>
         /// <returns>Markdown string</returns>
-        string ScriptMain(ILog log, IReadOnlyDictionary<string, string> arguments);
+        string ScriptMain(IScriptHost host, IReadOnlyDictionary<string, string> arguments);
     }
 }

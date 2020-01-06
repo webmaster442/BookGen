@@ -21,7 +21,7 @@ namespace BookGen.Framework.Scripts
     /// Compiles C# script files into Assembly
     /// Compilation uses Roslyn API & the generated assembly is only in memory
     /// </summary>
-    public class Compiler
+    internal class Compiler
     {
         private readonly HashSet<PortableExecutableReference> _references;
         private readonly ILog _log;
