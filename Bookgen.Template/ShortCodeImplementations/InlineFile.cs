@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
-using BookGen.Core.Contracts;
+using BookGen.Api;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using BookGen.Core.Contracts;
 
 namespace Bookgen.Template.ShortCodeImplementations
 {

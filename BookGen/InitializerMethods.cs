@@ -3,9 +3,9 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template;
+using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
 using System.Collections.Generic;
 
 namespace BookGen

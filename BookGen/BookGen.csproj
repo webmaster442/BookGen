@@ -51,6 +51,7 @@
     <EmbeddedResource Include="Resources\Splash.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
     <ProjectReference Include="..\Bookgen.Template\Bookgen.Template.csproj" />
   </ItemGroup>

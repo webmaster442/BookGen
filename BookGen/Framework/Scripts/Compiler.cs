@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Core;
-using BookGen.Core.Contracts;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
@@ -14,7 +14,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
-using System.Linq;
 
 namespace BookGen.Framework.Scripts
 {

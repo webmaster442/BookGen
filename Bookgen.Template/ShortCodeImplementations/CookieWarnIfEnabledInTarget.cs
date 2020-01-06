@@ -1,4 +1,5 @@
-﻿///-----------------------------------------------------------------------------
+﻿using BookGen.Api;
+///-----------------------------------------------------------------------------
 // (c) 2019 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
@@ -7,7 +8,6 @@ using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Text;
 
 namespace Bookgen.Template.ShortCodeImplementations
 {

@@ -5,7 +5,7 @@
 
 using System;
 
-namespace BookGen.Core.Contracts
+namespace BookGen.Api
 {
     /// <summary>
     /// Interface for logging
@@ -19,7 +19,7 @@ namespace BookGen.Core.Contracts
         /// <param name="format">A fomart string that can be handled by String.Format</param>
         /// <param name="args">Arguments for formatting</param>
         void Log(LogLevel logLevel, string format, params object[] args);
-        void Critical(string format, params object[] args) 
+        void Critical(string format, params object[] args)
             => Log(LogLevel.Critical, format, args);
         void Critical(Exception ex)
             => Log(LogLevel.Critical, "{0}\r\n{1}", ex.Message, ex.StackTrace);

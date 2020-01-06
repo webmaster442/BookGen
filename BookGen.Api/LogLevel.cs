@@ -1,9 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Core.Contracts
+namespace BookGen.Api
 {
     /// <summary>
     /// Logging level
@@ -23,7 +23,7 @@ namespace BookGen.Core.Contracts
         /// </summary>
         Info = 2,
         /// <summary>
-        /// Detailed info messages
+        /// Detailed info messages. Only visible when verbose 
         /// </summary>
         Detail = 3
     }

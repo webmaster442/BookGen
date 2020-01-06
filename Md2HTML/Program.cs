@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template;
+using BookGen.Api;
 using BookGen.Core;
-using BookGen.Core.Contracts;
 using BookGen.Core.Markdown;
 using System;
 

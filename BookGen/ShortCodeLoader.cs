@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template.ShortCodeImplementations;
+using BookGen.Api;
 using BookGen.Core.Contracts;
 using BookGen.Core.Contracts.Configuration;
 using System;

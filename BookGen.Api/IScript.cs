@@ -5,7 +5,7 @@
 
 using System.Collections.Generic;
 
-namespace BookGen.Core.Contracts
+namespace BookGen.Api
 {
     /// <summary>
     /// Interface for scripts.

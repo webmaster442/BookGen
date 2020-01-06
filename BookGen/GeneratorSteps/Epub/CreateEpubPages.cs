@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Template;
+using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
-using BookGen.Core.Contracts;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;

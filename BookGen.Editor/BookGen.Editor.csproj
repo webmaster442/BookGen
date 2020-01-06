@@ -39,6 +39,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
