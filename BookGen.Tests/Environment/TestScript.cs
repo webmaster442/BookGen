@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Contracts;
+using BookGen.Api;
 using System.Collections.Generic;
 
 namespace BookGen.Tests.Environment
@@ -12,9 +12,9 @@ namespace BookGen.Tests.Environment
     {
         public string InvokeName => nameof(TestScript);
 
-        public string ScriptMain(ILog log, IReadOnlyDictionary<string, string> arguments)
+        public string ScriptMain(IScriptHost host, IReadOnlyDictionary<string, string> arguments)
         {
-            log.Detail("Executing test script");
+            host.Log.Detail("Executing test script");
             return "Hello, from test script!";
         }
     }

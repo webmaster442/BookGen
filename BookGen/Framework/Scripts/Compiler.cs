@@ -99,6 +99,12 @@ namespace BookGen.Framework.Scripts
                     compiled.Seek(0, SeekOrigin.Begin);
                     return AssemblyLoadContext.Default.LoadFromStream(compiled);
                 }
+                else
+                {
+                    _log.Warning("Error Compiling scripts. Use verbose log to see details");
+                    var details = string.Join('\n', emitResult.Diagnostics);
+                    _log.Detail(details);
+                }
             }
 
             return null;

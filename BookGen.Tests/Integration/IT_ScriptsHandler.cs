@@ -5,6 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Core;
+using BookGen.Core.Contracts;
 using BookGen.Framework.Scripts;
 using BookGen.Tests.Environment;
 using Moq;
@@ -18,13 +19,18 @@ namespace BookGen.Tests.Integration
     {
         private ScriptHandler _sut;
         private Mock<ILog> _log;
+        private Mock<IReadonlyRuntimeSettings> _settings;
         private int _loaded;
 
         [OneTimeSetUp]
         public void Setup()
         {
             _log = new Mock<ILog>();
+            _settings = new Mock<IReadonlyRuntimeSettings>();
+            _settings.Setup(x => x.SourceDirectory).Returns(FsPath.Empty);
+
             _sut = new ScriptHandler(_log.Object);
+            _sut.SetHostFromRuntimeSettings(_settings.Object);
             _loaded = _sut.LoadScripts(new FsPath(TestEnvironment.GetTestFolder()));
         }
 
@@ -34,6 +40,7 @@ namespace BookGen.Tests.Integration
             _loaded = 0;
             _sut = null;
             _log = null;
+            _settings = null;
         }
 
         [Test]

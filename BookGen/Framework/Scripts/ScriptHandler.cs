@@ -49,6 +49,7 @@ namespace BookGen.Framework.Scripts
                     int count = SearchAndAddTypes(assembly);
                     return count;
                 }
+                else
 
                 return 0;
             }
