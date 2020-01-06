@@ -8,7 +8,7 @@ using BookGen.Core.Contracts;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
-namespace Bookgen.Template.ShortCodeImplementations
+namespace BookGen.Template.ShortCodeImplementations
 {
     [Export(typeof(ITemplateShortCode))]
     public class JSPageToc : ITemplateShortCode

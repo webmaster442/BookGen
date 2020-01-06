@@ -7,7 +7,7 @@ using BookGen.Core.Contracts;
 using System;
 using System.Collections.Generic;
 
-namespace Bookgen.Template.ShortCodeImplementations
+namespace BookGen.Template.ShortCodeImplementations
 {
     public class DelegateShortCode : ITemplateShortCode
     {

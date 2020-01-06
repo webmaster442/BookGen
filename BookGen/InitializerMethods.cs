@@ -2,11 +2,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template;
+using BookGen.Template;
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using System.Collections.Generic;
+using BookGen.Domain.CsProj;
+using System.IO;
 
 namespace BookGen
 {
@@ -63,6 +65,32 @@ namespace BookGen
             log.Info("Creating summary.md...");
             FsPath summary = workdir.Combine("summary.md");
             summary.WriteFile(log, BuiltInTemplates.SummaryMd);
+        }
+
+        public static void CreateScriptProject(ILog log, FsPath workdir, string ApiReferencePath)
+        {
+            log.Info("Creating scripts project...");
+            Project p = new Project
+            {
+                Sdk = "Microsoft.NET.Sdk",
+                PropertyGroup = new PropertyGroup
+                {
+                    Nullable = "enable",
+                    TargetFramework = "netstandard2.1"
+                },
+                ItemGroup = new ItemGroup
+                {
+                    Reference = new Reference
+                    {
+                        Include = "BookGen.Api",
+                        HintPath = Path.Combine(ApiReferencePath, "BookGen.Api.dll")
+                    }
+                }
+            };
+            FsPath csProj = workdir.Combine("Scripts\\ScriptProject.csproj");
+            csProj.SerializeXml(p, log);
+
+
         }
 
         public static void ExtractTemplates(ILog log, FsPath workdir)

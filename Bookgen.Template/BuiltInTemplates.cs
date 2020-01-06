@@ -5,7 +5,7 @@
 
 using BookGen.Core;
 
-namespace Bookgen.Template
+namespace BookGen.Template
 {
     public sealed class BuiltInTemplates
     {

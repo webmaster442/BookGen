@@ -19,7 +19,7 @@ namespace BookGen.GeneratorSteps
     internal class CreateSubpageIndexes : ITemplatedStep
     {
         public IContent? Content { get; set; }
-        public Template? Template { get; set; }
+        public TemplateProcessor? Template { get; set; }
         public List<HtmlLink>? Chapters { get; private set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)

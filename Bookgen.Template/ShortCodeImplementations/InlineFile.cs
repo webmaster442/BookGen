@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using BookGen.Core.Contracts;
 
-namespace Bookgen.Template.ShortCodeImplementations
+namespace BookGen.Template.ShortCodeImplementations
 {
     [Export(typeof(ITemplateShortCode))]
     public class InlineFile : ITemplateShortCode

@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template.ShortCodeImplementations;
+using BookGen.Template.ShortCodeImplementations;
 using BookGen.Contracts;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace BookGen.Framework
 {
-    internal class Template : IContent
+    internal class TemplateProcessor : IContent
     {
         private readonly Dictionary<string, string> _table;
         private readonly ShortCodeParser _parser;
@@ -20,7 +20,7 @@ namespace BookGen.Framework
 
         public string TemplateContent { get; set; }
 
-        public Template(Config cfg, ShortCodeParser shortCodeParser)
+        public TemplateProcessor(Config cfg, ShortCodeParser shortCodeParser)
         {
             _configuration = cfg;
             _table = new Dictionary<string, string>

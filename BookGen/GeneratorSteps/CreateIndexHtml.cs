@@ -15,7 +15,7 @@ namespace BookGen.GeneratorSteps
     internal class CreateIndexHtml : ITemplatedStep
     {
         public IContent? Content { get; set; }
-        public Template? Template { get; set; }
+        public TemplateProcessor? Template { get; set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {

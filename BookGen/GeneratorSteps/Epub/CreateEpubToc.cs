@@ -16,7 +16,7 @@ namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubToc : ITemplatedStep
     {
-        public Template? Template { get; set; }
+        public TemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
         private void GenerateTocNcx(RuntimeSettings settings, ILog log)

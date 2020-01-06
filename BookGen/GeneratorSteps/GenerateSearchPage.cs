@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template;
+using BookGen.Template;
 using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
@@ -20,7 +20,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class GenerateSearchPage : ITemplatedStep
     {
-        public Template? Template { get; set; }
+        public TemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
         private readonly StringBuilder _buffer;

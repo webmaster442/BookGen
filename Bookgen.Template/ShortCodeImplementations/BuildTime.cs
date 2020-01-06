@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
-namespace Bookgen.Template.ShortCodeImplementations
+namespace BookGen.Template.ShortCodeImplementations
 {
     [Export(typeof(ITemplateShortCode))]
     public class BuildTime : ITemplateShortCode

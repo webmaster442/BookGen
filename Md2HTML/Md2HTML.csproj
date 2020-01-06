@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
-    <ProjectReference Include="..\Bookgen.Template\Bookgen.Template.csproj" />
+    <ProjectReference Include="..\Bookgen.Template\BookGen.Template.csproj" />
   </ItemGroup>
 
 </Project>

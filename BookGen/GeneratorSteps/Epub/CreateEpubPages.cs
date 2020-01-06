@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template;
+using BookGen.Template;
 using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
@@ -23,7 +23,7 @@ namespace BookGen.GeneratorSteps.Epub
             _session = session;
         }
 
-        public Template? Template { get; set; }
+        public TemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)

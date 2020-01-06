@@ -24,7 +24,7 @@ namespace BookGen.Framework
 
         protected RuntimeSettings Settings { get; }
 
-        protected Template Template { get; }
+        protected TemplateProcessor Template { get; }
 
         protected FsPath WorkDir { get; }
 
@@ -53,7 +53,7 @@ namespace BookGen.Framework
 
             scriptHandler.SetHostFromRuntimeSettings(Settings);
 
-            Template = new Template(configuration, new ShortCodeParser(_loader.Imports, scriptHandler, configuration.Translations, log));
+            Template = new TemplateProcessor(configuration, new ShortCodeParser(_loader.Imports, scriptHandler, configuration.Translations, log));
 
             _steps = new List<IGeneratorStep>();
             _log = log;

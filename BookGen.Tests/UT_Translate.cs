@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template.ShortCodeImplementations;
+using BookGen.Template.ShortCodeImplementations;
 using BookGen.Core.Configuration;
 using NUnit.Framework;
 using System.Collections.Generic;
