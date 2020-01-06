@@ -5,7 +5,7 @@
 
 using System.Collections.Generic;
 
-namespace BookGen.Core.Contracts.Configuration
+namespace BookGen.Api.Configuration
 {
     /// <summary>
     /// Current build configuration

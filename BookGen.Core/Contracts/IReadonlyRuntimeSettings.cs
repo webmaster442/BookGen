@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Contracts.Configuration;
+using BookGen.Api.Configuration;
 using System.Collections.Generic;
 
 namespace BookGen.Core.Contracts

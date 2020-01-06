@@ -3,10 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api.Configuration;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
-using BookGen.Core.Contracts.Configuration;
 using System.Collections.Generic;
 
 namespace BookGen.Domain

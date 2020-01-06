@@ -5,8 +5,8 @@
 
 using Bookgen.Template.ShortCodeImplementations;
 using BookGen.Api;
+using BookGen.Api.Configuration;
 using BookGen.Core.Contracts;
-using BookGen.Core.Contracts.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;

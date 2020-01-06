@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Contracts.Configuration;
+using BookGen.Api.Configuration;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;

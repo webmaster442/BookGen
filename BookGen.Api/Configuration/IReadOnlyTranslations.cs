@@ -5,7 +5,7 @@
 
 using System.Collections.Generic;
 
-namespace BookGen.Core.Contracts.Configuration
+namespace BookGen.Api.Configuration
 {
     /// <summary>
     /// a Dictionary of key - value paris that can be used for translating
