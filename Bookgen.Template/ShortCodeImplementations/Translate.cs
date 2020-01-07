@@ -24,7 +24,7 @@ namespace BookGen.Template.ShortCodeImplementations
             _translations = translations;
         }
 
-        public string Tag => "\\?";
+        public string Tag => "?";
 
         public string Generate(IReadOnlyDictionary<string, string> arguments)
         {

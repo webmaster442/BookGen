@@ -30,6 +30,6 @@ namespace BookGen.Api
         void Info(string format, params object[] args)
             => Log(LogLevel.Info, format, args);
         void Detail(string format, params object[] args)
-            => Log(LogLevel.Info, format, args);
+            => Log(LogLevel.Detail, format, args);
     }
 }
