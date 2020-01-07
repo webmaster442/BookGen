@@ -21,7 +21,8 @@ namespace BookGen
         public static void DoCreateConfig(ILog log,
                                           FsPath ConfigFile,
                                           bool createdmdFiles,
-                                          bool extractedTemplate)
+                                          bool extractedTemplate,
+                                          bool createdScript)
         {
             Config configuration = Config.CreateDefault(Program.CurrentState.ConfigVersion);
 
@@ -29,6 +30,11 @@ namespace BookGen
             {
                 configuration.Index = "index.md";
                 configuration.TOCFile = "summary.md";
+            }
+
+            if (createdScript)
+            {
+                configuration.ScriptsDirectory = "Scripts";
             }
 
             if (extractedTemplate)
@@ -90,6 +96,8 @@ namespace BookGen
             FsPath csProj = workdir.Combine("Scripts\\ScriptProject.csproj");
             csProj.SerializeXml(p, log);
 
+            FsPath script = workdir.Combine("Scripts\\Script1.cs");
+            script.WriteFile(log, BuiltInTemplates.ScriptTemplate);
 
         }
 

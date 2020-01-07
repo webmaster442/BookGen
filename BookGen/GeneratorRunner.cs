@@ -45,7 +45,7 @@ namespace BookGen
 
         internal void DoInteractiveInitialize()
         {
-            var menu = new InteractiveInitializer(_log, new FsPath(WorkDirectory));
+            var menu = new InteractiveInitializer(_log, new FsPath(WorkDirectory), Program.CurrentState);
             menu.Run();
         }
 
@@ -67,7 +67,8 @@ namespace BookGen
         public bool Initialize()
         {
             _log.Info("---------------------------------------------------------");
-            _log.Info("BookGen V{0} Starting...", Program.CurrentState.ProgramVersion);
+            _log.Info("BookGen Build date: {0} Starting...", Program.CurrentState.BuildDate);
+            _log.Info("Config API version: {0}", Program.CurrentState.ProgramVersion);
             _log.Info("Working directory: {0}", WorkDirectory);
             _log.Info("---------------------------------------------------------");
 
