@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Api.Configuration;
 using BookGen.Core;
 using BookGen.Core.Configuration;
@@ -16,7 +17,7 @@ namespace BookGen.Domain
         public FsPath OutputDirectory { get; set; }
         public FsPath SourceDirectory { get; set; }
         public FsPath ImageDirectory { get; set; }
-        public IToC TocContents { get; set; }
+        public ITableOfContents TocContents { get; set; }
         public Config Configuration { get; set; }
         public Dictionary<string, string> MetataCache { get; set; }
         public Dictionary<string, string> InlineImgCache { get; set; }

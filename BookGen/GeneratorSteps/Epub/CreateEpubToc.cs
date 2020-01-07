@@ -81,7 +81,7 @@ namespace BookGen.GeneratorSteps.Epub
                     Id = $"navpoint-{filecounter}",
                     NavLabel = new NavLabel
                     {
-                        Text = link.DisplayString
+                        Text = link.Text
                     },
                     Content = new Content
                     {
@@ -109,7 +109,7 @@ namespace BookGen.GeneratorSteps.Epub
                 buffer.Append("<ol>\n");
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
-                    buffer.AppendFormat("<li><a href=\"page_{0:D3}.xhtml\">{1}</a></li>\n", index, link.DisplayString);
+                    buffer.AppendFormat("<li><a href=\"page_{0:D3}.xhtml\">{1}</a></li>\n", index, link.Text);
                     ++index;
                 }
                 buffer.Append("</ol>\n");

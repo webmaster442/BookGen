@@ -83,13 +83,13 @@ namespace BookGen.GeneratorSteps.Wordpress
             return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
         }
 
-        private string CreateFillerPage(IEnumerable<HtmlLink> links)
+        private string CreateFillerPage(IEnumerable<Link> links)
         {
             var builder = new StringBuilder();
             builder.Append("<ul>\n");
             foreach(var link in links)
             {
-                builder.AppendFormat("<li>{0}</li>\n", link.DisplayString);
+                builder.AppendFormat("<li>{0}</li>\n", link.Text);
             }
             builder.Append("</ul>\n");
             return builder.ToString();
@@ -118,7 +118,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Item parent = CreateItem(parent_uid, 0, mainorder, fillerPage, chapter, path, settings.CurrentBuildConfig.TemplateOptions);
                 _session.CurrentChannel.Item.Add(parent);
                 int suborder = 0;
-                foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Link))
+                foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing {0}...", file);
                     var input = settings.SourceDirectory.Combine(file);

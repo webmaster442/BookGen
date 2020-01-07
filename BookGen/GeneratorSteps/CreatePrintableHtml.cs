@@ -45,7 +45,7 @@ namespace BookGen.GeneratorSteps
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 buffer.AppendFormat("<h1>{0}</h1>\r\n\r\n", chapter);
-                foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Link))
+                foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing file for print output: {0}", file);
                     var input = settings.SourceDirectory.Combine(file);

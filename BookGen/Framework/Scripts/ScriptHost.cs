@@ -19,11 +19,14 @@ namespace BookGen.Framework.Scripts
 
         public ILog Log { get; }
 
+        public ITableOfContents TableOfContents { get; }
+
         public ScriptHost(IReadonlyRuntimeSettings runtimeSettings, ILog log)
         {
             SourceDirectory = runtimeSettings.SourceDirectory.ToString();
             Configuration = runtimeSettings.Configuration;
             CurrentBuildConfig = runtimeSettings.CurrentBuildConfig;
+            TableOfContents = runtimeSettings.TocContents;
             Log = log;
         }
     }

@@ -76,14 +76,14 @@ namespace BookGen.GeneratorSteps
             {
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
-                    log.Detail("Processing file for search index: {0}", link.Link);
-                    var fileContent = settings.SourceDirectory.Combine(link.Link).ReadFile(log);
+                    log.Detail("Processing file for search index: {0}", link.Url);
+                    var fileContent = settings.SourceDirectory.Combine(link.Url).ReadFile(log);
                     var rendered = RenderAndCompressForSearch(fileContent);
 
-                    var file = Path.ChangeExtension(link.Link, ".html");
+                    var file = Path.ChangeExtension(link.Url, ".html");
                     var fullpath = $"{settings.Configuration.HostName}{file}";
 
-                    _buffer.AppendFormat("<div title=\"{0}\" data-link=\"{1}\">", link.DisplayString, fullpath);
+                    _buffer.AppendFormat("<div title=\"{0}\" data-link=\"{1}\">", link.Text, fullpath);
                     _buffer.Append(rendered);
                     _buffer.Append("</div>\n");
                 }

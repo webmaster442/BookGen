@@ -20,7 +20,7 @@ namespace BookGen.GeneratorSteps
     {
         public IContent? Content { get; set; }
         public TemplateProcessor? Template { get; set; }
-        public List<HtmlLink>? Chapters { get; private set; }
+        public List<Link>? Chapters { get; private set; }
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
@@ -58,15 +58,15 @@ namespace BookGen.GeneratorSteps
                 Chapters = settings.TocContents.GetLinksForChapter().ToList();
 
             var links = from link in Chapters
-                        where link.Link.Contains(dir)
+                        where link.Url.Contains(dir)
                         select link;
 
             StringBuilder sb = new StringBuilder();
 
             foreach (var link in links)
             {
-                var flink = link.Link.Replace(".md", ".html").Replace(dir, ".");
-                sb.AppendFormat("## [{0}]({1})\r\n", link.DisplayString, flink);
+                var flink = link.Url.Replace(".md", ".html").Replace(dir, ".");
+                sb.AppendFormat("## [{0}]({1})\r\n", link.Text, flink);
             }
 
             return sb.ToString();

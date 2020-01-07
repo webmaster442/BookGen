@@ -18,6 +18,10 @@ namespace BookGen.Api
         /// </summary>
         IReadOnlyConfig Configuration { get; }
         /// <summary>
+        /// Currently processed book table of contents
+        /// </summary>
+        ITableOfContents TableOfContents { get; }
+        /// <summary>
         /// Currently active build configuration
         /// </summary>
         IReadOnlyBuildConfig CurrentBuildConfig { get; }

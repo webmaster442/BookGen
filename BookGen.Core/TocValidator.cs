@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Contracts;
+using BookGen.Api;
 using BookGen.Core.Properties;
 using System.Linq;
 
@@ -11,10 +11,10 @@ namespace BookGen.Core
 {
     public class TocValidator : Validator
     {
-        private readonly IToC _toc;
+        private readonly ITableOfContents _toc;
         private readonly FsPath _workdir;
 
-        public TocValidator(IToC toc, string workdir)
+        public TocValidator(ITableOfContents toc, string workdir)
         {
             _toc = toc;
             _workdir = new FsPath(workdir);

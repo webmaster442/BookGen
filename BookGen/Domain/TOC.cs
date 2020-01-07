@@ -3,15 +3,14 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
-using BookGen.Core.Contracts;
+using BookGen.Api;
 using System.Collections.Generic;
 
 namespace BookGen.Domain
 {
-    public class ToC : IToC
+    public class ToC : ITableOfContents
     {
-        private readonly Dictionary<string, List<HtmlLink>> _tocContents;
+        private readonly Dictionary<string, List<Link>> _tocContents;
 
         public int ChapterCount
         {
@@ -34,10 +33,10 @@ namespace BookGen.Domain
 
         public ToC()
         {
-            _tocContents = new Dictionary<string, List<HtmlLink>>();
+            _tocContents = new Dictionary<string, List<Link>>();
         }
 
-        public void AddChapter(string chapter, List<HtmlLink> files)
+        public void AddChapter(string chapter, List<Link> files)
         {
             _tocContents.Add(chapter, files);
         }
@@ -47,11 +46,11 @@ namespace BookGen.Domain
             get { return _tocContents.Keys; }
         }
 
-        public IEnumerable<HtmlLink> GetLinksForChapter(string? chapter = null)
+        public IEnumerable<Link> GetLinksForChapter(string? chapter = null)
         {
             if (string.IsNullOrEmpty(chapter))
             {
-                List<HtmlLink> merged = new List<HtmlLink>();
+                List<Link> merged = new List<Link>();
                 foreach (var v in _tocContents.Values)
                 {
                     merged.AddRange(v);
@@ -70,7 +69,7 @@ namespace BookGen.Domain
                 {
                     foreach (var file in _tocContents[chapter])
                     {
-                        yield return file.Link;
+                        yield return file.Url;
                     }
                 }
             }

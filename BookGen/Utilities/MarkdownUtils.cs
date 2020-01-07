@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
+using BookGen.Api;
 using BookGen.Domain;
 using Markdig;
 using Markdig.Extensions.AutoIdentifiers;
@@ -31,7 +31,7 @@ namespace BookGen.Utilities
             var doc = Markdown.Parse(content, pipeline);
 
             string? chapterTitle = string.Empty;
-            List<HtmlLink>? chapterLinks = new List<HtmlLink>();
+            List<Link>? chapterLinks = new List<Link>();
             foreach (MarkdownObject item in doc.Descendants())
             {
                 if (item is HeadingBlock heading)
@@ -41,19 +41,19 @@ namespace BookGen.Utilities
                         InsertChapter(parsed, ref chapterTitle, ref chapterLinks);
                     }
                     chapterTitle = heading.Inline.FirstChild.ToString();
-                    chapterLinks = new List<HtmlLink>(50);
+                    chapterLinks = new List<Link>(50);
                 }
                 else if (item is LinkInline link && !link.IsImage)
                 {
                     if (link.FirstChild != null)
-                        chapterLinks.Add(new HtmlLink(link.FirstChild.ToString()!, link.Url));
+                        chapterLinks.Add(new Link(link.FirstChild.ToString()!, link.Url));
                 }
             }
             InsertChapter(parsed, ref chapterTitle, ref chapterLinks);
             return parsed;
         }
 
-        private static void InsertChapter(ToC toc, ref string? currentchapter, ref List<HtmlLink>? chapter)
+        private static void InsertChapter(ToC toc, ref string? currentchapter, ref List<Link>? chapter)
         {
             if (currentchapter != null && chapter != null)
             {

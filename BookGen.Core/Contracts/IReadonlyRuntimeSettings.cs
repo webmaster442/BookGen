@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Api.Configuration;
 using System.Collections.Generic;
 
@@ -28,7 +29,7 @@ namespace BookGen.Core.Contracts
         /// <summary>
         /// Table of Contents parsed
         /// </summary>
-        IToC TocContents { get; }
+        ITableOfContents TocContents { get; }
         /// <summary>
         /// Current configuration
         /// </summary>
