@@ -7,9 +7,14 @@
 
 **ImageDir**
    Type: String
-   Can be left unchanged: no
+   Can be left unchanged: yes
    Image directory relative to workdir
 
+**ScriptsDirectory**
+   Type: String
+   Can be left unchanged: yes
+   Scripts directory relative to workdir. Scipts can extend the functionality of the generator
+   
 **HostName**
    Type: String
    Can be left unchanged: no

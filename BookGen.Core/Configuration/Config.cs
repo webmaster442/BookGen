@@ -18,14 +18,14 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        [Doc("Image directory relative to workdir")]
+        [Doc("Image directory relative to workdir", IsOptional = true)]
         public string ImageDir
         {
             get;
             set;
         }
 
-        [Doc("Scripts directory. Scipts can extend the functionality of the generator")]
+        [Doc("Scripts directory relative to workdir. Scipts can extend the functionality of the generator", IsOptional =true)]
         public string ScriptsDirectory
         {
             get;
