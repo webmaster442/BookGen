@@ -4,10 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 
 namespace BookGen.Gui.Renderering
 {
-    public class Color
+    public sealed class Color : IEquatable<Color>
     {
         public bool IsTransparent { get; private set; }
         public byte R { get; set; }
@@ -22,8 +23,10 @@ namespace BookGen.Gui.Renderering
         {
             get
             {
-                Color result = new Color(0, 0, 0);
-                result.IsTransparent = true;
+                Color result = new Color(0, 0, 0)
+                {
+                    IsTransparent = true
+                };
                 return result;
             }
         }
@@ -36,68 +39,6 @@ namespace BookGen.Gui.Renderering
             B = b;
         }
 
-        private static int ParseHexChar(char c)
-        {
-            int intChar = (int)c;
-
-            if ((intChar >= '0') && (intChar <= ('0' + 9)))
-            {
-                return (intChar - '0');
-            }
-
-            if ((intChar >= 'a') && (intChar <= ('a' + 5)))
-            {
-                return (intChar - 'a' + 10);
-            }
-
-            if ((intChar >= 'A') && (intChar <= ('A' + 5)))
-            {
-                return (intChar - 'A' + 10);
-            }
-            throw new ArgumentException($"Invalid char: {c}");
-        }
-
-        public static Color Parse(string s)
-        {
-            int r, g, b;
-
-            if (!s.StartsWith('#') || s.Length > 7)
-                throw new ArgumentException("String is not a valid color");
-
-            var trimmedColor = s.Substring(1);
-
-            if(trimmedColor.Length > 7)
-            {
-                r = (ParseHexChar(trimmedColor[1]) * 16) + ParseHexChar(trimmedColor[2]);
-                g = (ParseHexChar(trimmedColor[3]) * 16) + ParseHexChar(trimmedColor[4]);
-                b = (ParseHexChar(trimmedColor[5]) * 16) + ParseHexChar(trimmedColor[6]);
-            }
-            else if (trimmedColor.Length > 5)
-            {
-                r = ParseHexChar(trimmedColor[1]) * 16 + ParseHexChar(trimmedColor[2]);
-                g = ParseHexChar(trimmedColor[3]) * 16 + ParseHexChar(trimmedColor[4]);
-                b = ParseHexChar(trimmedColor[5]) * 16 + ParseHexChar(trimmedColor[6]);
-            }
-            else if (trimmedColor.Length > 4)
-            {
-                r = ParseHexChar(trimmedColor[1]);
-                r = r + r * 16;
-                g = ParseHexChar(trimmedColor[2]);
-                g = g + g * 16;
-                b = ParseHexChar(trimmedColor[3]);
-                b += b * 16;
-            }
-
-            r = ParseHexChar(trimmedColor[1]);
-            r = r + r * 16;
-            g = ParseHexChar(trimmedColor[2]);
-            g = g + g * 16;
-            b = ParseHexChar(trimmedColor[3]);
-            b = b + b * 16;
-
-            return new Color((byte)r, (byte)g, (byte)b);
-        }
-
         public string GetForeground()
         {
             return $"38;2;{R};{G};{B}";
@@ -106,6 +47,35 @@ namespace BookGen.Gui.Renderering
         public string GetBackgound()
         {
             return $"48;2;{R};{G};{B}";
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as Color);
+        }
+
+        public bool Equals(Color? other)
+        {
+            return 
+                IsTransparent == other?.IsTransparent &&
+                R == other?.R &&
+                G == other?.G &&
+                B == other?.B;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(IsTransparent, R, G, B);
+        }
+
+        public static bool operator ==(Color left, Color right)
+        {
+            return EqualityComparer<Color>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(Color left, Color right)
+        {
+            return !(left == right);
         }
     }
 }
