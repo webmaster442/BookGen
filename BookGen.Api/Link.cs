@@ -57,5 +57,11 @@ namespace BookGen.Api
             var file = System.IO.Path.ChangeExtension(this.Url, ".html");
             return $"{host}{file}";
         }
+
+        public void Deconstruct(out string url, out string text)
+        {
+            url = Url;
+            text = Text;
+        }
     }
 }
