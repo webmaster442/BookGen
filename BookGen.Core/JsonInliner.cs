@@ -11,7 +11,7 @@ namespace BookGen.Core
 {
     public static class JsonInliner
     {
-        public static string InlineJs<T>(string variableName, T obj, ILog log) where T: class, new()
+        public static string InlineJs<T>(string variableName, T obj, ILog log) where T: class
         {
             try
             {

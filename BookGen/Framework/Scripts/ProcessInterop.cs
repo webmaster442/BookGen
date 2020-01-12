@@ -5,7 +5,8 @@
 
 using System;
 using System.Diagnostics;
-using System.IO.MemoryMappedFiles;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,12 +14,16 @@ namespace BookGen.Framework.Scripts
 {
     internal static class ProcessInterop
     {
-        private static Task<bool> WaitForExitAsync(Process process, int timeout)
+        private static Task<bool> WaitForExitAsync(Process process, string stdin, int timeout)
         {
-            return Task.Run(() => process.WaitForExit(timeout));
+            return Task.Run(() =>
+            {
+                process.StandardInput.Write(stdin);
+                return process.WaitForExit(timeout);
+            });
         }
 
-        private static async Task<(int exitcode, string output)> ExecuteShellCommand(string command, string arguments, int timeout)
+        public static async Task<(int exitcode, string output)> RunProcess(string command, string arguments, string stdin, int timeout)
         {
             (int exitcode, string output) result = (-1, string.Empty);
 
@@ -82,7 +87,7 @@ namespace BookGen.Framework.Scripts
                 process.BeginErrorReadLine();
 
                 // Creates task to wait for process exit using timeout
-                var waitForExit = WaitForExitAsync(process, timeout);
+                var waitForExit = WaitForExitAsync(process, stdin, timeout);
 
                 // Create task to wait for process exit and closing all output streams
                 var processTask = Task.WhenAll(waitForExit, outputCloseEvent.Task, errorCloseEvent.Task);
@@ -114,12 +119,43 @@ namespace BookGen.Framework.Scripts
             return result;
         }
 
-        public static MemoryMappedFile CreateFile(string location, string contents)
+        public static string? ResolveProgramFullPath(string programName)
         {
-            MemoryMappedFile mmf = MemoryMappedFile.CreateNew("test", contents.Length * 2);
-            MemoryMappedViewAccessor accessor = mmf.CreateViewAccessor();
-            accessor.WriteArray(0, contents.ToCharArray(), 0, contents.Length);
-            return mmf;
+            string? pathVar = Environment.GetEnvironmentVariable("path");
+
+            if (pathVar == null)
+                return null;
+
+            string[] searchFolders = pathVar.Split(';');
+
+            foreach (string folder in searchFolders)
+            {
+                string programFile = Path.Combine(folder, programName);
+
+                if (File.Exists(programFile))
+                {
+                    return programFile;
+                }
+            }
+
+            return null;
+        }
+
+        internal static string AppendExecutableExtension(string file)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return file;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return $"{file}.exe";
+            }
+            else
+            {
+                throw new InvalidOperationException("Unknown host operating system");
+            }
         }
     }
 }
