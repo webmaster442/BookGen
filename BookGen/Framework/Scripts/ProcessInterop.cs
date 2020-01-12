@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -126,7 +127,10 @@ namespace BookGen.Framework.Scripts
             if (pathVar == null)
                 return null;
 
-            string[] searchFolders = pathVar.Split(';');
+            var searchFolders = new List<string>(pathVar.Split(';'));
+
+            if (AppDomain.CurrentDomain.BaseDirectory != null)
+                searchFolders.Add(AppDomain.CurrentDomain.BaseDirectory);
 
             foreach (string folder in searchFolders)
             {

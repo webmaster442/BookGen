@@ -53,9 +53,8 @@ namespace BookGen.Framework.Scripts
             {
                 _log.Warning("Script run failed. Exit code: {0}", task.Result.exitcode);
                 _log.Detail("Script output: {0}", task.Result.output);
-                return $"Script run failed: {scriptFile}"; 
+                return $"Script run failed: {scriptFile}";
             }
-
         }
     }
 }
