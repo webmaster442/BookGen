@@ -8,9 +8,9 @@ using BookGen.Core;
 
 namespace BookGen.Framework.Scripts
 {
-    internal class PtyhonHost : ProcessHost
+    internal class PythonHost : ProcessHost
     {
-        public PtyhonHost(ILog log) : base(log)
+        public PythonHost(ILog log) : base(log)
         {
         }
 
