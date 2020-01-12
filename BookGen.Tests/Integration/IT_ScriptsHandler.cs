@@ -17,7 +17,7 @@ namespace BookGen.Tests.Integration
     [TestFixture, SingleThreaded]
     public class IT_ScriptsHandler
     {
-        private ScriptHandler _sut;
+        private CsharpScriptHandler _sut;
         private Mock<ILog> _log;
         private Mock<IReadonlyRuntimeSettings> _settings;
         private int _loaded;
@@ -29,7 +29,7 @@ namespace BookGen.Tests.Integration
             _settings = new Mock<IReadonlyRuntimeSettings>();
             _settings.Setup(x => x.SourceDirectory).Returns(FsPath.Empty);
 
-            _sut = new ScriptHandler(_log.Object);
+            _sut = new CsharpScriptHandler(_log.Object);
             _sut.SetHostFromRuntimeSettings(_settings.Object);
             _loaded = _sut.LoadScripts(new FsPath(TestEnvironment.GetTestFolder()));
         }

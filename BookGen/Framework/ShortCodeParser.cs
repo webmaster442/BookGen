@@ -19,7 +19,7 @@ namespace BookGen.Framework
     {
         private readonly Dictionary<string, ITemplateShortCode> _shortCodesIndex;
         private readonly Translations _translations;
-        private readonly ScriptHandler _scriptHandler;
+        private readonly CsharpScriptHandler _scriptHandler;
         private readonly ILog _log;
 
         private const string shortCodeStart = "<!--{";
@@ -29,7 +29,7 @@ namespace BookGen.Framework
         private readonly Regex CodeRegex = new Regex(@"(<!--\{.+?\}-->)", RegexOptions.Compiled);
 
         public ShortCodeParser(IList<ITemplateShortCode> shortCodes,
-                               ScriptHandler scriptHandler,
+                               CsharpScriptHandler scriptHandler,
                                Translations translations,
                                ILog log)
         {

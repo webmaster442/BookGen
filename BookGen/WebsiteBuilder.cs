@@ -16,7 +16,7 @@ namespace BookGen
     {
         private readonly GeneratorSteps.ExtractTemplateAssets _extractAssets;
 
-        public WebsiteBuilder(string workdir, Config configuration, ILog log, ScriptHandler scriptHandler) 
+        public WebsiteBuilder(string workdir, Config configuration, ILog log, CsharpScriptHandler scriptHandler) 
             : base(workdir, configuration, log, configuration.TargetWeb, scriptHandler)
         {
             _extractAssets = new GeneratorSteps.ExtractTemplateAssets();

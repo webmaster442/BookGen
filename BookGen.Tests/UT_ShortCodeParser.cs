@@ -25,7 +25,7 @@ namespace BookGen.Tests
         {
             _log = new Mock<ILog>();
             var tranlate = new Translations();
-            var handler = new ScriptHandler(_log.Object);
+            var handler = new CsharpScriptHandler(_log.Object);
 
             _sut = new ShortCodeParser(new List<ITemplateShortCode>
             {

@@ -21,7 +21,7 @@ namespace BookGen
     internal class GeneratorRunner
     {
         private readonly ILog _log;
-        private readonly ScriptHandler _scriptHandler;
+        private readonly CsharpScriptHandler _scriptHandler;
 
         private const string exitString = "Press a key to exit...";
 
@@ -37,7 +37,7 @@ namespace BookGen
         public GeneratorRunner(ILog log, string workDir)
         {
             _log = log;
-            _scriptHandler = new ScriptHandler(_log);
+            _scriptHandler = new CsharpScriptHandler(_log);
             WorkDirectory = workDir;
             ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
             Configuration = new Config();

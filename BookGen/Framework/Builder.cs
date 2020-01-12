@@ -30,7 +30,7 @@ namespace BookGen.Framework
 
         protected readonly ShortCodeLoader _loader;
 
-        protected Builder(string workdir, Config configuration, ILog log, BuildConfig current, ScriptHandler scriptHandler)
+        protected Builder(string workdir, Config configuration, ILog log, BuildConfig current, CsharpScriptHandler scriptHandler)
         {
             WorkDir = new FsPath(workdir);
             Settings = new RuntimeSettings

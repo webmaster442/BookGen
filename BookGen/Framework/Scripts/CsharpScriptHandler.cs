@@ -16,7 +16,7 @@ namespace BookGen.Framework.Scripts
     /// <summary>
     /// Handles script loading, compiling, and executing
     /// </summary>
-    internal class ScriptHandler
+    internal class CsharpScriptHandler
     {
         private readonly ILog _log;
         private IScriptHost? _host;
@@ -25,7 +25,7 @@ namespace BookGen.Framework.Scripts
         private readonly HashSet<string> _scriptNames;
 
 
-        public ScriptHandler(ILog log)
+        public CsharpScriptHandler(ILog log)
         {
             _log = log;
             _compiler = new Compiler(log);
@@ -49,7 +49,6 @@ namespace BookGen.Framework.Scripts
                     int count = SearchAndAddTypes(assembly);
                     return count;
                 }
-                else
 
                 return 0;
             }

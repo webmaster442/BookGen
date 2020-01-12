@@ -14,7 +14,7 @@ namespace BookGen
 {
     internal class PrintBuilder : Builder
     {
-        public PrintBuilder(string workdir, Config configuration, ILog log, ScriptHandler scriptHandler) 
+        public PrintBuilder(string workdir, Config configuration, ILog log, CsharpScriptHandler scriptHandler) 
             : base(workdir, configuration, log, configuration.TargetPrint, scriptHandler)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
