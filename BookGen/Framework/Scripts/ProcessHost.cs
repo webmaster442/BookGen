@@ -11,21 +11,21 @@ namespace BookGen.Framework.Scripts
 {
     internal abstract class ProcessHost
     {
-        public abstract string ProcessFileName { get; }
-        public abstract string ProcessArguments { get; }
-        public virtual int Timeout => 5000;
-        public virtual int ExpectedExitCode => 0;
+        protected abstract string ProcessFileName { get; }
+        protected abstract string ProcessArguments { get; }
+        protected virtual int Timeout => 5000;
+        protected virtual int ExpectedExitCode => 0;
 
         protected readonly ILog _log;
 
-        public abstract string SerializeHostInfo(ScriptHost host);
+        protected abstract string SerializeHostInfo(ScriptHost host);
 
         protected ProcessHost(ILog log)
         {
             _log = log;
         }
 
-        public string Execute(FsPath scriptFile, ScriptHost host)
+        protected string Execute(FsPath scriptFile, ScriptHost host)
         {
             _log.Info("Trying to execute {0}", scriptFile);
 
