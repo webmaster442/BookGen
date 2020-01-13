@@ -1,7 +1,10 @@
-﻿using BookGen.Core.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2020 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Api;
+using BookGen.Core.Contracts;
 
 namespace BookGen.Tests.Stubs
 {
@@ -9,9 +12,9 @@ namespace BookGen.Tests.Stubs
     {
         public string Tag => "Arguments";
 
-        public string Generate(IReadOnlyDictionary<string, string> arguments)
+        public string Generate(IArguments arguments)
         {
-            return arguments["parameter"];
+            return arguments.GetArgumentOrThrow<string>("parameter");
         }
     }
 }

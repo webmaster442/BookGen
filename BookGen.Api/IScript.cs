@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace BookGen.Api
 {
     /// <summary>
@@ -24,6 +22,6 @@ namespace BookGen.Api
         /// <param name="host">Current script host</param>
         /// <param name="arguments">Arguments</param>
         /// <returns>Markdown string</returns>
-        string ScriptMain(IScriptHost host, IReadOnlyDictionary<string, string> arguments);
+        string ScriptMain(IScriptHost host, IArguments arguments);
     }
 }

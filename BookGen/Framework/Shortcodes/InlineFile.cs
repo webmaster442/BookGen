@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
 using BookGen.Api;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
+using BookGen.Core;
 using BookGen.Core.Contracts;
+using System.ComponentModel.Composition;
 
 namespace BookGen.Framework.Shortcodes
 {
@@ -24,9 +23,9 @@ namespace BookGen.Framework.Shortcodes
             _log = log;
         }
 
-        public string Generate(IReadOnlyDictionary<string, string> arguments)
+        public string Generate(IArguments arguments)
         {
-           var name = arguments.GetArgumentOrThrow("file");
+           var name = arguments.GetArgumentOrThrow<string>("file");
 
             FsPath file = new FsPath(name);
 

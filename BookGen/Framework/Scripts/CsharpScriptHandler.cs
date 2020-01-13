@@ -70,7 +70,7 @@ namespace BookGen.Framework.Scripts
             _host = new ScriptHost(runtimeSettings, _log);
         }
 
-        public string ExecuteScript(string name, IReadOnlyDictionary<string, string> arguments)
+        public string ExecuteScript(string name, IArguments arguments)
         {
             if (_host == null)
                 throw new DependencyException(nameof(_host));

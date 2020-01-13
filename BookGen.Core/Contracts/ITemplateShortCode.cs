@@ -3,13 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
+using BookGen.Api;
 
 namespace BookGen.Core.Contracts
 {
     public interface ITemplateShortCode
     {
         string Tag { get; }
-        string Generate(IReadOnlyDictionary<string, string> arguments);
+        string Generate(IArguments arguments);
     }
 }

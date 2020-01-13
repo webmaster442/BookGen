@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Configuration;
+using BookGen.Domain;
+using BookGen.Framework.Shortcodes;
 using NUnit.Framework;
 using System.Collections.Generic;
-using BookGen.Framework.Shortcodes;
 
 namespace BookGen.Tests
 {
@@ -33,8 +34,10 @@ namespace BookGen.Tests
         [TestCase("", "")]
         public void EnsureThat_Translate_ReturnsCorrectValues(string input, string expected)
         {
-            var arg = new Dictionary<string, string>();
-            arg.Add(input, "");
+            var arg = new Arguments(new Dictionary<string, string>
+            {
+                { input, "" }
+            });
             var result = _sut.Generate(arg);
             Assert.AreEqual(expected, result);
         }
@@ -46,8 +49,10 @@ namespace BookGen.Tests
         [TestCase("foo#")]
         public void EnsureThat_Translate_ReturnsError_WhenKeyFormatInvalid(string input)
         {
-            var arg = new Dictionary<string, string>();
-            arg.Add(input, "");
+            var arg = new Arguments(new Dictionary<string, string>
+            {
+                { input, "" }
+            });
             var result = _sut.Generate(arg);
             Assert.AreEqual($"Invalid tranlation key: {input}", result);
         }

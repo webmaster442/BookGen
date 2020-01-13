@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Api.Configuration;
 using BookGen.Core.Contracts;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -26,12 +26,12 @@ namespace BookGen.Framework.Shortcodes
 
         public string Tag => "?";
 
-        public string Generate(IReadOnlyDictionary<string, string> arguments)
+        public string Generate(IArguments arguments)
         {
             string argument = string.Empty;
 
             if (arguments.Count > 0)
-                argument = arguments.Keys.First();
+                argument = arguments.First().Key;
 
             return DoTranslateForKey(_translations, argument);
         }

@@ -7,7 +7,6 @@ using BookGen.Api;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Template;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
 namespace BookGen.Framework.Shortcodes
@@ -27,7 +26,7 @@ namespace BookGen.Framework.Shortcodes
             _settings = settings;
         }
 
-        public string Generate(IReadOnlyDictionary<string, string> arguments)
+        public string Generate(IArguments arguments)
         {
             var currentconfig = _settings.CurrentBuildConfig;
 

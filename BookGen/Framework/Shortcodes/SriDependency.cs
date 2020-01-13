@@ -57,9 +57,9 @@ namespace BookGen.Framework.Shortcodes
         }
 
 
-        public string Generate(IReadOnlyDictionary<string, string> arguments)
+        public string Generate(IArguments arguments)
         {
-            var file = arguments.GetArgumentOrThrow("file");
+            var file = arguments.GetArgumentOrThrow<string>("file");
 
             var path = _settings.OutputDirectory.Combine(file);
 

@@ -6,6 +6,7 @@
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Contracts;
+using BookGen.Domain;
 using BookGen.Framework.Scripts;
 using BookGen.Tests.Environment;
 using Moq;
@@ -58,7 +59,7 @@ namespace BookGen.Tests.Integration
         [Test]
         public void EnsureThat_CallingTestScript_ReturnsCorrectResult()
         {
-            var args = new Dictionary<string, string>();
+            var args = new Arguments();
             string result = _sut.ExecuteScript("TestScript", args);
 
             Assert.AreEqual("Hello, from test script!", result);

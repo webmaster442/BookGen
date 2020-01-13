@@ -3,10 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Template;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
 namespace BookGen.Framework.Shortcodes
@@ -16,10 +16,10 @@ namespace BookGen.Framework.Shortcodes
     {
         public string Tag => nameof(JSPageToc);
 
-        public string Generate(IReadOnlyDictionary<string, string> arguments)
+        public string Generate(IArguments arguments)
         {
-            var contentsDiv = arguments.GetArgumentOrThrow("ContentsDiv");
-            var targetDiv = arguments.GetArgumentOrThrow("TargetDiv");
+            var contentsDiv = arguments.GetArgumentOrThrow<string>("ContentsDiv");
+            var targetDiv = arguments.GetArgumentOrThrow<string>("TargetDiv");
 
             FluentHtmlWriter writer = new FluentHtmlWriter();
 

@@ -6,6 +6,7 @@
 using BookGen.Api;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
+using BookGen.Domain;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Shortcodes;
 using System.Collections.Generic;
@@ -93,7 +94,7 @@ namespace BookGen.Framework
             return cache.ToString();
         }
 
-        private Dictionary<string, string> GetArguments(string value)
+        private Arguments GetArguments(string value)
         {
             Dictionary<string, string> results = new Dictionary<string, string>();
 
@@ -102,7 +103,7 @@ namespace BookGen.Framework
             //no space means no additional arguments
             if (firstpass.Length < 1)
             {
-                return results;
+                return new Arguments();
             }
             else
             {
@@ -119,7 +120,7 @@ namespace BookGen.Framework
                     }
                 }
             }
-            return results;
+            return new Arguments(results);
         }
 
         private string RemoveStartingSpaceAndEndTags(string input)
