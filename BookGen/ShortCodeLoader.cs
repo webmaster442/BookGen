@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Template.ShortCodeImplementations;
 using BookGen.Api;
 using BookGen.Api.Configuration;
 using BookGen.Core.Contracts;
@@ -38,7 +37,7 @@ namespace BookGen
 
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new TypeCatalog(typeof(ILog), typeof(IReadonlyRuntimeSettings)));
-            catalog.Catalogs.Add(new AssemblyCatalog(typeof(DelegateShortCode).Assembly));
+            catalog.Catalogs.Add(new AssemblyCatalog(typeof(ShortCodeLoader).Assembly));
             Imports = new List<ITemplateShortCode>();
             _container = new CompositionContainer(catalog);
         }

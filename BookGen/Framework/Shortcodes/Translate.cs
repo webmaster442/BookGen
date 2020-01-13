@@ -10,7 +10,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace BookGen.Template.ShortCodeImplementations
+namespace BookGen.Framework.Shortcodes
 {
     [Export(typeof(ITemplateShortCode))]
     public class Translate : ITemplateShortCode

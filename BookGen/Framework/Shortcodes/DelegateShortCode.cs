@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ using BookGen.Core.Contracts;
 using System;
 using System.Collections.Generic;
 
-namespace BookGen.Template.ShortCodeImplementations
+namespace BookGen.Framework.Shortcodes
 {
     public class DelegateShortCode : ITemplateShortCode
     {

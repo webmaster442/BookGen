@@ -3,11 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Template.ShortCodeImplementations;
 using BookGen.Api;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework.Scripts;
+using BookGen.Framework.Shortcodes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
