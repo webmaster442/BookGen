@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Remove="Environment\TestScript.cs" />
+    <Compile Remove="UT_NodeJsHost.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,9 +29,16 @@
     <None Include="Environment\TestScript.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Integration\IT_NodeJsHost.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Environment\LongNodeJs.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Environment\SimpleNodeJs.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Environment\Test.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
