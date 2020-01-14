@@ -13,6 +13,8 @@ namespace BookGen.Framework.Shortcodes
     {
         private readonly Func<IArguments, string> _generator;
 
+        public bool CanCacheResult => false;
+
         public DelegateShortCode(string tag, Func<IArguments, string> generator)
         {
             Tag = tag;

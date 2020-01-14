@@ -13,6 +13,7 @@ namespace BookGen.Tests.Stubs
     {
         public string Tag => "yield";
 
+        public bool CanCacheResult => false;
         public string Generate(IArguments arguments)
         {
             return arguments.First().Key;

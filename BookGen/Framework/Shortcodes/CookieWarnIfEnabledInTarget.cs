@@ -19,6 +19,8 @@ namespace BookGen.Framework.Shortcodes
 
         public string Tag => nameof(CookieWarnIfEnabledInTarget);
 
+        public bool CanCacheResult => true;
+
         [ImportingConstructor]
         public CookieWarnIfEnabledInTarget(ILog log, IReadonlyRuntimeSettings settings)
         {

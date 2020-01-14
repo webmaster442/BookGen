@@ -11,5 +11,6 @@ namespace BookGen.Core.Contracts
     {
         string Tag { get; }
         string Generate(IArguments arguments);
+        bool CanCacheResult { get; }
     }
 }

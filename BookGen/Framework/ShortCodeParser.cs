@@ -19,6 +19,7 @@ namespace BookGen.Framework
     internal class ShortCodeParser
     {
         private readonly Dictionary<string, ITemplateShortCode> _shortCodesIndex;
+        private readonly Dictionary<string, string> _codeResultCache;
         private readonly Translations _translations;
         private readonly CsharpScriptHandler _scriptHandler;
         private readonly ILog _log;
@@ -34,8 +35,8 @@ namespace BookGen.Framework
                                Translations translations,
                                ILog log)
         {
-
             _shortCodesIndex = new Dictionary<string, ITemplateShortCode>(shortCodes.Count);
+            _codeResultCache = new Dictionary<string, string>(100);
             _scriptHandler = scriptHandler;
             _translations = translations;
             _log = log;
@@ -143,11 +144,22 @@ namespace BookGen.Framework
                 if (match != null)
                 {
                     var tagKey = GetTagKey(match.Value);
-                    if (_shortCodesIndex.ContainsKey(tagKey))
+                    if (_codeResultCache.ContainsKey(match.Value))
                     {
+                        //Cache has it stored, so simply lookup and replace
+                        result.Replace(match.Value, _codeResultCache[match.Value]);
+                    }
+                    else if (_shortCodesIndex.ContainsKey(tagKey))
+                    {
+                        //It is a known shortcode, so run it
                         var shortcode = _shortCodesIndex[tagKey];
                         var generated = shortcode.Generate(GetArguments(match.Value));
                         result.Replace(match.Value, generated);
+                        //For next iteration of it's occurance cache it if it's cacheable
+                        if (shortcode.CanCacheResult)
+                        {
+                            _codeResultCache.Add(match.Value, generated);
+                        }
                     }
                     else if (_scriptHandler.IsKnownScript(tagKey))
                     {

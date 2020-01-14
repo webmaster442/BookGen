@@ -26,6 +26,8 @@ namespace BookGen.Framework.Shortcodes
 
         public string Tag => "?";
 
+        public bool CanCacheResult => false;
+
         public string Generate(IArguments arguments)
         {
             string argument = string.Empty;

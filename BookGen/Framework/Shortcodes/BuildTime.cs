@@ -15,6 +15,8 @@ namespace BookGen.Framework.Shortcodes
     {
         public string Tag => nameof(BuildTime);
 
+        public bool CanCacheResult => false;
+
         public string Generate(IArguments arguments)
         {
             return DateTime.Now.ToString("yy-MM-dd hh:mm:ss");

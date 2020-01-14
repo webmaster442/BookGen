@@ -16,6 +16,8 @@ namespace BookGen.Framework.Shortcodes
     {
         public string Tag => nameof(JSPageToc);
 
+        public bool CanCacheResult => true;
+
         public string Generate(IArguments arguments)
         {
             var contentsDiv = arguments.GetArgumentOrThrow<string>("ContentsDiv");

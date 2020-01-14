@@ -32,6 +32,8 @@ namespace BookGen.Framework.Scripts
 
         public string Tag => "NodeJs";
 
+        public bool CanCacheResult => false;
+
         public string Generate(IArguments arguments)
         {
             var file = new FsPath(arguments.GetArgumentOrThrow<string>("file"));

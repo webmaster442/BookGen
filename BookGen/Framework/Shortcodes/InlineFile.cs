@@ -17,6 +17,8 @@ namespace BookGen.Framework.Shortcodes
 
         public string Tag => nameof(InlineFile);
 
+        public bool CanCacheResult => true;
+
         [ImportingConstructor]
         public InlineFile(ILog log)
         {

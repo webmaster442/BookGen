@@ -12,6 +12,8 @@ namespace BookGen.Tests.Stubs
     {
         public string Tag => "Arguments";
 
+        public bool CanCacheResult => false;
+
         public string Generate(IArguments arguments)
         {
             return arguments.GetArgumentOrThrow<string>("parameter");

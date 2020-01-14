@@ -12,6 +12,8 @@ namespace BookGen.Tests.Stubs
     {
         public string Tag => "Dumy";
 
+        public bool CanCacheResult => false;
+
         public string Generate(IArguments arguments)
         {
             return "Genrated";
