@@ -1,13 +1,14 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
 using BookGen.Domain;
+using BookGen.Framework.Scripts;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
@@ -23,19 +24,18 @@ namespace BookGen.Framework
 
         protected RuntimeSettings Settings { get; }
 
-        protected Template Template { get; }
+        protected TemplateProcessor Template { get; }
 
         protected FsPath WorkDir { get; }
 
         protected readonly ShortCodeLoader _loader;
 
-        protected Builder(string workdir, Config configuration, ILog log, BuildConfig current)
+        protected Builder(string workdir, Config configuration, ILog log, BuildConfig current, CsharpScriptHandler scriptHandler)
         {
             WorkDir = new FsPath(workdir);
             Settings = new RuntimeSettings
             {
                 SourceDirectory = WorkDir,
-                TocPath = WorkDir.Combine(configuration.TOCFile),
                 Configuration = configuration,
                 TocContents = MarkdownUtils.ParseToc(WorkDir.Combine(configuration.TOCFile).ReadFile(log)),
                 MetataCache = new Dictionary<string, string>(100),
@@ -51,7 +51,9 @@ namespace BookGen.Framework
             _loader = new ShortCodeLoader(log, Settings);
             _loader.LoadAll();
 
-            Template = new Template(configuration, new ShortCodeParser(_loader.Imports, configuration.Translations));
+            scriptHandler.SetHostFromRuntimeSettings(Settings);
+
+            Template = new TemplateProcessor(configuration, new ShortCodeParser(_loader.Imports, scriptHandler, configuration.Translations, log));
 
             _steps = new List<IGeneratorStep>();
             _log = log;

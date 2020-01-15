@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Core;
-using BookGen.Core.Contracts;
 using BookGen.Editor.Models;
 using System;
 using System.Text.Json;

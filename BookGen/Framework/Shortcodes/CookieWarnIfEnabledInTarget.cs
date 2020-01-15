@@ -1,15 +1,15 @@
 ﻿///-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
-using System.Collections.Generic;
+using BookGen.Template;
 using System.ComponentModel.Composition;
-using System.Text;
 
-namespace Bookgen.Template.ShortCodeImplementations
+namespace BookGen.Framework.Shortcodes
 {
     [Export(typeof(ITemplateShortCode))]
     public class CookieWarnIfEnabledInTarget : ITemplateShortCode
@@ -19,6 +19,8 @@ namespace Bookgen.Template.ShortCodeImplementations
 
         public string Tag => nameof(CookieWarnIfEnabledInTarget);
 
+        public bool CanCacheResult => true;
+
         [ImportingConstructor]
         public CookieWarnIfEnabledInTarget(ILog log, IReadonlyRuntimeSettings settings)
         {
@@ -26,7 +28,7 @@ namespace Bookgen.Template.ShortCodeImplementations
             _settings = settings;
         }
 
-        public string Generate(IReadOnlyDictionary<string, string> arguments)
+        public string Generate(IArguments arguments)
         {
             var currentconfig = _settings.CurrentBuildConfig;
 

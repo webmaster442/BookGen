@@ -1,18 +1,18 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template.ShortCodeImplementations;
 using BookGen.Contracts;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
+using BookGen.Framework.Shortcodes;
 using System;
 using System.Collections.Generic;
 
 namespace BookGen.Framework
 {
-    internal class Template : IContent
+    internal class TemplateProcessor : IContent
     {
         private readonly Dictionary<string, string> _table;
         private readonly ShortCodeParser _parser;
@@ -20,7 +20,7 @@ namespace BookGen.Framework
 
         public string TemplateContent { get; set; }
 
-        public Template(Config cfg, ShortCodeParser shortCodeParser)
+        public TemplateProcessor(Config cfg, ShortCodeParser shortCodeParser)
         {
             _configuration = cfg;
             _table = new Dictionary<string, string>
@@ -34,7 +34,7 @@ namespace BookGen.Framework
             };
             TemplateContent = string.Empty;
             _parser = shortCodeParser;
-            _parser.ConfigureShortCodes(CreateInternalsList());
+            _parser.AddShortcodesToLookupIndex(CreateInternalsList());
         }
 
         private IList<ITemplateShortCode> CreateInternalsList()

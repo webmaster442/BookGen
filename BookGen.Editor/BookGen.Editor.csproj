@@ -24,7 +24,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.0.0" />
+    <PackageReference Include="AvalonEdit" Version="6.0.1" />
     <PackageReference Include="CommonServiceLocator" Version="2.0.5" />
     <PackageReference Include="ControlzEx" Version="4.2.0" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
@@ -39,6 +39,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
   </ItemGroup>
   <ItemGroup>

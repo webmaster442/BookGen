@@ -5,76 +5,38 @@
 
 using BookGen.Core;
 
-namespace Bookgen.Template
+namespace BookGen.Template
 {
     public sealed class BuiltInTemplates
     {
         private BuiltInTemplates() { }
 
-        public static string IndexMd
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateMarkdown/index.md"); }
-        }
+        public static string IndexMd => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateMarkdown/index.md");
 
-        public static string SummaryMd
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateMarkdown/summary.md"); }
-        }
+        public static string SummaryMd => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateMarkdown/summary.md");
 
-        public static string Epub
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateEpub/TemplateEpub.html"); }
-        }
+        public static string Epub => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateEpub/TemplateEpub.html");
 
-        public static string Print
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplatePrint/TemplatePrint.html"); }
-        }
+        public static string Print => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplatePrint/TemplatePrint.html");
 
-        public static string TemplateWeb
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/TemplateWeb.html"); }
-        }
+        public static string TemplateWeb => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/TemplateWeb.html");
 
-        public static string Searchform
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Searchform.html"); }
-        }
+        public static string Searchform => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Searchform.html");
 
-        public static string CookieWarningCode
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/CookieWarning.html"); }
-        }
+        public static string CookieWarningCode => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/CookieWarning.html");
 
-        public static string AssetPrismCss
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/prism.css"); }
-        }
+        public static string AssetPrismCss => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/prism.css");
 
-        public static string AssetPrismJs
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/prism.js"); }
-        }
+        public static string AssetPrismJs => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/prism.js");
 
-        public static string AssetBootstrapCSS
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/bootstrap.min.css"); }
-        }
+        public static string AssetBootstrapCSS => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/bootstrap.min.css");
 
-        public static string AssetBootstrapJs
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/bootstrap.min.js"); }
-        }
+        public static string AssetBootstrapJs => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/bootstrap.min.js");
 
-        public static string AssetJqueryJs
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/jquery.min.js"); }
-        }
+        public static string AssetJqueryJs => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/jquery.min.js");
 
-        public static string AssetPopperJs
-        {
-            get { return ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/popper.min.js"); }
-        }
+        public static string AssetPopperJs => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/popper.min.js");
 
+        public static string ScriptTemplate => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateScript/ScriptTemplate.cs");
     }
 }

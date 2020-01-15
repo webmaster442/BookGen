@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BookGen.Api.Link" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAQAAAAAAAgAAAgAAAAAAAAIAACAAACAAAAiA=</HashCode>
+      <FileName>Link.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="BookGen.Api.ILog">
+    <Position X="1.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAABAAAAgAAAAAAAAAAEAACAA=</HashCode>
+      <FileName>ILog.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Api.IScript">
+    <Position X="1.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IScript.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Api.IScriptHost">
+    <Position X="3" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAACAAAAAgIAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>IScriptHost.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Api.ITableOfContents">
+    <Position X="4.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>ITableOfContents.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Api.Configuration.IReadOnlyAsset">
+    <Position X="3" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\IReadOnlyAsset.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Api.Configuration.IReadOnlyBuildConfig">
+    <Position X="5.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAACAAAAAAAAAAAgCAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Configuration\IReadOnlyBuildConfig.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Api.Configuration.IReadOnlyConfig">
+    <Position X="6.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>4AAAAAAAAIAAAACCgAgAAAAAIAAAAAAAAAEAIAAEAAQ=</HashCode>
+      <FileName>Configuration\IReadOnlyConfig.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Api.Configuration.IReadOnlyMetadata">
+    <Position X="4.75" Y="1.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAgAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\IReadOnlyMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Api.Configuration.IReadOnlyTemplateOptions">
+    <Position X="3" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\IReadOnlyTemplateOptions.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Api.Configuration.IReadOnlyTranslations">
+    <Position X="3" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Configuration\IReadOnlyTranslations.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Api.Configuration.IReadOnylStyleClasses">
+    <Position X="10.25" Y="1.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAABAAAAAAQAgQBAAAAAAGBAAAAAAQAACAQA=</HashCode>
+      <FileName>Configuration\IReadOnylStyleClasses.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="BookGen.Api.LogLevel">
+    <Position X="1.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAEAACAA=</HashCode>
+      <FileName>LogLevel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

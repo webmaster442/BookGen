@@ -1,7 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2020 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Utilities;
+using System;
 using System.Reflection;
-using System.Text;
 
 namespace BookGen
 {
@@ -11,6 +15,8 @@ namespace BookGen
         public bool NoWaitForExit { get; set; }
         public GeneratorRunner? GeneratorRunner { get; set; }
         public Version ProgramVersion { get; }
+        public DateTime BuildDate { get; }
+        public string ProgramDirectory { get; }
         public int ConfigVersion { get; }
 
         public ProgramState()
@@ -18,6 +24,8 @@ namespace BookGen
             var asm = Assembly.GetAssembly(typeof(ProgramState));
             ProgramVersion = asm?.GetName()?.Version ?? new Version(1, 0);
             ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
+            BuildDate = UpdateUtils.GetAssemblyLinkerDate(out DateTime build) ? build : new DateTime();
+            ProgramDirectory = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
         }
 
     }

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen", "BookGen\BookGen.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Core", "BookGen.Core\BookGen.Core.csproj", "{DDD2DD75-B014-4F4B-9CDA-510FDD4AF583}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookgen.Template", "Bookgen.Template\Bookgen.Template.csproj", "{2417BE2B-76AE-471E-B59D-4C629D96D81F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Template", "Bookgen.Template\BookGen.Template.csproj", "{2417BE2B-76AE-471E-B59D-4C629D96D81F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Tests", "BookGen.Tests\BookGen.Tests.csproj", "{48857A68-15FF-443D-B4D8-57AA520E4BD0}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -29,6 +29,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Editor", "BookGen.Editor\BookGen.Editor.csproj", "{DD57CD50-7318-4BCB-8FE1-00CAFA5650DE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Md2HTML", "Md2HTML\Md2HTML.csproj", "{80719741-F34E-46CB-A8CC-6BD16647EFEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Api", "BookGen.Api\BookGen.Api.csproj", "{3D07DD2E-A6CA-4AAC-909D-7A09B967B7E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +62,10 @@ Global
 		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80719741-F34E-46CB-A8CC-6BD16647EFEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D07DD2E-A6CA-4AAC-909D-7A09B967B7E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D07DD2E-A6CA-4AAC-909D-7A09B967B7E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D07DD2E-A6CA-4AAC-909D-7A09B967B7E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D07DD2E-A6CA-4AAC-909D-7A09B967B7E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

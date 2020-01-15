@@ -1,9 +1,10 @@
 {
   "TOCFile": "summary.md",
   "ImageDir": "img",
+  "ScriptsDirectory": "",
   "HostName": "http://localhost:8080/",
   "Index": "Intro.md",
-  "Version": 1004,
+  "Version": 1005,
   "LinksOutSideOfHostOpenNewTab": true,
   "InlineImageSizeLimit": 51200,
   "Metadata": {

@@ -3,18 +3,19 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
-using BookGen.Domain.wordpress;
+using BookGen.Domain.Wordpress;
 using BookGen.Framework;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace BookGen.GeneratorSteps.Wordpress
@@ -28,7 +29,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             _session = session;
         }
 
-        public Template? Template { get; set; }
+        public TemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
         private Item CreateItem(int uid, int parent, int order, string content, string title, string path, TemplateOptions TemplateOptions)
@@ -57,7 +58,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Link = path,
                 Creator = TemplateOptions[TemplateOptions.WordpressAuthorLogin],
                 Description = "",
-                Guid = new Domain.wordpress.Guid
+                Guid = new Domain.Wordpress.Guid
                 {
                     IsPermaLink = false,
                     Text = $"{TemplateOptions[TemplateOptions.WordpressTargetHost]}?page_id={uid}",
@@ -82,13 +83,13 @@ namespace BookGen.GeneratorSteps.Wordpress
             return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
         }
 
-        private string CreateFillerPage(IEnumerable<HtmlLink> links)
+        private string CreateFillerPage(IEnumerable<Link> links)
         {
             var builder = new StringBuilder();
             builder.Append("<ul>\n");
             foreach(var link in links)
             {
-                builder.AppendFormat("<li>{0}</li>\n", link.DisplayString);
+                builder.AppendFormat("<li>{0}</li>\n", link.Text);
             }
             builder.Append("</ul>\n");
             return builder.ToString();
@@ -117,7 +118,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Item parent = CreateItem(parent_uid, 0, mainorder, fillerPage, chapter, path, settings.CurrentBuildConfig.TemplateOptions);
                 _session.CurrentChannel.Item.Add(parent);
                 int suborder = 0;
-                foreach (var file in settings.TocContents.GetFilesForChapter(chapter))
+                foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing {0}...", file);
                     var input = settings.SourceDirectory.Combine(file);

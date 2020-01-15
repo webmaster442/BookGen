@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Core;
-using BookGen.Core.Contracts;
 using BookGen.Editor.Controls;
 using BookGen.Editor.Infrastructure;
 using BookGen.Editor.Models;
@@ -12,8 +12,6 @@ using BookGen.Editor.ServiceContracts;
 using BookGen.Editor.Views.Dialogs;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace BookGen.Editor.ViewModel

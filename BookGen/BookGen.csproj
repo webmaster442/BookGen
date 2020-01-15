@@ -9,8 +9,8 @@
     <Product>BookGen</Product>
     <Description>A static Markdown book generator</Description>
     <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.0.5.0</AssemblyVersion>
+    <FileVersion>1.0.5.0</FileVersion>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
@@ -34,11 +34,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.18.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.4.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\BuildDate.txt" />
@@ -49,8 +51,9 @@
     <EmbeddedResource Include="Resources\Splash.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
-    <ProjectReference Include="..\Bookgen.Template\Bookgen.Template.csproj" />
+    <ProjectReference Include="..\Bookgen.Template\BookGen.Template.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="BookGen">

@@ -7,7 +7,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bookgen.Template
+namespace BookGen.Template
 {
     public static class XhtmlNormalizer
     {

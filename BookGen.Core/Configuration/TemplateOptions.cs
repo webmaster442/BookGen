@@ -1,8 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -10,7 +11,7 @@ using System.Runtime.Serialization;
 namespace BookGen.Core.Configuration
 {
     [Serializable]
-    public sealed class TemplateOptions : Dictionary<string, string>
+    public sealed class TemplateOptions : Dictionary<string, string>, IReadOnlyTemplateOptions
     {
         public const string CookieDisplayBannerEnabled = nameof(CookieDisplayBannerEnabled);
         public const string WordpressTargetHost = nameof(WordpressTargetHost);

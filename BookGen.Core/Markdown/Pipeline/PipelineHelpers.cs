@@ -1,17 +1,14 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
-using Markdig;
+using BookGen.Api.Configuration;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
-using System.Collections.Generic;
 
 namespace BookGen.Core.Markdown.Pipeline
 {
@@ -45,7 +42,7 @@ namespace BookGen.Core.Markdown.Pipeline
             node.GetAttributes().AddClass(style);
         }
 
-        public static void ApplyStyles(BuildConfig config,
+        public static void ApplyStyles(IReadOnlyBuildConfig config,
                                        MarkdownDocument document)
         {
             if (config == null)

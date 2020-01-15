@@ -1,19 +1,21 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template;
+using BookGen.Template;
+using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
 using BookGen.Framework;
+using BookGen.Framework.Scripts;
 
 namespace BookGen
 {
     internal class EpubBuilder : Builder
     {
-        public EpubBuilder(string workdir, Config configuration, ILog log) : base(workdir, configuration, log, configuration.TargetEpub)
+        public EpubBuilder(string workdir, Config configuration, ILog log, CsharpScriptHandler scriptHander)
+            : base(workdir, configuration, log, configuration.TargetEpub, scriptHander)
         {
             var session = new GeneratorSteps.Epub.EpubSession();
 

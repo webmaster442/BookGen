@@ -27,6 +27,9 @@
     <PackageReference Include="System.Text.Json" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

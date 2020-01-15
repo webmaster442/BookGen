@@ -20,10 +20,6 @@ namespace BookGen.Core
             }
 
             UpgradeTranslations(config.Translations);
-
-            UpgradeBuildTarget(config.TargetWeb);
-            UpgradeBuildTarget(config.TargetEpub);
-            UpgradeBuildTarget(config.TargetPrint);
         }
 
         private static void UpgradeTranslations(Translations translations)
@@ -35,14 +31,6 @@ namespace BookGen.Core
                 {
                     translations.Add(item.Key, item.Value);
                 }
-            }
-        }
-
-        private static void UpgradeBuildTarget(BuildConfig target)
-        {
-            if (target.TemplateOptions == null)
-            {
-                target.TemplateOptions = TemplateOptions.CreateDefaultOptions();
             }
         }
     }

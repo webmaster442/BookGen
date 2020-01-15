@@ -1,10 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template.ShortCodeImplementations;
-using BookGen.Core.Configuration;
+using BookGen.Api;
+using BookGen.Api.Configuration;
 using BookGen.Core.Contracts;
 using System;
 using System.Collections.Generic;
@@ -24,8 +24,8 @@ namespace BookGen
         [Export(typeof(IReadonlyRuntimeSettings))]
         private readonly IReadonlyRuntimeSettings _settings;
 
-        [Export(typeof(Translations))]
-        private readonly Translations _tranlsations;
+        [Export(typeof(IReadOnlyTranslations))]
+        private readonly IReadOnlyTranslations _tranlsations;
 
         private readonly CompositionContainer _container;
 
@@ -37,7 +37,7 @@ namespace BookGen
 
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new TypeCatalog(typeof(ILog), typeof(IReadonlyRuntimeSettings)));
-            catalog.Catalogs.Add(new AssemblyCatalog(typeof(DelegateShortCode).Assembly));
+            catalog.Catalogs.Add(new AssemblyCatalog(typeof(ShortCodeLoader).Assembly));
             Imports = new List<ITemplateShortCode>();
             _container = new CompositionContainer(catalog);
         }

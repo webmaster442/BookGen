@@ -106,10 +106,6 @@ namespace BookGen.Gui
                 Action = () => _runner.RunHelp(),
                 Content = "Display usage info"
             };
-            yield return new TextBlock
-            {
-                Content = "\r\nExit program\r\n"
-            };
             yield return new Button
             {
                 Action = () => Environment.Exit(0),

@@ -1,13 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api.Configuration;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BookGen.Core.Configuration
 {
-    public sealed class Config
+    public sealed class Config : IReadOnlyConfig
     {
         [Doc("Table of contents Markdown file")]
         public string TOCFile
@@ -16,8 +18,15 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        [Doc("Image directory relative to workdir")]
+        [Doc("Image directory relative to workdir", IsOptional = true)]
         public string ImageDir
+        {
+            get;
+            set;
+        }
+
+        [Doc("Scripts directory relative to workdir. Scipts can extend the functionality of the generator", IsOptional =true)]
+        public string ScriptsDirectory
         {
             get;
             set;
@@ -100,6 +109,24 @@ namespace BookGen.Core.Configuration
             set;
         }
 
+        [JsonIgnore]
+        IReadOnlyMetadata IReadOnlyConfig.Metadata => Metadata;
+
+        [JsonIgnore]
+        IReadOnlyBuildConfig IReadOnlyConfig.TargetEpub => TargetEpub;
+
+        [JsonIgnore]
+        IReadOnlyBuildConfig IReadOnlyConfig.TargetPrint => TargetPrint;
+
+        [JsonIgnore]
+        IReadOnlyBuildConfig IReadOnlyConfig.TargetWeb => TargetWeb;
+
+        [JsonIgnore]
+        IReadOnlyBuildConfig IReadOnlyConfig.TargetWordpress => TargetWordpress;
+
+        [JsonIgnore]
+        IReadOnlyTranslations IReadOnlyConfig.Translations => Translations;
+
         public Config()
         {
             Translations = new Translations();
@@ -112,6 +139,7 @@ namespace BookGen.Core.Configuration
             Index = string.Empty;
             TOCFile = string.Empty;
             HostName = string.Empty;
+            ScriptsDirectory = string.Empty;
         }
 
         public static Config CreateDefault(int version = 100)

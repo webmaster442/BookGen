@@ -3,11 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Template;
+using BookGen.Template;
+using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
@@ -20,7 +20,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class GenerateSearchPage : ITemplatedStep
     {
-        public Template? Template { get; set; }
+        public TemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
         private readonly StringBuilder _buffer;
@@ -76,14 +76,14 @@ namespace BookGen.GeneratorSteps
             {
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
-                    log.Detail("Processing file for search index: {0}", link.Link);
-                    var fileContent = settings.SourceDirectory.Combine(link.Link).ReadFile(log);
+                    log.Detail("Processing file for search index: {0}", link.Url);
+                    var fileContent = settings.SourceDirectory.Combine(link.Url).ReadFile(log);
                     var rendered = RenderAndCompressForSearch(fileContent);
 
-                    var file = Path.ChangeExtension(link.Link, ".html");
+                    var file = Path.ChangeExtension(link.Url, ".html");
                     var fullpath = $"{settings.Configuration.HostName}{file}";
 
-                    _buffer.AppendFormat("<div title=\"{0}\" data-link=\"{1}\">", link.DisplayString, fullpath);
+                    _buffer.AppendFormat("<div title=\"{0}\" data-link=\"{1}\">", link.Text, fullpath);
                     _buffer.Append(rendered);
                     _buffer.Append("</div>\n");
                 }

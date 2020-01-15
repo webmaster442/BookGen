@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
-using BookGen.Core.Contracts;
 using BookGen.Domain;
 using System;
 using System.IO;
@@ -48,7 +48,7 @@ namespace BookGen.GeneratorSteps
                 log.Info("Preparing for Image inlineing...");
                 foreach (var file in settings.ImageDirectory.GetAllFiles())
                 {
-                    FileInfo fi = new FileInfo(file);
+                    FileInfo fi = new FileInfo(file.ToString());
                     if ((fi.Length < settings.Configuration.InlineImageSizeLimit || _unlimited)
                         && (fi.Extension == ".jpg"
                          || fi.Extension == ".png"

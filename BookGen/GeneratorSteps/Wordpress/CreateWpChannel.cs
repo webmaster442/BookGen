@@ -3,11 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
 using BookGen.Domain;
-using BookGen.Domain.wordpress;
+using BookGen.Domain.Wordpress;
 using BookGen.Utilities;
 using System;
 

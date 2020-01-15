@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
-using BookGen.Core.Contracts;
 using BookGen.Domain;
 using BookGen.Domain.Epub.Ncx;
 using BookGen.Framework;
@@ -16,7 +16,7 @@ namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubToc : ITemplatedStep
     {
-        public Template? Template { get; set; }
+        public TemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
         private void GenerateTocNcx(RuntimeSettings settings, ILog log)
@@ -81,7 +81,7 @@ namespace BookGen.GeneratorSteps.Epub
                     Id = $"navpoint-{filecounter}",
                     NavLabel = new NavLabel
                     {
-                        Text = link.DisplayString
+                        Text = link.Text
                     },
                     Content = new Content
                     {
@@ -109,7 +109,7 @@ namespace BookGen.GeneratorSteps.Epub
                 buffer.Append("<ol>\n");
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
-                    buffer.AppendFormat("<li><a href=\"page_{0:D3}.xhtml\">{1}</a></li>\n", index, link.DisplayString);
+                    buffer.AppendFormat("<li><a href=\"page_{0:D3}.xhtml\">{1}</a></li>\n", index, link.Text);
                     ++index;
                 }
                 buffer.Append("</ol>\n");

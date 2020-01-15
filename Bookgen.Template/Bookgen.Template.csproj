@@ -25,6 +25,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TemplateScript\ScriptTemplate.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Scripts\PageToc.js" />
     <None Remove="TemplateEpub\TemplateEpub.html" />
     <None Remove="TemplateMarkdown\index.md" />
@@ -59,15 +63,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TemplateScript\ScriptTemplate.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
