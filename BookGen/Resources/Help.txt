@@ -6,7 +6,7 @@ This config file can be created with the following command:
 BookGen Build -a Initialize {-d [directory]}
 
 To get information regarding the configuration file bookgen.json file run:
-Bookgen ConfigHelp.
+Bookgen ConfigHelp
 
 GUI Usage:
     BookGen Gui {-v} {-d [directory]}
@@ -29,6 +29,18 @@ Update Usage:
         but don't actually do an update
      -p, --prerelease:
         Include pre relase versions.
+
+Single File rendering usage:
+    BookGen Md2HTML -i [input.md] -o [output.html] {-c [cssfile.css]}
+	BookGen Md2HTML --input [input.md] --output [output.html] {--css [cssfile.css]}
+
+    Arguments:
+    -i, --input: 
+        Input markdown file path
+    -o, --output: 
+        Output html file path
+    -c. --css:
+        Optional argument. Specifies the css file to be aplied to the html
 
 Build Usage: 
     BookGen Build -a [action] {-v} {-d [directory]} {-n}

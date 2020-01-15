@@ -1,7 +1,0 @@
-﻿Md2HTML - Bookgen Markdown to HTML util
-Converts a single Markdown file to HTML
-
-Usage:
-	Md2HTML -i [input.md] -o [output.html] -c [cssfile.css]
-	Md2HTML --input [input.md] --output [output.html] --css [cssfile.css]
-
