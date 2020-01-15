@@ -7,6 +7,9 @@ using BookGen.Api.Configuration;
 
 namespace BookGen.Api
 {
+    /// <summary>
+    /// Interface for accesing the current script runtime
+    /// </summary>
     public interface IScriptHost
     {
         /// <summary>

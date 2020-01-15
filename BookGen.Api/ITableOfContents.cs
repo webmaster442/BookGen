@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace BookGen.Api
 {
+    /// <summary>
+    /// Interface for accesing the table of contents
+    /// </summary>
     public interface ITableOfContents
     {
         /// <summary>
