@@ -30,6 +30,8 @@
 
   <ItemGroup>
     <None Remove="Editor\Index.html" />
+    <None Remove="Editor\simplemde.min.css" />
+    <None Remove="Editor\simplemde.min.js" />
     <None Remove="Scripts\PageToc.js" />
     <None Remove="TemplateEpub\TemplateEpub.html" />
     <None Remove="TemplateMarkdown\index.md" />
@@ -48,6 +50,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Editor\Index.html" />
+    <EmbeddedResource Include="Editor\simplemde.min.css" />
+    <EmbeddedResource Include="Editor\simplemde.min.js" />
     <EmbeddedResource Include="Scripts\PageToc.js" />
     <EmbeddedResource Include="TemplateEpub\TemplateEpub.html" />
     <EmbeddedResource Include="TemplateMarkdown\index.md" />

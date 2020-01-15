@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
 using BookGen.Framework.Server;
 using BookGen.Template;
 using System;
@@ -24,6 +25,8 @@ namespace BookGen.Framework.Editor
                 { "/bootstrap.min.js", () => BuiltInTemplates.AssetBootstrapJs },
                 { "/jquery.min.js", () => BuiltInTemplates.AssetJqueryJs },
                 { "/popper.min.js", () => BuiltInTemplates.AssetPopperJs },
+                { "/simplemde.min.css", () => ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/simplemde.min.css") },
+                { "/simplemde.min.js", () => ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/simplemde.min.js") },
             };
         }
 

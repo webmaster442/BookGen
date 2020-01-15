@@ -5,11 +5,35 @@
     <meta charset="utf-8" />
     <title></title>
     <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="simplemde.min.css" />
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="popper.min.js"></script>
     <script type="text/javascript" src="bootstrap.min.js"></script>
+    <script type="text/javascript" src="simplemde.min.js"></script>
+    <style type="text/css">
+        .CodeMirror {
+            min-height: 500px;
+        }
+    </style>
 </head>
 <body>
-    This will be editor
+    <p>This will be editor</p>
+    <div id="editor-wrapper">
+        <textarea id="editor" style="display: none;"></textarea>
+    </div>
+    <script type="text/javascript">
+        let editor = new SimpleMDE({
+            element: $("#editor")[0],
+            lineWrapping: true,
+            insertTexts: {
+                horizontalRule: ["", "\n\n-----\n\n"],
+                image: ["![](http://", ")"],
+                link: ["[", "](http://)"],
+                table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
+            },
+            showIcons: ["code", "table", "unordered-list", "ordered-list"],
+            spellChecker: false,
+        });
+    </script>
 </body>
 </html>
