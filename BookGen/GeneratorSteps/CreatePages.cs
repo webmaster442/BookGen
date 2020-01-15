@@ -11,6 +11,9 @@ using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
 using System.IO;
+#if RELEASE
+using System.Threading.Tasks;
+#endif
 
 namespace BookGen.GeneratorSteps
 {
