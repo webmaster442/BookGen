@@ -16,7 +16,7 @@ namespace BookGen.Tests.Environment
             return AbsoluteUri == "/download";
         }
 
-        public void Serve(HttpListenerResponse response)
+        public void Serve(string AbsoluteUri, HttpListenerResponse response)
         {
             response.StatusCode = 200;
             response.ContentType = "text/plain";

@@ -16,7 +16,7 @@ namespace BookGen.Tests.Environment
             return AbsoluteUri == "/updatejson";
         }
 
-        public void Serve(HttpListenerResponse response)
+        public void Serve(string AbsoluteUri, HttpListenerResponse response)
         {
             response.ContentType = "application/json";
             response.StatusCode = 200;

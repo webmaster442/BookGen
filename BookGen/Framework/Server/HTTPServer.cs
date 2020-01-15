@@ -90,7 +90,7 @@ namespace BookGen.Framework.Server
                         {
                             if (handler.CanServe(filename))
                             {
-                                handler.Serve(context.Response);
+                                handler.Serve(filename, context.Response);
                                 processed = true;
                                 break;
                             }

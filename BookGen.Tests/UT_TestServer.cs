@@ -26,7 +26,7 @@ namespace BookGen.Tests
                 return AbsoluteUri == "/testme";
             }
 
-            public void Serve(HttpListenerResponse response)
+            public void Serve(string AbsoluteUri, HttpListenerResponse response)
             {
                 byte[] msg = Encoding.UTF8.GetBytes("TestHandler");
                 response.StatusCode = 200;
