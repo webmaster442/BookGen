@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace BookGen.Help
+namespace BookGen.Framework
 {
     internal static class ClassDocumenter
     {
