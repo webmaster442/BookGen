@@ -29,7 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Editor\Editor.html" />
     <None Remove="Editor\Index.html" />
+    <None Remove="Editor\jsonview.css" />
+    <None Remove="Editor\jsonview.js" />
     <None Remove="Editor\simplemde.min.css" />
     <None Remove="Editor\simplemde.min.js" />
     <None Remove="Scripts\PageToc.js" />
@@ -49,7 +52,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Editor\Editor.html" />
     <EmbeddedResource Include="Editor\Index.html" />
+    <EmbeddedResource Include="Editor\jsonview.css" />
+    <EmbeddedResource Include="Editor\jsonview.js" />
     <EmbeddedResource Include="Editor\simplemde.min.css" />
     <EmbeddedResource Include="Editor\simplemde.min.js" />
     <EmbeddedResource Include="Scripts\PageToc.js" />

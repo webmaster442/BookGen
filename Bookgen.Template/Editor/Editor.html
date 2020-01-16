@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="simplemde.min.css" />
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="popper.min.js"></script>
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+    <script type="text/javascript" src="simplemde.min.js"></script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+
+        .CodeMirror {
+            min-height: 500px;
+        }
+
+        .CodeMirror-scroll {
+            min-height: 500px;
+        }
+
+        #editor-wrapper {
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar" class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">File name</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto"></ul>
+            <form class="form-inline mt-2 mt-md-0">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
+            </form>
+        </div>
+    </nav>
+
+    <main class="col p-4 flex-grow-1">
+        <div id="editor-wrapper">
+            <textarea id="editor" style="display: none;"></textarea>
+        </div>
+    </main>
+    <script type="text/javascript">
+
+        function ReadGetParameter(parameterName) {
+            var result = null,
+                tmp = [];
+            location.search
+                .substr(1)
+                .split("&")
+                .forEach(function (item) {
+                    tmp = item.split("=");
+                    if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+                });
+            return result;
+        }
+
+        function ReSize() {
+            let w = window.innerWidth;
+            let h = window.innerHeight;
+            let maxheight = (h - 170) - $("#navbar").height();
+            $(".CodeMirror").css("min-height", maxheight + "px");
+            $(".CodeMirror-scroll").css("min-height", maxheight + "px");
+        }
+
+        let editor = new SimpleMDE({
+            element: $("#editor")[0],
+            lineWrapping: true,
+            insertTexts: {
+                horizontalRule: ["", "\n\n-----\n\n"],
+                image: ["![](http://", ")"],
+                link: ["[", "](http://)"],
+                table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
+            },
+            showIcons: ["code", "table", "unordered-list", "ordered-list"],
+            spellChecker: false,
+        });
+        $(function () {
+            //loaded handler
+            ReSize();
+        });
+        $(window).resize(function () {
+            ReSize();
+        });
+    </script>
+</body>
+</html>
