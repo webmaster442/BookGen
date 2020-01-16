@@ -19,7 +19,7 @@ namespace BookGen.Tests
         private HttpTestServer _server;
         private Mock<ILog> _log;
 
-        private class TestHandler : IRequestHandler
+        private class TestHandler : ISimpleRequestHandler
         {
             public bool CanServe(string AbsoluteUri)
             {

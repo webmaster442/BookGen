@@ -3,10 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Net;
+
 namespace BookGen.Framework.Server
 {
-    public interface IRequestHandler
+    public interface IAdvancedRequestHandler: IRequestHandler
     {
-        bool CanServe(string AbsoluteUri);
+        void Serve(HttpListenerRequest request, HttpListenerResponse response);
     }
 }

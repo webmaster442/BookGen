@@ -28,7 +28,7 @@ namespace BookGen.Framework.Server
 
         public List<string> IndexFiles { get; }
 
-        public HttpTestServer(string path, int port, ILog log, params IRequestHandler[] handlers)
+        public HttpTestServer(string path, int port, ILog log, params ISimpleRequestHandler[] handlers)
         {
             _sem = new Semaphore(1, 3);
             _cts = new CancellationTokenSource();
@@ -84,18 +84,7 @@ namespace BookGen.Framework.Server
             {
                 try
                 {
-                    if (_handlers != null)
-                    {
-                        foreach (var handler in _handlers)
-                        {
-                            if (handler.CanServe(filename))
-                            {
-                                handler.Serve(filename, context.Response);
-                                processed = true;
-                                break;
-                            }
-                        }
-                    }
+                    processed = TryToServeWitHandler(context, filename);
 
                     if (!processed)
                     {
@@ -125,6 +114,26 @@ namespace BookGen.Framework.Server
                     _log.Warning(ex);
                 }
             }
+        }
+
+        private bool TryToServeWitHandler(HttpListenerContext context, string filename)
+        {
+            if (_handlers != null)
+            {
+                foreach (var handler in _handlers)
+                {
+                    if (handler.CanServe(filename))
+                    {
+                        if (handler is ISimpleRequestHandler simple)
+                            simple.Serve(filename, context.Response);
+                        else if (handler is IAdvancedRequestHandler advanced)
+                            advanced.Serve(context.Request, context.Response);
+
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private string GetIndexFile(string _path)

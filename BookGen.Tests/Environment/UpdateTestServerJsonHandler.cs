@@ -9,7 +9,7 @@ using System.Net;
 
 namespace BookGen.Tests.Environment
 {
-    internal class UpdateTestServerJsonHandler : IRequestHandler
+    internal class UpdateTestServerJsonHandler : ISimpleRequestHandler
     {
         public bool CanServe(string AbsoluteUri)
         {

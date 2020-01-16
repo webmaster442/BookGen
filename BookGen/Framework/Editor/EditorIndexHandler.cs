@@ -7,11 +7,10 @@ using BookGen.Core;
 using BookGen.Framework.Server;
 using BookGen.Template;
 using System.Net;
-using System.Text;
 
 namespace BookGen.Framework.Editor
 {
-    internal class EditorIndexHandler : IRequestHandler
+    internal class EditorIndexHandler : ISimpleRequestHandler
     {
         public bool CanServe(string AbsoluteUri)
         {
@@ -23,11 +22,7 @@ namespace BookGen.Framework.Editor
         public void Serve(string AbsoluteUri, HttpListenerResponse response)
         {
             var str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/Index.html");
-            byte[] content = Encoding.UTF8.GetBytes(str);
-
-            response.ContentEncoding = Encoding.UTF8;
-            response.ContentType = MimeTypes.GetMimeForExtension(".html");
-            response.OutputStream.Write(content, 0, content.Length);
+            response.WriteHtmlString(str);
         }
     }
 }

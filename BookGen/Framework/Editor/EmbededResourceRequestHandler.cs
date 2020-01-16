@@ -9,11 +9,10 @@ using BookGen.Template;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
 namespace BookGen.Framework.Editor
 {
-    public class EmbededResourceRequestHandler : IRequestHandler
+    public class EmbededResourceRequestHandler : ISimpleRequestHandler
     {
         private readonly Dictionary<string, Func<string>> _knownFiles;
 
@@ -27,6 +26,8 @@ namespace BookGen.Framework.Editor
                 { "/popper.min.js", () => BuiltInTemplates.AssetPopperJs },
                 { "/simplemde.min.css", () => ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/simplemde.min.css") },
                 { "/simplemde.min.js", () => ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/simplemde.min.js") },
+                { "/jsonview.css", () => ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/jsonview.css") },
+                { "/jsonview.js", () => ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/jsonview.js") },
             };
         }
 
@@ -37,14 +38,8 @@ namespace BookGen.Framework.Editor
 
         public void Serve(string AbsoluteUri, HttpListenerResponse response)
         {
-            response.StatusCode = 200;
-
             var str = _knownFiles[AbsoluteUri].Invoke();
-            byte[] content = Encoding.UTF8.GetBytes(str);
-
-            response.ContentEncoding = Encoding.UTF8;
-            response.ContentType = MimeTypes.GetMimeTypeForFile(AbsoluteUri);
-            response.OutputStream.Write(content, 0, content.Length);
+            response.WriteString(str, MimeTypes.GetMimeTypeForFile(AbsoluteUri));
         }
     }
 }
