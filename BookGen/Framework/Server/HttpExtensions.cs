@@ -16,6 +16,7 @@ namespace BookGen.Framework.Server
             response.StatusCode = 200;
             response.ContentEncoding = Encoding.UTF8;
             response.ContentType = mime;
+            response.ContentLength64 = responseBytes.long;
             response.OutputStream.Write(responseBytes, 0, content.Length);
         }
 

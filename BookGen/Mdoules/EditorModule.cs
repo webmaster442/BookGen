@@ -31,9 +31,9 @@ namespace BookGen.Mdoules
 
             ILog log = new ConsoleLog(Api.LogLevel.Info);
 
-            ISimpleRequestHandler[] handlers = new ISimpleRequestHandler[]
+            IRequestHandler[] handlers = new IRequestHandler[]
             {
-                new DynamicHandlers(),
+                new DynamicHandlers(workdir),
                 new EditorIndexHandler(),
                 new EmbededResourceRequestHandler()
             };

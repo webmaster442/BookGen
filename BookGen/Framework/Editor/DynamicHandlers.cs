@@ -1,13 +1,22 @@
-﻿using BookGen.Framework.Server;
-using System;
-using System.Collections.Generic;
+﻿//-----------------------------------------------------------------------------
+// (c) 2020 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Framework.Server;
 using System.Net;
-using System.Text;
 
 namespace BookGen.Framework.Editor
 {
     public class DynamicHandlers : IAdvancedRequestHandler
     {
+        private readonly string _workdir;
+
+        public DynamicHandlers(string workdir)
+        {
+            _workdir = workdir;
+        }
+
         public bool CanServe(string AbsoluteUri)
         {
             return AbsoluteUri == "/dynamic/FileTree.html";
@@ -17,7 +26,7 @@ namespace BookGen.Framework.Editor
         {
             if (request.Url.AbsolutePath == "/dynamic/FileTree.html")
             {
-
+                response.WriteHtmlString(FileTreeRenderer.Render(_workdir));
             }
         }
     }

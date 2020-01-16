@@ -16,13 +16,22 @@ namespace BookGen.Framework.Editor
         {
             return
                 AbsoluteUri == "/"
-                || AbsoluteUri == "/index.html";
+                || AbsoluteUri == "/index.html"
+                || AbsoluteUri == "/editor.html";
         }
 
         public void Serve(string AbsoluteUri, HttpListenerResponse response)
         {
-            var str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/Index.html");
-            response.WriteHtmlString(str);
+            if (AbsoluteUri == "/" || AbsoluteUri == "/index.html")
+            {
+                var str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/Index.html");
+                response.WriteHtmlString(str);
+            }
+            else if (AbsoluteUri == "/editor.html")
+            {
+                var str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/Editor.html");
+                response.WriteHtmlString(str);
+            }
         }
     }
 }

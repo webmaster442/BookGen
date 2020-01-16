@@ -52,10 +52,17 @@
                 View configuration
             </a>
         </div>
-        <hr/>
+        <hr />
         <div class="row">
             <h1>Files</h1>
         </div>
+        <div id="filecontents" class="row" style="display: block;"></div>
     </div>
+    <script type="text/javascript">
+        $(function () {
+            //loaded handler
+            $("#filecontents").load("http://localhost:9090/dynamic/FileTree.html");
+        });
+    </script>
 </body>
 </html>

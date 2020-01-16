@@ -71,20 +71,20 @@
             $(".CodeMirror-scroll").css("min-height", maxheight + "px");
         }
 
-        let editor = new SimpleMDE({
-            element: $("#editor")[0],
-            lineWrapping: true,
-            insertTexts: {
-                horizontalRule: ["", "\n\n-----\n\n"],
-                image: ["![](http://", ")"],
-                link: ["[", "](http://)"],
-                table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
-            },
-            showIcons: ["code", "table", "unordered-list", "ordered-list"],
-            spellChecker: false,
-        });
         $(function () {
             //loaded handler
+            let editor = new SimpleMDE({
+                element: $("#editor")[0],
+                lineWrapping: true,
+                insertTexts: {
+                    horizontalRule: ["", "\n\n-----\n\n"],
+                    image: ["![](http://", ")"],
+                    link: ["[", "](http://)"],
+                    table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
+                },
+                showIcons: ["code", "table", "unordered-list", "ordered-list"],
+                spellChecker: false,
+            });
             ReSize();
         });
         $(window).resize(function () {

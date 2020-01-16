@@ -28,7 +28,7 @@ namespace BookGen.Framework.Server
 
         public List<string> IndexFiles { get; }
 
-        public HttpTestServer(string path, int port, ILog log, params ISimpleRequestHandler[] handlers)
+        public HttpTestServer(string path, int port, ILog log, params IRequestHandler[] handlers)
         {
             _sem = new Semaphore(1, 3);
             _cts = new CancellationTokenSource();

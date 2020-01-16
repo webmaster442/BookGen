@@ -3,28 +3,31 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 namespace BookGen.Framework.Editor
 {
-    public class FileTreeRenderer
+    public static class FileTreeRenderer
     {
-        private string Walk(string folder)
+        public static string Render(string folder)
         {
             var buffer = new StringBuilder();
             var folders = new Stack<string>(Directory.GetDirectories(folder));
+
+            buffer.AppendFormat("<h3>{0}</h3>\n", folder);
 
             while (folders.Count > 0)
             {
                 string current = folders.Pop();
                 var files = Directory.GetFiles(current, "*.*");
 
-                buffer.Append("<details>\n");
-                buffer.AppendFormat("<summary>{0}</summary>\n", current);
+                buffer.Append("<details open>\n");
+                buffer.AppendFormat("<summary>{0}</summary>\n", GetName(current, folder));
 
-                RenderFiles(buffer, files);
+                RenderFiles(buffer, files, current);
 
                 var subDirectories = Directory.GetDirectories(current);
                 foreach (var directory in subDirectories)
@@ -37,19 +40,40 @@ namespace BookGen.Framework.Editor
             return buffer.ToString();
         }
 
-        private void RenderFiles(StringBuilder buffer, string[] files)
+        private static string GetName(string item, string rootfolder)
         {
+            return item.Substring(rootfolder.Length);
+        }
+
+        private static void RenderFiles(StringBuilder buffer, string[] files, string rootFolder)
+        {
+            if (files.Length < 1) return;
+
             buffer.Append("<ul>\n");
             foreach (var file in files)
             {
-                buffer.AppendFormat("<li>{0}</li>\n", file);
+                buffer.AppendFormat("<li>{0}", GetName(file, rootFolder));
+                if (IsMarkdownFile(file))
+                {
+                    buffer.Append("<a class=\"btn btn-primary\" href=\"#\" role=\"button\">Edit</a>\n");
+                }
+                else if (OpenableFile(file))
+                {
+                    buffer.Append("<a class=\"btn btn-success\" href=\"#\" role=\"button\">Open</a>\n");
+                }
+                buffer.Append("</li>\n");
             }
             buffer.Append("</ul>\n");
         }
 
-        public byte[] Render(string workdir)
+        private static bool OpenableFile(string file)
         {
-            return Encoding.UTF8.GetBytes(Walk(workdir));
+            return true;
+        }
+
+        private static bool IsMarkdownFile(string file)
+        {
+            return Path.GetExtension(file).ToLower() == ".md"; 
         }
     }
 }
