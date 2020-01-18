@@ -27,7 +27,7 @@ namespace BookGen.Framework.Editor
                 buffer.Append("<details open>\n");
                 buffer.AppendFormat("<summary>{0}</summary>\n", GetName(current, folder));
 
-                RenderFiles(buffer, files, current);
+                RenderFiles(buffer, files, current, folder);
 
                 var subDirectories = Directory.GetDirectories(current);
                 foreach (var directory in subDirectories)
@@ -45,35 +45,34 @@ namespace BookGen.Framework.Editor
             return item.Substring(rootfolder.Length);
         }
 
-        private static void RenderFiles(StringBuilder buffer, string[] files, string rootFolder)
+        private static void RenderFiles(StringBuilder buffer, string[] files, string currentFolder, string rootFolder)
         {
             if (files.Length < 1) return;
 
             buffer.Append("<ul>\n");
             foreach (var file in files)
             {
-                buffer.AppendFormat("<li>{0}", GetName(file, rootFolder));
+                string filepath = GetName(file, currentFolder);
+                string linkpath = GetName(file, rootFolder);
+                buffer.AppendFormat("<li>{0}", filepath);
                 if (IsMarkdownFile(file))
                 {
-                    buffer.Append(" <a href=\"#\">[ Edit ]</a>\n");
+                    string param = Convert.ToBase64String(Encoding.UTF8.GetBytes(linkpath));
+                    buffer.AppendFormat(" <a target=\"_blank\" href=\"/Edit.html?file={0}\">[Edit]</a>\n", param);
+                    buffer.AppendFormat(" <a target=\"_blank\" href=\"/Preview.html?file={0}\">[Preview]</a>\n", param);
                 }
-                else if (OpenableFile(file))
+                else
                 {
-                    buffer.Append(" <a href=\"#\">[ Open ]</a>\n");
+                    buffer.AppendFormat(" <a href=\"{0}\">[Open]</a>\n", linkpath);
                 }
                 buffer.Append("</li>\n");
             }
             buffer.Append("</ul>\n");
         }
 
-        private static bool OpenableFile(string file)
-        {
-            return true;
-        }
-
         private static bool IsMarkdownFile(string file)
         {
-            return Path.GetExtension(file).ToLower() == ".md"; 
+            return string.Equals(Path.GetExtension(file), ".md", StringComparison.OrdinalIgnoreCase); 
         }
     }
 }
