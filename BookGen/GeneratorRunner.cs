@@ -233,7 +233,7 @@ namespace BookGen
             WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
             var runTime = builder.Run();
 
-            using (var server = new HttpTestServer(Path.Combine(WorkDirectory, Configuration.TargetWeb.OutPutDirectory), 8080, _log))
+            using (var server = new HttpServer(Path.Combine(WorkDirectory, Configuration.TargetWeb.OutPutDirectory), 8080, _log))
             {
                 _log.Info("-------------------------------------------------");
                 _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);

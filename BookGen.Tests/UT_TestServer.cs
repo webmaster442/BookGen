@@ -16,7 +16,7 @@ namespace BookGen.Tests
     [TestFixture, SingleThreaded]
     public class UT_TestServer
     {
-        private HttpTestServer _server;
+        private HttpServer _server;
         private Mock<ILog> _log;
 
         private class TestHandler : ISimpleRequestHandler
@@ -39,7 +39,7 @@ namespace BookGen.Tests
         public void Setup()
         {
             _log = new Mock<ILog>();
-            _server = new HttpTestServer(TestEnvironment.GetTestFolder(), 8080, _log.Object, new TestHandler());
+            _server = new HttpServer(TestEnvironment.GetTestFolder(), 8080, _log.Object, new TestHandler());
         }
 
         [TearDown]

@@ -20,7 +20,7 @@ namespace BookGen.Tests
     {
         private List<Release> _releasesStub;
         private Mock<ILog> _log;
-        private HttpTestServer _server;
+        private HttpServer _server;
         private string _tempfile;
 
         private class Reporter : IProgress<double>
@@ -88,7 +88,7 @@ namespace BookGen.Tests
                     }
                 },
             };
-            _server = new HttpTestServer(TestEnvironment.GetTestFolder(),
+            _server = new HttpServer(TestEnvironment.GetTestFolder(),
                                          9080,
                                          _log.Object,
                                          new Environment.UpdateTestServerJsonHandler(),

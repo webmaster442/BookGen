@@ -38,7 +38,7 @@ namespace BookGen.Mdoules
                 new EmbededResourceRequestHandler()
             };
 
-            using (var server = new HttpTestServer(workdir, 9090, log, handlers))
+            using (var server = new HttpServer(workdir, 9090, log, handlers))
             {
                 log.Info("Editor started on: http://localhost:9090");
                 log.Info("Press a key to exit...");

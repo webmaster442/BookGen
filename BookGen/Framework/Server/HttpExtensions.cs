@@ -16,8 +16,9 @@ namespace BookGen.Framework.Server
             response.StatusCode = 200;
             response.ContentEncoding = Encoding.UTF8;
             response.ContentType = mime;
-            response.ContentLength64 = responseBytes.long;
+            response.ContentLength64 = responseBytes.LongLength;
             response.OutputStream.Write(responseBytes, 0, content.Length);
+            response.OutputStream.Flush();
         }
 
         public static void WriteJavascriptString(this HttpListenerResponse response, string content)
