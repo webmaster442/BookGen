@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework.Server;
+using System.Collections.Generic;
 using System.Net;
 
 namespace BookGen.Framework.Editor
@@ -19,7 +20,9 @@ namespace BookGen.Framework.Editor
 
         public bool CanServe(string AbsoluteUri)
         {
-            return AbsoluteUri == "/dynamic/FileTree.html";
+            return
+                AbsoluteUri == "/dynamic/FileTree.html"
+                || AbsoluteUri == "/dynamic/GetContents.html";
         }
 
         public void Serve(HttpListenerRequest request, HttpListenerResponse response)
@@ -27,6 +30,13 @@ namespace BookGen.Framework.Editor
             if (request.Url.AbsolutePath == "/dynamic/FileTree.html")
             {
                 response.WriteHtmlString(FileTreeRenderer.Render(_workdir));
+            }
+            else if (request.Url.AbsolutePath == "/dynamic/GetContents.html")
+            {
+                Dictionary<string, string> parameters = request.Url.Query.ParseQueryParameters();
+                string file = parameters["file"];
+                response.WriteString(EditorLoadSave.LoadFile(_workdir, file), "text/plain");
+
             }
         }
     }

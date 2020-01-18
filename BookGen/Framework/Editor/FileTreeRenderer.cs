@@ -19,17 +19,21 @@ namespace BookGen.Framework.Editor
 
             buffer.AppendFormat("<h3>{0}</h3>\n", folder);
 
+            string[] files = Directory.GetFiles(folder, "*.*");
+
+            RenderFiles(buffer, files, folder, folder);
+
             while (folders.Count > 0)
             {
                 string current = folders.Pop();
-                var files = Directory.GetFiles(current, "*.*");
+                files = Directory.GetFiles(current, "*.*");
 
                 buffer.Append("<details open>\n");
                 buffer.AppendFormat("<summary>{0}</summary>\n", GetName(current, folder));
 
                 RenderFiles(buffer, files, current, folder);
 
-                var subDirectories = Directory.GetDirectories(current);
+                string[] subDirectories = Directory.GetDirectories(current);
                 foreach (var directory in subDirectories)
                 {
                     folders.Push(directory);
@@ -58,7 +62,7 @@ namespace BookGen.Framework.Editor
                 if (IsMarkdownFile(file))
                 {
                     string param = Convert.ToBase64String(Encoding.UTF8.GetBytes(linkpath));
-                    buffer.AppendFormat(" <a target=\"_blank\" href=\"/Edit.html?file={0}\">[Edit]</a>\n", param);
+                    buffer.AppendFormat(" <a target=\"_blank\" href=\"/Editor.html?file={0}\">[Edit]</a>\n", param);
                     buffer.AppendFormat(" <a target=\"_blank\" href=\"/Preview.html?file={0}\">[Preview]</a>\n", param);
                 }
                 else

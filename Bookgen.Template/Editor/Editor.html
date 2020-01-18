@@ -15,12 +15,8 @@
             height: 100%;
         }
 
-        .CodeMirror {
-            min-height: 500px;
-        }
-
-        .CodeMirror-scroll {
-            min-height: 500px;
+        .CodeMirror .CodeMirror-scroll {
+            height: 500px;
         }
 
         #editor-wrapper {
@@ -50,6 +46,8 @@
     </main>
     <script type="text/javascript">
 
+        let loaded = false;
+
         function ReadGetParameter(parameterName) {
             var result = null,
                 tmp = [];
@@ -67,8 +65,8 @@
             let w = window.innerWidth;
             let h = window.innerHeight;
             let maxheight = (h - 170) - $("#navbar").height();
-            $(".CodeMirror").css("min-height", maxheight + "px");
-            $(".CodeMirror-scroll").css("min-height", maxheight + "px");
+            $(".CodeMirror").css("height", maxheight + "px");
+            $(".CodeMirror-scroll").css("height", maxheight + "px");
         }
 
         $(function () {
@@ -86,6 +84,13 @@
                 spellChecker: false,
             });
             ReSize();
+
+            $.get("/dynamic/GetContents.html?file="+ReadGetParameter("file"), function(response) {
+                let contents = response;
+                editor.value(contents);
+                loaded = true;
+            });
+
         });
         $(window).resize(function () {
             ReSize();
