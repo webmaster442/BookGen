@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Framework.Server;
 using System.IO;
 using System.Net;
@@ -16,7 +17,7 @@ namespace BookGen.Tests.Environment
             return AbsoluteUri == "/updatejson";
         }
 
-        public void Serve(string AbsoluteUri, HttpListenerResponse response)
+        public void Serve(string AbsoluteUri, HttpListenerResponse response, ILog log)
         {
             response.ContentType = "application/json";
             response.StatusCode = 200;

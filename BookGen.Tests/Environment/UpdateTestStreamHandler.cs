@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Framework.Server;
 using System;
 using System.Net;
@@ -16,7 +17,7 @@ namespace BookGen.Tests.Environment
             return AbsoluteUri == "/download";
         }
 
-        public void Serve(string AbsoluteUri, HttpListenerResponse response)
+        public void Serve(string AbsoluteUri, HttpListenerResponse response, ILog log)
         {
             response.StatusCode = 200;
             response.ContentType = "text/plain";

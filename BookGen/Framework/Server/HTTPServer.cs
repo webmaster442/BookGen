@@ -142,9 +142,9 @@ namespace BookGen.Framework.Server
                         if (handler.CanServe(filename))
                         {
                             if (handler is ISimpleRequestHandler simple)
-                                simple.Serve(filename, context.Response);
+                                simple.Serve(filename, context.Response, _log);
                             else if (handler is IAdvancedRequestHandler advanced)
-                                advanced.Serve(context.Request, context.Response);
+                                advanced.Serve(context.Request, context.Response, _log);
 
                             return true;
                         }

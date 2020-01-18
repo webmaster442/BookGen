@@ -38,7 +38,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto"></ul>
             <form class="form-inline mt-2 mt-md-0">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Save</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="Save">Save</button>
             </form>
         </div>
     </nav>
@@ -51,6 +51,19 @@
     <script type="text/javascript">
 
         let loaded = false;
+
+        let editor = new SimpleMDE({
+            element: $("#editor")[0],
+            lineWrapping: true,
+            insertTexts: {
+                horizontalRule: ["", "\n\n-----\n\n"],
+                image: ["![](http://", ")"],
+                link: ["[", "](http://)"],
+                table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
+            },
+            showIcons: ["code", "table", "unordered-list", "ordered-list"],
+            spellChecker: false,
+        });
 
         function ReadGetParameter(parameterName) {
             var result = null,
@@ -75,18 +88,6 @@
 
         $(function () {
             //loaded handler
-            let editor = new SimpleMDE({
-                element: $("#editor")[0],
-                lineWrapping: true,
-                insertTexts: {
-                    horizontalRule: ["", "\n\n-----\n\n"],
-                    image: ["![](http://", ")"],
-                    link: ["[", "](http://)"],
-                    table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
-                },
-                showIcons: ["code", "table", "unordered-list", "ordered-list"],
-                spellChecker: false,
-            });
             ReSize();
 
             $.get("/dynamic/GetContents.html?file=" + ReadGetParameter("file"), function (response) {
@@ -100,6 +101,27 @@
         });
         $(window).resize(function () {
             ReSize();
+        });
+
+        $("#Save").click(function () {
+            if (!loaded) {
+                alert("File can't be saved.");
+                return;
+            }
+
+            $.post("/dynamic/Save.html",
+                {
+                    file: ReadGetParameter("file"),
+                    content: window.btoa(editor.value())
+                }).done(function (data) {
+
+                    if (data === "OK") {
+                        alert("file.saved");
+                    }
+                    else {
+                        alert("file save error");
+                    }
+                });
         });
     </script>
 </body>

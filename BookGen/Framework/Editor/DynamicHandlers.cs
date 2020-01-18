@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Framework.Server;
 using System;
 using System.Collections.Generic;
@@ -23,10 +24,11 @@ namespace BookGen.Framework.Editor
         {
             return
                 AbsoluteUri == "/dynamic/FileTree.html"
-                || AbsoluteUri == "/dynamic/GetContents.html";
+                || AbsoluteUri == "/dynamic/GetContents.html"
+                || AbsoluteUri == "/dynamic/Save.html";
         }
 
-        public void Serve(HttpListenerRequest request, HttpListenerResponse response)
+        public void Serve(HttpListenerRequest request, HttpListenerResponse response, ILog log)
         {
             if (request.Url.AbsolutePath == "/dynamic/FileTree.html")
             {
@@ -35,9 +37,32 @@ namespace BookGen.Framework.Editor
             else if (request.Url.AbsolutePath == "/dynamic/GetContents.html")
             {
                 Dictionary<string, string> parameters = request.Url.Query.ParseQueryParameters();
-                string file = Uri.UnescapeDataString(parameters["file"]);
-                response.WriteString(EditorLoadSave.LoadFile(_workdir, file), "text/plain");
+                if (parameters.ContainsKey("file"))
+                {
+                    string file = Uri.UnescapeDataString(parameters["file"]);
+                    response.WriteString(EditorLoadSave.LoadFile(_workdir, file, log), "text/plain");
+                }
 
+            }
+            else if (request.Url.AbsolutePath == "/dynamic/Save.html")
+            {
+                Dictionary<string, string> parameters = request.ParsePostParameters();
+                if (parameters.ContainsKey("file") && parameters.ContainsKey("content"))
+                {
+                    string file = Uri.UnescapeDataString(parameters["file"]);
+                    string content = Uri.UnescapeDataString(parameters["content"]);
+                    bool result = EditorLoadSave.SaveFile(_workdir, file, content, log);
+                    if (result)
+                    {
+                        response.WriteString("OK", "text/plain");
+                    }
+                    else
+                    {
+                        response.WriteString("Error", "text/plain");
+                    }
+
+
+                }
             }
         }
     }

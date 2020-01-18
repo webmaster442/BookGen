@@ -35,6 +35,17 @@ namespace BookGen.Framework.Server
             WriteString(response, content, MimeTypes.GetMimeForExtension(".html"));
         }
 
+        public static Dictionary<string, string> ParsePostParameters(this HttpListenerRequest request)
+        {
+            if (!request.HasEntityBody)
+                return new Dictionary<string, string>();
+
+            using (var reader = new StreamReader(request.InputStream))
+            {
+                return ParseQueryParameters(reader.ReadToEnd());
+            }
+        }
+
         public static Dictionary<string, string> ParseQueryParameters(this string query)
         {
             var dictionary = new Dictionary<string, string>();
@@ -42,7 +53,13 @@ namespace BookGen.Framework.Server
             if (query.Length < 1)
                 return dictionary;
 
-            var parts =query.Substring(1).Split('&');
+            string[] parts;
+
+            if (query.StartsWith('?'))
+                parts = query.Substring(1).Split('&');
+            else
+                parts = query.Split('&');
+
             foreach (var part in parts)
             {
                 var firstSplitter = part.IndexOf('=');
