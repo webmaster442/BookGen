@@ -10,6 +10,26 @@
     <script type="text/javascript" src="popper.min.js"></script>
     <script type="text/javascript" src="bootstrap.min.js"></script>
     <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            background-color: #676e75;
+        }
+
+        .cover-container {
+            background-color: #373b3f;
+            width: 100%;
+            display: -ms-flexbox;
+            display: -webkit-box;
+            display: flex;
+            -ms-flex-pack: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            color: #fff;
+            text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+            box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+        }
+
         .mainbuttons {
             margin-right: 1rem;
         }
@@ -18,50 +38,88 @@
             width: 1rem;
             text-align: center;
         }
+
+        #FileSelector {
+            display: block;
+            margin-left: 30px;
+        }
+
+            #FileSelector summary {
+                font-family: "Lucida Console", Monaco, monospace;
+                color: #f7da7b;
+            }
+
+            #FileSelector details li {
+                font-family: "Lucida Console", Monaco, monospace;
+                color: #37c4e8;
+            }
+
+            #FileSelector li {
+                list-style: none;
+            }
+
+            #FileSelector li:before {
+                content: "-";
+            }
     </style>
 </head>
-<body>
-    <div class="jumbotron text-center bg-dark text-white">
-        <h1>BookGen Editor</h1>
-        <p>
-            Welcome to the BookGen editor<br />
-            Editor and default theme uses:
-            <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
-            <span class="splitter">|</span>
-            <a href="https://jquery.com/" target="_blank">jQuery</a>
-            <span class="splitter">|</span>
-            <a href="https://simplemde.com/" target="_blank">SimpleMDE</a>
-            <span class="splitter">|</span>
-            <a href="https://fontawesome.com" target="_blank">Font Awesome</a>
-            <span class="splitter">|</span>
-            <a href="http://pgrabovets.github.io/json-view/" target="_blank">json-view</a>
-        </p>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <main role="main" class="inner cover">
+            <h1>BookGen Editor</h1>
+            <p>
+                Welcome to the BookGen editor<br />
+                Editor and default theme uses:
+                <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
+                <span class="splitter">|</span>
+                <a href="https://jquery.com/" target="_blank">jQuery</a>
+                <span class="splitter">|</span>
+                <a href="https://simplemde.com/" target="_blank">SimpleMDE</a>
+                <span class="splitter">|</span>
+                <a href="https://fontawesome.com" target="_blank">Font Awesome</a>
+                <span class="splitter">|</span>
+                <a href="http://pgrabovets.github.io/json-view/" target="_blank">json-view</a>
+            </p>
+            <div>
+                <a href="#" class="mainbuttons btn btn-lg btn-success" role="button">
+                    <svg aria-hidden="true" width="32" height="32" focusable="false" data-prefix="fas" data-icon="book-open" class="svg-inline--fa fa-book-open fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                        <path fill="currentColor" d="M542.22 32.05c-54.8 3.11-163.72 14.43-230.96 55.59-4.64 2.84-7.27 7.89-7.27 13.17v363.87c0 11.55 12.63 18.85 23.28 13.49 69.18-34.82 169.23-44.32 218.7-46.92 16.89-.89 30.02-14.43 30.02-30.66V62.75c.01-17.71-15.35-31.74-33.77-30.7zM264.73 87.64C197.5 46.48 88.58 35.17 33.78 32.05 15.36 31.01 0 45.04 0 62.75V400.6c0 16.24 13.13 29.78 30.02 30.66 49.49 2.6 149.59 12.11 218.77 46.95 10.62 5.35 23.21-1.94 23.21-13.46V100.63c0-5.29-2.62-10.14-7.27-12.99z"></path>
+                    </svg>
+                    Edit Table of Contents
+                </a>
+                <a href="#" class="mainbuttons btn btn-lg btn-info" role="button">
+                    <svg aria-hidden="true" width="32" height="32" focusable="false" data-prefix="fas" data-icon="cog" class="svg-inline--fa fa-cog fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path fill="currentColor" d="M487.4 315.7l-42.6-24.6c4.3-23.2 4.3-47 0-70.2l42.6-24.6c4.9-2.8 7.1-8.6 5.5-14-11.1-35.6-30-67.8-54.7-94.6-3.8-4.1-10-5.1-14.8-2.3L380.8 110c-17.9-15.4-38.5-27.3-60.8-35.1V25.8c0-5.6-3.9-10.5-9.4-11.7-36.7-8.2-74.3-7.8-109.2 0-5.5 1.2-9.4 6.1-9.4 11.7V75c-22.2 7.9-42.8 19.8-60.8 35.1L88.7 85.5c-4.9-2.8-11-1.9-14.8 2.3-24.7 26.7-43.6 58.9-54.7 94.6-1.7 5.4.6 11.2 5.5 14L67.3 221c-4.3 23.2-4.3 47 0 70.2l-42.6 24.6c-4.9 2.8-7.1 8.6-5.5 14 11.1 35.6 30 67.8 54.7 94.6 3.8 4.1 10 5.1 14.8 2.3l42.6-24.6c17.9 15.4 38.5 27.3 60.8 35.1v49.2c0 5.6 3.9 10.5 9.4 11.7 36.7 8.2 74.3 7.8 109.2 0 5.5-1.2 9.4-6.1 9.4-11.7v-49.2c22.2-7.9 42.8-19.8 60.8-35.1l42.6 24.6c4.9 2.8 11 1.9 14.8-2.3 24.7-26.7 43.6-58.9 54.7-94.6 1.5-5.5-.7-11.3-5.6-14.1zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z"></path>
+                    </svg>
+                    View configuration
+                </a>
+
+                <a href="#files" class="mainbuttons btn btn-lg btn-warning" role="button">
+                    <svg aria-hidden="true" width="32" height="32" focusable="false" data-prefix="fas" data-icon="file" class="svg-inline--fa fa-file fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"></path>
+                    </svg>
+                    Edit a selected file
+                </a>
+            </div>
+        </main>
     </div>
-    <div class="container">
-        <div class="row">
-            <a href="#" class="mainbuttons btn btn-lg btn-success" role="button">
-                <svg aria-hidden="true" width="32" height="32" focusable="false" data-prefix="fas" data-icon="book-open" class="svg-inline--fa fa-book-open fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                    <path fill="currentColor" d="M542.22 32.05c-54.8 3.11-163.72 14.43-230.96 55.59-4.64 2.84-7.27 7.89-7.27 13.17v363.87c0 11.55 12.63 18.85 23.28 13.49 69.18-34.82 169.23-44.32 218.7-46.92 16.89-.89 30.02-14.43 30.02-30.66V62.75c.01-17.71-15.35-31.74-33.77-30.7zM264.73 87.64C197.5 46.48 88.58 35.17 33.78 32.05 15.36 31.01 0 45.04 0 62.75V400.6c0 16.24 13.13 29.78 30.02 30.66 49.49 2.6 149.59 12.11 218.77 46.95 10.62 5.35 23.21-1.94 23.21-13.46V100.63c0-5.29-2.62-10.14-7.27-12.99z"></path>
-                </svg>
-                Edit Table of Contents
-            </a>
-            <a href="#" class="mainbuttons btn btn-lg btn-info" role="button">
-                <svg aria-hidden="true" width="32" height="32" focusable="false" data-prefix="fas" data-icon="cog" class="svg-inline--fa fa-cog fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                    <path fill="currentColor" d="M487.4 315.7l-42.6-24.6c4.3-23.2 4.3-47 0-70.2l42.6-24.6c4.9-2.8 7.1-8.6 5.5-14-11.1-35.6-30-67.8-54.7-94.6-3.8-4.1-10-5.1-14.8-2.3L380.8 110c-17.9-15.4-38.5-27.3-60.8-35.1V25.8c0-5.6-3.9-10.5-9.4-11.7-36.7-8.2-74.3-7.8-109.2 0-5.5 1.2-9.4 6.1-9.4 11.7V75c-22.2 7.9-42.8 19.8-60.8 35.1L88.7 85.5c-4.9-2.8-11-1.9-14.8 2.3-24.7 26.7-43.6 58.9-54.7 94.6-1.7 5.4.6 11.2 5.5 14L67.3 221c-4.3 23.2-4.3 47 0 70.2l-42.6 24.6c-4.9 2.8-7.1 8.6-5.5 14 11.1 35.6 30 67.8 54.7 94.6 3.8 4.1 10 5.1 14.8 2.3l42.6-24.6c17.9 15.4 38.5 27.3 60.8 35.1v49.2c0 5.6 3.9 10.5 9.4 11.7 36.7 8.2 74.3 7.8 109.2 0 5.5-1.2 9.4-6.1 9.4-11.7v-49.2c22.2-7.9 42.8-19.8 60.8-35.1l42.6 24.6c4.9 2.8 11 1.9 14.8-2.3 24.7-26.7 43.6-58.9 54.7-94.6 1.5-5.5-.7-11.3-5.6-14.1zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z"></path>
-                </svg>
-                View configuration
-            </a>
+    <div id="files" class="d-flex h-100 p-3 mx-auto flex-column">
+        <div id="FileSelector" class="row">
         </div>
-        <hr />
-        <div class="row">
-            <h1>Files</h1>
-        </div>
-        <div id="filecontents" class="row" style="display: block;"></div>
     </div>
     <script type="text/javascript">
+        $('a[href="#files"]').click(function (event) {
+            event.preventDefault();
+            $('html, body').animate({
+                scrollTop: $("#files").offset().top
+            }, 800, function () {
+                // Add hash (#) to URL when done scrolling (default click behavior)
+                window.location.hash = "#files";
+            });
+        });
         $(function () {
             //loaded handler
-            $("#filecontents").load("http://localhost:9090/dynamic/FileTree.html");
+            $("#FileSelector").load("http://localhost:9090/dynamic/FileTree.html");
         });
     </script>
 </body>

@@ -55,11 +55,11 @@ namespace BookGen.Framework.Editor
                 buffer.AppendFormat("<li>{0}", GetName(file, rootFolder));
                 if (IsMarkdownFile(file))
                 {
-                    buffer.Append("<a class=\"btn btn-primary\" href=\"#\" role=\"button\">Edit</a>\n");
+                    buffer.Append(" <a href=\"#\">[ Edit ]</a>\n");
                 }
                 else if (OpenableFile(file))
                 {
-                    buffer.Append("<a class=\"btn btn-success\" href=\"#\" role=\"button\">Open</a>\n");
+                    buffer.Append(" <a href=\"#\">[ Open ]</a>\n");
                 }
                 buffer.Append("</li>\n");
             }
