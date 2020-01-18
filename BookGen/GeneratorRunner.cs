@@ -7,6 +7,7 @@ using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Framework;
+using BookGen.Framework.Editor;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
@@ -64,13 +65,19 @@ namespace BookGen
             }
         }
 
-        public bool Initialize()
+        public bool Initialize(bool compileScripts = true)
         {
             _log.Info("---------------------------------------------------------");
             _log.Info("BookGen Build date: {0} Starting...", Program.CurrentState.BuildDate);
             _log.Info("Config API version: {0}", Program.CurrentState.ProgramVersion);
             _log.Info("Working directory: {0}", WorkDirectory);
             _log.Info("---------------------------------------------------------");
+
+            if (!compileScripts)
+            {
+                return LoadAndValidateConfig()
+                    && LoadAndValidateToc();
+            }
 
             return LoadAndValidateConfig()
                    && LoadAndValidateToc()
@@ -246,6 +253,29 @@ namespace BookGen
                 p.Start();
 
                 Console.WriteLine(exitString);
+                Console.ReadLine();
+            }
+        }
+
+        public void DoEditor()
+        {
+            IRequestHandler[] handlers = new IRequestHandler[]
+            {
+                new DynamicHandlers(WorkDirectory),
+                new EditorIndexHandler(),
+                new EmbededResourceRequestHandler()
+            };
+
+            using (var server = new HttpServer(WorkDirectory, 9090, _log, handlers))
+            {
+                _log.Info("Editor started on: http://localhost:9090");
+                _log.Info("Press a key to exit...");
+
+                Process p = new Process();
+                p.StartInfo.UseShellExecute = true;
+                p.StartInfo.FileName = "http://localhost:9090";
+                p.Start();
+
                 Console.ReadLine();
             }
         }
