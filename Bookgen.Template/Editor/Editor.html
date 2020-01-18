@@ -6,6 +6,10 @@
     <title></title>
     <link rel="stylesheet" href="bootstrap.min.css" />
     <link rel="stylesheet" href="simplemde.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="popper.min.js"></script>
     <script type="text/javascript" src="bootstrap.min.js"></script>
@@ -27,7 +31,7 @@
 </head>
 <body>
     <nav id="navbar" class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">File name</a>
+        <div id="filename" class="navbar-brand">File name</div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -85,10 +89,12 @@
             });
             ReSize();
 
-            $.get("/dynamic/GetContents.html?file="+ReadGetParameter("file"), function(response) {
+            $.get("/dynamic/GetContents.html?file=" + ReadGetParameter("file"), function (response) {
+                let decoded = window.atob(ReadGetParameter("file"));
                 let contents = response;
                 editor.value(contents);
                 loaded = true;
+                $("#filename").html(decoded);
             });
 
         });

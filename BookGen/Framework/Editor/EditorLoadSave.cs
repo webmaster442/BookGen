@@ -13,17 +13,26 @@ namespace BookGen.Framework.Editor
     {
         public static string LoadFile(string folder, string base64encodedurl)
         {
-            byte[] urlBytes = Convert.FromBase64String(base64encodedurl);
-            string url = Encoding.UTF8.GetString(urlBytes);
-
-            string diskfile = Path.Combine(folder, url);
-
-            if (File.Exists(diskfile))
+            try
             {
-                return File.ReadAllText(diskfile);
+                byte[] urlBytes = Convert.FromBase64String(base64encodedurl);
+                string url = Encoding.UTF8.GetString(urlBytes);
+
+                if (url.StartsWith("\\")) url = url.Substring(1);
+
+                string diskfile = Path.Combine(folder, url);
+
+                if (File.Exists(diskfile))
+                {
+                    return File.ReadAllText(diskfile);
+                }
+                else
+                    return string.Empty;
             }
-            else
+            catch (FormatException)
+            {
                 return string.Empty;
+            }
 
         }
     }

@@ -28,9 +28,6 @@ namespace BookGen.Framework.Editor
                 string current = folders.Pop();
                 files = Directory.GetFiles(current, "*.*");
 
-                buffer.Append("<details open>\n");
-                buffer.AppendFormat("<summary>{0}</summary>\n", GetName(current, folder));
-
                 RenderFiles(buffer, files, current, folder);
 
                 string[] subDirectories = Directory.GetDirectories(current);
@@ -38,7 +35,6 @@ namespace BookGen.Framework.Editor
                 {
                     folders.Push(directory);
                 }
-                buffer.Append("</details>\n");
 
             }
             return buffer.ToString();
@@ -46,13 +42,18 @@ namespace BookGen.Framework.Editor
 
         private static string GetName(string item, string rootfolder)
         {
-            return item.Substring(rootfolder.Length);
+            string name = item.Substring(rootfolder.Length);
+            if (name.Length > 0)
+                return name;
+            else
+                return "\\";
         }
 
         private static void RenderFiles(StringBuilder buffer, string[] files, string currentFolder, string rootFolder)
         {
             if (files.Length < 1) return;
-
+            buffer.Append("<details open>\n");
+            buffer.AppendFormat("<summary>{0}</summary>\n", GetName(currentFolder, rootFolder));
             buffer.Append("<ul>\n");
             foreach (var file in files)
             {
@@ -62,8 +63,8 @@ namespace BookGen.Framework.Editor
                 if (IsMarkdownFile(file))
                 {
                     string param = Convert.ToBase64String(Encoding.UTF8.GetBytes(linkpath));
-                    buffer.AppendFormat(" <a target=\"_blank\" href=\"/Editor.html?file={0}\">[Edit]</a>\n", param);
-                    buffer.AppendFormat(" <a target=\"_blank\" href=\"/Preview.html?file={0}\">[Preview]</a>\n", param);
+                    buffer.AppendFormat(" <a target=\"_blank\" href=\"/editor.html?file={0}\">[Edit]</a>\n", Uri.EscapeDataString(param));
+                    buffer.AppendFormat(" <a target=\"_blank\" href=\"/preview.html?file={0}\">[Preview]</a>\n", Uri.EscapeDataString(param));
                 }
                 else
                 {
@@ -72,6 +73,7 @@ namespace BookGen.Framework.Editor
                 buffer.Append("</li>\n");
             }
             buffer.Append("</ul>\n");
+            buffer.Append("</details>\n");
         }
 
         private static bool IsMarkdownFile(string file)

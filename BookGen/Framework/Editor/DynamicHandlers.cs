@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework.Server;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -34,7 +35,7 @@ namespace BookGen.Framework.Editor
             else if (request.Url.AbsolutePath == "/dynamic/GetContents.html")
             {
                 Dictionary<string, string> parameters = request.Url.Query.ParseQueryParameters();
-                string file = parameters["file"];
+                string file = Uri.UnescapeDataString(parameters["file"]);
                 response.WriteString(EditorLoadSave.LoadFile(_workdir, file), "text/plain");
 
             }

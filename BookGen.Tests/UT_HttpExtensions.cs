@@ -22,5 +22,12 @@ namespace BookGen.Tests
             Assert.AreEqual("bar2", result["foo2"]);
         }
 
+        [Test]
+        public void EnsureThat_ParseQueryParameters_HandlesBase64()
+        {
+            var result = "?foo=YmFyZQ==".ParseQueryParameters();
+            Assert.AreEqual("YmFyZQ==", result["foo"]);
+        }
+
     }
 }

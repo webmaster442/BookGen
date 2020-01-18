@@ -3,8 +3,11 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>BookGen Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <link rel="stylesheet" href="bootstrap.min.css" />
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="popper.min.js"></script>
@@ -44,6 +47,10 @@
             margin-left: 30px;
         }
 
+        #FileSelector a {
+            color: blue;
+        }
+
             #FileSelector summary {
                 font-family: "Lucida Console", Monaco, monospace;
                 color: #f7da7b;
@@ -58,9 +65,9 @@
                 list-style: none;
             }
 
-            #FileSelector li:before {
-                content: "-";
-            }
+                #FileSelector li:before {
+                    content: "-";
+                }
     </style>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50">

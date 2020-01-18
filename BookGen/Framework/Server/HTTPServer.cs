@@ -21,6 +21,7 @@ namespace BookGen.Framework.Server
         private readonly string _path;
         private readonly IEnumerable<IRequestHandler> _handlers;
         private HttpListener? _listener;
+        private readonly object _handlerLock;
 
         private CancellationTokenSource? _cts;
 
@@ -59,7 +60,7 @@ namespace BookGen.Framework.Server
             _path = path;
             Port = port;
             _log = log;
-
+            _handlerLock = new object();
             _listener = new HttpListener();
             _listener.Prefixes.Add($"http://localhost:{Port.ToString()}/");
             Task.Run(() => Start(_cts.Token));
@@ -99,25 +100,28 @@ namespace BookGen.Framework.Server
 
                 bool processed = false;
 
-                processed = TryToServeWitHandler(context, filename);
-
-                if (!processed)
+                using (context.Response)
                 {
-                    filename = filename.Substring(1);
-                    if (string.IsNullOrEmpty(filename))
+                    processed = TryToServeWitHandler(context, filename);
+
+                    if (!processed)
                     {
-                        filename = GetIndexFile(_path);
+                        filename = filename.Substring(1);
+                        if (string.IsNullOrEmpty(filename))
+                        {
+                            filename = GetIndexFile(_path);
+                        }
+                        else
+                        {
+                            filename = Path.Combine(_path, filename);
+                            if (Directory.Exists(filename))
+                                filename = GetIndexFile(filename);
+                        }
+                        if (File.Exists(filename))
+                            ServeFile(context.Response, filename);
+                        else
+                            Serve404(context.Response);
                     }
-                    else
-                    {
-                        filename = Path.Combine(_path, filename);
-                        if (Directory.Exists(filename))
-                            filename = GetIndexFile(filename);
-                    }
-                    if (File.Exists(filename))
-                        ServeFile(context.Response, filename);
-                    else
-                        Serve404(context.Response);
                 }
 
             }
@@ -129,22 +133,25 @@ namespace BookGen.Framework.Server
 
         private bool TryToServeWitHandler(HttpListenerContext context, string filename)
         {
-            if (_handlers != null)
+            lock (_handlerLock)
             {
-                foreach (var handler in _handlers)
+                if (_handlers != null)
                 {
-                    if (handler.CanServe(filename))
+                    foreach (var handler in _handlers)
                     {
-                        if (handler is ISimpleRequestHandler simple)
-                            simple.Serve(filename, context.Response);
-                        else if (handler is IAdvancedRequestHandler advanced)
-                            advanced.Serve(context.Request, context.Response);
+                        if (handler.CanServe(filename))
+                        {
+                            if (handler is ISimpleRequestHandler simple)
+                                simple.Serve(filename, context.Response);
+                            else if (handler is IAdvancedRequestHandler advanced)
+                                advanced.Serve(context.Request, context.Response);
 
-                        return true;
+                            return true;
+                        }
                     }
                 }
+                return false;
             }
-            return false;
         }
 
         private string GetIndexFile(string _path)

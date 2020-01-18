@@ -3,7 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
 
@@ -13,14 +15,19 @@ namespace BookGen.Framework.Server
     {
         public static void WriteString(this HttpListenerResponse response, string content, string mime)
         {
-            byte[] responseBytes = Encoding.UTF8.GetBytes(content);
-            response.StatusCode = (int)HttpStatusCode.OK;
-            response.ContentEncoding = Encoding.UTF8;
-            response.ContentType = mime;
-            response.ContentLength64 = responseBytes.LongLength;
-            response.SendChunked = true;
-            response.OutputStream.Write(responseBytes, 0, content.Length);
-            response.OutputStream.Flush();
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(content)))
+            {
+                ms.Seek(0, SeekOrigin.Begin);
+                response.StatusCode = (int)HttpStatusCode.OK;
+                response.ContentEncoding = Encoding.UTF8;
+                response.ContentType = mime;
+                response.ContentLength64 = ms.Length;
+                response.SendChunked = true;
+
+                ms.CopyTo(response.OutputStream, 4096);
+
+                response.OutputStream.Flush();
+            }
         }
 
         public static void WriteHtmlString(this HttpListenerResponse response, string content)
