@@ -60,8 +60,6 @@ namespace BookGen.Framework.Editor
                     {
                         response.WriteString("Error", "text/plain");
                     }
-
-
                 }
             }
         }
