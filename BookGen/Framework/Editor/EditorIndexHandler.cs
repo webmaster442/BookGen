@@ -18,21 +18,27 @@ namespace BookGen.Framework.Editor
             return
                 AbsoluteUri == "/"
                 || AbsoluteUri == "/index.html"
-                || AbsoluteUri == "/editor.html";
+                || AbsoluteUri == "/editor.html"
+                || AbsoluteUri == "/config.html";
         }
 
         public void Serve(string AbsoluteUri, HttpListenerResponse response, ILog log)
         {
+            string str = "";
+
             if (AbsoluteUri == "/" || AbsoluteUri == "/index.html")
             {
-                var str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/Index.html");
-                response.WriteHtmlString(str);
+                str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/Index.html");
             }
             else if (AbsoluteUri == "/editor.html")
             {
-                var str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/Editor.html");
-                response.WriteHtmlString(str);
+                str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/Editor.html");
             }
+            else if (AbsoluteUri == "/config.html")
+            {
+                str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/ConfigView.html");
+            }
+            response.WriteHtmlString(str);
         }
     }
 }

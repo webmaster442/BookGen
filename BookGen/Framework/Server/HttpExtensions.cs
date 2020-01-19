@@ -30,6 +30,20 @@ namespace BookGen.Framework.Server
             }
         }
 
+        public static bool WriteFile(this HttpListenerResponse response, string fileName)
+        {
+            using (var stream = File.OpenRead(fileName))
+            {
+                response.ContentType = MimeTypes.GetMimeForExtension(Path.GetExtension(fileName));
+                response.ContentLength64 = stream.Length;
+                response.SendChunked = true;
+                response.StatusCode = (int)HttpStatusCode.OK;
+                stream.CopyTo(response.OutputStream, 4096);
+                response.OutputStream.Flush();
+            }
+            return true;
+        }
+
         public static void WriteHtmlString(this HttpListenerResponse response, string content)
         {
             WriteString(response, content, MimeTypes.GetMimeForExtension(".html"));

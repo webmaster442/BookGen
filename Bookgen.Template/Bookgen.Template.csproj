@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Editor\ConfigView.html" />
     <None Remove="Editor\Editor.html" />
     <None Remove="Editor\Index.html" />
     <None Remove="Editor\jsonview.css" />
@@ -52,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Editor\ConfigView.html" />
     <EmbeddedResource Include="Editor\Editor.html" />
     <EmbeddedResource Include="Editor\Index.html" />
     <EmbeddedResource Include="Editor\jsonview.css" />

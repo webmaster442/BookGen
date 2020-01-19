@@ -76,6 +76,7 @@ namespace BookGen.Framework.Server
                     HttpListenerContext? request = _listener?.GetContext();
                     if (token.IsCancellationRequested) break;
                     ThreadPool.QueueUserWorkItem(ProcessRequest, request);
+
                 }
                 catch (HttpListenerException lex)
                 {
@@ -118,10 +119,11 @@ namespace BookGen.Framework.Server
                                 filename = GetIndexFile(filename);
                         }
                         if (File.Exists(filename))
-                            ServeFile(context.Response, filename);
-                        else
-                            Serve404(context.Response);
+                            processed = context.Response.WriteFile(filename);
                     }
+
+                    if (!processed)
+                        Serve404(context.Response);
                 }
 
             }
@@ -166,22 +168,6 @@ namespace BookGen.Framework.Server
             }
 
             return "$$ERROR404$$";
-        }
-
-        private void ServeFile(HttpListenerResponse response, string filename)
-        {
-            response.ContentType = MimeTypes.GetMimeForExtension(Path.GetExtension(filename));
-            response.AddHeader("Date", DateTime.Now.ToString("r"));
-            response.AddHeader("Last-Modified", File.GetLastWriteTime(filename).ToString("r"));
-
-            using (var stream = File.OpenRead(filename))
-            {
-                response.ContentLength64 = stream.Length;
-                stream.CopyTo(response.OutputStream);
-            }
-
-            response.StatusCode = (int)HttpStatusCode.OK;
-            response.OutputStream.Flush();
         }
 
         private void Serve404(HttpListenerResponse response)
