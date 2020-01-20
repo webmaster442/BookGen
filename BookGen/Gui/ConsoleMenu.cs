@@ -51,55 +51,42 @@ namespace BookGen.Gui
             };
             yield return new Button
             {
-                Action = () =>
-                {
-                    _runner.InitializeAndExecute(x => x.DoClean());
-                },
+                Action = () => _runner.InitializeAndExecute(x => x.DoClean()),
                 Content = "Clean output directory"
             };
             yield return new Button
             {
-                Action = () =>
-                {
-                    _runner.InitializeAndExecute(x => x.DoTest());
-                },
+                Action = () => _runner.InitializeAndExecute(x => x.DoTest()),
                 Content = "Build test website"
             };
             yield return new Button
             {
-                Action = () =>
-                {
-                    _runner.InitializeAndExecute(x => x.DoBuild());
-                },
+                Action = () => _runner.InitializeAndExecute(x => x.DoBuild()),
                 Content = "Build release website"
             };
             yield return new Button
             {
-                Action = () =>
-                {
-                    _runner.InitializeAndExecute(x => x.DoPrint());
-                },
+                Action = () => _runner.InitializeAndExecute(x => x.DoPrint()),
                 Content = "Build print html"
             };
             yield return new Button
             {
-                Action = () =>
-                {
-                    _runner.InitializeAndExecute(x => x.DoEpub());
-                },
+                Action = () => _runner.InitializeAndExecute(x => x.DoEpub()),
                 Content = "Build E-pub"
             };
             yield return new Button
             {
-                Action = () =>
-                {
-                    _runner.InitializeAndExecute(x => x.DoWordpress());
-                },
+                Action = () => _runner.InitializeAndExecute(x => x.DoWordpress()),
                 Content = "Build Wordpress export file"
             };
             yield return new TextBlock
             {
                 Content = "\r\nGeneral\r\n"
+            };
+            yield return new Button
+            {
+                Action = () => _runner.InitializeAndExecute(x => x.DoEditor()),
+                Content = "Launch web based editor..."
             };
             yield return new Button
             {

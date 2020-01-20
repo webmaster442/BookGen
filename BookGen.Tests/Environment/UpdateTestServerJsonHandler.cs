@@ -3,20 +3,21 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Framework.Server;
 using System.IO;
 using System.Net;
 
 namespace BookGen.Tests.Environment
 {
-    internal class UpdateTestServerJsonHandler : IRequestHandler
+    internal class UpdateTestServerJsonHandler : ISimpleRequestHandler
     {
         public bool CanServe(string AbsoluteUri)
         {
             return AbsoluteUri == "/updatejson";
         }
 
-        public void Serve(HttpListenerResponse response)
+        public void Serve(string AbsoluteUri, HttpListenerResponse response, ILog log)
         {
             response.ContentType = "application/json";
             response.StatusCode = 200;

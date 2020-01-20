@@ -23,7 +23,7 @@ namespace BookGen.Tests.Integration
         private Updater _sut;
         private Mock<ILog> _logMock;
         private Release _release;
-        private HttpTestServer _server;
+        private HttpServer _server;
         private string _temp;
         private string _newProgTemp;
 
@@ -54,7 +54,7 @@ namespace BookGen.Tests.Integration
                     },
                 }
             };
-            _server = new HttpTestServer(TestEnvironment.GetTestFolder(), 8080, _logMock.Object);
+            _server = new HttpServer(TestEnvironment.GetTestFolder(), 8080, _logMock.Object);
         }
 
         [OneTimeTearDown]

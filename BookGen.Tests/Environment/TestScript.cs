@@ -12,7 +12,7 @@ namespace BookGen.Tests.Environment
     {
         public string InvokeName => nameof(TestScript);
 
-        public string ScriptMain(IScriptHost host, IReadOnlyDictionary<string, string> arguments)
+        public string ScriptMain(IScriptHost host, IArguments arguments)
         {
             host.Log.Detail("Executing test script");
             return "Hello, from test script!";

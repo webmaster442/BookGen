@@ -40,7 +40,8 @@ namespace BookGen
                 new ConfigHelpModule(CurrentState),
                 new GuiModule(CurrentState),
                 new HelpModule(CurrentState),
-                new UpdateModule(CurrentState)
+                new UpdateModule(CurrentState),
+                new EditorModule(CurrentState)
             };
         }
 

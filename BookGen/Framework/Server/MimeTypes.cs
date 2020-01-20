@@ -99,5 +99,11 @@ namespace BookGen.Framework.Server
             else
                 return "application/octet-stream";
         }
+
+        public static string GetMimeTypeForFile(string file)
+        {
+            var ext = System.IO.Path.GetExtension(file);
+            return GetMimeForExtension(ext);
+        }
     }
 }

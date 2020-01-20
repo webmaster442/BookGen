@@ -1,38 +1,55 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.IO;
+using BookGen.Core;
 using System.Threading.Tasks;
 
 namespace BookGen.Framework.Server
 {
-    internal sealed class HttpTestServer : IDisposable
+    internal sealed class HttpServer : IDisposable
     {
-        private readonly string _path;
         private readonly ILog _log;
+        private readonly string _path;
         private readonly IEnumerable<IRequestHandler> _handlers;
         private HttpListener? _listener;
-        private Semaphore? _sem;
+        private readonly object _handlerLock;
+
         private CancellationTokenSource? _cts;
 
         public int Port { get; }
 
         public List<string> IndexFiles { get; }
 
-        public HttpTestServer(string path, int port, ILog log, params IRequestHandler[] handlers)
+        public void Dispose()
         {
-            _sem = new Semaphore(1, 3);
-            _cts = new CancellationTokenSource();
+            if (_cts?.IsCancellationRequested == false)
+            {
+                _cts.Cancel();
+                Thread.Sleep(100);
+                _cts.Dispose();
+                _cts = null;
+            }
+            if (_listener != null)
+            {
+                _listener.Stop();
+                _listener.Close();
+                _listener = null;
+            }
+        }
+
+        public HttpServer(string path, int port, ILog log, params IRequestHandler[] handlers)
+        {
             _handlers = handlers;
+            _cts = new CancellationTokenSource();
             IndexFiles = new List<string>
             {
                 "index.html",
@@ -43,64 +60,54 @@ namespace BookGen.Framework.Server
             _path = path;
             Port = port;
             _log = log;
+            _handlerLock = new object();
             _listener = new HttpListener();
             _listener.Prefixes.Add($"http://localhost:{Port.ToString()}/");
-            _listener.Start();
-            Task.Run(Serve, _cts.Token);
+            Task.Run(() => Start(_cts.Token));
         }
 
-        private async Task Serve()
+        private void Start(CancellationToken token)
         {
-            while (true)
+            _listener?.Start();
+            do
             {
-                _sem?.WaitOne();
                 try
                 {
-                    if (_listener != null)
-                    {
-                        HttpListenerContext context = await _listener.GetContextAsync().ConfigureAwait(false);
-                        Process(context);
-                    }
-                    _sem?.Release();
+                    HttpListenerContext? request = _listener?.GetContext();
+                    if (token.IsCancellationRequested) break;
+                    ThreadPool.QueueUserWorkItem(ProcessRequest, request);
 
                 }
-                catch (ObjectDisposedException)
+                catch (HttpListenerException lex)
                 {
-                    //_listener.GetContextAsync() will throw, no way to abort.
+                    _log.Warning(lex);
                 }
-                catch (Exception ex)
+                catch (InvalidOperationException iex)
                 {
-                    _log.Warning(ex);
+                    _log.Warning(iex);
                 }
             }
+            while (!token.IsCancellationRequested);
         }
 
-        private void Process(HttpListenerContext context)
+        private void ProcessRequest(object? listenerContext)
         {
-            string filename = context.Request.Url.AbsolutePath;
-            _log.Detail("Serving: {0}", filename);
-            bool processed = false;
-            using (context.Response)
+            try
             {
-                try
+                if (!(listenerContext is HttpListenerContext context)) return;
+
+                string filename = context.Request.Url.AbsolutePath;
+                _log.Detail("Serving: {0}", filename);
+
+                bool processed = false;
+
+                using (context.Response)
                 {
-                    if (_handlers != null)
-                    {
-                        foreach (var handler in _handlers)
-                        {
-                            if (handler.CanServe(filename))
-                            {
-                                handler.Serve(context.Response);
-                                processed = true;
-                                break;
-                            }
-                        }
-                    }
+                    processed = TryToServeWitHandler(context, filename);
 
                     if (!processed)
                     {
                         filename = filename.Substring(1);
-
                         if (string.IsNullOrEmpty(filename))
                         {
                             filename = GetIndexFile(_path);
@@ -112,18 +119,40 @@ namespace BookGen.Framework.Server
                                 filename = GetIndexFile(filename);
                         }
                         if (File.Exists(filename))
-                            ServeFile(context.Response, filename);
-                        else
-                            Serve404(context.Response);
+                            processed = context.Response.WriteFile(filename);
+                    }
 
-                        Thread.Sleep(10);
+                    if (!processed)
+                        Serve404(context.Response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _log.Warning(ex);
+            }
+        }
+
+        private bool TryToServeWitHandler(HttpListenerContext context, string filename)
+        {
+            lock (_handlerLock)
+            {
+                if (_handlers != null)
+                {
+                    foreach (var handler in _handlers)
+                    {
+                        if (handler.CanServe(filename))
+                        {
+                            if (handler is ISimpleRequestHandler simple)
+                                simple.Serve(filename, context.Response, _log);
+                            else if (handler is IAdvancedRequestHandler advanced)
+                                advanced.Serve(context.Request, context.Response, _log);
+
+                            return true;
+                        }
                     }
                 }
-                catch (Exception ex)
-                {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    _log.Warning(ex);
-                }
+                return false;
             }
         }
 
@@ -141,58 +170,19 @@ namespace BookGen.Framework.Server
             return "$$ERROR404$$";
         }
 
-        private void ServeFile(HttpListenerResponse response, string filename)
-        {
-            response.ContentType = MimeTypes.GetMimeForExtension(Path.GetExtension(filename));
-            response.AddHeader("Date", DateTime.Now.ToString("r"));
-            response.AddHeader("Last-Modified", File.GetLastWriteTime(filename).ToString("r"));
-
-            using (var stream = File.OpenRead(filename))
-            {
-                response.ContentLength64 = stream.Length;
-                stream.CopyTo(response.OutputStream);
-            }
-
-            response.StatusCode = (int)HttpStatusCode.OK;
-            response.OutputStream.Flush();
-        }
-
         private void Serve404(HttpListenerResponse response)
         {
             response.ContentType = "text/html";
             response.AddHeader("Date", DateTime.Now.ToString("r"));
             response.AddHeader("Last-Modified", DateTime.Now.ToString("r"));
 
-            var error404 = ResourceLocator.GetResourceFile<HttpTestServer>("Resources/Error404.html");
+            var error404 = ResourceLocator.GetResourceFile<HttpServer>("Resources/Error404.html");
 
             byte[] bytes = Encoding.UTF8.GetBytes(error404);
             response.ContentLength64 = bytes.Length;
             response.OutputStream.Write(bytes, 0, bytes.Length);
             response.StatusCode = (int)HttpStatusCode.NotFound;
             response.OutputStream.Flush();
-        }
-
-        public void Dispose()
-        {
-            if (_cts?.IsCancellationRequested == false)
-            {
-                _cts.Cancel();
-                Thread.Sleep(100);
-                _cts.Dispose();
-                _cts = null;
-            }
-            if (_listener != null)
-            {
-                _listener.Stop();
-                _listener.Close();
-                _listener = null;
-            }
-            if (_sem != null)
-            {
-                _sem.Dispose();
-                _sem = null;
-            }
-            GC.SuppressFinalize(this);
         }
     }
 }

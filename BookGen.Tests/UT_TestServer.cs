@@ -16,17 +16,17 @@ namespace BookGen.Tests
     [TestFixture, SingleThreaded]
     public class UT_TestServer
     {
-        private HttpTestServer _server;
+        private HttpServer _server;
         private Mock<ILog> _log;
 
-        private class TestHandler : IRequestHandler
+        private class TestHandler : ISimpleRequestHandler
         {
             public bool CanServe(string AbsoluteUri)
             {
                 return AbsoluteUri == "/testme";
             }
 
-            public void Serve(HttpListenerResponse response)
+            public void Serve(string AbsoluteUri, HttpListenerResponse response, ILog log)
             {
                 byte[] msg = Encoding.UTF8.GetBytes("TestHandler");
                 response.StatusCode = 200;
@@ -39,7 +39,7 @@ namespace BookGen.Tests
         public void Setup()
         {
             _log = new Mock<ILog>();
-            _server = new HttpTestServer(TestEnvironment.GetTestFolder(), 8080, _log.Object, new TestHandler());
+            _server = new HttpServer(TestEnvironment.GetTestFolder(), 8080, _log.Object, new TestHandler());
         }
 
         [TearDown]
