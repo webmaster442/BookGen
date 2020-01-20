@@ -4,20 +4,24 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Core.Configuration;
 using BookGen.Framework.Server;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text;
 
 namespace BookGen.Framework.Editor
 {
     public class DynamicHandlers : IAdvancedRequestHandler
     {
         private readonly string _workdir;
+        private readonly Config _configuruation;
 
-        public DynamicHandlers(string workdir)
+        public DynamicHandlers(string workdir, Config config)
         {
             _workdir = workdir;
+            _configuruation = config;
         }
 
         public bool CanServe(string AbsoluteUri)
@@ -25,7 +29,8 @@ namespace BookGen.Framework.Editor
             return
                 AbsoluteUri == "/dynamic/FileTree.html"
                 || AbsoluteUri == "/dynamic/GetContents.html"
-                || AbsoluteUri == "/dynamic/Save.html";
+                || AbsoluteUri == "/dynamic/Save.html"
+                || AbsoluteUri == "/dynamic/Toc.html";
         }
 
         public void Serve(HttpListenerRequest request, HttpListenerResponse response, ILog log)
@@ -61,6 +66,12 @@ namespace BookGen.Framework.Editor
                         response.WriteString("Error", "text/plain");
                     }
                 }
+            }
+            else if (request.Url.AbsolutePath == "/dynamic/Toc.html")
+            {
+                var plainTextBytes = Encoding.UTF8.GetBytes(_configuruation.TOCFile);
+                var encoded = Uri.EscapeDataString(Convert.ToBase64String(plainTextBytes));
+                response.WriteString(encoded, "text/plain");
             }
         }
     }

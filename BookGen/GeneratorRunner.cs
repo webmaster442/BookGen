@@ -259,9 +259,12 @@ namespace BookGen
 
         public void DoEditor()
         {
+            if (Configuration == null)
+                throw new InvalidOperationException("Configuration is null");
+
             IRequestHandler[] handlers = new IRequestHandler[]
             {
-                new DynamicHandlers(WorkDirectory),
+                new DynamicHandlers(WorkDirectory, Configuration),
                 new EditorIndexHandler(),
                 new EmbededResourceRequestHandler()
             };

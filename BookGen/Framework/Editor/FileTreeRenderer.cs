@@ -64,7 +64,7 @@ namespace BookGen.Framework.Editor
                 {
                     string param = Convert.ToBase64String(Encoding.UTF8.GetBytes(linkpath));
                     buffer.AppendFormat(" <a target=\"_blank\" href=\"/editor.html?file={0}\">[Edit]</a>\n", Uri.EscapeDataString(param));
-                    buffer.AppendFormat(" <a target=\"_blank\" href=\"/preview.html?file={0}\">[Preview]</a>\n", Uri.EscapeDataString(param));
+                    //buffer.AppendFormat(" <a target=\"_blank\" href=\"/preview.html?file={0}\">[Preview]</a>\n", Uri.EscapeDataString(param));
                 }
                 else
                 {
