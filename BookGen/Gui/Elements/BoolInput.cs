@@ -16,6 +16,7 @@ namespace BookGen.Gui.Elements
         public BoolInput()
         {
             Content = string.Empty;
+            Foreground = Color.Green;
         }
 
         public override void Render(ITerminalRenderer target)
