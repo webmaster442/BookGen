@@ -71,6 +71,7 @@ namespace BookGen.Gui
 
         public void Run()
         {
+            ShouldRun = true;
             DoRender();
             while (ShouldRun)
             {

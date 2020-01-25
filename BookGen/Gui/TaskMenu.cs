@@ -18,12 +18,14 @@ namespace BookGen.Gui
         private readonly ILog _log;
         private readonly FsPath _tasksFile;
         private readonly bool _isWindows;
+        private bool _readkey;
 
         public TaskMenu(ILog log, FsPath WorkDir)
         {
             _log = log;
             _tasksFile = WorkDir.Combine(".vscode\\tasks.json");
             _isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;
+            _readkey = true;
         }
 
         private void StartProcess(string cmd, string args)
@@ -46,11 +48,43 @@ namespace BookGen.Gui
             }
         }
 
+        private void RunTask(Task? task)
+        {
+            if (task == null)
+                return;
+
+            string command = "";
+            string args = "";
+            if (_isWindows)
+            {
+                if (task?.type == "shell")
+                {
+                    command = "cmd.exe";
+                    args = $"/c {task?.windows?.command} {task?.windows?.args?.FirstOrDefault()?.value}";
+                }
+                else
+                {
+                    command = task?.windows?.command ?? "";
+                    args = task?.windows?.args?.FirstOrDefault()?.value ?? "";
+                }
+            }
+            else
+            {
+                command = task?.command ?? "";
+                args = task?.args?.FirstOrDefault()?.value ?? "";
+            }
+            StartProcess(command, args);
+        }
+
         private Button CreateBackPageButton()
         {
             return new Button
             {
-                Action = () => ShouldRun = false,
+                Action = () =>
+                {
+                    ShouldRun = false;
+                    _readkey = false;
+                },
                 Content = "Back to previous menu"
             };
         }
@@ -60,26 +94,7 @@ namespace BookGen.Gui
             return new Button
             {
                 Content = task?.label ?? "",
-                Action = () =>
-                {
-                    string command = "";
-                    string args = "";
-                    if (_isWindows)
-                    {
-                        command = task?.windows?.command ?? "";
-                        args = task?.windows?.args?.FirstOrDefault()?.value ?? "";
-                        if (task?.type == "shell")
-                        {
-                            command = "cmd.exe /c" + command;
-                        }
-                    }
-                    else
-                    {
-                        command = task?.command ?? "";
-                        args = task?.args?.FirstOrDefault()?.value ?? "";
-                    }
-                    StartProcess(command, args);
-                }
+                Action = () => RunTask(task)
             };
         }
 
@@ -90,6 +105,14 @@ namespace BookGen.Gui
             {
                 tasks = _tasksFile.DeserializeJson<VsTaskRoot>(_log);
             }
+
+            yield return new TextBlock
+            {
+                Content = "------------------------------------------------\r\n"
+                        + " Tasks\r\n"
+                        + " .vscode\\tasks.json\r\n"
+                        + "------------------------------------------------\r\n\r\n"
+            };
 
             if (tasks == null
                 || tasks.tasks == null 
@@ -103,10 +126,18 @@ namespace BookGen.Gui
             }
             else
             {
+                yield return new TextBlock
+                {
+                    Content = "Tasks:\r\n"
+                };
                 foreach (var task in tasks.tasks)
                 {
                     yield return CreateButtonFromTask(task);
                 }
+                yield return new TextBlock
+                {
+                    Content = "\r\nNavigation:\r\n"
+                };
                 yield return CreateBackPageButton();
             }
         }
@@ -135,7 +166,14 @@ namespace BookGen.Gui
             else
             {
                 actionToDo.Action?.Invoke();
-                Renderer.PressKeyContinue();
+                if (_readkey)
+                {
+                    Renderer.PressKeyContinue();
+                }
+                else
+                {
+                    _readkey = true;
+                }
                 DoRender();
             }
         }
