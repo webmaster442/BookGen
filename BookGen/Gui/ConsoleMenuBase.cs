@@ -47,7 +47,7 @@ namespace BookGen.Gui
             if (Elements.Count < 1) 
             {
                 Elements = new List<ConsoleUiElement>(CreateElements());
-                ReindexButtonsInElements();
+                ReindexEntries();
             }
             Renderer.Clear();
             foreach (var uiElement in Elements)
@@ -56,14 +56,14 @@ namespace BookGen.Gui
             }
         }
 
-        private void ReindexButtonsInElements()
+        private void ReindexEntries()
         {
             int btnEntry = 1;
             foreach (var element in Elements)
             {
-                if (element is Button button)
+                if (element is IHaveEntry haveEntry)
                 {
-                    button.Entry = btnEntry;
+                    haveEntry.Entry = btnEntry;
                     ++btnEntry;
                 }
             }
@@ -71,6 +71,7 @@ namespace BookGen.Gui
 
         public void Run()
         {
+            ShouldRun = true;
             DoRender();
             while (ShouldRun)
             {

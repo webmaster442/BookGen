@@ -14,11 +14,13 @@ namespace BookGen.Gui
     internal class ConsoleMenu : ConsoleMenuBase
     {
         private readonly GeneratorRunner _runner;
+        private readonly TaskMenu _taskMenu;
 
         public ConsoleMenu(GeneratorRunner runner)
         {
             Renderer.SetWindowTitle("BookGen");
             _runner = runner;
+            _taskMenu = new TaskMenu(_runner.Log, new FsPath(_runner.WorkDirectory));
         }
 
         public override IEnumerable<ConsoleUiElement> CreateElements()
@@ -85,8 +87,15 @@ namespace BookGen.Gui
             };
             yield return new Button
             {
+                Action = () => {
+                    _taskMenu.Run();
+                },
+                Content = "Tasks"
+            };
+            yield return new Button
+            {
                 Action = () => _runner.InitializeAndExecute(x => x.DoEditor()),
-                Content = "Launch web based editor..."
+                Content = "Launch web based editor"
             };
             yield return new Button
             {

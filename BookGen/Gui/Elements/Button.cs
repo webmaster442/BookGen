@@ -8,7 +8,7 @@ using System;
 
 namespace BookGen.Gui.Elements
 {
-    internal class Button: ConsoleUiElement, IHaveContent
+    internal class Button: ConsoleUiElement, IHaveContent, IHaveEntry
     {
         public Action? Action { get; set; }
         public string Content { get; set; }

@@ -1,4 +1,9 @@
-﻿using BookGen.Gui.Renderering;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Gui.Renderering;
 
 namespace BookGen.Gui.Elements
 {
@@ -11,6 +16,7 @@ namespace BookGen.Gui.Elements
         public BoolInput()
         {
             Content = string.Empty;
+            Foreground = Color.Green;
         }
 
         public override void Render(ITerminalRenderer target)

@@ -3,12 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Template;
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Configuration;
-using System.Collections.Generic;
 using BookGen.Domain.CsProj;
+using BookGen.Framework;
+using BookGen.Template;
+using System.Collections.Generic;
 using System.IO;
 
 namespace BookGen
@@ -100,6 +101,13 @@ namespace BookGen
             FsPath script = workdir.Combine("Scripts\\Script1.cs");
             script.WriteFile(log, BuiltInTemplates.ScriptTemplate);
 
+        }
+
+        internal static void DoCreateTasks(ILog log, FsPath workDir)
+        {
+            Domain.VsTasks.VsTaskRoot Tasks = VsTaskFactory.CreateTasks();
+            FsPath file = workDir.Combine(".vscode\\tasks.json");
+            file.SerializeJson(Tasks, log);
         }
 
         public static void ExtractTemplates(ILog log, FsPath workdir)

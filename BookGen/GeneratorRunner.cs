@@ -35,6 +35,8 @@ namespace BookGen
             get;
         }
 
+        public ILog Log => _log;
+
         public GeneratorRunner(ILog log, string workDir)
         {
             _log = log;
