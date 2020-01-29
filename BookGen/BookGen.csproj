@@ -28,7 +28,6 @@
     <None Remove="DefaultTemplate\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Resources\BuildDate.txt" />
     <None Remove="Resources\ReplaceContents.bat" />
     <None Remove="Resources\Splash.txt" />
   </ItemGroup>
@@ -43,7 +42,6 @@
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\BuildDate.txt" />
     <EmbeddedResource Include="Resources\Help.txt" />
     <Content Include="Icon.ico" />
     <EmbeddedResource Include="Resources\Error404.html" />
@@ -63,7 +61,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="echo %25date%25 &gt; &quot;$(ProjectDir)\Resources\BuildDate.txt&quot;" />
-  </Target>
+  <ItemGroup>
+    <AssemblyAttribute Include="BookGen.AssemblyBuildDateAttribute">
+      <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>
