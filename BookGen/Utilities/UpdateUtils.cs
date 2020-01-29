@@ -31,36 +31,23 @@ namespace BookGen.Utilities
 
         public static bool GetAssemblyLinkerDate(out DateTime date)
         {
-            Assembly? current = Assembly.GetAssembly(typeof(UpdateUtils));
+            date = new DateTime();
 
+            Assembly? current = Assembly.GetAssembly(typeof(UpdateUtils));
             if (current == null)
             {
-                date = new DateTime();
                 return false;
             }
 
-            Stream? resource = current.GetManifestResourceStream("BookGen.Resources.BuildDate.txt");
+            var attribute = current.GetCustomAttribute<AssemblyBuildDateAttribute>();
 
-            if (resource == null)
+            if (attribute != null)
             {
-                date = new DateTime();
-                return false;
+                date = attribute.BuildDate.Date;
+                return true;
             }
 
-            using (var reader = new StreamReader(resource))
-            {
-                var text = reader.ReadToEnd().Trim();
-
-                if (DateTime.TryParse(text, out DateTime parsedDate))
-                {
-                    date = parsedDate;
-                    return true;
-                    
-                }
-
-                date = new DateTime();
-                return false;
-            }
+            return false;
         }
 
         public static bool GetGithubReleases(string endpoint, ILog log, out List<Release> releases)
