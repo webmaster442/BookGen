@@ -41,7 +41,8 @@ namespace BookGen
                 new GuiModule(CurrentState),
                 new HelpModule(CurrentState),
                 new UpdateModule(CurrentState),
-                new EditorModule(CurrentState)
+                new EditorModule(CurrentState),
+                new AssemblyDocumentModule(CurrentState),
             };
         }
 
