@@ -1,8 +1,13 @@
-﻿using System.Text;
+﻿//-----------------------------------------------------------------------------
+// (c) 2020 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
 
-namespace BookGen.AssemblyDocumenter
+using System.Text;
+
+namespace BookGen.AssemblyDocumenter.Internals
 {
-    public class MarkdownDocument
+    internal class MarkdownDocument
     {
         private readonly StringBuilder _buffer;
 

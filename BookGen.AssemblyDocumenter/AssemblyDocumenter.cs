@@ -1,4 +1,10 @@
-﻿using BookGen.Api;
+﻿//-----------------------------------------------------------------------------
+// (c) 2020 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Api;
+using BookGen.AssemblyDocumenter.Internals;
 using BookGen.Core;
 using System;
 using System.Collections.Generic;
@@ -22,7 +28,7 @@ namespace BookGen.AssemblyDocumenter
             return asm.GetExportedTypes();
         }
 
-        private void CreateTitle(MarkdownDocument document, Type type)
+        private void CreatePageTitle(MarkdownDocument document, Type type)
         {
             string typeInfo = "Class";
             string typeName = type.Name;
@@ -52,47 +58,14 @@ namespace BookGen.AssemblyDocumenter
         {
             MarkdownDocument document = new MarkdownDocument();
 
-            CreateTitle(document, type);
-            document.Paragraph(DocumentSelectors.GetSummary(documentation, type.FullName));
+            CreatePageTitle(document, type);
+            document.Paragraph(DocumentSelectors.GetPropertyOrTypeSummary(documentation, type.FullName));
 
-            DocumentPropertes(document, type, documentation);
-            DocumentMethods(document, type, documentation);
+            PropertyDocumenter.DocumentPropertes(document, type, documentation);
+            MethodDocumenter.DocumentMethods(document, type, documentation);
 
             var file = outputDir.Combine(type.Name + ".md");
             file.WriteFile(_log, document.ToString());
-        }
-
-        private void DocumentPropertes(MarkdownDocument document, Type type, XElement documentation)
-        {
-            var properties = type.IsInterface ? type.GetProperties() : type.GetProperties(BindingFlags.Public);
-            if (properties.Length < 1) return;
-
-            document.Heading(2, "Properties");
-
-            foreach (var property in properties)
-            {
-                var selector = $"{type.FullName}.{property.Name}";
-
-                document.WriteLine("* `{0} {1}`", property.PropertyType.Name, property.Name);
-                document.WriteLine("\tGet: {0}, Set: {0}", property.CanRead, property.CanWrite);
-                document.WriteLine("\t{0}", DocumentSelectors.GetSummary(documentation, selector));
-                document.WriteLine("");
-            }
-        }
-
-        private void DocumentMethods(MarkdownDocument document, Type type, XElement documentation)
-        {
-            var methods = type.IsInterface ? type.GetMethods() : type.GetMethods(BindingFlags.Public);
-            if (methods.Length < 1) return;
-
-            document.Heading(2, "Methods");
-
-            foreach (var method in methods)
-            {
-                var selector = $"{type.FullName}.{method.Name}";
-                document.WriteLine("* `{0} {1}`", method.ReturnType.Name, method.Name);
-                method.GetParameters();
-            }
         }
 
         public void Document(FsPath assembly, FsPath xmlFile, FsPath outputDir)
