@@ -12,15 +12,15 @@ namespace BookGen.Api.Configuration
     public interface IReadOnylStyleClasses
     {
         /// <summary>
-        /// H1
+        /// Style classed for H1 elements
         /// </summary>
         string Heading1 { get; }
         /// <summary>
-        /// H2
+        /// Style classed for H2 elements
         /// </summary>
         string Heading2 { get; }
         /// <summary>
-        /// H3
+        /// Style classed for H3 elements
         /// </summary>
         string Heading3 { get; }
         /// <summary>
@@ -28,35 +28,35 @@ namespace BookGen.Api.Configuration
         /// </summary>
         string Image { get; }
         /// <summary>
-        /// Table
+        /// Style classed for Table elements
         /// </summary>
         string Table { get; }
         /// <summary>
-        /// Blockquote
+        /// Style classed for Blockquote elements
         /// </summary>
         string Blockquote { get; }
         /// <summary>
-        /// Figure
+        /// Style classed for Figure elements
         /// </summary>
         string Figure { get; }
         /// <summary>
-        /// FigureCaption
+        /// Style classed for FigureCaption elements
         /// </summary>
         string FigureCaption { get; }
         /// <summary>
-        /// A
+        /// Style classed for A elements
         /// </summary>
         string Link { get; }
         /// <summary>
-        /// Ol
+        /// Style classed for Ol elements
         /// </summary>
         string OrderedList { get; }
         /// <summary>
-        /// Ul
+        /// Style classed for Ul elements
         /// </summary>
         string UnorederedList { get; }
         /// <summary>
-        /// Li
+        /// Style classed for Li elements
         /// </summary>
         string ListItem { get; }
     }

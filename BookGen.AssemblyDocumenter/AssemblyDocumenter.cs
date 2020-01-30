@@ -61,8 +61,15 @@ namespace BookGen.AssemblyDocumenter
             CreatePageTitle(document, type);
             document.Paragraph(DocumentSelectors.GetPropertyOrTypeSummary(documentation, type.FullName));
 
-            PropertyDocumenter.DocumentPropertes(document, type, documentation);
-            MethodDocumenter.DocumentMethods(document, type, documentation);
+            if (type.IsEnum)
+            {
+                EnumDocumenter.DocumentEnum(document, type, documentation);
+            }
+            else
+            {
+                PropertyDocumenter.DocumentPropertes(document, type, documentation);
+                MethodDocumenter.DocumentMethods(document, type, documentation);
+            }
 
             var file = outputDir.Combine(type.Name + ".md");
             file.WriteFile(_log, document.ToString());

@@ -23,7 +23,7 @@ namespace BookGen.AssemblyDocumenter.Internals
                 var selector = $"{type.FullName}.{property.Name}";
 
                 document.WriteLine("* `{0} {1} {2}`", Helpers.GetTypeName(property.PropertyType), property.Name, GetSet(property));
-                document.WriteLine("\t{0}", DocumentSelectors.GetPropertyOrTypeSummary(documentation, selector));
+                document.WriteLine("    {0}", DocumentSelectors.GetPropertyOrTypeSummary(documentation, selector));
                 document.WriteLine("");
             }
         }

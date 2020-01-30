@@ -15,22 +15,22 @@ Every C# script to be recognized as a shortcode must implement the `IScript` int
 ```csharp
     /// <summary>
     /// Interface for scripts.
-    /// Every Script must implement this interface
+    /// Every Script must implement this interface.
     /// </summary>
     public interface IScript
     {
         /// <summary>
-        /// Script name.
+        /// Script name. Later you can reference the script as a shorcode with this name.
         /// </summary>
         string InvokeName { get; }
 
         /// <summary>
-        /// The main entrypoint of the script
+        /// The main entrypoint of the script. It gets executed when parsing the shortcode.
         /// </summary>
         /// <param name="host">Current script host</param>
-        /// <param name="arguments">Arguments</param>
+        /// <param name="arguments">Arguments for the script</param>
         /// <returns>Markdown string</returns>
-        string ScriptMain(IScriptHost host, IReadOnlyDictionary<string, string> arguments);
+        string ScriptMain(IScriptHost host, IArguments arguments);
     }
 ```
 
@@ -38,7 +38,7 @@ The `InvokeName` Property is the Shortcode name and the `ScriptMain` Method gets
 
 The `host` argument provides acces to the Script Host itself. Using this you can acces the currently used Configuration and Table of contents and can use the Log to write additional information to the console when your scrip is executed.
 
-The `arguments` variable contains all arguments passed to your shortcode. Arguments are stored as key-value paris.
+The `arguments` variable contains all arguments passed to your shortcode. Arguments can be accesed through their names.
 
 To be able to use The `˙IScript` interface you must use the `BookGen.Api` namespace that is defined in the `BookGen.Api` assembly. If you plan to develop your own scripts you must add this Assembly as a reference to your development project. Note that this step is automatically done when you create your project with BookGen and enable scripting.
 
@@ -56,7 +56,7 @@ namespace Script
     {
         public string InvokeName => "Script1";
 
-        public string ScriptMain(IScriptHost host, IReadOnlyDictionary<string, string> arguments)
+        public string ScriptMain(IScriptHost host, IArguments arguments)
         {
             host.Log.Detail("Executing Script1...");
             return "<p>Hello from C# Script</p>"
@@ -68,6 +68,8 @@ namespace Script
 After this you can use the Created Shortcode in any of your md or C# files with the following shortcode:
 
 `<!--{Script1}-->`
+
+If your script contains errors, that prevent it to be compiled, then you can acces the compile errors if you restart booken in verbose output.
 
 ### Some details about naming
 

@@ -68,13 +68,30 @@ namespace BookGen.AssemblyDocumenter.Internals
         private static string GetSelectorName(Type type, MethodInfo method)
         {
             var parameters = method.GetParameters();
-
+            int generic = 0;
             if (parameters.Length < 1)
                 return $"{type.FullName}.{method.Name}()";
 
-            var types = string.Join(",", parameters.Select(p => p.ParameterType.FullName));
+            var types = string.Join(",", parameters.Select(p =>
+            {
+                if (p.ParameterType.FullName == null)
+                {
+                    var retval = $"``{generic}";
+                    ++generic;
+                    return retval;
+                }
+                return p.ParameterType.FullName;
+            }));
 
-            return $"{type.FullName}.{method.Name}({types})";
+            if (method.ContainsGenericParameters)
+            {
+                var genericDount = method.GetGenericArguments().Length;
+                return $"{type.FullName}.{method.Name}``{genericDount}({types})";
+            }
+            else
+            {
+                return $"{type.FullName}.{method.Name}({types})";
+            }
 
         }
     }
