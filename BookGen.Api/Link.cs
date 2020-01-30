@@ -9,12 +9,12 @@ using System.Collections.Generic;
 namespace BookGen.Api
 {
     /// <summary>
-    /// Represents a link in the Markdown ToC
+    /// Represents a link in the Markdown Table of Contents.
     /// </summary>
     public sealed class Link : IEquatable<Link>
     {
         /// <summary>
-        /// Link text
+        /// Link text, that will be displayed.
         /// </summary>
         public string Text { get; }
 

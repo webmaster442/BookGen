@@ -17,7 +17,7 @@ namespace BookGen.Api
         /// </summary>
         string SourceDirectory { get; }
         /// <summary>
-        /// Current configuration
+        /// Current configuration in read-only mode.
         /// </summary>
         IReadOnlyConfig Configuration { get; }
         /// <summary>

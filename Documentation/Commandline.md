@@ -38,6 +38,39 @@ Bookgen ConfigHelp
         Include pre relase versions.
 ```
 
+## Single File rendering usage
+```
+    BookGen Md2HTML -i [input.md] -o [output.html] {-c [cssfile.css]}
+    BookGen Md2HTML --input [input.md] --output [output.html] {--css [cssfile.css]}
+
+    Arguments:
+    -i, --input: 
+        Input markdown file path
+    -o, --output: 
+        Output html file path
+    -c. --css:
+        Optional argument. Specifies the css file to be aplied to the html
+```
+
+## Assembly documenter usage
+```
+    BookGen AssemblyDocument -a [assembly.dll] -x [assembly.xml] -o [output directory]
+    BookGen AssemblyDocument --assembly [assembly.dll] -xml [assembly.xml] --output [output directory]
+
+    Arguments:
+    -a, --assembly:
+        Input assembly file
+    -x, --xml:
+        Visual studio generated XML documentation of the Assembly
+    -o, --output:
+        Specifies the output directory. Each tipe will be written to a
+        sepperate .md file
+
+Note: 
+    This feature is experimental. Results might not be complete.
+    It is mainly used to generate the Script API documentation.
+```
+
 ## Build Usage
 ```
     BookGen Build -a [action] {-v} {-d [directory]} {-n}

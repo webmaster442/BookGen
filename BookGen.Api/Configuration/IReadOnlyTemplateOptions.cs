@@ -6,12 +6,12 @@
 namespace BookGen.Api.Configuration
 {
     /// <summary>
-    /// Template options
+    /// Template options.
     /// </summary>
     public interface IReadOnlyTemplateOptions
     {
         /// <summary>
-        /// Ties to get an option from the config
+        /// Tries to get an option from the config
         /// </summary>
         /// <typeparam name="T">Option to cast to type</typeparam>
         /// <param name="setting">Setting name</param>

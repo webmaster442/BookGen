@@ -6,7 +6,7 @@
 namespace BookGen.Api.Configuration
 {
     /// <summary>
-    /// Configuration
+    /// Provides acces the current configuration
     /// </summary>
     public interface IReadOnlyConfig
     {

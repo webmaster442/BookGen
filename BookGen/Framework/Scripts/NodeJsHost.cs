@@ -19,7 +19,7 @@ namespace BookGen.Framework.Scripts
         private readonly ILog _log;
 
         private const string processName = "node";
-        private const int ScriptTimeOut = 10000;
+        private const int ScriptTimeOut = 60000;
 
         [ImportingConstructor]
         public NodeJsHost(ILog log, IReadonlyRuntimeSettings settings)
@@ -42,7 +42,7 @@ namespace BookGen.Framework.Scripts
         {
             var file = new FsPath(arguments.GetArgumentOrThrow<string>("file"));
 
-            _log.Info("Trying to execute {0}", file);
+            _log.Info("Trying to execute NoseJs script: {0} ...", file);
 
             var nodeProgram = ProcessInterop.AppendExecutableExtension(processName);
 

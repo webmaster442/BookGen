@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+    <ProjectReference Include="..\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
     <ProjectReference Include="..\Bookgen.Template\BookGen.Template.csproj" />
   </ItemGroup>
