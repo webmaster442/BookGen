@@ -1,3 +1,24 @@
+# 2020.02.01
+* Changed versioning scheme. Assembly version reflects config file version, Builds are labeled by relase date
+* Breaking: Command line calling syntax changed. See documentation for details.
+* Single markdown file to HTML rendering
+* Auto updater added. Currently only supports windows
+* Epub export updated & refactored to support Epub 3.2 format
+* Auto updater added. Currently only supports windows.
+* Fully documented with BookGen
+* Shortcodes can be Extended with C# Shortcodes via Scripting API
+* Can be Extended with Node.js scripts via Shortcode
+* Now comes with a Web based editor that is cross platform.
+* Initializer reworked
+	* Can now create VSCode compatible tasks.json file
+	* Can now create Scripting Project csproj file
+* Added experimental Assembly documenter
+* Source
+	* Now uses .NET Core Json serializer
+	* Adapted to use Nullable reference types
+	* Bookgen now uses subCommand architecture, this means better command extensibility
+
+
 # 1.0 RC 2 - 2019.10.12
 * SRI Generator speed increase with internal cache
 * FontAwesome dependency for default template eliminated
