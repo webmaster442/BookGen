@@ -17,6 +17,7 @@ namespace BookGen.Domain
         public FsPath OutputDirectory { get; set; }
         public FsPath SourceDirectory { get; set; }
         public FsPath ImageDirectory { get; set; }
+        public FsPath CurrentTargetFile { get; set; }
         public ITableOfContents TocContents { get; set; }
         public Config Configuration { get; set; }
         public Dictionary<string, string> MetataCache { get; set; }
@@ -36,6 +37,7 @@ namespace BookGen.Domain
             OutputDirectory = FsPath.Empty;
             SourceDirectory = FsPath.Empty;
             ImageDirectory = FsPath.Empty;
+            CurrentTargetFile = FsPath.Empty;
             TocContents = new ToC();
             Configuration = new Config();
             MetataCache = new Dictionary<string, string>();

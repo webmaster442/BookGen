@@ -39,7 +39,7 @@ namespace BookGen.GeneratorSteps
 #endif
             {
                 var input = settings.SourceDirectory.Combine(file);
-                var output = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
+                settings.CurrentTargetFile = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
                 log.Detail("Processing file: {0}", input);
 
                 var inputContent = input.ReadFile(log);
@@ -49,7 +49,7 @@ namespace BookGen.GeneratorSteps
                 Content.Metadata = settings.MetataCache[file];
 
                 var html = Template.Render();
-                output.WriteFile(log, html);
+                settings.CurrentTargetFile.WriteFile(log, html);
             }
 #if RELEASE
             );

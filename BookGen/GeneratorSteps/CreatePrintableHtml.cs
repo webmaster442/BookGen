@@ -38,7 +38,7 @@ namespace BookGen.GeneratorSteps
                 throw new DependencyException(nameof(Template));
 
             log.Info("Generating Printable html...");
-            var output = settings.OutputDirectory.Combine("print.html");
+            settings.CurrentTargetFile = settings.OutputDirectory.Combine("print.html");
 
             StringBuilder buffer = new StringBuilder();
 
@@ -59,7 +59,7 @@ namespace BookGen.GeneratorSteps
             }
 
             Content.Content = MarkdownRenderers.Markdown2PrintHTML(buffer.ToString(), settings);
-            output.WriteFile(log, Template.Render());
+            settings.CurrentTargetFile.WriteFile(log, Template.Render());
         }
     }
 }

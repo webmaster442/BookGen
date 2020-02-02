@@ -27,6 +27,10 @@ namespace BookGen.Core.Contracts
         /// </summary>
         FsPath ImageDirectory { get; }
         /// <summary>
+        /// Currently processed target file.
+        /// </summary>
+        FsPath CurrentTargetFile { get; }
+        /// <summary>
         /// Table of Contents parsed
         /// </summary>
         ITableOfContents TocContents { get; }

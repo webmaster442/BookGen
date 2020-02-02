@@ -41,7 +41,7 @@ namespace BookGen.GeneratorSteps.Epub
             {
                 _session.GeneratedFiles.Add($"page_{index:D3}");
 
-                var output = settings.OutputDirectory.Combine($"epubtemp\\OPS\\page_{index:D3}.xhtml");
+                settings.CurrentTargetFile = settings.OutputDirectory.Combine($"epubtemp\\OPS\\page_{index:D3}.xhtml");
 
 
                 log.Detail("Processing file for epub output: {0}", file);
@@ -54,7 +54,7 @@ namespace BookGen.GeneratorSteps.Epub
 
                 var html = XhtmlNormalizer.NormalizeToXHTML(Template.Render());
 
-                output.WriteFile(log, html);
+                settings.CurrentTargetFile.WriteFile(log, html);
                 ++index;
             }
         }

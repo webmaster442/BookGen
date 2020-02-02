@@ -27,11 +27,11 @@ namespace BookGen.GeneratorSteps
 
             log.Info("Generating Index file...");
             var input = settings.SourceDirectory.Combine(settings.Configuration.Index);
-            var output = settings.OutputDirectory.Combine("index.html");
+            settings.CurrentTargetFile = settings.OutputDirectory.Combine("index.html");
 
             Content.Content = MarkdownRenderers.Markdown2WebHTML(input.ReadFile(log), settings);
             var html = Template.Render();
-            output.WriteFile(log, html);
+            settings.CurrentTargetFile.WriteFile(log, html);
         }
     }
 }
