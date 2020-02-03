@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Contracts;
 using System.ComponentModel.Composition;
@@ -16,16 +17,17 @@ namespace BookGen.Framework.Scripts
     internal sealed class NodeJsHost : ITemplateShortCode
     {
         private readonly IReadonlyRuntimeSettings _settings;
+        private readonly IAppSetting _appSetting;
         private readonly ILog _log;
 
         private const string processName = "node";
-        private const int ScriptTimeOut = 60000;
 
         [ImportingConstructor]
-        public NodeJsHost(ILog log, IReadonlyRuntimeSettings settings)
+        public NodeJsHost(ILog log, IReadonlyRuntimeSettings settings, IAppSetting appSetting)
         {
             _log = log;
             _settings = settings;
+            _appSetting = appSetting;
         }
 
         private string SerializeHostInfo()
@@ -46,7 +48,7 @@ namespace BookGen.Framework.Scripts
 
             var nodeProgram = ProcessInterop.AppendExecutableExtension(processName);
 
-            string? programPath = ProcessInterop.ResolveProgramFullPath(nodeProgram);
+            string? programPath = ProcessInterop.ResolveProgramFullPath(nodeProgram, _appSetting.NodeJsPath);
 
             if (programPath == null)
             {
@@ -61,7 +63,7 @@ namespace BookGen.Framework.Scripts
             var temp = new FsPath(Path.GetTempFileName());
             temp.WriteFile(_log, script.ToString());
 
-            var (exitcode, output) = ProcessInterop.RunProcess("node", temp.ToString(), ScriptTimeOut);
+            var (exitcode, output) = ProcessInterop.RunProcess(programPath, temp.ToString(), _appSetting.NodeJsTimeout);
 
             if (temp.IsExisting)
                 File.Delete(temp.ToString());

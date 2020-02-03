@@ -5,6 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Core;
+using BookGen.Domain;
 using BookGen.Mdoules;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace BookGen
     internal static class Program
     {
         internal static ProgramState CurrentState { get; } = new ProgramState();
+        internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
         public static GeneratorRunner CreateRunner(bool verbose, string workDir)
         {
@@ -51,6 +53,7 @@ namespace BookGen
             ModuleBase? currentModule = null;
             try
             {
+                AppSetting = AppSettingHandler.LoadAppSettings();
                 ArgumentParser arguments = new ArgumentParser(args);
                 List<ModuleBase> modules = LoadModules();
 

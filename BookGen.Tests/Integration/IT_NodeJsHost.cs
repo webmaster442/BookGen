@@ -1,6 +1,4 @@
 ﻿using BookGen.Api;
-using BookGen.Core;
-using BookGen.Core.Contracts;
 using BookGen.Domain;
 using BookGen.Framework.Scripts;
 using BookGen.Tests.Environment;
@@ -15,22 +13,18 @@ namespace BookGen.Tests
     {
         private NodeJsHost _sut;
         private Mock<ILog> _log;
-        private Mock<IReadonlyRuntimeSettings> _settings;
 
         [OneTimeSetUp]
         public void Setup()
         {
             _log = new Mock<ILog>();
-            _settings = new Mock<IReadonlyRuntimeSettings>();
-            _settings.Setup(x => x.SourceDirectory).Returns(FsPath.Empty);
-            _sut = new NodeJsHost(_log.Object, _settings.Object);
+            _sut = new NodeJsHost(_log.Object, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
         }
 
         [OneTimeTearDown]
         public void TearDown()
         {
             _sut = null;
-            _settings = null;
             _log = null;
         }
 

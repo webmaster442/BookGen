@@ -20,7 +20,7 @@ namespace BookGen.Tests
         public void Setup()
         {
             var log = new ConsoleLog();
-            _sut = new ShortCodeLoader(log, TestEnvironment.GetMockedSettings());
+            _sut = new ShortCodeLoader(log, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
             _sut.LoadAll();
         }
 

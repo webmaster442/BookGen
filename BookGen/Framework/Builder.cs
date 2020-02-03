@@ -48,7 +48,7 @@ namespace BookGen.Framework
             else
                 Settings.ImageDirectory = WorkDir.Combine(configuration.ImageDir);
 
-            _loader = new ShortCodeLoader(log, Settings);
+            _loader = new ShortCodeLoader(log, Settings, Program.AppSetting);
             _loader.LoadAll();
 
             scriptHandler.SetHostFromRuntimeSettings(Settings);

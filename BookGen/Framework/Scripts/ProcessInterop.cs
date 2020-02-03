@@ -8,8 +8,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookGen.Framework.Scripts
 {
@@ -33,7 +31,7 @@ namespace BookGen.Framework.Scripts
                 string output = process.StandardOutput.ReadToEnd();
                 string err = process.StandardError.ReadToEnd();
 
-                if (process.WaitForExit(timeout))
+                if (process.WaitForExit(timeout*1000))
                 {
                     result.output = output;
                     result.exitcode = process.ExitCode;
@@ -48,7 +46,7 @@ namespace BookGen.Framework.Scripts
             return result;
         }
 
-        public static string? ResolveProgramFullPath(string programName)
+        public static string? ResolveProgramFullPath(string programName, string additional = "")
         {
             string? pathVar = Environment.GetEnvironmentVariable("path");
 
@@ -56,6 +54,8 @@ namespace BookGen.Framework.Scripts
                 return null;
 
             var searchFolders = new List<string>(pathVar.Split(';'));
+            if (!string.IsNullOrEmpty(additional))
+                searchFolders.Add(additional);
 
             if (AppDomain.CurrentDomain.BaseDirectory != null)
                 searchFolders.Add(AppDomain.CurrentDomain.BaseDirectory);

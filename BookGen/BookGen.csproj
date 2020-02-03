@@ -32,7 +32,7 @@
     <None Remove="Resources\Splash.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.18.0" />
+    <PackageReference Include="Markdig" Version="0.18.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.4.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
@@ -40,6 +40,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Help.txt" />

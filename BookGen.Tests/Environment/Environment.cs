@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
@@ -23,6 +24,15 @@ namespace BookGen.Tests.Environment
         public static string GetTestFolder()
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Environment");
+        }
+
+        internal static IAppSetting GetMockedAppSettings()
+        {
+            var mock = new Mock<IAppSetting>();
+            mock.Setup(x => x.NodeJsPath).Returns("");
+            mock.Setup(x => x.NodeJsTimeout).Returns(60);
+
+            return mock.Object;
         }
 
         public static ILog GetMockedLog()

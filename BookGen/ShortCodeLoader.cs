@@ -5,6 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Api.Configuration;
+using BookGen.Contracts;
 using BookGen.Core.Contracts;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ using System.ComponentModel.Composition.Hosting;
 
 namespace BookGen
 {
-    public class ShortCodeLoader
+    internal class ShortCodeLoader
     {
         [ImportMany]
         public List<ITemplateShortCode> Imports { get; }
@@ -27,16 +28,22 @@ namespace BookGen
         [Export(typeof(IReadOnlyTranslations))]
         private readonly IReadOnlyTranslations _tranlsations;
 
+        [Export(typeof(IAppSetting))]
+        private readonly IAppSetting _appSetting;
+
         private readonly CompositionContainer _container;
 
-        public ShortCodeLoader(ILog log, IReadonlyRuntimeSettings settings)
+        public ShortCodeLoader(ILog log, IReadonlyRuntimeSettings settings, IAppSetting appSetting)
         {
             _log = log;
             _settings = settings;
             _tranlsations = settings.Configuration.Translations;
+            _appSetting = appSetting;
 
             var catalog = new AggregateCatalog();
-            catalog.Catalogs.Add(new TypeCatalog(typeof(ILog), typeof(IReadonlyRuntimeSettings)));
+            catalog.Catalogs.Add(new TypeCatalog(typeof(ILog), 
+                                                 typeof(IReadonlyRuntimeSettings),
+                                                 typeof(IAppSetting)));
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(ShortCodeLoader).Assembly));
             Imports = new List<ITemplateShortCode>();
             _container = new CompositionContainer(catalog);
