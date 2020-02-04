@@ -47,7 +47,7 @@ namespace BookGen
                 stream.Write(contents);
             }
 
-            File.Move(file, GetConfigFile());
+            File.Move(file, GetConfigFile(), true);
         }
 
     }

@@ -30,7 +30,7 @@ namespace BookGen
             Console.WriteLine(text, args);
             if (!CurrentState.Gui && !CurrentState.NoWaitForExit)
             {
-                Console.ReadKey();
+                Console.Read();
             }
         }
 
@@ -45,6 +45,7 @@ namespace BookGen
                 new UpdateModule(CurrentState),
                 new EditorModule(CurrentState),
                 new AssemblyDocumentModule(CurrentState),
+                new SettingsModule(CurrentState, AppSetting),
             };
         }
 
@@ -80,7 +81,6 @@ namespace BookGen
         private static void HandleUncaughtException(ModuleBase? currentModule, Exception ex)
         {
             currentModule?.Abort();
-            Console.Clear();
             ShowMessageBox("Unhandled exception\r\n{0}", ex);
 #if DEBUG
             System.Diagnostics.Debugger.Break();

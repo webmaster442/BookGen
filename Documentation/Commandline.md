@@ -12,6 +12,18 @@ To get information regarding the configuration file bookgen.json file run:
 Bookgen ConfigHelp
 ```
 
+## Global, appliciation wide settings usage
+```
+    BookGen Settings list
+        List all currently supported application wide setting
+
+    BookGen Settings get <name>
+        Gets a setting value, prints it to output and exits
+
+    BookGen Settings set <name> <value>
+        Sets a setting value and exits
+```
+
 ## GUI Usage
 ```
     BookGen Gui {-v} {-d [directory]}
