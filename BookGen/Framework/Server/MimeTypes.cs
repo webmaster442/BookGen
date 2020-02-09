@@ -10,11 +10,8 @@ namespace BookGen.Framework.Server
 {
     public static class MimeTypes
     {
-        private static readonly Dictionary<string, string> _db;
-
-        static MimeTypes()
-        {
-            _db = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+        private static readonly Dictionary<string, string>  _db =
+            new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
             {
                 { ".asf", "video/x-ms-asf"},
                 { ".asx", "video/x-ms-asf"},
@@ -38,6 +35,7 @@ namespace BookGen.Framework.Server
                 { ".jpeg", "image/jpeg"},
                 { ".jpg", "image/jpeg"},
                 { ".js", "application/x-javascript"},
+                { ".json", "application/json" },
                 { ".webp", "image/webp"},
                 { ".mml", "text/mathml"},
                 { ".mng", "video/x-mng"},
@@ -90,7 +88,6 @@ namespace BookGen.Framework.Server
                 { ".sh", "text/plain"},
                 { ".md", "text/plain"},
             };
-        }
 
         public static string GetMimeForExtension(string extension)
         {
