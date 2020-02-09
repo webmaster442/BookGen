@@ -124,6 +124,10 @@
         </main>
     </div>
     <div id="files" class="d-flex h-100 p-3 mx-auto flex-column">
+        <div>
+            Filter for files:
+            <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search">
+        </div>
         <div id="FileSelector" class="row">
         </div>
     </div>
@@ -146,6 +150,26 @@
                 $('a[href="#toc"]').attr("href", url);
             });
         });
+        $("#search").keydown(function () {
+            let text = $("#search").val();
+            filter(text);
+        });
+
+
+        function filter(what) {
+            $("#FileSelector li").each(function (index, value) {
+                if (!what) {
+                    this.style.display = "list-item";
+                }
+                else if (this.innerText.indexOf(what) > -1) {
+                    this.style.display = "list-item";
+                }
+                else {
+                    this.style.display = "none";
+                }
+            });
+        }
+
     </script>
 </body>
 </html>
