@@ -267,7 +267,7 @@ namespace BookGen
             IRequestHandler[] handlers = new IRequestHandler[]
             {
                 new DynamicHandlers(WorkDirectory, Configuration),
-                new EditorIndexHandler(),
+                new HtmlPageHandler(),
                 new EmbededResourceRequestHandler()
             };
 

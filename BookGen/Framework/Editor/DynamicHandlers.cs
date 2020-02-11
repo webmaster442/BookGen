@@ -35,44 +35,57 @@ namespace BookGen.Framework.Editor
 
         public void Serve(HttpListenerRequest request, HttpListenerResponse response, ILog log)
         {
-            if (request.Url.AbsolutePath == "/dynamic/FileTree.html")
+            switch (request.Url.AbsolutePath)
             {
-                response.WriteHtmlString(FileTreeRenderer.Render(_workdir));
+                case "/dynamic/FileTree.html":
+                    response.WriteHtmlString(FileTreeRenderer.Render(_workdir));
+                    break;
+                case "/dynamic/GetContents.html":
+                    GetContents(request, response, log);
+                    break;
+                case "/dynamic/Save.html":
+                    Save(request, response, log);
+                    break;
+                case "/dynamic/Toc.html":
+                    Toc(response);
+                    break;
             }
-            else if (request.Url.AbsolutePath == "/dynamic/GetContents.html")
-            {
-                Dictionary<string, string> parameters = request.Url.Query.ParseQueryParameters();
-                if (parameters.ContainsKey("file"))
-                {
-                    string file = Uri.UnescapeDataString(parameters["file"]);
-                    response.WriteString(EditorLoadSave.LoadFile(_workdir, file, log), "text/plain");
-                }
+        }
 
-            }
-            else if (request.Url.AbsolutePath == "/dynamic/Save.html")
+        private void GetContents(HttpListenerRequest request, HttpListenerResponse response, ILog log)
+        {
+            Dictionary<string, string> parameters = request.Url.Query.ParseQueryParameters();
+            if (parameters.ContainsKey("file"))
             {
-                Dictionary<string, string> parameters = request.ParsePostParameters();
-                if (parameters.ContainsKey("file") && parameters.ContainsKey("content"))
+                string file = Uri.UnescapeDataString(parameters["file"]);
+                response.WriteString(EditorLoadSaveHelper.LoadFile(_workdir, file, log), "text/plain");
+            }
+        }
+
+        private void Save(HttpListenerRequest request, HttpListenerResponse response, ILog log)
+        {
+            Dictionary<string, string> parameters = request.ParsePostParameters();
+            if (parameters.ContainsKey("file") && parameters.ContainsKey("content"))
+            {
+                string file = Uri.UnescapeDataString(parameters["file"]);
+                string content = Uri.UnescapeDataString(parameters["content"]);
+                bool result = EditorLoadSaveHelper.SaveFile(_workdir, file, content, log);
+                if (result)
                 {
-                    string file = Uri.UnescapeDataString(parameters["file"]);
-                    string content = Uri.UnescapeDataString(parameters["content"]);
-                    bool result = EditorLoadSave.SaveFile(_workdir, file, content, log);
-                    if (result)
-                    {
-                        response.WriteString("OK", "text/plain");
-                    }
-                    else
-                    {
-                        response.WriteString("Error", "text/plain");
-                    }
+                    response.WriteString("OK", "text/plain");
+                }
+                else
+                {
+                    response.WriteString("Error", "text/plain");
                 }
             }
-            else if (request.Url.AbsolutePath == "/dynamic/Toc.html")
-            {
-                var plainTextBytes = Encoding.UTF8.GetBytes(_configuruation.TOCFile);
-                var encoded = Uri.EscapeDataString(Convert.ToBase64String(plainTextBytes));
-                response.WriteString(encoded, "text/plain");
-            }
+        }
+
+        private void Toc(HttpListenerResponse response)
+        {
+            var plainTextBytes = Encoding.UTF8.GetBytes(_configuruation.TOCFile);
+            var encoded = Uri.EscapeDataString(Convert.ToBase64String(plainTextBytes));
+            response.WriteString(encoded, "text/plain");
         }
     }
 }
