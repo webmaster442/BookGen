@@ -11,11 +11,13 @@ namespace BookGen.Domain
     {
         public int NodeJsTimeout { get; set; }
         public string NodeJsPath { get; set; }
+        public bool AutoStartWebserver { get; set; }
 
         public AppSetting()
         {
             NodeJsTimeout = 60;
             NodeJsPath = string.Empty;
+            AutoStartWebserver = true;
         }
     }
 }

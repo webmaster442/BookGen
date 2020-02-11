@@ -249,14 +249,22 @@ namespace BookGen
                 _log.Info("Test server running on: http://localhost:8080/");
                 _log.Info("Serving from: {0}", Configuration.TargetWeb.OutPutDirectory);
 
-                Process p = new Process();
-                p.StartInfo.UseShellExecute = true;
-                p.StartInfo.FileName = Configuration.HostName;
-                p.Start();
+                if (Program.AppSetting.AutoStartWebserver)
+                {
+                    StartUrl(Configuration.HostName);
+                }
 
                 Console.WriteLine(exitString);
                 Console.ReadLine();
             }
+        }
+
+        private void StartUrl(string url)
+        {
+            Process p = new Process();
+            p.StartInfo.UseShellExecute = true;
+            p.StartInfo.FileName = url;
+            p.Start();
         }
 
         public void DoEditor()
@@ -276,10 +284,10 @@ namespace BookGen
                 _log.Info("Editor started on: http://localhost:9090");
                 _log.Info("Press a key to exit...");
 
-                Process p = new Process();
-                p.StartInfo.UseShellExecute = true;
-                p.StartInfo.FileName = "http://localhost:9090";
-                p.Start();
+                if (Program.AppSetting.AutoStartWebserver)
+                {
+                    StartUrl("http://localhost:9090");
+                }
 
                 Console.ReadLine();
             }
