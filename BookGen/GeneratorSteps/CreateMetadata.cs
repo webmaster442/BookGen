@@ -22,25 +22,33 @@ namespace BookGen.GeneratorSteps
             {
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
-                    var title = $"{settings.Configuration.Metadata.Title} - {link.Text}";
-                    var file = settings.SourceDirectory.Combine(link.Url);
+                    string title = $"{settings.Configuration.Metadata.Title} - {link.Text}";
+                    FsPath file = settings.SourceDirectory.Combine(link.Url);
 
-                    var description = MarkdownRenderers.Markdown2Plain(file.ReadFile(log)).Replace('\n', ' ').Trim();
-                    var limit = description.Length < 190 ? description.Length : 190;
-                    description = description.Substring(0, limit) + "...";
+                    string description = GetDescription(log, file);
 
-                    var meta = new MetaTag().FillWithConfigDefaults(settings.Configuration);
+                    MetaTag meta = CreateMetaTag(settings, link, title, description);
 
-                    meta.Title = title;
-                    meta.Url = link.ConvertToLinkOnHost(settings.Configuration.HostName);
-                    meta.Description = description;
-
-                    if (settings.MetataCache.ContainsKey(link.Url))
-                        settings.MetataCache[link.Url] = meta.GetHtmlMeta();
-                    else
-                        settings.MetataCache.Add(link.Url, meta.GetHtmlMeta());
+                    settings.MetataCache[link.Url] = meta.GetHtmlMeta();
                 }
             }
+        }
+
+        private static MetaTag CreateMetaTag(RuntimeSettings settings, Link link, string title, string description)
+        {
+            var meta = new MetaTag().FillWithConfigDefaults(settings.Configuration);
+
+            meta.Title = title;
+            meta.Url = link.ConvertToLinkOnHost(settings.Configuration.HostName);
+            meta.Description = description;
+            return meta;
+        }
+
+        private static string GetDescription(ILog log, FsPath file)
+        {
+            var description = MarkdownRenderers.Markdown2Plain(file.ReadFile(log)).Replace('\n', ' ').Trim();
+            var limit = description.Length < 190 ? description.Length : 190;
+            return description.Substring(0, limit) + "...";
         }
     }
 }
