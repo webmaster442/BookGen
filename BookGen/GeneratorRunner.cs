@@ -276,7 +276,8 @@ namespace BookGen
             {
                 new DynamicHandlers(WorkDirectory, Configuration),
                 new HtmlPageHandler(),
-                new EmbededResourceRequestHandler()
+                new EmbededResourceRequestHandler(),
+                new RunBookGenHandler(WorkDirectory),
             };
 
             using (var server = new HttpServer(WorkDirectory, 9090, _log, handlers))
