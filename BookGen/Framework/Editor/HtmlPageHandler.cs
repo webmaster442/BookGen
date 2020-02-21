@@ -11,7 +11,7 @@ using System.Net;
 
 namespace BookGen.Framework.Editor
 {
-    internal class EditorIndexHandler : ISimpleRequestHandler
+    internal class HtmlPageHandler : ISimpleRequestHandler
     {
         public bool CanServe(string AbsoluteUri)
         {

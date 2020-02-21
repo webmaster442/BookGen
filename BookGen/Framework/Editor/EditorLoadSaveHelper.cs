@@ -9,7 +9,7 @@ using System.Text;
 
 namespace BookGen.Framework.Editor
 {
-    public static class EditorLoadSave
+    public static class EditorLoadSaveHelper
     {
         private static string GetDiskFile(string folder, string base64encodedurl)
         {
