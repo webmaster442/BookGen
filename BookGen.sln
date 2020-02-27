@@ -28,7 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Api", "BookGen.Api\BookGen.Api.csproj", "{3D07DD2E-A6CA-4AAC-909D-7A09B967B7E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen.AssemblyDocumenter", "BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj", "{6BDF566E-6023-4BE6-804C-02F4335889FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.AssemblyDocumenter", "BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj", "{6BDF566E-6023-4BE6-804C-02F4335889FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen.Gui", "BookGen.Gui\BookGen.Gui.csproj", "{8A457564-221F-4D54-8182-E076A807541A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +62,10 @@ Global
 		{6BDF566E-6023-4BE6-804C-02F4335889FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BDF566E-6023-4BE6-804C-02F4335889FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BDF566E-6023-4BE6-804C-02F4335889FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A457564-221F-4D54-8182-E076A807541A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A457564-221F-4D54-8182-E076A807541A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A457564-221F-4D54-8182-E076A807541A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A457564-221F-4D54-8182-E076A807541A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
