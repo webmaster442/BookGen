@@ -11,8 +11,6 @@ namespace BookGen.Mdoules
 {
     internal class GuiModule : ModuleBase
     {
-        private ConsoleMenu? _ui;
-
         public GuiModule(ProgramState currentState) : base(currentState)
         {
         }
@@ -38,17 +36,24 @@ namespace BookGen.Mdoules
         {
             var parameters = GetGuiParameters(tokenizedArguments);
 
+
+
             CurrentState.Gui = true;
             CurrentState.GeneratorRunner = Program.CreateRunner(parameters.Verbose, parameters.WorkDir);
-            _ui = new ConsoleMenu(CurrentState.GeneratorRunner);
-            _ui.Run();
+
+            UiRunner uiRunner = new UiRunner();
+
+            var Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
+
+            uiRunner.Run(Ui);
+
 
             return true;
         }
 
         public override void Abort()
         {
-            if (_ui != null) _ui.ShouldRun = false;
+            //if (_ui != null) _ui.ShouldRun = false;
         }
     }
 }

@@ -48,8 +48,8 @@ namespace BookGen
 
         internal void DoInteractiveInitialize()
         {
-            var menu = new InteractiveInitializer(_log, new FsPath(WorkDirectory), Program.CurrentState);
-            menu.Run();
+            /*var menu = new InteractiveInitializer(_log, new FsPath(WorkDirectory), Program.CurrentState);
+            menu.Run();*/
         }
 
         public void RunHelp()

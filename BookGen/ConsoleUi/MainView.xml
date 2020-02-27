@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XWindow Title="Test Window">
+  <Children>
+    <Label Text="Hello World" Left="1"/>
+    <Button Text="Test Button 1" Left="10"/>
+    <Button Text="Test Button 2" Left="10"/>
+    <Button Text="Test Button 3" Left="10"/>
+    <Button Text="Test Button 4" Left="10"/>
+    <Button Text="Test Button 5" Left="10"/>
+    <Button Text="Test Button 6" Left="10"/>
+  </Children>
+</XWindow>

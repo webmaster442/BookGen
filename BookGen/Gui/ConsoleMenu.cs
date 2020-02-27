@@ -2,7 +2,7 @@
 // (c) 2019 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
-
+/*
 using BookGen.Core;
 using BookGen.Gui.Elements;
 using System;
@@ -140,3 +140,4 @@ namespace BookGen.Gui
         }
     }
 }
+*/

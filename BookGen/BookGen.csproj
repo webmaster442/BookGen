@@ -28,6 +28,7 @@
     <None Remove="DefaultTemplate\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="ConsoleUi\MainView.xml" />
     <None Remove="Resources\ReplaceContents.bat" />
     <None Remove="Resources\Splash.txt" />
   </ItemGroup>
@@ -43,6 +44,7 @@
     <PackageReference Include="System.Text.Json" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ConsoleUi\MainView.xml" />
     <EmbeddedResource Include="Resources\Help.txt" />
     <Content Include="Icon.ico" />
     <EmbeddedResource Include="Resources\Error404.html" />
@@ -53,6 +55,7 @@
     <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
     <ProjectReference Include="..\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
+    <ProjectReference Include="..\BookGen.Gui\BookGen.Gui.csproj" />
     <ProjectReference Include="..\Bookgen.Template\BookGen.Template.csproj" />
   </ItemGroup>
   <ItemGroup>
