@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Gui.XmlEntities;
+using System;
 using Terminal.Gui;
 
 namespace BookGen.Gui
@@ -36,6 +37,23 @@ namespace BookGen.Gui
                 X = Pos.Left(root) + label.Left,
                 Y = Pos.Top(root) + row
             };
+        }
+
+        internal void RenderTextBlock(XTextBlock textBlock, Window root, ref int row)
+        {
+            var lines = textBlock.Text?.ToString().Split('\n');
+            if (lines == null) return;
+            foreach (var line in lines)
+            {
+                var label = new Label(line ?? "")
+                {
+                    X = Pos.Left(root) + textBlock.Left,
+                    Y = Pos.Top(root) + row
+                };
+                root.Add(label);
+                ++row;
+            }
+
         }
     }
 }

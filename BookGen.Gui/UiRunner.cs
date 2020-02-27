@@ -48,15 +48,21 @@ namespace BookGen.Gui
             };
 
             int row = 1;
+
             foreach (var child in deserialized.Children)
             {
+                View rendered = null;
                 if (child is XSpacer spacer)
                 {
                     row += spacer.Rows;
                 }
+                else if (child is XTextBlock textBlock)
+                {
+                    _elementFactory.RenderTextBlock(textBlock, root, ref row);
+                }
                 else
                 {
-                    View rendered = Render(child, root, row);
+                    rendered = RenderSimple(child, root, row);
                     root.Add(rendered);
                     ++row;
                 }
@@ -65,14 +71,14 @@ namespace BookGen.Gui
             return root;
         }
 
-        private View Render(XView child, Window root, int row)
+        private View RenderSimple(XView child, Window root, int row)
         {
             switch (child)
             {
                 case XButton button:
                     return _elementFactory.CreateButton(button, root, row);
                 case XLabel label:
-                    return _elementFactory.CreateLabel(label, root, row);
+                    return _elementFactory.CreateLabel(label, root, row);;
                 default:
                     throw new InvalidOperationException($"Unknown node type: {child.GetType().Name}");
             }

@@ -17,6 +17,7 @@ namespace BookGen.Gui.XmlEntities
         [XmlArrayItem(nameof(XLabel), typeof(XLabel))]
         [XmlArrayItem(nameof(XButton), typeof(XButton))]
         [XmlArrayItem(nameof(XSpacer), typeof(XSpacer))]
+        [XmlArrayItem(nameof(XTextBlock), typeof(XTextBlock))]
         public List<XView> Children { get; set; }
     }
 }
