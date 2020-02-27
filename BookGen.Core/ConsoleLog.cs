@@ -18,6 +18,22 @@ namespace BookGen.Core
             _logLevel = level;
         }
 
+        private ConsoleColor GetConsoleColor(LogLevel logLevel)
+        {
+            switch (logLevel)
+            {
+                case LogLevel.Warning:
+                    return ConsoleColor.Yellow;
+                case LogLevel.Info:
+                    return ConsoleColor.Gray;
+                case LogLevel.Critical:
+                    return ConsoleColor.Red;
+                case LogLevel.Detail:
+                default:
+                    return ConsoleColor.White;
+            }
+        }
+
         public void Log(LogLevel logLevel, string format, params object[] args)
         {
             string text = string.Format(format, args);
@@ -25,7 +41,9 @@ namespace BookGen.Core
 
             if (logLevel <= _logLevel)
             {
+                Console.ForegroundColor = GetConsoleColor(logLevel);
                 Console.WriteLine(line);
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
 #if DEBUG
             else
