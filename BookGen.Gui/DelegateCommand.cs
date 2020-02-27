@@ -3,16 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Xml.Serialization;
+using System;
 
-namespace BookGen.Gui.XmlEntities
+namespace BookGen.Gui
 {
-    public class XButton : XView
+    public sealed class DelegateCommand
     {
-        [XmlAttribute]
-        public string Command { get; set; }
+        public Action Action { get; }
 
-        [XmlAttribute]
-        public string Text { get; set; }
+        public DelegateCommand(Action action)
+        {
+            Action = action;
+        }
     }
 }

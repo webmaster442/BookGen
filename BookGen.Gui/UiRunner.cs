@@ -1,4 +1,9 @@
-﻿using BookGen.Gui.XmlEntities;
+﻿//-----------------------------------------------------------------------------
+// (c) 2020 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Gui.XmlEntities;
 using System;
 using System.IO;
 using System.Xml.Serialization;
@@ -8,13 +13,18 @@ namespace BookGen.Gui
 {
     public class UiRunner
     {
+        private UiElementFactory _elementFactory;
+
         public UiRunner()
         {
             Application.Init();
         }
 
-        public void Run(Stream view)
+        public void Run(Stream view, object model)
         {
+            var binder = new Binder(model);
+            _elementFactory = new UiElementFactory(binder);
+
             XWindow deserialized = DeserializeXmlView(view);
             Window window = ParseDeserialized(deserialized);
 
@@ -60,9 +70,9 @@ namespace BookGen.Gui
             switch (child)
             {
                 case XButton button:
-                    return UiElementFactory.CreateButton(button, root, row);
+                    return _elementFactory.CreateButton(button, root, row);
                 case XLabel label:
-                    return UiElementFactory.CreateLabel(label, root, row);
+                    return _elementFactory.CreateLabel(label, root, row);
                 default:
                     throw new InvalidOperationException($"Unknown node type: {child.GetType().Name}");
             }

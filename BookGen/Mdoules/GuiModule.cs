@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.ConsoleUi;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Gui;
@@ -44,8 +45,9 @@ namespace BookGen.Mdoules
             UiRunner uiRunner = new UiRunner();
 
             var Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
+            var vm = new MainViewModel();
 
-            uiRunner.Run(Ui);
+            uiRunner.Run(Ui, vm);
 
 
             return true;
