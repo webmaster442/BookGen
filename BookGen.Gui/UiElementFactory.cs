@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Gui.XmlEntities;
-using System;
 using Terminal.Gui;
 
 namespace BookGen.Gui
@@ -32,7 +31,12 @@ namespace BookGen.Gui
 
         public Label CreateLabel(XLabel label, Window root, int row)
         {
-            return new Label(label.Text ?? "")
+            string text = label.Text ?? "";
+
+            if (_binder.IsBindableText(text))
+                text = _binder.GetBoundString(text);
+
+            return new Label(text)
             {
                 X = Pos.Left(root) + label.Left,
                 Y = Pos.Top(root) + row
@@ -45,6 +49,9 @@ namespace BookGen.Gui
             if (lines == null) return;
             foreach (var line in lines)
             {
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+                
                 var label = new Label(line ?? "")
                 {
                     X = Pos.Left(root) + textBlock.Left,
