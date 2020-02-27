@@ -1,4 +1,5 @@
 ﻿using BookGen.Gui.XmlEntities;
+using System;
 using System.IO;
 using System.Xml.Serialization;
 using Terminal.Gui;
@@ -10,7 +11,6 @@ namespace BookGen.Gui
         public UiRunner()
         {
             Application.Init();
-            SerializeXml();
         }
 
         public void Run(Stream view)
@@ -29,24 +29,6 @@ namespace BookGen.Gui
             return xs.Deserialize(view) as XWindow;
         }
 
-        public void SerializeXml()
-        {
-            XmlSerializer xs = new XmlSerializer(typeof(XWindow));
-
-            var obj = new XWindow
-            {
-                Children = new System.Collections.Generic.List<XView>
-                {
-                    new XButton(),
-                    new XLabel()
-                }
-            };
-
-            StringWriter sw = new StringWriter();
-            xs.Serialize(sw, obj);
-            string content = sw.ToString();
-        }
-
         private Window ParseDeserialized(XWindow deserialized)
         {
             Window root = new Window(deserialized.Title ?? "")
@@ -58,9 +40,16 @@ namespace BookGen.Gui
             int row = 1;
             foreach (var child in deserialized.Children)
             {
-                View rendered = Render(child, root, row);
-                root.Add(rendered);
-                ++row;
+                if (child is XSpacer spacer)
+                {
+                    row += spacer.Rows;
+                }
+                else
+                {
+                    View rendered = Render(child, root, row);
+                    root.Add(rendered);
+                    ++row;
+                }
             }
 
             return root;
@@ -75,7 +64,7 @@ namespace BookGen.Gui
                 case XLabel label:
                     return UiElementFactory.CreateLabel(label, root, row);
                 default:
-                    return null;
+                    throw new InvalidOperationException($"Unknown node type: {child.GetType().Name}");
             }
         }
     }
