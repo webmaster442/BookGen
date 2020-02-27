@@ -10,6 +10,7 @@ namespace BookGen.Gui
         public UiRunner()
         {
             Application.Init();
+            SerializeXml();
         }
 
         public void Run(Stream view)
@@ -26,6 +27,24 @@ namespace BookGen.Gui
         {
             XmlSerializer xs = new XmlSerializer(typeof(XWindow));
             return xs.Deserialize(view) as XWindow;
+        }
+
+        public void SerializeXml()
+        {
+            XmlSerializer xs = new XmlSerializer(typeof(XWindow));
+
+            var obj = new XWindow
+            {
+                Children = new System.Collections.Generic.List<XView>
+                {
+                    new XButton(),
+                    new XLabel()
+                }
+            };
+
+            StringWriter sw = new StringWriter();
+            xs.Serialize(sw, obj);
+            string content = sw.ToString();
         }
 
         private Window ParseDeserialized(XWindow deserialized)
@@ -49,24 +68,15 @@ namespace BookGen.Gui
 
         private View Render(XView child, Window root, int row)
         {
-            if (child is XButton button)
+            switch (child)
             {
-                return new Button(button.Text)
-                {
-                    X = Pos.Left(root) + button.Left,
-                    Y = Pos.Top(root) + row
-                };
+                case XButton button:
+                    return UiElementFactory.CreateButton(button, root, row);
+                case XLabel label:
+                    return UiElementFactory.CreateLabel(label, root, row);
+                default:
+                    return null;
             }
-            else if (child is XLabel label)
-            {
-                return new Label(label.Text)
-                {
-                    X = Pos.Left(root) + label.Left,
-                    Y = Pos.Top(root) + row
-                };
-            }
-            else
-                return null;
         }
     }
 }
