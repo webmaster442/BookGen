@@ -6,14 +6,16 @@
 using BookGen.ConsoleUi;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
-using BookGen.Gui;
 
 namespace BookGen.Mdoules
 {
     internal class GuiModule : ModuleBase
     {
+        private readonly Gui.ConsoleUi uiRunner;
+
         public GuiModule(ProgramState currentState) : base(currentState)
         {
+            uiRunner = new Gui.ConsoleUi();
         }
 
         public override string ModuleCommand => "Gui";
@@ -37,12 +39,8 @@ namespace BookGen.Mdoules
         {
             var parameters = GetGuiParameters(tokenizedArguments);
 
-
-
             CurrentState.Gui = true;
             CurrentState.GeneratorRunner = Program.CreateRunner(parameters.Verbose, parameters.WorkDir);
-
-            UiRunner uiRunner = new UiRunner();
 
             System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
             var vm = new MainViewModel(CurrentState.GeneratorRunner);
@@ -57,7 +55,8 @@ namespace BookGen.Mdoules
 
         public override void Abort()
         {
-            //if (_ui != null) _ui.ShouldRun = false;
+            if (uiRunner != null)
+                uiRunner.SuspendUi();
         }
     }
 }

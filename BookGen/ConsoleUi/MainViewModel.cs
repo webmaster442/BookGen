@@ -3,12 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Gui;
+using BookGen.Gui.Mvvm;
 using System;
 
 namespace BookGen.ConsoleUi
 {
-    internal class MainViewModel
+    internal class MainViewModel: ViewModelBase
     {
         private readonly GeneratorRunner _runner;
 

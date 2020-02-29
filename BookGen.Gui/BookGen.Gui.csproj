@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
+    <Product>BookGen</Product>
+    <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+    <Authors>Ruzsinszki Gábor</Authors>
+     <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

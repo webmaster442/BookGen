@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Gui.Mvvm;
 using BookGen.Gui.XmlEntities;
 using System;
 using System.IO;
@@ -11,25 +12,36 @@ using Terminal.Gui;
 
 namespace BookGen.Gui
 {
-    public class UiRunner
+    public class ConsoleUi: IView
     {
         private UiElementFactory? _elementFactory;
 
-        public UiRunner()
+        public ConsoleUi()
         {
             Application.Init();
         }
 
-        public void Run(Stream view, object model)
+        public void Run(Stream view, ViewModelBase model)
         {
             var binder = new Binder(model);
             _elementFactory = new UiElementFactory(binder);
 
             XWindow deserialized = DeserializeXmlView(view);
             Window window = ParseDeserialized(deserialized);
+            model.InjectView(this);
 
             Application.Top.Add(window);
 
+            Application.Run();
+        }
+
+        public void SuspendUi()
+        {
+            Application.Top.Running = false;
+        }
+
+        public void ResumeUi()
+        {
             Application.Run();
         }
 

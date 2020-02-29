@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Gui.Mvvm;
 using System;
 using System.Text;
 using System.Text.RegularExpressions;

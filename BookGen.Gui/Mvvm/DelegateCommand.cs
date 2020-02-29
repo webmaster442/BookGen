@@ -5,7 +5,7 @@
 
 using System;
 
-namespace BookGen.Gui
+namespace BookGen.Gui.Mvvm
 {
     public sealed class DelegateCommand
     {
