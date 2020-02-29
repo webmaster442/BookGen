@@ -46,12 +46,6 @@ namespace BookGen
             Configuration = new Config();
         }
 
-        internal void DoInteractiveInitialize()
-        {
-            /*var menu = new InteractiveInitializer(_log, new FsPath(WorkDirectory), Program.CurrentState);
-            menu.Run();*/
-        }
-
         public void RunHelp()
         {
             Console.WriteLine(HelpTextCreator.GenerateHelpText());

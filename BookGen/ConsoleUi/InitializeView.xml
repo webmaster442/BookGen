@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XWindow
+  Title="BookGen Interactive Initialize"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Children>
+    <XCheckBox
+      Left="2"
+      Text="Create summary.md/overwrite and index.md files?"/>
+    <XCheckBox
+      Left="2"
+      Text="Extract/overwrite templates for customization?"/>
+    <XCheckBox
+      Left="2"
+      Text="Create/overwrite script file and script project?"/>
+    <XCheckBox
+      Left="2"
+      Text="Create/overwrite configuration file?"/>
+    <XCheckBox
+      Left="2"
+      Text="Create/overwrite VS Tasks json file?"/>
+  </Children>
+</XWindow>

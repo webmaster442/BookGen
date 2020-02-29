@@ -66,9 +66,6 @@ namespace BookGen.Mdoules
                 case ActionType.BuildEpub:
                     CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoEpub());
                     break;
-                case ActionType.Initialize:
-                    CurrentState.GeneratorRunner.DoInteractiveInitialize();
-                    break;
                 case ActionType.ValidateConfig:
                     CurrentState.GeneratorRunner.Initialize();
                     break;

@@ -11,8 +11,6 @@ namespace BookGen.ConsoleUi
     internal class MainViewModel: ViewModelBase
     {
         private readonly GeneratorRunner _runner;
-
-        public DelegateCommand InitializeCommand { get; }
         public DelegateCommand ValidateConfigCommand { get; }
         public DelegateCommand CleanOutDirCommand { get; }
         public DelegateCommand BuildTestCommand { get; }
@@ -33,7 +31,6 @@ namespace BookGen.ConsoleUi
         {
             _runner = runner;
             WorkDirectory = _runner.WorkDirectory;
-            InitializeCommand = new DelegateCommand(this, () => _runner.DoInteractiveInitialize());
             ValidateConfigCommand = new DelegateCommand(this, () => _runner.Initialize());
             CleanOutDirCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoClean()));
             BuildTestCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoTest()));

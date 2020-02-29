@@ -55,8 +55,7 @@ namespace BookGen.Mdoules
 
         public override void Abort()
         {
-            if (uiRunner != null)
-                uiRunner.SuspendUi();
+            uiRunner?.SuspendUi();
         }
     }
 }
