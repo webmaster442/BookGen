@@ -10,5 +10,6 @@ namespace BookGen.Gui.Mvvm
         void SuspendUi();
         void ResumeUi();
         void ExitApp();
+        void UpdateBindingsToModel();
     }
 }

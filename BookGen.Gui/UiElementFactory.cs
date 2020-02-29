@@ -33,7 +33,7 @@ namespace BookGen.Gui
         {
             string text = label.Text ?? "";
 
-            if (_binder.IsBindableText(text))
+            if (Binder.IsBindable(text))
                 text = _binder.GetBindedText(text);
 
             return new Label(text)
@@ -47,14 +47,20 @@ namespace BookGen.Gui
         {
             string text = checkBox.Text ?? "";
 
-            if (_binder.IsBindableText(text))
+            if (Binder.IsBindable(text))
                 text = _binder.GetBindedText(text);
-
+                
             var result = new CheckBox(text)
             {
                 X = Pos.Left(root) + checkBox.Left,
                 Y = Pos.Top(root) + row,
             };
+
+            if (Binder.IsBindable(checkBox.IsChecked))
+            {
+                result.Checked = _binder.GetBindedBool(checkBox.IsChecked);
+                _binder.Register(checkBox, result);
+            }
 
             return result;
         }

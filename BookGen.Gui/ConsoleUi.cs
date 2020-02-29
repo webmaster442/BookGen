@@ -16,12 +16,13 @@ namespace BookGen.Gui
     {
         private UiElementFactory? _elementFactory;
         private Window? _window;
+        private Binder _binder;
 
         public void Run(Stream view, ViewModelBase model)
         {
             Application.UseSystemConsole = true;
-            var binder = new Binder(model);
-            _elementFactory = new UiElementFactory(binder);
+            _binder = new Binder(model);
+            _elementFactory = new UiElementFactory(_binder);
             XWindow deserialized = DeserializeXmlView(view);
             _window = ParseDeserialized(deserialized);
             model.InjectView(this);
@@ -60,6 +61,11 @@ namespace BookGen.Gui
         {
             SuspendUi();
             Environment.Exit(0);
+        }
+
+        public void UpdateBindingsToModel()
+        {
+            _binder.Update();
         }
 
         private XWindow DeserializeXmlView(Stream view)

@@ -4,39 +4,61 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Gui.Mvvm;
+using BookGen.Gui.XmlEntities;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Terminal.Gui;
 
 namespace BookGen.Gui
 {
     internal class Binder
     {
         private readonly object _model;
-        private readonly Regex _propertyRegex;
+        private static readonly Regex _propertyRegex = new Regex("\\{[a-zA-Z0-9]+\\}", RegexOptions.Compiled);
         private readonly Type _modelType;
+
+        private readonly List<(XView xmlEntity, View rendered)> _table;
 
         public Binder(object model)
         {
             _model = model;
             _modelType = model.GetType();
-            _propertyRegex = new Regex("\\{[a-zA-Z0-9]+\\}", RegexOptions.Compiled); 
+            _table = new List<(XView xmlEntity, View rendered)>();
         }
 
-        public Action? BindCommand(string action)
+        public Action? BindCommand(string bindingExpression)
         {
-            if (!_propertyRegex.IsMatch(action))
+            if (!_propertyRegex.IsMatch(bindingExpression))
                 return null;
 
-            var actionName = action.Replace("{", "").Replace("}", "");
+            var actionName = GetPropertyName(bindingExpression);
             var prop = _modelType.GetProperty(actionName);
             DelegateCommand? cmd = prop?.GetValue(_model) as DelegateCommand;
             return cmd?.Action;
         }
 
-        public bool IsBindableText(string text)
+        private string GetPropertyName(string bindingExpression)
         {
-            return _propertyRegex.IsMatch(text);
+            return bindingExpression.Replace("{", "").Replace("}", "");
+        }
+
+        private string GetPropertyValue(string bindingExpression)
+        {
+            var property = GetPropertyName(bindingExpression);
+            if (_propertyRegex.IsMatch(property))
+                return string.Empty;
+
+            var reflected = _modelType.GetProperty(property);
+
+            return reflected?.GetValue(_model)?.ToString() ?? "";
+
+        }
+
+        public static bool IsBindable(string expression)
+        {
+            return _propertyRegex.IsMatch(expression);
         }
 
         public string GetBindedText(string text)
@@ -50,16 +72,35 @@ namespace BookGen.Gui
             return buffer.ToString();
         }
 
-        private string GetPropertyValue(string propertyName)
+        public bool GetBindedBool(string isChecked)
         {
-            var prop = propertyName.Replace("{", "").Replace("}", "");
-            if (_propertyRegex.IsMatch(prop))
-                return string.Empty;
+            var value = GetPropertyValue(isChecked);
+            return Convert.ToBoolean(value);
+        }
 
-            var reflected = _modelType.GetProperty(prop);
+        public void Register(XView xmlEntity, View rendered)
+        {
+            _table.Add((xmlEntity, rendered));
+        }
 
-            return reflected?.GetValue(_model)?.ToString() ?? "";
+        public void Update()
+        {
+            foreach (var (xmlEntity, rendered) in _table)
+            {
+                switch (xmlEntity)
+                {
+                    case XCheckBox checkBox:
+                        if (IsBindable(checkBox.IsChecked)
+                            && rendered is CheckBox checkBoxRender)
+                        {
+                            var value = checkBoxRender.Checked;
+                            var property = GetPropertyName(checkBox.IsChecked);
+                            _modelType.GetProperty(property)?.SetValue(_model, value);
 
+                        }
+                        break;
+                }
+            }
         }
     }
 }
