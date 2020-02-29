@@ -108,6 +108,8 @@ namespace BookGen.Gui
                     return _elementFactory?.CreateButton(button, root, row);
                 case XLabel label:
                     return _elementFactory?.CreateLabel(label, root, row);
+                case XCheckBox checkBox:
+                    return _elementFactory?.CreateCheckBox(checkBox, root, row);
                 default:
                     throw new InvalidOperationException($"Unknown node type: {child.GetType().Name}");
             }

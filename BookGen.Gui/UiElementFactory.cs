@@ -43,6 +43,22 @@ namespace BookGen.Gui
             };
         }
 
+        public CheckBox CreateCheckBox(XCheckBox checkBox, Window root, int row)
+        {
+            string text = checkBox.Text ?? "";
+
+            if (_binder.IsBindableText(text))
+                text = _binder.GetBindedText(text);
+
+            var result = new CheckBox(text)
+            {
+                X = Pos.Left(root) + checkBox.Left,
+                Y = Pos.Top(root) + row,
+            };
+
+            return result;
+        }
+
         internal void RenderTextBlock(XTextBlock textBlock, Window root, ref int row)
         {
             var lines = textBlock.Text?.ToString().Split('\n');
