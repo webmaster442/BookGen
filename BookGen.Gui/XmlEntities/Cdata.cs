@@ -1,4 +1,9 @@
-﻿using System.Xml;
+﻿//-----------------------------------------------------------------------------
+// (c) 2020 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
