@@ -1,8 +1,6 @@
 ﻿using BookGen.ConsoleUi;
 using BookGen.Core;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BookGen.Mdoules
 {
@@ -27,7 +25,7 @@ namespace BookGen.Mdoules
             var log = new ConsoleLog(Api.LogLevel.Detail);
 
             System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
-            var vm = new InitializeViewModel();
+            var vm = new InitializeViewModel(log, new FsPath(dir));
 
             if (Ui != null)
             {

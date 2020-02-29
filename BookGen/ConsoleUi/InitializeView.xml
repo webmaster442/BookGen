@@ -4,20 +4,39 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Children>
+    <XLabel Text="Work dir: {WorkDirectory}"/>
+    <XSpacer Rows="1"/>
+    <XLabel Text="Init Options:"/>
     <XCheckBox
       Left="2"
-      Text="Create summary.md/overwrite and index.md files?"/>
+      Text="Create summary.md/overwrite and index.md files?"
+      IsChecked="{CreateMdFiles}"/>
     <XCheckBox
       Left="2"
-      Text="Extract/overwrite templates for customization?"/>
+      Text="Extract/overwrite templates for customization?"
+      IsChecked="{CreateTemplates}"/>
     <XCheckBox
       Left="2"
-      Text="Create/overwrite script file and script project?"/>
+      Text="Create/overwrite script file and script project?"
+      IsChecked="{CreateScripts}"/>
     <XCheckBox
       Left="2"
-      Text="Create/overwrite configuration file?"/>
+      Text="Create/overwrite configuration file?"
+      IsChecked="{CreateConfig}"/>
     <XCheckBox
       Left="2"
-      Text="Create/overwrite VS Tasks json file?"/>
+      Text="Create/overwrite VS Tasks json file?"
+      IsChecked="{CreateVsTasks}"/>
+    <XSpacer Rows="1"/>
+    <XLabel Text="Actions:"/>
+    <XSpacer Rows="1"/>
+    <XButton
+      Text ="Initialize"
+      Left="2"
+      Command="{ExecuteCommand}"/>
+    <XButton
+      Text ="Exit"
+      Left="2"
+      Command="{CancelCommand}"/>
   </Children>
 </XWindow>
