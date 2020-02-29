@@ -15,5 +15,22 @@ namespace BookGen.Gui.Mvvm
         {
             Action = action;
         }
+
+        public DelegateCommand(ViewModelBase model, Action action, bool suspendsUi = true)
+        {
+            if (suspendsUi)
+            {
+                Action = () =>
+                {
+                    model?.View?.SuspendUi();
+                    action?.Invoke();
+                    model?.View?.ResumeUi();
+                };
+            }
+            else
+            {
+                Action = action;
+            }
+        }
     }
 }

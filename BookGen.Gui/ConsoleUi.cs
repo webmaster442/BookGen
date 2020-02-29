@@ -15,34 +15,45 @@ namespace BookGen.Gui
     public class ConsoleUi: IView
     {
         private UiElementFactory? _elementFactory;
-
-        public ConsoleUi()
-        {
-            Application.Init();
-        }
+        private Window? _window;
 
         public void Run(Stream view, ViewModelBase model)
         {
+            Application.UseSystemConsole = true;
             var binder = new Binder(model);
             _elementFactory = new UiElementFactory(binder);
-
             XWindow deserialized = DeserializeXmlView(view);
-            Window window = ParseDeserialized(deserialized);
+            _window = ParseDeserialized(deserialized);
             model.InjectView(this);
-
-            Application.Top.Add(window);
-
-            Application.Run();
+            ResumeUi();
         }
 
         public void SuspendUi()
         {
-            Application.Top.Running = false;
+            Application.RequestStop();
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Clear();
         }
 
         public void ResumeUi()
         {
+            Console.Clear();
+            Application.Init();
+            _window.ColorScheme = new ColorScheme
+            {
+                Focus = Terminal.Gui.Attribute.Make(Color.Gray, Color.Blue),
+                HotFocus = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
+                HotNormal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
+                Normal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
+            };
+            Application.Top.Add(_window);
             Application.Run();
+        }
+
+        public void ExitApp()
+        {
+            SuspendUi();
+            Environment.Exit(0);
         }
 
         private XWindow DeserializeXmlView(Stream view)

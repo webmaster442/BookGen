@@ -7,7 +7,7 @@ namespace BookGen.Gui.Mvvm
 {
     public abstract class ViewModelBase
     {
-        protected IView? View { get; private set; }
+        public IView? View { get; private set; }
 
         public void InjectView(IView view)
         {

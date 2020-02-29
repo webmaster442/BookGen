@@ -33,17 +33,17 @@ namespace BookGen.ConsoleUi
         {
             _runner = runner;
             WorkDirectory = _runner.WorkDirectory;
-            InitializeCommand = new DelegateCommand(() => _runner.DoInteractiveInitialize());
-            ValidateConfigCommand = new DelegateCommand(() => _runner.Initialize());
-            CleanOutDirCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoClean()));
-            BuildTestCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoTest()));
-            BuildReleaseCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoBuild()));
-            BuildPrintCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoPrint()));
-            BuildEpubCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoEpub()));
-            BuildWordpressCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoWordpress()));
-            LaunchEditorCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoEditor()));
-            HelpCommand = new DelegateCommand(() => _runner.RunHelp());
-            ExitCommand = new DelegateCommand(() => Environment.Exit(0));
+            InitializeCommand = new DelegateCommand(this, () => _runner.DoInteractiveInitialize());
+            ValidateConfigCommand = new DelegateCommand(this, () => _runner.Initialize());
+            CleanOutDirCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoClean()));
+            BuildTestCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoTest()));
+            BuildReleaseCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoBuild()));
+            BuildPrintCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoPrint()));
+            BuildEpubCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoEpub()));
+            BuildWordpressCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoWordpress()));
+            LaunchEditorCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoEditor()));
+            HelpCommand = new DelegateCommand(this, () => _runner.RunHelp());
+            ExitCommand = new DelegateCommand(() => View?.ExitApp());
         }
     }
 }
