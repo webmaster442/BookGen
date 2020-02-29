@@ -28,6 +28,7 @@
     <None Remove="DefaultTemplate\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="ConsoleUi\InitializeView.xml" />
     <None Remove="ConsoleUi\MainView.xml" />
     <None Remove="Resources\ReplaceContents.bat" />
   </ItemGroup>
@@ -43,6 +44,7 @@
     <PackageReference Include="System.Text.Json" Version="4.7.1" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ConsoleUi\InitializeView.xml" />
     <EmbeddedResource Include="ConsoleUi\MainView.xml" />
     <EmbeddedResource Include="Resources\Help.txt" />
     <Content Include="Icon.ico" />

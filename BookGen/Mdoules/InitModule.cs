@@ -26,8 +26,8 @@ namespace BookGen.Mdoules
 
             var log = new ConsoleLog(Api.LogLevel.Detail);
 
-            System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
-            var vm = new MainViewModel(CurrentState.GeneratorRunner);
+            System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
+            var vm = new InitializeViewModel();
 
             if (Ui != null)
             {

@@ -30,8 +30,11 @@ namespace BookGen.Gui
 
         public void SuspendUi()
         {
-            Application.RequestStop();
-            Console.BackgroundColor = ConsoleColor.Black;
+            if (Application.Top?.Running == true)
+            {
+                Application.RequestStop();
+                Console.BackgroundColor = ConsoleColor.Black;
+            }
             Console.Clear();
         }
 
@@ -39,14 +42,17 @@ namespace BookGen.Gui
         {
             Console.Clear();
             Application.Init();
-            _window.ColorScheme = new ColorScheme
+            if (_window != null)
             {
-                Focus = Terminal.Gui.Attribute.Make(Color.Gray, Color.Blue),
-                HotFocus = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
-                HotNormal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
-                Normal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
-            };
-            Application.Top.Add(_window);
+                _window.ColorScheme = new ColorScheme
+                {
+                    Focus = Terminal.Gui.Attribute.Make(Color.Gray, Color.Blue),
+                    HotFocus = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
+                    HotNormal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
+                    Normal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
+                };
+                Application.Top.Add(_window);
+            }
             Application.Run();
         }
 
