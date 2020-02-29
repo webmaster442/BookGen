@@ -4,22 +4,46 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Gui;
-using System.Diagnostics;
+using System;
 
 namespace BookGen.ConsoleUi
 {
     internal class MainViewModel
     {
-        public DelegateCommand ButtonAction { get; }
+        private readonly GeneratorRunner _runner;
 
-        public MainViewModel()
+        public DelegateCommand InitializeCommand { get; }
+        public DelegateCommand ValidateConfigCommand { get; }
+        public DelegateCommand CleanOutDirCommand { get; }
+        public DelegateCommand BuildTestCommand { get; }
+        public DelegateCommand BuildReleaseCommand { get; }
+        public DelegateCommand BuildPrintCommand { get; }
+        public DelegateCommand BuildEpubCommand { get; }
+        public DelegateCommand BuildWordpressCommand { get; }
+        public DelegateCommand LaunchEditorCommand { get; }
+        public DelegateCommand HelpCommand { get; }
+        public DelegateCommand ExitCommand { get; }
+
+        public string WorkDirectory
         {
-            ButtonAction = new DelegateCommand(OnButton);
+            get;
         }
 
-        private void OnButton()
+        public MainViewModel(GeneratorRunner runner)
         {
-            Debugger.Break();
+            _runner = runner;
+            WorkDirectory = _runner.WorkDirectory;
+            InitializeCommand = new DelegateCommand(() => _runner.DoInteractiveInitialize());
+            ValidateConfigCommand = new DelegateCommand(() => _runner.Initialize());
+            CleanOutDirCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoClean()));
+            BuildTestCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoTest()));
+            BuildReleaseCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoBuild()));
+            BuildPrintCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoPrint()));
+            BuildEpubCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoEpub()));
+            BuildWordpressCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoWordpress()));
+            LaunchEditorCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoEditor()));
+            HelpCommand = new DelegateCommand(() => _runner.RunHelp());
+            ExitCommand = new DelegateCommand(() => Environment.Exit(0));
         }
     }
 }

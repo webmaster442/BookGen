@@ -27,7 +27,8 @@ namespace BookGen.Gui
             if (!_propertyRegex.IsMatch(action))
                 return null;
 
-            var prop = _modelType.GetProperty(action);
+            var actionName = action.Replace("{", "").Replace("}", "");
+            var prop = _modelType.GetProperty(actionName);
             DelegateCommand? cmd = prop?.GetValue(_model) as DelegateCommand;
             return cmd?.Action;
         }

@@ -45,7 +45,7 @@ namespace BookGen.Mdoules
             UiRunner uiRunner = new UiRunner();
 
             System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
-            var vm = new MainViewModel();
+            var vm = new MainViewModel(CurrentState.GeneratorRunner);
 
             if (Ui != null)
             {
