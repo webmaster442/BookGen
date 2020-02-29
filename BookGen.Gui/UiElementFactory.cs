@@ -25,7 +25,7 @@ namespace BookGen.Gui
                 Y = Pos.Top(root) + row
             };
             if (button.Command != null)
-                result.Clicked = _binder.InvokeCommand(button.Command);
+                result.Clicked = _binder.BindCommand(button.Command);
             return result;
         }
 
@@ -34,7 +34,7 @@ namespace BookGen.Gui
             string text = label.Text ?? "";
 
             if (_binder.IsBindableText(text))
-                text = _binder.GetBoundString(text);
+                text = _binder.GetBindedText(text);
 
             return new Label(text)
             {
@@ -52,10 +52,10 @@ namespace BookGen.Gui
                 if (string.IsNullOrWhiteSpace(line))
                     continue;
                 
-                var label = new Label(line ?? "")
+                var label = new Label(line)
                 {
                     X = Pos.Left(root) + textBlock.Left,
-                    Y = Pos.Top(root) + row
+                    Y = Pos.Top(root) + row,
                 };
                 root.Add(label);
                 ++row;

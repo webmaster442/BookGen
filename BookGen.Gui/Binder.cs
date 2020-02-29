@@ -22,7 +22,7 @@ namespace BookGen.Gui
             _propertyRegex = new Regex("\\{[a-zA-Z0-9]+\\}", RegexOptions.Compiled); 
         }
 
-        public Action? InvokeCommand(string action)
+        public Action? BindCommand(string action)
         {
             if (!_propertyRegex.IsMatch(action))
                 return null;
@@ -38,7 +38,7 @@ namespace BookGen.Gui
             return _propertyRegex.IsMatch(text);
         }
 
-        public string GetBoundString(string text)
+        public string GetBindedText(string text)
         {
             StringBuilder buffer = new StringBuilder(text);
             foreach (Match? match in _propertyRegex.Matches(text))
