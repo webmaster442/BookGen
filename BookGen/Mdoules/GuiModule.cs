@@ -44,13 +44,15 @@ namespace BookGen.Mdoules
 
             UiRunner uiRunner = new UiRunner();
 
-            var Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
+            System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
             var vm = new MainViewModel();
 
-            uiRunner.Run(Ui, vm);
-
-
-            return true;
+            if (Ui != null)
+            {
+                uiRunner.Run(Ui, vm);
+                return true;
+            }
+            return false;
         }
 
         public override void Abort()

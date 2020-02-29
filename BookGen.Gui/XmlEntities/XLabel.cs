@@ -11,5 +11,10 @@ namespace BookGen.Gui.XmlEntities
     {
         [XmlAttribute]
         public string Text { get; set; }
+
+        public XLabel()
+        {
+            Text = string.Empty;
+        }
     }
 }

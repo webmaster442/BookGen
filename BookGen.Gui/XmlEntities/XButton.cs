@@ -14,5 +14,11 @@ namespace BookGen.Gui.XmlEntities
 
         [XmlAttribute]
         public string Text { get; set; }
+
+        public XButton()
+        {
+            Text = string.Empty;
+            Command = string.Empty;
+        }
     }
 }

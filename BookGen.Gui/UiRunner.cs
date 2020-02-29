@@ -13,7 +13,7 @@ namespace BookGen.Gui
 {
     public class UiRunner
     {
-        private UiElementFactory _elementFactory;
+        private UiElementFactory? _elementFactory;
 
         public UiRunner()
         {
@@ -36,7 +36,7 @@ namespace BookGen.Gui
         private XWindow DeserializeXmlView(Stream view)
         {
             XmlSerializer xs = new XmlSerializer(typeof(XWindow));
-            return xs.Deserialize(view) as XWindow;
+            return (XWindow)xs.Deserialize(view);
         }
 
         private Window ParseDeserialized(XWindow deserialized)
@@ -51,14 +51,14 @@ namespace BookGen.Gui
 
             foreach (var child in deserialized.Children)
             {
-                View rendered = null;
+                View? rendered = null;
                 if (child is XSpacer spacer)
                 {
                     row += spacer.Rows;
                 }
                 else if (child is XTextBlock textBlock)
                 {
-                    _elementFactory.RenderTextBlock(textBlock, root, ref row);
+                    _elementFactory?.RenderTextBlock(textBlock, root, ref row);
                 }
                 else
                 {
@@ -71,14 +71,14 @@ namespace BookGen.Gui
             return root;
         }
 
-        private View RenderSimple(XView child, Window root, int row)
+        private View? RenderSimple(XView child, Window root, int row)
         {
             switch (child)
             {
                 case XButton button:
-                    return _elementFactory.CreateButton(button, root, row);
+                    return _elementFactory?.CreateButton(button, root, row);
                 case XLabel label:
-                    return _elementFactory.CreateLabel(label, root, row);;
+                    return _elementFactory?.CreateLabel(label, root, row);
                 default:
                     throw new InvalidOperationException($"Unknown node type: {child.GetType().Name}");
             }

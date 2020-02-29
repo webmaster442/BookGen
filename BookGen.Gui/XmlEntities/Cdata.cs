@@ -22,7 +22,7 @@ namespace BookGen.Gui.XmlEntities
             return _value;
         }
 
-        public XmlSchema GetSchema()
+        public XmlSchema? GetSchema()
         {
             return null;
         }

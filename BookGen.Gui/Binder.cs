@@ -22,13 +22,13 @@ namespace BookGen.Gui
             _propertyRegex = new Regex("\\{[a-zA-Z0-9]+\\}", RegexOptions.Compiled); 
         }
 
-        public Action InvokeCommand(string action)
+        public Action? InvokeCommand(string action)
         {
             if (!_propertyRegex.IsMatch(action))
                 return null;
 
             var prop = _modelType.GetProperty(action);
-            DelegateCommand cmd = prop?.GetValue(_model) as DelegateCommand;
+            DelegateCommand? cmd = prop?.GetValue(_model) as DelegateCommand;
             return cmd?.Action;
         }
 
@@ -40,9 +40,10 @@ namespace BookGen.Gui
         public string GetBoundString(string text)
         {
             StringBuilder buffer = new StringBuilder(text);
-            foreach (Match match in _propertyRegex.Matches(text))
+            foreach (Match? match in _propertyRegex.Matches(text))
             {
-                buffer.Replace(match.Value, GetPropertyValue(match.Value));
+                if (match != null)
+                    buffer.Replace(match.Value, GetPropertyValue(match.Value));
             }
             return buffer.ToString();
         }

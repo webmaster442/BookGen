@@ -19,5 +19,11 @@ namespace BookGen.Gui.XmlEntities
         [XmlArrayItem(nameof(XSpacer), typeof(XSpacer))]
         [XmlArrayItem(nameof(XTextBlock), typeof(XTextBlock))]
         public List<XView> Children { get; set; }
+
+        public XWindow()
+        {
+            Title = string.Empty;
+            Children = new List<XView>();
+        }
     }
 }
