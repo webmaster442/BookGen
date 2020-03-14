@@ -8,7 +8,19 @@ BookGen Build -a Initialize {-d [directory]}
 To get information regarding the configuration file bookgen.json file run:
 Bookgen ConfigHelp
 
+Initialize a folder as BookGen project:
+-------------------------------------------------------------------------------
+
+    BookGen Init {-d [directory]}
+    BookGen Init {--dir [directory]}
+
+    Arguments:
+    -d, --dir:
+        Optional argument. Specifies work directory. If not specified, then
+        the current directory will be used as working directory.
+
 Global, appliciation wide settings usage:
+-------------------------------------------------------------------------------
 
     BookGen Settings list
         List all currently supported application wide setting
@@ -20,6 +32,8 @@ Global, appliciation wide settings usage:
         Sets a setting value and exits
 
 GUI Usage:
+-------------------------------------------------------------------------------
+
     BookGen Gui {-v} {-d [directory]}
     BookGen Gui {--verbose} {--dir [directory]}
 
@@ -31,6 +45,8 @@ GUI Usage:
         Optional argument, turns on detailed logging. Usefull for locating issues
 
 Update Usage:
+-------------------------------------------------------------------------------
+
     BookGen Update {-p} {-s}
     BookGen Update {--prerelease} {--searchonly}
 
@@ -42,6 +58,8 @@ Update Usage:
         Include pre relase versions.
 
 Single File rendering usage:
+-------------------------------------------------------------------------------
+
     BookGen Md2HTML -i [input.md] -o [output.html] {-c [cssfile.css]}
     BookGen Md2HTML --input [input.md] --output [output.html] {--css [cssfile.css]}
 
@@ -54,6 +72,8 @@ Single File rendering usage:
         Optional argument. Specifies the css file to be aplied to the html
 
 Assembly documenter usage:
+-------------------------------------------------------------------------------
+
     BookGen AssemblyDocument -a [assembly.dll] -x [assembly.xml] -o [output directory]
     BookGen AssemblyDocument --assembly [assembly.dll] -xml [assembly.xml] --output [output directory]
 
@@ -69,8 +89,21 @@ Assembly documenter usage:
 Note: 
     This feature is experimental. Results might not be complete.
     It is mainly used to generate the Script API documentation.
+
+HTTP server (local only) usage:
+-------------------------------------------------------------------------------
+
+    BookGen Serve {-d [directory]}
+    BookGen Serve {--dir [directory]}
+    
+    Arguments:
+    -d, --dir:
+        Optional argument. Specifies work directory. If not specified, then
+        the current directory will be used as working directory.
  
 Build Usage: 
+-------------------------------------------------------------------------------
+
     BookGen Build -a [action] {-v} {-d [directory]} {-n}
     BookGen Build --action [action] {--verbose} {--dir [directory]} {--nowait}
 
