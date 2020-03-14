@@ -22,10 +22,17 @@ To Build and develop you will need:
 * Visual Studio 2019 with latest updates - https://visualstudio.microsoft.com/vs/
 * .NET Core 3.1 SDK - https://dotnet.microsoft.com/download
 
+# Getting the repo
+
+```bash
+git clone https://github.com/webmaster442/BookGen.git
+git submodule init
+git submodule update
+```
 
 ## Documentation
 
-The Documentation  of the program can be found [here](https://github.com/webmaster442/BookGen/blob/dotnetcore/Documentation/summary.md)
+https://github.com/webmaster442/BookGen/wiki
 
 ---
 Icon source: https://icons8.com/
