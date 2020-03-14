@@ -1,12 +1,18 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Gui.Elements
+namespace BookGen.Gui.XmlEntities
 {
-    internal interface IHaveContent
+    public class XTextBlock: XView
     {
-        string Content { get; set; }
+        public CData Text { get; set; }
+
+        public XTextBlock()
+        {
+            Text = new CData(string.Empty);
+        }
+
     }
 }

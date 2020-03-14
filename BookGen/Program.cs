@@ -46,6 +46,7 @@ namespace BookGen
                 new EditorModule(CurrentState),
                 new AssemblyDocumentModule(CurrentState),
                 new SettingsModule(CurrentState, AppSetting),
+                new InitModule(CurrentState),
             };
         }
 

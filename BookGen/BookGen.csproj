@@ -28,8 +28,9 @@
     <None Remove="DefaultTemplate\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="ConsoleUi\InitializeView.xml" />
+    <None Remove="ConsoleUi\MainView.xml" />
     <None Remove="Resources\ReplaceContents.bat" />
-    <None Remove="Resources\Splash.txt" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.18.1" />
@@ -40,19 +41,21 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.1" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ConsoleUi\InitializeView.xml" />
+    <EmbeddedResource Include="ConsoleUi\MainView.xml" />
     <EmbeddedResource Include="Resources\Help.txt" />
     <Content Include="Icon.ico" />
     <EmbeddedResource Include="Resources\Error404.html" />
     <EmbeddedResource Include="Resources\ReplaceContents.bat" />
-    <EmbeddedResource Include="Resources\Splash.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
     <ProjectReference Include="..\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
+    <ProjectReference Include="..\BookGen.Gui\BookGen.Gui.csproj" />
     <ProjectReference Include="..\Bookgen.Template\BookGen.Template.csproj" />
   </ItemGroup>
   <ItemGroup>

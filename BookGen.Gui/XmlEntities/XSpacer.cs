@@ -3,10 +3,18 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Gui.Elements
+using System.Xml.Serialization;
+
+namespace BookGen.Gui.XmlEntities
 {
-    interface IHaveEntry
+    public class XSpacer: XView
     {
-        int Entry { get; set; }
+        [XmlAttribute]
+        public int Rows { get; set; }
+
+        public XSpacer()
+        {
+            Rows = 1;
+        }
     }
 }

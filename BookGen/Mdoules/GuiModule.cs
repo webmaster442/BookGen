@@ -3,18 +3,19 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.ConsoleUi;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
-using BookGen.Gui;
 
 namespace BookGen.Mdoules
 {
     internal class GuiModule : ModuleBase
     {
-        private ConsoleMenu? _ui;
+        private readonly Gui.ConsoleUi uiRunner;
 
         public GuiModule(ProgramState currentState) : base(currentState)
         {
+            uiRunner = new Gui.ConsoleUi();
         }
 
         public override string ModuleCommand => "Gui";
@@ -40,15 +41,21 @@ namespace BookGen.Mdoules
 
             CurrentState.Gui = true;
             CurrentState.GeneratorRunner = Program.CreateRunner(parameters.Verbose, parameters.WorkDir);
-            _ui = new ConsoleMenu(CurrentState.GeneratorRunner);
-            _ui.Run();
 
-            return true;
+            System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
+            var vm = new MainViewModel(CurrentState.GeneratorRunner);
+
+            if (Ui != null)
+            {
+                uiRunner.Run(Ui, vm);
+                return true;
+            }
+            return false;
         }
 
         public override void Abort()
         {
-            if (_ui != null) _ui.ShouldRun = false;
+            uiRunner?.SuspendUi();
         }
     }
 }

@@ -1,19 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
     <Product>BookGen</Product>
     <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
     <Authors>Ruzsinszki Gábor</Authors>
-    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+     <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
     <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
+    <PackageReference Include="Terminal.Gui" Version="0.24.0" />
   </ItemGroup>
 
 </Project>

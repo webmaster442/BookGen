@@ -1,15 +1,17 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Gui.Renderering
+namespace BookGen.Gui.Mvvm
 {
-    public enum TextFormat
+    public abstract class ViewModelBase
     {
-        Default = 0,
-        BoldBright = 1,
-        Underline = 4,
-        Negative = 7,
+        public IView? View { get; private set; }
+
+        public void InjectView(IView view)
+        {
+            View = view;
+        }
     }
 }

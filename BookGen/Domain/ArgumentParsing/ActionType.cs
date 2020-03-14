@@ -21,8 +21,6 @@ namespace BookGen.Domain.ArgumentParsing
         BuildWordpress,
         [Description("Clean output folders")]
         Clean,
-        [Description("Initialize dir as BookGen project")]
-        Initialize,
         [Description("Validates the bookgen.json configuration file")]
         ValidateConfig,
     }
