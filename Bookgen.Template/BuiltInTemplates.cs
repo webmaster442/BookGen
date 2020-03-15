@@ -37,6 +37,8 @@ namespace BookGen.Template
 
         public static string AssetPopperJs => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/popper.min.js");
 
+        public static string AssetTurbolinksJs => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateWeb/Assets/turbolinks.js");
+
         public static string ScriptTemplate => ResourceLocator.GetResourceFile<BuiltInTemplates>("/TemplateScript/ScriptTemplate.cs");
     }
 }

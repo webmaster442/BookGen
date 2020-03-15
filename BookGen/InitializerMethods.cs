@@ -139,6 +139,9 @@ namespace BookGen
             FsPath popper = workdir.Combine("Templates\\Assets\\popper.min.js");
             popper.WriteFile(log, BuiltInTemplates.AssetPopperJs);
 
+            FsPath turbolinks = workdir.Combine("Templates\\Assets\\turbolinks.js");
+            turbolinks.WriteFile(log, BuiltInTemplates.AssetTurbolinksJs);
+
         }
     }
 }

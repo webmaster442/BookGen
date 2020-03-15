@@ -52,6 +52,7 @@ namespace BookGen
                     (BuiltInTemplates.AssetBootstrapJs, "Assets\\bootstrap.min.js"),
                     (BuiltInTemplates.AssetJqueryJs, "Assets\\jquery.min.js"),
                     (BuiltInTemplates.AssetPopperJs, "Assets\\popper.min.js"),
+                    (BuiltInTemplates.AssetTurbolinksJs, "Assets\\turbolinks.js"),
                 };
             }
 

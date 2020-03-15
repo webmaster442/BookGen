@@ -47,6 +47,7 @@
     <None Remove="TemplateWeb\Assets\popper.min.js" />
     <None Remove="TemplateWeb\Assets\prism.css" />
     <None Remove="TemplateWeb\Assets\prism.js" />
+    <None Remove="TemplateWeb\Assets\turbolinks.js" />
     <None Remove="TemplateWeb\CookieWarning.html" />
     <None Remove="TemplateWeb\Searchform.html" />
     <None Remove="TemplateWeb\TemplateWeb.html" />
@@ -71,6 +72,7 @@
     <EmbeddedResource Include="TemplateWeb\Assets\popper.min.js" />
     <EmbeddedResource Include="TemplateWeb\Assets\prism.css" />
     <EmbeddedResource Include="TemplateWeb\Assets\prism.js" />
+    <EmbeddedResource Include="TemplateWeb\Assets\turbolinks.js" />
     <EmbeddedResource Include="TemplateWeb\CookieWarning.html" />
     <EmbeddedResource Include="TemplateWeb\Searchform.html" />
     <EmbeddedResource Include="TemplateWeb\TemplateWeb.html" />
