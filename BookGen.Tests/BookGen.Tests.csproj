@@ -29,7 +29,7 @@
     <None Include="Environment\TestScript.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Integration\IT_NodeJsHost.cs" />
+    <None Include="Integration\IT_NodeJs.cs" />
   </ItemGroup>
 
   <ItemGroup>

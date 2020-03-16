@@ -9,5 +9,9 @@ namespace BookGen.Contracts
     {
         int NodeJsTimeout { get; }
         string NodeJsPath { get; }
+        string PhpPath { get; }
+        int PhpTimeout { get; }
+        string PythonPath { get; }
+        int PythonTimeout { get; }
     }
 }

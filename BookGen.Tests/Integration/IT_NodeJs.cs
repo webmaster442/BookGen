@@ -9,16 +9,16 @@ using System.Collections.Generic;
 namespace BookGen.Tests
 {
     [TestFixture, SingleThreaded]
-    public class IT_NodeJsHost
+    public class IT_NodeJs
     {
-        private NodeJsHost _sut;
+        private NodeJs _sut;
         private Mock<ILog> _log;
 
         [OneTimeSetUp]
         public void Setup()
         {
             _log = new Mock<ILog>();
-            _sut = new NodeJsHost(_log.Object, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
+            _sut = new NodeJs(_log.Object, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
         }
 
         [OneTimeTearDown]
