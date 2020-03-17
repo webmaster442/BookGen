@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BookGen.Shell\BookGen.Shell.csproj" />
     <ProjectReference Include="..\BookGen\BookGen.csproj" />
   </ItemGroup>
 
