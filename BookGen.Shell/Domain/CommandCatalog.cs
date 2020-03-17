@@ -42,6 +42,48 @@ namespace BookGen.Shell.Domain
 
                 yield return new AutoCompleteItem("ConfigHelp");
 
+                yield return new AutoCompleteItem(
+                    "Editor",
+                    "-d",
+                    "--dir");
+
+                yield return new AutoCompleteItem("Gui",
+                    "-d",
+                    "--dir",
+                    "-v",
+                    "--verbose");
+
+                yield return new AutoCompleteItem("Help");
+
+                yield return new AutoCompleteItem("Init",
+                    "-d",
+                    "--dir");
+
+                yield return new AutoCompleteItem("Md2HTML",
+                    "-i",
+                    "--input",
+                    "-o",
+                    "--output",
+                    "-c",
+                    "--css");
+
+                yield return new AutoCompleteItem(
+                    "Serve",
+                    "-d",
+                    "--dir");
+
+                yield return new AutoCompleteItem(
+                    "Settings",
+                    "get",
+                    "list",
+                    "set");
+
+                yield return new AutoCompleteItem(
+                    "Update",
+                    "-p",
+                    "--prerelease",
+                    "-s",
+                    "--searchonly");
             }
         }
     }
