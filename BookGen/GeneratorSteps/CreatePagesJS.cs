@@ -24,7 +24,7 @@ namespace BookGen.GeneratorSteps
             }
             FsPath target = settings.OutputDirectory.Combine("pages.js");
 
-            string javaScript = JsonInliner.InlineJs("pages", pages, log);
+            string javaScript = JsonInliner.InlineJs("pages", pages);
 
             target.WriteFile(log, javaScript);
         }
