@@ -12,10 +12,6 @@
     <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Terminal.Gui" Version="0.70.0" />
   </ItemGroup>

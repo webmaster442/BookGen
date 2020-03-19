@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
 using BookGen.Shell.Domain;
 using System;
 using System.Collections.Generic;
@@ -18,8 +17,7 @@ namespace BookGen.Shell
             if (args.Length == 0)
                 return CommandCatalog.Commands.Select(c => c.ModuleName);
 
-            ArgumentParser parser = new ArgumentParser(args);
-            string request = parser.GetValues().FirstOrDefault() ?? "";
+            string request = args[0] ?? "";
 
             if (request.StartsWith("BookGen", StringComparison.OrdinalIgnoreCase))
             {
@@ -41,7 +39,6 @@ namespace BookGen.Shell
             }
 
             return Enumerable.Empty<string>();
-
         }
 
         public static void Main(string[] args)

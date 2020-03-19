@@ -3,11 +3,20 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <StartupObject>BookGen.Shell.ShellProgram</StartupObject>
+    <Nullable>enable</Nullable>
+    <Product>BookGen</Product>
+    <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+    <Authors>Ruzsinszki Gábor</Authors>
+    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
+    <None Update="Shell.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
