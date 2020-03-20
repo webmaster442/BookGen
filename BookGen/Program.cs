@@ -15,6 +15,11 @@ namespace BookGen
 {
     internal static class Program
     {
+        private const int ExitSucces = 0;
+        private const int ExitException = -1;
+        private const int ExitUnknownCommand = 1;
+        private const int ExitBadParameters = 2;
+
         internal static ProgramState CurrentState { get; } = new ProgramState();
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
@@ -55,7 +60,7 @@ namespace BookGen
             try
             {
                 AppSetting = AppSettingHandler.LoadAppSettings();
-                ArgumentParser arguments = new ArgumentParser(args);
+                var arguments = new ArgumentParser(args);
                 List<ModuleBase> modules = LoadModules();
 
                 string command = arguments.GetValues().FirstOrDefault() ?? string.Empty;
@@ -63,7 +68,7 @@ namespace BookGen
                 if (string.Compare(command, "SubCommands", true) == 0)
                 {
                     PrintModules(modules);
-                    Environment.Exit(0);
+                    Environment.Exit(ExitSucces);
                 }
                 else if (string.Compare(command, "Help", true) == 0)
                 {
@@ -87,7 +92,7 @@ namespace BookGen
                     GetHelpForModuleAndExit(currentModule);
                 }
 
-                Environment.Exit(0);
+                Environment.Exit(ExitSucces);
             }
             catch (Exception ex)
             {
@@ -98,7 +103,7 @@ namespace BookGen
         private static void GetHelpForModuleAndExit(ModuleBase? module)
         {
             Console.WriteLine(module?.GetHelp());
-            Environment.Exit(2);
+            Environment.Exit(ExitBadParameters);
         }
 
         private static void PrintGeneralHelpAndExitIfModuleNull(ModuleBase? currentModule)
@@ -106,7 +111,7 @@ namespace BookGen
             if (currentModule == null)
             {
                 Console.WriteLine(currentModule?.GetHelp());
-                Environment.Exit(2);
+                Environment.Exit(ExitUnknownCommand);
             }
         }
 
@@ -126,7 +131,7 @@ namespace BookGen
 #if DEBUG
             System.Diagnostics.Debugger.Break();
 #endif
-            Environment.Exit(-1);
+            Environment.Exit(ExitException);
         }
     }
 }
