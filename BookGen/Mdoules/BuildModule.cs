@@ -5,7 +5,9 @@
 
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Utilities;
 using System;
+using System.Text;
 
 namespace BookGen.Mdoules
 {
@@ -72,6 +74,15 @@ namespace BookGen.Mdoules
             }
 
             return true;
+        }
+
+        public override string GetHelp()
+        {
+            StringBuilder result = new StringBuilder(4096);
+            result.Append(HelpUtils.GetHelpForModule(nameof(BuildModule)));
+            HelpUtils.DocumentActions(result);
+            return result.ToString();
+
         }
     }
 }

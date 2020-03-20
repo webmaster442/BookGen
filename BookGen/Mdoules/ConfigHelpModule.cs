@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
-using BookGen.Framework;
+using BookGen.Utilities;
 using System;
 
 namespace BookGen.Mdoules
@@ -19,9 +19,14 @@ namespace BookGen.Mdoules
 
         public override bool Execute(ArgumentParser tokenizedArguments)
         {
-            Console.WriteLine(HelpTextCreator.DocumentConfiguration());
+            Console.WriteLine(HelpUtils.DocumentConfiguration());
             Environment.Exit(1);
             return true;
+        }
+
+        public override string GetHelp()
+        {
+            return HelpUtils.GetHelpForModule(nameof(ConfigHelpModule));
         }
     }
 }

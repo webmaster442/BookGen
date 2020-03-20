@@ -41,7 +41,6 @@ namespace BookGen
                 new BuildModule(CurrentState),
                 new ConfigHelpModule(CurrentState),
                 new GuiModule(CurrentState),
-                new HelpModule(CurrentState),
                 new UpdateModule(CurrentState),
                 new EditorModule(CurrentState),
                 new AssemblyDocumentModule(CurrentState),
@@ -61,14 +60,31 @@ namespace BookGen
 
                 string command = arguments.GetValues().FirstOrDefault() ?? string.Empty;
 
+                if (string.Compare(command, "SubCommands", true) == 0)
+                {
+                    PrintModules(modules);
+                    Environment.Exit(0);
+                }
+                else if (string.Compare(command, "Help", true) == 0)
+                {
+                    var helpScope = arguments.GetValues().Skip(1).FirstOrDefault();
+
+                    currentModule =
+                        modules.FirstOrDefault(m => string.Compare(m.ModuleCommand, helpScope, true) == 0);
+
+                    PrintGeneralHelpAndExitIfModuleNull(currentModule);
+
+                    GetHelpForModuleAndExit(currentModule);
+                }
+
                 currentModule = 
-                    modules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0) 
-                    ?? new HelpModule(CurrentState);
+                    modules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+
+                PrintGeneralHelpAndExitIfModuleNull(currentModule);
 
                 if (currentModule?.Execute(arguments) == false)
                 {
-                    currentModule = new HelpModule(CurrentState);
-                    currentModule.Execute(arguments);
+                    GetHelpForModuleAndExit(currentModule);
                 }
 
                 Environment.Exit(0);
@@ -76,6 +92,30 @@ namespace BookGen
             catch (Exception ex)
             {
                 HandleUncaughtException(currentModule, ex);
+            }
+        }
+
+        private static void GetHelpForModuleAndExit(ModuleBase? module)
+        {
+            Console.WriteLine(module?.GetHelp());
+            Environment.Exit(2);
+        }
+
+        private static void PrintGeneralHelpAndExitIfModuleNull(ModuleBase? currentModule)
+        {
+            if (currentModule == null)
+            {
+                Console.WriteLine(currentModule?.GetHelp());
+                Environment.Exit(2);
+            }
+        }
+
+        private static void PrintModules(IEnumerable<ModuleBase> modules)
+        {
+            Console.WriteLine("Available sub commands: \r\n");
+            foreach (var module in modules)
+            {
+                Console.WriteLine(module.ModuleCommand);
             }
         }
 

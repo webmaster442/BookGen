@@ -1,0 +1,12 @@
+﻿Update program to a new version
+-------------------------------------------------------------------------------
+
+    BookGen Update {-p} {-s}
+    BookGen Update {--prerelease} {--searchonly}
+
+    Arguments:
+      -s, --searchonly:
+        Optional argument. Search and display latest release,
+        but don't actually do an update
+     -p, --prerelease:
+        Include pre relase versions.

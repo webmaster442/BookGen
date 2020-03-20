@@ -1,0 +1,13 @@
+﻿Renders a single markdown file to an HTML file
+-------------------------------------------------------------------------------
+
+    BookGen Md2HTML -i [input.md] -o [output.html] {-c [cssfile.css]}
+    BookGen Md2HTML --input [input.md] --output [output.html] {--css [cssfile.css]}
+
+    Arguments:
+    -i, --input: 
+        Input markdown file path
+    -o, --output: 
+        Output html file path
+    -c. --css:
+        Optional argument. Specifies the css file to be aplied to the html

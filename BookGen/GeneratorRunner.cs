@@ -6,12 +6,10 @@
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Configuration;
-using BookGen.Framework;
 using BookGen.Framework.Editor;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
-using BookGen.Gui;
 using BookGen.Utilities;
 using System;
 using System.Diagnostics;
@@ -48,7 +46,7 @@ namespace BookGen
 
         public void RunHelp()
         {
-            Console.WriteLine(HelpTextCreator.GenerateHelpText());
+            Console.WriteLine(HelpUtils.GetGeneralHelp());
         }
 
         #region Helpers

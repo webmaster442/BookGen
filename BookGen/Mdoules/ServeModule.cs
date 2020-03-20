@@ -5,6 +5,7 @@
 
 using BookGen.Core;
 using BookGen.Framework.Server;
+using BookGen.Utilities;
 using System;
 
 namespace BookGen.Mdoules
@@ -37,6 +38,11 @@ namespace BookGen.Mdoules
 
 
             return true;
+        }
+
+        public override string GetHelp()
+        {
+            return HelpUtils.GetHelpForModule(nameof(ServeModule));
         }
     }
 }

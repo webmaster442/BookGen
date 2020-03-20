@@ -1,0 +1,18 @@
+﻿Creates markdown documentation from an assembly and it's xml documentation
+-------------------------------------------------------------------------------
+
+    BookGen AssemblyDocument -a [assembly.dll] -x [assembly.xml] -o [output directory]
+    BookGen AssemblyDocument --assembly [assembly.dll] -xml [assembly.xml] --output [output directory]
+
+    Arguments:
+    -a, --assembly:
+        Input assembly file
+    -x, --xml:
+        Visual studio generated XML documentation of the Assembly
+    -o, --output:
+        Specifies the output directory. Each tipe will be written to a
+        sepperate .md file
+
+Note: 
+    This feature is experimental. Results might not be complete.
+    It is mainly used to generate the Script API documentation.

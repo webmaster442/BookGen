@@ -8,6 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Markdown;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Template;
+using BookGen.Utilities;
 
 namespace BookGen.Mdoules
 {
@@ -49,6 +50,11 @@ namespace BookGen.Mdoules
             parameters.OutputFile.WriteFile(log, rendered);
 
             return true;
+        }
+
+        public override string GetHelp()
+        {
+            return HelpUtils.GetHelpForModule(nameof(Md2HtmlModule));
         }
     }
 }
