@@ -10,4 +10,4 @@ Bookgen ConfigHelp
 
 To Get more help about a subcommand type BookGen Help <module>
 
-To list available subcommands type BookGen subcommands
+To list available subcommands type BookGen SubCommands

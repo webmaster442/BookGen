@@ -1,0 +1,7 @@
+﻿Prints the currently available config options
+-------------------------------------------------------------------------------
+
+    BookGen ConfigHelp
+
+    Arguments:
+    No arguments are required

@@ -32,6 +32,7 @@
     <None Remove="ConsoleUi\MainView.xml" />
     <None Remove="Resources\Help.AssemblyDocumentModule.txt" />
     <None Remove="Resources\Help.BuildModule.txt" />
+    <None Remove="Resources\Help.ConfigHelpModule.txt" />
     <None Remove="Resources\Help.EditorModule.txt" />
     <None Remove="Resources\Help.General.txt" />
     <None Remove="Resources\Help.GuiModule.txt" />
@@ -57,6 +58,7 @@
     <EmbeddedResource Include="ConsoleUi\InitializeView.xml" />
     <EmbeddedResource Include="ConsoleUi\MainView.xml" />
     <Content Include="Icon.ico" />
+    <EmbeddedResource Include="Resources\Help.ConfigHelpModule.txt" />
     <EmbeddedResource Include="Resources\Error404.html" />
     <EmbeddedResource Include="Resources\Help.AssemblyDocumentModule.txt" />
     <EmbeddedResource Include="Resources\Help.BuildModule.txt" />
