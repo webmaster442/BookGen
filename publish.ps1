@@ -22,6 +22,8 @@ rm *.pdb
 
 cd $workdir\bin
 
+cp .\Release\*.nupkg .\
+
 $compress = @{
   Path = ".\Publish\*"
   CompressionLevel = "Optimal"
@@ -29,6 +31,9 @@ $compress = @{
 }
 
 Compress-Archive -Force @compress
+
+rm -r .\Release
+rm -r .\Publish
 
 cd $workdir
 echo "Finished"
