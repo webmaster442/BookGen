@@ -46,7 +46,8 @@ namespace BookGen.Mdoules
             var log = new ConsoleLog(LogLevel.Info);
 
             string md = parameters.InputFile.ReadFile(log);
-            string rendered = BuiltInTemplates.Print.Replace("[content]", MarkdownRenderers.Markdown2Preview(md, parameters.InputFile.GetDirectory()));
+
+            string rendered = BuiltInTemplates.Print.Replace("<!--{content}-->", MarkdownRenderers.Markdown2Preview(md, parameters.InputFile.GetDirectory()));
             parameters.OutputFile.WriteFile(log, rendered);
 
             return true;

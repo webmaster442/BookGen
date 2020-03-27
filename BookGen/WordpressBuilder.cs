@@ -31,7 +31,7 @@ namespace BookGen
 
         protected override string ConfigureTemplateContent()
         {
-            return "[content]";
+            return "<!--{content}-->";
         }
     }
 }
