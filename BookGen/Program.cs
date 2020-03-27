@@ -7,6 +7,7 @@ using BookGen.Api;
 using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Mdoules;
+using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,7 +111,7 @@ namespace BookGen
         {
             if (currentModule == null)
             {
-                Console.WriteLine(currentModule?.GetHelp());
+                Console.WriteLine(HelpUtils.GetGeneralHelp());
                 Environment.Exit(ExitUnknownCommand);
             }
         }
