@@ -109,7 +109,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             var host = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost];
 
             bool parentpageCreate = settings.CurrentBuildConfig.TemplateOptions.TryGetOption(TemplateOptions.WordpressCreateParent, out bool createparent) && createparent;
-
+            bool createfillers = settings.CurrentBuildConfig.TemplateOptions.TryGetOption(TemplateOptions.WordpressCreateFillerPages, out bool filler) && filler;
 
             int mainorder = 0;
             int uid = 2000;
@@ -117,7 +117,7 @@ namespace BookGen.GeneratorSteps.Wordpress
 
             if (parentpageCreate)
             {
-                string fillerPage = CreateFillerPage(settings.TocContents.GetLinksForChapter());
+                string fillerPage = createfillers ? CreateFillerPage(settings.TocContents.GetLinksForChapter()) : "";
                 string title = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpresCreateParentTitle];
                 string path = $"{host}{Encode(title)}";
                 Item parent = CreateItem(uid, 0, mainorder, fillerPage, title, path, settings.CurrentBuildConfig.TemplateOptions);
@@ -128,7 +128,7 @@ namespace BookGen.GeneratorSteps.Wordpress
 
             foreach (var chapter in settings.TocContents.Chapters)
             {
-                string fillerPage = CreateFillerPage(settings.TocContents.GetLinksForChapter(chapter));
+                string fillerPage = createfillers ? CreateFillerPage(settings.TocContents.GetLinksForChapter(chapter)) : "";
                 string path = $"{host}{Encode(chapter)}";
                 int parent_uid = uid;
 

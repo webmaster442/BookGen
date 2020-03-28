@@ -20,7 +20,8 @@ namespace BookGen.Core.Configuration
                 { TemplateOptions.WordpressAuthorId, "1" },
                 { TemplateOptions.WordpressItemType, "page" },
                 { TemplateOptions.WordpresCreateParentTitle, "Parent" },
-                { TemplateOptions.WordpressCreateParent, "true"  }
+                { TemplateOptions.WordpressCreateParent, "true"  },
+                { TemplateOptions.WordpressCreateFillerPages, "true" }
             };
         }
 
