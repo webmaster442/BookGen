@@ -25,6 +25,7 @@ namespace BookGen.Core.Configuration
         public const string WordpressCreateParent = nameof(WordpressCreateParent);
         public const string WordpresCreateParentTitle = nameof(WordpresCreateParentTitle);
         public const string WordpressCreateFillerPages = nameof(WordpressCreateFillerPages);
+        public const string WordpressCommentStatus = nameof(WordpressCommentStatus);
 
         public TemplateOptions() : base()
         {

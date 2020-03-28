@@ -43,7 +43,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Post_date_gmt = DateTime.UtcNow.ToWpPostDate(),
                 Menu_order = order,
                 Ping_status = "closed",
-                Comment_status = "closed",
+                Comment_status = TemplateOptions[TemplateOptions.WordpressCommentStatus],
                 Is_sticky = "0",
                 Postmeta = new List<Postmeta>
                         {
