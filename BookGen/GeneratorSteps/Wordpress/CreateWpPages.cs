@@ -54,7 +54,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Post_name = Encode(title),
                 Post_id = uid,
                 Post_parent = parent,
-                Post_type = "page",
+                Post_type = TemplateOptions[TemplateOptions.WordpressItemType],
                 Link = path,
                 Creator = TemplateOptions[TemplateOptions.WordpressAuthorLogin],
                 Description = "",
