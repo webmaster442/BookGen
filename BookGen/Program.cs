@@ -52,6 +52,7 @@ namespace BookGen
                 new AssemblyDocumentModule(CurrentState),
                 new SettingsModule(CurrentState, AppSetting),
                 new InitModule(CurrentState),
+                new VersionModule(CurrentState),
             };
         }
 
@@ -76,7 +77,7 @@ namespace BookGen
                     var helpScope = arguments.GetValues().Skip(1).FirstOrDefault();
 
                     currentModule =
-                        modules.FirstOrDefault(m => string.Compare(m.ModuleCommand, helpScope, true) == 0);
+                        modules.Find(m => string.Compare(m.ModuleCommand, helpScope, true) == 0);
 
                     PrintGeneralHelpAndExitIfModuleNull(currentModule);
 
@@ -84,7 +85,7 @@ namespace BookGen
                 }
 
                 currentModule = 
-                    modules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+                    modules.Find(m => string.Compare(m.ModuleCommand, command, true) == 0);
 
                 PrintGeneralHelpAndExitIfModuleNull(currentModule);
 

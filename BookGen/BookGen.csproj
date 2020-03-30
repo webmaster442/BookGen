@@ -41,6 +41,7 @@
     <None Remove="Resources\Help.ServeModule.txt" />
     <None Remove="Resources\Help.SettingsModule.txt" />
     <None Remove="Resources\Help.UpdateModule.txt" />
+    <None Remove="Resources\Help.VersionModule.txt" />
     <None Remove="Resources\ReplaceContents.bat" />
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +71,7 @@
     <EmbeddedResource Include="Resources\Help.ServeModule.txt" />
     <EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
     <EmbeddedResource Include="Resources\Help.UpdateModule.txt" />
+    <EmbeddedResource Include="Resources\Help.VersionModule.txt" />
     <EmbeddedResource Include="Resources\ReplaceContents.bat" />
   </ItemGroup>
   <ItemGroup>

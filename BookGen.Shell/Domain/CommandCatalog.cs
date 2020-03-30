@@ -55,8 +55,6 @@ namespace BookGen.Shell.Domain
 
                 yield return new AutoCompleteItem("Help");
 
-                yield return new AutoCompleteItem("SubCommands");
-
                 yield return new AutoCompleteItem("Init",
                     "-d",
                     "--dir");
@@ -80,12 +78,16 @@ namespace BookGen.Shell.Domain
                     "list",
                     "set");
 
+                yield return new AutoCompleteItem("SubCommands");
+
                 yield return new AutoCompleteItem(
                     "Update",
                     "-p",
                     "--prerelease",
                     "-s",
                     "--searchonly");
+
+                yield return new AutoCompleteItem("Version");
             }
         }
     }
