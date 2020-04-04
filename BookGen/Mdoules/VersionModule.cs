@@ -19,7 +19,7 @@ namespace BookGen.Mdoules
 
         public override bool Execute(ArgumentParser tokenizedArguments)
         {
-            Console.WriteLine("BookGen Build date: {0} Starting...", Program.CurrentState.BuildDate);
+            Console.WriteLine("BookGen Build date: {0:yyyy:MM:dd}", Program.CurrentState.BuildDate.Date);
             Console.WriteLine("Config API version: {0}", Program.CurrentState.ProgramVersion);
             return true;
         }

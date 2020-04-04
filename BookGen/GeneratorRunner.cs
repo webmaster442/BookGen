@@ -62,7 +62,7 @@ namespace BookGen
         public bool Initialize(bool compileScripts = true)
         {
             _log.Info("---------------------------------------------------------");
-            _log.Info("BookGen Build date: {0} Starting...", Program.CurrentState.BuildDate);
+            _log.Info("BookGen Build date: {0:yyyy:MM:dd} Starting...", Program.CurrentState.BuildDate.Date);
             _log.Info("Config API version: {0}", Program.CurrentState.ProgramVersion);
             _log.Info("Working directory: {0}", WorkDirectory);
             _log.Info("---------------------------------------------------------");
