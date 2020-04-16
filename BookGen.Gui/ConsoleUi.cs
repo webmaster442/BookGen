@@ -20,7 +20,7 @@ namespace BookGen.Gui
 
         public void Run(Stream view, ViewModelBase model)
         {
-            Application.UseSystemConsole = true;
+            Application.UseSystemConsole = false;
             _binder = new Binder(model);
             _elementFactory = new UiElementFactory(_binder);
             XWindow deserialized = DeserializeXmlView(view);
@@ -34,14 +34,13 @@ namespace BookGen.Gui
             if (Application.Top?.Running == true)
             {
                 Application.RequestStop();
+                Application.Driver.End();
                 Console.BackgroundColor = ConsoleColor.Black;
             }
-            Console.Clear();
         }
 
         public void ResumeUi()
         {
-            Console.Clear();
             Application.Init();
             if (_window != null)
             {

@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BookGen\BookGen.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Shell.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
