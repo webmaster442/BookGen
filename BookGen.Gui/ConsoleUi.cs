@@ -16,7 +16,7 @@ namespace BookGen.Gui
     {
         private UiElementFactory? _elementFactory;
         private Window? _window;
-        private Binder _binder;
+        private Binder? _binder;
 
         public void Run(Stream view, ViewModelBase model)
         {
@@ -65,7 +65,7 @@ namespace BookGen.Gui
 
         public void UpdateBindingsToModel()
         {
-            _binder.Update();
+            _binder?.Update();
         }
 
         private XWindow DeserializeXmlView(Stream view)
