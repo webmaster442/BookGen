@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <SonarQubeTestProject>True</SonarQubeTestProject>
     <IsPackable>false</IsPackable>
+    <OutputPath>..\bin\tests\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
