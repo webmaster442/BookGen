@@ -8,6 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Markdown;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Template;
+using BookGen.Utilities;
 
 namespace BookGen.Mdoules
 {
@@ -45,10 +46,16 @@ namespace BookGen.Mdoules
             var log = new ConsoleLog(LogLevel.Info);
 
             string md = parameters.InputFile.ReadFile(log);
-            string rendered = BuiltInTemplates.Print.Replace("[content]", MarkdownRenderers.Markdown2Preview(md, parameters.InputFile.GetDirectory()));
+
+            string rendered = BuiltInTemplates.Print.Replace("<!--{content}-->", MarkdownRenderers.Markdown2Preview(md, parameters.InputFile.GetDirectory()));
             parameters.OutputFile.WriteFile(log, rendered);
 
             return true;
+        }
+
+        public override string GetHelp()
+        {
+            return HelpUtils.GetHelpForModule(nameof(Md2HtmlModule));
         }
     }
 }

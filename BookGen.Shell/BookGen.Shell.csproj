@@ -1,19 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
     <Product>BookGen</Product>
     <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
     <Authors>Ruzsinszki Gábor</Authors>
-     <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
     <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Terminal.Gui" Version="0.81.0" />
+    <ProjectReference Include="..\BookGen\BookGen.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Shell.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

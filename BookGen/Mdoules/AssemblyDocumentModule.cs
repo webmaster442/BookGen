@@ -6,6 +6,7 @@
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Utilities;
 
 namespace BookGen.Mdoules
 {
@@ -43,6 +44,11 @@ namespace BookGen.Mdoules
             documenter.Document(parameters.AssemblyPath, parameters.XmlPath, parameters.OutputDirectory);
 
             return true;
+        }
+
+        public override string GetHelp()
+        {
+            return HelpUtils.GetHelpForModule(nameof(AssemblyDocumentModule));
         }
     }
 }

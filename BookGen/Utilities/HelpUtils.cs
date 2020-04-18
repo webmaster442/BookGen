@@ -1,32 +1,33 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Framework;
 using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace BookGen.Framework
+namespace BookGen.Utilities
 {
-    internal static class HelpTextCreator
+    internal static class HelpUtils
     {
-        public static string GenerateHelpText()
+        public static string GetGeneralHelp()
         {
-            StringBuilder result = new StringBuilder(4096);
-
-            result.AppendLine(ResourceLocator.GetResourceFile<GeneratorRunner>("Resources/Help.txt"));
-            DocumentActions(result);
-
-            return result.ToString();
+            return ResourceLocator.GetResourceFile<GeneratorRunner>("Resources/Help.General.txt");
         }
 
-        private static void DocumentActions(StringBuilder result)
+        public static string GetHelpForModule(string moduleClass)
+        {
+            return ResourceLocator.GetResourceFile<GeneratorRunner>($"Resources/Help.{moduleClass}.txt");
+        }
+
+        public static void DocumentActions(StringBuilder result)
         {
             Type actionType = typeof(ActionType);
 

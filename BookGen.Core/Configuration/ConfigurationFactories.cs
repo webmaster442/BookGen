@@ -18,6 +18,11 @@ namespace BookGen.Core.Configuration
                 { TemplateOptions.WordpressAuthorEmail, "john.doe@provider.com" },
                 { TemplateOptions.WordpressAuthorLogin, "wploginuser" },
                 { TemplateOptions.WordpressAuthorId, "1" },
+                { TemplateOptions.WordpressItemType, "page" },
+                { TemplateOptions.WordpresCreateParentTitle, "Parent" },
+                { TemplateOptions.WordpressCreateParent, "true"  },
+                { TemplateOptions.WordpressCreateFillerPages, "true" },
+                { TemplateOptions.WordpressCommentStatus, "closed" }
             };
         }
 

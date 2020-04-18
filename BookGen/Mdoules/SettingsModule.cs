@@ -5,10 +5,11 @@
 
 using BookGen.Core;
 using BookGen.Domain;
+using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 
 namespace BookGen.Mdoules
 {
@@ -110,6 +111,11 @@ namespace BookGen.Mdoules
                 }
                 AppSettingHandler.SaveAppSettings(_settings);
             }
+        }
+
+        public override string GetHelp()
+        {
+            return HelpUtils.GetHelpForModule(nameof(SettingsModule));
         }
     }
 }

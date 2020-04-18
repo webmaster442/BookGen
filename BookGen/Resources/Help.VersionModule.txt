@@ -1,0 +1,7 @@
+﻿Print the current program and config API version
+-------------------------------------------------------------------------------
+
+    BookGen Version
+
+    Arguments:
+    No arguments are required

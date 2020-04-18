@@ -7,6 +7,7 @@ using BookGen.Api;
 using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Mdoules;
+using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,11 @@ namespace BookGen
 {
     internal static class Program
     {
+        private const int ExitSucces = 0;
+        private const int ExitException = -1;
+        private const int ExitUnknownCommand = 1;
+        private const int ExitBadParameters = 2;
+
         internal static ProgramState CurrentState { get; } = new ProgramState();
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
@@ -41,12 +47,12 @@ namespace BookGen
                 new BuildModule(CurrentState),
                 new ConfigHelpModule(CurrentState),
                 new GuiModule(CurrentState),
-                new HelpModule(CurrentState),
                 new UpdateModule(CurrentState),
                 new EditorModule(CurrentState),
                 new AssemblyDocumentModule(CurrentState),
                 new SettingsModule(CurrentState, AppSetting),
                 new InitModule(CurrentState),
+                new VersionModule(CurrentState),
             };
         }
 
@@ -56,26 +62,67 @@ namespace BookGen
             try
             {
                 AppSetting = AppSettingHandler.LoadAppSettings();
-                ArgumentParser arguments = new ArgumentParser(args);
+                var arguments = new ArgumentParser(args);
                 List<ModuleBase> modules = LoadModules();
 
                 string command = arguments.GetValues().FirstOrDefault() ?? string.Empty;
 
+                if (string.Compare(command, "SubCommands", true) == 0)
+                {
+                    PrintModules(modules);
+                    Environment.Exit(ExitSucces);
+                }
+                else if (string.Compare(command, "Help", true) == 0)
+                {
+                    var helpScope = arguments.GetValues().Skip(1).FirstOrDefault();
+
+                    currentModule =
+                        modules.Find(m => string.Compare(m.ModuleCommand, helpScope, true) == 0);
+
+                    PrintGeneralHelpAndExitIfModuleNull(currentModule);
+
+                    GetHelpForModuleAndExit(currentModule);
+                }
+
                 currentModule = 
-                    modules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0) 
-                    ?? new HelpModule(CurrentState);
+                    modules.Find(m => string.Compare(m.ModuleCommand, command, true) == 0);
+
+                PrintGeneralHelpAndExitIfModuleNull(currentModule);
 
                 if (currentModule?.Execute(arguments) == false)
                 {
-                    currentModule = new HelpModule(CurrentState);
-                    currentModule.Execute(arguments);
+                    GetHelpForModuleAndExit(currentModule);
                 }
 
-                Environment.Exit(0);
+                Environment.Exit(ExitSucces);
             }
             catch (Exception ex)
             {
                 HandleUncaughtException(currentModule, ex);
+            }
+        }
+
+        private static void GetHelpForModuleAndExit(ModuleBase? module)
+        {
+            Console.WriteLine(module?.GetHelp());
+            Environment.Exit(ExitBadParameters);
+        }
+
+        private static void PrintGeneralHelpAndExitIfModuleNull(ModuleBase? currentModule)
+        {
+            if (currentModule == null)
+            {
+                Console.WriteLine(HelpUtils.GetGeneralHelp());
+                Environment.Exit(ExitUnknownCommand);
+            }
+        }
+
+        private static void PrintModules(IEnumerable<ModuleBase> modules)
+        {
+            Console.WriteLine("Available sub commands: \r\n");
+            foreach (var module in modules)
+            {
+                Console.WriteLine(module.ModuleCommand);
             }
         }
 
@@ -86,7 +133,7 @@ namespace BookGen
 #if DEBUG
             System.Diagnostics.Debugger.Break();
 #endif
-            Environment.Exit(-1);
+            Environment.Exit(ExitException);
         }
     }
 }

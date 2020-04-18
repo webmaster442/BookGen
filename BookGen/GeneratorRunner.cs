@@ -6,12 +6,10 @@
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Configuration;
-using BookGen.Framework;
 using BookGen.Framework.Editor;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
-using BookGen.Gui;
 using BookGen.Utilities;
 using System;
 using System.Diagnostics;
@@ -48,7 +46,7 @@ namespace BookGen
 
         public void RunHelp()
         {
-            Console.WriteLine(HelpTextCreator.GenerateHelpText());
+            Console.WriteLine(HelpUtils.GetGeneralHelp());
         }
 
         #region Helpers
@@ -64,7 +62,7 @@ namespace BookGen
         public bool Initialize(bool compileScripts = true)
         {
             _log.Info("---------------------------------------------------------");
-            _log.Info("BookGen Build date: {0} Starting...", Program.CurrentState.BuildDate);
+            _log.Info("BookGen Build date: {0:yyyy:MM:dd} Starting...", Program.CurrentState.BuildDate.Date);
             _log.Info("Config API version: {0}", Program.CurrentState.ProgramVersion);
             _log.Info("Working directory: {0}", WorkDirectory);
             _log.Info("---------------------------------------------------------");

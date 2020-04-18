@@ -43,7 +43,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Post_date_gmt = DateTime.UtcNow.ToWpPostDate(),
                 Menu_order = order,
                 Ping_status = "closed",
-                Comment_status = "closed",
+                Comment_status = TemplateOptions[TemplateOptions.WordpressCommentStatus],
                 Is_sticky = "0",
                 Postmeta = new List<Postmeta>
                         {
@@ -54,7 +54,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Post_name = Encode(title),
                 Post_id = uid,
                 Post_parent = parent,
-                Post_type = "page",
+                Post_type = TemplateOptions[TemplateOptions.WordpressItemType],
                 Link = path,
                 Creator = TemplateOptions[TemplateOptions.WordpressAuthorLogin],
                 Description = "",
@@ -108,14 +108,31 @@ namespace BookGen.GeneratorSteps.Wordpress
 
             var host = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost];
 
+            bool parentpageCreate = settings.CurrentBuildConfig.TemplateOptions.TryGetOption(TemplateOptions.WordpressCreateParent, out bool createparent) && createparent;
+            bool createfillers = settings.CurrentBuildConfig.TemplateOptions.TryGetOption(TemplateOptions.WordpressCreateFillerPages, out bool filler) && filler;
+
             int mainorder = 0;
             int uid = 2000;
+            int globalparent = 0;
+
+            if (parentpageCreate)
+            {
+                string fillerPage = createfillers ? CreateFillerPage(settings.TocContents.GetLinksForChapter()) : "";
+                string title = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpresCreateParentTitle];
+                string path = $"{host}{Encode(title)}";
+                Item parent = CreateItem(uid, 0, mainorder, fillerPage, title, path, settings.CurrentBuildConfig.TemplateOptions);
+                _session.CurrentChannel.Item.Add(parent);
+                globalparent = uid;
+                ++uid;
+            }
+
             foreach (var chapter in settings.TocContents.Chapters)
             {
-                string fillerPage = CreateFillerPage(settings.TocContents.GetLinksForChapter(chapter));
+                string fillerPage = createfillers ? CreateFillerPage(settings.TocContents.GetLinksForChapter(chapter)) : "";
                 string path = $"{host}{Encode(chapter)}";
                 int parent_uid = uid;
-                Item parent = CreateItem(parent_uid, 0, mainorder, fillerPage, chapter, path, settings.CurrentBuildConfig.TemplateOptions);
+
+                Item parent = CreateItem(uid, globalparent, mainorder, fillerPage, chapter, path, settings.CurrentBuildConfig.TemplateOptions);
                 _session.CurrentChannel.Item.Add(parent);
                 int suborder = 0;
                 foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))

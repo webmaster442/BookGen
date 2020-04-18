@@ -9,24 +9,24 @@ using System;
 
 namespace BookGen.Mdoules
 {
-    internal class ConfigHelpModule : ModuleBase
+    internal class VersionModule : ModuleBase
     {
-        public ConfigHelpModule(ProgramState currentState) : base(currentState)
+        public VersionModule(ProgramState currentState) : base(currentState)
         {
         }
 
-        public override string ModuleCommand => "ConfigHelp";
+        public override string ModuleCommand => "Version";
 
         public override bool Execute(ArgumentParser tokenizedArguments)
         {
-            Console.WriteLine(HelpUtils.DocumentConfiguration());
-            Environment.Exit(1);
+            Console.WriteLine("BookGen Build date: {0:yyyy:MM:dd}", Program.CurrentState.BuildDate.Date);
+            Console.WriteLine("Config API version: {0}", Program.CurrentState.ProgramVersion);
             return true;
         }
 
         public override string GetHelp()
         {
-            return HelpUtils.GetHelpForModule(nameof(ConfigHelpModule));
+            return HelpUtils.GetHelpForModule(nameof(VersionModule));
         }
     }
 }

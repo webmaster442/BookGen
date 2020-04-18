@@ -234,24 +234,19 @@ namespace BookGen.Core
         {
             try
             {
-
                 FileInfo fileInfo = new FileInfo(path.ToString());
 
                 if (!fileInfo.Exists)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
 
-                string serialized = JsonSerializer.Serialize<T>(obj, new JsonSerializerOptions
+                byte[] serialized = JsonSerializer.SerializeToUtf8Bytes<T>(obj, new JsonSerializerOptions
                 {
                     WriteIndented = indent
                 });
 
-                using (var writer = File.CreateText(path.ToString()))
-                {
-                    writer.Write(serialized);
-                }
+                File.WriteAllBytes(path.ToString(), serialized);
 
                 return true;
-
             }
             catch (Exception ex)
             {

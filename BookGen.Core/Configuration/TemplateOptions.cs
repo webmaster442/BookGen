@@ -21,6 +21,11 @@ namespace BookGen.Core.Configuration
         public const string WordpressAuthorEmail = nameof(WordpressAuthorEmail);
         public const string WordpressAuthorLogin = nameof(WordpressAuthorLogin);
         public const string WordpressAuthorId = nameof(WordpressAuthorId);
+        public const string WordpressItemType = nameof(WordpressItemType);
+        public const string WordpressCreateParent = nameof(WordpressCreateParent);
+        public const string WordpresCreateParentTitle = nameof(WordpresCreateParentTitle);
+        public const string WordpressCreateFillerPages = nameof(WordpressCreateFillerPages);
+        public const string WordpressCommentStatus = nameof(WordpressCommentStatus);
 
         public TemplateOptions() : base()
         {

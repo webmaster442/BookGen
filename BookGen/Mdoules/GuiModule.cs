@@ -6,6 +6,7 @@
 using BookGen.ConsoleUi;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Utilities;
 
 namespace BookGen.Mdoules
 {
@@ -51,6 +52,11 @@ namespace BookGen.Mdoules
                 return true;
             }
             return false;
+        }
+
+        public override string GetHelp()
+        {
+            return HelpUtils.GetHelpForModule(nameof(GuiModule));
         }
 
         public override void Abort()

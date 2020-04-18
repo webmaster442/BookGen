@@ -9,8 +9,8 @@
     <Product>BookGen</Product>
     <Description>A static Markdown book generator</Description>
     <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-    <AssemblyVersion>1.0.5.0</AssemblyVersion>
-    <FileVersion>1.0.5.0</FileVersion>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
@@ -30,11 +30,23 @@
   <ItemGroup>
     <None Remove="ConsoleUi\InitializeView.xml" />
     <None Remove="ConsoleUi\MainView.xml" />
+    <None Remove="Resources\Help.AssemblyDocumentModule.txt" />
+    <None Remove="Resources\Help.BuildModule.txt" />
+    <None Remove="Resources\Help.ConfigHelpModule.txt" />
+    <None Remove="Resources\Help.EditorModule.txt" />
+    <None Remove="Resources\Help.General.txt" />
+    <None Remove="Resources\Help.GuiModule.txt" />
+    <None Remove="Resources\Help.InitModule.txt" />
+    <None Remove="Resources\Help.Md2HtmlModule.txt" />
+    <None Remove="Resources\Help.ServeModule.txt" />
+    <None Remove="Resources\Help.SettingsModule.txt" />
+    <None Remove="Resources\Help.UpdateModule.txt" />
+    <None Remove="Resources\Help.VersionModule.txt" />
     <None Remove="Resources\ReplaceContents.bat" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.18.3" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.4.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.5.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
@@ -46,9 +58,20 @@
   <ItemGroup>
     <EmbeddedResource Include="ConsoleUi\InitializeView.xml" />
     <EmbeddedResource Include="ConsoleUi\MainView.xml" />
-    <EmbeddedResource Include="Resources\Help.txt" />
     <Content Include="Icon.ico" />
+    <EmbeddedResource Include="Resources\Help.ConfigHelpModule.txt" />
     <EmbeddedResource Include="Resources\Error404.html" />
+    <EmbeddedResource Include="Resources\Help.AssemblyDocumentModule.txt" />
+    <EmbeddedResource Include="Resources\Help.BuildModule.txt" />
+    <EmbeddedResource Include="Resources\Help.EditorModule.txt" />
+    <EmbeddedResource Include="Resources\Help.General.txt" />
+    <EmbeddedResource Include="Resources\Help.GuiModule.txt" />
+    <EmbeddedResource Include="Resources\Help.InitModule.txt" />
+    <EmbeddedResource Include="Resources\Help.Md2HtmlModule.txt" />
+    <EmbeddedResource Include="Resources\Help.ServeModule.txt" />
+    <EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
+    <EmbeddedResource Include="Resources\Help.UpdateModule.txt" />
+    <EmbeddedResource Include="Resources\Help.VersionModule.txt" />
     <EmbeddedResource Include="Resources\ReplaceContents.bat" />
   </ItemGroup>
   <ItemGroup>

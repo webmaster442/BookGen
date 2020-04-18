@@ -20,6 +20,8 @@ namespace BookGen.Mdoules
 
         public abstract bool Execute(ArgumentParser tokenizedArguments);
 
+        public abstract string GetHelp();
+
         public virtual void Abort() 
         {
             //empty behaviour by default
