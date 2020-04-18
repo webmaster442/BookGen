@@ -76,6 +76,12 @@ namespace BookGen.Resources
                 using (var stream = GetResourceStream<KnownFile>(location))
                 {
                     var targetName = Path.Combine(targetDir, filename);
+
+                    if (!Directory.Exists(targetDir))
+                    {
+                        Directory.CreateDirectory(targetDir);
+                    }
+
                     log.Detail("Extracting {0} to {1}", location,  targetName);
 
                     using (var target = File.Create(targetName))

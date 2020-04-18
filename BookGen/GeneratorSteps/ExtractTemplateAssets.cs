@@ -7,6 +7,7 @@ using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Resources;
+using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
@@ -29,7 +30,9 @@ namespace BookGen.GeneratorSteps
 
             foreach (var (file, targetPath) in Assets)
             {
-                ResourceHandler.ExtractKnownFile(file, targetPath, log);
+                var target = settings.OutputDirectory.Combine(targetPath).ToString();
+
+                ResourceHandler.ExtractKnownFile(file, target, log);
             }
         }
     }
