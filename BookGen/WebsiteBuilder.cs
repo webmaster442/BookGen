@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Template;
 using BookGen.Api;
+using BookGen.Resources;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Framework;
@@ -44,22 +44,22 @@ namespace BookGen
         {
             if (TemplateLoader.FallbackTemplateRequired(Settings.SourceDirectory, Settings.Configuration.TargetWeb))
             {
-                _extractAssets.Assets = new (string content, string targetPath)[]
+                _extractAssets.Assets = new (KnownFile file, string targetPath)[]
                 {
-                    (BuiltInTemplates.AssetPrismCss, "Assets\\prism.css"),
-                    (BuiltInTemplates.AssetPrismJs, "Assets\\prism.js"),
-                    (BuiltInTemplates.AssetBootstrapCSS, "Assets\\bootstrap.min.css"),
-                    (BuiltInTemplates.AssetBootstrapJs, "Assets\\bootstrap.min.js"),
-                    (BuiltInTemplates.AssetJqueryJs, "Assets\\jquery.min.js"),
-                    (BuiltInTemplates.AssetPopperJs, "Assets\\popper.min.js"),
-                    (BuiltInTemplates.AssetTurbolinksJs, "Assets\\turbolinks.js"),
+                    (KnownFile.PrismCss, "Assets"),
+                    (KnownFile.PrismJs, "Assets"),
+                    (KnownFile.BootstrapMinCss, "Assets"),
+                    (KnownFile.BootstrapMinJs, "Assets"),
+                    (KnownFile.JqueryMinJs, "Assets"),
+                    (KnownFile.PopperMinJs, "Assets"),
+                    (KnownFile.TurbolinksJs, "Assets"),
                 };
             }
 
             return TemplateLoader.LoadTemplate(Settings.SourceDirectory,
                                                Settings.Configuration.TargetWeb,
                                                _log,
-                                               BuiltInTemplates.TemplateWeb);
+                                               ResourceHandler.GetFile(KnownFile.TemplateWebHtml));
         }
     }
 }

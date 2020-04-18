@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
 using BookGen.Framework.Server;
-using BookGen.Template;
+using BookGen.Resources;
 using System.Net;
 
 namespace BookGen.Framework.Editor
@@ -28,15 +27,15 @@ namespace BookGen.Framework.Editor
 
             if (AbsoluteUri == "/" || AbsoluteUri == "/index.html")
             {
-                str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/Index.html");
+                str = ResourceHandler.GetFile(KnownFile.IndexHtml);
             }
             else if (AbsoluteUri == "/editor.html")
             {
-                str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/Editor.html");
+                str = ResourceHandler.GetFile(KnownFile.EditorHtml);
             }
             else if (AbsoluteUri == "/config.html")
             {
-                str = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/ConfigView.html");
+                str = ResourceHandler.GetFile(KnownFile.ConfigViewHtml);
             }
             response.WriteHtmlString(str);
         }

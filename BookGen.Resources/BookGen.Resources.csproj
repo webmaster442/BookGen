@@ -71,4 +71,8 @@
     <EmbeddedResource Include="JsCss\turbolinks.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+  </ItemGroup>
+
 </Project>

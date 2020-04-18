@@ -8,7 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Domain.CsProj;
 using BookGen.Framework;
-using BookGen.Template;
+using BookGen.Resources;
 using System.Collections.Generic;
 using System.IO;
 
@@ -19,6 +19,7 @@ namespace BookGen
         private const string EpubTemplateLocation = "Templates\\TemplateEpub.html";
         private const string PrintTemplateLocation = "Templates\\TemplatePrint.html";
         private const string WebTemplate = "Templates\\TemplateWeb.html";
+        private const string ScriptProject = "Scripts\\ScriptProject.csproj";
 
         public static void DoCreateConfig(ILog log,
                                           FsPath ConfigFile,
@@ -66,13 +67,9 @@ namespace BookGen
         public static void DoCreateMdFiles(ILog log, FsPath workdir)
         {
             log.Info("Creating index.md...");
-
-            FsPath index = workdir.Combine("index.md");
-            index.WriteFile(log, BuiltInTemplates.IndexMd);
-
-            log.Info("Creating summary.md...");
-            FsPath summary = workdir.Combine("summary.md");
-            summary.WriteFile(log, BuiltInTemplates.SummaryMd);
+            ResourceHandler.ExtractKnownFile(KnownFile.IndexMd, workdir.ToString(), log);
+            log.Info("Creating Summary.md...");
+            ResourceHandler.ExtractKnownFile(KnownFile.SummaryMd, workdir.ToString(), log);
         }
 
         public static void CreateScriptProject(ILog log, FsPath workdir, string ApiReferencePath)
@@ -95,12 +92,10 @@ namespace BookGen
                     }
                 }
             };
-            FsPath csProj = workdir.Combine("Scripts\\ScriptProject.csproj");
+            FsPath csProj = workdir.Combine(ScriptProject);
             csProj.SerializeXml(p, log);
 
-            FsPath script = workdir.Combine("Scripts\\Script1.cs");
-            script.WriteFile(log, BuiltInTemplates.ScriptTemplate);
-
+            ResourceHandler.ExtractKnownFile(KnownFile.ScriptTemplateCs, workdir.Combine("Scripts").ToString(), log);
         }
 
         internal static void DoCreateTasks(ILog log, FsPath workDir)
@@ -113,34 +108,21 @@ namespace BookGen
         public static void ExtractTemplates(ILog log, FsPath workdir)
         {
             FsPath epub = workdir.Combine(EpubTemplateLocation);
-            epub.WriteFile(log, BuiltInTemplates.Epub);
 
-            FsPath print = workdir.Combine(PrintTemplateLocation);
-            print.WriteFile(log, BuiltInTemplates.Print);
+            var templatedir = workdir.Combine("Templates").ToString();
+            var assetsdir = workdir.Combine("Templates\\Assets").ToString();
 
-            FsPath web = workdir.Combine(WebTemplate);
-            web.WriteFile(log, BuiltInTemplates.TemplateWeb);
+            ResourceHandler.ExtractKnownFile(KnownFile.TemplateEpubHtml, templatedir, log);
+            ResourceHandler.ExtractKnownFile(KnownFile.TemplatePrintHtml, templatedir, log);
+            ResourceHandler.ExtractKnownFile(KnownFile.TemplateWebHtml, templatedir, log);
 
-            FsPath prismcss = workdir.Combine("Templates\\Assets\\prism.css");
-            prismcss.WriteFile(log, BuiltInTemplates.AssetPrismCss);
-
-            FsPath prismjs = workdir.Combine("Templates\\Assets\\prism.js");
-            prismjs.WriteFile(log, BuiltInTemplates.AssetPrismJs);
-
-            FsPath bootstrapcss = workdir.Combine("Templates\\Assets\\bootstrap.min.css");
-            bootstrapcss.WriteFile(log, BuiltInTemplates.AssetBootstrapCSS);
-
-            FsPath bootstrapjs = workdir.Combine("Templates\\Assets\\bootstrap.min.js");
-            bootstrapjs.WriteFile(log, BuiltInTemplates.AssetBootstrapJs);
-
-            FsPath jquery = workdir.Combine("Templates\\Assets\\jquery.min.js");
-            jquery.WriteFile(log, BuiltInTemplates.AssetJqueryJs);
-
-            FsPath popper = workdir.Combine("Templates\\Assets\\popper.min.js");
-            popper.WriteFile(log, BuiltInTemplates.AssetPopperJs);
-
-            FsPath turbolinks = workdir.Combine("Templates\\Assets\\turbolinks.js");
-            turbolinks.WriteFile(log, BuiltInTemplates.AssetTurbolinksJs);
+            ResourceHandler.ExtractKnownFile(KnownFile.PrismCss, assetsdir, log);
+            ResourceHandler.ExtractKnownFile(KnownFile.PrismJs, assetsdir, log);
+            ResourceHandler.ExtractKnownFile(KnownFile.BootstrapMinCss, assetsdir, log);
+            ResourceHandler.ExtractKnownFile(KnownFile.BootstrapMinJs, assetsdir, log);
+            ResourceHandler.ExtractKnownFile(KnownFile.JqueryMinJs, assetsdir, log);
+            ResourceHandler.ExtractKnownFile(KnownFile.PopperMinJs, assetsdir, log);
+            ResourceHandler.ExtractKnownFile(KnownFile.TurbolinksJs, assetsdir, log);
 
         }
     }

@@ -6,7 +6,7 @@
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Contracts;
-using BookGen.Template;
+using BookGen.Resources;
 using System.ComponentModel.Composition;
 
 namespace BookGen.Framework.Shortcodes
@@ -25,7 +25,9 @@ namespace BookGen.Framework.Shortcodes
 
             FluentHtmlWriter writer = new FluentHtmlWriter();
 
-            var code = ResourceLocator.GetResourceFile<BuiltInTemplates>("/Scripts/PageToc.js").Replace("{{contents}}", contentsDiv).Replace("{{target}}", targetDiv);
+            var pagetoc = ResourceHandler.GetFile(KnownFile.PageTocJs);
+
+            var code = pagetoc.Replace("{{contents}}", contentsDiv).Replace("{{target}}", targetDiv);
 
             return writer.WriteJavaScript(code).ToString();
         }

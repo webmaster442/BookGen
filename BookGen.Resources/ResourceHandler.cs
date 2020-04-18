@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using System;
 using System.IO;
 using System.Linq;
@@ -17,9 +18,9 @@ namespace BookGen.Resources
             return path.Replace("/", ".");
         }
 
-        private static Stream GetResourceStream(string resource)
+        public static Stream GetResourceStream<T>(string resource)
         {
-            var assembly = typeof(KnownFile).GetTypeInfo().Assembly;
+            var assembly = typeof(T).GetTypeInfo().Assembly;
 
             var resources = assembly.GetManifestResourceNames();
 
@@ -29,9 +30,24 @@ namespace BookGen.Resources
 
         }
 
-        public static string GetFile(string file)
+        public static string GetResourceFile<T>(string file)
         {
-            using (var stream = GetResourceStream(file))
+            using (var stream = GetResourceStream<T>(file))
+            {
+                if (stream == null)
+                {
+                    throw new InvalidOperationException("Could not load manifest resource stream.");
+                }
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        public static string GetResourceFile(string file)
+        {
+            using (var stream = GetResourceStream<KnownFile>(file))
             {
                 if (stream == null)
                 {
@@ -47,20 +63,30 @@ namespace BookGen.Resources
         public static string GetFile(KnownFile file)
         {
             var location = KnownFileMap.Map[file];
-            return GetFile(location);
+            return GetResourceFile(location);
         }
 
-        public static void ExtractKnownFile(KnownFile file, string targetDir)
+        public static void ExtractKnownFile(KnownFile file, string targetDir, ILog log)
         {
             var location = KnownFileMap.Map[file];
             var filename = Path.GetFileName(KnownFileMap.Map[file]);
 
-            using (var stream = GetResourceStream(location))
+            try
             {
-                using (var target = File.Create(Path.Combine(targetDir, filename)))
+                using (var stream = GetResourceStream<KnownFile>(location))
                 {
-                    stream.CopyTo(target);
+                    var targetName = Path.Combine(targetDir, filename);
+                    log.Detail("Extracting {0} to {1}", location,  targetName);
+
+                    using (var target = File.Create(targetName))
+                    {
+                        stream.CopyTo(target);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Warning(ex);
             }
         }
     }
