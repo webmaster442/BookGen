@@ -1,10 +1,35 @@
-﻿var editor = ace.edit("editorcontent");
+﻿var lock = false;
+
+var editor = ace.edit("editorcontent");
 editor.setTheme("ace/theme/github");
 editor.session.setMode("ace/mode/markdown");
 editor.session.setUseWrapMode(true);
 editor.session.setTabSize(4);
 editor.setShowPrintMargin(false);
 editor.setOption("wrap", true);
+
+editor.session.on('change', function (delta) {
+    //editor text changed, update the raw view
+    if (!lock) {
+        var text = editor.getValue();
+        $("#raw").val(text);
+    }
+});
+
+function UpdateEditor() {
+    lock = true;
+    let contents = $("#raw").val();
+    editor.setValue(contents);
+    lock = false;
+}
+
+$("#raw").keyup(function () {
+    UpdateEditor();
+});
+
+$("#raw").change(function () {
+    UpdateEditor();
+});
 
 function ReSize() {
     let h = window.innerHeight;
@@ -56,7 +81,7 @@ $("#Save").click(function () {
     $.post("/dynamic/Save.html",
         {
             file: ReadGetParameter("file"),
-            content: window.btoa(editor.value())
+            content: window.btoa(editor.getValue())
         }).done(function (data) {
 
             if (data === "OK") {
