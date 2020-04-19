@@ -21,9 +21,15 @@ namespace BookGen.Resources
             { KnownFile.PopperMinJs, "/JsCss/popper.min.js" },
             { KnownFile.PrismCss, "/JsCss/prism.css" },
             { KnownFile.PrismJs, "/JsCss/prism.js" },
-            { KnownFile.SimplemdeMinCss, "/JsCss/simplemde.min.css" },
-            { KnownFile.SimplemdeMinJs, "/JsCss/simplemde.min.js" },
             { KnownFile.TurbolinksJs, "/JsCss/turbolinks.js" },
+            { KnownFile.EditorAppJs, "JsCss/EditorApp.js" },
+            //ace
+            { KnownFile.AceMinJs, "/JsCss/ace/ace.min.js" },
+            { KnownFile.AceKeybindingVsCodeMinJs, "/JsCss/ace/keybinding-vscode.min.js" },
+            { KnownFile.AceMarkdownMinJs, "/JsCss/ace/markdown.min.js" },
+            { KnownFile.AceModeMarkdownMinJs, "/JsCss/ace/mode-markdown.min.js" },
+            { KnownFile.AceThemeGithubMinJs, "/JsCss/ace/theme-github.min.js" },
+
             //html files
             { KnownFile.ConfigViewHtml, "/Html/ConfigView.html" },
             { KnownFile.CookieWarningHtml, "/Html/CookieWarning.html" },

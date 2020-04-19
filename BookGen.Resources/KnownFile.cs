@@ -26,9 +26,13 @@ namespace BookGen.Resources
         TurbolinksJs,
         PopperMinJs,
         PrismCss,
-        SimplemdeMinJs,
-        SimplemdeMinCss,
         JsonviewJs,
         JsonviewCss,
+        AceMinJs,
+        AceKeybindingVsCodeMinJs,
+        AceMarkdownMinJs,
+        AceModeMarkdownMinJs,
+        AceThemeGithubMinJs,
+        EditorAppJs
     }
 }

@@ -24,10 +24,15 @@ namespace BookGen.Framework.Editor
                 { "/bootstrap.min.js", () => ResourceHandler.GetFile(KnownFile.BootstrapMinJs) },
                 { "/jquery.min.js", () => ResourceHandler.GetFile(KnownFile.JqueryMinJs) },
                 { "/popper.min.js", () => ResourceHandler.GetFile(KnownFile.PopperMinJs)},
-                { "/simplemde.min.css", () => ResourceHandler.GetFile(KnownFile.SimplemdeMinCss) },
-                { "/simplemde.min.js", () => ResourceHandler.GetFile(KnownFile.SimplemdeMinJs) },
                 { "/jsonview.css", () => ResourceHandler.GetFile(KnownFile.JsonviewCss) },
                 { "/jsonview.js", () => ResourceHandler.GetFile(KnownFile.JsonviewJs) },
+                { "/ace.min.js", () => ResourceHandler.GetFile(KnownFile.AceMinJs) },
+                { "/keybinding-vscode.min.js", () => ResourceHandler.GetFile(KnownFile.AceKeybindingVsCodeMinJs) },
+                { "/markdown.min.js", () => ResourceHandler.GetFile(KnownFile.AceMarkdownMinJs) },
+                { "/mode-markdown.min.js", () => ResourceHandler.GetFile(KnownFile.AceModeMarkdownMinJs) },
+                { "/theme-github.min.js", () => ResourceHandler.GetFile(KnownFile.AceThemeGithubMinJs) },
+                { "/EditorApp.js", () => ResourceHandler.GetFile(KnownFile.EditorAppJs)  }
+
             };
         }
 
