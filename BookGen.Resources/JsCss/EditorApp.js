@@ -8,6 +8,10 @@ editor.session.setTabSize(4);
 editor.setShowPrintMargin(false);
 editor.setOption("wrap", true);
 
+/*-----------------------------------------------------------------------------
+Event handlers
+-----------------------------------------------------------------------------*/
+
 editor.session.on('change', function (delta) {
     //editor text changed, update the raw view
     if (!lock) {
@@ -15,6 +19,14 @@ editor.session.on('change', function (delta) {
         $("#raw").val(text);
     }
 });
+
+function ReSize() {
+    let h = window.innerHeight;
+    let maxheight = (h - 150) - $("#navbar").height();
+    $(".editortab").css("height", maxheight + "px");
+    editor.setOption("maxLines", maxheight / 21);
+    $("#raw").css("height", maxheight + "px");
+}
 
 function UpdateEditor() {
     lock = true;
@@ -31,13 +43,55 @@ $("#raw").change(function () {
     UpdateEditor();
 });
 
-function ReSize() {
-    let h = window.innerHeight;
-    let maxheight = (h - 120) - $("#navbar").height();
-    $(".editortab").css("height", maxheight + "px");
-    editor.setOption("maxLines", maxheight/21);
-    $("#raw").css("height", maxheight + "px");
+$(window).resize(function () {
+    ReSize();
+});
+
+/*-----------------------------------------------------------------------------
+Toolbar handler functions
+-----------------------------------------------------------------------------*/
+
+function AddEditorText(startStr, endStr) {
+    let selectedText = editor.getSelectedText();
+    if (selectedText == undefined || selectedText.length < 1) {
+        editor.insert(startStr + " " + endStr);
+    }
+    else {
+        let final = startStr + selectedText + endStr;
+        let selectionRange = editor.getSelectionRange();
+        editor.session.replace(selectionRange, final);
+    }
 }
+
+
+function InitToolbar() {
+    $("#ToolbarUndo").click(function () {
+        editor.session.getUndoManager().undo(false);
+    });
+    $("#ToolbarRedo").click(function () {
+        editor.session.getUndoManager().redo(false);
+    });
+    $("#ToolbarBold").click(function () {
+        AddEditorText("**", "**");
+    });
+    $("#ToolbarItalic").click(function () {
+        AddEditorText("*", "*");
+    });
+    $("#ToolbarQuote").click(function () {
+        AddEditorText(">", "");
+    });
+    $("#ToolbarCode").click(function () {
+        AddEditorText("```\r\n", "\r\n```");
+    });
+    $("#ToolbarHighlight").click(function () {
+        AddEditorText("`", "`");
+    });
+}
+
+
+/*-----------------------------------------------------------------------------
+Document load and save
+-----------------------------------------------------------------------------*/
 
 function ReadGetParameter(parameterName) {
     var result = null,
@@ -55,7 +109,7 @@ function ReadGetParameter(parameterName) {
 $(function () {
     //loaded handler
     ReSize();
-
+    InitToolbar();
     $.get("/dynamic/GetContents.html?file=" + ReadGetParameter("file"), function (response) {
         let decoded = window.atob(ReadGetParameter("file"));
         let contents = response;
@@ -66,10 +120,6 @@ $(function () {
         document.title = decoded;
     });
 
-});
-
-$(window).resize(function () {
-    ReSize();
 });
 
 $("#Save").click(function () {
