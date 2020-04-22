@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -12,73 +11,61 @@ namespace BookGen.Framework.Editor
 {
     public static class FileTreeRenderer
     {
-        public static string Render(string folder)
+        private static string _rootfolder = string.Empty;
+
+        public static string Render(string inputFolder)
         {
+            _rootfolder = inputFolder;
             var buffer = new StringBuilder();
-            var folders = new Stack<string>(Directory.GetDirectories(folder));
-
-            buffer.AppendFormat("<h3>{0}</h3>\n", folder);
-
-            string[] files = Directory.GetFiles(folder, "*.*");
-
-            RenderFiles(buffer, files, folder, folder);
-
-            while (folders.Count > 0)
-            {
-                string current = folders.Pop();
-                files = Directory.GetFiles(current, "*.*");
-
-                RenderFiles(buffer, files, current, folder);
-
-                string[] subDirectories = Directory.GetDirectories(current);
-                foreach (var directory in subDirectories)
-                {
-                    folders.Push(directory);
-                }
-
-            }
+            buffer.AppendFormat("<h3>{0}</h3>\n", inputFolder);
+            RenderFolderContents(buffer, new DirectoryInfo(inputFolder));
             return buffer.ToString();
         }
 
-        private static string GetName(string item, string rootfolder)
+        private static void RenderFolderContents(StringBuilder buffer, DirectoryInfo inputFolder)
         {
-            string name = item.Substring(rootfolder.Length);
-            if (name.Length > 0)
-                return name;
-            else
-                return "\\";
-        }
+            var directories = inputFolder.GetDirectories();
 
-        private static void RenderFiles(StringBuilder buffer, string[] files, string currentFolder, string rootFolder)
-        {
-            if (files.Length < 1) return;
-            buffer.Append("<details open>\n");
-            buffer.AppendFormat("<summary>{0}</summary>\n", GetName(currentFolder, rootFolder));
-            buffer.Append("<ul>\n");
-            foreach (var file in files)
+            buffer.Append("<details class=\"item\" open>\n");
+            buffer.AppendFormat("<summary>{0}</summary>\n", inputFolder.Name);
+
+            foreach (var directory in directories)
             {
-                string filepath = GetName(file, currentFolder);
-                string linkpath = GetName(file, rootFolder);
-                buffer.AppendFormat("<li>{0}", filepath);
-                if (IsMarkdownFile(file))
-                {
-                    string param = Convert.ToBase64String(Encoding.UTF8.GetBytes(linkpath));
-                    buffer.AppendFormat(" <a target=\"_blank\" href=\"/editor.html?file={0}\">[Edit]</a>\n", Uri.EscapeDataString(param));
-                    //buffer.AppendFormat(" <a target=\"_blank\" href=\"/preview.html?file={0}\">[Preview]</a>\n", Uri.EscapeDataString(param));
-                }
-                else
-                {
-                    buffer.AppendFormat(" <a href=\"{0}\">[Open]</a>\n", linkpath);
-                }
-                buffer.Append("</li>\n");
+                if (directory.Attributes.HasFlag(FileAttributes.Hidden)) continue;
+                RenderFolderContents(buffer, directory);
             }
-            buffer.Append("</ul>\n");
+            var files = inputFolder.GetFiles();
+            if (files.Length > 0)
+            {
+                buffer.Append("<ul>\n");
+                foreach (var file in files)
+                {
+                    if (file.Attributes.HasFlag(FileAttributes.Hidden)) continue;
+                    buffer.AppendFormat("<li>{0} {1}</li>", file.Name, GetLinksForFile(file));
+                }
+                buffer.Append("</ul>\n");
+            }
+
             buffer.Append("</details>\n");
         }
 
-        private static bool IsMarkdownFile(string file)
+        private static string GetLinksForFile(FileInfo file)
         {
-            return string.Equals(Path.GetExtension(file), ".md", StringComparison.OrdinalIgnoreCase); 
+            string path = file.FullName.Replace(_rootfolder, "");
+            if (IsMarkdownFile(file))
+            {
+                string param = Convert.ToBase64String(Encoding.UTF8.GetBytes(path));
+                return string.Format(" <a target=\"_blank\" href=\"/editor.html?file={0}\">[Edit]</a>\n", Uri.EscapeDataString(param));
+            }
+            else
+            {
+                return string.Format(" <a href=\"{0}\">[Open]</a>\n", path);
+            }
+        }
+
+        private static bool IsMarkdownFile(FileInfo file)
+        {
+            return string.Equals(file.Extension, ".md", StringComparison.OrdinalIgnoreCase); 
         }
     }
 }
