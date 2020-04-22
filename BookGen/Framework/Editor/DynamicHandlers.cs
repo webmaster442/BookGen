@@ -5,6 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Core.Configuration;
+using BookGen.Core.Markdown;
 using BookGen.Framework.Server;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,8 @@ namespace BookGen.Framework.Editor
                 AbsoluteUri == "/dynamic/FileTree.html"
                 || AbsoluteUri == "/dynamic/GetContents.html"
                 || AbsoluteUri == "/dynamic/Save.html"
-                || AbsoluteUri == "/dynamic/Toc.html";
+                || AbsoluteUri == "/dynamic/Toc.html"
+                || AbsoluteUri == "/dynamic/Preview.html";
         }
 
         public void Serve(HttpListenerRequest request, HttpListenerResponse response, ILog log)
@@ -48,6 +50,9 @@ namespace BookGen.Framework.Editor
                     break;
                 case "/dynamic/Toc.html":
                     Toc(response);
+                    break;
+                case "/dynamic/Preview.html":
+                    Preview(request, response);
                     break;
             }
         }
@@ -78,6 +83,21 @@ namespace BookGen.Framework.Editor
                 {
                     response.WriteString("Error", "text/plain");
                 }
+            }
+        }
+
+        private void Preview(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            Dictionary<string, string> parameters = request.ParsePostParameters();
+            if (parameters.ContainsKey("content"))
+            {
+                string base64content = Uri.UnescapeDataString(parameters["content"]);
+
+                byte[] contentBytes = Convert.FromBase64String(base64content);
+                string rawContent = Encoding.UTF8.GetString(contentBytes);
+
+                string rendered = MarkdownRenderers.Markdown2Preview(rawContent, new Core.FsPath(_workdir));
+                response.WriteString(rendered, "text/html");
             }
         }
 

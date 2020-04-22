@@ -9,6 +9,27 @@ editor.setShowPrintMargin(false);
 editor.setOption("wrap", true);
 
 /*-----------------------------------------------------------------------------
+Util functions
+-----------------------------------------------------------------------------*/
+
+function b64EncodeUnicode(str) {
+    // first we use encodeURIComponent to get percent-encoded UTF-8,
+    // then we convert the percent encodings into raw bytes which
+    // can be fed into btoa.
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+            return String.fromCharCode('0x' + p1);
+    }));
+}
+
+function b64DecodeUnicode(str) {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
+/*-----------------------------------------------------------------------------
 Event handlers
 -----------------------------------------------------------------------------*/
 
@@ -111,7 +132,7 @@ $(function () {
     ReSize();
     InitToolbar();
     $.get("/dynamic/GetContents.html?file=" + ReadGetParameter("file"), function (response) {
-        let decoded = window.atob(ReadGetParameter("file"));
+        let decoded = b64DecodeUnicode(ReadGetParameter("file"));
         let contents = response;
         editor.setValue(contents);
         $("#raw").val(contents);
@@ -131,7 +152,7 @@ $("#Save").click(function () {
     $.post("/dynamic/Save.html",
         {
             file: ReadGetParameter("file"),
-            content: window.btoa(editor.getValue())
+            content: b64EncodeUnicode(editor.getValue())
         }).done(function (data) {
 
             if (data === "OK") {
@@ -141,4 +162,17 @@ $("#Save").click(function () {
                 alert("file save error");
             }
         });
+});
+
+function LoadPreview() {
+    $.post("/dynamic/Preview.html",
+    {
+        content: b64EncodeUnicode(editor.getValue())
+    }).done(function (data) {
+        $("#PrevContent").html(data);
+    });
+}
+
+$("#contact-tab").click(function() {
+    $("#PrevContent").html("<p>Loading ...</p><script>LoadPreview();</script>");
 });
