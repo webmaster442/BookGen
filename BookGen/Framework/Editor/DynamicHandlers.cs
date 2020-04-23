@@ -18,11 +18,13 @@ namespace BookGen.Framework.Editor
     {
         private readonly string _workdir;
         private readonly Config _configuruation;
+        private readonly FileExplorerHelper _fileExplorerHelper;
 
         public DynamicHandlers(string workdir, Config config)
         {
             _workdir = workdir;
             _configuruation = config;
+            _fileExplorerHelper = new FileExplorerHelper();
         }
 
         public bool CanServe(string AbsoluteUri)
@@ -40,7 +42,7 @@ namespace BookGen.Framework.Editor
             switch (request.Url.AbsolutePath)
             {
                 case "/dynamic/FileTree.html":
-                    response.WriteHtmlString(FileTreeRenderer.Render(_workdir));
+                    response.WriteHtmlString(_fileExplorerHelper.RenderFileExplorer(_workdir));
                     break;
                 case "/dynamic/GetContents.html":
                     GetContents(request, response, log);

@@ -45,35 +45,17 @@
             text-align: center;
         }
 
-        #FileSelector {
-            display: block;
-            margin-left: 30px;
+        #ExplorerTree {
+            border-right: 2px solid black;
+            margin-right: 10px;
         }
 
-        #FileSelector a {
-            color: blue;
+        #DirectoryFiles .table {
+            width: 100%;
         }
 
-        #FileSelector summary {
-            font-family: "Lucida Console", Monaco, monospace;
-            color: #f7da7b;
-        }
-
-        #FileSelector details li {
-            font-family: "Lucida Console", Monaco, monospace;
-            color: #37c4e8;
-        }
-
-        #FileSelector li {
-            list-style: none;
-        }
-
-        #FileSelector li:before {
-            content: "- ";
-        }
-
-        #FileSelector .item {
-            margin-left: 5px;
+        #Folders {
+            display: none;
         }
     </style>
 </head>
@@ -149,15 +131,22 @@
             </div>
         </main>
     </div>
-    <div id="files" class="d-flex h-100 p-3 mx-auto flex-column">
-        <div>
-            Filter for files:
-            <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search">
-        </div>
-        <div id="FileSelector" class="row">
+    <div id="files" class="h-100">
+        <div id="FileSelector" class="d-flex flex-row">
         </div>
     </div>
     <script type="text/javascript">
+
+        function ActivateLinks() {
+            $("a.filetreeItem").each(function () {
+                $(this).click(function (event) {
+                    event.preventDefault();
+                    let divid = this.getAttribute("href").replace(new RegExp("/", "g"), "_");
+                    let contents = $("#"+divid).html();
+                    $("#DirectoryFiles").html(contents);
+                });
+            });
+        }
         $('a[href="#files"]').click(function (event) {
             event.preventDefault();
             $('html, body').animate({
@@ -169,33 +158,16 @@
         });
         $(function () {
             //loaded handler
-            $("#FileSelector").load("http://localhost:9090/dynamic/FileTree.html");
+            $.get("http://localhost:9090/dynamic/FileTree.html", function (data) {
+                $("#FileSelector").html(data);
+                ActivateLinks();
+            });
 
             $.get("/dynamic/Toc.html", function (response) {
                 let url = "/editor.html?file=" + response;
                 $('a[href="#toc"]').attr("href", url);
             });
         });
-        $("#search").keydown(function () {
-            let text = $("#search").val();
-            filter(text);
-        });
-
-
-        function filter(what) {
-            $("#FileSelector li").each(function (index, value) {
-                if (!what) {
-                    this.style.display = "list-item";
-                }
-                else if (this.innerText.indexOf(what) > -1) {
-                    this.style.display = "list-item";
-                }
-                else {
-                    this.style.display = "none";
-                }
-            });
-        }
-
     </script>
 </body>
 
