@@ -7,6 +7,7 @@ using BookGen.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace BookGen.Framework.Editor
@@ -17,10 +18,16 @@ namespace BookGen.Framework.Editor
         private string _root;
 
 
+        public List<string> ExcludedPaths
+        {
+            get;
+        }
+
         public FileExplorerHelper()
         {
             _folders = new Dictionary<string, FileInfo[]>();
             _root = string.Empty;
+            ExcludedPaths = new List<string>();
         }
 
         public string RenderFileExplorer(string inputFolder)
@@ -66,7 +73,8 @@ namespace BookGen.Framework.Editor
             {
                 foreach (DirectoryInfo subdir in subirs)
                 {
-                    if (subdir.Attributes.HasFlag(FileAttributes.Hidden)) continue;
+                    if (subdir.Attributes.HasFlag(FileAttributes.Hidden) ||
+                        ExcludedPaths.Contains(subdir.FullName)) continue;
                     WalkDirTree(targetBuffer, subdir);
                 }
             }

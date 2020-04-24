@@ -16,7 +16,7 @@ namespace BookGen.Framework.Editor
             byte[] urlBytes = Convert.FromBase64String(base64encodedurl);
             string url = Encoding.UTF8.GetString(urlBytes);
 
-            if (url.StartsWith("\\")) url = url.Substring(1);
+            if (url.StartsWith("/")) url = url.Substring(1);
 
             return Path.Combine(folder, url);
         }
@@ -32,7 +32,10 @@ namespace BookGen.Framework.Editor
                     return File.ReadAllText(diskfile);
                 }
                 else
+                {
+                    log.Warning("File doesn't exist: {0}", diskfile);
                     return string.Empty;
+                }
             }
             catch (FormatException ex)
             {

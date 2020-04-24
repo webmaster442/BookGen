@@ -4,11 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Markdown;
 using BookGen.Framework.Server;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
 
@@ -25,6 +27,13 @@ namespace BookGen.Framework.Editor
             _workdir = workdir;
             _configuruation = config;
             _fileExplorerHelper = new FileExplorerHelper();
+            _fileExplorerHelper.ExcludedPaths.AddRange(new string[]
+            {
+                new FsPath(workdir, _configuruation.TargetEpub.OutPutDirectory).ToString(),
+                new FsPath(workdir, _configuruation.TargetPrint.OutPutDirectory).ToString(),
+                new FsPath(workdir, _configuruation.TargetWeb.OutPutDirectory).ToString(),
+                new FsPath(workdir, _configuruation.TargetWordpress.OutPutDirectory).ToString()
+            });
         }
 
         public bool CanServe(string AbsoluteUri)
