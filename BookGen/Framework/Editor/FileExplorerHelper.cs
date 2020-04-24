@@ -1,10 +1,13 @@
-﻿using BookGen.Core;
+﻿//-----------------------------------------------------------------------------
+// (c) 2020 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using BookGen.Core;
-using System.Net;
 
 namespace BookGen.Framework.Editor
 {
@@ -83,9 +86,23 @@ namespace BookGen.Framework.Editor
             output.WriteTableHeader("Name", "Extension", "Size", "Last Written", "Actions");
             foreach (FileInfo file in _folders[inputFolder])
             {
-                output.WriteTableRow(file.Name, file.Extension, file.Length, file.LastWriteTime, "[open] [edit]");
+                output.WriteTableRow(file.Name, file.Extension, GetFileSize(file.Length), file.LastWriteTime, GetActions(file));
             }
             output.CloseElement(HtmlElement.Table);
+        }
+
+        private object GetActions(FileInfo file)
+        {
+            var url = GetUrl(file.FullName);
+            if (string.Equals(file.Extension, ".md", StringComparison.OrdinalIgnoreCase))
+            {
+                string param = Convert.ToBase64String(Encoding.UTF8.GetBytes(url));
+                return $" <a target=\"_blank\" href=\"/editor.html?file={Uri.EscapeDataString(param)}\">[Edit]</a>";
+            }
+            else
+            {
+                return $" <a href=\"{url}\">[Open]</a>";
+            }
         }
 
         private void RenderFolderAllFolderContents(StringBuilder output)
@@ -97,6 +114,22 @@ namespace BookGen.Framework.Editor
                 RenderFilesOfFolder(output, folder);
                 output.CloseElement(HtmlElement.Div);
             }
+        }
+
+        private string GetFileSize(long input)
+        {
+            const float kib = 1024.0f;
+            const float mib = 1024.0f * kib;
+            const float gib = 1024.0f * mib;
+
+            if (input > gib)
+                return $"{(input / gib):0.00} GiB";
+            else if (input > mib)
+                return $"{(input / mib):0.00} MiB";
+            else if (input > kib)
+                return $"{(input / kib):0.00} KiB";
+            else
+                return $"{input} bytes";
         }
     }
 }
