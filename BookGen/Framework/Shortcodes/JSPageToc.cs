@@ -8,6 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Resources;
 using System.ComponentModel.Composition;
+using System.Text;
 
 namespace BookGen.Framework.Shortcodes
 {
@@ -23,7 +24,7 @@ namespace BookGen.Framework.Shortcodes
             var contentsDiv = arguments.GetArgumentOrThrow<string>("ContentsDiv");
             var targetDiv = arguments.GetArgumentOrThrow<string>("TargetDiv");
 
-            FluentHtmlWriter writer = new FluentHtmlWriter();
+            StringBuilder writer = new StringBuilder();
 
             var pagetoc = ResourceHandler.GetFile(KnownFile.PageTocJs);
 

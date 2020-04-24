@@ -95,5 +95,13 @@ namespace BookGen.Core
             stringBuilder.Append("</tr>");
             return stringBuilder;
         }
+
+        public static StringBuilder WriteJavaScript(this StringBuilder stringBuilder, string javascriptCode)
+        {
+            stringBuilder.Append("<script type=\"text/javascript\">");
+            stringBuilder.Append(javascriptCode);
+            stringBuilder.Append("</script>");
+            return stringBuilder;
+        }
     }
 }
