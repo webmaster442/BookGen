@@ -142,7 +142,7 @@
                 $(this).click(function (event) {
                     event.preventDefault();
                     let divid = this.getAttribute("href").replace(new RegExp("/", "g"), "_");
-                    let contents = $("#"+divid).html();
+                    let contents = $("#" + divid).html();
                     $("#DirectoryFiles").html(contents);
                 });
             });

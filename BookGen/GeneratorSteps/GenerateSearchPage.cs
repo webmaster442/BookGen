@@ -71,7 +71,7 @@ namespace BookGen.GeneratorSteps
 
         private void GenerateSearchContents(RuntimeSettings settings, ILog log)
         {
-            _buffer.Append("<div id=\"searchcontents\" style=\"display:none;\">\n");
+            _buffer.WriteElement(HtmlElement.Div, "searchcontents", "nodisplay");
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
@@ -88,7 +88,7 @@ namespace BookGen.GeneratorSteps
                     _buffer.Append("</div>\n");
                 }
             }
-            _buffer.Append("</div>");
+            _buffer.CloseElement(HtmlElement.Div);
         }
     }
 }
