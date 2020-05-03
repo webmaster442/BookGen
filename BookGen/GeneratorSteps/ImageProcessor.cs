@@ -49,7 +49,7 @@ namespace BookGen.GeneratorSteps
                 log.Detail("Rendering SVG: {0}", file);
                 using (var data = ImageUtils.SvgToPng(file, options.MaxWidth, options.MaxHeight))
                 {
-                    InlineOrSave(file, targetdir, log, settings, data);
+                    InlineOrSave(file, targetdir, log, settings, data, ".png");
                     return;
                 }
             }
@@ -71,7 +71,7 @@ namespace BookGen.GeneratorSteps
                     {
                         using (SKData data = ImageUtils.EncodeToFormat(resized, format))
                         {
-                            InlineOrSave(file, targetdir, log, settings, data, ".png");
+                            InlineOrSave(file, targetdir, log, settings, data);
                         }
                     }
                 }
