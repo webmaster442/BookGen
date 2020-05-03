@@ -18,6 +18,7 @@ namespace BookGen.GeneratorSteps
     {
         public void RunStep(RuntimeSettings settings, ILog log)
         {
+            log.Info("Processing images...");
             if (FsPath.IsEmptyPath(settings.ImageDirectory))
             {
                 log.Warning("Images directory is empty string. Skipping image copy & inline step");
@@ -48,7 +49,7 @@ namespace BookGen.GeneratorSteps
                 log.Detail("Rendering SVG: {0}", file);
                 using (var data = ImageUtils.SvgToPng(file, options.MaxWidth, options.MaxHeight))
                 {
-                    InlineOrSave(file, targetdir, settings, data);
+                    InlineOrSave(file, targetdir, log, settings, data);
                     return;
                 }
             }
@@ -63,36 +64,36 @@ namespace BookGen.GeneratorSteps
                     {
                         using (SKData webp = ImageUtils.EncodeWebp(resized, options.WebPQuality))
                         {
-                            InlineOrSave(file, targetdir, settings, webp, ".webp");
+                            InlineOrSave(file, targetdir, log, settings, webp, ".webp");
                         }
                     }
                     else
                     {
                         using (SKData data = ImageUtils.EncodeToFormat(resized, format))
                         {
-                            InlineOrSave(file, targetdir, settings, data);
+                            InlineOrSave(file, targetdir, log, settings, data);
                         }
                     }
                 }
             }
         }
 
-        private void InlineOrSave(FsPath file, FsPath targetdir, RuntimeSettings settings, SKData data, string? extensionOverride = null)
+        private void InlineOrSave(FsPath file, FsPath targetdir, ILog log, RuntimeSettings settings, SKData data, string? extensionOverride = null)
         {
             if (data.Size < settings.CurrentBuildConfig.ImageOptions.InlineImageSizeLimit)
             {
+                log.Detail("Inlining: {0}", file);
                 InlineImage(file, settings, data, extensionOverride);
             }
             else
             {
-                SaveImage(file, targetdir, data, extensionOverride);
+                SaveImage(file, targetdir, log, data, extensionOverride);
             }
         }
 
         private void InlineImage(FsPath file, RuntimeSettings settings, SKData data, string? extensionOverride)
         {
             byte[] contents = data.ToArray();
-
             if (extensionOverride == null)
             {
                 string mime = Framework.Server.MimeTypes.GetMimeForExtension(file.Extension);
@@ -109,19 +110,17 @@ namespace BookGen.GeneratorSteps
             }
         }
 
-        private void SaveImage(FsPath file, FsPath targetdir, SKData data, string? extensionOverride)
+        private void SaveImage(FsPath file, FsPath targetdir, ILog log, SKData data, string? extensionOverride)
         {
-            string target;
-            if (extensionOverride == null)
+            FsPath target = targetdir.Combine(file.Filename);
+            if (extensionOverride != null)
             {
-                target = targetdir.Combine(file.Filename).ToString();
+                var newname = Path.ChangeExtension(file.Filename, extensionOverride);
+                target = targetdir.Combine(newname);
             }
-            else
+            using (var stream = target.CreateStream(log))
             {
-                target = Path.ChangeExtension(file.ToString(), extensionOverride);
-            }
-            using (var stream = File.Create(target))
-            {
+                log.Detail("Saving image: {0}", target);
                 data.SaveTo(stream);
             }
         }
