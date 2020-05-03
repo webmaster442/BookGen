@@ -5,8 +5,8 @@
 
 using BookGen.Core;
 using SkiaSharp;
+using Svg.Skia;
 using System;
-using SKSvg = SkiaSharp.Extended.Svg.SKSvg;
 
 namespace BookGen.Utilities
 {
@@ -55,6 +55,9 @@ namespace BookGen.Utilities
         {
             var svg = new SKSvg();
             svg.Load(svgFile.ToString());
+
+            if (svg.Picture == null)
+                return SKData.Empty;
 
             SKRect svgSize = svg.Picture.CullRect;
 

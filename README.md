@@ -1,4 +1,4 @@
-![logo](Documentation/img/logo.png)
+![logo](https://raw.githubusercontent.com/wiki/webmaster442/BookGen/img/logo.png)
 
 # BookGen - A C# documentation generator
 
@@ -11,7 +11,7 @@ It is designed to be cross platform, but It's developed and tested under Windows
 * Extremely fast, compared to GitBook and other NodeJs stuff
 * It hasn't got a template engine, so you don't have to learn a new template language. However it's extendable via shortcodes, like wordpress
 * Can be extended with Scripting API
-* Can be extended with NodeJs Scripts
+* Can be extended with NodeJs, Python, Php Scripts
 * Many output formats: 
     * Static website with Bootstrap template
     * Printable or Word processor importable plain HTML
@@ -26,6 +26,7 @@ To Build and develop you will need:
 
 ```bash
 git clone https://github.com/webmaster442/BookGen.git
+cd BookGen
 git submodule init
 git submodule update
 ```
