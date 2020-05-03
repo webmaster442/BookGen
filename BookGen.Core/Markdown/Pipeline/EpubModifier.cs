@@ -34,6 +34,8 @@ namespace BookGen.Core.Markdown.Pipeline
             PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetEpub,
                                         document);
 
+            PipelineHelpers.RenderImages(RuntimeConfig, document);
+
             foreach (var node in document.Descendants())
             {
                 if (node is HeadingBlock heading)

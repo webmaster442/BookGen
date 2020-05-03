@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api.Configuration;
+using BookGen.Core.Contracts;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
@@ -40,6 +41,26 @@ namespace BookGen.Core.Markdown.Pipeline
         {
             if (string.IsNullOrEmpty(style)) return;
             node.GetAttributes().AddClass(style);
+        }
+
+        public static void RenderImages(IReadonlyRuntimeSettings RuntimeConfig,
+                                        MarkdownDocument document)
+        {
+
+            foreach (var node in document.Descendants())
+            {
+                if (node is LinkInline link)
+                {
+                    if (link.IsImage && RuntimeConfig.InlineImgCache?.Count > 0)
+                    {
+                        var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
+                        if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
+                        {
+                            link.Url = RuntimeConfig.InlineImgCache[inlinekey];
+                        }
+                    }
+                }
+            }
         }
 
         public static void ApplyStyles(IReadOnlyBuildConfig config,
