@@ -26,6 +26,9 @@ namespace BookGen.Core.Configuration
         [Doc("Additional template options", true, TypeAlias = typeof(Dictionary<string, string>))]
         public TemplateOptions TemplateOptions { get; set; }
 
+        [Doc("Image processing options for this build configuration")]
+        public ImageOptions ImageOptions { get; set; }
+
         [JsonIgnore]
         IReadOnlyList<IReadOnlyAsset> IReadOnlyBuildConfig.TemplateAssets => TemplateAssets;
 
@@ -34,6 +37,9 @@ namespace BookGen.Core.Configuration
 
         [JsonIgnore]
         IReadOnlyTemplateOptions IReadOnlyBuildConfig.TemplateOptions => TemplateOptions;
+
+        [JsonIgnore]
+        IReadonlyImageOptions IReadOnlyBuildConfig.ImageOptions => ImageOptions;
 
         public BuildConfig()
         {
@@ -49,6 +55,7 @@ namespace BookGen.Core.Configuration
             };
             TemplateOptions = TemplateOptions.CreateDefaultOptions();
             StyleClasses = new StyleClasses();
+            ImageOptions = new ImageOptions();
         }
 
         public static BuildConfig CreateDefault(string? outdir = null)

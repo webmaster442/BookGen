@@ -32,5 +32,9 @@ namespace BookGen.Api.Configuration
         /// Additional template options
         /// </summary>
         IReadOnlyTemplateOptions TemplateOptions { get; }
+        /// <summary>
+        /// Image processing options for this build configuration
+        /// </summary>
+        IReadonlyImageOptions ImageOptions { get; }
     }
 }

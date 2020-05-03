@@ -19,11 +19,11 @@ namespace BookGen.Api.Configuration
         /// </summary>
         bool EnableResize { get; }
         /// <summary>
-        /// Maximal output image width
+        /// Maximal output image width when resize enabled
         /// </summary>
         int MaxWidth { get; }
         /// <summary>
-        /// Maximal output image height
+        /// Maximal output image height when resize enabled
         /// </summary>
         int MaxHeight { get; }
         /// <summary>
@@ -31,7 +31,7 @@ namespace BookGen.Api.Configuration
         /// </summary>
         bool RenderSvgToPng { get; }
         /// <summary>
-        /// Inline images, that are smaller the given limit in bytes.
+        /// Inline images, that are smaller the given limit in bytes
         /// </summary>
         long InlineImageSizeLimit { get; }
     }
