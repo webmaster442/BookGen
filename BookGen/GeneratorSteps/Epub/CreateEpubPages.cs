@@ -3,13 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Template;
 using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
+using BookGen.Resources;
 using BookGen.Utilities;
 
 namespace BookGen.GeneratorSteps.Epub

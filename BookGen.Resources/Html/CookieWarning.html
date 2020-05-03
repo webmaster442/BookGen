@@ -14,23 +14,26 @@
         background: #212327;
     }
 
-        .cookiealert.show {
-            opacity: 1;
-            transform: translateY(0%);
-            transition-delay: 1000ms;
-        }
+    .cookiealert.show {
+        opacity: 1;
+        transform: translateY(0%);
+        transition-delay: 1000ms;
+    }
 
-        .cookiealert a {
-            text-decoration: underline
-        }
+    .cookiealert a {
+        text-decoration: underline
+    }
 
-        .cookiealert .acceptcookies {
-            margin-left: 10px;
-            vertical-align: baseline;
-        }
+    .cookiealert .acceptcookies {
+        margin-left: 10px;
+        vertical-align: baseline;
+    }
 </style>
 <div class="alert text-center cookiealert" role="alert">
-    <b><!--{? Cookie_Header}--></b> &#x1F36A; <!--{? Cookie_Description}--> <a href="<!--{? Cookie_Link}-->" target="_blank"><!--{? Cookie_LearnMore}--></a>
+    <b>
+        <!--{? Cookie_Header}--></b> &#x1F36A;
+    <!--{? Cookie_Description}--> <a href="<!--{? Cookie_Link}-->" target="_blank">
+        <!--{? Cookie_LearnMore}--></a>
 
     <button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
         <!--{? Cookie_Accept}-->

@@ -5,32 +5,34 @@
 
 using BookGen.Api;
 using BookGen.Contracts;
-using BookGen.Core;
 using BookGen.Domain;
+using BookGen.Resources;
+using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
     public class ExtractTemplateAssets : IGeneratorStep
     {
-        public (string content, string targetPath)[] Assets { get; set; }
+        public (KnownFile file, string targetPath)[] Assets { get; set; }
 
         public ExtractTemplateAssets()
         {
-            Assets = new (string content, string targetPath)[0];
+            Assets = new (KnownFile file, string targetPath)[0];
         }
 
         public void RunStep(RuntimeSettings settings, ILog log)
         {
-            if (Assets == null || Assets.Length < 1)
+            if (Assets.Length < 1)
             {
                 log.Warning("External template used, skipping asset extract");
                 return;
             }
 
-            foreach (var (content, targetPath) in Assets)
+            foreach (var (file, targetPath) in Assets)
             {
-                var output = settings.OutputDirectory.Combine(targetPath);
-                output.WriteFile(log, content);
+                var target = settings.OutputDirectory.Combine(targetPath).ToString();
+
+                ResourceHandler.ExtractKnownFile(file, target, log);
             }
         }
     }

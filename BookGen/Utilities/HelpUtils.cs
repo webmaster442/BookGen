@@ -7,6 +7,7 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Framework;
+using BookGen.Resources;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -19,12 +20,12 @@ namespace BookGen.Utilities
     {
         public static string GetGeneralHelp()
         {
-            return ResourceLocator.GetResourceFile<GeneratorRunner>("Resources/Help.General.txt");
+            return ResourceHandler.GetResourceFile<GeneratorRunner>("Resources/Help.General.txt");
         }
 
         public static string GetHelpForModule(string moduleClass)
         {
-            return ResourceLocator.GetResourceFile<GeneratorRunner>($"Resources/Help.{moduleClass}.txt");
+            return ResourceHandler.GetResourceFile<GeneratorRunner>($"Resources/Help.{moduleClass}.txt");
         }
 
         public static void DocumentActions(StringBuilder result)

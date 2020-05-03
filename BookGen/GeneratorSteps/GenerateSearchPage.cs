@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Template;
 using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
@@ -15,6 +14,7 @@ using BookGen.Utilities;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using BookGen.Resources;
 
 namespace BookGen.GeneratorSteps
 {
@@ -44,7 +44,7 @@ namespace BookGen.GeneratorSteps
 
             log.Info("Generating search page...");
             GenerateSearchContents(settings, log);
-            _buffer.Append(BuiltInTemplates.Searchform);
+            _buffer.Append(ResourceHandler.GetFile(KnownFile.SearchformHtml));
 
             settings.CurrentTargetFile = settings.OutputDirectory.Combine("search.html");
             Content.Title = settings.Configuration.Translations[Translations.SearchPageTitle];
@@ -71,7 +71,7 @@ namespace BookGen.GeneratorSteps
 
         private void GenerateSearchContents(RuntimeSettings settings, ILog log)
         {
-            _buffer.Append("<div id=\"searchcontents\" style=\"display:none;\">\n");
+            _buffer.WriteElement(HtmlElement.Div, "searchcontents", "nodisplay");
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
@@ -88,7 +88,7 @@ namespace BookGen.GeneratorSteps
                     _buffer.Append("</div>\n");
                 }
             }
-            _buffer.Append("</div>");
+            _buffer.CloseElement(HtmlElement.Div);
         }
     }
 }

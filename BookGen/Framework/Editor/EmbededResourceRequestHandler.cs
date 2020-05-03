@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
 using BookGen.Framework.Server;
-using BookGen.Template;
+using BookGen.Resources;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -21,14 +20,19 @@ namespace BookGen.Framework.Editor
         {
             _knownFiles = new Dictionary<string, Func<string>>
             {
-                { "/bootstrap.min.css", () => BuiltInTemplates.AssetBootstrapCSS },
-                { "/bootstrap.min.js", () => BuiltInTemplates.AssetBootstrapJs },
-                { "/jquery.min.js", () => BuiltInTemplates.AssetJqueryJs },
-                { "/popper.min.js", () => BuiltInTemplates.AssetPopperJs },
-                { "/simplemde.min.css", () => ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/simplemde.min.css") },
-                { "/simplemde.min.js", () => ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/simplemde.min.js") },
-                { "/jsonview.css", () => ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/jsonview.css") },
-                { "/jsonview.js", () => ResourceLocator.GetResourceFile<BuiltInTemplates>("/Editor/jsonview.js") },
+                { "/bootstrap.min.css", () => ResourceHandler.GetFile(KnownFile.BootstrapMinCss) },
+                { "/bootstrap.min.js", () => ResourceHandler.GetFile(KnownFile.BootstrapMinJs) },
+                { "/jquery.min.js", () => ResourceHandler.GetFile(KnownFile.JqueryMinJs) },
+                { "/popper.min.js", () => ResourceHandler.GetFile(KnownFile.PopperMinJs)},
+                { "/jsonview.css", () => ResourceHandler.GetFile(KnownFile.JsonviewCss) },
+                { "/jsonview.js", () => ResourceHandler.GetFile(KnownFile.JsonviewJs) },
+                { "/ace.min.js", () => ResourceHandler.GetFile(KnownFile.AceMinJs) },
+                { "/keybinding-vscode.min.js", () => ResourceHandler.GetFile(KnownFile.AceKeybindingVsCodeMinJs) },
+                { "/markdown.min.js", () => ResourceHandler.GetFile(KnownFile.AceMarkdownMinJs) },
+                { "/mode-markdown.min.js", () => ResourceHandler.GetFile(KnownFile.AceModeMarkdownMinJs) },
+                { "/theme-github.min.js", () => ResourceHandler.GetFile(KnownFile.AceThemeGithubMinJs) },
+                { "/EditorApp.js", () => ResourceHandler.GetFile(KnownFile.EditorAppJs)  }
+
             };
         }
 

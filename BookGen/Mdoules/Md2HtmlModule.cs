@@ -7,7 +7,7 @@ using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Markdown;
 using BookGen.Domain.ArgumentParsing;
-using BookGen.Template;
+using BookGen.Resources;
 using BookGen.Utilities;
 
 namespace BookGen.Mdoules
@@ -47,7 +47,9 @@ namespace BookGen.Mdoules
 
             string md = parameters.InputFile.ReadFile(log);
 
-            string rendered = BuiltInTemplates.Print.Replace("<!--{content}-->", MarkdownRenderers.Markdown2Preview(md, parameters.InputFile.GetDirectory()));
+            var printtemplate = ResourceHandler.GetFile(KnownFile.TemplatePrintHtml);
+
+            string rendered = printtemplate.Replace("<!--{content}-->", MarkdownRenderers.Markdown2Preview(md, parameters.InputFile.GetDirectory()));
             parameters.OutputFile.WriteFile(log, rendered);
 
             return true;

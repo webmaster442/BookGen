@@ -4,10 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Core;
 using BookGen.Core.Configuration;
+using BookGen.Core.Markdown;
 using BookGen.Framework.Server;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
 
@@ -17,11 +20,20 @@ namespace BookGen.Framework.Editor
     {
         private readonly string _workdir;
         private readonly Config _configuruation;
+        private readonly FileExplorerHelper _fileExplorerHelper;
 
         public DynamicHandlers(string workdir, Config config)
         {
             _workdir = workdir;
             _configuruation = config;
+            _fileExplorerHelper = new FileExplorerHelper();
+            _fileExplorerHelper.ExcludedPaths.AddRange(new string[]
+            {
+                new FsPath(workdir, _configuruation.TargetEpub.OutPutDirectory).ToString(),
+                new FsPath(workdir, _configuruation.TargetPrint.OutPutDirectory).ToString(),
+                new FsPath(workdir, _configuruation.TargetWeb.OutPutDirectory).ToString(),
+                new FsPath(workdir, _configuruation.TargetWordpress.OutPutDirectory).ToString()
+            });
         }
 
         public bool CanServe(string AbsoluteUri)
@@ -30,7 +42,8 @@ namespace BookGen.Framework.Editor
                 AbsoluteUri == "/dynamic/FileTree.html"
                 || AbsoluteUri == "/dynamic/GetContents.html"
                 || AbsoluteUri == "/dynamic/Save.html"
-                || AbsoluteUri == "/dynamic/Toc.html";
+                || AbsoluteUri == "/dynamic/Toc.html"
+                || AbsoluteUri == "/dynamic/Preview.html";
         }
 
         public void Serve(HttpListenerRequest request, HttpListenerResponse response, ILog log)
@@ -38,7 +51,7 @@ namespace BookGen.Framework.Editor
             switch (request.Url.AbsolutePath)
             {
                 case "/dynamic/FileTree.html":
-                    response.WriteHtmlString(FileTreeRenderer.Render(_workdir));
+                    response.WriteHtmlString(_fileExplorerHelper.RenderFileExplorer(_workdir));
                     break;
                 case "/dynamic/GetContents.html":
                     GetContents(request, response, log);
@@ -48,6 +61,9 @@ namespace BookGen.Framework.Editor
                     break;
                 case "/dynamic/Toc.html":
                     Toc(response);
+                    break;
+                case "/dynamic/Preview.html":
+                    Preview(request, response);
                     break;
             }
         }
@@ -78,6 +94,21 @@ namespace BookGen.Framework.Editor
                 {
                     response.WriteString("Error", "text/plain");
                 }
+            }
+        }
+
+        private void Preview(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            Dictionary<string, string> parameters = request.ParsePostParameters();
+            if (parameters.ContainsKey("content"))
+            {
+                string base64content = Uri.UnescapeDataString(parameters["content"]);
+
+                byte[] contentBytes = Convert.FromBase64String(base64content);
+                string rawContent = Encoding.UTF8.GetString(contentBytes);
+
+                string rendered = MarkdownRenderers.Markdown2Preview(rawContent, new Core.FsPath(_workdir));
+                response.WriteString(rendered, "text/html");
             }
         }
 

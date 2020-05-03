@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-
 using System.Collections.Generic;
 using System.Text;
 
-namespace BookGen.Template
+namespace BookGen.Resources
 {
     public static class XhtmlNormalizer
     {

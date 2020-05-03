@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Template;
+using BookGen.Resources;
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Configuration;
@@ -33,7 +33,7 @@ namespace BookGen
             return TemplateLoader.LoadTemplate(Settings.SourceDirectory,
                                                Settings.Configuration.TargetPrint,
                                                _log,
-                                               BuiltInTemplates.Print);
+                                               ResourceHandler.GetFile(KnownFile.TemplatePrintHtml));
         }
     }
 }

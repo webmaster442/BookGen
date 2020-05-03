@@ -6,7 +6,7 @@
 using BookGen.Api;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
-using BookGen.Template;
+using BookGen.Resources;
 using System.ComponentModel.Composition;
 
 namespace BookGen.Framework.Shortcodes
@@ -35,7 +35,7 @@ namespace BookGen.Framework.Shortcodes
             if (currentconfig.TemplateOptions.TryGetOption(TemplateOptions.CookieDisplayBannerEnabled, out bool value) && value)
             {
                 _log.Detail("Cookies enabled for current target. Generating Code...");
-                return BuiltInTemplates.CookieWarningCode;
+                return ResourceHandler.GetFile(KnownFile.CookieWarningHtml);
             }
             else
             {

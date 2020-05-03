@@ -12,6 +12,7 @@ using System.Threading;
 using System.IO;
 using BookGen.Core;
 using System.Threading.Tasks;
+using BookGen.Resources;
 
 namespace BookGen.Framework.Server
 {
@@ -176,13 +177,12 @@ namespace BookGen.Framework.Server
             response.AddHeader("Date", DateTime.Now.ToString("r"));
             response.AddHeader("Last-Modified", DateTime.Now.ToString("r"));
 
-            var error404 = ResourceLocator.GetResourceFile<HttpServer>("Resources/Error404.html");
-
-            byte[] bytes = Encoding.UTF8.GetBytes(error404);
-            response.ContentLength64 = bytes.Length;
-            response.OutputStream.Write(bytes, 0, bytes.Length);
-            response.StatusCode = (int)HttpStatusCode.NotFound;
-            response.OutputStream.Flush();
+            using (var error404 = ResourceHandler.GetResourceStream<HttpServer>("Resources/Error404.html"))
+            {
+                response.StatusCode = (int)HttpStatusCode.NotFound;
+                response.ContentLength64 = error404.Length;
+                error404.CopyTo(response.OutputStream);
+            }
         }
     }
 }

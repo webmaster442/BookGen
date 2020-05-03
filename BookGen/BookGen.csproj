@@ -79,7 +79,7 @@
     <ProjectReference Include="..\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
     <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
     <ProjectReference Include="..\BookGen.Gui\BookGen.Gui.csproj" />
-    <ProjectReference Include="..\Bookgen.Template\BookGen.Template.csproj" />
+    <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="BookGen">
