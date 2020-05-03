@@ -32,19 +32,9 @@ namespace BookGen.Core.Configuration
 
         public Metadata()
         {
-            Author = string.Empty;
-            CoverImage = string.Empty;
-            Title = string.Empty;
-        }
-
-        public static Metadata CreateDefault()
-        {
-            return new Metadata
-            {
-                Author = "Place author name here",
-                CoverImage = "Place cover here",
-                Title = "Book title"
-            };
+            Author = "Place author name here";
+            CoverImage = "Place cover here";
+            Title = "Book title";
         }
     }
 }

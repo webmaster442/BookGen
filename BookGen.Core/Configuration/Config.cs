@@ -122,11 +122,11 @@ namespace BookGen.Core.Configuration
 
         public Config()
         {
-            Translations = new Translations();
-            TargetWordpress = new BuildConfig();
-            TargetEpub = new BuildConfig();
-            TargetPrint = new BuildConfig();
-            TargetWeb = new BuildConfig();
+            TargetWeb = BuildConfig.CreateDefault("output/web", 64 * 1024);
+            TargetEpub = BuildConfig.CreateDefault("output/epub", long.MaxValue);
+            TargetPrint = BuildConfig.CreateDefault("output/print", 0);
+            TargetWordpress = BuildConfig.CreateDefault("output/wordpress", long.MaxValue);
+            Translations = Translations.CreateDefault();
             Metadata = new Metadata();
             ImageDir = string.Empty;
             Index = string.Empty;
@@ -139,16 +139,10 @@ namespace BookGen.Core.Configuration
         {
             var config = new Config
             {
-                TargetWeb = BuildConfig.CreateDefault("output/web", 64*1024),
-                TargetEpub = BuildConfig.CreateDefault("output/epub", long.MaxValue),
-                TargetPrint = BuildConfig.CreateDefault("output/print", 0),
-                TargetWordpress = BuildConfig.CreateDefault("output/wordpress", long.MaxValue),
-                Translations = Translations.CreateDefault(),
                 TOCFile = "Path of table of contents",
                 Index = "Path of startup (index) file",
                 ImageDir = "Path to images directory",
                 HostName = "http://localhost:8080/",
-                Metadata = Metadata.CreateDefault(),
                 Version = version,
                 LinksOutSideOfHostOpenNewTab = true,
             };
