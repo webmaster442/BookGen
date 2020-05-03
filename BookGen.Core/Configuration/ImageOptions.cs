@@ -27,6 +27,9 @@ namespace BookGen.Core.Configuration
         [Doc("Inline images, that are smaller the given limit in bytes")]
         public long InlineImageSizeLimit { get; set; }
 
+        [Doc("WebP codec quality. Minimum 0 and maximum 100. Only used, when RecodeJpegToWebp enabled.")]
+        public int WebPQuality { get; set; }
+
         public ImageOptions()
         {
             EnableResize = true;
@@ -34,6 +37,7 @@ namespace BookGen.Core.Configuration
             MaxHeight = 1080;
             RenderSvgToPng = true;
             InlineImageSizeLimit = 32 * 1024;
+            WebPQuality = 95;
         }
     }
 }
