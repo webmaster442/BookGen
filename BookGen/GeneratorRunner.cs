@@ -19,7 +19,6 @@ namespace BookGen
 {
     internal class GeneratorRunner
     {
-        private readonly ILog _log;
         private readonly CsharpScriptHandler _scriptHandler;
 
         private const string exitString = "Press a key to exit...";
@@ -33,12 +32,12 @@ namespace BookGen
             get;
         }
 
-        public ILog Log => _log;
+        public ILog Log { get; }
 
         public GeneratorRunner(ILog log, string workDir)
         {
-            _log = log;
-            _scriptHandler = new CsharpScriptHandler(_log);
+            Log = log;
+            _scriptHandler = new CsharpScriptHandler(Log);
             WorkDirectory = workDir;
             ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
             Configuration = new Config();
@@ -61,11 +60,11 @@ namespace BookGen
 
         public bool Initialize(bool compileScripts = true)
         {
-            _log.Info("---------------------------------------------------------");
-            _log.Info("BookGen Build date: {0:yyyy:MM:dd} Starting...", Program.CurrentState.BuildDate.Date);
-            _log.Info("Config API version: {0}", Program.CurrentState.ProgramVersion);
-            _log.Info("Working directory: {0}", WorkDirectory);
-            _log.Info("---------------------------------------------------------");
+            Log.Info("---------------------------------------------------------");
+            Log.Info("BookGen Build date: {0:yyyy:MM:dd} Starting...", Program.CurrentState.BuildDate.Date);
+            Log.Info("Config API version: {0}", Program.CurrentState.ProgramVersion);
+            Log.Info("Working directory: {0}", WorkDirectory);
+            Log.Info("---------------------------------------------------------");
 
             if (!compileScripts)
             {
@@ -83,26 +82,26 @@ namespace BookGen
 
             if (!ConfigFile.IsExisting)
             {
-                _log.Info("No bookgen.json config found.");
+                Log.Info("No bookgen.json config found.");
                 Program.ShowMessageBox(exitString);
                 return false;
             }
 
-            Configuration = ConfigFile.DeserializeJson<Config>(_log);
+            Configuration = ConfigFile.DeserializeJson<Config>(Log);
 
             if (Configuration == null)
             {
-                _log.Critical("bookgen.json deserialize error. Invalid config file");
+                Log.Critical("bookgen.json deserialize error. Invalid config file");
                 return false;
             }
 
             if (Configuration.Version < Program.CurrentState.ConfigVersion)
             {
-                ConfigFile.CreateBackup(_log);
+                ConfigFile.CreateBackup(Log);
                 Configuration.UpgradeTo(Program.CurrentState.ConfigVersion);
-                ConfigFile.SerializeJson(Configuration, _log, true);
-                _log.Info("Configuration file migrated to new version.");
-                _log.Info("Review configuration then run program again");
+                ConfigFile.SerializeJson(Configuration, Log, true);
+                Log.Info("Configuration file migrated to new version.");
+                Log.Info("Review configuration then run program again");
                 Program.ShowMessageBox(exitString);
                 return false;
             }
@@ -112,10 +111,10 @@ namespace BookGen
 
             if (!validator.IsValid)
             {
-                _log.Warning("Errors found in configuration: ");
+                Log.Warning("Errors found in configuration: ");
                 foreach (var error in validator.Errors)
                 {
-                    _log.Warning(error);
+                    Log.Warning(error);
                 }
                 Program.ShowMessageBox(exitString);
                 return false;
@@ -130,24 +129,24 @@ namespace BookGen
                 return false;
 
             var tocFile = new FsPath(WorkDirectory).Combine(Configuration.TOCFile);
-            _log.Info("Parsing TOC file...");
-            var toc = MarkdownUtils.ParseToc(tocFile.ReadFile(_log));
-            _log.Info("Found {0} chapters and {1} files", toc.ChapterCount, toc.FilesCount);
+            Log.Info("Parsing TOC file...");
+            var toc = MarkdownUtils.ParseToc(tocFile.ReadFile(Log));
+            Log.Info("Found {0} chapters and {1} files", toc.ChapterCount, toc.FilesCount);
             TocValidator tocValidator = new TocValidator(toc, WorkDirectory);
             tocValidator.Validate();
 
             if (!tocValidator.IsValid)
             {
-                _log.Warning("Errors found in TOC file: ");
+                Log.Warning("Errors found in TOC file: ");
                 foreach (var error in tocValidator.Errors)
                 {
-                    _log.Warning(error);
+                    Log.Warning(error);
                 }
                 Program.ShowMessageBox(exitString);
                 return false;
             }
 
-            _log.Info("Config file and TOC contain no errors");
+            Log.Info("Config file and TOC contain no errors");
             return true;
         }
 
@@ -157,11 +156,11 @@ namespace BookGen
 
             if (string.IsNullOrEmpty(Configuration.ScriptsDirectory)) return true;
 
-            _log.Info("Trying to load and compile script files...");
+            Log.Info("Trying to load and compile script files...");
             FsPath scripts = new FsPath(WorkDirectory).Combine(Configuration.ScriptsDirectory);
 
             int count = _scriptHandler.LoadScripts(scripts);
-            _log.Info("Loaded {0} instances from script files", count);
+            Log.Info("Loaded {0} instances from script files", count);
 
             return true;
         }
@@ -171,10 +170,10 @@ namespace BookGen
             if (Configuration == null)
                 throw new InvalidOperationException("Configuration is null");
 
-            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWeb.OutPutDirectory), _log);
-            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetPrint.OutPutDirectory), _log);
-            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetEpub.OutPutDirectory), _log);
-            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWordpress.OutPutDirectory), _log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWeb.OutPutDirectory), Log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetPrint.OutPutDirectory), Log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetEpub.OutPutDirectory), Log);
+            CreateOutputDirectory.CleanDirectory(new FsPath(Configuration.TargetWordpress.OutPutDirectory), Log);
         }
         #endregion
 
@@ -185,10 +184,10 @@ namespace BookGen
             if (Configuration == null)
                 throw new InvalidOperationException("Configuration is null");
 
-            _log.Info("Building deploy configuration...");
-            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
+            Log.Info("Building deploy configuration...");
+            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, Log, _scriptHandler);
             var runTime = builder.Run();
-            _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+            Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
 
         public void DoPrint()
@@ -196,10 +195,10 @@ namespace BookGen
             if (Configuration == null)
                 throw new InvalidOperationException("Configuration is null");
 
-            _log.Info("Building print configuration...");
-            PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
+            Log.Info("Building print configuration...");
+            PrintBuilder builder = new PrintBuilder(WorkDirectory, Configuration, Log, _scriptHandler);
             var runTime = builder.Run();
-            _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+            Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
 
         public void DoEpub()
@@ -207,10 +206,10 @@ namespace BookGen
             if (Configuration == null)
                 throw new InvalidOperationException("Configuration is null");
 
-            _log.Info("Building epub configuration...");
-            EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
+            Log.Info("Building epub configuration...");
+            EpubBuilder builder = new EpubBuilder(WorkDirectory, Configuration, Log, _scriptHandler);
             var runTime = builder.Run();
-            _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+            Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
 
         public void DoWordpress()
@@ -218,10 +217,10 @@ namespace BookGen
             if (Configuration == null)
                 throw new InvalidOperationException("Configuration is null");
 
-            _log.Info("Building Wordpress configuration...");
-            WordpressBuilder builder = new WordpressBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
+            Log.Info("Building Wordpress configuration...");
+            WordpressBuilder builder = new WordpressBuilder(WorkDirectory, Configuration, Log, _scriptHandler);
             var runTime = builder.Run();
-            _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+            Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
 
         public void DoTest()
@@ -229,17 +228,17 @@ namespace BookGen
             if (Configuration == null)
                 throw new InvalidOperationException("Configuration is null");
 
-            _log.Info("Building test configuration...");
+            Log.Info("Building test configuration...");
             Configuration.HostName = "http://localhost:8080/";
-            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, _log, _scriptHandler);
+            WebsiteBuilder builder = new WebsiteBuilder(WorkDirectory, Configuration, Log, _scriptHandler);
             var runTime = builder.Run();
 
-            using (var server = new HttpServer(Path.Combine(WorkDirectory, Configuration.TargetWeb.OutPutDirectory), 8080, _log))
+            using (var server = new HttpServer(Path.Combine(WorkDirectory, Configuration.TargetWeb.OutPutDirectory), 8080, Log))
             {
-                _log.Info("-------------------------------------------------");
-                _log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
-                _log.Info("Test server running on: http://localhost:8080/");
-                _log.Info("Serving from: {0}", Configuration.TargetWeb.OutPutDirectory);
+                Log.Info("-------------------------------------------------");
+                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+                Log.Info("Test server running on: http://localhost:8080/");
+                Log.Info("Serving from: {0}", Configuration.TargetWeb.OutPutDirectory);
 
                 if (Program.AppSetting.AutoStartWebserver)
                 {
@@ -272,10 +271,10 @@ namespace BookGen
                 new RunBookGenHandler(WorkDirectory),
             };
 
-            using (var server = new HttpServer(WorkDirectory, 9090, _log, handlers))
+            using (var server = new HttpServer(WorkDirectory, 9090, Log, handlers))
             {
-                _log.Info("Editor started on: http://localhost:9090");
-                _log.Info("Press a key to exit...");
+                Log.Info("Editor started on: http://localhost:9090");
+                Log.Info("Press a key to exit...");
 
                 if (Program.AppSetting.AutoStartWebserver)
                 {
