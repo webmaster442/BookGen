@@ -58,12 +58,14 @@ namespace BookGen.Core.Configuration
             ImageOptions = new ImageOptions();
         }
 
-        public static BuildConfig CreateDefault(string? outdir = null)
+        public static BuildConfig CreateDefault(string outdir, long inlineSize)
         {
             var config = new BuildConfig();
 
             if (!string.IsNullOrEmpty(outdir))
                 config.OutPutDirectory = outdir;
+
+            config.ImageOptions.InlineImageSizeLimit = inlineSize;
 
             return config;
         }

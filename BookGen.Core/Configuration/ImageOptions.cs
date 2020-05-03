@@ -32,7 +32,7 @@ namespace BookGen.Core.Configuration
             EnableResize = true;
             MaxWidth = 1080;
             MaxHeight = 1080;
-            InlineImageSizeLimit = 32 * 1024;
+            InlineImageSizeLimit = 0;
             WebPQuality = 95;
         }
     }

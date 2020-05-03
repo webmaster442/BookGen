@@ -139,10 +139,10 @@ namespace BookGen.Core.Configuration
         {
             var config = new Config
             {
-                TargetWeb = BuildConfig.CreateDefault("output/web"),
-                TargetEpub = BuildConfig.CreateDefault("output/epub"),
-                TargetPrint = BuildConfig.CreateDefault("output/print"),
-                TargetWordpress = BuildConfig.CreateDefault("output/wordpress"),
+                TargetWeb = BuildConfig.CreateDefault("output/web", 64*1024),
+                TargetEpub = BuildConfig.CreateDefault("output/epub", long.MaxValue),
+                TargetPrint = BuildConfig.CreateDefault("output/print", 0),
+                TargetWordpress = BuildConfig.CreateDefault("output/wordpress", long.MaxValue),
                 Translations = Translations.CreateDefault(),
                 TOCFile = "Path of table of contents",
                 Index = "Path of startup (index) file",
