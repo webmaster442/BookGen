@@ -1,5 +1,9 @@
-﻿using BookGen.Core;
-using BookGen.Core.Configuration;
+﻿//-----------------------------------------------------------------------------
+// (c) 2020 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Core;
 using SkiaSharp;
 using System;
 using SKSvg = SkiaSharp.Extended.Svg.SKSvg;
