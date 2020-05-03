@@ -25,17 +25,13 @@ namespace BookGen.Api.Configuration
         /// </summary>
         bool EnableResize { get; }
         /// <summary>
-        /// Maximal output image width when resize enabled
+        /// Maximal output image width when resize enabled or image is SVG
         /// </summary>
         int MaxWidth { get; }
         /// <summary>
-        /// Maximal output image height when resize enabled
+        /// Maximal output image height when resize enabled or image is SVG
         /// </summary>
         int MaxHeight { get; }
-        /// <summary>
-        /// If set to true, then SVG files will be converted to PNG. Render size is set by the MaxWidth and MaxHeight property
-        /// </summary>
-        bool RenderSvgToPng { get; }
         /// <summary>
         /// Inline images, that are smaller the given limit in bytes
         /// </summary>
