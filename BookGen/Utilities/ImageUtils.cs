@@ -53,13 +53,23 @@ namespace BookGen.Utilities
             svg.Load(svgFile.ToString());
 
             SKRect svgSize = svg.Picture.CullRect;
-            float svgMax = Math.Max(svgSize.Width, svgSize.Height);
 
-            float canvasMin = Math.Min(width, height);
-            float scale = canvasMin / svgMax;
+            float scale = 1.0f;
+            float renderWidth = svgSize.Width;
+            float renderHeight = svgSize.Height;
+
+            if (svgSize.Width > width || svgSize.Height > height)
+            {
+                float svgMax = Math.Max(svgSize.Width, svgSize.Height);
+                float canvasMin = Math.Min(width, height);
+                scale = canvasMin / svgMax;
+                renderWidth = svgSize.Width * scale;
+                renderHeight = svgSize.Height * scale;
+            }
+
             var matrix = SKMatrix.MakeScale(scale, scale);
 
-            using (SKBitmap bitmap = new SKBitmap(width, height))
+            using (SKBitmap bitmap = new SKBitmap((int)renderWidth, (int)renderHeight))
             {
                 using (SKCanvas canvas = new SKCanvas(bitmap))
                 {

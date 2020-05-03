@@ -71,7 +71,7 @@ namespace BookGen.GeneratorSteps
                     {
                         using (SKData data = ImageUtils.EncodeToFormat(resized, format))
                         {
-                            InlineOrSave(file, targetdir, log, settings, data);
+                            InlineOrSave(file, targetdir, log, settings, data, ".png");
                         }
                     }
                 }
