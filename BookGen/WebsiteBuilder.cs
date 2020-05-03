@@ -24,7 +24,7 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(_extractAssets);
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetWeb));
-            AddStep(new GeneratorSteps.CopyImagesDirectory(true));
+            AddStep(new GeneratorSteps.ImageProcessor());
             AddStep(new GeneratorSteps.CreateToCForWebsite());
             AddStep(new GeneratorSteps.CreatePagesJS());
             AddStep(new GeneratorSteps.CreateMetadata());

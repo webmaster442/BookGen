@@ -60,13 +60,6 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        [Doc("Inline images as base64 that are less then this size in bytes. 0 = inlines all files")]
-        public long InlineImageSizeLimit
-        {
-            get;
-            set;
-        }
-
         [Doc("Metadata information for output")]
         public Metadata Metadata
         {
@@ -158,7 +151,6 @@ namespace BookGen.Core.Configuration
                 Metadata = Metadata.CreateDefault(),
                 Version = version,
                 LinksOutSideOfHostOpenNewTab = true,
-                InlineImageSizeLimit = 50 * 1024
             };
 
             config.AddBootStrapClassesForWeb();
