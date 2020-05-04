@@ -1,10 +1,24 @@
+# 2020.05.04
+* Integrated SkiaSharp and an image pipeline
+* Added support for Python and PHP scripts
+* Added app wide configuration for Script runtime locations and timeout configs
+* Editor extended with build actions
+* Added a Http server module for testing purposes
+* Gui rewitten
+* Help updated: split to chaopters
+* Static generated website uses turbolinks for faster navigation
+* Shell Autocomplete support
+* Shell changed to powershell
+* Wordpress builder fixed and extended with additional options
+* Generated Json uses UTF-8
+* More polished editor, that is based on Ace.js
+
 # 2020.02.01
 * Changed versioning scheme. Assembly version reflects config file version, Builds are labeled by relase date
 * Breaking: Command line calling syntax changed. See documentation for details.
 * Single markdown file to HTML rendering
 * Auto updater added. Currently only supports windows
 * Epub export updated & refactored to support Epub 3.2 format
-* Auto updater added. Currently only supports windows.
 * Fully documented with BookGen
 * Shortcodes can be Extended with C# Shortcodes via Scripting API
 * Can be Extended with Node.js scripts via Shortcode
