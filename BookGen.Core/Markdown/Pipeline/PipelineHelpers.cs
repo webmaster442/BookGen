@@ -51,16 +51,35 @@ namespace BookGen.Core.Markdown.Pipeline
             {
                 if (node is LinkInline link)
                 {
-                    if (link.IsImage && RuntimeConfig.InlineImgCache?.Count > 0)
+                    if (link.IsImage)
                     {
-                        var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
-                        if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
+                        link.Url = FixExtension(link.Url, RuntimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
+                        if (RuntimeConfig.InlineImgCache?.Count > 0)
                         {
-                            link.Url = RuntimeConfig.InlineImgCache[inlinekey];
+                            var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
+                            if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
+                            {
+                                link.Url = RuntimeConfig.InlineImgCache[inlinekey];
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private static string FixExtension(string url, bool jpegtoWebp)
+        {
+            string extension = System.IO.Path.GetExtension(url);
+            if (extension == ".svg")
+            {
+                return System.IO.Path.ChangeExtension(url, ".png");
+            }
+            else if ((extension == ".jpg" || extension == ".jpeg") && jpegtoWebp)
+            {
+                return System.IO.Path.ChangeExtension(url, ".webp");
+            }
+
+            return url;
         }
 
         public static void ApplyStyles(IReadOnlyBuildConfig config,
