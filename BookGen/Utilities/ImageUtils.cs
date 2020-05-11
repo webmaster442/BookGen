@@ -51,7 +51,28 @@ namespace BookGen.Utilities
             return file.Extension == ".svg";
         }
 
-        public static SKData SvgToPng(FsPath svgFile, int width, int height)
+        private static (int renderWidth, int renderHeight, float scale) CalcNewSize(SKRect size, 
+                                                                                    int maxwidth, 
+                                                                                    int maxHeight)
+        {
+            float scale = 1.0f;
+            float renderWidth = maxwidth;
+            float renderHeight = maxHeight;
+
+            if (size.Width > maxwidth || size.Height > maxHeight)
+            {
+                float imgMax = Math.Max(size.Width, size.Height);
+                float targetMin = Math.Min(maxwidth, maxHeight);
+                scale = targetMin / imgMax;
+            }
+
+            return (renderWidth: (int)(renderWidth * scale), 
+                    renderHeight: (int)(renderHeight * scale), 
+                    scale);
+
+        }
+
+        public static SKData SvgToPng(FsPath svgFile, int maxWidht, int maxHeight)
         {
             var svg = new SKSvg();
             svg.Load(svgFile.ToString());
@@ -61,22 +82,11 @@ namespace BookGen.Utilities
 
             SKRect svgSize = svg.Picture.CullRect;
 
-            float scale = 1.0f;
-            float renderWidth = svgSize.Width;
-            float renderHeight = svgSize.Height;
+            (int renderWidth, int renderHeight, float scale) sizeData = CalcNewSize(svgSize, maxWidht, maxHeight);
 
-            if (svgSize.Width > width || svgSize.Height > height)
-            {
-                float svgMax = Math.Max(svgSize.Width, svgSize.Height);
-                float canvasMin = Math.Min(width, height);
-                scale = canvasMin / svgMax;
-                renderWidth = svgSize.Width * scale;
-                renderHeight = svgSize.Height * scale;
-            }
+            var matrix = SKMatrix.MakeScale(sizeData.scale, sizeData.scale);
 
-            var matrix = SKMatrix.MakeScale(scale, scale);
-
-            using (SKBitmap bitmap = new SKBitmap((int)renderWidth, (int)renderHeight))
+            using (SKBitmap bitmap = new SKBitmap(sizeData.renderWidth, sizeData.renderHeight))
             {
                 using (SKCanvas canvas = new SKCanvas(bitmap))
                 {
@@ -101,7 +111,10 @@ namespace BookGen.Utilities
             if (input.Width < width && input.Height < height)
                 return input;
 
-            return input.Resize(new SKImageInfo(width, height), SKFilterQuality.High);
+            (int renderWidth, int renderHeight, float scale) sizeData = CalcNewSize(new SKRect(0, 0, input.Width, input.Height), width, height);
+
+
+            return input.Resize(new SKImageInfo(sizeData.renderWidth, sizeData.renderHeight), SKFilterQuality.High);
         }
 
         public static SKData EncodeToFormat(SKBitmap bitmap, SKEncodedImageFormat format)
