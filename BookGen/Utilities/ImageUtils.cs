@@ -56,8 +56,6 @@ namespace BookGen.Utilities
                                                                                     int maxHeight)
         {
             float scale = 1.0f;
-            float renderWidth = maxwidth;
-            float renderHeight = maxHeight;
 
             if (size.Width > maxwidth || size.Height > maxHeight)
             {
