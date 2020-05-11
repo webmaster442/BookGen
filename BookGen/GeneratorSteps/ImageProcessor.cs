@@ -93,21 +93,18 @@ namespace BookGen.GeneratorSteps
 
         private void InlineImage(FsPath file, RuntimeSettings settings, SKData data, string? extensionOverride)
         {
-            byte[] contents = data.ToArray();
-            if (extensionOverride == null)
+            string base64 = Convert.ToBase64String(data.ToArray());
+            string mime = Framework.Server.MimeTypes.GetMimeForExtension(file.Extension);
+            string fnmame = file.ToString();
+
+            if (extensionOverride != null)
             {
-                string mime = Framework.Server.MimeTypes.GetMimeForExtension(file.Extension);
-                string inlinekey = file.ToString().Replace(settings.SourceDirectory.ToString(), settings.OutputDirectory.ToString());
-                settings.InlineImgCache.Add(inlinekey, $"data:{mime};base64,{Convert.ToBase64String(contents)}");
+                mime = Framework.Server.MimeTypes.GetMimeForExtension(extensionOverride);
+                fnmame = Path.ChangeExtension(file.ToString(), extensionOverride);
             }
-            else
-            {
-                var newFile = Path.ChangeExtension(file.ToString(), extensionOverride);
-                var changed = new FsPath(newFile);
-                string mime = Framework.Server.MimeTypes.GetMimeForExtension(extensionOverride);
-                string inlinekey = changed.ToString().Replace(settings.SourceDirectory.ToString(), settings.OutputDirectory.ToString());
-                settings.InlineImgCache.Add(inlinekey, $"data:{mime};base64,{Convert.ToBase64String(contents)}");
-            }
+
+            string key = fnmame.Replace(settings.SourceDirectory.ToString(), settings.OutputDirectory.ToString());
+            settings.InlineImgCache.Add(key, $"data:{mime};base64,{base64}");
         }
 
         private void SaveImage(FsPath file, FsPath targetdir, ILog log, SKData data, string? extensionOverride)

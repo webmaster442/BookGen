@@ -107,7 +107,7 @@ namespace BookGen.Framework.Editor
                 byte[] contentBytes = Convert.FromBase64String(base64content);
                 string rawContent = Encoding.UTF8.GetString(contentBytes);
 
-                string rendered = MarkdownRenderers.Markdown2Preview(rawContent, new Core.FsPath(_workdir));
+                string rendered = MarkdownRenderers.Markdown2Preview(rawContent, new FsPath(_workdir));
                 response.WriteString(rendered, "text/html");
             }
         }
