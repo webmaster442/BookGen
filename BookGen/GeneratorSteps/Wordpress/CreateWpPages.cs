@@ -140,7 +140,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                     log.Detail("Processing {0}...", file);
                     var input = settings.SourceDirectory.Combine(file);
                     var raw = input.ReadFile(log);
-                    Content.Content = MarkdownRenderers.Markdown2EpubHtml(raw, settings);
+                    Content.Content = MarkdownRenderers.Markdown2Wordpress(raw, settings);
 
                     var title = MarkdownUtils.GetTitle(raw);
 
