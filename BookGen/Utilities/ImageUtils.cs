@@ -66,8 +66,8 @@ namespace BookGen.Utilities
                 scale = targetMin / imgMax;
             }
 
-            return (renderWidth: (int)(renderWidth * scale), 
-                    renderHeight: (int)(renderHeight * scale), 
+            return (renderWidth: (int)(size.Width * scale), 
+                    renderHeight: (int)(size.Height * scale), 
                     scale);
 
         }
