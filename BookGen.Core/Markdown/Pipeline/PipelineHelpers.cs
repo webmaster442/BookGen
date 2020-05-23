@@ -10,6 +10,7 @@ using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
+using System.Linq;
 
 namespace BookGen.Core.Markdown.Pipeline
 {
@@ -37,6 +38,22 @@ namespace BookGen.Core.Markdown.Pipeline
             return requested.GetAbsolutePathRelativeTo(outputDir).ToString();
         }
 
+        internal static void DeleteFirstH1(MarkdownDocument document)
+        {
+            HeadingBlock? title = null;
+            foreach (var node in document.Descendants())
+            {
+                if (node is HeadingBlock heading && heading.Level == 1)
+                {
+                    title = heading;
+                    break;
+                }
+            }
+
+            if (title != null)
+                document.Remove(title);
+        }
+
         private static void AddStyleClass(MarkdownObject node, string style)
         {
             if (string.IsNullOrEmpty(style)) return;
@@ -49,18 +66,15 @@ namespace BookGen.Core.Markdown.Pipeline
 
             foreach (var node in document.Descendants())
             {
-                if (node is LinkInline link)
+                if (node is LinkInline link && link.IsImage)
                 {
-                    if (link.IsImage)
+                    link.Url = FixExtension(link.Url, RuntimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
+                    if (RuntimeConfig.InlineImgCache?.Count > 0)
                     {
-                        link.Url = FixExtension(link.Url, RuntimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
-                        if (RuntimeConfig.InlineImgCache?.Count > 0)
+                        var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
+                        if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
                         {
-                            var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
-                            if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
-                            {
-                                link.Url = RuntimeConfig.InlineImgCache[inlinekey];
-                            }
+                            link.Url = RuntimeConfig.InlineImgCache[inlinekey];
                         }
                     }
                 }

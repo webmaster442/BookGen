@@ -45,12 +45,11 @@ namespace BookGen.Core.Markdown.Pipeline
                                          document);
             foreach (var node in document.Descendants())
             {
-                if (node is LinkInline link)
+                if (node is LinkInline link 
+                    && IsOffHostLink(link, RuntimeConfig) 
+                    && RuntimeConfig.Configuration.LinksOutSideOfHostOpenNewTab)
                 {
-                    if (IsOffHostLink(link, RuntimeConfig) && RuntimeConfig.Configuration.LinksOutSideOfHostOpenNewTab)
-                    {
-                        link.GetAttributes().AddProperty("target", "_blank");
-                    }
+                    link.GetAttributes().AddProperty("target", "_blank");
                 }
             }
         }
