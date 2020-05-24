@@ -29,8 +29,8 @@ namespace BookGen.Tests.Environment
         internal static IAppSetting GetMockedAppSettings()
         {
             var mock = new Mock<IAppSetting>();
-            mock.Setup(x => x.NodeJsPath).Returns("");
-            mock.Setup(x => x.NodeJsTimeout).Returns(60);
+            mock.SetupGet(x => x.NodeJsPath).Returns("");
+            mock.SetupGet(x => x.NodeJsTimeout).Returns(60);
 
             return mock.Object;
         }

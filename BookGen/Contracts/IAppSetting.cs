@@ -5,7 +5,7 @@
 
 namespace BookGen.Contracts
 {
-    internal interface IAppSetting
+    public interface IAppSetting
     {
         int NodeJsTimeout { get; }
         string NodeJsPath { get; }
