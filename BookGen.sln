@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141
 		.vsconfig = .vsconfig
 		Changelog.md = Changelog.md
 		Documentation\Template\DocumentationTemplate.html = Documentation\Template\DocumentationTemplate.html
-		publish.sh = publish.sh
+		publish.ps1 = publish.ps1
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Gui", "BookGen.Gui\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Shell", "BookGen.Shell\BookGen.Shell.csproj", "{8A841F85-0F67-4E94-AD96-A8FE6AB7DBC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen.Resources", "BookGen.Resources\BookGen.Resources.csproj", "{F257CD87-093C-4EAC-8CE1-5D85A3252C97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Resources", "BookGen.Resources\BookGen.Resources.csproj", "{F257CD87-093C-4EAC-8CE1-5D85A3252C97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
