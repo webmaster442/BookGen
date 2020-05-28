@@ -30,7 +30,11 @@ namespace BookGen.Framework
 
         protected readonly ShortCodeLoader _loader;
 
-        protected Builder(string workdir, Config configuration, ILog log, BuildConfig current, CsharpScriptHandler scriptHandler)
+        protected Builder(string workdir, 
+                          Config configuration, 
+                          ILog log, 
+                          BuildConfig current, 
+                          CsharpScriptHandler scriptHandler)
         {
             WorkDir = new FsPath(workdir);
             Settings = new RuntimeSettings
@@ -87,7 +91,8 @@ namespace BookGen.Framework
             Settings.OutputDirectory = ConfigureOutputDirectory(WorkDir);
             Template.TemplateContent = ConfigureTemplateContent();
 
-            DateTime start = DateTime.Now;
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             try
             {
                 int stepCounter = 1;
@@ -98,7 +103,6 @@ namespace BookGen.Framework
                     step.RunStep(Settings, _log);
                     ++stepCounter;
                 }
-                return DateTime.Now - start;
             }
             catch (Exception ex)
             {
@@ -106,8 +110,12 @@ namespace BookGen.Framework
 #if DEBUG
                 Debugger.Break();
 #endif
-                return DateTime.Now - start;
             }
+            finally
+            {
+                sw.Stop();
+            }
+            return sw.Elapsed;
         }
     }
 }
