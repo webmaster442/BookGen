@@ -77,7 +77,7 @@ namespace BookGen.Core
             if (imageOptions.MaxWidth < 0)
                 AddError(Resources.InvalidValueMustBePositive, nameof(imageOptions.MaxWidth));
 
-            if (imageOptions.WebPQuality < 0 || imageOptions.WebPQuality > 100)
+            if (imageOptions.ImageQuality < 0 || imageOptions.ImageQuality > 100)
                 AddError(Resources.InvalidValueMustBeBetweenRange, nameof(imageOptions.MaxWidth), 0, 100);
         }
 

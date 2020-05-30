@@ -18,7 +18,7 @@ namespace BookGen.Api.Configuration
         /// <summary>
         /// WebP codec quality. Minimum 0 and maximum 100. Only used, when RecodeJpegToWebp enabled.
         /// </summary>
-        int WebPQuality { get; }
+        int ImageQuality { get; }
 
         /// <summary>
         /// If set to true, then output images will be resized

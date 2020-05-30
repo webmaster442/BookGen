@@ -60,19 +60,27 @@ namespace BookGen.GeneratorSteps
                 var format = ImageUtils.GetSkiaImageFormat(file);
                 using (SKBitmap resized = ImageUtils.ResizeIfBigger(image, options.MaxWidth, options.MaxHeight))
                 {
-                    if (options.RecodeJpegToWebp && format == SKEncodedImageFormat.Jpeg)
+                    if (format == SKEncodedImageFormat.Jpeg)
                     {
-                        using (SKData webp = ImageUtils.EncodeWebp(resized, options.WebPQuality))
+                        if (options.RecodeJpegToWebp)
                         {
+                            using SKData webp =
+                                ImageUtils.EncodeToFormat(resized,
+                                                          SKEncodedImageFormat.Webp,
+                                                          options.ImageQuality);
+
                             InlineOrSave(file, targetdir, log, settings, webp, ".webp");
+                        }
+                        else
+                        {
+                            using SKData data = ImageUtils.EncodeToFormat(resized, format, options.ImageQuality);
+                            InlineOrSave(file, targetdir, log, settings, data);
                         }
                     }
                     else
                     {
-                        using (SKData data = ImageUtils.EncodeToFormat(resized, format))
-                        {
-                            InlineOrSave(file, targetdir, log, settings, data);
-                        }
+                        using SKData data = ImageUtils.EncodeToFormat(resized, format);
+                        InlineOrSave(file, targetdir, log, settings, data);
                     }
                 }
             }

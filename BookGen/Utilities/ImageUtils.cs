@@ -115,19 +115,11 @@ namespace BookGen.Utilities
             return input.Resize(new SKImageInfo(sizeData.renderWidth, sizeData.renderHeight), SKFilterQuality.High);
         }
 
-        public static SKData EncodeToFormat(SKBitmap bitmap, SKEncodedImageFormat format)
+        public static SKData EncodeToFormat(SKBitmap bitmap, SKEncodedImageFormat format, int quality = 100)
         {
             using (SKImage image = SKImage.FromBitmap(bitmap))
             {
-                return image.Encode(format, 100);
-            }
-        }
-
-        public static SKData EncodeWebp(SKBitmap bitmap, int quality)
-        {
-            using (SKImage image = SKImage.FromBitmap(bitmap))
-            {
-                return image.Encode(SKEncodedImageFormat.Webp, quality);
+                return image.Encode(format, quality);
             }
         }
     }
