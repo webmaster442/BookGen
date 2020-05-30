@@ -23,10 +23,6 @@ namespace BookGen.Api.Configuration
         /// </summary>
         string Index { get;}
         /// <summary>
-        /// Inline image size in bytes
-        /// </summary>
-        long InlineImageSizeLimit { get;}
-        /// <summary>
         /// Links that do not target the HostName open in new tabs
         /// </summary>
         bool LinksOutSideOfHostOpenNewTab { get;}

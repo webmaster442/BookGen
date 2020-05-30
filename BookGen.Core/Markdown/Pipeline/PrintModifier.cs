@@ -33,6 +33,7 @@ namespace BookGen.Core.Markdown.Pipeline
                 return;
 
             PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetPrint, document);
+            PipelineHelpers.RenderImages(RuntimeConfig, document);
 
             foreach (var node in document.Descendants())
             {

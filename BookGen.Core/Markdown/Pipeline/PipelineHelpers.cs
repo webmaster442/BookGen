@@ -4,11 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api.Configuration;
+using BookGen.Core.Contracts;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
+using System.Linq;
 
 namespace BookGen.Core.Markdown.Pipeline
 {
@@ -36,10 +38,62 @@ namespace BookGen.Core.Markdown.Pipeline
             return requested.GetAbsolutePathRelativeTo(outputDir).ToString();
         }
 
+        internal static void DeleteFirstH1(MarkdownDocument document)
+        {
+            HeadingBlock? title = null;
+            foreach (var node in document.Descendants())
+            {
+                if (node is HeadingBlock heading && heading.Level == 1)
+                {
+                    title = heading;
+                    break;
+                }
+            }
+
+            if (title != null)
+                document.Remove(title);
+        }
+
         private static void AddStyleClass(MarkdownObject node, string style)
         {
             if (string.IsNullOrEmpty(style)) return;
             node.GetAttributes().AddClass(style);
+        }
+
+        public static void RenderImages(IReadonlyRuntimeSettings RuntimeConfig,
+                                        MarkdownDocument document)
+        {
+
+            foreach (var node in document.Descendants())
+            {
+                if (node is LinkInline link && link.IsImage)
+                {
+                    link.Url = FixExtension(link.Url, RuntimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
+                    if (RuntimeConfig.InlineImgCache?.Count > 0)
+                    {
+                        var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
+                        if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
+                        {
+                            link.Url = RuntimeConfig.InlineImgCache[inlinekey];
+                        }
+                    }
+                }
+            }
+        }
+
+        private static string FixExtension(string url, bool jpegtoWebp)
+        {
+            string extension = System.IO.Path.GetExtension(url);
+            if (extension == ".svg")
+            {
+                return System.IO.Path.ChangeExtension(url, ".png");
+            }
+            else if ((extension == ".jpg" || extension == ".jpeg") && jpegtoWebp)
+            {
+                return System.IO.Path.ChangeExtension(url, ".webp");
+            }
+
+            return url;
         }
 
         public static void ApplyStyles(IReadOnlyBuildConfig config,

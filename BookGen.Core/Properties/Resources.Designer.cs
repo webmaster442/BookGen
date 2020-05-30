@@ -61,6 +61,24 @@ namespace BookGen.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid value for {0}. Value must be between {1} and {2}.
+        /// </summary>
+        internal static string InvalidValueMustBeBetweenRange {
+            get {
+                return ResourceManager.GetString("InvalidValueMustBeBetweenRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid value for {0}. Value must be &gt; 0.
+        /// </summary>
+        internal static string InvalidValueMustBePositive {
+            get {
+                return ResourceManager.GetString("InvalidValueMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Asset file not found: {0}.
         /// </summary>
         internal static string MissingAsset {
@@ -111,15 +129,6 @@ namespace BookGen.Core.Properties {
         internal static string MissingMetadata {
             get {
                 return ResourceManager.GetString("MissingMetadata", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Precompile header settings can&apos;t be found.  Possibly corrupted config?.
-        /// </summary>
-        internal static string MissingPrecompile {
-            get {
-                return ResourceManager.GetString("MissingPrecompile", resourceCulture);
             }
         }
         

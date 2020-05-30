@@ -23,8 +23,8 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.18.3" />
-    <PackageReference Include="System.Text.Json" Version="4.7.1" />
+    <PackageReference Include="Markdig" Version="0.20.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />

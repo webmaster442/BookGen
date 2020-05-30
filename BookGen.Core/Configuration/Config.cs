@@ -60,13 +60,6 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        [Doc("Inline images as base64 that are less then this size in bytes. 0 = inlines all files")]
-        public long InlineImageSizeLimit
-        {
-            get;
-            set;
-        }
-
         [Doc("Metadata information for output")]
         public Metadata Metadata
         {
@@ -129,11 +122,11 @@ namespace BookGen.Core.Configuration
 
         public Config()
         {
-            Translations = new Translations();
-            TargetWordpress = new BuildConfig();
-            TargetEpub = new BuildConfig();
-            TargetPrint = new BuildConfig();
-            TargetWeb = new BuildConfig();
+            TargetWeb = BuildConfig.CreateDefault("output/web", 64 * 1024);
+            TargetEpub = BuildConfig.CreateDefault("output/epub", long.MaxValue);
+            TargetPrint = BuildConfig.CreateDefault("output/print", 0);
+            TargetWordpress = BuildConfig.CreateDefault("output/wordpress", long.MaxValue);
+            Translations = Translations.CreateDefault();
             Metadata = new Metadata();
             ImageDir = string.Empty;
             Index = string.Empty;
@@ -146,19 +139,12 @@ namespace BookGen.Core.Configuration
         {
             var config = new Config
             {
-                TargetWeb = BuildConfig.CreateDefault("output/web"),
-                TargetEpub = BuildConfig.CreateDefault("output/epub"),
-                TargetPrint = BuildConfig.CreateDefault("output/print"),
-                TargetWordpress = BuildConfig.CreateDefault("output/wordpress"),
-                Translations = Translations.CreateDefault(),
                 TOCFile = "Path of table of contents",
                 Index = "Path of startup (index) file",
                 ImageDir = "Path to images directory",
                 HostName = "http://localhost:8080/",
-                Metadata = Metadata.CreateDefault(),
                 Version = version,
                 LinksOutSideOfHostOpenNewTab = true,
-                InlineImageSizeLimit = 50 * 1024
             };
 
             config.AddBootStrapClassesForWeb();

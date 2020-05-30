@@ -19,7 +19,7 @@ namespace BookGen
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetPrint));
-            AddStep(new GeneratorSteps.CopyImagesDirectory(false));
+            AddStep(new GeneratorSteps.ImageProcessor());
             AddStep(new GeneratorSteps.CreatePrintableHtml());
         }
 

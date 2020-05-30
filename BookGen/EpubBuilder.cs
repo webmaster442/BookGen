@@ -21,7 +21,7 @@ namespace BookGen
 
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets(configuration.TargetEpub));
-            AddStep(new GeneratorSteps.CopyImagesDirectory(true, true));
+            AddStep(new GeneratorSteps.ImageProcessor());
             AddStep(new GeneratorSteps.Epub.CreateEpubStructure());
             AddStep(new GeneratorSteps.Epub.CreateEpubPages(session));
             AddStep(new GeneratorSteps.Epub.CreateEpubToc());

@@ -18,7 +18,7 @@ namespace BookGen
         {
             var session = new GeneratorSteps.Wordpress.Session();
             AddStep(new GeneratorSteps.CreateOutputDirectory());
-            AddStep(new GeneratorSteps.CopyImagesDirectory(true, true));
+            AddStep(new GeneratorSteps.ImageProcessor());
             AddStep(new GeneratorSteps.Wordpress.CreateWpChannel(session));
             AddStep(new GeneratorSteps.Wordpress.CreateWpPages(session));
             AddStep(new GeneratorSteps.Wordpress.WriteExportXmlFile(session));

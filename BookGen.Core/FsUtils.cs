@@ -96,6 +96,18 @@ namespace BookGen.Core
             }
         }
 
+        public static FileStream CreateStream(this FsPath target, ILog log)
+        {
+            var dir = Path.GetDirectoryName(target.ToString());
+            if (!Directory.Exists(dir))
+            {
+                log.Detail("Creating directory: {0}", dir);
+                Directory.CreateDirectory(dir);
+            }
+
+            return File.Create(target.ToString());
+        }
+
         public static bool CreateBackup(this FsPath source, ILog log)
         {
             try

@@ -22,7 +22,8 @@ namespace BookGen.Core.Configuration
                 { TemplateOptions.WordpresCreateParentTitle, "Parent" },
                 { TemplateOptions.WordpressCreateParent, "true"  },
                 { TemplateOptions.WordpressCreateFillerPages, "true" },
-                { TemplateOptions.WordpressCommentStatus, "closed" }
+                { TemplateOptions.WordpressCommentStatus, "closed" },
+                { TemplateOptions.WordpressSkipPageTitle, "true" }
             };
         }
 

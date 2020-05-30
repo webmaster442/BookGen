@@ -36,6 +36,7 @@ namespace BookGen.Gui
                 Application.RequestStop();
                 Application.Driver.End();
                 Console.BackgroundColor = ConsoleColor.Black;
+                Console.Clear();
             }
         }
 

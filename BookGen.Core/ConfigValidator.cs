@@ -5,6 +5,7 @@
 
 using BookGen.Core.Configuration;
 using BookGen.Core.Properties;
+using System;
 
 namespace BookGen.Core
 {
@@ -61,6 +62,23 @@ namespace BookGen.Core
 
             if (target.StyleClasses == null)
                 AddError(Resources.MissingStyleClasses);
+
+            ValidateImageOptions(target.ImageOptions);
+        }
+
+        private void ValidateImageOptions(ImageOptions imageOptions)
+        {
+            if (imageOptions.InlineImageSizeLimit < 0)
+                AddError(Resources.InvalidValueMustBePositive, nameof(imageOptions.InlineImageSizeLimit));
+
+            if (imageOptions.MaxHeight < 0)
+                AddError(Resources.InvalidValueMustBePositive, nameof(imageOptions.MaxHeight));
+
+            if (imageOptions.MaxWidth < 0)
+                AddError(Resources.InvalidValueMustBePositive, nameof(imageOptions.MaxWidth));
+
+            if (imageOptions.ImageQuality < 0 || imageOptions.ImageQuality > 100)
+                AddError(Resources.InvalidValueMustBeBetweenRange, nameof(imageOptions.MaxWidth), 0, 100);
         }
 
         public override void Validate()

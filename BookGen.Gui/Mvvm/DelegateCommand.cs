@@ -24,6 +24,8 @@ namespace BookGen.Gui.Mvvm
                 {
                     model?.View?.SuspendUi();
                     action?.Invoke();
+                    Console.WriteLine("Press a key to continue...");
+                    Console.ReadKey();
                     model?.View?.ResumeUi();
                 };
             }

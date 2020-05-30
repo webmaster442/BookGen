@@ -28,7 +28,7 @@ namespace BookGen.Core.Markdown.Pipeline
             // Method intentionally left empty.
         }
 
-        private static bool IsOffHostLink(LinkInline link)
+        private static bool IsOffHostLink(LinkInline link, IReadonlyRuntimeSettings RuntimeConfig)
         {
             return !link.Url.StartsWith(RuntimeConfig?.Configuration.HostName);
         }
@@ -41,22 +41,15 @@ namespace BookGen.Core.Markdown.Pipeline
             PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetWeb,
                                         document);
 
+            PipelineHelpers.RenderImages(RuntimeConfig,
+                                         document);
             foreach (var node in document.Descendants())
             {
-                if (node is LinkInline link)
+                if (node is LinkInline link 
+                    && IsOffHostLink(link, RuntimeConfig) 
+                    && RuntimeConfig.Configuration.LinksOutSideOfHostOpenNewTab)
                 {
-                    if (link.IsImage && RuntimeConfig.InlineImgCache?.Count > 0)
-                    {
-                        var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
-                        if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
-                        {
-                            link.Url = RuntimeConfig.InlineImgCache[inlinekey];
-                        }
-                    }
-                    else if (IsOffHostLink(link) && RuntimeConfig.Configuration.LinksOutSideOfHostOpenNewTab)
-                    {
-                        link.GetAttributes().AddProperty("target", "_blank");
-                    }
+                    link.GetAttributes().AddProperty("target", "_blank");
                 }
             }
         }

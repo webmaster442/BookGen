@@ -16,6 +16,7 @@ namespace BookGen.Core.Markdown
         private static readonly MarkdownPipeline _plainpipeline = new MarkdownPipelineBuilder().Build();
         private static readonly MarkdownPipeline _epubpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<EpubModifier>().Build();
         private static readonly MarkdownPipeline _previewpipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PreviewModifier>().Build();
+        private static readonly MarkdownPipeline _wordpresspipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<WordpressModifier>().Build();
 
         /// <summary>
         /// Generate markdown to html
@@ -32,6 +33,12 @@ namespace BookGen.Core.Markdown
         {
             EpubModifier.RuntimeConfig = settings;
             return Markdig.Markdown.ToHtml(md, _epubpipeline);
+        }
+
+        public static string Markdown2Wordpress(string md, IReadonlyRuntimeSettings settings)
+        {
+            WordpressModifier.RuntimeConfig = settings;
+            return Markdig.Markdown.ToHtml(md, _wordpresspipeline);
         }
 
         /// <summary>

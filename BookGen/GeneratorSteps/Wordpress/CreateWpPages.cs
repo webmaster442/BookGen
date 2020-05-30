@@ -14,6 +14,7 @@ using BookGen.Framework;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -23,10 +24,16 @@ namespace BookGen.GeneratorSteps.Wordpress
     internal class CreateWpPages : ITemplatedStep
     {
         private readonly Session _session;
+#if DEBUG
+        private readonly HashSet<int> _usedids;
+#endif
 
         public CreateWpPages(Session session)
         {
             _session = session;
+#if DEBUG
+            _usedids = new HashSet<int>();
+#endif
         }
 
         public TemplateProcessor? Template { get; set; }
@@ -34,7 +41,16 @@ namespace BookGen.GeneratorSteps.Wordpress
 
         private Item CreateItem(int uid, int parent, int order, string content, string title, string path, TemplateOptions TemplateOptions)
         {
-            Item result = new Item
+#if DEBUG
+            if (_usedids.Contains(uid))
+            {
+                //UID mismatch. Some kind of generator error
+                Debugger.Break();
+            }
+            _usedids.Add(uid);
+#endif
+
+            var result = new Item
             {
                 Content = content,
                 Title = title,
@@ -135,12 +151,14 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Item parent = CreateItem(uid, globalparent, mainorder, fillerPage, chapter, path, settings.CurrentBuildConfig.TemplateOptions);
                 _session.CurrentChannel.Item.Add(parent);
                 int suborder = 0;
+                uid++;
+                
                 foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing {0}...", file);
                     var input = settings.SourceDirectory.Combine(file);
                     var raw = input.ReadFile(log);
-                    Content.Content = MarkdownRenderers.Markdown2EpubHtml(raw, settings);
+                    Content.Content = MarkdownRenderers.Markdown2Wordpress(raw, settings);
 
                     var title = MarkdownUtils.GetTitle(raw);
 

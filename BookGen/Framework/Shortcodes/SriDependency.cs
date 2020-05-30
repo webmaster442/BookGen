@@ -32,7 +32,7 @@ namespace BookGen.Framework.Shortcodes
         private string ComputeSRI(FsPath filePath)
         {
             _log.Detail("Computing SRI and caching results for {0}...", filePath);
-            string sri = HashUtils.GetSRI(filePath);
+            string sri = CryptoUitils.GetSRI(filePath);
             return sri;
         }
 

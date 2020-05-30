@@ -16,7 +16,7 @@ namespace BookGen.Core
             Errors = new List<string>();
         }
 
-        protected void AddError(string format, params string[] values)
+        protected void AddError(string format, params object[] values)
         {
             Errors.Add(string.Format(format, values));
         }
