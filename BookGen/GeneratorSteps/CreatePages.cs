@@ -45,6 +45,13 @@ namespace BookGen.GeneratorSteps
                 var inputContent = input.ReadFile(log);
 
                 Content.Title = MarkdownUtils.GetTitle(inputContent);
+
+                if (string.IsNullOrEmpty(Content.Title))
+                {
+                    log.Warning("No title found in document: {0}", file);
+                    Content.Title = file;
+                }
+
                 Content.Content = MarkdownRenderers.Markdown2WebHTML(inputContent, settings);
                 Content.Metadata = settings.MetataCache[file];
 
