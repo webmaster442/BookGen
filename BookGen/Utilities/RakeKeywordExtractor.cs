@@ -28,7 +28,7 @@ namespace BookGen.Utilities
 
             foreach (var word in stopWords)
             {
-                regexPattern.AppendFormat("{0}|", word);
+                regexPattern.AppendFormat("\\b{0}\\b|", word);
             }
 
             //remove last pipe
@@ -48,7 +48,7 @@ namespace BookGen.Utilities
                     if (!string.IsNullOrWhiteSpace(phrase)
                         && IsAcceptable(phrase, minCharLength, maxWordsLength))
                     {
-                        yield return phrase;
+                        yield return phrase.Trim();
                     }
                 }
             }
