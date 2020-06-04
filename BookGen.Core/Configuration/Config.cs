@@ -120,6 +120,10 @@ namespace BookGen.Core.Configuration
         [JsonIgnore]
         IReadOnlyTranslations IReadOnlyConfig.Translations => Translations;
 
+        public bool EnableKeywordExtraction { get; set; }
+
+        public string StopwordsFile { get; set; }
+
         public Config()
         {
             TargetWeb = BuildConfig.CreateDefault("output/web", 64 * 1024);
@@ -133,6 +137,8 @@ namespace BookGen.Core.Configuration
             TOCFile = string.Empty;
             HostName = string.Empty;
             ScriptsDirectory = string.Empty;
+            EnableKeywordExtraction = true;
+            StopwordsFile = string.Empty;
         }
 
         public static Config CreateDefault(int version = 100)

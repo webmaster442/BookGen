@@ -35,6 +35,15 @@ namespace BookGen.Api.Configuration
         /// </summary>
         string ScriptsDirectory { get;}
         /// <summary>
+        /// Enables or disables keyword extraction
+        /// </summary>
+        bool EnableKeywordExtraction { get; }
+        /// <summary>
+        /// File containing list of stopwords
+        /// that are used for keyword extraction
+        /// </summary>
+        string StopwordsFile { get; }
+        /// <summary>
         /// Build configuration for epubs
         /// </summary>
         IReadOnlyBuildConfig TargetEpub { get;}
