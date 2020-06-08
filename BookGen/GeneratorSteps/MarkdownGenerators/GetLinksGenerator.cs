@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 
 namespace BookGen.GeneratorSteps.MarkdownGenerators
 {
-    internal class GetLinks : IMarkdownGenerator
+    internal class GetLinksGenerator : IMarkdownGenerator
     {
         private readonly Regex _link;
 
-        public GetLinks()
+        public GetLinksGenerator()
         {
             _link = new Regex(@"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?", RegexOptions.Compiled);
         }
@@ -32,6 +32,7 @@ namespace BookGen.GeneratorSteps.MarkdownGenerators
 
             foreach (var chapter in settings.TocContents.Chapters)
             {
+                log.Info("Processing chapter: {0}", chapter);
                 results.AppendFormat("### {0}\r\n", chapter);
 
 
