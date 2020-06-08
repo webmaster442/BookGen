@@ -6,10 +6,8 @@
 using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
-using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Framework.Scripts;
-using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,38 +24,20 @@ namespace BookGen.Framework
 
         protected TemplateProcessor Template { get; }
 
-        protected FsPath WorkDir { get; }
-
         protected readonly ShortCodeLoader _loader;
 
-        protected Builder(string workdir, 
-                          Config configuration, 
-                          ILog log, 
-                          BuildConfig current, 
+        protected Builder(RuntimeSettings settings,
+                          ILog log,
                           CsharpScriptHandler scriptHandler)
         {
-            WorkDir = new FsPath(workdir);
-            Settings = new RuntimeSettings
-            {
-                SourceDirectory = WorkDir,
-                Configuration = configuration,
-                TocContents = MarkdownUtils.ParseToc(WorkDir.Combine(configuration.TOCFile).ReadFile(log)),
-                MetataCache = new Dictionary<string, string>(100),
-                InlineImgCache = new Dictionary<string, string>(100),
-                CurrentBuildConfig = current,
-            };
-
-            if (string.IsNullOrEmpty(configuration.ImageDir))
-                Settings.ImageDirectory = FsPath.Empty;
-            else
-                Settings.ImageDirectory = WorkDir.Combine(configuration.ImageDir);
+            Settings = settings;
 
             _loader = new ShortCodeLoader(log, Settings, Program.AppSetting);
             _loader.LoadAll();
 
             scriptHandler.SetHostFromRuntimeSettings(Settings);
 
-            Template = new TemplateProcessor(configuration, new ShortCodeParser(_loader.Imports, scriptHandler, configuration.Translations, log));
+            Template = new TemplateProcessor(settings.Configuration, new ShortCodeParser(_loader.Imports, scriptHandler, settings.Configuration.Translations, log));
 
             _steps = new List<IGeneratorStep>();
             _log = log;
@@ -88,7 +68,7 @@ namespace BookGen.Framework
 
         public TimeSpan Run()
         {
-            Settings.OutputDirectory = ConfigureOutputDirectory(WorkDir);
+            Settings.OutputDirectory = ConfigureOutputDirectory(Settings.SourceDirectory);
             Template.TemplateContent = ConfigureTemplateContent();
 
             Stopwatch sw = new Stopwatch();

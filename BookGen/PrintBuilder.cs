@@ -3,22 +3,22 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Resources;
 using BookGen.Api;
 using BookGen.Core;
-using BookGen.Core.Configuration;
+using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Framework.Scripts;
+using BookGen.Resources;
 
 namespace BookGen
 {
     internal class PrintBuilder : Builder
     {
-        public PrintBuilder(string workdir, Config configuration, ILog log, CsharpScriptHandler scriptHandler) 
-            : base(workdir, configuration, log, configuration.TargetPrint, scriptHandler)
+        public PrintBuilder(RuntimeSettings settings, ILog log, CsharpScriptHandler scriptHandler)
+            : base(settings, log, scriptHandler)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
-            AddStep(new GeneratorSteps.CopyAssets(configuration.TargetPrint));
+            AddStep(new GeneratorSteps.CopyAssets(settings.Configuration.TargetPrint));
             AddStep(new GeneratorSteps.ImageProcessor());
             AddStep(new GeneratorSteps.CreatePrintableHtml());
         }

@@ -9,21 +9,21 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Framework;
 using BookGen.Framework.Scripts;
+using BookGen.Domain;
 
 namespace BookGen
 {
     internal class WebsiteBuilder : Builder
     {
         private readonly GeneratorSteps.ExtractTemplateAssets _extractAssets;
-
-        public WebsiteBuilder(string workdir, Config configuration, ILog log, CsharpScriptHandler scriptHandler) 
-            : base(workdir, configuration, log, configuration.TargetWeb, scriptHandler)
+        public WebsiteBuilder(RuntimeSettings settings, ILog log, CsharpScriptHandler scriptHandler) 
+            :base(settings, log, scriptHandler)
         {
             _extractAssets = new GeneratorSteps.ExtractTemplateAssets();
 
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(_extractAssets);
-            AddStep(new GeneratorSteps.CopyAssets(configuration.TargetWeb));
+            AddStep(new GeneratorSteps.CopyAssets(settings.Configuration.TargetWeb));
             AddStep(new GeneratorSteps.ImageProcessor());
             AddStep(new GeneratorSteps.CreateToCForWebsite());
             AddStep(new GeneratorSteps.CreatePagesJS());
