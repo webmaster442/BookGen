@@ -1,0 +1,15 @@
+﻿Generates markdown files that can be referenced in project
+-------------------------------------------------------------------------------
+
+    BookGen PageGen -p [pagetype] {-d [directory]}
+    BookGen PageGen --page [pagetype] {--dir [directory]}
+
+    Arguments:
+    -p, --page: 
+        Specifies the page to generate. See below.
+
+    -d, --dir:
+        Optional argument. Specifies work directory. If not specified, then
+        the current directory will be used as working directory.
+
+  Generatable pages:
