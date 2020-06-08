@@ -11,6 +11,7 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.GeneratorSteps.MarkdownGenerators;
 using BookGen.Utilities;
 using System;
+using System.Collections.Generic;
 
 namespace BookGen.Mdoules
 {
@@ -59,6 +60,7 @@ namespace BookGen.Mdoules
                         RunGetLinks(settings, log);
                         break;
                     case PageType.Phrases:
+                        RunGetPhrases(settings, log);
                         break;
                 }
 
@@ -66,6 +68,53 @@ namespace BookGen.Mdoules
             }
 
             return false;
+        }
+
+        private void RunGetPhrases(RuntimeSettings settings, ILog log)
+        {
+            var stopwordsFile = settings.SourceDirectory.Combine(settings.Configuration.StopwordsFile);
+
+            if (!stopwordsFile.IsExisting)
+            {
+                log.Critical("Stopwords file specified in config doesn't exist.");
+                return;
+            }
+
+            List<string> stopwords = ReadStopWords(stopwordsFile);
+
+            if (stopwords.Count < 1)
+            {
+                log.Warning("Stopwords file doesn't contain words. Output may be unusable.");
+                stopwords.Add(" "); //add a single space as fallback;
+            }
+
+            var chapterSummerizer = new ChapterSummarizer(stopwords);
+            string? content = chapterSummerizer.RunStep(settings, log);
+
+            log.Info("Writing file: terms.md...");
+            FsPath output = settings.SourceDirectory.Combine("links.md");
+            output.WriteFile(log, content);
+        }
+
+        private List<string> ReadStopWords(FsPath stopwordsFile)
+        {
+            string? line = null;
+            List<string> results = new List<string>(100);
+            using (var textreader = System.IO.File.OpenText(stopwordsFile.ToString()))
+            {
+                do
+                {
+                    line = textreader.ReadLine();
+                    if (line != null
+                        && !line.StartsWith("#"))
+                    {
+                        results.Add(line);
+                    }
+                }
+                while (line != null);
+            }
+
+            return results;
         }
 
         private void RunGetLinks(RuntimeSettings settings, ILog log)

@@ -7,33 +7,34 @@ using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Domain;
+using BookGen.Utilities;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BookGen.GeneratorSteps.MarkdownGenerators
 {
-    internal class GetLinksGenerator : IMarkdownGenerator
+    internal class ChapterSummarizer : IMarkdownGenerator
     {
-        private readonly Regex _link;
+        private readonly RakeKeywordExtractor _keywordExtractor;
 
-        public GetLinksGenerator()
+        public ChapterSummarizer(IEnumerable<string> stopwords)
         {
-            _link = new Regex(@"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?", RegexOptions.Compiled);
+            _keywordExtractor = new RakeKeywordExtractor(stopwords);
         }
 
         public string RunStep(RuntimeSettings settings, ILog log)
         {
-            var links = new ConcurrentBag<string>();
+            var terms = new ConcurrentBag<string>();
             var results = new StringBuilder();
 
             foreach (string? chapter in settings.TocContents.Chapters)
             {
                 log.Info("Processing chapter: {0}", chapter);
                 results.AppendFormat("## {0}\r\n\r\n", chapter);
-                links.Clear();
+                terms.Clear();
 
                 Parallel.ForEach(settings.TocContents.GetLinksForChapter(chapter), link =>
                 {
@@ -41,19 +42,22 @@ namespace BookGen.GeneratorSteps.MarkdownGenerators
 
                     var contents = input.ReadFile(log);
 
-                    foreach (Match? match in _link.Matches(contents))
+                    var keywords = _keywordExtractor.GetKeywords(contents, 15);
+                    
+                    foreach (var keyword in keywords)
                     {
-                        if (match != null)
-                            links.Add(match.Value);
+                        terms.Add(keyword);
                     }
 
                 });
 
-                foreach (string link in links.Distinct().OrderBy(s => s))
+                foreach (var term in terms.Distinct().OrderBy(s => s))
                 {
-                    results.AppendLine(link);
+                    results.Append(term);
+                    results.Append(", ");
                 }
                 results.AppendLine();
+
             }
 
             return results.ToString();
