@@ -39,8 +39,8 @@ namespace BookGen
 
         public GeneratorRunner(ILog log, string workDir)
         {
-            _projectLoader = new ProjectLoader(Log, workDir);
             Log = log;
+            _projectLoader = new ProjectLoader(log, workDir);
             _scriptHandler = new CsharpScriptHandler(Log);
             WorkDirectory = workDir;
             ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
