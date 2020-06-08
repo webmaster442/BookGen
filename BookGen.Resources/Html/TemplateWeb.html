@@ -37,14 +37,13 @@
             top: 0;
             left: 0;
             background-color: rgba(255, 255, 255, 0.9);
-            overflow-x: hidden;
             padding-top: 60px;
             transition: 0.5s;
-            column-count: 1;
+            overflow-x: hidden;
         }
 
         #toc #tocinside {
-            padding-left: 80px;
+            padding-left: 40px;
         }
 
         #toc #tocinside summary {
@@ -275,7 +274,7 @@
         });
         $('a[href="#toc"]').click(function () {
 
-            var width = window.innerWidth > 800 ? 40 : 100;
+            var width = window.innerWidth > 800 ? 30 : 100;
 
             $("#toc").css("width", width + "%");
         });
@@ -304,6 +303,10 @@
 
         $('.navigateto').click(function () {
             $('#toc-local').modal('toggle');
+        });
+
+        $(document).on('turbolinks:load', function () {
+            Prism.highlightAll();
         });
     </script>
     <!--{CookieWarnIfEnabledInTarget}-->
