@@ -8,6 +8,6 @@ namespace BookGen.Domain.ArgumentParsing
     internal enum PageType
     {
         ExternalLinks,
-        Phrases,
+        Chaptersummary,
     }
 }

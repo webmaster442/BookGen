@@ -12,6 +12,7 @@ using BookGen.GeneratorSteps.MarkdownGenerators;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace BookGen.Mdoules
 {
@@ -52,6 +53,9 @@ namespace BookGen.Mdoules
                 && config != null
                 && toc != null)
             {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+
                 var settings = loader.CreateRuntimeSettings(config, toc, new BuildConfig());
 
                 switch (parameters.PageType)
@@ -59,10 +63,13 @@ namespace BookGen.Mdoules
                     case PageType.ExternalLinks:
                         RunGetLinks(settings, log);
                         break;
-                    case PageType.Phrases:
-                        RunGetPhrases(settings, log);
+                    case PageType.Chaptersummary:
+                        RunChapterSummary(settings, log);
                         break;
                 }
+
+                stopwatch.Stop();
+                log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
                 return true;
             }
@@ -70,7 +77,7 @@ namespace BookGen.Mdoules
             return false;
         }
 
-        private void RunGetPhrases(RuntimeSettings settings, ILog log)
+        private void RunChapterSummary(RuntimeSettings settings, ILog log)
         {
             var stopwordsFile = settings.SourceDirectory.Combine(settings.Configuration.StopwordsFile);
 
@@ -91,8 +98,8 @@ namespace BookGen.Mdoules
             var chapterSummerizer = new ChapterSummarizer(stopwords);
             string? content = chapterSummerizer.RunStep(settings, log);
 
-            log.Info("Writing file: terms.md...");
-            FsPath output = settings.SourceDirectory.Combine("links.md");
+            log.Info("Writing file: chaptersummary.md...");
+            FsPath output = settings.SourceDirectory.Combine("chaptersummary.md");
             output.WriteFile(log, content);
         }
 

@@ -13,11 +13,11 @@ namespace BookGen.Utilities
     internal class RakeKeywordExtractor
     {
         private readonly Regex _stopWordRegex;
-        private const int minCharLength = 1;
-        private const int maxWordsLength = 5;
-        private const double minKeywordFrequency = 1.0;
+        private const int minCharLength = 3;
+        private const int maxWordsLength = 3;
+        private const double minKeywordFrequency = 1;
 
-        private static readonly Regex _sentenceDelimiters = new Regex(@"[\[\]\n.!?,;:\t\-\""\(\)\\\'\u2019\u2013]", RegexOptions.Compiled);
+        private static readonly Regex _sentenceDelimiters = new Regex(@"[\[\]\n.!?,;:\`\t\<\>\*\|\#\^\/\-\""\(\)\\\'\u2019\u2013]", RegexOptions.Compiled);
         private static readonly Regex _wordSplitter = new Regex(@"[^a-zA-Z0-9_\+\-/]", RegexOptions.Compiled);
 
         public string RegexPattern { get; private set; }

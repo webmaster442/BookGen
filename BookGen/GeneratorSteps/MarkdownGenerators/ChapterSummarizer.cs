@@ -56,6 +56,9 @@ namespace BookGen.GeneratorSteps.MarkdownGenerators
                     results.Append(term);
                     results.Append(", ");
                 }
+                //remove the last ,
+                results.Remove(results.Length - 2, 1);
+                results.AppendLine();
                 results.AppendLine();
 
             }

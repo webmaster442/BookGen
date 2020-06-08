@@ -120,8 +120,7 @@ namespace BookGen.Core.Configuration
         [JsonIgnore]
         IReadOnlyTranslations IReadOnlyConfig.Translations => Translations;
 
-        public bool EnableKeywordExtraction { get; set; }
-
+        [Doc("File containing list of stopwords to ignore, when generating chapter summary.")]
         public string StopwordsFile { get; set; }
 
         public Config()
@@ -137,7 +136,6 @@ namespace BookGen.Core.Configuration
             TOCFile = string.Empty;
             HostName = string.Empty;
             ScriptsDirectory = string.Empty;
-            EnableKeywordExtraction = true;
             StopwordsFile = string.Empty;
         }
 
