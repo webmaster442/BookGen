@@ -68,6 +68,15 @@ namespace BookGen.Shell.Domain
                     "--css");
 
                 yield return new AutoCompleteItem(
+                    "PageGen",
+                    "-d",
+                    "--dir",
+                    "-p",
+                    "--page",
+                    "ExternalLinks",
+                    "Chaptersummary");
+
+                yield return new AutoCompleteItem(
                     "Serve",
                     "-d",
                     "--dir");
