@@ -33,8 +33,8 @@ namespace BookGen.GeneratorSteps.MarkdownGenerators
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 log.Info("Processing chapter: {0}", chapter);
-                results.AppendFormat("### {0}\r\n", chapter);
-
+                results.AppendFormat("## {0}\r\n\r\n", chapter);
+                links.Clear();
 
                 Parallel.ForEach(settings.TocContents.GetLinksForChapter(chapter), link =>
                 {
@@ -54,6 +54,7 @@ namespace BookGen.GeneratorSteps.MarkdownGenerators
                 {
                     results.AppendLine(link);
                 }
+                results.AppendLine();
             }
 
             return results.ToString();
