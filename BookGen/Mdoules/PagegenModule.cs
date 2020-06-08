@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Domain.ArgumentParsing;
 using BookGen.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BookGen.Mdoules
 {
@@ -19,9 +18,35 @@ namespace BookGen.Mdoules
 
         public override string ModuleCommand => "PageGen";
 
+        public bool TryGetArguments(ArgumentParser arguments, out PageGenParameters parsed)
+        {
+            parsed = new PageGenParameters();
+
+            bool pageTypeSpecified = Enum.TryParse(arguments.GetSwitchWithValue("p", "page"), true, out PageType parsedPageType);
+            parsed.PageType = parsedPageType;
+
+            var dir = arguments.GetSwitchWithValue("d", "dir");
+
+            if (!string.IsNullOrEmpty(dir))
+                parsed.WorkDir = dir;
+
+            return pageTypeSpecified;
+        }
+
         public override bool Execute(ArgumentParser tokenizedArguments)
         {
-            throw new NotImplementedException();
+            if (!TryGetArguments(tokenizedArguments, out PageGenParameters parameters))
+                return false;
+
+            switch (parameters.PageType)
+            {
+                case PageType.ExternalLinks:
+                    break;
+                case PageType.Phrases:
+                    break;
+            }
+
+            return true;
         }
 
         public override string GetHelp()
