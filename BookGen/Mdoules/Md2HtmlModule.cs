@@ -20,7 +20,7 @@ namespace BookGen.Mdoules
 
         public override string ModuleCommand => "Md2HTML";
 
-        private bool GetMd2HtmlParameters(ArgumentParser arguments, out Md2HtmlParameters md2HtmlParameters)
+        private bool TryGetMd2HtmlParameters(ArgumentParser arguments, out Md2HtmlParameters md2HtmlParameters)
         {
             md2HtmlParameters = new Md2HtmlParameters(
                 arguments.GetSwitchWithValue("-i", "--input"),
@@ -40,7 +40,7 @@ namespace BookGen.Mdoules
 
         public override bool Execute(ArgumentParser tokenizedArguments)
         {
-            if (!GetMd2HtmlParameters(tokenizedArguments, out Md2HtmlParameters parameters))
+            if (!TryGetMd2HtmlParameters(tokenizedArguments, out Md2HtmlParameters parameters))
                 return false;
 
             var log = new ConsoleLog(LogLevel.Info);

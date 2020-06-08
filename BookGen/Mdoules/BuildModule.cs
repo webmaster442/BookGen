@@ -19,7 +19,7 @@ namespace BookGen.Mdoules
 
         public override string ModuleCommand => "Build";
 
-        private bool GetBuildParameters(ArgumentParser arguments, out BuildParameters buildParameters)
+        private bool TryGetBuildParameters(ArgumentParser arguments, out BuildParameters buildParameters)
         {
             buildParameters = new BuildParameters
             {
@@ -44,7 +44,7 @@ namespace BookGen.Mdoules
 
         public override bool Execute(ArgumentParser tokenizedArguments)
         {
-            if (!GetBuildParameters(tokenizedArguments, out BuildParameters parameters))
+            if (!TryGetBuildParameters(tokenizedArguments, out BuildParameters parameters))
                 return false;
 
             CurrentState.GeneratorRunner = Program.CreateRunner(parameters.Verbose, parameters.WorkDir);
