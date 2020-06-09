@@ -13,3 +13,12 @@
         the current directory will be used as working directory.
 
   Generatable pages:
+
+  ExternalLinks
+  Collects all external links mentioned in a chapter. Usefull when targeting
+  printable documentation.
+
+  Chaptersummary
+  Collects keywords that describe the chapter. It requires a stopwords file
+  for your books language to work. Stopword file can be specified in the
+  configuration file.
