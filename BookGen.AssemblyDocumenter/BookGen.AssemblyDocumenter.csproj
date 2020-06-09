@@ -7,7 +7,7 @@
     <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
     <Authors>Ruzsinszki Gábor</Authors>
-    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression></PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
     <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
   </PropertyGroup>

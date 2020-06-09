@@ -17,7 +17,7 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>static site,api,cshap,scripting,bookgen</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseFile>LCICENCE</PackageLicenseFile>
+    <PackageLicenseFile>LICENCE</PackageLicenseFile>
     <Version>1.0.5</Version>
   </PropertyGroup>
 
@@ -30,7 +30,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\LCICENCE">
+    <None Include="..\LICENCE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

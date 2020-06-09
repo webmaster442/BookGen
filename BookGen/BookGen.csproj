@@ -16,16 +16,23 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <SonarQubeTestProject>False</SonarQubeTestProject>
-    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression></PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
     <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
-    <PackageTags>Book; Markdown</PackageTags>
+    <PackageTags>Book; Markdown; Static website</PackageTags>
     <Authors>Ruzsinszki Gábor</Authors>
+    <Version>2020.06.09</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENCE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="DefaultTemplate\**" />
     <EmbeddedResource Remove="DefaultTemplate\**" />
     <None Remove="DefaultTemplate\**" />
+    <None Include="..\LICENCE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Remove="ConsoleUi\InitializeView.xml" />

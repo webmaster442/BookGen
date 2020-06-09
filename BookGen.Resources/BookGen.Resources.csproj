@@ -8,12 +8,13 @@
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
     <Description>BookGen default template files &amp; template processor</Description>
     <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression></PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
     <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <Nullable>enable</Nullable>
+    <PackageLicenseFile>LICENCE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,6 +50,10 @@
     <None Remove="JsCss\simplemde.min.css" />
     <None Remove="JsCss\simplemde.min.js" />
     <None Remove="JsCss\turbolinks.js" />
+    <None Include="..\LICENCE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

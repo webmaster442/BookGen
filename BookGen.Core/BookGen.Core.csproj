@@ -10,11 +10,12 @@
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
     <Company />
     <Description>BookGen common classes</Description>
-    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression></PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
     <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
     <AssemblyVersion>1.0.3.0</AssemblyVersion>
     <FileVersion>1.0.3.0</FileVersion>
+    <PackageLicenseFile>LICENCE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ColorCode.Netstandard" Version="1.0.4.3" />
@@ -41,5 +42,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENCE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>
