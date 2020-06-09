@@ -75,12 +75,12 @@ namespace BookGen.Utilities
                 string? line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (line.StartsWith("# ")
-                        || line.StartsWith("## ")
-                        || line.StartsWith("### "))
-                    {
-                        return line.Replace("#", "");
-                    }
+                    if (line.StartsWith("# "))
+                        return line.Substring(2);
+                    else if (line.StartsWith("## "))
+                        return line.Substring(3);
+                    else if (line.StartsWith("### "))
+                        return line.Substring(4);
                 }
             }
             return string.Empty;
