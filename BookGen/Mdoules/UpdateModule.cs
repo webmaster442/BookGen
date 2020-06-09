@@ -6,6 +6,7 @@
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Shell;
 using BookGen.Utilities;
 
 namespace BookGen.Mdoules
@@ -17,6 +18,8 @@ namespace BookGen.Mdoules
         }
 
         public override string ModuleCommand => "Update";
+
+        public override AutoCompleteItem AutoCompleteInfo => throw new System.NotImplementedException();
 
         private UpdateParameters GetUpdateParameters(ArgumentParser arguments)
         {

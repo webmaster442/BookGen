@@ -5,6 +5,7 @@
 
 using BookGen.Core;
 using BookGen.Domain;
+using BookGen.Domain.Shell;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,17 @@ namespace BookGen.Mdoules
         }
 
         public override string ModuleCommand => "Settings";
+
+        public override AutoCompleteItem AutoCompleteInfo
+        {
+            get
+            {
+                return new AutoCompleteItem("Settings",
+                                            "get",
+                                            "list",
+                                            "set");
+            }
+        }
 
         public override bool Execute(ArgumentParser tokenizedArguments)
         {

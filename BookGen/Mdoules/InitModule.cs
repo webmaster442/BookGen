@@ -5,6 +5,7 @@
 
 using BookGen.ConsoleUi;
 using BookGen.Core;
+using BookGen.Domain.Shell;
 using BookGen.Utilities;
 using System;
 
@@ -20,6 +21,8 @@ namespace BookGen.Mdoules
         }
 
         public override string ModuleCommand => "Init";
+
+        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem("Init", "-d", "--dir");
 
         public override bool Execute(ArgumentParser tokenizedArguments)
         {

@@ -7,6 +7,7 @@ using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Markdown;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Shell;
 using BookGen.Resources;
 using BookGen.Utilities;
 
@@ -19,6 +20,20 @@ namespace BookGen.Mdoules
         }
 
         public override string ModuleCommand => "Md2HTML";
+
+        public override AutoCompleteItem AutoCompleteInfo
+        {
+            get
+            {
+                return new AutoCompleteItem("Md2HTML",
+                                            "-i",
+                                            "--input",
+                                            "-o",
+                                            "--output",
+                                            "-c",
+                                            "--css");
+            }
+        }
 
         private bool TryGetMd2HtmlParameters(ArgumentParser arguments, out Md2HtmlParameters md2HtmlParameters)
         {

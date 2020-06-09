@@ -5,6 +5,7 @@
 
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Shell;
 using BookGen.Utilities;
 using System;
 using System.Text;
@@ -18,6 +19,29 @@ namespace BookGen.Mdoules
         }
 
         public override string ModuleCommand => "Build";
+
+        public override AutoCompleteItem AutoCompleteInfo
+        {
+            get
+            {
+                return new AutoCompleteItem("Build",
+                                            "-n",
+                                            "--nowait",
+                                            "-v",
+                                            "--verbose",
+                                            "-d",
+                                            "--dir",
+                                            "-a",
+                                            "--action",
+                                            "Test",
+                                            "BuildPrint",
+                                            "BuildWeb",
+                                            "BuildEpub",
+                                            "BuildWordpress",
+                                            "Clean",
+                                            "ValidateConfig");
+            }
+        }
 
         private bool TryGetBuildParameters(ArgumentParser arguments, out BuildParameters buildParameters)
         {

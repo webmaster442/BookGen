@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Domain.Shell;
 using BookGen.Framework.Server;
 using BookGen.Utilities;
 using System;
@@ -17,6 +18,14 @@ namespace BookGen.Mdoules
         }
 
         public override string ModuleCommand => "Serve";
+
+        public override AutoCompleteItem AutoCompleteInfo
+        {
+            get
+            {
+                return new AutoCompleteItem("Serve", "-d", "--dir");
+            }
+        }
 
         public override bool Execute(ArgumentParser tokenizedArguments)
         {

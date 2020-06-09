@@ -6,6 +6,7 @@
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Shell;
 using BookGen.Utilities;
 
 namespace BookGen.Mdoules
@@ -18,6 +19,19 @@ namespace BookGen.Mdoules
 
         public override string ModuleCommand => "AssemblyDocument";
 
+        public override AutoCompleteItem AutoCompleteInfo
+        {
+            get
+            {
+                return new AutoCompleteItem("AssemblyDocument",
+                                            "-a",
+                                            "--assembly",
+                                            "-x",
+                                            "--xml",
+                                            "-o",
+                                            "--output");
+            }
+        }
 
         private bool GetParameters(ArgumentParser arguments, out AssemblyDocumentParameters parameters)
         {

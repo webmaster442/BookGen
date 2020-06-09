@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Domain.Shell;
 
 namespace BookGen.Mdoules
 {
@@ -12,6 +13,8 @@ namespace BookGen.Mdoules
         protected ProgramState CurrentState { get; }
 
         public abstract string ModuleCommand { get; }
+
+        public abstract AutoCompleteItem AutoCompleteInfo { get; }
 
         protected ModuleBase(ProgramState currentState)
         {

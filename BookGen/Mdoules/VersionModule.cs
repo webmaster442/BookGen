@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Domain.Shell;
 using BookGen.Utilities;
 using System;
 
@@ -16,6 +17,8 @@ namespace BookGen.Mdoules
         }
 
         public override string ModuleCommand => "Version";
+
+        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem("Version");
 
         public override bool Execute(ArgumentParser tokenizedArguments)
         {

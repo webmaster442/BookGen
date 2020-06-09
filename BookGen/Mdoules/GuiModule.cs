@@ -6,6 +6,7 @@
 using BookGen.ConsoleUi;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Shell;
 using BookGen.Utilities;
 
 namespace BookGen.Mdoules
@@ -20,6 +21,18 @@ namespace BookGen.Mdoules
         }
 
         public override string ModuleCommand => "Gui";
+
+        public override AutoCompleteItem AutoCompleteInfo
+        {
+            get
+            {
+                return new AutoCompleteItem("Gui",
+                                            "-d",
+                                            "--dir",
+                                            "-v",
+                                            "--verbose");
+            }
+        }
 
         private GuiParameters GetGuiParameters(ArgumentParser arguments)
         {

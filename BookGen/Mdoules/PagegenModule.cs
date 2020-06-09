@@ -8,6 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Shell;
 using BookGen.GeneratorSteps.MarkdownGenerators;
 using BookGen.Utilities;
 using System;
@@ -23,6 +24,20 @@ namespace BookGen.Mdoules
         }
 
         public override string ModuleCommand => "PageGen";
+
+        public override AutoCompleteItem AutoCompleteInfo
+        {
+            get
+            {
+                return new AutoCompleteItem("PageGen",
+                                            "-d",
+                                            "--dir",
+                                            "-p",
+                                            "--page",
+                                            "ExternalLinks",
+                                            "Chaptersummary");
+            }
+        }
 
         public bool TryGetArguments(ArgumentParser arguments, out PageGenParameters parsed)
         {
