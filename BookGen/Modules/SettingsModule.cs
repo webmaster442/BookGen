@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace BookGen.Mdoules
+namespace BookGen.Modules
 {
     internal class SettingsModule : ModuleBase
     {

@@ -9,7 +9,7 @@ using BookGen.Framework.Server;
 using BookGen.Utilities;
 using System;
 
-namespace BookGen.Mdoules
+namespace BookGen.Modules
 {
     internal class ServeModule : ModuleBase
     {

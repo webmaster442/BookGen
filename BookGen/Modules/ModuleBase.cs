@@ -6,7 +6,7 @@
 using BookGen.Core;
 using BookGen.Domain.Shell;
 
-namespace BookGen.Mdoules
+namespace BookGen.Modules
 {
     internal abstract class ModuleBase
     {

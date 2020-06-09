@@ -9,7 +9,7 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Utilities;
 
-namespace BookGen.Mdoules
+namespace BookGen.Modules
 {
     internal class UpdateModule : ModuleBase
     {

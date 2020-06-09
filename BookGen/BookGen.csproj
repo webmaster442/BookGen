@@ -98,4 +98,7 @@
       <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\Special\" />
+  </ItemGroup>
 </Project>

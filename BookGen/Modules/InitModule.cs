@@ -9,7 +9,7 @@ using BookGen.Domain.Shell;
 using BookGen.Utilities;
 using System;
 
-namespace BookGen.Mdoules
+namespace BookGen.Modules
 {
     internal class InitModule : ModuleBase
     {

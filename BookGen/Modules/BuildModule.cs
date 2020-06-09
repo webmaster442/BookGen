@@ -10,7 +10,7 @@ using BookGen.Utilities;
 using System;
 using System.Text;
 
-namespace BookGen.Mdoules
+namespace BookGen.Modules
 {
     internal class BuildModule : ModuleBase
     {

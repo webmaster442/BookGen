@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace BookGen.Mdoules
+namespace BookGen.Modules
 {
     internal class PagegenModule : ModuleBase
     {

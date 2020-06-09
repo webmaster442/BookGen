@@ -11,7 +11,7 @@ using BookGen.Domain.Shell;
 using BookGen.Resources;
 using BookGen.Utilities;
 
-namespace BookGen.Mdoules
+namespace BookGen.Modules
 {
     internal class Md2HtmlModule : ModuleBase
     {
