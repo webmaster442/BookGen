@@ -18,8 +18,6 @@ namespace BookGen
             CurrentState = currentState;
         }
 
-        public abstract string GetHelp();
-
         public virtual void Abort()
         {
             //empty behaviour by default

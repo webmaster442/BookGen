@@ -3,14 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
+using System.Collections.Generic;
 
-namespace BookGen
+namespace BookGen.Contracts
 {
-    internal abstract class BaseModule
+    internal interface IModuleCollection
     {
-        public abstract string ModuleCommand { get; }
-        public abstract bool Execute(ArgumentParser tokenizedArguments);
-        public abstract string GetHelp();
+        IEnumerable<BaseModule>? Modules { get; set; }
     }
 }
