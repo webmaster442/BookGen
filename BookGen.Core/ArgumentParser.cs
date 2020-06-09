@@ -12,8 +12,11 @@ namespace BookGen.Core
     {
         private readonly List<ArgumentItem> _arguments;
 
+        public string[] Raw { get; }
+
         public ArgumentParser(string[] args)
         {
+            Raw = args;
             _arguments = new List<ArgumentItem>(args.Length);
             DoParse(args);
         }

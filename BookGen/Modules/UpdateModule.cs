@@ -19,7 +19,7 @@ namespace BookGen.Modules
 
         public override string ModuleCommand => "Update";
 
-        public override AutoCompleteItem AutoCompleteInfo => throw new System.NotImplementedException();
+        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem("Update");
 
         private UpdateParameters GetUpdateParameters(ArgumentParser arguments)
         {

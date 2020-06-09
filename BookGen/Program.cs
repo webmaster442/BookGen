@@ -11,7 +11,6 @@ using BookGen.Modules;
 using BookGen.Modules.Special;
 using BookGen.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace BookGen
@@ -45,7 +44,7 @@ namespace BookGen
         }
         #endregion
 
-        private static readonly StateModuleBase[] ModulesWithState = new StateModuleBase[]
+        public static readonly StateModuleBase[] ModulesWithState = new StateModuleBase[]
         {
             new BuildModule(CurrentState),
             new ConfigHelpModule(CurrentState),
@@ -59,7 +58,7 @@ namespace BookGen
             new VersionModule(CurrentState),
         };
 
-        public static readonly BaseModule[] StatelessModules = new BaseModule[]
+        private static readonly BaseModule[] StatelessModules = new BaseModule[]
         {
             new HelpModule(),
             new SubCommandsModule()

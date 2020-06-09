@@ -9,6 +9,6 @@ namespace BookGen.Contracts
 {
     internal interface IModuleCollection
     {
-        IEnumerable<BaseModule>? Modules { get; set; }
+        IEnumerable<StateModuleBase>? Modules { get; set; }
     }
 }
