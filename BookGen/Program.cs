@@ -49,7 +49,6 @@ namespace BookGen
             new BuildModule(CurrentState),
             new ConfigHelpModule(CurrentState),
             new GuiModule(CurrentState),
-            new UpdateModule(CurrentState),
             new EditorModule(CurrentState),
             new AssemblyDocumentModule(CurrentState),
             new SettingsModule(CurrentState, AppSetting),
