@@ -12,7 +12,7 @@ using System.Text;
 
 namespace BookGen.Modules
 {
-    internal class BuildModule : ModuleBase
+    internal class BuildModule : StateModuleBase
     {
         public BuildModule(ProgramState currentState) : base(currentState)
         {

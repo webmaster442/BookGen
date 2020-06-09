@@ -13,7 +13,7 @@ using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
-    internal class Md2HtmlModule : ModuleBase
+    internal class Md2HtmlModule : StateModuleBase
     {
         public Md2HtmlModule(ProgramState currentState) : base(currentState)
         {

@@ -11,7 +11,7 @@ using System;
 
 namespace BookGen.Modules
 {
-    internal class ServeModule : ModuleBase
+    internal class ServeModule : StateModuleBase
     {
         public ServeModule(ProgramState currentState) : base(currentState)
         {

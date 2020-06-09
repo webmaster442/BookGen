@@ -40,9 +40,9 @@ namespace BookGen
             Environment.Exit((int)exitCode);
         }
 
-        private static List<ModuleBase> LoadModules()
+        private static List<StateModuleBase> LoadModules()
         {
-            return new List<ModuleBase>
+            return new List<StateModuleBase>
             {
                 new BuildModule(CurrentState),
                 new ConfigHelpModule(CurrentState),
@@ -59,12 +59,12 @@ namespace BookGen
 
         public static void Main(string[] args)
         {
-            ModuleBase? currentModule = null;
+            StateModuleBase? currentModule = null;
             try
             {
                 AppSetting = AppSettingHandler.LoadAppSettings();
                 var arguments = new ArgumentParser(args);
-                List<ModuleBase> modules = LoadModules();
+                List<StateModuleBase> modules = LoadModules();
 
                 string command = arguments.GetValues().FirstOrDefault() ?? string.Empty;
 
@@ -103,13 +103,13 @@ namespace BookGen
             }
         }
 
-        private static void GetHelpForModuleAndExit(ModuleBase? module)
+        private static void GetHelpForModuleAndExit(StateModuleBase? module)
         {
             Console.WriteLine(module?.GetHelp());
             Exit(ExitCode.BadParameters);
         }
 
-        private static void PrintGeneralHelpAndExitIfModuleNull(ModuleBase? currentModule)
+        private static void PrintGeneralHelpAndExitIfModuleNull(StateModuleBase? currentModule)
         {
             if (currentModule == null)
             {
@@ -118,7 +118,7 @@ namespace BookGen
             }
         }
 
-        private static void PrintModules(IEnumerable<ModuleBase> modules)
+        private static void PrintModules(IEnumerable<StateModuleBase> modules)
         {
             Console.WriteLine("Available sub commands: \r\n");
             foreach (var module in modules)
@@ -127,7 +127,7 @@ namespace BookGen
             }
         }
 
-        private static void HandleUncaughtException(ModuleBase? currentModule, Exception ex)
+        private static void HandleUncaughtException(StateModuleBase? currentModule, Exception ex)
         {
             currentModule?.Abort();
             ShowMessageBox("Unhandled exception\r\n{0}", ex);

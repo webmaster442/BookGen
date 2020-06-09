@@ -14,7 +14,7 @@ using System.Reflection;
 
 namespace BookGen.Modules
 {
-    internal class SettingsModule : ModuleBase
+    internal class SettingsModule : StateModuleBase
     {
         private readonly AppSetting _settings;
         private readonly Dictionary<string, Type> _knownsettings;

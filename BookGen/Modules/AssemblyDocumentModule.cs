@@ -11,7 +11,7 @@ using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
-    internal class AssemblyDocumentModule : ModuleBase
+    internal class AssemblyDocumentModule : StateModuleBase
     {
         public AssemblyDocumentModule(ProgramState currentState) : base(currentState)
         {

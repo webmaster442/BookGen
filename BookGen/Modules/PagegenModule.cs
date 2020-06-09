@@ -17,7 +17,7 @@ using System.Diagnostics;
 
 namespace BookGen.Modules
 {
-    internal class PagegenModule : ModuleBase
+    internal class PagegenModule : StateModuleBase
     {
         public PagegenModule(ProgramState currentState) : base(currentState)
         {

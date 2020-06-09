@@ -10,7 +10,7 @@ using System;
 
 namespace BookGen.Modules
 {
-    internal class EditorModule : ModuleBase
+    internal class EditorModule : StateModuleBase
     {
         public EditorModule(ProgramState currentState) : base(currentState)
         {

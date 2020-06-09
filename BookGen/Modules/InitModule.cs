@@ -11,7 +11,7 @@ using System;
 
 namespace BookGen.Modules
 {
-    internal class InitModule : ModuleBase
+    internal class InitModule : StateModuleBase
     {
         private readonly Gui.ConsoleUi uiRunner;
 

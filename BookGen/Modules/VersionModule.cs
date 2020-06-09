@@ -10,7 +10,7 @@ using System;
 
 namespace BookGen.Modules
 {
-    internal class VersionModule : ModuleBase
+    internal class VersionModule : StateModuleBase
     {
         public VersionModule(ProgramState currentState) : base(currentState)
         {

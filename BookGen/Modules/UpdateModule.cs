@@ -11,7 +11,7 @@ using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
-    internal class UpdateModule : ModuleBase
+    internal class UpdateModule : StateModuleBase
     {
         public UpdateModule(ProgramState currentState) : base(currentState)
         {

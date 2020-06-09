@@ -10,7 +10,7 @@ using System;
 
 namespace BookGen.Modules
 {
-    internal class ConfigHelpModule : ModuleBase
+    internal class ConfigHelpModule : StateModuleBase
     {
         public ConfigHelpModule(ProgramState currentState) : base(currentState)
         {
