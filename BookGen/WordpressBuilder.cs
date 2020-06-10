@@ -5,7 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Core;
-using BookGen.Core.Configuration;
+using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Framework.Scripts;
 
@@ -13,8 +13,8 @@ namespace BookGen
 {
     internal class WordpressBuilder : Builder
     {
-        public WordpressBuilder(string workdir, Config configuration, ILog log, CsharpScriptHandler scriptHandler) 
-            : base(workdir, configuration, log, configuration.TargetWordpress, scriptHandler)
+        public WordpressBuilder(RuntimeSettings settings, ILog log, CsharpScriptHandler scriptHandler)
+            : base(settings, log, scriptHandler)
         {
             var session = new GeneratorSteps.Wordpress.Session();
             AddStep(new GeneratorSteps.CreateOutputDirectory());

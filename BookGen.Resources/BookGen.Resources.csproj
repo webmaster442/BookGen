@@ -1,88 +1,94 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <Authors>Ruzsinszki Gábor</Authors>
-    <Company>Ruzsinszki Gábor</Company>
-    <Product>BookGen</Product>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>
-    <Description>BookGen default template files &amp; template processor</Description>
-    <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-    <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Authors>Ruzsinszki Gábor</Authors>
+		<Company>Ruzsinszki Gábor</Company>
+		<Product>BookGen</Product>
+		<OutputPath>..\bin\$(Configuration)\</OutputPath>
+		<Description>BookGen default template files &amp; template processor</Description>
+		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<Nullable>enable</Nullable>
+		<PackageLicenseFile>LICENCE</PackageLicenseFile>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Etc\ScriptTemplate.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Etc\ScriptTemplate.cs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Etc\index.md" />
-    <None Remove="Etc\summary.md" />
-    <None Remove="Html\ConfigView.html" />
-    <None Remove="Html\CookieWarning.html" />
-    <None Remove="Html\Editor.html" />
-    <None Remove="Html\Index.html" />
-    <None Remove="Html\Searchform.html" />
-    <None Remove="Html\TemplateEpub.html" />
-    <None Remove="Html\TemplatePrint.html" />
-    <None Remove="Html\TemplateWeb.html" />
-    <None Remove="JsCss\ace\ace.min.js" />
-    <None Remove="JsCss\ace\keybinding-vscode.min.js" />
-    <None Remove="JsCss\ace\markdown.min.js" />
-    <None Remove="JsCss\ace\mode-markdown.min.js" />
-    <None Remove="JsCss\ace\theme-github.min.js" />
-    <None Remove="JsCss\bootstrap.min.css" />
-    <None Remove="JsCss\bootstrap.min.js" />
-    <None Remove="JsCss\EditorApp.js" />
-    <None Remove="JsCss\jquery.min.js" />
-    <None Remove="JsCss\jsonview.css" />
-    <None Remove="JsCss\jsonview.js" />
-    <None Remove="JsCss\PageToc.js" />
-    <None Remove="JsCss\popper.min.js" />
-    <None Remove="JsCss\prism.css" />
-    <None Remove="JsCss\prism.js" />
-    <None Remove="JsCss\simplemde.min.css" />
-    <None Remove="JsCss\simplemde.min.js" />
-    <None Remove="JsCss\turbolinks.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Etc\index.md" />
+		<None Remove="Etc\summary.md" />
+		<None Remove="Html\ConfigView.html" />
+		<None Remove="Html\CookieWarning.html" />
+		<None Remove="Html\Editor.html" />
+		<None Remove="Html\Index.html" />
+		<None Remove="Html\Searchform.html" />
+		<None Remove="Html\TemplateEpub.html" />
+		<None Remove="Html\TemplatePrint.html" />
+		<None Remove="Html\TemplateWeb.html" />
+		<None Remove="JsCss\ace\ace.min.js" />
+		<None Remove="JsCss\ace\keybinding-vscode.min.js" />
+		<None Remove="JsCss\ace\markdown.min.js" />
+		<None Remove="JsCss\ace\mode-markdown.min.js" />
+		<None Remove="JsCss\ace\theme-github.min.js" />
+		<None Remove="JsCss\bootstrap.min.css" />
+		<None Remove="JsCss\bootstrap.min.js" />
+		<None Remove="JsCss\EditorApp.js" />
+		<None Remove="JsCss\jquery.min.js" />
+		<None Remove="JsCss\jsonview.css" />
+		<None Remove="JsCss\jsonview.js" />
+		<None Remove="JsCss\PageToc.js" />
+		<None Remove="JsCss\popper.min.js" />
+		<None Remove="JsCss\prism.css" />
+		<None Remove="JsCss\prism.js" />
+		<None Remove="JsCss\simplemde.min.css" />
+		<None Remove="JsCss\simplemde.min.js" />
+		<None Remove="JsCss\turbolinks.js" />
+		<None Include="..\LICENCE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Etc\index.md" />
-    <EmbeddedResource Include="Etc\ScriptTemplate.cs" />
-    <EmbeddedResource Include="Etc\summary.md" />
-    <EmbeddedResource Include="Html\ConfigView.html" />
-    <EmbeddedResource Include="Html\CookieWarning.html" />
-    <EmbeddedResource Include="Html\Editor.html" />
-    <EmbeddedResource Include="Html\Index.html" />
-    <EmbeddedResource Include="Html\Searchform.html" />
-    <EmbeddedResource Include="Html\TemplateEpub.html" />
-    <EmbeddedResource Include="Html\TemplatePrint.html" />
-    <EmbeddedResource Include="Html\TemplateWeb.html" />
-    <EmbeddedResource Include="JsCss\ace\ace.min.js" />
-    <EmbeddedResource Include="JsCss\ace\keybinding-vscode.min.js" />
-    <EmbeddedResource Include="JsCss\ace\markdown.min.js" />
-    <EmbeddedResource Include="JsCss\ace\mode-markdown.min.js" />
-    <EmbeddedResource Include="JsCss\ace\theme-github.min.js" />
-    <EmbeddedResource Include="JsCss\bootstrap.min.css" />
-    <EmbeddedResource Include="JsCss\bootstrap.min.js" />
-    <EmbeddedResource Include="JsCss\EditorApp.js" />
-    <EmbeddedResource Include="JsCss\jquery.min.js" />
-    <EmbeddedResource Include="JsCss\jsonview.css" />
-    <EmbeddedResource Include="JsCss\jsonview.js" />
-    <EmbeddedResource Include="JsCss\PageToc.js" />
-    <EmbeddedResource Include="JsCss\popper.min.js" />
-    <EmbeddedResource Include="JsCss\prism.css" />
-    <EmbeddedResource Include="JsCss\prism.js" />
-    <EmbeddedResource Include="JsCss\turbolinks.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Etc\index.md" />
+		<EmbeddedResource Include="Etc\ScriptTemplate.cs" />
+		<EmbeddedResource Include="Etc\summary.md" />
+		<EmbeddedResource Include="Html\ConfigView.html" />
+		<EmbeddedResource Include="Html\CookieWarning.html" />
+		<EmbeddedResource Include="Html\Editor.html" />
+		<EmbeddedResource Include="Html\Index.html" />
+		<EmbeddedResource Include="Html\Searchform.html" />
+		<EmbeddedResource Include="Html\TemplateEpub.html" />
+		<EmbeddedResource Include="Html\TemplatePrint.html" />
+		<EmbeddedResource Include="Html\TemplateWeb.html" />
+		<EmbeddedResource Include="JsCss\ace\ace.min.js" />
+		<EmbeddedResource Include="JsCss\ace\keybinding-vscode.min.js" />
+		<EmbeddedResource Include="JsCss\ace\markdown.min.js" />
+		<EmbeddedResource Include="JsCss\ace\mode-markdown.min.js" />
+		<EmbeddedResource Include="JsCss\ace\theme-github.min.js" />
+		<EmbeddedResource Include="JsCss\bootstrap.min.css" />
+		<EmbeddedResource Include="JsCss\bootstrap.min.js" />
+		<EmbeddedResource Include="JsCss\EditorApp.js" />
+		<EmbeddedResource Include="JsCss\jquery.min.js" />
+		<EmbeddedResource Include="JsCss\jsonview.css" />
+		<EmbeddedResource Include="JsCss\jsonview.js" />
+		<EmbeddedResource Include="JsCss\PageToc.js" />
+		<EmbeddedResource Include="JsCss\popper.min.js" />
+		<EmbeddedResource Include="JsCss\prism.css" />
+		<EmbeddedResource Include="JsCss\prism.js" />
+		<EmbeddedResource Include="JsCss\turbolinks.js" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+	</ItemGroup>
 
 </Project>

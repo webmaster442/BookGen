@@ -9,18 +9,19 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Framework;
 using BookGen.Framework.Scripts;
+using BookGen.Domain;
 
 namespace BookGen
 {
     internal class EpubBuilder : Builder
     {
-        public EpubBuilder(string workdir, Config configuration, ILog log, CsharpScriptHandler scriptHander)
-            : base(workdir, configuration, log, configuration.TargetEpub, scriptHander)
+        public EpubBuilder(RuntimeSettings settings, ILog log, CsharpScriptHandler scriptHandler)
+            : base(settings, log, scriptHandler)
         {
             var session = new GeneratorSteps.Epub.EpubSession();
 
             AddStep(new GeneratorSteps.CreateOutputDirectory());
-            AddStep(new GeneratorSteps.CopyAssets(configuration.TargetEpub));
+            AddStep(new GeneratorSteps.CopyAssets(settings.Configuration.TargetEpub));
             AddStep(new GeneratorSteps.ImageProcessor());
             AddStep(new GeneratorSteps.Epub.CreateEpubStructure());
             AddStep(new GeneratorSteps.Epub.CreateEpubPages(session));

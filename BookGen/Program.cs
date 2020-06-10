@@ -4,24 +4,22 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Domain;
-using BookGen.Mdoules;
+using BookGen.Modules;
+using BookGen.Modules.Special;
 using BookGen.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace BookGen
 {
     internal static class Program
     {
-        private const int ExitSucces = 0;
-        private const int ExitException = -1;
-        private const int ExitUnknownCommand = 1;
-        private const int ExitBadParameters = 2;
+        #region Internal API
 
-        internal static ProgramState CurrentState { get; } = new ProgramState();
+        internal static ProgramState CurrentState { get; private set; } = new ProgramState();
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
         public static GeneratorRunner CreateRunner(bool verbose, string workDir)
@@ -40,100 +38,96 @@ namespace BookGen
             }
         }
 
-        private static List<ModuleBase> LoadModules()
+        public static void Exit(ExitCode exitCode)
         {
-            return new List<ModuleBase>
-            {
-                new BuildModule(CurrentState),
-                new ConfigHelpModule(CurrentState),
-                new GuiModule(CurrentState),
-                new UpdateModule(CurrentState),
-                new EditorModule(CurrentState),
-                new AssemblyDocumentModule(CurrentState),
-                new SettingsModule(CurrentState, AppSetting),
-                new InitModule(CurrentState),
-                new VersionModule(CurrentState),
-            };
+            Environment.Exit((int)exitCode);
         }
+        #endregion
+
+        public static readonly StateModuleBase[] ModulesWithState = new StateModuleBase[]
+        {
+            new BuildModule(CurrentState),
+            new ConfigHelpModule(CurrentState),
+            new GuiModule(CurrentState),
+            new EditorModule(CurrentState),
+            new AssemblyDocumentModule(CurrentState),
+            new SettingsModule(CurrentState, AppSetting),
+            new InitModule(CurrentState),
+            new PagegenModule(CurrentState),
+            new VersionModule(CurrentState),
+        };
+
+        private static readonly BaseModule[] StatelessModules = new BaseModule[]
+        {
+            new HelpModule(),
+            new SubCommandsModule()
+        };
 
         public static void Main(string[] args)
         {
-            ModuleBase? currentModule = null;
+            BaseModule? moduleToRun = null;
             try
             {
+                ConfiugreStatelessModules();
                 AppSetting = AppSettingHandler.LoadAppSettings();
                 var arguments = new ArgumentParser(args);
-                List<ModuleBase> modules = LoadModules();
-
                 string command = arguments.GetValues().FirstOrDefault() ?? string.Empty;
 
-                if (string.Compare(command, "SubCommands", true) == 0)
+                moduleToRun = GetModuleToRun(command);
+
+                if (moduleToRun == null)
                 {
-                    PrintModules(modules);
-                    Environment.Exit(ExitSucces);
-                }
-                else if (string.Compare(command, "Help", true) == 0)
-                {
-                    var helpScope = arguments.GetValues().Skip(1).FirstOrDefault();
-
-                    currentModule =
-                        modules.Find(m => string.Compare(m.ModuleCommand, helpScope, true) == 0);
-
-                    PrintGeneralHelpAndExitIfModuleNull(currentModule);
-
-                    GetHelpForModuleAndExit(currentModule);
+                    Console.WriteLine(HelpUtils.GetGeneralHelp());
+                    Exit(ExitCode.UnknownCommand);
+                    return;
                 }
 
-                currentModule = 
-                    modules.Find(m => string.Compare(m.ModuleCommand, command, true) == 0);
-
-                PrintGeneralHelpAndExitIfModuleNull(currentModule);
-
-                if (currentModule?.Execute(arguments) == false)
+                if (moduleToRun.Execute(arguments) == false)
                 {
-                    GetHelpForModuleAndExit(currentModule);
+                    Console.WriteLine(moduleToRun?.GetHelp());
+                    Exit(ExitCode.BadParameters);
                 }
 
-                Environment.Exit(ExitSucces);
             }
             catch (Exception ex)
             {
-                HandleUncaughtException(currentModule, ex);
+                HandleUncaughtException(moduleToRun, ex);
             }
         }
 
-        private static void GetHelpForModuleAndExit(ModuleBase? module)
+        private static void ConfiugreStatelessModules()
         {
-            Console.WriteLine(module?.GetHelp());
-            Environment.Exit(ExitBadParameters);
-        }
-
-        private static void PrintGeneralHelpAndExitIfModuleNull(ModuleBase? currentModule)
-        {
-            if (currentModule == null)
+            foreach (var module in StatelessModules)
             {
-                Console.WriteLine(HelpUtils.GetGeneralHelp());
-                Environment.Exit(ExitUnknownCommand);
+                if (module is IModuleCollection moduleCollection)
+                    moduleCollection.Modules = ModulesWithState;
             }
         }
 
-        private static void PrintModules(IEnumerable<ModuleBase> modules)
+        private static BaseModule? GetModuleToRun(string command)
         {
-            Console.WriteLine("Available sub commands: \r\n");
-            foreach (var module in modules)
-            {
-                Console.WriteLine(module.ModuleCommand);
-            }
+            BaseModule? stateless = StatelessModules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+            if (stateless != null)
+                return stateless;
+
+            BaseModule stated = ModulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+            if (stated != null)
+                return stated;
+
+            return null;
         }
 
-        private static void HandleUncaughtException(ModuleBase? currentModule, Exception ex)
+        private static void HandleUncaughtException(BaseModule? currentModule, Exception ex)
         {
-            currentModule?.Abort();
+            if (currentModule is StateModuleBase stateModule)
+                stateModule?.Abort();
+
             ShowMessageBox("Unhandled exception\r\n{0}", ex);
 #if DEBUG
             System.Diagnostics.Debugger.Break();
 #endif
-            Environment.Exit(ExitException);
+            Exit(ExitCode.Exception);
         }
+
     }
 }

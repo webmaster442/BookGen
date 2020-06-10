@@ -1,19 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Nullable>enable</Nullable>
-    <Product>BookGen</Product>
-    <Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>
-    <Authors>Ruzsinszki Gábor</Authors>
-     <PackageLicenseExpression>https://opensource.org/licenses/MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<Nullable>enable</Nullable>
+		<Product>BookGen</Product>
+		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
+		<OutputPath>..\bin\$(Configuration)\</OutputPath>
+		<Authors>Ruzsinszki Gábor</Authors>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
+		<PackageLicenseFile>LICENCE</PackageLicenseFile>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Terminal.Gui" Version="0.81.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Terminal.Gui" Version="0.81.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENCE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>

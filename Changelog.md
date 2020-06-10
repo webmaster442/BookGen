@@ -1,3 +1,7 @@
+# 2020.06.09
+* Removed updater module
+* Markdown doc generator module
+
 # 2020.05.04
 * Integrated SkiaSharp and an image pipeline
 * Added support for Python and PHP scripts

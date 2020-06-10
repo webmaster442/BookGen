@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Utilities;
 using System;
 using System.Reflection;
 
@@ -19,12 +18,26 @@ namespace BookGen
         public string ProgramDirectory { get; }
         public int ConfigVersion { get; }
 
+        private static DateTime GetProgramDate()
+        {
+            Assembly? current = Assembly.GetAssembly(typeof(ProgramState));
+            if (current != null)
+            {
+                var attribute = current.GetCustomAttribute<AssemblyBuildDateAttribute>();
+                if (attribute != null)
+                {
+                    return attribute.BuildDate.Date;
+                }
+            }
+            return new DateTime();
+        }
+
         public ProgramState()
         {
             var asm = Assembly.GetAssembly(typeof(ProgramState));
             ProgramVersion = asm?.GetName()?.Version ?? new Version(1, 0);
             ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
-            BuildDate = UpdateUtils.GetAssemblyLinkerDate(out DateTime build) ? build : new DateTime();
+            BuildDate = GetProgramDate();
             ProgramDirectory = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
         }
 
