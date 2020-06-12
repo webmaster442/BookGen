@@ -62,9 +62,17 @@ namespace BookGen.Modules
 
             string md = parameters.InputFile.ReadFile(log);
 
-            var printtemplate = ResourceHandler.GetFile(KnownFile.TemplatePrintHtml);
+            string pageTemplate = ResourceHandler.GetFile(KnownFile.TemplateSinglePageHtml);
 
-            string rendered = printtemplate.Replace("<!--{content}-->", MarkdownRenderers.Markdown2Preview(md, parameters.InputFile.GetDirectory()));
+            string cssForInline = "";
+            if (parameters.Css.IsExisting)
+            {
+                cssForInline = parameters.Css.ReadFile(log);
+            }
+
+            string rendered = pageTemplate.Replace("<!--{css}-->", cssForInline);
+            rendered = rendered.Replace("<!--{content}-->", MarkdownRenderers.Markdown2Preview(md, parameters.InputFile.GetDirectory()));
+            
             parameters.OutputFile.WriteFile(log, rendered);
 
             return true;

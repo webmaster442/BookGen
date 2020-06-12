@@ -16,6 +16,7 @@ namespace BookGen.Resources
         TemplateWebHtml,
         TemplatePrintHtml,
         TemplateEpubHtml,
+        TemplateSinglePageHtml,
         IndexHtml,
         EditorHtml,
         PageTocJs,
