@@ -10,6 +10,8 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Resources;
 using BookGen.Utilities;
+using HarfBuzzSharp;
+using System;
 
 namespace BookGen.Modules
 {
@@ -72,8 +74,15 @@ namespace BookGen.Modules
 
             string rendered = pageTemplate.Replace("<!--{css}-->", cssForInline);
             rendered = rendered.Replace("<!--{content}-->", MarkdownRenderers.Markdown2Preview(md, parameters.InputFile.GetDirectory()));
-            
-            parameters.OutputFile.WriteFile(log, rendered);
+
+            if (parameters.OutputFile == new FsPath("-"))
+            {
+                Console.WriteLine(rendered);
+            }
+            else
+            {
+                parameters.OutputFile.WriteFile(log, rendered);
+            }
 
             return true;
         }
