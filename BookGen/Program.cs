@@ -54,6 +54,7 @@ namespace BookGen
             new SettingsModule(CurrentState, AppSetting),
             new InitModule(CurrentState),
             new PagegenModule(CurrentState),
+            new Md2HtmlModule(CurrentState),
             new VersionModule(CurrentState),
         };
 

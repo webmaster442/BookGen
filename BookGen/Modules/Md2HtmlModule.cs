@@ -10,7 +10,6 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Resources;
 using BookGen.Utilities;
-using HarfBuzzSharp;
 using System;
 
 namespace BookGen.Modules

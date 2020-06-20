@@ -39,7 +39,7 @@ namespace BookGen.Resources
             { KnownFile.TemplateEpubHtml, "/Html/TemplateEpub.html" },
             { KnownFile.TemplatePrintHtml, "/Html/TemplatePrint.html" },
             { KnownFile.TemplateWebHtml, "/Html/TemplateWeb.html" },
-            { KnownFile.TemplateSinglePageHtml, "/Html/TemplateSinglePage.htm" },
+            { KnownFile.TemplateSinglePageHtml, "/Html/TemplateSinglePage.html" },
             //etc
             { KnownFile.IndexMd, "/Etc/index.md" },
             { KnownFile.ScriptTemplateCs, "/Etc/ScriptTemplate.cs" },
