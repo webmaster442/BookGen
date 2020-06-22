@@ -85,27 +85,5 @@ namespace BookGen.Utilities
             }
             return string.Empty;
         }
-
-        public static string Reindex(string inputContent, ref int index)
-        {
-            int numMatches = _indexExpression.Matches(inputContent).Count;
-
-            if (numMatches < 1)
-                return inputContent;
-
-            inputContent = _indexExpression.Replace(inputContent, "REG$0");
-            for (int i = 0; i < (numMatches / 2); i++)
-            {
-                string expression = $"(REG\\[\\^{i + 1}\\])";
-                Regex r = new Regex(expression, RegexOptions.Compiled);
-                if (r.IsMatch(inputContent))
-                {
-                    inputContent = r.Replace(inputContent, $"[^{index}]");
-                    ++index;
-                }
-            }
-
-            return inputContent;
-        }
     }
 }

@@ -9,7 +9,6 @@ using BookGen.Core;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
-using BookGen.Utilities;
 using System.Linq;
 using System.Text;
 
@@ -17,8 +16,6 @@ namespace BookGen.GeneratorSteps
 {
     internal class CreatePrintableHtml : ITemplatedStep
     {
-        private int _index;
-
         private const string NewPage = "<p style=\"page-break-before: always\"></p>\r\n";
 
         public TemplateProcessor? Template { get; set; }
@@ -26,7 +23,6 @@ namespace BookGen.GeneratorSteps
 
         public CreatePrintableHtml()
         {
-            _index = 1;
         }
 
         public void RunStep(RuntimeSettings settings, ILog log)
@@ -44,6 +40,7 @@ namespace BookGen.GeneratorSteps
 
             foreach (var chapter in settings.TocContents.Chapters)
             {
+                log.Info("Processing: {0}...", chapter);
                 buffer.AppendFormat("<h1>{0}</h1>\r\n\r\n", chapter);
                 foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
@@ -52,13 +49,14 @@ namespace BookGen.GeneratorSteps
 
                     var inputContent = input.ReadFile(log);
 
-                    inputContent = MarkdownUtils.Reindex(inputContent, ref _index);
-                    buffer.AppendLine(inputContent);
+                    var rendered = MarkdownRenderers.Markdown2PrintHTML(inputContent, settings);
+
+                    buffer.AppendLine(rendered);
                     buffer.AppendLine(NewPage);
                 }
             }
 
-            Content.Content = MarkdownRenderers.Markdown2PrintHTML(buffer.ToString(), settings);
+            Content.Content = buffer.ToString();
             settings.CurrentTargetFile.WriteFile(log, Template.Render());
         }
     }
