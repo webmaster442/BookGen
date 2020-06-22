@@ -57,9 +57,10 @@ namespace BookGen.Core.Markdown
             return Markdig.Markdown.ToHtml(md, _printpipeline);
         }
 
-        public static string Markdown2Preview(string md, FsPath rootPath)
+        public static string Markdown2Preview(string md, FsPath rootPath, bool noSysntax = false)
         {
             PreviewModifier.WorkDir = rootPath;
+            SyntaxRenderer.Enabled = !noSysntax;
             return Markdig.Markdown.ToHtml(md, _previewpipeline);
         }
     }

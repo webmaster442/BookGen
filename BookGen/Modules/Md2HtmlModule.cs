@@ -6,6 +6,7 @@
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Markdown;
+using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Resources;
@@ -32,7 +33,11 @@ namespace BookGen.Modules
                                             "-o",
                                             "--output",
                                             "-c",
-                                            "--css");
+                                            "--css",
+                                            "-r",
+                                            "--raw",
+                                            "-ns",
+                                            "--no-syntax");
             }
         }
 
@@ -41,7 +46,9 @@ namespace BookGen.Modules
             md2HtmlParameters = new Md2HtmlParameters(
                 arguments.GetSwitchWithValue("-i", "--input"),
                 arguments.GetSwitchWithValue("-o", "--output"),
-                arguments.GetSwitchWithValue("-c", "--css"));
+                arguments.GetSwitchWithValue("-c", "--css"),
+                arguments.GetSwitch("-ns", "--no-syntax"),
+                arguments.GetSwitch("-r", "--raw"));
 
             if (md2HtmlParameters.Css != FsPath.Empty)
             {
@@ -71,8 +78,21 @@ namespace BookGen.Modules
                 cssForInline = parameters.Css.ReadFile(log);
             }
 
-            string rendered = pageTemplate.Replace("<!--{css}-->", cssForInline);
-            rendered = rendered.Replace("<!--{content}-->", MarkdownRenderers.Markdown2Preview(md, parameters.InputFile.GetDirectory()));
+            var mdcontent = MarkdownRenderers.Markdown2Preview(md, 
+                                                               parameters.InputFile.GetDirectory(),
+                                                               !parameters.NoSyntax);
+
+
+            string rendered;
+            if (parameters.RawHtml)
+            {
+                rendered = mdcontent;
+            }
+            else
+            {
+                rendered = pageTemplate.Replace("<!--{css}-->", cssForInline);
+                rendered = rendered.Replace("<!--{content}-->", mdcontent);
+            }
 
             if (parameters.OutputFile == new FsPath("-"))
             {

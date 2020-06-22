@@ -16,6 +16,8 @@ namespace BookGen.Core.Markdown.Pipeline
     {
         private readonly CodeBlockRenderer _underlyingRenderer;
 
+        public static bool Enabled { get; set; } = true;
+
         public SyntaxRenderer(CodeBlockRenderer underlyingRenderer)
         {
             _underlyingRenderer = underlyingRenderer ?? new CodeBlockRenderer();
@@ -45,7 +47,9 @@ namespace BookGen.Core.Markdown.Pipeline
 
         protected override void Write(HtmlRenderer renderer, CodeBlock obj)
         {
-            if (!(obj is FencedCodeBlock fencedCodeBlock) || !(obj.Parser is FencedCodeBlockParser parser))
+            if (!Enabled 
+                || !(obj is FencedCodeBlock fencedCodeBlock)
+                || !(obj.Parser is FencedCodeBlockParser parser))
             {
                 _underlyingRenderer.Write(renderer, obj);
                 return;
