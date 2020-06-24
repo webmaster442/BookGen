@@ -1,4 +1,4 @@
-2020.06.24
+# 2020.06.24
 * Added extra options for single page generation
 * Refined printable HTML output
 * Updated Moq libary dependency for testing
