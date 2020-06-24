@@ -8,6 +8,11 @@
     -i, --input: 
         Input markdown file path
     -o, --output: 
-        Output html file path
+        Output html file path.
     -c. --css:
         Optional argument. Specifies the css file to be aplied to the html
+    -ns, --no-syntax
+        Optional argument. Disables syntax highlight
+    -r, --raw
+        Optional argument. Disables full html generation, only outputs
+        the html produced by the markdown formatting.
