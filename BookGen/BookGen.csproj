@@ -13,7 +13,7 @@
 		<FileVersion>1.0.10.0</FileVersion>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<PackAsTool>true</PackAsTool>
-		<ToolCommandName>botsay</ToolCommandName>
+		<ToolCommandName>BookGen</ToolCommandName>
 		<PackageOutputPath>..\bin\nupkg</PackageOutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
@@ -25,7 +25,7 @@
 		<RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
 		<PackageTags>Book; Markdown; Static website</PackageTags>
 		<Authors>Ruzsinszki Gábor</Authors>
-		<Version>2020.06.24</Version>
+		<Version>2020.06.24.1</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseFile>LICENCE</PackageLicenseFile>
 	</PropertyGroup>

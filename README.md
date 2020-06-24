@@ -31,6 +31,20 @@ git submodule init
 git submodule update
 ```
 
+# Installing
+
+To run the tool you will need the .NET Core 3.1 SDK. Installation can be done with the dotnet command:
+
+```bash
+dotnet tool install --global BookGen
+```
+
+Update:
+
+```bash
+dotnet tool update --global BookGen
+```
+
 ## Documentation
 
 https://github.com/webmaster442/BookGen/wiki
