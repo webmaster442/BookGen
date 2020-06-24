@@ -2,12 +2,12 @@
 * Added extra options for single page generation
 * Refined printable HTML output
 * Updated Moq libary dependency for testing
-
-# 2020.06.09
-* Removed updater module
+* Added app setting to disable automatic url start
+* Server module for serving static files from a directory
+* Console log now has colors
+* Updated help
+* Diched auto update code, now uses the dotnet tool infrastructure for update and install
 * Markdown doc generator module
-
-# 2020.05.04
 * Integrated SkiaSharp and an image pipeline
 * Added support for Python and PHP scripts
 * Added app wide configuration for Script runtime locations and timeout configs
@@ -16,11 +16,13 @@
 * Gui rewitten
 * Help updated: split to chaopters
 * Static generated website uses turbolinks for faster navigation
-* Shell Autocomplete support
+* Shell Autocomplete support, by default for powershell
 * Shell changed to powershell
 * Wordpress builder fixed and extended with additional options
 * Generated Json uses UTF-8
 * More polished editor, that is based on Ace.js
+* Static website now has Turbolinks integrated
+* Keyword extractor and link extractor generator module
 
 # 2020.02.01
 * Changed versioning scheme. Assembly version reflects config file version, Builds are labeled by relase date
