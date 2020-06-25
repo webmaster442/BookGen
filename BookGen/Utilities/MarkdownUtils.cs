@@ -17,8 +17,6 @@ namespace BookGen.Utilities
 {
     internal static class MarkdownUtils
     {
-        private static readonly Regex _indexExpression = new Regex(@"(\[\^\d+\])", RegexOptions.Compiled);
-
         /// <summary>
         /// List files to process
         /// </summary>
