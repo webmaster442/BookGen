@@ -80,7 +80,7 @@ namespace BookGen.Modules
 
             var mdcontent = MarkdownRenderers.Markdown2Preview(md, 
                                                                parameters.InputFile.GetDirectory(),
-                                                               !parameters.NoSyntax);
+                                                               parameters.NoSyntax);
 
 
             string rendered;
@@ -94,7 +94,7 @@ namespace BookGen.Modules
                 rendered = rendered.Replace("<!--{content}-->", mdcontent);
             }
 
-            if (parameters.OutputFile == new FsPath("-"))
+            if (parameters.OutputFile == new FsPath("con"))
             {
                 Console.WriteLine(rendered);
             }

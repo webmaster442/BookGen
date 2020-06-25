@@ -8,7 +8,7 @@
     -i, --input: 
         Input markdown file path
     -o, --output: 
-        Output html file path.
+        Output html file path. If file name is "con", outputs to console.
     -c. --css:
         Optional argument. Specifies the css file to be aplied to the html
     -ns, --no-syntax

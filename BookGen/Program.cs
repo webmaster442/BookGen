@@ -72,6 +72,9 @@ namespace BookGen
                 ConfiugreStatelessModules();
                 AppSetting = AppSettingHandler.LoadAppSettings();
                 var arguments = new ArgumentParser(args);
+
+                DebugHelper.WaitForDebugger(arguments);
+
                 string command = arguments.GetValues().FirstOrDefault() ?? string.Empty;
 
                 moduleToRun = GetModuleToRun(command);
