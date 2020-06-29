@@ -1,3 +1,7 @@
+# 2020.06.29
+* Updated md2html module help
+* Fixed md2html module syntax rendering issue
+
 # 2020.06.24
 * Added extra options for single page generation
 * Refined printable HTML output
