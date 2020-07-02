@@ -10,6 +10,7 @@ using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.GeneratorSteps.MarkdownGenerators;
+using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
@@ -39,29 +40,20 @@ namespace BookGen.Modules
             }
         }
 
-        public bool TryGetArguments(ArgumentParser arguments, out PageGenParameters parsed)
+        public override bool Execute(string[] arguments)
         {
-            parsed = new PageGenParameters();
 
-            bool pageTypeSpecified = Enum.TryParse(arguments.GetSwitchWithValue("p", "page"), true, out PageType parsedPageType);
-            parsed.PageType = parsedPageType;
-
-            var dir = arguments.GetSwitchWithValue("d", "dir");
-
-            if (!string.IsNullOrEmpty(dir))
-                parsed.WorkDir = dir;
-
-            return pageTypeSpecified;
-        }
-
-        public override bool Execute(ArgumentParser tokenizedArguments)
-        {
-            if (!TryGetArguments(tokenizedArguments, out PageGenParameters parameters))
+            PageGenParameters args = new PageGenParameters();
+            if (!ArgumentParser.ParseArguments(arguments, args))
+            {
                 return false;
+            }
 
-            ILog log = new ConsoleLog(LogLevel.Info);
+            Api.LogLevel logLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
-            ProjectLoader loader = new ProjectLoader(log, parameters.WorkDir);
+            ILog log = new ConsoleLog(logLevel);
+
+            ProjectLoader loader = new ProjectLoader(log, args.Directory);
 
             if (loader.TryLoadAndValidateConfig(out var config)
                 && loader.TryLoadAndValidateToc(config, out var toc)
@@ -73,7 +65,7 @@ namespace BookGen.Modules
 
                 var settings = loader.CreateRuntimeSettings(config, toc, new BuildConfig());
 
-                switch (parameters.PageType)
+                switch (args.PageType)
                 {
                     case PageType.ExternalLinks:
                         RunGetLinks(settings, log);

@@ -3,18 +3,18 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Ui.ArgumentParser;
 using System;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class PageGenParameters
+    internal class PageGenParameters: BookGenArgumentBase
     {
+        [Switch("--p", "--page", true)]
         public PageType? PageType { get; set; }
-        public string WorkDir { get; set; }
 
-        public PageGenParameters()
+        public PageGenParameters(): base()
         {
-            WorkDir = Environment.CurrentDirectory;
         }
     }
 }

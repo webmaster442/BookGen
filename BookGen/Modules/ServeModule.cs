@@ -6,7 +6,6 @@
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
-using BookGen.Domain.VsTasks;
 using BookGen.Framework.Server;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;

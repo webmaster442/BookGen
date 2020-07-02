@@ -72,7 +72,6 @@ namespace BookGen
             {
                 ConfiugreStatelessModules();
                 AppSetting = AppSettingHandler.LoadAppSettings();
-                var arguments = new ArgumentParser();
 
                 string command = SubcommandParser.GetCommand(args, out string[] parameters);
 
