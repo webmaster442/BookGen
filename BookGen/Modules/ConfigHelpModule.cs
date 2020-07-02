@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
 using BookGen.Domain.Shell;
 using BookGen.Utilities;
 using System;
@@ -20,7 +19,7 @@ namespace BookGen.Modules
 
         public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem("ConfigHelp");
 
-        public override bool Execute(ArgumentParser tokenizedArguments)
+        public override bool Execute(string[] arguments)
         {
             Console.WriteLine(HelpUtils.DocumentConfiguration());
             Environment.Exit(1);

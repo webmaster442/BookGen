@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Contracts;
-using BookGen.Core;
-using BookGen.Domain.VsTasks;
-using Fizzler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,18 +16,9 @@ namespace BookGen.Modules.Special
 
         public IEnumerable<StateModuleBase>? Modules { get; set; }
 
-        public override bool Execute(ArgumentParser tokenizedArguments)
+        public override bool Execute(string[] arguments)
         {
-            var args = tokenizedArguments.Raw;
-
-            if (args.Length > 2
-                && string.Equals(args[0], "BookGen", StringComparison.OrdinalIgnoreCase)
-                && string.Equals(args[1], "Shell", StringComparison.OrdinalIgnoreCase))
-            {
-                args = args.Skip(2).ToArray();
-            }
-
-            IEnumerable<string> results = DoComplete(args);
+            IEnumerable<string> results = DoComplete(arguments);
 
             foreach (var item in results)
             {

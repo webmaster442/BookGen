@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Contracts;
-using BookGen.Core;
 using BookGen.Framework;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace BookGen.Modules.Special
 
         public IEnumerable<StateModuleBase>? Modules { get; set; }
 
-        public override bool Execute(ArgumentParser tokenizedArguments)
+        public override bool Execute(string[] arguments)
         {
             if (Modules == null)
                 throw new DependencyException("Modules is null");
