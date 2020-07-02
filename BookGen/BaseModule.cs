@@ -10,7 +10,7 @@ namespace BookGen
     internal abstract class BaseModule
     {
         public abstract string ModuleCommand { get; }
-        public abstract bool Execute(ArgumentParser tokenizedArguments);
+        public abstract bool Execute(string[] arguments);
         public abstract string GetHelp();
     }
 }

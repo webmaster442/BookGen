@@ -25,7 +25,7 @@ namespace BookGen.Ui.ArgumentParser
             _filled = 0;
         }
 
-        public bool ParseArguments<T>(string[] args, ref T targetClass) where T: ArgumentsBase
+        public bool ParseArguments<T>(string[] args, T targetClass) where T: ArgumentsBase
         {
             _properties.Clear();
             _filled = 0;
@@ -35,7 +35,9 @@ namespace BookGen.Ui.ArgumentParser
             Inialize(tType);
             WalkArgsAndFillClass(args, ref targetClass);
 
-            return _filled == _required;
+            return
+                _filled == _required
+                && targetClass.Validate();
         }
 
         private SwitchAttribute? GetSwitchAttrubute(PropertyInfo property)

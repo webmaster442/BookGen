@@ -7,7 +7,9 @@ using BookGen.Api;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
+using System.Net.Http.Headers;
 
 namespace BookGen.Modules
 {
@@ -33,23 +35,15 @@ namespace BookGen.Modules
             }
         }
 
-        private bool GetParameters(ArgumentParser arguments, out AssemblyDocumentParameters parameters)
+        public override bool Execute(string[] arguments)
         {
-            parameters = new AssemblyDocumentParameters();
-            parameters.AssemblyPath = new FsPath(arguments.GetSwitchWithValue("-a", "--assembly"));
-            parameters.XmlPath = new FsPath(arguments.GetSwitchWithValue("-x", "--xml"));
-            parameters.OutputDirectory = new FsPath(arguments.GetSwitchWithValue("-o", "--output"));
+            var parameters = new AssemblyDocumentParameters();
 
-            return
-                parameters.AssemblyPath.IsExisting
-                && parameters.XmlPath.IsExisting
-                && !FsPath.IsEmptyPath(parameters.OutputDirectory);
-        }
-
-        public override bool Execute(ArgumentParser tokenizedArguments)
-        {
-            if (!GetParameters(tokenizedArguments, out AssemblyDocumentParameters parameters))
+            ArgumentParser argumentParser = new ArgumentParser();
+            if (!argumentParser.ParseArguments(arguments, parameters))
+            {
                 return false;
+            }
 
             ILog log = new ConsoleLog();
 

@@ -8,5 +8,10 @@
         {
             Files = new string[0];
         }
+
+        public virtual bool Validate()
+        {
+            return true;
+        }
     }
 }
