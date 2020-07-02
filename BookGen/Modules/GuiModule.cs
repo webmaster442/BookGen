@@ -13,11 +13,11 @@ namespace BookGen.Modules
 {
     internal class GuiModule : StateModuleBase
     {
-        private readonly Gui.ConsoleUi uiRunner;
+        private readonly Ui.ConsoleUi uiRunner;
 
         public GuiModule(ProgramState currentState) : base(currentState)
         {
-            uiRunner = new Gui.ConsoleUi();
+            uiRunner = new Ui.ConsoleUi();
         }
 
         public override string ModuleCommand => "Gui";

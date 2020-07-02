@@ -3,15 +3,15 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Gui.Mvvm;
-using BookGen.Gui.XmlEntities;
+using BookGen.Ui.Mvvm;
+using BookGen.Ui.XmlEntities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using Terminal.Gui;
 
-namespace BookGen.Gui
+namespace BookGen.Ui
 {
     internal class Binder
     {

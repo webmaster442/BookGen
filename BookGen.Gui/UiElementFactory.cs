@@ -3,10 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Gui.XmlEntities;
+using BookGen.Ui.XmlEntities;
 using Terminal.Gui;
 
-namespace BookGen.Gui
+namespace BookGen.Ui
 {
     internal class UiElementFactory
     {
