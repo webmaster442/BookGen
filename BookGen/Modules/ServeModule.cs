@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Domain.VsTasks;
 using BookGen.Framework.Server;
+using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System;
 
@@ -23,23 +26,25 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("Serve", "-d", "--dir");
+                return new AutoCompleteItem("Serve", "-d", "--dir", "-v", "--verbose");
             }
         }
 
-        public override bool Execute(ArgumentParser tokenizedArguments)
+        public override bool Execute(string[] arguments)
         {
-            var dir = tokenizedArguments.GetSwitchWithValue("d", "dir");
-
-            if (string.IsNullOrEmpty(dir))
-                dir = Environment.CurrentDirectory;
-
-
-            var log = new ConsoleLog(Api.LogLevel.Detail);
-
-            using (var server = new HttpServer(dir, 8081, log))
+            BookGenArgumentBase args = new BookGenArgumentBase();
+            if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                Console.WriteLine("Serving: {0}", dir);
+                return false;
+            }
+
+            Api.LogLevel logLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
+
+            var log = new ConsoleLog(logLevel);
+
+            using (var server = new HttpServer(args.Directory, 8081, log))
+            {
+                Console.WriteLine("Serving: {0}", args.Directory);
                 Console.WriteLine("Server running on http://localhost:8081");
                 Console.WriteLine("Press a key to exit...");
                 Console.ReadLine();
