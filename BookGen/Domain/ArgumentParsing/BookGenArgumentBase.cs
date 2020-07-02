@@ -1,20 +1,24 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Ui.ArgumentParser;
 using System;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class GuiParameters
+    internal class BookGenArgumentBase: ArgumentsBase
     {
+        [Switch("v", "verbose")]
         public bool Verbose { get; set; }
-        public string WorkDir { get; set; }
-        
-        public GuiParameters()
+
+        [Switch("d", "dir")]
+        public string Directory { get; set; }
+
+        public BookGenArgumentBase()
         {
-            WorkDir = Environment.CurrentDirectory;
+            Directory = Environment.CurrentDirectory;
         }
     }
 }

@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.ConsoleUi;
-using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 
 namespace BookGen.Modules
@@ -34,27 +34,17 @@ namespace BookGen.Modules
             }
         }
 
-        private GuiParameters GetGuiParameters(ArgumentParser arguments)
+        public override bool Execute(string[] arguments)
         {
-            var guiParams = new GuiParameters
+
+            BookGenArgumentBase args = new BookGenArgumentBase();
+            if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                Verbose = arguments.GetSwitch("v", "verbose")
-            };
-
-            var dir = arguments.GetSwitchWithValue("d", "dir");
-
-            if (!string.IsNullOrEmpty(dir))
-                guiParams.WorkDir = dir;
-
-            return guiParams;
-        }
-
-        public override bool Execute(ArgumentParser tokenizedArguments)
-        {
-            var parameters = GetGuiParameters(tokenizedArguments);
+                return false;
+            }
 
             CurrentState.Gui = true;
-            CurrentState.GeneratorRunner = Program.CreateRunner(parameters.Verbose, parameters.WorkDir);
+            CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.Directory);
 
             System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
             var vm = new MainViewModel(CurrentState.GeneratorRunner);

@@ -11,21 +11,14 @@ using System.Reflection;
 
 namespace BookGen.Ui.ArgumentParser
 {
-    public sealed class ArgumentParser
+    public static class ArgumentParser
     {
-        private readonly Dictionary<SwitchAttribute, PropertyInfo> _properties;
-        private readonly List<string> _files;
-        private int _filled;
-        private int _required;
+        private static readonly Dictionary<SwitchAttribute, PropertyInfo> _properties = new Dictionary<SwitchAttribute, PropertyInfo>();
+        private static readonly List<string> _files = new List<string>();
+        private static int _filled = 0;
+        private static int _required = 0;
 
-        public ArgumentParser()
-        {
-            _properties = new Dictionary<SwitchAttribute, PropertyInfo>();
-            _files = new List<string>();
-            _filled = 0;
-        }
-
-        public bool ParseArguments<T>(string[] args, T targetClass) where T: ArgumentsBase
+        public static bool ParseArguments<T>(string[] args, T targetClass) where T: ArgumentsBase
         {
             _properties.Clear();
             _filled = 0;
@@ -40,14 +33,14 @@ namespace BookGen.Ui.ArgumentParser
                 && targetClass.Validate();
         }
 
-        private SwitchAttribute? GetSwitchAttrubute(PropertyInfo property)
+        private static SwitchAttribute? GetSwitchAttrubute(PropertyInfo property)
         {
             return property
                 .GetCustomAttributes()
                 .FirstOrDefault(p => p is SwitchAttribute) as SwitchAttribute;
         }
 
-        private void Inialize(Type tType)
+        private static void Inialize(Type tType)
         {
             PropertyInfo[]? props = tType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (var property in props)
@@ -71,7 +64,7 @@ namespace BookGen.Ui.ArgumentParser
                 return current;
         }
 
-        private void WalkArgsAndFillClass<T>(string[] args, ref T targetClass) where T : ArgumentsBase
+        private static void WalkArgsAndFillClass<T>(string[] args, ref T targetClass) where T : ArgumentsBase
         {
             int i = 0;
             bool nextIsswitch, currentIsSwitch;
@@ -105,7 +98,7 @@ namespace BookGen.Ui.ArgumentParser
             targetClass.Files = _files.ToArray();
         }
 
-        private void SetSwitchWithValue<T>(string key, string value, ref T targetClass) where T : ArgumentsBase
+        private static void SetSwitchWithValue<T>(string key, string value, ref T targetClass) where T : ArgumentsBase
         {
             PropertyInfo? prop = _properties
                 .Where(s => s.Key.ShortName == key || s.Key.LongName == key)
@@ -145,7 +138,7 @@ namespace BookGen.Ui.ArgumentParser
             }
         }
 
-        private void SetSwitch<T>(string key, ref T targetClass) where T : ArgumentsBase
+        private static void SetSwitch<T>(string key, ref T targetClass) where T : ArgumentsBase
         {
             PropertyInfo? prop = _properties
                 .Where(s => s.Key.ShortName == key || s.Key.LongName == key)
