@@ -114,9 +114,30 @@ namespace BookGen.Ui.ArgumentParser
 
             if (prop != null)
             {
-                object converted = Convert.ChangeType(value, prop.PropertyType, CultureInfo.InvariantCulture);
-                prop.SetValue(targetClass, converted);
-                ++_filled;
+                if (prop.PropertyType.IsEnum &&
+                    Enum.TryParse(prop.PropertyType, value, out object? parsed))
+                {
+                    prop.SetValue(targetClass, parsed);
+                    ++_filled;
+                }
+                else
+                {
+                    try
+                    {
+                        object converted = Convert.ChangeType(value, prop.PropertyType, CultureInfo.InvariantCulture);
+                        prop.SetValue(targetClass, converted);
+                        ++_filled;
+                    }
+                    catch (Exception ex) 
+                        when (ex is InvalidCastException
+                             || ex is FormatException
+                             || ex is OverflowException
+                             || ex is ArgumentException)
+                    {
+                        --_filled;
+                    }
+                }
+
             }
             else
             {
