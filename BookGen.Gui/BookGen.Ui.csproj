@@ -25,4 +25,8 @@
 		</None>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
+	</ItemGroup>
+
 </Project>

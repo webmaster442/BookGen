@@ -3,8 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -29,7 +31,7 @@ namespace BookGen.Ui.ArgumentParser
             WalkArgsAndFillClass(args, ref targetClass);
 
             return
-                _filled == _required
+                _filled >= _required
                 && targetClass.Validate();
         }
 
@@ -77,7 +79,7 @@ namespace BookGen.Ui.ArgumentParser
 
                 if (currentIsSwitch)
                 {
-                    if (nextIsswitch)
+                    if (nextIsswitch || string.IsNullOrEmpty(next))
                     {
                         ++i;
                         //standalone switch
@@ -113,6 +115,11 @@ namespace BookGen.Ui.ArgumentParser
                     prop.SetValue(targetClass, parsed);
                     ++_filled;
                 }
+                else if (prop.PropertyType == typeof(FsPath))
+                {
+                    prop.SetValue(targetClass, new FsPath(value));
+                    ++_filled;
+                }
                 else
                 {
                     try
@@ -128,6 +135,9 @@ namespace BookGen.Ui.ArgumentParser
                              || ex is ArgumentException)
                     {
                         --_filled;
+#if DEBUG
+                        Debugger.Break();
+#endif
                     }
                 }
 

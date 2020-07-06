@@ -38,8 +38,7 @@ namespace BookGen.Modules
         {
             var parameters = new AssemblyDocumentParameters();
 
-            ArgumentParser argumentParser = new ArgumentParser();
-            if (!argumentParser.ParseArguments(arguments, parameters))
+            if (!ArgumentParser.ParseArguments(arguments, parameters))
             {
                 return false;
             }
