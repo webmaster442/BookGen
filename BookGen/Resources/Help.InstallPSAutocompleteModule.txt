@@ -1,0 +1,10 @@
+﻿Install powershell autocomplete support
+-------------------------------------------------------------------------------
+
+    BookGen InstallPsAutocomplete $profile
+    BookGen InstallPsAutocomplete --dotnet $profile
+
+    Arguments:
+    -dn, --dotnet:
+        Optional argument. If specified, then the dotnet tool autocompleter
+        will also be installed.

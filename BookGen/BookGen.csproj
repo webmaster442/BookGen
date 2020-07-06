@@ -41,6 +41,8 @@
 	<ItemGroup>
 		<None Remove="ConsoleUi\InitializeView.xml" />
 		<None Remove="ConsoleUi\MainView.xml" />
+		<None Remove="Resources\completer.dn.ps1" />
+		<None Remove="Resources\completer.ps1" />
 		<None Remove="Resources\Help.AssemblyDocumentModule.txt" />
 		<None Remove="Resources\Help.BuildModule.txt" />
 		<None Remove="Resources\Help.ConfigHelpModule.txt" />
@@ -48,6 +50,7 @@
 		<None Remove="Resources\Help.General.txt" />
 		<None Remove="Resources\Help.GuiModule.txt" />
 		<None Remove="Resources\Help.InitModule.txt" />
+		<None Remove="Resources\Help.InstallPSAutocompleteModule.txt" />
 		<None Remove="Resources\Help.Md2HtmlModule.txt" />
 		<None Remove="Resources\Help.PagegenModule.txt" />
 		<None Remove="Resources\Help.ServeModule.txt" />
@@ -72,6 +75,8 @@
 		<EmbeddedResource Include="ConsoleUi\InitializeView.xml" />
 		<EmbeddedResource Include="ConsoleUi\MainView.xml" />
 		<Content Include="Icon.ico" />
+		<EmbeddedResource Include="Resources\completer.dn.ps1" />
+		<EmbeddedResource Include="Resources\completer.ps1" />
 		<EmbeddedResource Include="Resources\Help.ConfigHelpModule.txt" />
 		<EmbeddedResource Include="Resources\Error404.html" />
 		<EmbeddedResource Include="Resources\Help.AssemblyDocumentModule.txt" />
@@ -86,6 +91,7 @@
 		<EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
 		<EmbeddedResource Include="Resources\Help.VersionModule.txt" />
 		<EmbeddedResource Include="Resources\ReplaceContents.bat" />
+    <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
@@ -101,9 +107,6 @@
 		<None Update="BookGen.cmd">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Shell.ps1">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 		<None Update="BookGenShell.cmd">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -112,5 +115,8 @@
 		<AssemblyAttribute Include="BookGen.AssemblyBuildDateAttribute">
 			<_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
 		</AssemblyAttribute>
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
 	</ItemGroup>
 </Project>
