@@ -10,7 +10,6 @@ using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
-using System.Linq;
 
 namespace BookGen.Core.Markdown.Pipeline
 {
