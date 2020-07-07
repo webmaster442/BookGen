@@ -6,7 +6,6 @@
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Markdown;
-using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Resources;
