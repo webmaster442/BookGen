@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace BookGen.Tests
 {
-    [TestFixture]
+    [TestFixture, SingleThreaded]
     public class UT_Compiler
     {
         private const string source = @"namespace Test
@@ -24,25 +24,12 @@ namespace BookGen.Tests
     }
 }";
 
-        private Compiler _sut;
-        private Mock<ILog> _logMock;
-
-        [SetUp]
-        public void Setup()
-        {
-            _logMock = new Mock<ILog>();
-            _sut = new Compiler(_logMock.Object);
-        }
-
-        [TearDown]
-        public void Teardown()
-        {
-            _sut = null;
-        }
-
         [Test]
         public void EnsureThat_Compiler_CompileToAssembly_ReturnsAssemblyValidSource()
         {
+            var _logMock = new Mock<ILog>();
+            var _sut = new Compiler(_logMock.Object);
+
             var tree = _sut.ParseToSyntaxTree(source);
             var result = _sut.CompileToAssembly(tree);
             Assert.IsNotNull(result);
@@ -52,6 +39,9 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_Compiler_CompileToAssembly_ReturnsNullInValidSource()
         {
+            var _logMock = new Mock<ILog>();
+            var _sut = new Compiler(_logMock.Object);
+
             const string invalidsource = source + "asdd";
 
             var tree = _sut.ParseToSyntaxTree(invalidsource);

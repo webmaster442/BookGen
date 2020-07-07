@@ -86,7 +86,8 @@ namespace BookGen.Framework.Scripts
 
         public Assembly? CompileToAssembly(IEnumerable<SyntaxTree> syntaxTrees)
         {
-            CSharpCompilation compiler = CSharpCompilation.Create("scripts.dll")
+            var timestamp = $"{DateTime.Now.Hour}{DateTime.Now.Minute}{DateTime.Now.Second}{DateTime.Now.Millisecond}";
+            CSharpCompilation compiler = CSharpCompilation.Create($"scripts_{timestamp}.dll")
                 .WithOptions(_compilerOptions)
                 .AddReferences(_references.ToArray())
                 .AddSyntaxTrees(syntaxTrees);
