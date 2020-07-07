@@ -10,13 +10,13 @@ namespace BookGen.Domain.ArgumentParsing
 {
     internal sealed class AssemblyDocumentParameters: ArgumentsBase
     {
-        [Switch("-a", "--assembly", true)]
+        [Switch("a", "assembly", true)]
         public FsPath AssemblyPath { get; set; }
         
-        [Switch("-x", "--xml", true)]
+        [Switch("x", "xml", true)]
         public FsPath XmlPath { get; set; }
 
-        [Switch("-o", "--output", true)]
+        [Switch("o", "output", true)]
         public FsPath OutputDirectory { get; set; }
 
         public AssemblyDocumentParameters()

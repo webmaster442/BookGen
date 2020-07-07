@@ -9,7 +9,7 @@ namespace BookGen.Domain.ArgumentParsing
 {
     internal class InstallPsArguments : ArgumentsBase
     {
-        [Switch("-dn", "--dotnet")]
+        [Switch("dn", "dotnet")]
         public bool Dotnet { get; set; }
 
         public override bool Validate()

@@ -4,13 +4,12 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Ui.ArgumentParser;
-using System;
 
 namespace BookGen.Domain.ArgumentParsing
 {
     internal class PageGenParameters: BookGenArgumentBase
     {
-        [Switch("--p", "--page", true)]
+        [Switch("p", "page", true)]
         public PageType? PageType { get; set; }
 
         public PageGenParameters(): base()

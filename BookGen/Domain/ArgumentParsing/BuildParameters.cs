@@ -13,13 +13,13 @@ namespace BookGen.Domain.ArgumentParsing
         [Switch("a", "action", true)]
         public ActionType? Action { get; set; }
 
-        [Switch("--n", "--nowait")]
+        [Switch("n", "nowait")]
         public bool NoWaitForExit { get; set; }
 
         [Switch("v", "verbose")]
         public bool Verbose { get; set; }
 
-        [Switch("-d", "--dir")]
+        [Switch("d", "dir")]
         public string WorkDir { get; set; }
 
         public BuildParameters()

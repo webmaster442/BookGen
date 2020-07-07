@@ -10,19 +10,19 @@ namespace BookGen.Domain.ArgumentParsing
 {
     internal class Md2HtmlParameters : ArgumentsBase
     {
-        [Switch("-i", "--input", true)]
+        [Switch("i", "input", true)]
         public FsPath InputFile { get; set; }
 
-        [Switch("-o", "--output", true)]
+        [Switch("o", "output", true)]
         public FsPath OutputFile { get; set; }
 
-        [Switch("-c", "--css")]
+        [Switch("c", "css")]
         public FsPath Css { get; set; }
 
-        [Switch("-ns", "--no-syntax")]
+        [Switch("ns", "no-syntax")]
         public bool NoSyntax { get; set; }
 
-        [Switch("-r", "--raw")]
+        [Switch("r", "raw")]
         public bool RawHtml { get; set; }
 
 
