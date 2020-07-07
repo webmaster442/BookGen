@@ -8,6 +8,8 @@ BookGen Build -a Initialize {-d [directory]}
 To get information regarding the configuration file bookgen.json file run:
 Bookgen ConfigHelp
 
-To Get more help about a subcommand type BookGen Help <module>
+To Get more help about a subcommand type: BookGen Help <module>
 
-To list available subcommands type BookGen SubCommands
+To list available subcommands type: BookGen SubCommands
+
+To install powershell atuocomplete type: BookGen InstallPsAutocomplete $profile

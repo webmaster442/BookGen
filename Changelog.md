@@ -1,3 +1,8 @@
+# next
+* Fixes issues in md2html module image embed
+* Added powershell autocomplete install module
+* Better argument handling
+
 # 2020.06.29
 * Updated md2html module help
 * Fixed md2html module syntax rendering issue
