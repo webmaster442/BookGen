@@ -1,19 +1,24 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Ui.ArgumentParser;
+using System;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class PageGenParameters: BookGenArgumentBase
+    internal class BookGenArgumentBase: ArgumentsBase
     {
-        [Switch("p", "page", true)]
-        public PageType? PageType { get; set; }
+        [Switch("v", "verbose")]
+        public bool Verbose { get; set; }
 
-        public PageGenParameters(): base()
+        [Switch("d", "dir")]
+        public string Directory { get; set; }
+
+        public BookGenArgumentBase()
         {
+            Directory = Environment.CurrentDirectory;
         }
     }
 }

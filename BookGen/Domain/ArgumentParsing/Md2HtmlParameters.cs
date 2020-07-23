@@ -4,24 +4,46 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Ui.ArgumentParser;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class Md2HtmlParameters
+    internal class Md2HtmlParameters : ArgumentsBase
     {
-        public FsPath InputFile { get; }
-        public FsPath OutputFile { get; }
-        public FsPath Css { get; }
-        public bool NoSyntax { get; }
-        public bool RawHtml { get; }
+        [Switch("i", "input", true)]
+        public FsPath InputFile { get; set; }
 
-        public Md2HtmlParameters(string inputFile, string outputFile, string css, bool nosyntax, bool raw)
+        [Switch("o", "output", true)]
+        public FsPath OutputFile { get; set; }
+
+        [Switch("c", "css")]
+        public FsPath Css { get; set; }
+
+        [Switch("ns", "no-syntax")]
+        public bool NoSyntax { get; set; }
+
+        [Switch("r", "raw")]
+        public bool RawHtml { get; set; }
+
+
+        public Md2HtmlParameters()
         {
-            InputFile = new FsPath(inputFile);
-            OutputFile = new FsPath(outputFile);
-            Css = new FsPath(css);
-            RawHtml = raw;
-            NoSyntax = nosyntax;
+            Css = FsPath.Empty;
+            InputFile = FsPath.Empty;
+            OutputFile = FsPath.Empty;
+        }
+
+        public override bool Validate()
+        {
+            if (Css != FsPath.Empty)
+            {
+                return
+                    Css.IsExisting
+                    && InputFile.IsExisting;
+            }
+
+            return
+                InputFile.IsExisting;
         }
     }
 }

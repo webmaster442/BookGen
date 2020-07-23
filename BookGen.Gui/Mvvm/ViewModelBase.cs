@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Gui.Mvvm
+namespace BookGen.Ui.Mvvm
 {
     public abstract class ViewModelBase
     {

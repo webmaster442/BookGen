@@ -346,7 +346,8 @@ namespace BookGen.Core
 
         public static FsPath GetDirectory(this FsPath path)
         {
-            return new FsPath(Path.GetDirectoryName(path.ToString()));
+            var fullpath = Path.GetFullPath(path.ToString());
+            return new FsPath(Path.GetDirectoryName(fullpath));
         }
     }
 }

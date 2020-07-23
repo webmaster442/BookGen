@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Gui.XmlEntities
+namespace BookGen.Ui.XmlEntities
 {
     public class XTextBlock: XView
     {

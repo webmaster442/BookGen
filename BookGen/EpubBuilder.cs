@@ -3,13 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Resources;
 using BookGen.Api;
 using BookGen.Core;
-using BookGen.Core.Configuration;
+using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Framework.Scripts;
-using BookGen.Domain;
+using BookGen.Resources;
 
 namespace BookGen
 {

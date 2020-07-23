@@ -153,13 +153,15 @@ namespace BookGen.Tests
                                                  "determine key phrases in a body of text by analyzing the frequency of word " +
                                                  "appearance and its co-occurance with other words in the text.", 5);
 
-            string[] expected = new string[] { "determine key phrases", "word appearance", "rake", "short", "tries" };
+            string[] expected = new string[] { "rake", "body", "short", "tries", "text" };
 
             foreach (var keyword in keywords)
             {
-                Assert.IsTrue(expected.Contains(keyword));
+                if (!expected.Contains(keyword))
+                {
+                    Assert.Fail($"{keyword} not found");
+                }
             }
-        
         }
     }
 }

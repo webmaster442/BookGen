@@ -6,6 +6,7 @@
 using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Domain.Shell;
+using BookGen.Domain.VsTasks;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
@@ -45,27 +46,25 @@ namespace BookGen.Modules
             }
         }
 
-        public override bool Execute(ArgumentParser tokenizedArguments)
+        public override bool Execute(string[] arguments)
         {
-            var items = tokenizedArguments.GetValues().ToList();
+            if (arguments.Length < 2) return false;
 
-            if (items.Count < 2) return false;
-
-            if (string.Equals(items[1], "list", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(arguments[1], "list", StringComparison.OrdinalIgnoreCase))
             {
                 ListAvailableSettings();
                 return true;
             }
-            else if (string.Equals(items[1], "get", StringComparison.OrdinalIgnoreCase)
-                     && items.Count == 3)
+            else if (string.Equals(arguments[1], "get", StringComparison.OrdinalIgnoreCase)
+                     && arguments.Length == 3)
             {
-                GetSetting(items[2]);
+                GetSetting(arguments[2]);
                 return true;
             }
-            else if (string.Equals(items[1], "set", StringComparison.OrdinalIgnoreCase)
-                     && items.Count == 4)
+            else if (string.Equals(arguments[1], "set", StringComparison.OrdinalIgnoreCase)
+                     && arguments.Length == 4)
             {
-                SetSetting(items[2], items[3]);
+                SetSetting(arguments[2], arguments[3]);
                 return true;
             }
 

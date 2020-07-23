@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Gui.Mvvm;
+using BookGen.Ui.Mvvm;
 using System;
 
 namespace BookGen.ConsoleUi

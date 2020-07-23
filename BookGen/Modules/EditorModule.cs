@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System;
 
@@ -24,20 +26,21 @@ namespace BookGen.Modules
             {
                 return new AutoCompleteItem("Editor",
                                             "-d",
-                                            "--dir");
+                                            "--dir",
+                                             "-v", 
+                                             "--verbose");
             }
         }
 
-        public override bool Execute(ArgumentParser tokenizedArguments)
+        public override bool Execute(string[] arguments)
         {
-            string workdir = Environment.CurrentDirectory;
+            BookGenArgumentBase args = new BookGenArgumentBase();
+            if (!ArgumentParser.ParseArguments(arguments, args))
+            {
+                return false;
+            }
 
-            var dir = tokenizedArguments.GetSwitchWithValue("d", "dir");
-
-            if (!string.IsNullOrEmpty(dir))
-                workdir = dir;
-
-            GeneratorRunner runner = Program.CreateRunner(false, workdir);
+            GeneratorRunner runner = Program.CreateRunner(args.Verbose, args.Directory);
 
             if (runner.Initialize(false))
             {

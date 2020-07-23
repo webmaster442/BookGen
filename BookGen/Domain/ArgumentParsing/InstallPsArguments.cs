@@ -1,20 +1,20 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
+using BookGen.Ui.ArgumentParser;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class GuiParameters
+    internal class InstallPsArguments : ArgumentsBase
     {
-        public bool Verbose { get; set; }
-        public string WorkDir { get; set; }
-        
-        public GuiParameters()
+        [Switch("dn", "dotnet")]
+        public bool Dotnet { get; set; }
+
+        public override bool Validate()
         {
-            WorkDir = Environment.CurrentDirectory;
+            return Files.Length == 1;
         }
     }
 }

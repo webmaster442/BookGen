@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
-using System;
 using System.Text;
 
 namespace BookGen.Modules
@@ -43,36 +42,16 @@ namespace BookGen.Modules
             }
         }
 
-        private bool TryGetBuildParameters(ArgumentParser arguments, out BuildParameters buildParameters)
+        public override bool Execute(string[] arguments)
         {
-            buildParameters = new BuildParameters
+            BuildParameters args = new BuildParameters();
+            if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                NoWaitForExit = arguments.GetSwitch("n", "nowait"),
-                Verbose = arguments.GetSwitch("v", "verbose")
-            };
-
-
-            var dir = arguments.GetSwitchWithValue("d", "dir");
-
-            if (!string.IsNullOrEmpty(dir))
-                buildParameters.WorkDir = dir;
-
-            var action = arguments.GetSwitchWithValue("a", "action");
-
-            bool result = Enum.TryParse(action, true, out ActionType parsedAction);
-
-            buildParameters.Action = parsedAction;
-            return result;
-
-        }
-
-        public override bool Execute(ArgumentParser tokenizedArguments)
-        {
-            if (!TryGetBuildParameters(tokenizedArguments, out BuildParameters parameters))
                 return false;
+            }
 
-            CurrentState.GeneratorRunner = Program.CreateRunner(parameters.Verbose, parameters.WorkDir);
-            switch (parameters.Action)
+            CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.WorkDir);
+            switch (args.Action)
             {
                 case ActionType.BuildWeb:
                     CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoBuild());

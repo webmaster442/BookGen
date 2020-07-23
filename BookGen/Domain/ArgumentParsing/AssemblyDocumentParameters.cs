@@ -4,13 +4,19 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Ui.ArgumentParser;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class AssemblyDocumentParameters
+    internal sealed class AssemblyDocumentParameters: ArgumentsBase
     {
+        [Switch("a", "assembly", true)]
         public FsPath AssemblyPath { get; set; }
+        
+        [Switch("x", "xml", true)]
         public FsPath XmlPath { get; set; }
+
+        [Switch("o", "output", true)]
         public FsPath OutputDirectory { get; set; }
 
         public AssemblyDocumentParameters()
@@ -18,6 +24,14 @@ namespace BookGen.Domain.ArgumentParsing
             AssemblyPath = FsPath.Empty;
             XmlPath = FsPath.Empty;
             OutputDirectory = FsPath.Empty;
+        }
+
+        public override bool Validate()
+        {
+            return
+                AssemblyPath.IsExisting
+                && XmlPath.IsExisting
+                && !FsPath.IsEmptyPath(OutputDirectory);
         }
     }
 }

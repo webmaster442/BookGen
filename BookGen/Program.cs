@@ -9,6 +9,7 @@ using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Modules;
 using BookGen.Modules.Special;
+using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System;
 using System.Linq;
@@ -71,11 +72,10 @@ namespace BookGen
             {
                 ConfiugreStatelessModules();
                 AppSetting = AppSettingHandler.LoadAppSettings();
-                var arguments = new ArgumentParser(args);
 
-                DebugHelper.WaitForDebugger(arguments);
+                string command = SubcommandParser.GetCommand(args, out string[] parameters);
 
-                string command = arguments.GetValues().FirstOrDefault() ?? string.Empty;
+                DebugHelper.WaitForDebugger(parameters);
 
                 moduleToRun = GetModuleToRun(command);
 
@@ -86,7 +86,7 @@ namespace BookGen
                     return;
                 }
 
-                if (moduleToRun.Execute(arguments) == false)
+                if (moduleToRun.Execute(parameters) == false)
                 {
                     Console.WriteLine(moduleToRun?.GetHelp());
                     Exit(ExitCode.BadParameters);

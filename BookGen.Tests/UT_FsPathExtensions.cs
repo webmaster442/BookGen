@@ -87,7 +87,7 @@ namespace BookGen.Tests
 
             var files = Directory.GetFiles(Path.Combine(_testDir, "copydir"));
 
-            Assert.AreEqual(8, files.Length);
+            Assert.AreEqual(6, files.Length);
         }
 
         [TestCase("", "")]

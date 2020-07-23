@@ -5,36 +5,40 @@
 
 using BookGen.ConsoleUi;
 using BookGen.Core;
+using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
-using System;
 
 namespace BookGen.Modules
 {
     internal class InitModule : StateModuleBase
     {
-        private readonly Gui.ConsoleUi uiRunner;
+        private readonly Ui.ConsoleUi uiRunner;
 
         public InitModule(ProgramState currentState) : base(currentState)
         {
-            uiRunner = new Gui.ConsoleUi();
+            uiRunner = new Ui.ConsoleUi();
         }
 
         public override string ModuleCommand => "Init";
 
-        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem("Init", "-d", "--dir");
+        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem("Init", "-d", "--dir", "-v", "--verbose");
 
-        public override bool Execute(ArgumentParser tokenizedArguments)
+        public override bool Execute(string[] arguments)
         {
-            var dir = tokenizedArguments.GetSwitchWithValue("d", "dir");
+            BookGenArgumentBase args = new BookGenArgumentBase();
+            if (!ArgumentParser.ParseArguments(arguments, args))
+            {
+                return false;
+            }
 
-            if (string.IsNullOrEmpty(dir))
-                dir = Environment.CurrentDirectory;
+            Api.LogLevel logLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
-            var log = new ConsoleLog(Api.LogLevel.Detail);
+            var log = new ConsoleLog(logLevel);
 
             System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
-            var vm = new InitializeViewModel(log, new FsPath(dir));
+            var vm = new InitializeViewModel(log, new FsPath(args.Directory));
 
             if (Ui != null)
             {

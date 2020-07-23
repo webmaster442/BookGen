@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Contracts;
-using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
@@ -20,12 +19,12 @@ namespace BookGen.Modules.Special
 
         public IEnumerable<StateModuleBase>? Modules { get; set; }
 
-        public override bool Execute(ArgumentParser tokenizedArguments)
+        public override bool Execute(string[] arguments)
         {
             if (Modules == null)
                 throw new DependencyException("Modules is null");
 
-            string? helpScope = tokenizedArguments.GetValues().Skip(1).FirstOrDefault();
+            string? helpScope = arguments.Length > 0 ? arguments[0] : string.Empty;
 
             var foundMoudle = Modules.FirstOrDefault(m => string.Compare(m.ModuleCommand, helpScope, true) == 0);
 

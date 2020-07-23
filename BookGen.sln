@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Api", "BookGen.Api\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.AssemblyDocumenter", "BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj", "{6BDF566E-6023-4BE6-804C-02F4335889FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Gui", "BookGen.Gui\BookGen.Gui.csproj", "{8A457564-221F-4D54-8182-E076A807541A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Ui", "BookGen.Gui\BookGen.Ui.csproj", "{8A457564-221F-4D54-8182-E076A807541A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Resources", "BookGen.Resources\BookGen.Resources.csproj", "{F257CD87-093C-4EAC-8CE1-5D85A3252C97}"
 EndProject
