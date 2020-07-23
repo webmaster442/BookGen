@@ -107,8 +107,6 @@ namespace BookGen
 
         public static void ExtractTemplates(ILog log, FsPath workdir)
         {
-            FsPath epub = workdir.Combine(EpubTemplateLocation);
-
             var templatedir = workdir.Combine("Templates").ToString();
             var assetsdir = workdir.Combine("Templates\\Assets").ToString();
 
