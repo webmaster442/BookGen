@@ -1,7 +1,8 @@
-# next
+# 2020.07.23
 * Fixes issues in md2html module image embed
 * Added powershell autocomplete install module
 * Better argument handling
+* Updated SkiaSharp & Svg.Skia
 
 # 2020.06.29
 * Updated md2html module help
