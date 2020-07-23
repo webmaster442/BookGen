@@ -107,9 +107,6 @@
 		<None Update="BookGen.cmd">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="BookGenShell.cmd">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 	<ItemGroup>
 		<AssemblyAttribute Include="BookGen.AssemblyBuildDateAttribute">
