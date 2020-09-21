@@ -25,7 +25,7 @@ namespace BookGen.Utilities
                         ConsoleKeyInfo key = Console.ReadKey(true);
                         if (key.Key == ConsoleKey.Escape)
                         {
-                            break;
+                            return;
                         }
                     }
                     else
