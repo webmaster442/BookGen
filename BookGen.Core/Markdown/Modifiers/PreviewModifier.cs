@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
@@ -12,9 +13,14 @@ using System.IO;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class PreviewModifier : IMarkdownExtension
-    { 
-        public static FsPath? WorkDir { get; set; }
+    internal class PreviewModifier : IMarkdownExtensionWithPath
+    {
+        public PreviewModifier()
+        {
+            Path = FsPath.Empty;
+        }
+
+        public FsPath Path { get; set; }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
@@ -44,13 +50,13 @@ namespace BookGen.Core.Markdown.Modifiers
 
             FsPath inlinePath;
 
-            if (object.ReferenceEquals(WorkDir, null))
+            if (object.ReferenceEquals(Path, null))
             {
                 inlinePath = new FsPath(url);
             }
             else
             {
-                inlinePath = new FsPath(url).GetAbsolutePathRelativeTo(WorkDir!);
+                inlinePath = new FsPath(url).GetAbsolutePathRelativeTo(Path!);
             }
 
             if (!inlinePath.IsExisting)
@@ -62,7 +68,7 @@ namespace BookGen.Core.Markdown.Modifiers
 
             string mime = "application/octet-stream";
 
-            switch (Path.GetExtension(inlinePath.ToString()))
+            switch (System.IO.Path.GetExtension(inlinePath.ToString()))
             {
                 case ".jpg":
                 case ".jpeg":

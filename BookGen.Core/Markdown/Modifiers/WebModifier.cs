@@ -13,7 +13,7 @@ using System;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class WebModifier : IBookGenMarkdownExtension
+    internal class WebModifier : IMarkdownExtensionWithRuntimeConfig
     {
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
 

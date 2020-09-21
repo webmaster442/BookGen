@@ -7,7 +7,7 @@ using Markdig;
 
 namespace BookGen.Core.Contracts
 {
-    public interface IBookGenMarkdownExtension: IMarkdownExtension
+    public interface IMarkdownExtensionWithRuntimeConfig: IMarkdownExtension
     {
         IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
     }

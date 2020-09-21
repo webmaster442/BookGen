@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class PrintModifier : IBookGenMarkdownExtension
+    internal class PrintModifier : IMarkdownExtensionWithRuntimeConfig
     {
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
 

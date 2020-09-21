@@ -29,7 +29,13 @@ namespace BookGen.GeneratorSteps
             var input = settings.SourceDirectory.Combine(settings.Configuration.Index);
             settings.CurrentTargetFile = settings.OutputDirectory.Combine("index.html");
 
-            Content.Content = MarkdownRenderers.Markdown2WebHTML(input.ReadFile(log), settings);
+            using (var pipeline = new BookGenPipeline(BookGenPipeline.Web))
+            {
+                pipeline.InjectRuntimeConfig(settings);
+
+                Content.Content = pipeline.RenderMarkdown(input.ReadFile(log));
+            }
+
             var html = Template.Render();
             settings.CurrentTargetFile.WriteFile(log, html);
         }

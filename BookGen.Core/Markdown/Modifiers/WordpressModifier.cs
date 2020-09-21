@@ -11,7 +11,7 @@ using Markdig.Syntax;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    public class WordpressModifier: IBookGenMarkdownExtension
+    public class WordpressModifier: IMarkdownExtensionWithRuntimeConfig
     {
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
 

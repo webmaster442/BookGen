@@ -10,7 +10,7 @@ using Markdig.Syntax;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class EpubModifier: IBookGenMarkdownExtension
+    internal class EpubModifier: IMarkdownExtensionWithRuntimeConfig
     {
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
 

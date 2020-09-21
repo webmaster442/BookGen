@@ -32,11 +32,34 @@ namespace BookGen.Core.Markdown
 
             foreach (var extension in MarkdownPipeline.Extensions)
             {
-                if (extension is IBookGenMarkdownExtension bookgenExt)
+                if (extension is IMarkdownExtensionWithRuntimeConfig configurable)
                 {
-                    bookgenExt.RuntimeConfig = runtimeConfig;
+                    configurable.RuntimeConfig = runtimeConfig;
                 }
             }
+        }
+
+        public void InjectPath(FsPath path)
+        {
+            if (MarkdownPipeline == null) return;
+
+            foreach (var extension in MarkdownPipeline.Extensions)
+            {
+                if (extension is IMarkdownExtensionWithPath hasPath)
+                {
+                    hasPath.Path = path;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generate Markdown to html
+        /// </summary>
+        /// <param name="markdown">Markdown to render</param>
+        /// <returns>Html text</returns>
+        public string RenderMarkdown(string markdown)
+        {
+            return Markdig.Markdown.ToHtml(markdown, MarkdownPipeline);
         }
 
         public void Dispose()

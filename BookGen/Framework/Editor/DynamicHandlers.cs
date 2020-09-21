@@ -10,7 +10,6 @@ using BookGen.Core.Markdown;
 using BookGen.Framework.Server;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Text;
 
@@ -107,8 +106,13 @@ namespace BookGen.Framework.Editor
                 byte[] contentBytes = Convert.FromBase64String(base64content);
                 string rawContent = Encoding.UTF8.GetString(contentBytes);
 
-                string rendered = MarkdownRenderers.Markdown2Preview(rawContent, new FsPath(_workdir));
-                response.WriteString(rendered, "text/html");
+                using (var pipeline = new BookGenPipeline(BookGenPipeline.Preview))
+                {
+                    pipeline.InjectPath(new FsPath(_workdir));
+
+                    string rendered = pipeline.RenderMarkdown(rawContent);
+                    response.WriteString(rendered, "text/html");
+                }
             }
         }
 
