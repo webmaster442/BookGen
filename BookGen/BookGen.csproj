@@ -37,6 +37,9 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
+		<None Include="$(PkgNode_js_redist)\tools\win-x64\node.exe" Link="node.exe">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="ConsoleUi\InitializeView.xml" />
@@ -117,7 +120,4 @@
 	<ItemGroup>
 	  <Resource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
 	</ItemGroup>
-  <Target Name="NodeExe" AfterTargets="Build">
-    <Copy SourceFiles="$(PkgNode_js_redist)\tools\win-x64\node.exe" DestinationFolder="$(OutDir)" />
-  </Target>
 </Project>
