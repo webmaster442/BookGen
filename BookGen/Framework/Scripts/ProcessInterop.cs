@@ -53,12 +53,15 @@ namespace BookGen.Framework.Scripts
             if (pathVar == null)
                 return null;
 
-            var searchFolders = new List<string>(pathVar.Split(';'));
-            if (!string.IsNullOrEmpty(additional))
-                searchFolders.Add(additional);
+            var searchFolders = new List<string>(20);
 
             if (AppDomain.CurrentDomain.BaseDirectory != null)
                 searchFolders.Add(AppDomain.CurrentDomain.BaseDirectory);
+
+            searchFolders.AddRange(pathVar.Split(';'));
+
+            if (!string.IsNullOrEmpty(additional))
+                searchFolders.Add(additional);
 
             foreach (string folder in searchFolders)
             {
