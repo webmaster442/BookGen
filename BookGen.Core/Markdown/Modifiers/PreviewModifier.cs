@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,10 +10,10 @@ using Markdig.Syntax.Inlines;
 using System;
 using System.IO;
 
-namespace BookGen.Core.Markdown.Pipeline
+namespace BookGen.Core.Markdown.Modifiers
 {
     internal class PreviewModifier : IMarkdownExtension
-    {
+    { 
         public static FsPath? WorkDir { get; set; }
 
         public void Setup(MarkdownPipelineBuilder pipeline)

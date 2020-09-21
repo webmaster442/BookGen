@@ -10,7 +10,7 @@ using Markdig.Syntax;
 using System;
 using System.Text;
 
-namespace BookGen.Core.Markdown.Pipeline
+namespace BookGen.Core.Markdown.Renderers
 {
     internal class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>
     {
