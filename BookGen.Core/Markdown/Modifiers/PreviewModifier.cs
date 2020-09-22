@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Contracts;
+using BookGen.Core.Markdown.Renderers;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
@@ -13,7 +14,7 @@ using System.IO;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class PreviewModifier : IMarkdownExtensionWithPath
+    internal class PreviewModifier : IMarkdownExtensionWithPath, IMarkdownExtensionWithSyntaxToggle
     {
         public PreviewModifier()
         {
@@ -21,6 +22,12 @@ namespace BookGen.Core.Markdown.Modifiers
         }
 
         public FsPath Path { get; set; }
+
+        public bool SyntaxEnabled
+        {
+            get { return SyntaxRenderer.Enabled; }
+            set { SyntaxRenderer.Enabled = value; }
+        }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {

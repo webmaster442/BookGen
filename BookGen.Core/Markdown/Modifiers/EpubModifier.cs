@@ -4,15 +4,22 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Contracts;
+using BookGen.Core.Markdown.Renderers;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class EpubModifier: IMarkdownExtensionWithRuntimeConfig
+    internal class EpubModifier: IMarkdownExtensionWithRuntimeConfig, IMarkdownExtensionWithSyntaxToggle
     {
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
+
+        public bool SyntaxEnabled
+        {
+            get { return SyntaxRenderer.Enabled; }
+            set { SyntaxRenderer.Enabled = value; }
+        }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {

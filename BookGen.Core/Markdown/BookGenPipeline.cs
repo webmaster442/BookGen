@@ -52,6 +52,19 @@ namespace BookGen.Core.Markdown
             }
         }
 
+        public void SetSyntaxHighlightTo(bool enabled)
+        {
+            if (MarkdownPipeline == null) return;
+
+            foreach (var extension in MarkdownPipeline.Extensions)
+            {
+                if (extension is IMarkdownExtensionWithSyntaxToggle toggle)
+                {
+                    toggle.SyntaxEnabled = enabled;
+                }
+            }
+        }
+
         /// <summary>
         /// Generate Markdown to html
         /// </summary>

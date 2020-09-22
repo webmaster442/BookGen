@@ -38,6 +38,9 @@ namespace BookGen.GeneratorSteps
 
             StringBuilder buffer = new StringBuilder();
 
+            using var pipeline = new BookGenPipeline(BookGenPipeline.Print);
+            pipeline.InjectRuntimeConfig(settings);
+
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 log.Info("Processing: {0}...", chapter);
@@ -49,7 +52,7 @@ namespace BookGen.GeneratorSteps
 
                     var inputContent = input.ReadFile(log);
 
-                    var rendered = MarkdownRenderers.Markdown2PrintHTML(inputContent, settings);
+                    var rendered = pipeline.RenderMarkdown(inputContent);
 
                     buffer.AppendLine(rendered);
                     buffer.AppendLine(NewPage);

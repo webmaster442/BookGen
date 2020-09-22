@@ -31,6 +31,10 @@ namespace BookGen.GeneratorSteps
                 throw new DependencyException(nameof(Template));
 
             log.Info("Generating index files for sub content folders...");
+
+            using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
+            pipeline.InjectRuntimeConfig(settings);
+
             foreach (var file in settings.TocContents.Files)
             {
                 var dir = Path.GetDirectoryName(file);
@@ -43,7 +47,7 @@ namespace BookGen.GeneratorSteps
                     var mdcontent = CreateContentLinks(settings, dir);
 
                     Content.Title = dir;
-                    Content.Content = MarkdownRenderers.Markdown2WebHTML(mdcontent, settings);
+                    Content.Content = pipeline.RenderMarkdown(mdcontent);
                     Content.Metadata = "";
                     var html = Template.Render();
                     settings.CurrentTargetFile.WriteFile(log, html);

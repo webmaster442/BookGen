@@ -37,6 +37,10 @@ namespace BookGen.GeneratorSteps.Epub
             log.Info("Generating epub pages...");
 
             int index = 1;
+
+            using var pipeline = new BookGenPipeline(BookGenPipeline.Epub);
+            pipeline.InjectRuntimeConfig(settings);
+
             foreach (var file in settings.TocContents.Files)
             {
                 _session.GeneratedFiles.Add($"page_{index:D3}");
@@ -50,7 +54,7 @@ namespace BookGen.GeneratorSteps.Epub
                 var inputContent = input.ReadFile(log);
 
                 Content.Title = MarkdownUtils.GetTitle(inputContent);
-                Content.Content = MarkdownRenderers.Markdown2EpubHtml(inputContent, settings);
+                Content.Content = pipeline.RenderMarkdown(inputContent);
 
                 var html = XhtmlNormalizer.NormalizeToXHTML(Template.Render());
 
