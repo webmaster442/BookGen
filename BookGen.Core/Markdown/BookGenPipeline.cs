@@ -12,12 +12,35 @@ namespace BookGen.Core.Markdown
 {
     public sealed class BookGenPipeline : IDisposable
     {
-        public static readonly MarkdownPipeline Web = new MarkdownPipelineBuilder().Use<WebModifier>().UseAdvancedExtensions().Build();
-        public static readonly MarkdownPipeline Print = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
-        public static readonly MarkdownPipeline Plain = new MarkdownPipelineBuilder().Build();
-        public static readonly MarkdownPipeline Epub = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<EpubModifier>().Build();
-        public static readonly MarkdownPipeline Preview = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PreviewModifier>().Build();
-        public static readonly MarkdownPipeline Wordpress = new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<WordpressModifier>().Build();
+        public static MarkdownPipeline Web
+        {
+            get => new MarkdownPipelineBuilder().Use<WebModifier>().UseAdvancedExtensions().Build();
+        }
+        
+        public static MarkdownPipeline Print
+        {
+            get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
+        }
+        
+        public static MarkdownPipeline Plain
+        {
+            get => new MarkdownPipelineBuilder().Build();
+        }
+
+        public static MarkdownPipeline Epub
+        {
+            get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<EpubModifier>().Build();
+        }
+
+        public static MarkdownPipeline Preview
+        {
+            get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PreviewModifier>().Build();
+        }
+        
+        public static MarkdownPipeline Wordpress
+        {
+            get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<WordpressModifier>().Build();
+        }
 
         public MarkdownPipeline? MarkdownPipeline { get; private set; }
 
