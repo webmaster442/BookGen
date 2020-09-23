@@ -9,12 +9,15 @@ using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
+using System;
 using System.Linq;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal sealed class PrintModifier : IMarkdownExtensionWithRuntimeConfig, IMarkdownExtensionWithSyntaxToggle
+    internal sealed class PrintModifier : IMarkdownExtensionWithRuntimeConfig, IMarkdownExtensionWithSyntaxToggle, IDisposable
     {
+        private MarkdownPipelineBuilder? _pipeline;
+
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
 
         public bool SyntaxEnabled
@@ -23,10 +26,19 @@ namespace BookGen.Core.Markdown.Modifiers
             set { SyntaxRenderer.Enabled = value; }
         }
 
+        public void Dispose()
+        {
+            if (_pipeline != null)
+            {
+                _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
+                _pipeline = null;
+            }
+        }
+
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
-            pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
-            pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
+            _pipeline = pipeline;
+            _pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
         }
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)

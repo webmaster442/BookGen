@@ -8,17 +8,29 @@ using BookGen.Core.Contracts;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
+using System;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    public class WordpressModifier: IMarkdownExtensionWithRuntimeConfig
+    public sealed class WordpressModifier: IMarkdownExtensionWithRuntimeConfig, IDisposable
     {
+        private MarkdownPipelineBuilder? _pipeline;
+
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
+
+        public void Dispose()
+        {
+            if (_pipeline != null)
+            {
+                _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
+                _pipeline = null;
+            }
+        }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
-            pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
-            pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
+            _pipeline = pipeline;
+            _pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
         }
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)

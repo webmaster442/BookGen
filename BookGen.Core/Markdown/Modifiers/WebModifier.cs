@@ -13,14 +13,25 @@ using System;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class WebModifier : IMarkdownExtensionWithRuntimeConfig
+    internal sealed class WebModifier : IMarkdownExtensionWithRuntimeConfig, IDisposable
     {
+        private MarkdownPipelineBuilder? _pipeline;
+
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
+
+        public void Dispose()
+        {
+            if (_pipeline != null)
+            {
+                _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
+                _pipeline = null;
+            }
+        }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
-            pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
-            pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
+            _pipeline = pipeline;
+            _pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
         }
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)

@@ -14,8 +14,10 @@ using System.IO;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class PreviewModifier : IMarkdownExtensionWithPath, IMarkdownExtensionWithSyntaxToggle
+    internal sealed class PreviewModifier : IMarkdownExtensionWithPath, IMarkdownExtensionWithSyntaxToggle, IDisposable
     {
+        private MarkdownPipelineBuilder? _pipeline;
+
         public PreviewModifier()
         {
             Path = FsPath.Empty;
@@ -29,11 +31,21 @@ namespace BookGen.Core.Markdown.Modifiers
             set { SyntaxRenderer.Enabled = value; }
         }
 
+        public void Dispose()
+        {
+            if (_pipeline != null)
+            {
+                _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
+                _pipeline = null;
+            }
+        }
+
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
-            pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
-            pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
+            _pipeline = pipeline;
+            _pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
         }
+
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
             PipelineHelpers.SetupSyntaxRender(renderer);

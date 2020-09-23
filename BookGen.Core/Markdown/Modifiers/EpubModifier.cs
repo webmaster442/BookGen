@@ -8,12 +8,14 @@ using BookGen.Core.Markdown.Renderers;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
+using System;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class EpubModifier: IMarkdownExtensionWithRuntimeConfig, IMarkdownExtensionWithSyntaxToggle
+    internal sealed class EpubModifier: IMarkdownExtensionWithRuntimeConfig, IMarkdownExtensionWithSyntaxToggle, IDisposable
     {
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
+        private MarkdownPipelineBuilder? _pipeline;
 
         public bool SyntaxEnabled
         {
@@ -21,10 +23,19 @@ namespace BookGen.Core.Markdown.Modifiers
             set { SyntaxRenderer.Enabled = value; }
         }
 
+        public void Dispose()
+        {
+            if (_pipeline != null)
+            {
+                _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
+                _pipeline = null;
+            }
+        }
+
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
-            pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
-            pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
+            _pipeline = pipeline;
+            _pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
         }
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
