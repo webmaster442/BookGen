@@ -5,6 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Contracts;
+using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,30 +81,40 @@ namespace BookGen.Framework.Scripts
 
         public async Task<string> Evaluate(string script)
         {
+            _log.Detail("Executing Nodejs script...");
             string program = ProcessInterop.AppendExecutableExtension("node");
             string? programPath = ProcessInterop.ResolveProgramFullPath(program, _appSettings.NodeJsPath);
 
             string output = "";
 
-            using (var process = new Process())
+            try
             {
-                process.StartInfo = new ProcessStartInfo
+                using (var process = new Process())
                 {
-                    CreateNoWindow = true,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    RedirectStandardError = true,
-                    FileName = programPath,
-                    Arguments = $"-e \"{EncodeForCmdLine(script)}\""
-                };
+                    process.StartInfo = new ProcessStartInfo
+                    {
+                        CreateNoWindow = true,
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        RedirectStandardError = true,
+                        FileName = programPath,
+                        Arguments = $"-e \"{EncodeForCmdLine(script)}\""
+                    };
 
-                process.Start();
-                output = await process.StandardOutput.ReadToEndAsync();
-                process.WaitForExit(_appSettings.NodeJsTimeout * 1000);
+                    process.Start();
+                    output = await process.StandardOutput.ReadToEndAsync();
+                    process.WaitForExit(_appSettings.NodeJsTimeout * 1000);
 
+                }
+                return output;
             }
-            return output;
+            catch (Exception ex)
+            {
+                _log.Warning("Script run failed with Exception: {0}", ex.Message);
+                _log.Detail("Stack Trace: {0}", ex.StackTrace ?? "");
+                return $"Script run failed with Exception: {ex.Message}";
+            }
         }
     }
 }
