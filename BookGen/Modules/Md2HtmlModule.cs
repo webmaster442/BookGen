@@ -61,9 +61,12 @@ namespace BookGen.Modules
                 cssForInline = args.Css.ReadFile(log);
             }
 
-            var mdcontent = MarkdownRenderers.Markdown2Preview(md,
-                                                               args.InputFile.GetDirectory(),
-                                                               args.NoSyntax);
+            using var pipeline = new BookGenPipeline(BookGenPipeline.Preview);
+            pipeline.InjectPath(args.InputFile.GetDirectory());
+            pipeline.SetSyntaxHighlightTo(!args.NoSyntax);
+
+            var mdcontent = pipeline.RenderMarkdown(md);
+
             string rendered;
             if (args.RawHtml)
             {

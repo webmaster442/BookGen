@@ -1,25 +1,44 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Contracts;
+using BookGen.Core.Markdown.Renderers;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
+using System;
 using System.Linq;
 
-namespace BookGen.Core.Markdown.Pipeline
+namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class PrintModifier : IMarkdownExtension
+    internal sealed class PrintModifier : IMarkdownExtensionWithRuntimeConfig, IMarkdownExtensionWithSyntaxToggle, IDisposable
     {
-        public static IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
+        private MarkdownPipelineBuilder? _pipeline;
+
+        public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
+
+        public bool SyntaxEnabled
+        {
+            get { return SyntaxRenderer.Enabled; }
+            set { SyntaxRenderer.Enabled = value; }
+        }
+
+        public void Dispose()
+        {
+            if (_pipeline != null)
+            {
+                _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
+                _pipeline = null;
+            }
+        }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
-            pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
-            pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
+            _pipeline = pipeline;
+            _pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
         }
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)

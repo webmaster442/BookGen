@@ -5,13 +5,14 @@
 
 using BookGen.Api.Configuration;
 using BookGen.Core.Contracts;
+using BookGen.Core.Markdown.Renderers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
 
-namespace BookGen.Core.Markdown.Pipeline
+namespace BookGen.Core.Markdown
 {
     internal static class PipelineHelpers
     {

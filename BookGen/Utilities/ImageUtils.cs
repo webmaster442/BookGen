@@ -82,7 +82,7 @@ namespace BookGen.Utilities
 
             (int renderWidth, int renderHeight, float scale) sizeData = CalcNewSize(svgSize, maxWidht, maxHeight);
 
-            var matrix = SKMatrix.MakeScale(sizeData.scale, sizeData.scale);
+            var matrix = SKMatrix.CreateScale(sizeData.scale, sizeData.scale);
 
             using (SKBitmap bitmap = new SKBitmap(sizeData.renderWidth, sizeData.renderHeight))
             {

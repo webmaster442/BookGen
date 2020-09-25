@@ -63,28 +63,26 @@ namespace BookGen.GeneratorSteps
             return meta.GetHtmlMeta();
         }
 
-        private string RenderAndCompressForSearch(string filecontent)
-        {
-            var rendered = MarkdownRenderers.Markdown2Plain(filecontent);
-            return _spaces.Replace(rendered, " ");
-        }
-
         private void GenerateSearchContents(RuntimeSettings settings, ILog log)
         {
             _buffer.WriteElement(HtmlElement.Div, "searchcontents", "nodisplay");
+
+            using var pipeline = new BookGenPipeline(BookGenPipeline.Plain);
+
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
                 {
                     log.Detail("Processing file for search index: {0}", link.Url);
                     var fileContent = settings.SourceDirectory.Combine(link.Url).ReadFile(log);
-                    var rendered = RenderAndCompressForSearch(fileContent);
+
+                    var rendered = pipeline.RenderMarkdown(fileContent);
 
                     var file = Path.ChangeExtension(link.Url, ".html");
                     var fullpath = $"{settings.Configuration.HostName}{file}";
 
                     _buffer.AppendFormat("<div title=\"{0}\" data-link=\"{1}\">", link.Text, fullpath);
-                    _buffer.Append(rendered);
+                    _buffer.Append(_spaces.Replace(rendered, " "));
                     _buffer.Append("</div>\n");
                 }
             }

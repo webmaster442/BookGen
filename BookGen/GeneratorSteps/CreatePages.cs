@@ -31,6 +31,10 @@ namespace BookGen.GeneratorSteps
                 throw new DependencyException(nameof(Template));
 
             log.Info("Generating Sub Markdown Files...");
+
+            using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
+            pipeline.InjectRuntimeConfig(settings);
+
 #if DEBUG
             foreach (var file in settings.TocContents.Files)
 #endif
@@ -52,7 +56,7 @@ namespace BookGen.GeneratorSteps
                     Content.Title = file;
                 }
 
-                Content.Content = MarkdownRenderers.Markdown2WebHTML(inputContent, settings);
+                Content.Content = pipeline.RenderMarkdown(inputContent);
                 Content.Metadata = settings.MetataCache[file];
 
                 var html = Template.Render();

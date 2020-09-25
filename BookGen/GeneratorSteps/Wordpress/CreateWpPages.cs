@@ -142,6 +142,9 @@ namespace BookGen.GeneratorSteps.Wordpress
                 ++uid;
             }
 
+            using var pipeline = new BookGenPipeline(BookGenPipeline.Wordpress);
+            pipeline.InjectRuntimeConfig(settings);
+
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 string fillerPage = createfillers ? CreateFillerPage(settings.TocContents.GetLinksForChapter(chapter)) : "";
@@ -152,13 +155,13 @@ namespace BookGen.GeneratorSteps.Wordpress
                 _session.CurrentChannel.Item.Add(parent);
                 int suborder = 0;
                 uid++;
-                
+
                 foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing {0}...", file);
                     var input = settings.SourceDirectory.Combine(file);
                     var raw = input.ReadFile(log);
-                    Content.Content = MarkdownRenderers.Markdown2Wordpress(raw, settings);
+                    Content.Content = pipeline.RenderMarkdown(raw);
 
                     var title = MarkdownUtils.GetTitle(raw);
 

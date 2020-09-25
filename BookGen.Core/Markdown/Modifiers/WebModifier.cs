@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -11,16 +11,27 @@ using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
 
-namespace BookGen.Core.Markdown.Pipeline
+namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class WebModifier : IMarkdownExtension
+    internal sealed class WebModifier : IMarkdownExtensionWithRuntimeConfig, IDisposable
     {
-        public static IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
+        private MarkdownPipelineBuilder? _pipeline;
+
+        public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
+
+        public void Dispose()
+        {
+            if (_pipeline != null)
+            {
+                _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
+                _pipeline = null;
+            }
+        }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
-            pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
-            pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
+            _pipeline = pipeline;
+            _pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
         }
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
@@ -33,7 +44,7 @@ namespace BookGen.Core.Markdown.Pipeline
             return !link.Url.StartsWith(RuntimeConfig?.Configuration.HostName);
         }
 
-        private static void PipelineOnDocumentProcessed(MarkdownDocument document)
+        private void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
             if (RuntimeConfig == null)
                 throw new InvalidOperationException("Settings not configured");

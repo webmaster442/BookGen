@@ -46,9 +46,14 @@ namespace BookGen.GeneratorSteps
 
         private static string GetDescription(ILog log, FsPath file)
         {
-            var description = MarkdownRenderers.Markdown2Plain(file.ReadFile(log)).Replace('\n', ' ').Trim();
-            var limit = description.Length < 190 ? description.Length : 190;
-            return description.Substring(0, limit) + "...";
+            using (var pipeline = new BookGenPipeline(BookGenPipeline.Plain))
+            {
+                string? content = file.ReadFile(log).Replace('\n', ' ').Trim();
+                string? description = pipeline.RenderMarkdown(content);
+
+                var limit = description.Length < 190 ? description.Length : 190;
+                return description.Substring(0, limit) + "...";
+            }
         }
     }
 }

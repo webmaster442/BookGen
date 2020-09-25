@@ -1,8 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Contracts;
+using BookGen.Core.Markdown.Renderers;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
@@ -10,17 +12,40 @@ using Markdig.Syntax.Inlines;
 using System;
 using System.IO;
 
-namespace BookGen.Core.Markdown.Pipeline
+namespace BookGen.Core.Markdown.Modifiers
 {
-    internal class PreviewModifier : IMarkdownExtension
+    internal sealed class PreviewModifier : IMarkdownExtensionWithPath, IMarkdownExtensionWithSyntaxToggle, IDisposable
     {
-        public static FsPath? WorkDir { get; set; }
+        private MarkdownPipelineBuilder? _pipeline;
+
+        public PreviewModifier()
+        {
+            Path = FsPath.Empty;
+        }
+
+        public FsPath Path { get; set; }
+
+        public bool SyntaxEnabled
+        {
+            get { return SyntaxRenderer.Enabled; }
+            set { SyntaxRenderer.Enabled = value; }
+        }
+
+        public void Dispose()
+        {
+            if (_pipeline != null)
+            {
+                _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
+                _pipeline = null;
+            }
+        }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
         {
-            pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
-            pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
+            _pipeline = pipeline;
+            _pipeline.DocumentProcessed += PipelineOnDocumentProcessed;
         }
+
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
             PipelineHelpers.SetupSyntaxRender(renderer);
@@ -44,13 +69,13 @@ namespace BookGen.Core.Markdown.Pipeline
 
             FsPath inlinePath;
 
-            if (object.ReferenceEquals(WorkDir, null))
+            if (object.ReferenceEquals(Path, null))
             {
                 inlinePath = new FsPath(url);
             }
             else
             {
-                inlinePath = new FsPath(url).GetAbsolutePathRelativeTo(WorkDir!);
+                inlinePath = new FsPath(url).GetAbsolutePathRelativeTo(Path!);
             }
 
             if (!inlinePath.IsExisting)
@@ -62,7 +87,7 @@ namespace BookGen.Core.Markdown.Pipeline
 
             string mime = "application/octet-stream";
 
-            switch (Path.GetExtension(inlinePath.ToString()))
+            switch (System.IO.Path.GetExtension(inlinePath.ToString()))
             {
                 case ".jpg":
                 case ".jpeg":
