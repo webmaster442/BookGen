@@ -47,7 +47,12 @@ namespace BookGen.GeneratorSteps
             if (ImageUtils.IsSvg(file))
             {
                 log.Detail("Rendering SVG: {0}", file);
-                using (var data = ImageUtils.SvgToPng(file, options.MaxWidth, options.MaxHeight))
+                SKEncodedImageFormat format = SKEncodedImageFormat.Png;
+
+                if (options.EncodeSvgAsWebp)
+                    format = SKEncodedImageFormat.Webp;
+
+                using (var data = ImageUtils.EncodeSvg(file, options.MaxWidth, options.MaxHeight, format))
                 {
                     InlineOrSave(file, targetdir, log, settings, data, ".png");
                     return;
@@ -60,22 +65,19 @@ namespace BookGen.GeneratorSteps
                 var format = ImageUtils.GetSkiaImageFormat(file);
                 using (SKBitmap resized = ImageUtils.ResizeIfBigger(image, options.MaxWidth, options.MaxHeight))
                 {
-                    if (format == SKEncodedImageFormat.Jpeg)
+                    if ((format == SKEncodedImageFormat.Jpeg && options.RecodeJpegToWebp)
+                        || (format == SKEncodedImageFormat.Png && options.RecodePngToWebp))
                     {
-                        if (options.RecodeJpegToWebp)
-                        {
-                            using SKData webp =
-                                ImageUtils.EncodeToFormat(resized,
-                                                          SKEncodedImageFormat.Webp,
-                                                          options.ImageQuality);
+                        using SKData webp = ImageUtils.EncodeToFormat(resized,
+                                                                      SKEncodedImageFormat.Webp,
+                                                                      options.ImageQuality);
 
-                            InlineOrSave(file, targetdir, log, settings, webp, ".webp");
-                        }
-                        else
-                        {
-                            using SKData data = ImageUtils.EncodeToFormat(resized, format, options.ImageQuality);
-                            InlineOrSave(file, targetdir, log, settings, data);
-                        }
+                        InlineOrSave(file, targetdir, log, settings, webp, ".webp");
+                    }
+                    else if (format == SKEncodedImageFormat.Jpeg)
+                    {
+                        using SKData data = ImageUtils.EncodeToFormat(resized, format, options.ImageQuality);
+                        InlineOrSave(file, targetdir, log, settings, data);
                     }
                     else
                     {

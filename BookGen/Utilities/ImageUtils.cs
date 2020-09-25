@@ -70,7 +70,7 @@ namespace BookGen.Utilities
 
         }
 
-        public static SKData SvgToPng(FsPath svgFile, int maxWidht, int maxHeight)
+        public static SKData EncodeSvg(FsPath svgFile, int maxWidht, int maxHeight, SKEncodedImageFormat format = SKEncodedImageFormat.Png)
         {
             var svg = new SKSvg();
             svg.Load(svgFile.ToString());
@@ -94,7 +94,7 @@ namespace BookGen.Utilities
 
                 using (SKImage image = SKImage.FromBitmap(bitmap))
                 {
-                    return image.Encode(SKEncodedImageFormat.Png, 100);
+                    return image.Encode(format, 100);
                 }
             }
         }
