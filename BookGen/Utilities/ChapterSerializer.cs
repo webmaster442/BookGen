@@ -10,7 +10,7 @@ using System.IO;
 
 namespace BookGen.Utilities
 {
-    public static class ChapterSerialer
+    public static class ChapterSerializer
     {
         public static void WriteToFile(FsPath target, IEnumerable<Chapter> chapters)
         {
