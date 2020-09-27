@@ -83,10 +83,10 @@ namespace BookGen.Framework
 
         private static IEnumerable<Task> CreateTaskItems()
         {
-            var tasks = Enum.GetNames(typeof(ActionType));
+            var tasks = Enum.GetNames(typeof(BuildAction));
             foreach (var task in tasks)
             {
-                ActionType value = (ActionType)Enum.Parse(typeof(ActionType), task);
+                BuildAction value = (BuildAction)Enum.Parse(typeof(BuildAction), task);
                 yield return CreateTask($"Build -a {value} -d $PWD",
                                          $"Build -a {value} -d %cd%", 
                                          value.DescriptionAttr());

@@ -64,7 +64,7 @@ namespace BookGen.Framework.Editor
             p.WaitForExit();
         }
 
-        private string ComposeBuildCommand(ActionType action)
+        private string ComposeBuildCommand(BuildAction action)
         {
             return $"Build -a {action} -v -n -d \"{_workDirectory}\"";
         }
@@ -74,13 +74,13 @@ namespace BookGen.Framework.Editor
             switch (action)
             {
                 case "web":
-                    return ComposeBuildCommand(ActionType.BuildWeb);
+                    return ComposeBuildCommand(BuildAction.BuildWeb);
                 case "print":
-                    return ComposeBuildCommand(ActionType.BuildPrint);
+                    return ComposeBuildCommand(BuildAction.BuildPrint);
                 case "epub":
-                    return ComposeBuildCommand(ActionType.BuildEpub);
+                    return ComposeBuildCommand(BuildAction.BuildEpub);
                 case "wordpress":
-                    return ComposeBuildCommand(ActionType.BuildWordpress);
+                    return ComposeBuildCommand(BuildAction.BuildWordpress);
                 default:
                     return string.Empty;
             }

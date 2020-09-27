@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal enum ActionType
+    internal enum BuildAction
     {
         [Description("Build Test Static Website & Run test server")]
         Test,

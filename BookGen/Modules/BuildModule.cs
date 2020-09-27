@@ -53,25 +53,25 @@ namespace BookGen.Modules
             CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.WorkDir);
             switch (args.Action)
             {
-                case ActionType.BuildWeb:
+                case BuildAction.BuildWeb:
                     CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoBuild());
                     break;
-                case ActionType.Clean:
+                case BuildAction.Clean:
                     CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoClean());
                     break;
-                case ActionType.Test:
+                case BuildAction.Test:
                     CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoTest());
                     break;
-                case ActionType.BuildPrint:
+                case BuildAction.BuildPrint:
                     CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoPrint());
                     break;
-                case ActionType.BuildWordpress:
+                case BuildAction.BuildWordpress:
                     CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoWordpress());
                     break;
-                case ActionType.BuildEpub:
+                case BuildAction.BuildEpub:
                     CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoEpub());
                     break;
-                case ActionType.ValidateConfig:
+                case BuildAction.ValidateConfig:
                     CurrentState.GeneratorRunner.Initialize();
                     break;
             }

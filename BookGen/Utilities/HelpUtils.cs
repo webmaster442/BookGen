@@ -30,7 +30,7 @@ namespace BookGen.Utilities
 
         public static void DocumentActions(StringBuilder result)
         {
-            Type actionType = typeof(ActionType);
+            Type actionType = typeof(BuildAction);
 
             foreach (var action in Enum.GetNames(actionType).OrderBy(o => o))
             {

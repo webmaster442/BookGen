@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2020 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -8,21 +8,15 @@ using System;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class BuildParameters: ArgumentsBase
+    internal class ChaptersParameters : ArgumentsBase
     {
         [Switch("a", "action", true)]
-        public BuildAction? Action { get; set; }
-
-        [Switch("n", "nowait")]
-        public bool NoWaitForExit { get; set; }
-
-        [Switch("v", "verbose")]
-        public bool Verbose { get; set; }
+        public ChaptersAction? Action { get; set; }
 
         [Switch("d", "dir")]
         public string WorkDir { get; set; }
 
-        public BuildParameters()
+        public ChaptersParameters()
         {
             WorkDir = Environment.CurrentDirectory;
         }
