@@ -114,7 +114,7 @@ namespace BookGen.GeneratorSteps
             }
 
             string key = fnmame.Replace(settings.SourceDirectory.ToString(), settings.OutputDirectory.ToString());
-            settings.InlineImgCache.Add(key, $"data:{mime};base64,{base64}");
+            settings.InlineImgCache.TryAdd(key, $"data:{mime};base64,{base64}");
         }
 
         private void SaveImage(FsPath file, FsPath targetdir, ILog log, SKData data, string? extensionOverride)
