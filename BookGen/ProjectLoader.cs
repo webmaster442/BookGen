@@ -8,6 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Utilities;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace BookGen
@@ -107,7 +108,7 @@ namespace BookGen
                 Configuration = config,
                 TocContents = toc,
                 MetataCache = new Dictionary<string, string>(100),
-                InlineImgCache = new Dictionary<string, string>(100),
+                InlineImgCache = new ConcurrentDictionary<string, string>(),
                 CurrentBuildConfig = current,
             };
 

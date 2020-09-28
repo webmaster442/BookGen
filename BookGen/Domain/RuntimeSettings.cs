@@ -8,6 +8,7 @@ using BookGen.Api.Configuration;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace BookGen.Domain
@@ -21,7 +22,7 @@ namespace BookGen.Domain
         public ITableOfContents TocContents { get; set; }
         public Config Configuration { get; set; }
         public Dictionary<string, string> MetataCache { get; set; }
-        public Dictionary<string, string> InlineImgCache { get; set; }
+        public ConcurrentDictionary<string, string> InlineImgCache { get; set; }
         public BuildConfig CurrentBuildConfig { get; set; }
 
         IReadOnlyConfig IReadonlyRuntimeSettings.Configuration => Configuration;
@@ -41,7 +42,7 @@ namespace BookGen.Domain
             TocContents = new ToC();
             Configuration = new Config();
             MetataCache = new Dictionary<string, string>();
-            InlineImgCache = new Dictionary<string, string>();
+            InlineImgCache = new ConcurrentDictionary<string, string>();
             CurrentBuildConfig = new BuildConfig();
         }
     }
