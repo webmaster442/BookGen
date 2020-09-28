@@ -28,9 +28,9 @@ namespace BookGen.Utilities
             return ResourceHandler.GetResourceFile<GeneratorRunner>($"Resources/Help.{moduleClass}.txt");
         }
 
-        public static void DocumentActions(StringBuilder result)
+        public static void DocumentActions<T>(StringBuilder result) where T: Enum
         {
-            Type actionType = typeof(BuildAction);
+            Type actionType = typeof(T);
 
             foreach (var action in Enum.GetNames(actionType).OrderBy(o => o))
             {

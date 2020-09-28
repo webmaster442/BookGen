@@ -83,7 +83,7 @@ namespace BookGen.Modules
         {
             StringBuilder result = new StringBuilder(4096);
             result.Append(HelpUtils.GetHelpForModule(nameof(BuildModule)));
-            HelpUtils.DocumentActions(result);
+            HelpUtils.DocumentActions<BuildAction>(result);
             return result.ToString();
 
         }

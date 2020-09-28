@@ -48,6 +48,7 @@
 		<None Remove="Resources\completer.ps1" />
 		<None Remove="Resources\Help.AssemblyDocumentModule.txt" />
 		<None Remove="Resources\Help.BuildModule.txt" />
+		<None Remove="Resources\Help.ChaptersModule.txt" />
 		<None Remove="Resources\Help.ConfigHelpModule.txt" />
 		<None Remove="Resources\Help.EditorModule.txt" />
 		<None Remove="Resources\Help.General.txt" />
@@ -81,6 +82,7 @@
 		<Content Include="Icon.ico" />
 		<EmbeddedResource Include="Resources\completer.dn.ps1" />
 		<EmbeddedResource Include="Resources\completer.ps1" />
+		<EmbeddedResource Include="Resources\Help.ChaptersModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ConfigHelpModule.txt" />
 		<EmbeddedResource Include="Resources\Error404.html" />
 		<EmbeddedResource Include="Resources\Help.AssemblyDocumentModule.txt" />

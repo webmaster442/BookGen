@@ -22,8 +22,7 @@
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-  </ItemGroup>
-  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="8.1.2" />
     <PackageReference Include="Markdig" Version="0.21.1" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>

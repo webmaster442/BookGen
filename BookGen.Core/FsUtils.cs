@@ -10,6 +10,8 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Serialization;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace BookGen.Core
 {
@@ -281,10 +283,58 @@ namespace BookGen.Core
             catch (Exception ex)
             {
                 log.Warning("DeserializeJson failed: {0} type: {1}", path, typeof(T));
-                if (ex is JsonException)
-                    log.Warning(ex.Message);
-                else
-                    log.Detail(ex.Message);
+                log.Critical(ex);
+                return default;
+            }
+        }
+
+        public static bool SerializeYaml<T>(this FsPath path, T obj, ILog log) where T : class, new()
+        {
+            try
+            {
+                FileInfo fileInfo = new FileInfo(path.ToString());
+
+                if (!fileInfo.Exists)
+                    Directory.CreateDirectory(fileInfo.Directory.FullName);
+
+
+                var serializer = new SerializerBuilder()
+                    .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                    .Build();
+
+                var yaml = serializer.Serialize(obj);
+
+                File.WriteAllText(path.ToString(), yaml);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warning("SerializeYaml failed: {0} type: {1}", path, typeof(T));
+                log.Detail(ex.Message);
+                return false;
+            }
+        }
+
+        public static T? DeserializeYaml<T>(this FsPath path, ILog log) where T : class, new()
+        {
+            try
+            {
+                using (var reader = File.OpenText(path.ToString()))
+                {
+                    string text = reader.ReadToEnd();
+
+                    var deserializer = new DeserializerBuilder()
+                        .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                        .Build();
+
+                    return deserializer.Deserialize<T>(text);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Warning("DeserializeYaml failed: {0} type: {1}", path, typeof(T));
+                log.Critical(ex);
                 return default;
             }
         }

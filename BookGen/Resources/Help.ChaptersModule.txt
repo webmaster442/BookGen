@@ -1,0 +1,14 @@
+﻿Chapter management subcommand. Helps to create and maintain the summary file.
+-------------------------------------------------------------------------------
+
+    BookGen Chapters {-a [action]} {-d [directory]}
+    BookGen Chapters {--action [action]} {--dir [directory]}
+
+    Arguments:
+    -a, --action:
+        Specifies the acion to do.
+    -d, --dir:
+        Optional argument. Specifies work directory. If not specified, then
+        the current directory will be used as working directory.
+
+    Available Actions:
