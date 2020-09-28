@@ -34,7 +34,7 @@ namespace BookGen.GeneratorSteps
                 throw new DependencyException(nameof(Template));
 
             log.Info("Generating Printable html...");
-            settings.CurrentTargetFile = settings.OutputDirectory.Combine("print.html");
+            FsPath? target = settings.OutputDirectory.Combine("print.html");
 
             StringBuilder buffer = new StringBuilder();
 
@@ -60,7 +60,8 @@ namespace BookGen.GeneratorSteps
             }
 
             Content.Content = buffer.ToString();
-            settings.CurrentTargetFile.WriteFile(log, Template.Render());
+            
+            target.WriteFile(log, Template.Render());
         }
     }
 }

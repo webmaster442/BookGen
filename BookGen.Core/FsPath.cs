@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace BookGen.Core
 {
-    public sealed class FsPath : IEquatable<FsPath>
+    public sealed class FsPath : IEquatable<FsPath>, IComparable<FsPath>
     {
         private readonly string _path;
 
@@ -105,6 +105,11 @@ namespace BookGen.Core
         public override int GetHashCode()
         {
             return HashCode.Combine(_path);
+        }
+
+        public int CompareTo(FsPath other)
+        {
+            return _path.CompareTo(other._path);
         }
 
         public static bool operator ==(FsPath? left, FsPath? right)

@@ -46,12 +46,12 @@ namespace BookGen.GeneratorSteps
             GenerateSearchContents(settings, log);
             _buffer.Append(ResourceHandler.GetFile(KnownFile.SearchformHtml));
 
-            settings.CurrentTargetFile = settings.OutputDirectory.Combine("search.html");
+            FsPath? target = settings.OutputDirectory.Combine("search.html");
             Content.Title = settings.Configuration.Translations[Translations.SearchPageTitle];
             Content.Content = _buffer.ToString();
 
             var html = Template.Render();
-            settings.CurrentTargetFile.WriteFile(log, html);
+            target.WriteFile(log, html);
         }
 
         private string FillMeta(Config configruation)

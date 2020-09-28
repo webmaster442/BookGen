@@ -117,13 +117,13 @@ namespace BookGen.GeneratorSteps.Epub
 
             buffer.Append("</nav>\n");
 
-            settings.CurrentTargetFile = settings.OutputDirectory.Combine($"epubtemp\\OPS\\nav.xhtml");
+            FsPath? target = settings.OutputDirectory.Combine($"epubtemp\\OPS\\nav.xhtml");
 
             Template!.Content = buffer.ToString();
             Template.Title = "";
 
             var html = Template.Render();
-            settings.CurrentTargetFile.WriteFile(log, html);
+            target.WriteFile(log, html);
         }
 
         public void RunStep(RuntimeSettings settings, ILog log)

@@ -78,7 +78,6 @@ namespace BookGen.Framework
                 int stepCounter = 1;
                 foreach (var step in _steps)
                 {
-                    Settings.CurrentTargetFile = FsPath.Empty;
                     _log.Info("Step {0} of {1}", stepCounter, _steps.Count);
                     step.RunStep(Settings, _log);
                     ++stepCounter;

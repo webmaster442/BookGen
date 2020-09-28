@@ -27,7 +27,7 @@ namespace BookGen.GeneratorSteps
 
             log.Info("Generating Index file...");
             var input = settings.SourceDirectory.Combine(settings.Configuration.Index);
-            settings.CurrentTargetFile = settings.OutputDirectory.Combine("index.html");
+            FsPath? target = settings.OutputDirectory.Combine("index.html");
 
             using (var pipeline = new BookGenPipeline(BookGenPipeline.Web))
             {
@@ -37,7 +37,8 @@ namespace BookGen.GeneratorSteps
             }
 
             var html = Template.Render();
-            settings.CurrentTargetFile.WriteFile(log, html);
+
+            target.WriteFile(log, html);
         }
     }
 }

@@ -41,8 +41,8 @@ namespace BookGen.GeneratorSteps
 
                 if (dir == null) continue;
 
-                settings.CurrentTargetFile = settings.OutputDirectory.Combine(dir).Combine("index.html");
-                if (!settings.CurrentTargetFile.IsExisting)
+                FsPath? target = settings.OutputDirectory.Combine(dir).Combine("index.html");
+                if (!target.IsExisting)
                 {
                     var mdcontent = CreateContentLinks(settings, dir);
 
@@ -50,8 +50,9 @@ namespace BookGen.GeneratorSteps
                     Content.Content = pipeline.RenderMarkdown(mdcontent);
                     Content.Metadata = "";
                     var html = Template.Render();
-                    settings.CurrentTargetFile.WriteFile(log, html);
-                    log.Detail("Creating file: {0}", settings.CurrentTargetFile);
+
+                    log.Detail("Creating file: {0}", target);
+                    target.WriteFile(log, html);
                 }
             }
         }

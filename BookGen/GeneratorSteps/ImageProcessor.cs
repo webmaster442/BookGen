@@ -11,6 +11,7 @@ using BookGen.Utilities;
 using SkiaSharp;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace BookGen.GeneratorSteps
 {
@@ -27,10 +28,10 @@ namespace BookGen.GeneratorSteps
 
             var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.Filename);
 
-            foreach (FsPath file in settings.ImageDirectory.GetAllFiles())
+            Parallel.ForEach(settings.ImageDirectory.GetAllFiles(), file =>
             {
                 ProcessImage(file, settings, targetdir, log);
-            }
+            });
 
         }
 

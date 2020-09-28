@@ -10,10 +10,9 @@ using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Utilities;
+using System.Collections.Concurrent;
 using System.IO;
-#if RELEASE
 using System.Threading.Tasks;
-#endif
 
 namespace BookGen.GeneratorSteps
 {
@@ -35,15 +34,13 @@ namespace BookGen.GeneratorSteps
             using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
             pipeline.InjectRuntimeConfig(settings);
 
-#if DEBUG
-            foreach (var file in settings.TocContents.Files)
-#endif
-#if RELEASE
-            Parallel.ForEach(settings.TocContents.Files, file =>
-#endif
+            var bag = new ConcurrentBag<(FsPath path, string content)>();
+
+
+            Parallel.ForEach(settings.TocContents.Files,file =>
             {
                 var input = settings.SourceDirectory.Combine(file);
-                settings.CurrentTargetFile = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
+                FsPath? target = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
                 log.Detail("Processing file: {0}", input);
 
                 var inputContent = input.ReadFile(log);
@@ -59,12 +56,15 @@ namespace BookGen.GeneratorSteps
                 Content.Content = pipeline.RenderMarkdown(inputContent);
                 Content.Metadata = settings.MetataCache[file];
 
-                var html = Template.Render();
-                settings.CurrentTargetFile.WriteFile(log, html);
+                bag.Add((target, Template.Render()));
+
+            });
+
+            log.Info("Writing files to disk...");
+            foreach (var item in bag)
+            {
+                item.path.WriteFile(log, item.content);
             }
-#if RELEASE
-            );
-#endif
         }
     }
 }
