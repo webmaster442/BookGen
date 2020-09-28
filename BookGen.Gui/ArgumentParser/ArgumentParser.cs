@@ -20,7 +20,7 @@ namespace BookGen.Ui.ArgumentParser
         private static int _filled = 0;
         private static int _required = 0;
 
-        public static bool ParseArguments<T>(string[] args, T targetClass) where T: ArgumentsBase
+        public static bool ParseArguments<T>(string[] args, T targetClass) where T : ArgumentsBase
         {
             _properties.Clear();
             _filled = 0;
@@ -100,6 +100,12 @@ namespace BookGen.Ui.ArgumentParser
             targetClass.Files = _files.ToArray();
         }
 
+        private static bool TryGetNullableType(Type input, out Type? result)
+        {
+            result = Nullable.GetUnderlyingType(input);
+            return result != null;
+        }
+
         private static void SetSwitchWithValue<T>(string key, string value, ref T targetClass) where T : ArgumentsBase
         {
             PropertyInfo? prop = _properties
@@ -109,13 +115,20 @@ namespace BookGen.Ui.ArgumentParser
 
             if (prop != null)
             {
-                if (prop.PropertyType.IsEnum &&
-                    Enum.TryParse(prop.PropertyType, value, out object? parsed))
+                Type currenttype = prop.PropertyType;
+
+                if (TryGetNullableType(currenttype, out Type? nullable))
+                {
+                    currenttype = nullable!;
+                }
+
+                if (currenttype.IsEnum &&
+                Enum.TryParse(currenttype, value, true, out object? parsed))
                 {
                     prop.SetValue(targetClass, parsed);
                     ++_filled;
                 }
-                else if (prop.PropertyType == typeof(FsPath))
+                else if (currenttype == typeof(FsPath))
                 {
                     prop.SetValue(targetClass, new FsPath(value));
                     ++_filled;
@@ -124,11 +137,11 @@ namespace BookGen.Ui.ArgumentParser
                 {
                     try
                     {
-                        object converted = Convert.ChangeType(value, prop.PropertyType, CultureInfo.InvariantCulture);
+                        object converted = Convert.ChangeType(value, currenttype, CultureInfo.InvariantCulture);
                         prop.SetValue(targetClass, converted);
                         ++_filled;
                     }
-                    catch (Exception ex) 
+                    catch (Exception ex)
                         when (ex is InvalidCastException
                              || ex is FormatException
                              || ex is OverflowException
