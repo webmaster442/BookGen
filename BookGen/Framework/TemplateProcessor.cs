@@ -20,17 +20,17 @@ namespace BookGen.Framework
 
         public string TemplateContent { get; set; }
 
-        public TemplateProcessor(Config cfg, ShortCodeParser shortCodeParser)
+        public TemplateProcessor(Config cfg, ShortCodeParser shortCodeParser, StaticTemplateContent? staticContent = null)
         {
             _configuration = cfg;
             _table = new Dictionary<string, string>
             {
-                { "toc", string.Empty },
-                { "title", string.Empty },
-                { "content", string.Empty },
+                { "toc",  staticContent == null ? string.Empty : staticContent.TableOfContents },
+                { "title", staticContent == null ? string.Empty : staticContent.Title },
+                { "content", staticContent == null ? string.Empty : staticContent.Content },
                 { "host", cfg.HostName },
-                { "metadata", string.Empty },
-                { "precompiledheader", string.Empty }
+                { "metadata", staticContent == null ? string.Empty : staticContent.Metadata },
+                { "precompiledheader", staticContent == null ? string.Empty : staticContent.PrecompiledHeader }
             };
             TemplateContent = string.Empty;
             _parser = shortCodeParser;

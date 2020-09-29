@@ -10,19 +10,18 @@ using BookGen.Core.Configuration;
 using BookGen.Framework;
 using BookGen.Framework.Scripts;
 using BookGen.Domain;
+using BookGen.Contracts;
+using System;
 
 namespace BookGen
 {
     internal class WebsiteBuilder : Builder
     {
-        private readonly GeneratorSteps.ExtractTemplateAssets _extractAssets;
         public WebsiteBuilder(RuntimeSettings settings, ILog log, CsharpScriptHandler scriptHandler) 
             :base(settings, log, scriptHandler)
         {
-            _extractAssets = new GeneratorSteps.ExtractTemplateAssets();
-
             AddStep(new GeneratorSteps.CreateOutputDirectory());
-            AddStep(_extractAssets);
+            AddStep(CreateAssets());
             AddStep(new GeneratorSteps.CopyAssets(settings.Configuration.TargetWeb));
             AddStep(new GeneratorSteps.ImageProcessor());
             AddStep(new GeneratorSteps.CreateToCForWebsite());
@@ -35,16 +34,12 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateSitemap());
         }
 
-        protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)
+        private IGeneratorStep CreateAssets()
         {
-            return workingDirectory.Combine(Settings.Configuration.TargetWeb.OutPutDirectory);
-        }
-
-        protected override string ConfigureTemplateContent()
-        {
+            var step = new GeneratorSteps.ExtractTemplateAssets();
             if (TemplateLoader.FallbackTemplateRequired(Settings.SourceDirectory, Settings.Configuration.TargetWeb))
             {
-                _extractAssets.Assets = new (KnownFile file, string targetPath)[]
+                step.Assets = new (KnownFile file, string targetPath)[]
                 {
                     (KnownFile.PrismCss, "Assets"),
                     (KnownFile.PrismJs, "Assets"),
@@ -55,7 +50,16 @@ namespace BookGen
                     (KnownFile.TurbolinksJs, "Assets"),
                 };
             }
+            return step;
+        }
 
+        protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)
+        {
+            return workingDirectory.Combine(Settings.Configuration.TargetWeb.OutPutDirectory);
+        }
+
+        protected override string ConfigureTemplateContent()
+        {
             return TemplateLoader.LoadTemplate(Settings.SourceDirectory,
                                                Settings.Configuration.TargetWeb,
                                                _log,

@@ -34,36 +34,42 @@ namespace BookGen.GeneratorSteps
             using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
             pipeline.InjectRuntimeConfig(settings);
 
-            var bag = new ConcurrentBag<(FsPath path, string content)>();
+            var bag = new ConcurrentBag<(string source, FsPath target, string title, string content)>();
 
-
-            Parallel.ForEach(settings.TocContents.Files,file =>
+            Parallel.ForEach(settings.TocContents.Files, file =>
             {
+
+                (string source, FsPath target, string title, string content) result;
+
                 var input = settings.SourceDirectory.Combine(file);
-                FsPath? target = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
+                result.target = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
+
                 log.Detail("Processing file: {0}", input);
 
                 var inputContent = input.ReadFile(log);
 
-                Content.Title = MarkdownUtils.GetTitle(inputContent);
+                result.title = MarkdownUtils.GetTitle(inputContent);
 
-                if (string.IsNullOrEmpty(Content.Title))
+                if (string.IsNullOrEmpty(result.title))
                 {
                     log.Warning("No title found in document: {0}", file);
-                    Content.Title = file;
+                    result.title = file;
                 }
 
-                Content.Content = pipeline.RenderMarkdown(inputContent);
-                Content.Metadata = settings.MetataCache[file];
+                result.source = file;
+                result.content = pipeline.RenderMarkdown(inputContent);
 
-                bag.Add((target, Template.Render()));
+                bag.Add(result);
 
             });
 
             log.Info("Writing files to disk...");
             foreach (var item in bag)
             {
-                item.path.WriteFile(log, item.content);
+                Content.Title = item.title;
+                Content.Metadata = settings.MetataCache[item.source];
+                Content.Content = item.content;
+                item.target.WriteFile(log, Template.Render());
             }
         }
     }

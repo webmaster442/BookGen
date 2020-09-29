@@ -22,25 +22,34 @@ namespace BookGen.Framework
 
         protected RuntimeSettings Settings { get; }
 
-        protected TemplateProcessor Template { get; }
-
         protected readonly ShortCodeLoader _loader;
-
+        private readonly CsharpScriptHandler _scriptHandler;
+        private readonly StaticTemplateContent _staticContent;
         protected Builder(RuntimeSettings settings,
                           ILog log,
                           CsharpScriptHandler scriptHandler)
         {
             Settings = settings;
 
+            _staticContent = new StaticTemplateContent();
             _loader = new ShortCodeLoader(log, Settings, Program.AppSetting);
             _loader.LoadAll();
 
+            _scriptHandler = scriptHandler;
             scriptHandler.SetHostFromRuntimeSettings(Settings);
-
-            Template = new TemplateProcessor(settings.Configuration, new ShortCodeParser(_loader.Imports, scriptHandler, settings.Configuration.Translations, log));
 
             _steps = new List<IGeneratorStep>();
             _log = log;
+        }
+
+        private TemplateProcessor CreateTemplateProcessor()
+        {
+            return new TemplateProcessor(Settings.Configuration, 
+                                         new ShortCodeParser(_loader.Imports, 
+                                                             _scriptHandler, 
+                                                             Settings.Configuration.Translations,
+                                                             _log),
+                                         _staticContent);
         }
 
         protected abstract string ConfigureTemplateContent();
@@ -49,28 +58,12 @@ namespace BookGen.Framework
 
         public void AddStep(IGeneratorStep step)
         {
-            switch (step)
-            {
-                case ITemplatedStep templated:
-                    templated.Content = Template;
-                    templated.Template = Template;
-                    _steps.Add(templated);
-                    break;
-                case IGeneratorContentFillStep contentFill:
-                    contentFill.Content = Template;
-                    _steps.Add(contentFill);
-                    break;
-                default:
-                    _steps.Add(step);
-                    break;
-            }
+            _steps.Add(step);
         }
 
         public TimeSpan Run()
         {
             Settings.OutputDirectory = ConfigureOutputDirectory(Settings.SourceDirectory);
-            Template.TemplateContent = ConfigureTemplateContent();
-
             Stopwatch sw = new Stopwatch();
             sw.Start();
             try
@@ -78,6 +71,19 @@ namespace BookGen.Framework
                 int stepCounter = 1;
                 foreach (var step in _steps)
                 {
+                    switch (step)
+                    {
+                        case ITemplatedStep templated:
+                            var instance = CreateTemplateProcessor();
+                            templated.Content = instance;
+                            templated.Template = instance;
+                            templated.Template.TemplateContent = ConfigureTemplateContent();
+                            break;
+                        case IGeneratorContentFillStep contentFill:
+                            contentFill.Content = _staticContent;
+                            break;
+                    }
+
                     _log.Info("Step {0} of {1}", stepCounter, _steps.Count);
                     step.RunStep(Settings, _log);
                     ++stepCounter;
