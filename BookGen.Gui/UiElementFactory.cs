@@ -25,7 +25,10 @@ namespace BookGen.Ui
                 Y = Pos.Top(root) + row
             };
             if (button.Command != null)
-                result.Clicked = _binder.BindCommand(button.Command);
+            {
+                var act = _binder.BindCommand(button.Command);
+                result.Clicked += act;
+            }
             return result;
         }
 
