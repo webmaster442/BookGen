@@ -1,4 +1,5 @@
 #!/bin/bash
+cd ..
 cd bin/nupkg
 rm *.nupkg
 cd ../..
