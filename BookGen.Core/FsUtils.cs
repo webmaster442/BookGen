@@ -79,7 +79,7 @@ namespace BookGen.Core
                     return false;
                 }
 
-                var dir = Path.GetDirectoryName(target.ToString());
+                var dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
                 if (!Directory.Exists(dir))
                 {
                     log.Detail("Creating directory: {0}", dir);
@@ -100,7 +100,7 @@ namespace BookGen.Core
 
         public static FileStream CreateStream(this FsPath target, ILog log)
         {
-            var dir = Path.GetDirectoryName(target.ToString());
+            var dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
             if (!Directory.Exists(dir))
             {
                 log.Detail("Creating directory: {0}", dir);
@@ -149,7 +149,7 @@ namespace BookGen.Core
             {
                 FileInfo fileInfo = new FileInfo(target.ToString());
 
-                if (!fileInfo.Exists)
+                if (!fileInfo.Exists && fileInfo.Directory != null)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
 
                 using (var writer = File.CreateText(target.ToString()))
@@ -212,7 +212,7 @@ namespace BookGen.Core
             {
                 FileInfo fileInfo = new FileInfo(path.ToString());
 
-                if (!fileInfo.Exists)
+                if (!fileInfo.Exists && fileInfo.Directory != null)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
 
                 XmlSerializerNamespaces? xnames = null;
@@ -250,7 +250,7 @@ namespace BookGen.Core
             {
                 FileInfo fileInfo = new FileInfo(path.ToString());
 
-                if (!fileInfo.Exists)
+                if (!fileInfo.Exists && fileInfo.Directory != null)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
 
                 byte[] serialized = JsonSerializer.SerializeToUtf8Bytes<T>(obj, new JsonSerializerOptions
@@ -294,7 +294,7 @@ namespace BookGen.Core
             {
                 FileInfo fileInfo = new FileInfo(path.ToString());
 
-                if (!fileInfo.Exists)
+                if (!fileInfo.Exists && fileInfo.Directory != null)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
 
 
@@ -372,7 +372,7 @@ namespace BookGen.Core
                 string folder = file.ToString();
                 
                 if (file.Extension == null)
-                    folder = Path.GetDirectoryName(file.ToString());
+                    folder = Path.GetDirectoryName(file.ToString()) ?? string.Empty;
 
                 Uri pathUri = new Uri(filespec);
 
@@ -381,7 +381,7 @@ namespace BookGen.Core
                     folder += Path.DirectorySeparatorChar;
                 }
 
-                Uri folderUri = new Uri(folder);
+                Uri folderUri = new Uri(folder!);
 
                 var relatvie = folderUri.MakeRelativeUri(pathUri).ToString();
 
@@ -397,7 +397,7 @@ namespace BookGen.Core
         public static FsPath GetDirectory(this FsPath path)
         {
             var fullpath = Path.GetFullPath(path.ToString());
-            return new FsPath(Path.GetDirectoryName(fullpath));
+            return new FsPath(Path.GetDirectoryName(fullpath) ?? string.Empty);
         }
     }
 }

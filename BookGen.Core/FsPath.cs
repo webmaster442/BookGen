@@ -107,9 +107,9 @@ namespace BookGen.Core
             return HashCode.Combine(_path);
         }
 
-        public int CompareTo(FsPath other)
+        public int CompareTo(FsPath? other)
         {
-            return _path.CompareTo(other._path);
+            return _path.CompareTo(other?._path);
         }
 
         public static bool operator ==(FsPath? left, FsPath? right)
