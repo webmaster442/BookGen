@@ -23,10 +23,17 @@ namespace BookGen.Ui
             Application.UseSystemConsole = false;
             _binder = new Binder(model);
             _elementFactory = new UiElementFactory(_binder);
-            XWindow deserialized = DeserializeXmlView(view);
-            _window = ParseDeserialized(deserialized);
-            model.InjectView(this);
-            ResumeUi();
+            XWindow? deserialized = DeserializeXmlView(view);
+            if (deserialized != null)
+            {
+                _window = ParseDeserialized(deserialized);
+                model.InjectView(this);
+                ResumeUi();
+            }
+            else
+            {
+                throw new InvalidOperationException("View load error");
+            }
         }
 
         public void SuspendUi()
@@ -68,10 +75,10 @@ namespace BookGen.Ui
             _binder?.Update();
         }
 
-        private XWindow DeserializeXmlView(Stream view)
+        private XWindow? DeserializeXmlView(Stream view)
         {
             XmlSerializer xs = new XmlSerializer(typeof(XWindow));
-            return (XWindow)xs.Deserialize(view);
+            return xs.Deserialize(view) as XWindow;
         }
 
         private Window ParseDeserialized(XWindow deserialized)
