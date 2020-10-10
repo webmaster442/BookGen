@@ -19,7 +19,7 @@ namespace BookGen
             return file;
         }
 
-        public static AppSetting LoadAppSettings()
+        public static AppSetting? LoadAppSettings()
         {
             string file = GetConfigFile();
             if (File.Exists(file))

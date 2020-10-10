@@ -79,6 +79,9 @@ namespace BookGen.Utilities
 
         private static void ConvertChaptersToMarkdown(string workDir, ILog log, StringBuilder buffer, List<Chapter>? chapters)
         {
+            if (chapters == null)
+                return;
+
             foreach (var chapter in chapters)
             {
                 buffer.AppendFormat("## {0}\r\n", chapter.Title);

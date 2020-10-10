@@ -97,7 +97,7 @@ namespace BookGen.Framework.Server
             {
                 if (!(listenerContext is HttpListenerContext context)) return;
 
-                string filename = context.Request.Url.AbsolutePath;
+                string filename = context.Request.Url?.AbsolutePath ?? string.Empty;
                 _log.Detail("Serving: {0}", filename);
 
                 bool processed = false;
@@ -179,6 +179,11 @@ namespace BookGen.Framework.Server
 
             using (var error404 = ResourceHandler.GetResourceStream<HttpServer>("Resources/Error404.html"))
             {
+                if (error404 == null)
+                {
+                    throw new InvalidOperationException("Error serving 404");
+                }
+
                 response.StatusCode = (int)HttpStatusCode.NotFound;
                 response.ContentLength64 = error404.Length;
                 error404.CopyTo(response.OutputStream);

@@ -30,7 +30,8 @@ namespace BookGen.Framework.Editor
 
         public void Serve(HttpListenerRequest request, HttpListenerResponse response, ILog log)
         {
-            Dictionary<string, string> parameters = request.Url.Query.ParseQueryParameters();
+            Dictionary<string, string> parameters = 
+                request.Url?.Query.ParseQueryParameters() ?? new Dictionary<string, string>();
 
             if (parameters.ContainsKey("action"))
             {

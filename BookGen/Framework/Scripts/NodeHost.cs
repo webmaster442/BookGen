@@ -85,6 +85,12 @@ namespace BookGen.Framework.Scripts
             string program = ProcessInterop.AppendExecutableExtension("node");
             string? programPath = ProcessInterop.ResolveProgramFullPath(program, _appSettings.NodeJsPath);
 
+            if (programPath == null)
+            {
+                _log.Warning("Script run failed. Program not found: {0}", program);
+                return $"{program} not found to execute";
+            }
+
             string output = "";
 
             try

@@ -53,7 +53,7 @@ namespace BookGen.Framework
                 string name = property.Name;
                 Type type = property.PropertyType;
 
-                DocAttribute documentation = property.GetCustomAttributes<DocAttribute>().FirstOrDefault();
+                DocAttribute? documentation = property.GetCustomAttributes<DocAttribute>().FirstOrDefault();
 
                 if (documentation != null)
                 {

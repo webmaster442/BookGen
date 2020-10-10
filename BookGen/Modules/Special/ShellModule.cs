@@ -30,7 +30,7 @@ namespace BookGen.Modules.Special
         internal IEnumerable<string> DoComplete(string[] args)
         {
             if (args.Length == 0)
-                return Modules.Select(m => m.AutoCompleteInfo.ModuleName);
+                return Modules?.Select(m => m.AutoCompleteInfo.ModuleName) ?? Enumerable.Empty<string>();
 
             string request = args[0] ?? "";
 
@@ -42,7 +42,7 @@ namespace BookGen.Modules.Special
 
             if (words.Length > 0)
             {
-                StateModuleBase? command = Modules.FirstOrDefault(c => c.AutoCompleteInfo.ModuleName.StartsWith(words[0], StringComparison.OrdinalIgnoreCase));
+                StateModuleBase? command = Modules?.FirstOrDefault(c => c.AutoCompleteInfo.ModuleName.StartsWith(words[0], StringComparison.OrdinalIgnoreCase));
                 if (command != null)
                 {
                     if (words.Length > 1)
