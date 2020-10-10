@@ -3,17 +3,18 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.AssemblyDocumenter.Internals;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 
-namespace BookGen.AssemblyDocumenter.Internals
+namespace BookGen.AssemblyDocumenter.Documenters
 {
-    internal static class MethodDocumenter
+    internal class MethodDocumenter : DocumenterBase
     {
-        public static void DocumentMethods(MarkdownDocument document, Type type, XElement documentation)
+        public override void Document(MarkdownDocument targetDocument, Type type, XElement docSource)
         {
             var methods = type.IsInterface ? type.GetMethods() : type.GetMethods(BindingFlags.Public);
 
@@ -22,7 +23,7 @@ namespace BookGen.AssemblyDocumenter.Internals
 
             if (methods.Length < 1) return;
 
-            document.Heading(2, "Methods");
+            targetDocument.Heading(2, "Methods");
 
             foreach (var method in methods)
             {
@@ -41,7 +42,7 @@ namespace BookGen.AssemblyDocumenter.Internals
                     if (parameter.HasDefaultValue)
                     {
                         pars.AppendFormat("{0} {1} {2} = {3}", callmode,
-                                                               Helpers.GetTypeName(parameter.ParameterType),
+                                                               GetTypeName(parameter.ParameterType),
                                                                parameter.Name,
                                                                parameter.DefaultValue);
                     }
@@ -54,12 +55,12 @@ namespace BookGen.AssemblyDocumenter.Internals
 
                     ++i;
                 }
-                document.WriteLine("* `{0} {1}({2});`", method.ReturnType.Name, method.Name, pars);
-                document.WriteLine("    {0}", DocumentSelectors.GetMethodSummary(documentation, selector));
+                targetDocument.WriteLine("* `{0} {1}({2});`", method.ReturnType.Name, method.Name, pars);
+                targetDocument.WriteLine("    {0}", DocumentSelectors.GetMethodSummary(docSource, selector));
 
-                foreach ((string name, string description) paramDesc in DocumentSelectors.GetMethodParamDescriptions(documentation, selector))
+                foreach ((string name, string description) paramDesc in DocumentSelectors.GetMethodParamDescriptions(docSource, selector))
                 {
-                    document.WriteLine("    * `{0}`: {1}", paramDesc.name, paramDesc.description);
+                    targetDocument.WriteLine("    * `{0}`: {1}", paramDesc.name, paramDesc.description);
                 }
 
             }

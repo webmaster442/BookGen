@@ -12,6 +12,7 @@ namespace BookGen.AssemblyDocumenter.Internals
 {
     internal static class DocumentSelectors
     {
+
         private static string Cleanup(this string input)
         {
             return Regex.Replace(input, @"\s+", " ");
@@ -21,10 +22,10 @@ namespace BookGen.AssemblyDocumenter.Internals
         {
             string summary = "";
 
-            XElement node = documentation
+            XElement? node = documentation
                         .Descendants("members")
                         .Descendants("member")
-                        .FirstOrDefault(x => x.Attribute("name").Value.EndsWith(memberpath));
+                        .FirstOrDefault(x => x?.Attribute("name"!)?.Value?.EndsWith(memberpath) ?? false);
 
             if (node != null)
             {
@@ -38,10 +39,10 @@ namespace BookGen.AssemblyDocumenter.Internals
         {
             string summary = "";
 
-            XElement node = documentation
+            XElement? node = documentation
                         .Descendants("members")
                         .Descendants("member")
-                        .FirstOrDefault(x => x.Attribute("name").Value.StartsWith($"M:{methodname}"));
+                        .FirstOrDefault(x => x?.Attribute("name"!)?.Value?.StartsWith($"M:{methodname}") ?? false);
 
             if (node != null)
             {
@@ -53,17 +54,17 @@ namespace BookGen.AssemblyDocumenter.Internals
 
         public static IEnumerable<(string name, string description)> GetMethodParamDescriptions(XElement documentation, string methodname)
         {
-            XElement node = documentation
+            XElement? node = documentation
                         .Descendants("members")
                         .Descendants("member")
-                        .FirstOrDefault(x => x.Attribute("name").Value.StartsWith($"M:{methodname}"));
+                        .FirstOrDefault(x => x?.Attribute("name"!)?.Value?.StartsWith($"M:{methodname}") ?? false);
 
             if (node != null)
             {
                 foreach (var param in  node.Descendants("param"))
                 {
-                    var name = param.Attribute("name").Value;
-                    var content = param.Value.Cleanup();
+                    var name = param?.Attribute("name"!)?.Value ?? string.Empty;
+                    var content = param?.Value?.Cleanup() ?? string.Empty;
 
                     yield return (name, content);
                 }
