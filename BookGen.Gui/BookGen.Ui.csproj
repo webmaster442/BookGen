@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net50</TargetFramework>
 		<Nullable>enable</Nullable>
 		<Product>BookGen</Product>
 		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>

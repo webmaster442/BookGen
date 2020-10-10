@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net50</TargetFramework>
     <Nullable>enable</Nullable>
     <AssemblyTitle>BookGen.Core</AssemblyTitle>
     <Product>BookGen</Product>
@@ -16,6 +16,7 @@
     <AssemblyVersion>1.0.3.0</AssemblyVersion>
     <FileVersion>1.0.3.0</FileVersion>
     <PackageLicenseFile>LICENCE</PackageLicenseFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ColorCode.Netstandard" Version="1.0.4.3" />
