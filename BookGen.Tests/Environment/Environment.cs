@@ -50,6 +50,7 @@ namespace BookGen.Tests.Environment
             var mock = new Mock<IReadonlyRuntimeSettings>();
             mock.SetupGet(m => m.Configuration).Returns(testConfig);
             mock.SetupGet(m => m.OutputDirectory).Returns(new FsPath(GetTestFolder()));
+            mock.SetupGet(m => m.SourceDirectory).Returns(new FsPath(GetTestFolder()));
 
             return mock.Object;
         }
