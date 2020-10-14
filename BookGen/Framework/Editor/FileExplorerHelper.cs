@@ -7,7 +7,6 @@ using BookGen.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace BookGen.Framework.Editor
@@ -16,7 +15,6 @@ namespace BookGen.Framework.Editor
     {
         private Dictionary<string, FileInfo[]> _folders;
         private string _root;
-
 
         public List<string> ExcludedPaths
         {
@@ -99,7 +97,7 @@ namespace BookGen.Framework.Editor
             output.CloseElement(HtmlElement.Table);
         }
 
-        private object GetActions(FileInfo file)
+        private string GetActions(FileInfo file)
         {
             var url = GetUrl(file.FullName);
             if (string.Equals(file.Extension, ".md", StringComparison.OrdinalIgnoreCase))
