@@ -59,6 +59,7 @@
 		<None Remove="Resources\Help.PagegenModule.txt" />
 		<None Remove="Resources\Help.ServeModule.txt" />
 		<None Remove="Resources\Help.SettingsModule.txt" />
+		<None Remove="Resources\Help.SpellModule.txt" />
 		<None Remove="Resources\Help.VersionModule.txt" />
 		<None Remove="Resources\ReplaceContents.bat" />
 	</ItemGroup>
@@ -99,6 +100,7 @@
 		<EmbeddedResource Include="Resources\Help.VersionModule.txt" />
 		<EmbeddedResource Include="Resources\ReplaceContents.bat" />
     <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
+    <EmbeddedResource Include="Resources\Help.SpellModule.txt" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />

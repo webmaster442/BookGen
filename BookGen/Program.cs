@@ -58,6 +58,7 @@ namespace BookGen
             new Md2HtmlModule(CurrentState),
             new VersionModule(CurrentState),
             new ChaptersModule(CurrentState),
+            new SpellModule(CurrentState, AppSetting),
         };
 
         private static readonly BaseModule[] StatelessModules = new BaseModule[]

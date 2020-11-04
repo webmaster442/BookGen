@@ -1,0 +1,26 @@
+﻿Spell check a file or install/uninstall spell checking
+-------------------------------------------------------------------------------
+
+    BookGen spell -a [action] -l [languagecode] [file]
+    BookGen spell --action [action] --language [languagecode] [file]
+   
+  Arguments:
+    -a, --action
+    Specifies the action to perform. Can be: check, install or uninstall.
+
+    check
+        Check a file for spelling errors. Suggestions and errors are printed to
+        console.
+
+    install
+        Installs a spell checking dictionary. This requires internet connection.
+        File parameter is ignored in this mode.
+
+    uninstall
+        Uninstall an installed dictionary. In uninstall mode language is optional
+        parameter. If it's not given, then all dictionary is removed.
+        File parameter is ignored in this mode.
+
+    -l, --language: 
+        Specifies the language to use. This must be in format: {language}_{country}.
+        Examples: hu_HU, de_DE, en_US, en_GB
