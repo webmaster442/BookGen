@@ -399,5 +399,26 @@ namespace BookGen.Core
             var fullpath = Path.GetFullPath(path.ToString());
             return new FsPath(Path.GetDirectoryName(fullpath));
         }
+
+        public static void Delete(this FsPath path, ILog log)
+        {
+            try
+            {
+                if (path.IsExisting)
+                {
+                    log.Detail("Deleting file {0} ...", path);
+                    File.Delete(path.ToString());
+                }
+                else
+                {
+                    log.Detail("{0} doesn't exist. Skipping delete...", path);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Warning("File delete failed");
+                log.Critical(ex);
+            }
+        }
     }
 }

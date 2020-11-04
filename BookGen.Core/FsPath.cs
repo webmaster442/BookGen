@@ -18,6 +18,11 @@ namespace BookGen.Core
             _path = string.Empty;
         }
 
+        public FsPath(Environment.SpecialFolder folder)
+        {
+            _path = Environment.GetFolderPath(folder);
+        }
+
         public FsPath(params string[] pathParts)
         {
             if (pathParts == null)
