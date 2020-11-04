@@ -77,7 +77,7 @@ namespace BookGen.Utilities
             return true;
         }
 
-        private static void ConvertChaptersToMarkdown(string workDir, ILog log, StringBuilder buffer, List<Chapter>? chapters)
+        private static void ConvertChaptersToMarkdown(string workDir, ILog log, StringBuilder buffer, List<Chapter> chapters)
         {
             foreach (var chapter in chapters)
             {
