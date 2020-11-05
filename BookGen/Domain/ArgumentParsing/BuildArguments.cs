@@ -8,7 +8,7 @@ using System;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class BuildParameters: ArgumentsBase
+    internal class BuildArguments: ArgumentsBase
     {
         [Switch("a", "action", true)]
         public BuildAction? Action { get; set; }
@@ -22,7 +22,7 @@ namespace BookGen.Domain.ArgumentParsing
         [Switch("d", "dir")]
         public string WorkDir { get; set; }
 
-        public BuildParameters()
+        public BuildArguments()
         {
             WorkDir = Environment.CurrentDirectory;
         }

@@ -44,7 +44,7 @@ namespace BookGen.Modules
 
         public override bool Execute(string[] arguments)
         {
-            BuildParameters args = new BuildParameters();
+            BuildArguments args = new BuildArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return false;

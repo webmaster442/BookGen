@@ -43,7 +43,7 @@ namespace BookGen.Modules
 
         public override bool Execute(string[] arguments)
         {
-            Md2HtmlParameters args = new Md2HtmlParameters();
+            Md2HtmlArguments args = new Md2HtmlArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return false;

@@ -43,7 +43,7 @@ namespace BookGen.Modules
         public override bool Execute(string[] arguments)
         {
 
-            PageGenParameters args = new PageGenParameters();
+            PageGenArguments args = new PageGenArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return false;

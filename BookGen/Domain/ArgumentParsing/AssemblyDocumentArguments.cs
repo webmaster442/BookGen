@@ -8,7 +8,7 @@ using BookGen.Ui.ArgumentParser;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal sealed class AssemblyDocumentParameters: ArgumentsBase
+    internal sealed class AssemblyDocumentArguments: ArgumentsBase
     {
         [Switch("a", "assembly", true)]
         public FsPath AssemblyPath { get; set; }
@@ -19,7 +19,7 @@ namespace BookGen.Domain.ArgumentParsing
         [Switch("o", "output", true)]
         public FsPath OutputDirectory { get; set; }
 
-        public AssemblyDocumentParameters()
+        public AssemblyDocumentArguments()
         {
             AssemblyPath = FsPath.Empty;
             XmlPath = FsPath.Empty;
