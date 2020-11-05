@@ -12,6 +12,7 @@ using BookGen.Modules.Special;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BookGen
@@ -45,27 +46,33 @@ namespace BookGen
         }
         #endregion
 
-        public static readonly StateModuleBase[] ModulesWithState = new StateModuleBase[]
-        {
-            new BuildModule(CurrentState),
-            new ConfigHelpModule(CurrentState),
-            new GuiModule(CurrentState),
-            new EditorModule(CurrentState),
-            new AssemblyDocumentModule(CurrentState),
-            new SettingsModule(CurrentState, AppSetting),
-            new InitModule(CurrentState),
-            new PagegenModule(CurrentState),
-            new Md2HtmlModule(CurrentState),
-            new VersionModule(CurrentState),
-            new ChaptersModule(CurrentState),
-            new SpellModule(CurrentState, AppSetting),
-        };
+        public static readonly List<StateModuleBase> ModulesWithState = new List<StateModuleBase>();
+  
 
         private static readonly BaseModule[] StatelessModules = new BaseModule[]
         {
             new HelpModule(),
             new SubCommandsModule()
         };
+
+        private static void ConfigrueModules()
+        {
+            ModulesWithState.AddRange(new StateModuleBase[]
+            {
+                new BuildModule(CurrentState),
+                new ConfigHelpModule(CurrentState),
+                new GuiModule(CurrentState),
+                new EditorModule(CurrentState),
+                new AssemblyDocumentModule(CurrentState),
+                new SettingsModule(CurrentState, AppSetting),
+                new InitModule(CurrentState),
+                new PagegenModule(CurrentState),
+                new Md2HtmlModule(CurrentState),
+                new VersionModule(CurrentState),
+                new ChaptersModule(CurrentState),
+                new SpellModule(CurrentState, AppSetting),
+            });
+        }
 
         public static void Main(string[] args)
         {
@@ -74,6 +81,7 @@ namespace BookGen
             {
                 ConfiugreStatelessModules();
                 AppSetting = AppSettingHandler.LoadAppSettings();
+                ConfigrueModules();
 
                 string command = SubcommandParser.GetCommand(args, out string[] parameters);
 

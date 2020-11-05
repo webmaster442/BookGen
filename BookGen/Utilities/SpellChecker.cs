@@ -9,6 +9,7 @@ using BookGen.Core;
 using Markdig;
 using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 using System.Collections.Generic;
 using WeCantSpell.Hunspell;
 
@@ -20,11 +21,11 @@ namespace BookGen.Utilities
         private readonly IAppSetting _appSettings;
         private WordList? _wordList;
 
-        public SpellChecker(ILog log, IAppSetting appSettings)
+        public SpellChecker(ILog log, IAppSetting appSettings, string language)
         {
             _log = log;
             _appSettings = appSettings;
-            ConfigureWordList(log, appSettings.SpellLanguage);
+            ConfigureWordList(log, language);
         }
 
         private void ConfigureWordList(ILog log, string spellLanguage)
@@ -70,19 +71,23 @@ namespace BookGen.Utilities
             {
                 if (item is CodeBlock) continue; //skip code
 
-                var blockContent = item.ToString()?.Split(' ');
-
-                if (blockContent == null) return;
-
-                int i = 0;
-                foreach (var word in blockContent)
+                if (item is Inline inline)
                 {
-                    if (!_wordList.Check(word))
+                    var blockContent = inline.ToString()?.Split(' ');
+
+                    if (blockContent == null) return;
+
+                    int i = 0;
+                    foreach (var word in blockContent)
                     {
-                        var suggestions = _wordList.Suggest(word);
-                        PrintSuggestions(item.Line, blockContent, i, suggestions);
+                        if (!_wordList.Check(word))
+                        {
+                            var suggestions = _wordList.Suggest(word);
+                            PrintSuggestions(item.Line, blockContent, i, suggestions);
+                        }
+                        ++i;
                     }
-                    ++i;
+
                 }
             }
         }

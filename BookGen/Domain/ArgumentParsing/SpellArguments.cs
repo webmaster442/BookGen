@@ -22,13 +22,20 @@ namespace BookGen.Domain.ArgumentParsing
 
         public override bool Validate()
         {
-            if (Action == SpellActions.Check ||
-                Action == SpellActions.Install)
+            if (Action == SpellActions.Check
+                && Files.Length == 1)
             {
                 return !string.IsNullOrEmpty(LanguageCode);
             }
-
-            return true;
+            else if (Action == SpellActions.Install
+                && Files.Length == 0)
+            {
+                return !string.IsNullOrEmpty(LanguageCode);
+            }
+            else
+            {
+                return Files.Length == 0;
+            }
         }
     }
 }

@@ -13,7 +13,6 @@ namespace BookGen.Contracts
         int PhpTimeout { get; }
         string PythonPath { get; }
         int PythonTimeout { get; }
-        string SpellLanguage { get; }
         string AppDataPath { get; }
     }
 }

@@ -65,7 +65,7 @@ namespace BookGen.Modules
 
         private bool HandleCheck(SpellArguments args, ILog log)
         {
-            SpellChecker checker = new SpellChecker(log, _settings);
+            SpellChecker checker = new SpellChecker(log, _settings, args.LanguageCode);
             checker.SpellCheck(new FsPath(args.Files.First()));
             return true;
         }

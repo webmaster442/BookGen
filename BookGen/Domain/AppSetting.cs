@@ -19,10 +19,12 @@ namespace BookGen.Domain
         public int PhpTimeout { get; set; }
         public string PythonPath { get; set; }
         public int PythonTimeout { get; set; }
-        public string SpellLanguage { get; set; }
         
         [JsonIgnore]
-        public string AppDataPath { get; private set; }
+        public string AppDataPath
+        {
+            get => new FsPath(Environment.SpecialFolder.ApplicationData).Combine("BookGen").ToString();
+        }
 
         public AppSetting()
         {
@@ -32,9 +34,7 @@ namespace BookGen.Domain
             NodeJsPath = string.Empty;
             PythonPath = string.Empty;
             PhpPath = string.Empty;
-            SpellLanguage = string.Empty;
             AutoStartWebserver = true;
-            AppDataPath = new FsPath(Environment.SpecialFolder.ApplicationData).Combine("\\BookGen").ToString();
         }
     }
 }
