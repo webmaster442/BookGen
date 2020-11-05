@@ -11,6 +11,8 @@ using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using WeCantSpell.Hunspell;
 
 namespace BookGen.Utilities
@@ -25,6 +27,7 @@ namespace BookGen.Utilities
         {
             _log = log;
             _appSettings = appSettings;
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             ConfigureWordList(log, language);
         }
 
@@ -73,7 +76,7 @@ namespace BookGen.Utilities
 
                 if (item is Inline inline)
                 {
-                    var blockContent = inline.ToString()?.Split(' ');
+                    var blockContent = GetWords(inline.ToString());
 
                     if (blockContent == null) return;
 
@@ -82,7 +85,7 @@ namespace BookGen.Utilities
                     {
                         if (!_wordList.Check(word))
                         {
-                            var suggestions = _wordList.Suggest(word);
+                            var suggestions = _wordList.Suggest(word).Take(10);
                             PrintSuggestions(item.Line, blockContent, i, suggestions);
                         }
                         ++i;
@@ -90,6 +93,15 @@ namespace BookGen.Utilities
 
                 }
             }
+        }
+
+        private string[] GetWords(string? v)
+        {
+            if (v == null) 
+                return Enumerable.Empty<string>().ToArray();
+
+            return v.Split(new char[] { ' ', ',', '.', '?', ':', '"', '"', '!', '(', ')', '^', '[', ']', '-' },
+                           System.StringSplitOptions.RemoveEmptyEntries);
         }
 
         private void PrintSuggestions(int line, string[] blockContent, int index, IEnumerable<string> suggestions)

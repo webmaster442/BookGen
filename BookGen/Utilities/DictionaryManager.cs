@@ -13,7 +13,8 @@ namespace BookGen.Utilities
 {
     internal class DictionaryManager
     {
-        private const string BaseUrl = "https://raw.githubusercontent.com/freedesktop/libreoffice-dictionaries/master/{0}/{0}.{1}";
+        
+        private const string BaseUrl = "https://raw.githubusercontent.com/JetBrains/hunspell-dictionaries/master/{0}/{0}.{1}";
         private const int BufferSize = 4 * 1024;
         private readonly ILog _log;
         private readonly IAppSetting _appSetting;
