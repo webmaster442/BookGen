@@ -20,18 +20,13 @@ namespace BookGen.Core
 
         private ConsoleColor GetConsoleColor(LogLevel logLevel)
         {
-            switch (logLevel)
+            return logLevel switch
             {
-                case LogLevel.Warning:
-                    return ConsoleColor.Yellow;
-                case LogLevel.Info:
-                    return ConsoleColor.Gray;
-                case LogLevel.Critical:
-                    return ConsoleColor.Red;
-                case LogLevel.Detail:
-                default:
-                    return ConsoleColor.White;
-            }
+                LogLevel.Warning => ConsoleColor.Yellow,
+                LogLevel.Info => ConsoleColor.Gray,
+                LogLevel.Critical => ConsoleColor.Red,
+                _ => ConsoleColor.White,
+            };
         }
 
         public void Log(LogLevel logLevel, string format, params object[] args)

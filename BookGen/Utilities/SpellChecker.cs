@@ -70,6 +70,8 @@ namespace BookGen.Utilities
             var pipeline = new MarkdownPipelineBuilder().UseAutoIdentifiers(AutoIdentifierOptions.GitHub).Build();
             var doc = Markdown.Parse(content, pipeline);
 
+            StringBuilder results = new StringBuilder();
+
             foreach (MarkdownObject item in doc.Descendants())
             {
                 if (item is CodeBlock) continue; //skip code
