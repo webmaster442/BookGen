@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace BookGen.Core
 {
-    public sealed class FsPath : IEquatable<FsPath>, IComparable<FsPath>
+    public sealed record FsPath : IComparable<FsPath>
     {
         private readonly string _path;
 
@@ -91,35 +91,9 @@ namespace BookGen.Core
             return string.IsNullOrEmpty(path._path);
         }
 
-        public override bool Equals(object? obj)
-        {
-            return Equals(obj as FsPath);
-        }
-
-        public bool Equals(FsPath? other)
-        {
-            return
-                _path == other?._path;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(_path);
-        }
-
         public int CompareTo(FsPath? other)
         {
             return _path.CompareTo(other?._path);
-        }
-
-        public static bool operator ==(FsPath? left, FsPath? right)
-        {
-            return left?._path == right?._path;
-        }
-
-        public static bool operator !=(FsPath? left, FsPath? right)
-        {
-            return !(left == right);
         }
     }
 }

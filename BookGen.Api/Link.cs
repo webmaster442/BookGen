@@ -3,15 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
 namespace BookGen.Api
 {
     /// <summary>
     /// Represents a link in the Markdown Table of Contents.
     /// </summary>
-    public sealed class Link : IEquatable<Link>
+    public sealed record Link
     {
         /// <summary>
         /// Link text, that will be displayed.
@@ -32,38 +29,6 @@ namespace BookGen.Api
         {
             Text = text;
             Url = url;
-        }
-
-        /// <inheritdoc/>
-        public override bool Equals(object? obj)
-        {
-            return Equals(obj as Link);
-        }
-
-        /// <inheritdoc/>
-        public bool Equals(Link? other)
-        {
-            return
-                Text == other?.Text &&
-                Url == other?.Url;
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Text, Url);
-        }
-
-        /// <inheritdoc/>
-        public static bool operator ==(Link left, Link right)
-        {
-            return EqualityComparer<Link>.Default.Equals(left, right);
-        }
-
-        /// <inheritdoc/>
-        public static bool operator !=(Link left, Link right)
-        {
-            return !(left == right);
         }
 
         /// <summary>
