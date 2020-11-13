@@ -20,7 +20,7 @@ It is designed to be cross platform, but It's developed and tested under Windows
 
 To Build and develop you will need:
 * Visual Studio 2019 with latest updates - https://visualstudio.microsoft.com/vs/
-* .NET Core 3.1 SDK - https://dotnet.microsoft.com/download
+* .NET 5 SDK - https://dotnet.microsoft.com/download
 
 # Getting the repo
 
