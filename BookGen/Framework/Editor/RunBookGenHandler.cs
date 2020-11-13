@@ -30,7 +30,8 @@ namespace BookGen.Framework.Editor
 
         public void Serve(HttpListenerRequest request, HttpListenerResponse response, ILog log)
         {
-            Dictionary<string, string> parameters = request.Url.Query.ParseQueryParameters();
+            Dictionary<string, string> parameters = 
+                request.Url?.Query.ParseQueryParameters() ?? new Dictionary<string, string>();
 
             if (parameters.ContainsKey("action"))
             {
@@ -71,19 +72,14 @@ namespace BookGen.Framework.Editor
 
         private string DecodeAction(string action)
         {
-            switch (action)
+            return action switch
             {
-                case "web":
-                    return ComposeBuildCommand(BuildAction.BuildWeb);
-                case "print":
-                    return ComposeBuildCommand(BuildAction.BuildPrint);
-                case "epub":
-                    return ComposeBuildCommand(BuildAction.BuildEpub);
-                case "wordpress":
-                    return ComposeBuildCommand(BuildAction.BuildWordpress);
-                default:
-                    return string.Empty;
-            }
+                "web" => ComposeBuildCommand(BuildAction.BuildWeb),
+                "print" => ComposeBuildCommand(BuildAction.BuildPrint),
+                "epub" => ComposeBuildCommand(BuildAction.BuildEpub),
+                "wordpress" => ComposeBuildCommand(BuildAction.BuildWordpress),
+                _ => string.Empty,
+            };
         }
     }
 }

@@ -18,7 +18,7 @@ namespace BookGen.Resources
             return path.Replace("/", ".");
         }
 
-        public static Stream GetResourceStream<T>(string resource)
+        public static Stream? GetResourceStream<T>(string resource)
         {
             var assembly = typeof(T).GetTypeInfo().Assembly;
 
@@ -75,6 +75,11 @@ namespace BookGen.Resources
             {
                 using (var stream = GetResourceStream<KnownFile>(location))
                 {
+                    if (stream == null)
+                    {
+                        throw new InvalidOperationException($"Resource not found for: {file}");
+                    }
+
                     var targetName = Path.Combine(targetDir, filename);
 
                     if (!Directory.Exists(targetDir))

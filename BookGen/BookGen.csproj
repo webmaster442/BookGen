@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net50</TargetFramework>
 		<Nullable>enable</Nullable>
 		<OutputType>Exe</OutputType>
 		<AssemblyTitle>BookGen</AssemblyTitle>
@@ -64,17 +64,17 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.22.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
 		<PackageReference Include="Node.js.redist" Version="14.2.0" />
 		<PackageReference Include="SkiaSharp" Version="2.80.2" />
-		<PackageReference Include="Svg.Skia" Version="0.4.1" />
-		<PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
+		<PackageReference Include="Svg.Skia" Version="0.4.2-preview7" />
+		<PackageReference Include="System.ComponentModel.Composition" Version="5.0.0" />
 		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-		<PackageReference Include="System.Text.Json" Version="4.7.2" />
+		<PackageReference Include="System.Text.Json" Version="5.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="ConsoleUi\InitializeView.xml" />

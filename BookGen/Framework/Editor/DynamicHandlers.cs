@@ -47,7 +47,7 @@ namespace BookGen.Framework.Editor
 
         public void Serve(HttpListenerRequest request, HttpListenerResponse response, ILog log)
         {
-            switch (request.Url.AbsolutePath)
+            switch (request.Url?.AbsolutePath)
             {
                 case "/dynamic/FileTree.html":
                     response.WriteHtmlString(_fileExplorerHelper.RenderFileExplorer(_workdir));
@@ -69,7 +69,8 @@ namespace BookGen.Framework.Editor
 
         private void GetContents(HttpListenerRequest request, HttpListenerResponse response, ILog log)
         {
-            Dictionary<string, string> parameters = request.Url.Query.ParseQueryParameters();
+            Dictionary<string, string> parameters =
+                request.Url?.Query.ParseQueryParameters() ?? new Dictionary<string, string>();
             if (parameters.ContainsKey("file"))
             {
                 string file = Uri.UnescapeDataString(parameters["file"]);

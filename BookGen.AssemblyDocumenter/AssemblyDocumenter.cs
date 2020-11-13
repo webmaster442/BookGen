@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.AssemblyDocumenter.Documenters;
 using BookGen.AssemblyDocumenter.Internals;
 using BookGen.Core;
 using System;
@@ -16,10 +17,17 @@ namespace BookGen.AssemblyDocumenter
     public class AssemblyDocumenter
     {
         private readonly ILog _log;
+        private readonly EnumDocumenter _enumDocumenter;
+        private readonly MethodDocumenter _methodDocumenter;
+        private readonly PropertyDocumenter _propertyDocumenter;
+
 
         public AssemblyDocumenter(ILog log)
         {
             _log = log;
+            _enumDocumenter = new EnumDocumenter();
+            _methodDocumenter = new MethodDocumenter();
+            _propertyDocumenter = new PropertyDocumenter();
         }
 
         private IEnumerable<Type> GetDocumentableTypes(FsPath assembly)
@@ -51,7 +59,7 @@ namespace BookGen.AssemblyDocumenter
             }
 
             document.Heading(1, "{0} {1}", typeName, typeInfo);
-            document.Paragraph("Namespace: {0}", type.Namespace);
+            document.Paragraph("Namespace: {0}", type?.Namespace ?? string.Empty);
         }
 
         private void DocumentType(Type type, XElement documentation, FsPath outputDir)
@@ -59,19 +67,19 @@ namespace BookGen.AssemblyDocumenter
             MarkdownDocument document = new MarkdownDocument();
 
             CreatePageTitle(document, type);
-            document.Paragraph(DocumentSelectors.GetPropertyOrTypeSummary(documentation, type.FullName));
+            document.Paragraph(DocumentSelectors.GetPropertyOrTypeSummary(documentation, type?.FullName ?? string.Empty));
 
-            if (type.IsEnum)
+            if (type?.IsEnum == true)
             {
-                EnumDocumenter.DocumentEnum(document, type, documentation);
+                _enumDocumenter.Document(document, type, documentation);
             }
             else
             {
-                PropertyDocumenter.DocumentPropertes(document, type, documentation);
-                MethodDocumenter.DocumentMethods(document, type, documentation);
+                _propertyDocumenter.Document(document, type!, documentation);
+                _methodDocumenter.Document(document, type!, documentation);
             }
 
-            var file = outputDir.Combine(type.Name + ".md");
+            var file = outputDir.Combine(type?.Name + ".md");
             file.WriteFile(_log, document.ToString());
         }
 
@@ -81,8 +89,11 @@ namespace BookGen.AssemblyDocumenter
             XElement documentation = XElement.Load(xmlFile.ToString());
             foreach (var type in documentableTypes)
             {
-                _log.Info("Documenting type: {0}", type.FullName);
-                DocumentType(type, documentation, outputDir);
+                if (type != null)
+                {
+                    _log.Info("Documenting type: {0}", type?.FullName ?? string.Empty);
+                    DocumentType(type!, documentation, outputDir);
+                }
             }
         }
     }

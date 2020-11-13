@@ -3,28 +3,29 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.AssemblyDocumenter.Internals;
 using System;
 using System.Reflection;
 using System.Xml.Linq;
 
-namespace BookGen.AssemblyDocumenter.Internals
+namespace BookGen.AssemblyDocumenter.Documenters
 {
-    internal static class PropertyDocumenter
+    internal class PropertyDocumenter : DocumenterBase
     {
-        internal static void DocumentPropertes(MarkdownDocument document, Type type, XElement documentation)
+        public override void Document(MarkdownDocument targetDocument, Type type, XElement docSource)
         {
             var properties = type.IsInterface ? type.GetProperties() : type.GetProperties(BindingFlags.Public);
             if (properties.Length < 1) return;
 
-            document.Heading(2, "Properties");
+            targetDocument.Heading(2, "Properties");
 
             foreach (var property in properties)
             {
                 var selector = $"{type.FullName}.{property.Name}";
 
-                document.WriteLine("* `{0} {1} {2}`", Helpers.GetTypeName(property.PropertyType), property.Name, GetSet(property));
-                document.WriteLine("    {0}", DocumentSelectors.GetPropertyOrTypeSummary(documentation, selector));
-                document.WriteLine("");
+                targetDocument.WriteLine("* `{0} {1} {2}`", GetTypeName(property.PropertyType), property.Name, GetSet(property));
+                targetDocument.WriteLine("    {0}", DocumentSelectors.GetPropertyOrTypeSummary(docSource, selector));
+                targetDocument.WriteLine("");
             }
         }
 

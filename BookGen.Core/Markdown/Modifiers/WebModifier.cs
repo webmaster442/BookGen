@@ -41,7 +41,10 @@ namespace BookGen.Core.Markdown.Modifiers
 
         private static bool IsOffHostLink(LinkInline link, IReadonlyRuntimeSettings RuntimeConfig)
         {
-            return !link.Url.StartsWith(RuntimeConfig?.Configuration.HostName);
+            if (RuntimeConfig.Configuration != null)
+                return !link.Url.StartsWith(RuntimeConfig.Configuration.HostName);
+            else
+                return true;
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)

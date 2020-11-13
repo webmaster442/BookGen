@@ -72,7 +72,13 @@ namespace BookGen
             try
             {
                 ConfiugreStatelessModules();
-                AppSetting = AppSettingHandler.LoadAppSettings();
+
+                var loaded = AppSettingHandler.LoadAppSettings();
+
+                if (loaded != null)
+                {
+                    AppSetting = loaded;
+                }
 
                 string command = SubcommandParser.GetCommand(args, out string[] parameters);
 
@@ -115,7 +121,7 @@ namespace BookGen
             if (stateless != null)
                 return stateless;
 
-            BaseModule stated = ModulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+            BaseModule? stated = ModulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
             if (stated != null)
                 return stated;
 

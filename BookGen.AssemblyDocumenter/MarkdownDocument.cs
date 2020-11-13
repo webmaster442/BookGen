@@ -5,7 +5,7 @@
 
 using System.Text;
 
-namespace BookGen.AssemblyDocumenter.Internals
+namespace BookGen.AssemblyDocumenter
 {
     internal class MarkdownDocument
     {
