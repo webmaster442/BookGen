@@ -36,6 +36,7 @@ namespace BookGen
         }
 
         public ILog Log { get; }
+        public bool NoWait { get; internal set; }
 
         public GeneratorRunner(ILog log, string workDir)
         {
@@ -61,6 +62,10 @@ namespace BookGen
             {
                 actionToExecute.Invoke(this);
             }
+            else
+            {
+                Program.Exit(ExitCode.BadConfiguration);
+            }
         }
 
         public bool Initialize(bool compileScripts = true)
@@ -78,7 +83,7 @@ namespace BookGen
             if (compileScripts)
                 ret = ret && LoadAndCompileScripts();
 
-            if (!ret)
+            if (!ret && !NoWait)
                 Program.ShowMessageBox(exitString);
 
             return ret;

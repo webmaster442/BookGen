@@ -23,6 +23,10 @@ namespace BookGen
         internal static ProgramState CurrentState { get; private set; } = new ProgramState();
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
+        public static bool IsTesting { get; set; }
+        public static string ErrorText { get; private set; } = "";
+        public static bool ErrorHappened { get; private set; } = false;
+
         public static GeneratorRunner CreateRunner(bool verbose, string workDir)
         {
             LogLevel logLevel = verbose ? LogLevel.Detail : LogLevel.Info;
@@ -41,7 +45,15 @@ namespace BookGen
 
         public static void Exit(ExitCode exitCode)
         {
-            Environment.Exit((int)exitCode);
+            if (IsTesting && exitCode != ExitCode.Succes)
+            {
+                ErrorText = exitCode.ToString();
+                ErrorHappened = true;
+            }
+            else
+            {
+                Environment.Exit((int)exitCode);
+            }
         }
         #endregion
 
@@ -102,7 +114,16 @@ namespace BookGen
             }
             catch (Exception ex)
             {
-                HandleUncaughtException(moduleToRun, ex);
+                if (IsTesting)
+                {
+                    ErrorHappened = true;
+                    ErrorText = ex.Message;
+                    return;
+                }
+                else
+                {
+                    HandleUncaughtException(moduleToRun, ex);
+                }
             }
         }
 

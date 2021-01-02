@@ -11,5 +11,6 @@ namespace BookGen.Domain
         Exception = -1,
         UnknownCommand = 1,
         BadParameters = 2,
+        BadConfiguration = 3,
     }
 }

@@ -51,6 +51,8 @@ namespace BookGen.Modules
             }
 
             CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.WorkDir);
+            CurrentState.GeneratorRunner.NoWait = args.NoWaitForExit;
+
             switch (args.Action)
             {
                 case BuildAction.BuildWeb:
