@@ -1,10 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
@@ -44,7 +42,7 @@ namespace BookGen.Modules
                 return false;
             }
 
-            var log = new ConsoleLog(LogLevel.Info);
+            var log = CurrentState.Log;
 
             var loader = new ProjectLoader(log, args.WorkDir);
 

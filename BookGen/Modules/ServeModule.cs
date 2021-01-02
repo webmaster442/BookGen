@@ -1,9 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework.Server;
@@ -37,11 +36,9 @@ namespace BookGen.Modules
                 return false;
             }
 
-            Api.LogLevel logLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
+            CurrentState.Log.LogLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
-            var log = new ConsoleLog(logLevel);
-
-            using (var server = new HttpServer(args.Directory, 8081, log))
+            using (var server = new HttpServer(args.Directory, 8081, CurrentState.Log))
             {
                 Console.WriteLine("Serving: {0}", args.Directory);
                 Console.WriteLine("Server running on http://localhost:8081");

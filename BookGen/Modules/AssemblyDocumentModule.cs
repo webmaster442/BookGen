@@ -1,10 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Ui.ArgumentParser;
@@ -43,9 +41,7 @@ namespace BookGen.Modules
                 return false;
             }
 
-            ILog log = new ConsoleLog();
-
-            var documenter = new AssemblyDocumenter.AssemblyDocumenter(log);
+            var documenter = new AssemblyDocumenter.AssemblyDocumenter(CurrentState.Log);
 
             documenter.Document(parameters.AssemblyPath, parameters.XmlPath, parameters.OutputDirectory);
 

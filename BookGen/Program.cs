@@ -1,11 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
 using BookGen.Contracts;
-using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Modules;
 using BookGen.Modules.Special;
@@ -23,15 +22,14 @@ namespace BookGen
         internal static ProgramState CurrentState { get; private set; } = new ProgramState();
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
-        public static bool IsTesting { get; set; }
-        public static string ErrorText { get; private set; } = "";
-        public static bool ErrorHappened { get; private set; } = false;
+        internal static bool IsTesting { get; set; }
+        internal static string ErrorText { get; private set; } = "";
+        internal static bool ErrorHappened { get; private set; } = false;
 
         public static GeneratorRunner CreateRunner(bool verbose, string workDir)
         {
-            LogLevel logLevel = verbose ? LogLevel.Detail : LogLevel.Info;
-            var log = new ConsoleLog(logLevel);
-            return new GeneratorRunner(log, workDir);
+            CurrentState.Log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
+            return new GeneratorRunner(CurrentState.Log, workDir);
         }
 
         public static void ShowMessageBox(string text, params object[] args)
@@ -77,6 +75,7 @@ namespace BookGen
             new HelpModule(),
             new SubCommandsModule()
         };
+
 
         public static void Main(string[] args)
         {

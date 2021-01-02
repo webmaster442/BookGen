@@ -1,4 +1,9 @@
-﻿using BookGen.Core.Configuration;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Core.Configuration;
 using NUnit.Framework;
 using System;
 using System.IO;
@@ -110,12 +115,18 @@ namespace BookGen.Tests.SystemTests
 
         public void RunProgram(params string[] arguments)
         {
+            var log = new SystemTestLog();
+
             Program.IsTesting = true;
+            Program.CurrentState.Log = log;
             Program.Main(arguments);
             if (!Program.ErrorHappened)
                 Assert.Pass();
             else
-                Assert.Fail(Program.ErrorText);
+            {
+                string error = string.Join('\n', Program.ErrorText, "Log:", log.ToString());
+                Assert.Fail(error);
+            }
         }
     }
 }

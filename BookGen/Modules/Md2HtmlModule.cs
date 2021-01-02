@@ -1,9 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Markdown;
 using BookGen.Domain.ArgumentParsing;
@@ -49,16 +48,15 @@ namespace BookGen.Modules
                 return false;
             }
 
-            var log = new ConsoleLog(LogLevel.Info);
 
-            string md = args.InputFile.ReadFile(log);
+            string md = args.InputFile.ReadFile(CurrentState.Log);
 
             string pageTemplate = ResourceHandler.GetFile(KnownFile.TemplateSinglePageHtml);
 
             string cssForInline = "";
             if (args.Css.IsExisting)
             {
-                cssForInline = args.Css.ReadFile(log);
+                cssForInline = args.Css.ReadFile(CurrentState.Log);
             }
 
             using var pipeline = new BookGenPipeline(BookGenPipeline.Preview);
@@ -84,7 +82,7 @@ namespace BookGen.Modules
             }
             else
             {
-                args.OutputFile.WriteFile(log, rendered);
+                args.OutputFile.WriteFile(CurrentState.Log, rendered);
             }
 
             return true;

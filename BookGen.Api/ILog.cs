@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -13,6 +13,11 @@ namespace BookGen.Api
     /// </summary>
     public interface ILog
     {
+        /// <summary>
+        /// Current log level
+        /// </summary>
+        LogLevel LogLevel { get; set; }
+
         /// <summary>
         /// Log a message
         /// </summary>

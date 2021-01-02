@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -11,12 +11,12 @@ namespace BookGen.Core
 {
     public sealed class ConsoleLog : ILog
     {
-        private readonly LogLevel _logLevel;
-
         public ConsoleLog(LogLevel level = LogLevel.Info)
         {
-            _logLevel = level;
+            LogLevel = level;
         }
+
+        public LogLevel LogLevel { get; set; }
 
         private static ConsoleColor GetConsoleColor(LogLevel logLevel)
         {
@@ -34,7 +34,7 @@ namespace BookGen.Core
             string text = string.Format(format, args);
             string line = string.Format("{0} | {1} | {2}", DateTime.Now.ToShortTimeString(), logLevel, text);
 
-            if (logLevel <= _logLevel)
+            if (logLevel <= LogLevel)
             {
                 Console.ForegroundColor = GetConsoleColor(logLevel);
                 Console.WriteLine(line);

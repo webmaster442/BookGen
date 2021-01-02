@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -12,7 +12,6 @@ using BookGen.Domain.Shell;
 using BookGen.GeneratorSteps.MarkdownGenerators;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -49,11 +48,9 @@ namespace BookGen.Modules
                 return false;
             }
 
-            Api.LogLevel logLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
+            CurrentState.Log.LogLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
-            ILog log = new ConsoleLog(logLevel);
-
-            ProjectLoader loader = new ProjectLoader(log, args.Directory);
+            ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
 
             if (loader.TryLoadAndValidateConfig(out var config)
                 && loader.TryLoadAndValidateToc(config, out var toc)
@@ -68,15 +65,15 @@ namespace BookGen.Modules
                 switch (args.PageType)
                 {
                     case PageType.ExternalLinks:
-                        RunGetLinks(settings, log);
+                        RunGetLinks(settings, CurrentState.Log);
                         break;
                     case PageType.Chaptersummary:
-                        RunChapterSummary(settings, log);
+                        RunChapterSummary(settings, CurrentState.Log);
                         break;
                 }
 
                 stopwatch.Stop();
-                log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
+                CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
                 return true;
             }
