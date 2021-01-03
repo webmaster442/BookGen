@@ -1,11 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 namespace BookGen.Ui.XmlEntities
 {
-    public class XTextBlock: XView
+    public record XTextBlock: XView
     {
         public CData Text { get; set; }
 
