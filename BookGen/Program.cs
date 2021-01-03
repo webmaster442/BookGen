@@ -23,8 +23,8 @@ namespace BookGen
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
         internal static bool IsTesting { get; set; }
-        internal static string ErrorText { get; private set; } = "";
-        internal static bool ErrorHappened { get; private set; } = false;
+        internal static string ErrorText { get; set; } = "";
+        internal static bool ErrorHappened { get; set; } = false;
 
         public static GeneratorRunner CreateRunner(bool verbose, string workDir)
         {

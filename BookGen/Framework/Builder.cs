@@ -92,6 +92,12 @@ namespace BookGen.Framework
             catch (Exception ex)
             {
                 _log.Critical(ex);
+
+                if (Program.IsTesting)
+                {
+                    Program.ErrorHappened = true;
+                    Program.ErrorText = ex.Message;
+                }
 #if DEBUG
                 Debugger.Break();
 #endif

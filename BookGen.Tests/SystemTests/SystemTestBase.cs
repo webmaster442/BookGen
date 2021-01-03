@@ -27,19 +27,17 @@ namespace BookGen.Tests.SystemTests
 
             CreateDirectory(Workdir);
             CreateDirectory(BuildDir);
-            Configuration = new Config()
-            {
-                TOCFile = "Summary.md",
-                ImageDir = "Img",
-                Index = "Index.md",
-                Version = Program.CurrentState.ConfigVersion,
-                LinksOutSideOfHostOpenNewTab = true,
-                HostName = "localhost/"
-            };
+            Configuration = Config.CreateDefault(Program.CurrentState.ConfigVersion);
+            Configuration.TOCFile = "Summary.md";
+            Configuration.ImageDir = "Img";
+            Configuration.Index = "Index.md";
+            Configuration.LinksOutSideOfHostOpenNewTab = true;
+            Configuration.HostName = "localhost/";
             Configuration.TargetWeb.OutPutDirectory = BuildDir;
             Configuration.TargetPrint.OutPutDirectory = BuildDir;
             Configuration.TargetEpub.OutPutDirectory = BuildDir;
             Configuration.TargetWordpress.OutPutDirectory = BuildDir;
+            Configuration.TargetWordpress.TemplateOptions["WordpressTargetHost"] = "localhost/";
         }
 
         [TearDown]
@@ -120,9 +118,7 @@ namespace BookGen.Tests.SystemTests
             Program.IsTesting = true;
             Program.CurrentState.Log = log;
             Program.Main(arguments);
-            if (!Program.ErrorHappened)
-                Assert.Pass();
-            else
+            if (Program.ErrorHappened)
             {
                 string error = string.Join('\n', Program.ErrorText, "Log:", log.ToString());
                 Assert.Fail(error);
