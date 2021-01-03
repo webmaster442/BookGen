@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace BookGen.Domain.CsProj
 {
     [XmlRoot(ElementName = "Project")]
-    public class Project
+    public record Project
     {
         [XmlElement(ElementName = "PropertyGroup")]
         public PropertyGroup? PropertyGroup { get; set; }

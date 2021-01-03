@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace BookGen.Domain.CsProj
 {
     [XmlRoot(ElementName = "Reference")]
-    public class Reference
+    public record Reference
     {
         [XmlElement(ElementName = "HintPath")]
         public string? HintPath { get; set; }
