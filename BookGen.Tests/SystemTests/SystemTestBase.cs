@@ -59,6 +59,8 @@ namespace BookGen.Tests.SystemTests
         {
             DirectoryInfo di = new DirectoryInfo(directory);
 
+            if (!di.Exists) return;
+
             foreach (FileInfo file in di.GetFiles())
             {
                 file.Delete();
@@ -111,18 +113,26 @@ namespace BookGen.Tests.SystemTests
             DirectoryCopy(Environment.TestEnvironment.GetSystemTestContentFolder(), Workdir);
         }
 
-        public void RunProgram(params string[] arguments)
+        public void RunProgramAndAssertSuccess(params string[] arguments)
+        {
+            var output = RunProgram(arguments);
+
+            if (Program.ErrorHappened)
+            {
+                string error = string.Join('\n', Program.ErrorText, "Log:", output);
+                Assert.Fail(error);
+            }
+        }
+
+        public string RunProgram(params string[] arguments)
         {
             var log = new SystemTestLog();
 
             Program.IsTesting = true;
             Program.CurrentState.Log = log;
             Program.Main(arguments);
-            if (Program.ErrorHappened)
-            {
-                string error = string.Join('\n', Program.ErrorText, "Log:", log.ToString());
-                Assert.Fail(error);
-            }
+
+            return log.ToString();
         }
     }
 }

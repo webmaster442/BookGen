@@ -28,6 +28,19 @@ namespace BookGen.Tests.SystemTests
         };
 
         [Test]
+        public void TestBuildFailsNoconfig()
+        {
+            //Arrange
+            CopyDemoProject();
+            
+            //Act
+            RunProgram("Build", "-n", "-d", Workdir, "-a", "BuildWeb");
+            
+            //Assert
+            Assert.IsTrue(Program.ErrorHappened);
+        }
+
+        [Test]
         public void TestHtmlBuild()
         {
             //Arrange
@@ -35,7 +48,7 @@ namespace BookGen.Tests.SystemTests
             CreateConfigFile();
             
             //act
-            RunProgram("Build", "-n", "-d", Workdir, "-a", "BuildWeb");
+            RunProgramAndAssertSuccess("Build", "-n", "-d", Workdir, "-a", "BuildWeb");
 
             //assert
             foreach (var file in htmlExpectedFiles)
@@ -53,7 +66,7 @@ namespace BookGen.Tests.SystemTests
             CreateConfigFile();
 
             //act
-            RunProgram("Build", "-n", "-d", Workdir, "-a", "BuildWordpress");
+            RunProgramAndAssertSuccess("Build", "-n", "-d", Workdir, "-a", "BuildWordpress");
 
             //assert
             SystemAsserts.FileExists(BuildDir, "wordpressExport.xml");
@@ -68,7 +81,7 @@ namespace BookGen.Tests.SystemTests
             CreateConfigFile();
 
             //act
-            RunProgram("Build", "-n", "-d", Workdir, "-a", "BuildEpub");
+            RunProgramAndAssertSuccess("Build", "-n", "-d", Workdir, "-a", "BuildEpub");
 
             //assert
             SystemAsserts.FileExists(BuildDir, "book.epub");
@@ -83,7 +96,7 @@ namespace BookGen.Tests.SystemTests
             CreateConfigFile();
 
             //act
-            RunProgram("Build", "-n", "-d", Workdir, "-a", "BuildPrint");
+            RunProgramAndAssertSuccess("Build", "-n", "-d", Workdir, "-a", "BuildPrint");
 
             //assert
             SystemAsserts.FileExists(BuildDir, "print.html");

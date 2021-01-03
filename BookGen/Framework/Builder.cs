@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -93,11 +93,13 @@ namespace BookGen.Framework
             {
                 _log.Critical(ex);
 
+#if TESTBUILD
                 if (Program.IsTesting)
                 {
                     Program.ErrorHappened = true;
                     Program.ErrorText = ex.Message;
                 }
+#endif
 #if DEBUG
                 Debugger.Break();
 #endif

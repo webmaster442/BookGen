@@ -22,9 +22,11 @@ namespace BookGen
         internal static ProgramState CurrentState { get; private set; } = new ProgramState();
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
+#if TESTBUILD
         internal static bool IsTesting { get; set; }
         internal static string ErrorText { get; set; } = "";
         internal static bool ErrorHappened { get; set; } = false;
+#endif
 
         public static GeneratorRunner CreateRunner(bool verbose, string workDir)
         {
@@ -43,6 +45,7 @@ namespace BookGen
 
         public static void Exit(ExitCode exitCode)
         {
+#if TESTBUILD
             if (IsTesting && exitCode != ExitCode.Succes)
             {
                 ErrorText = exitCode.ToString();
@@ -50,10 +53,13 @@ namespace BookGen
             }
             else
             {
+#endif
                 Environment.Exit((int)exitCode);
-            }
+#if TESTBUILD
         }
-        #endregion
+#endif
+        }
+#endregion
 
         public static readonly StateModuleBase[] ModulesWithState = new StateModuleBase[]
         {
@@ -113,6 +119,7 @@ namespace BookGen
             }
             catch (Exception ex)
             {
+#if TESTBUILD
                 if (IsTesting)
                 {
                     ErrorHappened = true;
@@ -121,8 +128,12 @@ namespace BookGen
                 }
                 else
                 {
+#endif
                     HandleUncaughtException(moduleToRun, ex);
+
+#if TESTBUILD
                 }
+#endif
             }
         }
 

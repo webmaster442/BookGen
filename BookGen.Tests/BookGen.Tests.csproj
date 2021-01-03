@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net50</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <SonarQubeTestProject>True</SonarQubeTestProject>
     <IsPackable>false</IsPackable>
-    <OutputPath>..\bin\tests\$(Configuration)\</OutputPath>
+    <OutputPath>..\bin\TESTBUILD\$(Configuration)</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Gui\BookGen.Ui.csproj" />
-    <ProjectReference Include="..\BookGen\BookGen.csproj" />
+    <ProjectReference Include="..\BookGen\BookGen.SystemTest.csproj" />
   </ItemGroup>
 
   <ItemGroup>
