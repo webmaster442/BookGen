@@ -26,6 +26,11 @@ namespace BookGen.Tests.Environment
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Environment");
         }
 
+        public static string GetSystemTestContentFolder()
+        {
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Environment", "SystemTest");
+        }
+
         internal static IAppSetting GetMockedAppSettings()
         {
             var mock = new Mock<IAppSetting>();

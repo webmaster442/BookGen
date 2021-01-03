@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -35,10 +35,10 @@ namespace BookGen.Modules
 
             Api.LogLevel logLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
-            var log = new ConsoleLog(logLevel);
+            CurrentState.Log.LogLevel = logLevel;
 
             System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
-            var vm = new InitializeViewModel(log, new FsPath(args.Directory));
+            var vm = new InitializeViewModel(CurrentState.Log, new FsPath(args.Directory));
 
             if (Ui != null)
             {

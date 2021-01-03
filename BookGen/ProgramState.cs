@@ -1,8 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
+using BookGen.Core;
 using System;
 using System.Reflection;
 
@@ -17,6 +19,7 @@ namespace BookGen
         public DateTime BuildDate { get; }
         public string ProgramDirectory { get; }
         public int ConfigVersion { get; }
+        public ILog Log { get; internal set; }
 
         private static DateTime GetProgramDate()
         {
@@ -39,6 +42,7 @@ namespace BookGen
             ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
             BuildDate = GetProgramDate();
             ProgramDirectory = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
+            Log = new ConsoleLog();
         }
 
     }

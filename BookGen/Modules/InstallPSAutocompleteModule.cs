@@ -1,9 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
@@ -33,7 +32,6 @@ namespace BookGen.Modules
             }
 
 
-            ILog log = new ConsoleLog(LogLevel.Info);
             FsPath target = new FsPath(args.Files[0]);
 
             StringBuilder contents = new StringBuilder(4096);
@@ -47,7 +45,7 @@ namespace BookGen.Modules
             var completer = ResourceHandler.GetResourceFile<GeneratorRunner>("Resources/completer.ps1");
             contents.Append(completer);
 
-            target.WriteFile(log, contents.ToString());
+            target.WriteFile(CurrentState.Log, contents.ToString());
 
             return true;
         }

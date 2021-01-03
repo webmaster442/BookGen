@@ -57,6 +57,14 @@ namespace BookGen.Core
                 {
                     var targetfile = newPath.Replace(sourceDirectory.ToString(), TargetDir.ToString());
                     log?.Detail("Copy file: {0} to {1}", newPath, targetfile);
+
+                    var targetDir = Path.GetDirectoryName(targetfile);
+                    if (targetDir != null && !Directory.Exists(targetDir))
+                    {
+                        log?.Detail("Creating directory: {0}", targetDir);
+                        Directory.CreateDirectory(targetDir.ToString());
+                    }
+
                     File.Copy(newPath, targetfile, true);
                 }
                 return true;
