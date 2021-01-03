@@ -130,6 +130,7 @@ namespace BookGen.Tests.SystemTests
 
             Program.IsTesting = true;
             Program.CurrentState.Log = log;
+            Program.ErrorHappened = false;
             Program.Main(arguments);
 
             return log.ToString();

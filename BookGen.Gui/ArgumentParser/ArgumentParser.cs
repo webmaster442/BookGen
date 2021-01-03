@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -24,6 +24,7 @@ namespace BookGen.Ui.ArgumentParser
         {
             _properties.Clear();
             _filled = 0;
+            _required = 0;
             Type tType = typeof(T);
 
 
