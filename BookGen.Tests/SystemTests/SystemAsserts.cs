@@ -4,25 +4,44 @@
 //-----------------------------------------------------------------------------
 
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.IO;
 
 namespace BookGen.Tests.SystemTests
 {
     internal static class SystemAsserts
     {
-        public static void FileExists(params string[] parts)
+        public static void FileExists(string path)
         {
-            string fullPath = Path.Combine(parts);
-            if (!File.Exists(fullPath))
-                Assert.Fail("File doesn't exist: {0}", fullPath);
+            if (!File.Exists(path))
+                Assert.Fail("File doesn't exist: {0}", path);
         }
 
-        public static void FileHasContent(params string[] parts)
+        public static void FileHasContent(string path)
         {
-            string fullPath = Path.Combine(parts);
-            FileInfo fi = new FileInfo(fullPath);
+            FileInfo fi = new FileInfo(path);
             if (fi.Length < 1)
-                Assert.Fail("File is empty (0 bytes): {0}", fullPath);
+                Assert.Fail("File is empty (0 bytes): {0}", path);
+        }
+
+        public static void FileContainsStrings(string path, IEnumerable<string> strings)
+        {
+            string contents = File.ReadAllText(path);
+            foreach (var str in strings)
+            {
+                if (!contents.Contains(str))
+                    Assert.Fail("{0} is not found in file: {1}", str, path);
+            }
+        }
+
+        public static void FileNotConainsStrings(string path, IEnumerable<string> strings)
+        {
+            string contents = File.ReadAllText(path);
+            foreach (var str in strings)
+            {
+                if (contents.Contains(str))
+                    Assert.Fail("{0} is found in file: {1}", str, path);
+            }
         }
     }
 }

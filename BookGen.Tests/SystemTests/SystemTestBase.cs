@@ -13,9 +13,9 @@ namespace BookGen.Tests.SystemTests
 {
     public abstract class SystemTestBase
     {
-        public string Workdir { get; private set; }
-        public string BuildDir { get; private set; }
-        public Config Configuration { get; private set; }
+        protected string Workdir { get; private set; }
+        protected string BuildDir { get; private set; }
+        protected Config Configuration { get; private set; }
 
         [SetUp]
         public void Setup()
@@ -47,7 +47,7 @@ namespace BookGen.Tests.SystemTests
             CleanDirectory(Workdir);
         }
 
-        public static void CreateDirectory(string path)
+        protected static void CreateDirectory(string path)
         {
             if (!Directory.Exists(path))
             {
@@ -55,7 +55,7 @@ namespace BookGen.Tests.SystemTests
             }
         }
 
-        public static void CleanDirectory(string directory)
+        protected static void CleanDirectory(string directory)
         {
             DirectoryInfo di = new DirectoryInfo(directory);
 
@@ -71,7 +71,7 @@ namespace BookGen.Tests.SystemTests
             }
         }
 
-        public void CreateConfigFile()
+        protected void CreateConfigFile()
         {
             var text = JsonSerializer.Serialize(Configuration, new JsonSerializerOptions
             {
@@ -80,7 +80,7 @@ namespace BookGen.Tests.SystemTests
             File.WriteAllText(Path.Combine(Workdir, "bookgen.json"), text);
         }
 
-        public static void DirectoryCopy(string sourceDirName, string destDirName)
+        protected static void DirectoryCopy(string sourceDirName, string destDirName)
         {
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
 
@@ -108,12 +108,12 @@ namespace BookGen.Tests.SystemTests
             }
         }
 
-        public void CopyDemoProject()
+        protected void CopyDemoProject()
         {
             DirectoryCopy(Environment.TestEnvironment.GetSystemTestContentFolder(), Workdir);
         }
 
-        public void RunProgramAndAssertSuccess(params string[] arguments)
+        protected void RunProgramAndAssertSuccess(params string[] arguments)
         {
             var output = RunProgram(arguments);
 
@@ -124,7 +124,7 @@ namespace BookGen.Tests.SystemTests
             }
         }
 
-        public string RunProgram(params string[] arguments)
+        protected static string RunProgram(params string[] arguments)
         {
             var log = new SystemTestLog();
 
@@ -134,6 +134,11 @@ namespace BookGen.Tests.SystemTests
             Program.Main(arguments);
 
             return log.ToString();
+        }
+
+        protected static string Combine(params string[] parts)
+        {
+            return System.IO.Path.Combine(parts);
         }
     }
 }

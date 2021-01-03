@@ -32,7 +32,7 @@ namespace BookGen.Tests.SystemTests
         {
             //Arrange
             CopyDemoProject();
-            
+
             //Act
             RunProgram("Build", "-n", "-d", Workdir, "-a", "BuildWeb");
             
@@ -53,8 +53,8 @@ namespace BookGen.Tests.SystemTests
             //assert
             foreach (var file in htmlExpectedFiles)
             {
-                SystemAsserts.FileExists(BuildDir, file);
-                SystemAsserts.FileHasContent(BuildDir, file);
+                SystemAsserts.FileExists(Combine(BuildDir, file));
+                SystemAsserts.FileHasContent(Combine(BuildDir, file));
             }
         }
 
@@ -69,8 +69,8 @@ namespace BookGen.Tests.SystemTests
             RunProgramAndAssertSuccess("Build", "-n", "-d", Workdir, "-a", "BuildWordpress");
 
             //assert
-            SystemAsserts.FileExists(BuildDir, "wordpressExport.xml");
-            SystemAsserts.FileHasContent(BuildDir, "wordpressExport.xml");
+            SystemAsserts.FileExists(Combine(BuildDir, "wordpressExport.xml"));
+            SystemAsserts.FileHasContent(Combine(BuildDir, "wordpressExport.xml"));
         }
 
         [Test]
@@ -84,8 +84,8 @@ namespace BookGen.Tests.SystemTests
             RunProgramAndAssertSuccess("Build", "-n", "-d", Workdir, "-a", "BuildEpub");
 
             //assert
-            SystemAsserts.FileExists(BuildDir, "book.epub");
-            SystemAsserts.FileHasContent(BuildDir, "book.epub");
+            SystemAsserts.FileExists(Combine(BuildDir, "book.epub"));
+            SystemAsserts.FileHasContent(Combine(BuildDir, "book.epub"));
         }
 
         [Test]
@@ -99,10 +99,10 @@ namespace BookGen.Tests.SystemTests
             RunProgramAndAssertSuccess("Build", "-n", "-d", Workdir, "-a", "BuildPrint");
 
             //assert
-            SystemAsserts.FileExists(BuildDir, "print.html");
-            SystemAsserts.FileHasContent(BuildDir, "print.html");
-            SystemAsserts.FileExists(BuildDir, "Img\\Test.png");
-            SystemAsserts.FileHasContent(BuildDir, "Img\\Test.png");
+            SystemAsserts.FileExists(Combine(BuildDir, "print.html"));
+            SystemAsserts.FileHasContent(Combine(BuildDir, "print.html"));
+            SystemAsserts.FileExists(Combine(BuildDir, "Img\\Test.png"));
+            SystemAsserts.FileHasContent(Combine(BuildDir, "Img\\Test.png"));
         }
     }
 }
