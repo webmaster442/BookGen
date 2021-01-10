@@ -12,5 +12,6 @@ namespace BookGen.Domain
         UnknownCommand = 1,
         BadParameters = 2,
         BadConfiguration = 3,
+        FolderLocked = 4,
     }
 }
