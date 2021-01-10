@@ -64,7 +64,6 @@ namespace BookGen
         public static readonly StateModuleBase[] ModulesWithState = new StateModuleBase[]
         {
             new BuildModule(CurrentState),
-            new ConfigHelpModule(CurrentState),
             new GuiModule(CurrentState),
             new EditorModule(CurrentState),
             new AssemblyDocumentModule(CurrentState),
@@ -72,12 +71,13 @@ namespace BookGen
             new InitModule(CurrentState),
             new PagegenModule(CurrentState),
             new Md2HtmlModule(CurrentState),
-            new VersionModule(CurrentState),
             new ChaptersModule(CurrentState),
         };
 
         private static readonly BaseModule[] StatelessModules = new BaseModule[]
         {
+            new ConfigHelpModule(),
+            new VersionModule(),
             new HelpModule(),
             new SubCommandsModule()
         };

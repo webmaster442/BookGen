@@ -23,7 +23,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("Build",
+                return new AutoCompleteItem(ModuleCommand,
                                             "-n",
                                             "--nowait",
                                             "-v",

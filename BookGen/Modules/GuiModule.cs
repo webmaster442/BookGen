@@ -26,7 +26,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("Gui",
+                return new AutoCompleteItem(ModuleCommand,
                                             "-d",
                                             "--dir",
                                             "-v",

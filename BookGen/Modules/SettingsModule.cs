@@ -39,7 +39,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("Settings",
+                return new AutoCompleteItem(ModuleCommand,
                                             "get",
                                             "list",
                                             "set");

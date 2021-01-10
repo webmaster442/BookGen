@@ -22,7 +22,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("Chapters",
+                return new AutoCompleteItem(ModuleCommand,
                                             "-a",
                                             "--action",
                                             "-d",

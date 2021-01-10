@@ -3,21 +3,14 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain.Shell;
 using BookGen.Utilities;
 using System;
 
-namespace BookGen.Modules
+namespace BookGen.Modules.Special
 {
-    internal class ConfigHelpModule : StateModuleBase
+    internal class ConfigHelpModule : BaseModule
     {
-        public ConfigHelpModule(ProgramState currentState) : base(currentState)
-        {
-        }
-
         public override string ModuleCommand => "ConfigHelp";
-
-        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem("ConfigHelp");
 
         public override bool Execute(string[] arguments)
         {

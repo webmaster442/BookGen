@@ -29,7 +29,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("PageGen",
+                return new AutoCompleteItem(ModuleCommand,
                                             "-d",
                                             "--dir",
                                             "-p",

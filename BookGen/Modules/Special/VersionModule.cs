@@ -1,23 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain.Shell;
 using BookGen.Utilities;
 using System;
 
-namespace BookGen.Modules
+namespace BookGen.Modules.Special
 {
-    internal class VersionModule : StateModuleBase
+    internal class VersionModule : BaseModule
     {
-        public VersionModule(ProgramState currentState) : base(currentState)
-        {
-        }
-
         public override string ModuleCommand => "Version";
-
-        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem("Version");
 
         public override bool Execute(string[] arguments)
         {

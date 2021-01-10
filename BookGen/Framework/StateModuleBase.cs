@@ -1,17 +1,13 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain.Shell;
-
-namespace BookGen
+namespace BookGen.Framework
 {
     internal abstract class StateModuleBase : BaseModule
     {
         protected ProgramState CurrentState { get; }
-
-        public abstract AutoCompleteItem AutoCompleteInfo { get; }
 
         protected StateModuleBase(ProgramState currentState)
         {

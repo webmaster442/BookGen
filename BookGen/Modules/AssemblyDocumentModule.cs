@@ -22,7 +22,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("AssemblyDocument",
+                return new AutoCompleteItem(ModuleCommand,
                                             "-a",
                                             "--assembly",
                                             "-x",

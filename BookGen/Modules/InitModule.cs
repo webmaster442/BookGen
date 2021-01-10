@@ -23,7 +23,7 @@ namespace BookGen.Modules
 
         public override string ModuleCommand => "Init";
 
-        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem("Init", "-d", "--dir", "-v", "--verbose");
+        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem(ModuleCommand, "-d", "--dir", "-v", "--verbose");
 
         public override bool Execute(string[] arguments)
         {

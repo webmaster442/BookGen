@@ -26,7 +26,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("Md2HTML",
+                return new AutoCompleteItem(ModuleCommand,
                                             "-i",
                                             "--input",
                                             "-o",
