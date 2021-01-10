@@ -47,13 +47,18 @@ namespace BookGen.Modules
             CurrentState.Gui = true;
             CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.Directory);
 
-            System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
-            var vm = new MainViewModel(CurrentState.GeneratorRunner);
+            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
-            if (Ui != null)
+            using (var l = new FolderLock(args.Directory))
             {
-                uiRunner.Run(Ui, vm);
-                return true;
+                System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
+                var vm = new MainViewModel(CurrentState.GeneratorRunner);
+
+                if (Ui != null)
+                {
+                    uiRunner.Run(Ui, vm);
+                    return true;
+                }
             }
             return false;
         }

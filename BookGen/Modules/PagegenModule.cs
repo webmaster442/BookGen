@@ -51,32 +51,37 @@ namespace BookGen.Modules
 
             CurrentState.Log.LogLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
-            ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
+            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
-            if (loader.TryLoadAndValidateConfig(out var config)
-                && loader.TryLoadAndValidateToc(config, out var toc)
-                && config != null
-                && toc != null)
+            using (var l = new FolderLock(args.Directory))
             {
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
+                ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
 
-                var settings = loader.CreateRuntimeSettings(config, toc, new BuildConfig());
-
-                switch (args.PageType)
+                if (loader.TryLoadAndValidateConfig(out var config)
+                    && loader.TryLoadAndValidateToc(config, out var toc)
+                    && config != null
+                    && toc != null)
                 {
-                    case PageType.ExternalLinks:
-                        RunGetLinks(settings, CurrentState.Log);
-                        break;
-                    case PageType.Chaptersummary:
-                        RunChapterSummary(settings, CurrentState.Log);
-                        break;
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
+
+                    var settings = loader.CreateRuntimeSettings(config, toc, new BuildConfig());
+
+                    switch (args.PageType)
+                    {
+                        case PageType.ExternalLinks:
+                            RunGetLinks(settings, CurrentState.Log);
+                            break;
+                        case PageType.Chaptersummary:
+                            RunChapterSummary(settings, CurrentState.Log);
+                            break;
+                    }
+
+                    stopwatch.Stop();
+                    CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
+
+                    return true;
                 }
-
-                stopwatch.Stop();
-                CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
-
-                return true;
             }
 
             return false;

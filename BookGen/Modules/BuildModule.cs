@@ -51,32 +51,38 @@ namespace BookGen.Modules
                 return false;
             }
 
-            CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.WorkDir);
-            CurrentState.GeneratorRunner.NoWait = args.NoWaitForExit;
+            FolderLock.ExitIfFolderIsLocked(args.WorkDir, CurrentState.Log);
 
-            switch (args.Action)
+            using (var l = new FolderLock(args.WorkDir))
             {
-                case BuildAction.BuildWeb:
-                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoBuild());
-                    break;
-                case BuildAction.Clean:
-                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoClean());
-                    break;
-                case BuildAction.Test:
-                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoTest());
-                    break;
-                case BuildAction.BuildPrint:
-                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoPrint());
-                    break;
-                case BuildAction.BuildWordpress:
-                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoWordpress());
-                    break;
-                case BuildAction.BuildEpub:
-                    CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoEpub());
-                    break;
-                case BuildAction.ValidateConfig:
-                    CurrentState.GeneratorRunner.Initialize();
-                    break;
+
+                CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.WorkDir);
+                CurrentState.GeneratorRunner.NoWait = args.NoWaitForExit;
+
+                switch (args.Action)
+                {
+                    case BuildAction.BuildWeb:
+                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoBuild());
+                        break;
+                    case BuildAction.Clean:
+                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoClean());
+                        break;
+                    case BuildAction.Test:
+                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoTest());
+                        break;
+                    case BuildAction.BuildPrint:
+                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoPrint());
+                        break;
+                    case BuildAction.BuildWordpress:
+                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoWordpress());
+                        break;
+                    case BuildAction.BuildEpub:
+                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoEpub());
+                        break;
+                    case BuildAction.ValidateConfig:
+                        CurrentState.GeneratorRunner.Initialize();
+                        break;
+                }
             }
 
             return true;

@@ -41,12 +41,17 @@ namespace BookGen.Modules
                 return false;
             }
 
-            GeneratorRunner runner = Program.CreateRunner(args.Verbose, args.Directory);
+            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
-            if (runner.Initialize(false))
+            using (var l = new FolderLock(args.Directory))
             {
-                runner.DoEditor();
-                return true;
+                GeneratorRunner runner = Program.CreateRunner(args.Verbose, args.Directory);
+
+                if (runner.Initialize(false))
+                {
+                    runner.DoEditor();
+                    return true;
+                }
             }
 
             return false;

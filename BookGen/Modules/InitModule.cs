@@ -38,13 +38,19 @@ namespace BookGen.Modules
 
             CurrentState.Log.LogLevel = logLevel;
 
-            System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
-            var vm = new InitializeViewModel(CurrentState.Log, new FsPath(args.Directory));
+            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
-            if (Ui != null)
+            using (var l = new FolderLock(args.Directory))
             {
-                uiRunner.Run(Ui, vm);
-                return true;
+
+                System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
+                var vm = new InitializeViewModel(CurrentState.Log, new FsPath(args.Directory));
+
+                if (Ui != null)
+                {
+                    uiRunner.Run(Ui, vm);
+                    return true;
+                }
             }
             return false;
         }

@@ -42,9 +42,15 @@ namespace BookGen.Modules
                 return false;
             }
 
-            var documenter = new AssemblyDocumenter.AssemblyDocumenter(CurrentState.Log);
+            FolderLock.ExitIfFolderIsLocked(parameters.OutputDirectory.ToString(), CurrentState.Log);
 
-            documenter.Document(parameters.AssemblyPath, parameters.XmlPath, parameters.OutputDirectory);
+            using (var l = new FolderLock(parameters.OutputDirectory.ToString()))
+            {
+
+                var documenter = new AssemblyDocumenter.AssemblyDocumenter(CurrentState.Log);
+
+                documenter.Document(parameters.AssemblyPath, parameters.XmlPath, parameters.OutputDirectory);
+            }
 
             return true;
         }
