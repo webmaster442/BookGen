@@ -29,5 +29,25 @@ namespace BookGen.Tests.SystemTests
                     "</html>"
                 });
         }
+
+        [Test]
+        public void Test_NoSystax_DoesntCreateSyntaxTags()
+        {
+            //arrange
+            CopyDemoProject();
+
+            //Act
+            RunProgramAndAssertSuccess("Md2HTML", "-i", $"{Workdir}\\Testpage.md", "-o", $"{Workdir}\\test.html", "-r", "-ns");
+
+            //Assert
+            SystemAsserts.FileExists(Combine(Workdir, "test.html"));
+            SystemAsserts.FileHasContent(Combine(Workdir, "test.html"));
+            SystemAsserts.FileNotConainsStrings(Combine(Workdir, "test.html"),
+                new string[]
+                {
+                    "<div style=\"color:Black;background-color:White;\">",
+                    "<span style=\"color:Blue;\">"
+                });
+        }
     }
 }
