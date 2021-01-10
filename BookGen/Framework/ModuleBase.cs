@@ -7,7 +7,7 @@ using BookGen.Domain.Shell;
 
 namespace BookGen.Framework
 {
-    internal abstract class BaseModule
+    internal abstract class ModuleBase
     {
         public abstract string ModuleCommand { get; }
         public abstract bool Execute(string[] arguments);

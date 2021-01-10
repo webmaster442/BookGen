@@ -1,12 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Domain.Shell;
-using BookGen.Domain.VsTasks;
+using BookGen.Framework;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ using System.Reflection;
 
 namespace BookGen.Modules
 {
-    internal class SettingsModule : StateModuleBase
+    internal class SettingsModule : ModuleWithState
     {
         private readonly AppSetting _settings;
         private readonly Dictionary<string, Type> _knownsettings;

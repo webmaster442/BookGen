@@ -1,20 +1,21 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Contracts;
+using BookGen.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BookGen.Modules.Special
 {
-    internal class ShellModule : BaseModule, IModuleCollection
+    internal class ShellModule : ModuleBase, IModuleCollection
     {
         public override string ModuleCommand => "Shell";
 
-        public IEnumerable<StateModuleBase>? Modules { get; set; }
+        public IEnumerable<ModuleWithState>? Modules { get; set; }
 
         public override bool Execute(string[] arguments)
         {
@@ -42,7 +43,7 @@ namespace BookGen.Modules.Special
 
             if (words.Length > 0)
             {
-                StateModuleBase? command = Modules?.FirstOrDefault(c => c.AutoCompleteInfo.ModuleName.StartsWith(words[0], StringComparison.OrdinalIgnoreCase));
+                ModuleWithState? command = Modules?.FirstOrDefault(c => c.AutoCompleteInfo.ModuleName.StartsWith(words[0], StringComparison.OrdinalIgnoreCase));
                 if (command != null)
                 {
                     if (words.Length > 1)

@@ -3,12 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Framework;
 using BookGen.Utilities;
 using System;
 
 namespace BookGen.Modules.Special
 {
-    internal class VersionModule : BaseModule
+    internal class VersionModule : ModuleBase
     {
         public override string ModuleCommand => "Version";
 

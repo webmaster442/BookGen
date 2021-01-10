@@ -7,6 +7,7 @@ using BookGen.Core;
 using BookGen.Core.Markdown;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Resources;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
@@ -14,7 +15,7 @@ using System;
 
 namespace BookGen.Modules
 {
-    internal class Md2HtmlModule : StateModuleBase
+    internal class Md2HtmlModule : ModuleWithState
     {
         public Md2HtmlModule(ProgramState currentState) : base(currentState)
         {

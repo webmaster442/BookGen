@@ -9,6 +9,7 @@ using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.GeneratorSteps.MarkdownGenerators;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
@@ -17,7 +18,7 @@ using System.Diagnostics;
 
 namespace BookGen.Modules
 {
-    internal class PagegenModule : StateModuleBase
+    internal class PagegenModule : ModuleWithState
     {
         public PagegenModule(ProgramState currentState) : base(currentState)
         {

@@ -6,6 +6,7 @@
 using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Domain;
+using BookGen.Framework;
 using BookGen.Modules;
 using BookGen.Modules.Special;
 using BookGen.Ui.ArgumentParser;
@@ -61,7 +62,7 @@ namespace BookGen
         }
 #endregion
 
-        public static readonly StateModuleBase[] ModulesWithState = new StateModuleBase[]
+        public static readonly ModuleWithState[] ModulesWithState = new ModuleWithState[]
         {
             new BuildModule(CurrentState),
             new GuiModule(CurrentState),
@@ -74,7 +75,7 @@ namespace BookGen
             new ChaptersModule(CurrentState),
         };
 
-        private static readonly BaseModule[] StatelessModules = new BaseModule[]
+        private static readonly ModuleBase[] StatelessModules = new ModuleBase[]
         {
             new ConfigHelpModule(),
             new VersionModule(),
@@ -85,7 +86,7 @@ namespace BookGen
 
         public static void Main(string[] args)
         {
-            BaseModule? moduleToRun = null;
+            ModuleBase? moduleToRun = null;
             try
             {
                 ConfiugreStatelessModules();
@@ -146,22 +147,22 @@ namespace BookGen
             }
         }
 
-        private static BaseModule? GetModuleToRun(string command)
+        private static ModuleBase? GetModuleToRun(string command)
         {
-            BaseModule? stateless = StatelessModules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+            ModuleBase? stateless = StatelessModules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
             if (stateless != null)
                 return stateless;
 
-            BaseModule? stated = ModulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+            ModuleBase? stated = ModulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
             if (stated != null)
                 return stated;
 
             return null;
         }
 
-        private static void HandleUncaughtException(BaseModule? currentModule, Exception ex)
+        private static void HandleUncaughtException(ModuleBase? currentModule, Exception ex)
         {
-            if (currentModule is StateModuleBase stateModule)
+            if (currentModule is ModuleWithState stateModule)
                 stateModule?.Abort();
 
             ShowMessageBox("Unhandled exception\r\n{0}", ex);

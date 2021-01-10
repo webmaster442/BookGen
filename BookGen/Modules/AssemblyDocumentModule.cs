@@ -5,12 +5,13 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
-    internal class AssemblyDocumentModule : StateModuleBase
+    internal class AssemblyDocumentModule : ModuleWithState
     {
         public AssemblyDocumentModule(ProgramState currentState) : base(currentState)
         {

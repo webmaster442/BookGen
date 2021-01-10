@@ -5,6 +5,7 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Framework.Server;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
@@ -12,7 +13,7 @@ using System;
 
 namespace BookGen.Modules
 {
-    internal class ServeModule : StateModuleBase
+    internal class ServeModule : ModuleWithState
     {
         public ServeModule(ProgramState currentState) : base(currentState)
         {

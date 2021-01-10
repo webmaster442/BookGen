@@ -6,13 +6,14 @@
 using BookGen.Core.Configuration;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System.Text;
 
 namespace BookGen.Modules
 {
-    internal class ChaptersModule : StateModuleBase
+    internal class ChaptersModule : ModuleWithState
     {
         public ChaptersModule(ProgramState currentState) : base(currentState)
         {

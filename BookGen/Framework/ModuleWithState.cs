@@ -5,11 +5,11 @@
 
 namespace BookGen.Framework
 {
-    internal abstract class StateModuleBase : BaseModule
+    internal abstract class ModuleWithState : ModuleBase
     {
         protected ProgramState CurrentState { get; }
 
-        protected StateModuleBase(ProgramState currentState)
+        protected ModuleWithState(ProgramState currentState)
         {
             CurrentState = currentState;
         }

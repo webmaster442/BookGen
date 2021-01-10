@@ -7,12 +7,13 @@ using BookGen.ConsoleUi;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
-    internal class InitModule : StateModuleBase
+    internal class InitModule : ModuleWithState
     {
         private readonly Ui.ConsoleUi uiRunner;
 

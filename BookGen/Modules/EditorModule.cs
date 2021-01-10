@@ -1,18 +1,19 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System;
 
 namespace BookGen.Modules
 {
-    internal class EditorModule : StateModuleBase
+    internal class EditorModule : ModuleWithState
     {
         public EditorModule(ProgramState currentState) : base(currentState)
         {
