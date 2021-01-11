@@ -1,14 +1,20 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen
+using BookGen.Domain.Shell;
+
+namespace BookGen.Framework
 {
-    internal abstract class BaseModule
+    internal abstract class ModuleBase
     {
         public abstract string ModuleCommand { get; }
         public abstract bool Execute(string[] arguments);
         public abstract string GetHelp();
+        public virtual AutoCompleteItem AutoCompleteInfo
+        {
+            get => new AutoCompleteItem(ModuleCommand);
+        }
     }
 }

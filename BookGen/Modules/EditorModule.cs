@@ -1,18 +1,19 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System;
 
 namespace BookGen.Modules
 {
-    internal class EditorModule : StateModuleBase
+    internal class EditorModule : ModuleWithState
     {
         public EditorModule(ProgramState currentState) : base(currentState)
         {
@@ -24,7 +25,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("Editor",
+                return new AutoCompleteItem(ModuleCommand,
                                             "-d",
                                             "--dir",
                                              "-v", 
@@ -40,12 +41,17 @@ namespace BookGen.Modules
                 return false;
             }
 
-            GeneratorRunner runner = Program.CreateRunner(args.Verbose, args.Directory);
+            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
-            if (runner.Initialize(false))
+            using (var l = new FolderLock(args.Directory))
             {
-                runner.DoEditor();
-                return true;
+                GeneratorRunner runner = Program.CreateRunner(args.Verbose, args.Directory);
+
+                if (runner.Initialize(false))
+                {
+                    runner.DoEditor();
+                    return true;
+                }
             }
 
             return false;

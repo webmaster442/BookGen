@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,11 +10,11 @@ using System.Collections.Generic;
 
 namespace BookGen.Modules.Special
 {
-    internal class SubCommandsModule : BaseModule, IModuleCollection
+    internal class SubCommandsModule : ModuleBase, IModuleCollection
     {
         public override string ModuleCommand => "SubCommands";
 
-        public IEnumerable<StateModuleBase>? Modules { get; set; }
+        public IEnumerable<ModuleWithState>? Modules { get; set; }
 
         public override bool Execute(string[] arguments)
         {

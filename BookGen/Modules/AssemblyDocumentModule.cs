@@ -5,12 +5,13 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
-    internal class AssemblyDocumentModule : StateModuleBase
+    internal class AssemblyDocumentModule : ModuleWithState
     {
         public AssemblyDocumentModule(ProgramState currentState) : base(currentState)
         {
@@ -22,7 +23,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("AssemblyDocument",
+                return new AutoCompleteItem(ModuleCommand,
                                             "-a",
                                             "--assembly",
                                             "-x",
@@ -41,9 +42,15 @@ namespace BookGen.Modules
                 return false;
             }
 
-            var documenter = new AssemblyDocumenter.AssemblyDocumenter(CurrentState.Log);
+            FolderLock.ExitIfFolderIsLocked(parameters.OutputDirectory.ToString(), CurrentState.Log);
 
-            documenter.Document(parameters.AssemblyPath, parameters.XmlPath, parameters.OutputDirectory);
+            using (var l = new FolderLock(parameters.OutputDirectory.ToString()))
+            {
+
+                var documenter = new AssemblyDocumenter.AssemblyDocumenter(CurrentState.Log);
+
+                documenter.Document(parameters.AssemblyPath, parameters.XmlPath, parameters.OutputDirectory);
+            }
 
             return true;
         }

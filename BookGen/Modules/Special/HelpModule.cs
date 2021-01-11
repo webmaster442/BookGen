@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -13,11 +13,11 @@ using System.Linq;
 
 namespace BookGen.Modules.Special
 {
-    internal class HelpModule : BaseModule, IModuleCollection
+    internal class HelpModule : ModuleBase, IModuleCollection
     {
         public override string ModuleCommand => "Help";
 
-        public IEnumerable<StateModuleBase>? Modules { get; set; }
+        public IEnumerable<ModuleWithState>? Modules { get; set; }
 
         public override bool Execute(string[] arguments)
         {

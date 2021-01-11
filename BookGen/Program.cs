@@ -6,6 +6,7 @@
 using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Domain;
+using BookGen.Framework;
 using BookGen.Modules;
 using BookGen.Modules.Special;
 using BookGen.Ui.ArgumentParser;
@@ -22,9 +23,11 @@ namespace BookGen
         internal static ProgramState CurrentState { get; private set; } = new ProgramState();
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
+#if TESTBUILD
         internal static bool IsTesting { get; set; }
-        internal static string ErrorText { get; private set; } = "";
-        internal static bool ErrorHappened { get; private set; } = false;
+        internal static string ErrorText { get; set; } = "";
+        internal static bool ErrorHappened { get; set; } = false;
+#endif
 
         public static GeneratorRunner CreateRunner(bool verbose, string workDir)
         {
@@ -43,6 +46,7 @@ namespace BookGen
 
         public static void Exit(ExitCode exitCode)
         {
+#if TESTBUILD
             if (IsTesting && exitCode != ExitCode.Succes)
             {
                 ErrorText = exitCode.ToString();
@@ -50,15 +54,17 @@ namespace BookGen
             }
             else
             {
+#endif
                 Environment.Exit((int)exitCode);
-            }
+#if TESTBUILD
         }
-        #endregion
+#endif
+        }
+#endregion
 
-        public static readonly StateModuleBase[] ModulesWithState = new StateModuleBase[]
+        public static readonly ModuleWithState[] ModulesWithState = new ModuleWithState[]
         {
             new BuildModule(CurrentState),
-            new ConfigHelpModule(CurrentState),
             new GuiModule(CurrentState),
             new EditorModule(CurrentState),
             new AssemblyDocumentModule(CurrentState),
@@ -66,12 +72,13 @@ namespace BookGen
             new InitModule(CurrentState),
             new PagegenModule(CurrentState),
             new Md2HtmlModule(CurrentState),
-            new VersionModule(CurrentState),
             new ChaptersModule(CurrentState),
         };
 
-        private static readonly BaseModule[] StatelessModules = new BaseModule[]
+        private static readonly ModuleBase[] StatelessModules = new ModuleBase[]
         {
+            new ConfigHelpModule(),
+            new VersionModule(),
             new HelpModule(),
             new SubCommandsModule()
         };
@@ -79,7 +86,7 @@ namespace BookGen
 
         public static void Main(string[] args)
         {
-            BaseModule? moduleToRun = null;
+            ModuleBase? moduleToRun = null;
             try
             {
                 ConfiugreStatelessModules();
@@ -113,6 +120,7 @@ namespace BookGen
             }
             catch (Exception ex)
             {
+#if TESTBUILD
                 if (IsTesting)
                 {
                     ErrorHappened = true;
@@ -121,8 +129,12 @@ namespace BookGen
                 }
                 else
                 {
+#endif
                     HandleUncaughtException(moduleToRun, ex);
+
+#if TESTBUILD
                 }
+#endif
             }
         }
 
@@ -135,22 +147,22 @@ namespace BookGen
             }
         }
 
-        private static BaseModule? GetModuleToRun(string command)
+        private static ModuleBase? GetModuleToRun(string command)
         {
-            BaseModule? stateless = StatelessModules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+            ModuleBase? stateless = StatelessModules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
             if (stateless != null)
                 return stateless;
 
-            BaseModule? stated = ModulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+            ModuleBase? stated = ModulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
             if (stated != null)
                 return stated;
 
             return null;
         }
 
-        private static void HandleUncaughtException(BaseModule? currentModule, Exception ex)
+        private static void HandleUncaughtException(ModuleBase? currentModule, Exception ex)
         {
-            if (currentModule is StateModuleBase stateModule)
+            if (currentModule is ModuleWithState stateModule)
                 stateModule?.Abort();
 
             ShowMessageBox("Unhandled exception\r\n{0}", ex);

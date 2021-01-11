@@ -6,6 +6,7 @@
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Resources;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
@@ -13,7 +14,7 @@ using System.Text;
 
 namespace BookGen.Modules
 {
-    internal class InstallPSAutocompleteModule : StateModuleBase
+    internal class InstallPSAutocompleteModule : ModuleWithState
     {
         protected InstallPSAutocompleteModule(ProgramState currentState) : base(currentState)
         {

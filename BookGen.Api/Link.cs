@@ -8,7 +8,7 @@ namespace BookGen.Api
     /// <summary>
     /// Represents a link in the Markdown Table of Contents.
     /// </summary>
-    public sealed record Link
+    public sealed class Link
     {
         /// <summary>
         /// Link text, that will be displayed.
@@ -32,15 +32,6 @@ namespace BookGen.Api
         }
 
         /// <summary>
-        /// Converts link contents to a HTML tag
-        /// </summary>
-        /// <returns>link as a HTML tag</returns>
-        public string GetHtml()
-        {
-            return $"<a href=\"{Url}\">{Text}</a>";
-        }
-
-        /// <summary>
         /// Convert the link extension to .html file that can be referenced
         /// </summary>
         /// <param name="host">Host link</param>
@@ -49,17 +40,6 @@ namespace BookGen.Api
         {
             var file = System.IO.Path.ChangeExtension(this.Url, ".html");
             return $"{host}{file}";
-        }
-
-        /// <summary>
-        /// Deconstruct to a tuple
-        /// </summary>
-        /// <param name="url">link url</param>
-        /// <param name="text">link text</param>
-        public void Deconstruct(out string url, out string text)
-        {
-            url = Url;
-            text = Text;
         }
     }
 }

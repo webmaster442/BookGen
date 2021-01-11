@@ -7,12 +7,13 @@ using BookGen.ConsoleUi;
 using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
-    internal class InitModule : StateModuleBase
+    internal class InitModule : ModuleWithState
     {
         private readonly Ui.ConsoleUi uiRunner;
 
@@ -23,7 +24,7 @@ namespace BookGen.Modules
 
         public override string ModuleCommand => "Init";
 
-        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem("Init", "-d", "--dir", "-v", "--verbose");
+        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem(ModuleCommand, "-d", "--dir", "-v", "--verbose");
 
         public override bool Execute(string[] arguments)
         {
@@ -37,13 +38,19 @@ namespace BookGen.Modules
 
             CurrentState.Log.LogLevel = logLevel;
 
-            System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
-            var vm = new InitializeViewModel(CurrentState.Log, new FsPath(args.Directory));
+            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
-            if (Ui != null)
+            using (var l = new FolderLock(args.Directory))
             {
-                uiRunner.Run(Ui, vm);
-                return true;
+
+                System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
+                var vm = new InitializeViewModel(CurrentState.Log, new FsPath(args.Directory));
+
+                if (Ui != null)
+                {
+                    uiRunner.Run(Ui, vm);
+                    return true;
+                }
             }
             return false;
         }

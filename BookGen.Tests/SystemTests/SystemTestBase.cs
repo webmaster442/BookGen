@@ -13,9 +13,9 @@ namespace BookGen.Tests.SystemTests
 {
     public abstract class SystemTestBase
     {
-        public string Workdir { get; private set; }
-        public string BuildDir { get; private set; }
-        public Config Configuration { get; private set; }
+        protected string Workdir { get; private set; }
+        protected string BuildDir { get; private set; }
+        protected Config Configuration { get; private set; }
 
         [SetUp]
         public void Setup()
@@ -27,19 +27,17 @@ namespace BookGen.Tests.SystemTests
 
             CreateDirectory(Workdir);
             CreateDirectory(BuildDir);
-            Configuration = new Config()
-            {
-                TOCFile = "Summary.md",
-                ImageDir = "Img",
-                Index = "Index.md",
-                Version = Program.CurrentState.ConfigVersion,
-                LinksOutSideOfHostOpenNewTab = true,
-                HostName = "localhost/"
-            };
+            Configuration = Config.CreateDefault(Program.CurrentState.ConfigVersion);
+            Configuration.TOCFile = "Summary.md";
+            Configuration.ImageDir = "Img";
+            Configuration.Index = "Index.md";
+            Configuration.LinksOutSideOfHostOpenNewTab = true;
+            Configuration.HostName = "localhost/";
             Configuration.TargetWeb.OutPutDirectory = BuildDir;
             Configuration.TargetPrint.OutPutDirectory = BuildDir;
             Configuration.TargetEpub.OutPutDirectory = BuildDir;
             Configuration.TargetWordpress.OutPutDirectory = BuildDir;
+            Configuration.TargetWordpress.TemplateOptions["WordpressTargetHost"] = "localhost/";
         }
 
         [TearDown]
@@ -49,7 +47,7 @@ namespace BookGen.Tests.SystemTests
             CleanDirectory(Workdir);
         }
 
-        public static void CreateDirectory(string path)
+        protected static void CreateDirectory(string path)
         {
             if (!Directory.Exists(path))
             {
@@ -57,9 +55,11 @@ namespace BookGen.Tests.SystemTests
             }
         }
 
-        public static void CleanDirectory(string directory)
+        protected static void CleanDirectory(string directory)
         {
             DirectoryInfo di = new DirectoryInfo(directory);
+
+            if (!di.Exists) return;
 
             foreach (FileInfo file in di.GetFiles())
             {
@@ -71,7 +71,7 @@ namespace BookGen.Tests.SystemTests
             }
         }
 
-        public void CreateConfigFile()
+        protected void CreateConfigFile()
         {
             var text = JsonSerializer.Serialize(Configuration, new JsonSerializerOptions
             {
@@ -80,7 +80,7 @@ namespace BookGen.Tests.SystemTests
             File.WriteAllText(Path.Combine(Workdir, "bookgen.json"), text);
         }
 
-        public static void DirectoryCopy(string sourceDirName, string destDirName)
+        protected static void DirectoryCopy(string sourceDirName, string destDirName)
         {
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
 
@@ -108,25 +108,37 @@ namespace BookGen.Tests.SystemTests
             }
         }
 
-        public void CopyDemoProject()
+        protected void CopyDemoProject()
         {
             DirectoryCopy(Environment.TestEnvironment.GetSystemTestContentFolder(), Workdir);
         }
 
-        public void RunProgram(params string[] arguments)
+        protected void RunProgramAndAssertSuccess(params string[] arguments)
+        {
+            var output = RunProgram(arguments);
+
+            if (Program.ErrorHappened)
+            {
+                string error = string.Join('\n', Program.ErrorText, "Log:", output);
+                Assert.Fail(error);
+            }
+        }
+
+        protected static string RunProgram(params string[] arguments)
         {
             var log = new SystemTestLog();
 
             Program.IsTesting = true;
             Program.CurrentState.Log = log;
+            Program.ErrorHappened = false;
             Program.Main(arguments);
-            if (!Program.ErrorHappened)
-                Assert.Pass();
-            else
-            {
-                string error = string.Join('\n', Program.ErrorText, "Log:", log.ToString());
-                Assert.Fail(error);
-            }
+
+            return log.ToString();
+        }
+
+        protected static string Combine(params string[] parts)
+        {
+            return System.IO.Path.Combine(parts);
         }
     }
 }

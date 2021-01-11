@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace BookGen.Domain.CsProj
 {
     [XmlRoot(ElementName = "ItemGroup")]
-    public class ItemGroup
+    public record ItemGroup
     {
         [XmlElement(ElementName = "Reference")]
         public Reference? Reference { get; set; }

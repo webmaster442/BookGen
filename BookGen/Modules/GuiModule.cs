@@ -1,17 +1,18 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.ConsoleUi;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
-    internal class GuiModule : StateModuleBase
+    internal class GuiModule : ModuleWithState
     {
         private readonly Ui.ConsoleUi uiRunner;
 
@@ -26,7 +27,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("Gui",
+                return new AutoCompleteItem(ModuleCommand,
                                             "-d",
                                             "--dir",
                                             "-v",
@@ -46,13 +47,18 @@ namespace BookGen.Modules
             CurrentState.Gui = true;
             CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.Directory);
 
-            System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
-            var vm = new MainViewModel(CurrentState.GeneratorRunner);
+            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
-            if (Ui != null)
+            using (var l = new FolderLock(args.Directory))
             {
-                uiRunner.Run(Ui, vm);
-                return true;
+                System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
+                var vm = new MainViewModel(CurrentState.GeneratorRunner);
+
+                if (Ui != null)
+                {
+                    uiRunner.Run(Ui, vm);
+                    return true;
+                }
             }
             return false;
         }

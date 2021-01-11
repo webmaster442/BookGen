@@ -6,13 +6,14 @@
 using BookGen.Core.Configuration;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System.Text;
 
 namespace BookGen.Modules
 {
-    internal class ChaptersModule : StateModuleBase
+    internal class ChaptersModule : ModuleWithState
     {
         public ChaptersModule(ProgramState currentState) : base(currentState)
         {
@@ -22,7 +23,7 @@ namespace BookGen.Modules
         {
             get
             {
-                return new AutoCompleteItem("Chapters",
+                return new AutoCompleteItem(ModuleCommand,
                                             "-a",
                                             "--action",
                                             "-d",
@@ -42,23 +43,27 @@ namespace BookGen.Modules
                 return false;
             }
 
-            var log = CurrentState.Log;
+            FolderLock.ExitIfFolderIsLocked(args.WorkDir, CurrentState.Log);
 
-            var loader = new ProjectLoader(log, args.WorkDir);
-
-            if (!loader.TryLoadAndValidateConfig(out Config? configuration)
-                || configuration == null)
+            using (var l = new FolderLock(args.WorkDir))
             {
-                return false;
-            }
 
-            switch (args.Action)
-            {
-                case ChaptersAction.GenSummary:
-                    return ChapterProcessingUtils.GenerateSummaryFile(args.WorkDir, configuration, log);
-                case ChaptersAction.Scan:
-                    ChapterProcessingUtils.ScanMarkdownFiles(args.WorkDir, configuration, log);
-                    break;
+                var loader = new ProjectLoader(CurrentState.Log, args.WorkDir);
+
+                if (!loader.TryLoadAndValidateConfig(out Config? configuration)
+                    || configuration == null)
+                {
+                    return false;
+                }
+
+                switch (args.Action)
+                {
+                    case ChaptersAction.GenSummary:
+                        return ChapterProcessingUtils.GenerateSummaryFile(args.WorkDir, configuration, CurrentState.Log);
+                    case ChaptersAction.Scan:
+                        ChapterProcessingUtils.ScanMarkdownFiles(args.WorkDir, configuration, CurrentState.Log);
+                        break;
+                }
             }
 
             return true;

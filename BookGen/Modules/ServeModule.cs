@@ -5,6 +5,7 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.Framework;
 using BookGen.Framework.Server;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
@@ -12,7 +13,7 @@ using System;
 
 namespace BookGen.Modules
 {
-    internal class ServeModule : StateModuleBase
+    internal class ServeModule : ModuleWithState
     {
         public ServeModule(ProgramState currentState) : base(currentState)
         {
@@ -38,14 +39,18 @@ namespace BookGen.Modules
 
             CurrentState.Log.LogLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
-            using (var server = new HttpServer(args.Directory, 8081, CurrentState.Log))
-            {
-                Console.WriteLine("Serving: {0}", args.Directory);
-                Console.WriteLine("Server running on http://localhost:8081");
-                Console.WriteLine("Press a key to exit...");
-                Console.ReadLine();
-            }
+            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
+            using (var l = new FolderLock(args.Directory))
+            {
+                using (var server = new HttpServer(args.Directory, 8081, CurrentState.Log))
+                {
+                    Console.WriteLine("Serving: {0}", args.Directory);
+                    Console.WriteLine("Server running on http://localhost:8081");
+                    Console.WriteLine("Press a key to exit...");
+                    Console.ReadLine();
+                }
+            }
 
             return true;
         }
