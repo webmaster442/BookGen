@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -38,9 +36,9 @@ namespace BookGen.Launch
                 Environment.Exit(2);
             }
 
-            if (!TryLaunchPowershell(_shellScript))
+            if (!TerminalLauncher.Launch(_shellScript))
             {
-                Message("Failed to start powerhsell. Application will exit.", MessageBoxIcon.Error);
+                Message("Failed to start shell. Application will exit.", MessageBoxIcon.Error);
                 Environment.Exit(3);
             }
         }
@@ -91,24 +89,6 @@ namespace BookGen.Launch
             catch (IOException)
             {
                 shellScriptPath = string.Empty;
-                return false;
-            }
-        }
-
-        private static bool TryLaunchPowershell(string shellScript)
-        {
-            try
-            {
-                Process process = new Process();
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.FileName = "powershell.exe";
-                process.StartInfo.Arguments = $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"";
-                process.Start();
-
-                return true;
-            }
-            catch (Win32Exception)
-            {
                 return false;
             }
         }
