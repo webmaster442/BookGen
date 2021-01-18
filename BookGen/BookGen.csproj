@@ -18,7 +18,7 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 	<PropertyGroup>
-		<ApplicationIcon>Icon.ico</ApplicationIcon>
+		<ApplicationIcon>..\Icon.ico</ApplicationIcon>
 		<SonarQubeTestProject>False</SonarQubeTestProject>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
@@ -79,7 +79,6 @@
 	<ItemGroup>
 		<EmbeddedResource Include="ConsoleUi\InitializeView.xml" />
 		<EmbeddedResource Include="ConsoleUi\MainView.xml" />
-		<Content Include="Icon.ico" />
 		<EmbeddedResource Include="Resources\completer.dn.ps1" />
 		<EmbeddedResource Include="Resources\completer.ps1" />
 		<EmbeddedResource Include="Resources\Help.ChaptersModule.txt" />

@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.SystemTest", "BookG
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9C47BBFF-ACD8-40D8-9FB1-A3FA524B27C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen.Launch", "BookGen.Launch\BookGen.Launch.csproj", "{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -209,6 +211,26 @@ Global
 		{0109F695-0EEB-4444-8951-2FD8E75DC495}.Release|x64.Build.0 = Release|Any CPU
 		{0109F695-0EEB-4444-8951-2FD8E75DC495}.Release|x86.ActiveCfg = Release|Any CPU
 		{0109F695-0EEB-4444-8951-2FD8E75DC495}.Release|x86.Build.0 = Release|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Debug|ARM.Build.0 = Debug|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Debug|x64.Build.0 = Debug|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Debug|x86.Build.0 = Debug|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Release|ARM.Build.0 = Release|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Release|ARM64.Build.0 = Release|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Release|x64.ActiveCfg = Release|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Release|x64.Build.0 = Release|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Release|x86.ActiveCfg = Release|Any CPU
+		{A9429E6F-E3CE-47C3-A298-7395DF14FDF6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
