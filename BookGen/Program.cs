@@ -80,7 +80,8 @@ namespace BookGen
             new ConfigHelpModule(),
             new VersionModule(),
             new HelpModule(),
-            new SubCommandsModule()
+            new SubCommandsModule(),
+            new ShellModule(),
         };
 
 

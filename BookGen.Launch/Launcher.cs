@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Resources;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -78,8 +79,13 @@ namespace BookGen.Launch
 
                 using (var file = File.CreateText(name))
                 {
+                    var dn = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.dn.ps1");
+                    var bg = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.ps1");
+
                     file.WriteLine("$env:Path += \";{0}\"", _appdir);
                     file.WriteLine("Set-Location \"{0}\"", _selectedFolder);
+                    file.WriteLine(dn);
+                    file.WriteLine(bg);
                     file.WriteLine("Remove-Item \"{0}\"", name);
                 }
 

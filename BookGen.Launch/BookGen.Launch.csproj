@@ -10,4 +10,8 @@
     <ApplicationIcon>..\Icon.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
+  </ItemGroup>
+
 </Project>

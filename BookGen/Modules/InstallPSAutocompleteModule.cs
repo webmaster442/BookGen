@@ -39,11 +39,11 @@ namespace BookGen.Modules
 
             if (args.Dotnet)
             {
-                var dnc = ResourceHandler.GetResourceFile<GeneratorRunner>("Resources/completer.dn.ps1");
+                var dnc = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.dn.ps1");
                 contents.Append(dnc);
             }
 
-            var completer = ResourceHandler.GetResourceFile<GeneratorRunner>("Resources/completer.ps1");
+            var completer = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.ps1");
             contents.Append(completer);
 
             target.WriteFile(CurrentState.Log, contents.ToString());

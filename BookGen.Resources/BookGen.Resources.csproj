@@ -52,6 +52,8 @@
 		<None Remove="JsCss\simplemde.min.css" />
 		<None Remove="JsCss\simplemde.min.js" />
 		<None Remove="JsCss\turbolinks.js" />
+		<None Remove="Powershell\completer.dn.ps1" />
+		<None Remove="Powershell\completer.ps1" />
 		<None Include="..\LICENCE">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
@@ -87,6 +89,8 @@
 		<EmbeddedResource Include="JsCss\prism.css" />
 		<EmbeddedResource Include="JsCss\prism.js" />
 		<EmbeddedResource Include="JsCss\turbolinks.js" />
+		<EmbeddedResource Include="Powershell\completer.dn.ps1" />
+		<EmbeddedResource Include="Powershell\completer.ps1" />
 	</ItemGroup>
 
 	<ItemGroup>
