@@ -67,7 +67,6 @@ namespace BookGen.Ui
         public void ExitApp()
         {
             SuspendUi();
-            Environment.Exit(0);
         }
 
         public void UpdateBindingsToModel()
