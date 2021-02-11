@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Ui.Mvvm;
-using System;
 
 namespace BookGen.ConsoleUi
 {
@@ -18,7 +17,6 @@ namespace BookGen.ConsoleUi
         public DelegateCommand BuildPrintCommand { get; }
         public DelegateCommand BuildEpubCommand { get; }
         public DelegateCommand BuildWordpressCommand { get; }
-        public DelegateCommand LaunchEditorCommand { get; }
         public DelegateCommand HelpCommand { get; }
         public DelegateCommand ExitCommand { get; }
 
@@ -38,7 +36,6 @@ namespace BookGen.ConsoleUi
             BuildPrintCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoPrint()));
             BuildEpubCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoEpub()));
             BuildWordpressCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoWordpress()));
-            LaunchEditorCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoEditor()));
             HelpCommand = new DelegateCommand(this, () => _runner.RunHelp());
             ExitCommand = new DelegateCommand(() => View?.ExitApp());
         }

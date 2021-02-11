@@ -7,7 +7,6 @@ using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Domain;
-using BookGen.Framework.Editor;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
@@ -221,33 +220,6 @@ namespace BookGen
             p.StartInfo.UseShellExecute = true;
             p.StartInfo.FileName = url;
             p.Start();
-        }
-
-        public void DoEditor()
-        {
-            if (_configuration == null)
-                throw new InvalidOperationException("Configuration is null");
-
-            IRequestHandler[] handlers = new IRequestHandler[]
-            {
-                new DynamicHandlers(WorkDirectory, _configuration),
-                new HtmlPageHandler(),
-                new EmbededResourceRequestHandler(),
-                new RunBookGenHandler(WorkDirectory),
-            };
-
-            using (var server = new HttpServer(WorkDirectory, 9090, Log, handlers))
-            {
-                Log.Info("Editor started on: http://localhost:9090");
-                Log.Info("Press a key to exit...");
-
-                if (Program.AppSetting.AutoStartWebserver)
-                {
-                    StartUrl("http://localhost:9090");
-                }
-
-                Console.ReadLine();
-            }
         }
 
         #endregion

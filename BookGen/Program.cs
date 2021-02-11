@@ -66,7 +66,6 @@ namespace BookGen
         {
             new BuildModule(CurrentState),
             new GuiModule(CurrentState),
-            new EditorModule(CurrentState),
             new AssemblyDocumentModule(CurrentState),
             new SettingsModule(CurrentState, AppSetting),
             new InitModule(CurrentState),

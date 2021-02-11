@@ -10,7 +10,6 @@ namespace BookGen.Resources
         IndexMd,
         ScriptTemplateCs,
         SummaryMd,
-        ConfigViewHtml,
         CookieWarningHtml,
         SearchformHtml,
         TemplateWebHtml,
@@ -18,7 +17,6 @@ namespace BookGen.Resources
         TemplateEpubHtml,
         TemplateSinglePageHtml,
         IndexHtml,
-        EditorHtml,
         PageTocJs,
         PrismJs,
         BootstrapMinCss,
@@ -27,13 +25,5 @@ namespace BookGen.Resources
         TurbolinksJs,
         PopperMinJs,
         PrismCss,
-        JsonviewJs,
-        JsonviewCss,
-        AceMinJs,
-        AceKeybindingVsCodeMinJs,
-        AceMarkdownMinJs,
-        AceModeMarkdownMinJs,
-        AceThemeGithubMinJs,
-        EditorAppJs
     }
 }
