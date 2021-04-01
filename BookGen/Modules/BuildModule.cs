@@ -51,12 +51,12 @@ namespace BookGen.Modules
                 return false;
             }
 
-            FolderLock.ExitIfFolderIsLocked(args.WorkDir, CurrentState.Log);
+            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
-            using (var l = new FolderLock(args.WorkDir))
+            using (var l = new FolderLock(args.Directory))
             {
 
-                CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.WorkDir);
+                CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.Directory);
                 CurrentState.GeneratorRunner.NoWait = args.NoWaitForExit;
 
                 switch (args.Action)

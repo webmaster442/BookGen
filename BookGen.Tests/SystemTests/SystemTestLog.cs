@@ -7,6 +7,7 @@ using BookGen.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace BookGen.Tests.SystemTests
 {
@@ -40,6 +41,23 @@ namespace BookGen.Tests.SystemTests
         public override string ToString()
         {
             return string.Join("\n", _logContents.TakeLast(10));
+        }
+
+        public void PrintLine(string str)
+        {
+            _logContents.Add(str);
+        }
+
+        public void PrintLine(object obj)
+        {
+            foreach (var property in obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (property != null)
+                {
+                    var value = property.GetValue(obj)?.ToString() ?? "null";
+                    _logContents.Add($"{property.Name}: {value}");
+                }
+            }
         }
     }
 }

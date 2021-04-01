@@ -57,10 +57,7 @@ namespace BookGen.Modules
             {
                 ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
 
-                if (loader.TryLoadAndValidateConfig(out var config)
-                    && loader.TryLoadAndValidateToc(config, out var toc)
-                    && config != null
-                    && toc != null)
+                loader.TryLoadProjectAndExecuteOperation((config, toc) =>
                 {
                     Stopwatch stopwatch = new Stopwatch();
                     stopwatch.Start();
@@ -81,7 +78,7 @@ namespace BookGen.Modules
                     CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
                     return true;
-                }
+                });
             }
 
             return false;

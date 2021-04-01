@@ -27,6 +27,18 @@ namespace BookGen.Api
         void Log(LogLevel logLevel, string format, params object[] args);
 
         /// <summary>
+        /// Print a string, without formatting
+        /// </summary>
+        /// <param name="str">string to print</param>
+        void PrintLine(string str);
+
+        /// <summary>
+        /// Print an object
+        /// </summary>
+        /// <param name="obj">object to print</param>
+        void PrintLine(object obj);
+
+        /// <summary>
         /// Log a Critical error. 
         /// Critcal error is an error that causes the program to stop working
         /// </summary>
