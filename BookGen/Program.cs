@@ -72,6 +72,7 @@ namespace BookGen
             new PagegenModule(CurrentState),
             new Md2HtmlModule(CurrentState),
             new ChaptersModule(CurrentState),
+            new StatModule(CurrentState),
         };
 
         private static readonly ModuleBase[] StatelessModules = new ModuleBase[]
@@ -111,7 +112,7 @@ namespace BookGen
                     return;
                 }
 
-                if (moduleToRun.Execute(parameters) == false)
+                if (!moduleToRun.Execute(parameters))
                 {
                     Console.WriteLine(moduleToRun?.GetHelp());
                     Exit(ExitCode.BadParameters);

@@ -17,7 +17,7 @@ namespace BookGen.Modules
 {
     internal class StatModule : ModuleWithState
     {
-        protected StatModule(ProgramState currentState) : base(currentState)
+        public StatModule(ProgramState currentState) : base(currentState)
         {
         }
 
@@ -39,7 +39,7 @@ namespace BookGen.Modules
             {
                 if (TryComputeStat(args.Input, ref stat))
                 {
-                    stat.Pages = (double)stat.Words / StatisticsData.CharsPerA4Page;
+                    stat.Pages = (double)stat.Chars / StatisticsData.CharsPerA4Page;
                     CurrentState.Log.PrintLine(stat);
                     return true;
                 }
@@ -68,6 +68,7 @@ namespace BookGen.Modules
 
                     if (result)
                     {
+                        stat.Pages = (double)stat.Chars / StatisticsData.CharsPerA4Page;
                         CurrentState.Log.PrintLine(stat);
                     }
 
