@@ -8,6 +8,7 @@ using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Utilities;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
@@ -118,6 +119,18 @@ namespace BookGen
                 settings.ImageDirectory = settings.SourceDirectory.Combine(config.ImageDir);
 
             return settings;
+        }
+
+        public bool TryLoadProjectAndExecuteOperation(Func<Config, ToC, bool> operationToDo)
+        {
+            if (TryLoadAndValidateConfig(out Config? config)
+                && TryLoadAndValidateToc(config, out ToC? toc)
+                && config != null
+                && toc != null)
+            {
+                return operationToDo(config, toc);
+            }
+            return false;
         }
     }
 }
