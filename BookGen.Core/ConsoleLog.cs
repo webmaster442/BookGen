@@ -6,6 +6,7 @@
 using BookGen.Api;
 using System;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace BookGen.Core
 {
@@ -46,6 +47,23 @@ namespace BookGen.Core
                 Debug.WriteLine(line);
             }
 #endif
+        }
+
+        public void PrintLine(string str)
+        {
+            Console.WriteLine(str);
+        }
+
+        public void PrintLine(object obj)
+        {
+            foreach (var property in obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (property != null)
+                {
+                    var value = property.GetValue(obj)?.ToString() ?? "null";
+                    Console.WriteLine("{0}: {1}", property.Name, value);
+                }
+            }
         }
     }
 }
