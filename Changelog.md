@@ -1,3 +1,15 @@
+# 2021.04.13
+* Now uses .NET 5.0
+* Node.exe bundled with release
+* Script runtime resolve order chganged
+* Rendering pipieline modernized
+* Multi threaded build for static websties
+* Folder locking: Prevent multiple instances working on same directory
+* Launcher program: starts poweshell with preconfigured bookgen software. Supports Windows terminal
+* Removed editor code
+* New Modules: Stat, Edit, Pagegen
+* Updated dependency packages
+
 # 2020.07.23
 * Fixes issues in md2html module image embed
 * Added powershell autocomplete install module
