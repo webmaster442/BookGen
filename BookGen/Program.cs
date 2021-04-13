@@ -12,6 +12,7 @@ using BookGen.Modules.Special;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BookGen
@@ -60,20 +61,7 @@ namespace BookGen
         }
 #endif
         }
-#endregion
-
-        public static readonly ModuleWithState[] ModulesWithState = new ModuleWithState[]
-        {
-            new BuildModule(CurrentState),
-            new GuiModule(CurrentState),
-            new AssemblyDocumentModule(CurrentState),
-            new SettingsModule(CurrentState, AppSetting),
-            new InitModule(CurrentState),
-            new PagegenModule(CurrentState),
-            new Md2HtmlModule(CurrentState),
-            new ChaptersModule(CurrentState),
-            new StatModule(CurrentState),
-        };
+        #endregion
 
         private static readonly ModuleBase[] StatelessModules = new ModuleBase[]
         {
@@ -90,8 +78,6 @@ namespace BookGen
             ModuleBase? moduleToRun = null;
             try
             {
-                ConfiugreStatelessModules();
-
                 var loaded = AppSettingHandler.LoadAppSettings();
 
                 if (loaded != null)
@@ -99,11 +85,15 @@ namespace BookGen
                     AppSetting = loaded;
                 }
 
+                var modulesWithState = CreateModules();
+                ConfiugreStatelessModules(modulesWithState);
+
+
                 string command = SubcommandParser.GetCommand(args, out string[] parameters);
 
                 DebugHelper.WaitForDebugger(parameters);
 
-                moduleToRun = GetModuleToRun(command);
+                moduleToRun = GetModuleToRun(StatelessModules, modulesWithState, command);
 
                 if (moduleToRun == null)
                 {
@@ -139,22 +129,41 @@ namespace BookGen
             }
         }
 
-        private static void ConfiugreStatelessModules()
+        public static ModuleWithState[] CreateModules()
+        {
+            return new ModuleWithState[]
+            {
+                new BuildModule(CurrentState),
+                new GuiModule(CurrentState),
+                new AssemblyDocumentModule(CurrentState),
+                new SettingsModule(CurrentState, AppSetting),
+                new InitModule(CurrentState),
+                new PagegenModule(CurrentState),
+                new Md2HtmlModule(CurrentState),
+                new ChaptersModule(CurrentState),
+                new StatModule(CurrentState),
+                new EditModule(CurrentState, AppSetting),
+            };
+        }
+
+        private static void ConfiugreStatelessModules(ModuleWithState[] modulesWithState)
         {
             foreach (var module in StatelessModules)
             {
                 if (module is IModuleCollection moduleCollection)
-                    moduleCollection.Modules = ModulesWithState;
+                    moduleCollection.Modules = modulesWithState;
             }
         }
 
-        private static ModuleBase? GetModuleToRun(string command)
+        private static ModuleBase? GetModuleToRun(IEnumerable<ModuleBase> statelessModules,
+                                                  IEnumerable<ModuleBase> modulesWithState,
+                                                  string command)
         {
-            ModuleBase? stateless = StatelessModules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+            ModuleBase? stateless = statelessModules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
             if (stateless != null)
                 return stateless;
 
-            ModuleBase? stated = ModulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+            ModuleBase? stated = modulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
             if (stated != null)
                 return stated;
 

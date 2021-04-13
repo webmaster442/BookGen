@@ -18,7 +18,7 @@ namespace BookGen.Tests
         public void Setup()
         {
             _sut = new ShellModule();
-            _sut.Modules = Program.ModulesWithState;
+            _sut.Modules = Program.CreateModules();
         }
 
         [Test]
