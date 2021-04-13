@@ -1,9 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
+using BookGen.Utilities;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -15,8 +16,7 @@ namespace BookGen
         private static string GetConfigFile()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var file = Path.Combine(path, "BookGen.app.json");
-            return file;
+            return Path.Combine(path, "BookGen.app.json");
         }
 
         public static AppSetting? LoadAppSettings()
@@ -29,8 +29,21 @@ namespace BookGen
             }
             else
             {
-                return new AppSetting();
+                return CreateDefaultSettings();
             }
+        }
+
+        private static AppSetting CreateDefaultSettings()
+        {
+            var defaults = new AppSetting
+            {
+                EditorPath = EditorHelper.GetNotepadPath()
+            };
+            if (EditorHelper.TryFindVsCodeInstall(out string vsCode))
+            {
+                defaults.EditorPath = vsCode;
+            }
+            return defaults;
         }
 
         public static void SaveAppSettings(AppSetting appSetting)

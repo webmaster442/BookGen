@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,9 +16,11 @@ namespace BookGen.Domain
         public int PhpTimeout { get; set; }
         public string PythonPath { get; set; }
         public int PythonTimeout { get; set; }
+        public string EditorPath { get; set; }
 
         public AppSetting()
         {
+            EditorPath = "notepad.exe";
             NodeJsTimeout = 60;
             PhpTimeout = 60;
             PythonTimeout = 60;

@@ -1,0 +1,10 @@
+﻿Launch a file for editing.
+
+Supported file types for editing: .txt, .md, .js, .json, .yaml, .htm, .html,
+                                  .css, .cmd, .ps, .sh, .cs, .php, .py, .xml
+-------------------------------------------------------------------------------
+
+    BookGen Edit [file]
+
+    Arguments:
+    No arguments are required
