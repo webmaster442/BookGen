@@ -1,18 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.AssemblyDocumenter.Documenters;
-using BookGen.AssemblyDocumenter.Internals;
-using BookGen.Core;
+using BookGen.Core.Documenter.Documenters;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Linq;
 
-namespace BookGen.AssemblyDocumenter
+namespace BookGen.Core.Documenter
 {
     public class AssemblyDocumenter
     {

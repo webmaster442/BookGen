@@ -1,14 +1,13 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.AssemblyDocumenter.Internals;
 using System;
 using System.Reflection;
 using System.Xml.Linq;
 
-namespace BookGen.AssemblyDocumenter.Documenters
+namespace BookGen.Core.Documenter.Documenters
 {
     internal class PropertyDocumenter : DocumenterBase
     {

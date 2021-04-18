@@ -105,7 +105,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
-		<ProjectReference Include="..\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
 		<ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
 		<ProjectReference Include="..\BookGen.Gui\BookGen.Ui.csproj" />
 		<ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />

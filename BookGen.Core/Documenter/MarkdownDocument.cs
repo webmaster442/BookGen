@@ -1,11 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Text;
 
-namespace BookGen.AssemblyDocumenter
+namespace BookGen.Core.Documenter
 {
     internal class MarkdownDocument
     {
