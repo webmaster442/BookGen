@@ -99,7 +99,7 @@ namespace BookGen.Modules
             if (stopwords.Count < 1)
             {
                 log.Warning("Stopwords file doesn't contain words. Output may be unusable.");
-                stopwords.Add(" "); //add a single space as fallback;
+                stopwords.Add(" "); //add a single space as fallback
             }
 
             var chapterSummerizer = new ChapterSummarizer(stopwords);
