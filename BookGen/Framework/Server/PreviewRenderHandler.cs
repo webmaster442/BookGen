@@ -17,9 +17,9 @@ using BookGen.Core.Markdown;
 
 namespace BookGen.Framework.Server
 {
-    internal sealed class PreviewFilesHandler : ISimpleRequestHandler, IDisposable
+    internal sealed class PreviewRenderHandler : ISimpleRequestHandler, IDisposable
     {
-        private readonly Dictionary<string, KnownFile> _table;
+
         private readonly string _directory;
         private readonly ILog _log;
         private FileSystemWatcher? _fsw;
@@ -28,16 +28,10 @@ namespace BookGen.Framework.Server
         private readonly BookGenPipeline _mdpipeline;
 
 
-        public PreviewFilesHandler(string directory, ILog log)
+        public PreviewRenderHandler(string directory, ILog log)
         {
             _directory = directory;
             _log = log;
-            _table = new()
-            {
-                { "/prism.js", KnownFile.PrismJs },
-                { "/prism.css", KnownFile.PrismCss },
-                { "/preview.css", KnownFile.PreviewCss },
-            };
 
             _fsw = new FileSystemWatcher(_directory, "*.md");
             _fsw.Created += OnRefreshDir;
@@ -62,8 +56,7 @@ namespace BookGen.Framework.Server
 
         public bool CanServe(string AbsoluteUri)
         {
-            return _table.ContainsKey(AbsoluteUri) 
-                || CanServeFromDir(AbsoluteUri, out _)
+            return CanServeFromDir(AbsoluteUri, out _)
                 || AbsoluteUri == "/";
         }
 
@@ -97,12 +90,7 @@ namespace BookGen.Framework.Server
 
         public void Serve(string AbsoluteUri, HttpListenerResponse response, ILog log)
         {
-            if (_table.ContainsKey(AbsoluteUri))
-            {
-                var file = ResourceHandler.GetFile(_table[AbsoluteUri]);
-                response.WriteString(file, MimeTypes.GetMimeTypeForFile(AbsoluteUri));
-            }
-            else if (AbsoluteUri == "/")
+            if (AbsoluteUri == "/")
             {
                 _log.Info("Serving index...");
                 _processor.Content = WriteIndex();

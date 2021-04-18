@@ -37,7 +37,11 @@ namespace BookGen.Modules
                 return false;
             }
 
-            using (var server = new HttpServer(args.Directory, 8082, CurrentState.Log, new PreviewFilesHandler(args.Directory, CurrentState.Log)))
+            using (var server = new HttpServer(args.Directory,
+                                               8082,
+                                               CurrentState.Log,
+                                               new PreviewStaticHandler(),
+                                               new PreviewRenderHandler(args.Directory, CurrentState.Log)))
             {
                 CurrentState.Log.Info("-------------------------------------------------");
                 CurrentState.Log.Info("Test server running on: {0}", url);
