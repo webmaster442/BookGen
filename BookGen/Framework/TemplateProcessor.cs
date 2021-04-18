@@ -16,13 +16,11 @@ namespace BookGen.Framework
     {
         private readonly Dictionary<string, string> _table;
         private readonly ShortCodeParser _parser;
-        private readonly Config _configuration;
 
         public string TemplateContent { get; set; }
 
         public TemplateProcessor(Config cfg, ShortCodeParser shortCodeParser, StaticTemplateContent? staticContent = null)
         {
-            _configuration = cfg;
             _table = new Dictionary<string, string>
             {
                 { "toc",  staticContent == null ? string.Empty : staticContent.TableOfContents },

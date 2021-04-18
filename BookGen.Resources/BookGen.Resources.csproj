@@ -29,6 +29,7 @@
 		<None Remove="Html\Index.html" />
 		<None Remove="Html\Searchform.html" />
 		<None Remove="Html\TemplateEpub.html" />
+		<None Remove="Html\TemplatePreview.html" />
 		<None Remove="Html\TemplatePrint.html" />
 		<None Remove="Html\TemplateSinglePage.html" />
 		<None Remove="Html\TemplateWeb.html" />
@@ -37,6 +38,7 @@
 		<None Remove="JsCss\jquery.min.js" />
 		<None Remove="JsCss\PageToc.js" />
 		<None Remove="JsCss\popper.min.js" />
+		<None Remove="JsCss\preview.css" />
 		<None Remove="JsCss\prism.css" />
 		<None Remove="JsCss\prism.js" />
 		<None Remove="JsCss\simplemde.min.css" />
@@ -58,6 +60,7 @@
 		<EmbeddedResource Include="Html\Index.html" />
 		<EmbeddedResource Include="Html\Searchform.html" />
 		<EmbeddedResource Include="Html\TemplateEpub.html" />
+		<EmbeddedResource Include="Html\TemplatePreview.html" />
 		<EmbeddedResource Include="Html\TemplatePrint.html" />
 		<EmbeddedResource Include="Html\TemplateSinglePage.html" />
 		<EmbeddedResource Include="Html\TemplateWeb.html" />
@@ -66,6 +69,7 @@
 		<EmbeddedResource Include="JsCss\jquery.min.js" />
 		<EmbeddedResource Include="JsCss\PageToc.js" />
 		<EmbeddedResource Include="JsCss\popper.min.js" />
+		<EmbeddedResource Include="JsCss\preview.css" />
 		<EmbeddedResource Include="JsCss\prism.css" />
 		<EmbeddedResource Include="JsCss\prism.js" />
 		<EmbeddedResource Include="JsCss\turbolinks.js" />

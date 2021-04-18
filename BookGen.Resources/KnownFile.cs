@@ -25,5 +25,7 @@ namespace BookGen.Resources
         TurbolinksJs,
         PopperMinJs,
         PrismCss,
+        PreviewCss,
+        PreviewHtml,
     }
 }

@@ -143,6 +143,7 @@ namespace BookGen
                 new ChaptersModule(CurrentState),
                 new StatModule(CurrentState),
                 new EditModule(CurrentState, AppSetting),
+                new PreviewModule(CurrentState),
             };
         }
 
