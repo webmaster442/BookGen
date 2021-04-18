@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Documenter;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
@@ -46,8 +47,7 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(parameters.OutputDirectory.ToString()))
             {
-
-                var documenter = new AssemblyDocumenter.AssemblyDocumenter(CurrentState.Log);
+                var documenter = new AssemblyDocumenter(CurrentState.Log);
 
                 documenter.Document(parameters.AssemblyPath, parameters.XmlPath, parameters.OutputDirectory);
             }

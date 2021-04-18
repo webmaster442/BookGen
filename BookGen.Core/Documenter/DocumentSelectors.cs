@@ -12,7 +12,6 @@ namespace BookGen.Core.Documenter
 {
     internal static class DocumentSelectors
     {
-
         private static string Cleanup(this string input)
         {
             return Regex.Replace(input, @"\s+", " ");

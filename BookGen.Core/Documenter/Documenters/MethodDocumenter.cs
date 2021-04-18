@@ -57,11 +57,10 @@ namespace BookGen.Core.Documenter.Documenters
                 targetDocument.WriteLine("* `{0} {1}({2});`", method.ReturnType.Name, method.Name, pars);
                 targetDocument.WriteLine("    {0}", DocumentSelectors.GetMethodSummary(docSource, selector));
 
-                foreach ((string name, string description) paramDesc in DocumentSelectors.GetMethodParamDescriptions(docSource, selector))
+                foreach ((string name, string description) in DocumentSelectors.GetMethodParamDescriptions(docSource, selector))
                 {
-                    targetDocument.WriteLine("    * `{0}`: {1}", paramDesc.name, paramDesc.description);
+                    targetDocument.WriteLine("    * `{0}`: {1}", name, description);
                 }
-
             }
         }
 
@@ -92,7 +91,6 @@ namespace BookGen.Core.Documenter.Documenters
             {
                 return $"{type.FullName}.{method.Name}({types})";
             }
-
         }
     }
 }
