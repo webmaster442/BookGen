@@ -29,7 +29,7 @@ namespace BookGen
                 var attribute = current.GetCustomAttribute<AssemblyBuildDateAttribute>();
                 if (attribute != null)
                 {
-                    return attribute.BuildDate.Date;
+                    return attribute.BuildDate;
                 }
             }
             return new DateTime();

@@ -52,7 +52,7 @@ namespace BookGen
         {
             Console.WriteLine(HelpUtils.GetGeneralHelp());
         }
-
+        
         #region Helpers
 
         public void InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
@@ -70,7 +70,7 @@ namespace BookGen
         public bool Initialize(bool compileScripts = true)
         {
             Log.Info("---------------------------------------------------------");
-            Log.Info("BookGen Build date: {0:yyyy:MM:dd} Starting...", Program.CurrentState.BuildDate.Date);
+            Log.Info("BookGen Build date: {0:yyyy.MM.dd} Starting...", Program.CurrentState.BuildDate.Date);
             Log.Info("Config API version: {0}", Program.CurrentState.ProgramVersion);
             Log.Info("Working directory: {0}", WorkDirectory);
             Log.Info("Os: {0}", Environment.OSVersion.VersionString);
