@@ -59,6 +59,7 @@
 		<None Remove="Resources\Help.SettingsModule.txt" />
 		<None Remove="Resources\Help.StatModule.txt" />
 		<None Remove="Resources\Help.VersionModule.txt" />
+		<None Remove="Resources\HelpCompressModule.txt" />
 		<None Remove="Resources\HelpEditModule.txt" />
 		<None Remove="Resources\HelpPreview.txt" />
 		<None Remove="Resources\ReplaceContents.bat" />
@@ -95,6 +96,7 @@
 		<EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
 		<EmbeddedResource Include="Resources\Help.StatModule.txt" />
 		<EmbeddedResource Include="Resources\Help.VersionModule.txt" />
+		<EmbeddedResource Include="Resources\HelpCompressModule.txt" />
 		<EmbeddedResource Include="Resources\HelpEditModule.txt" />
 		<EmbeddedResource Include="Resources\HelpPreview.txt" />
 		<EmbeddedResource Include="Resources\ReplaceContents.bat" />

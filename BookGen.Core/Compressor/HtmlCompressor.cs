@@ -3,11 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using ZetaProducerHtmlCompressor.Internal;
-
 namespace BookGen.Core.Compressor
 {
-    public static class Compressor
+    public static class HtmlCompressor
     {
         public static string CompressHtml(string source)
         {
@@ -16,7 +14,7 @@ namespace BookGen.Core.Compressor
                 return string.Empty;
             }
 
-            HtmlCompressor compressor = new HtmlCompressor();
+            var compressor = new ZetaProducerHtmlCompressor.Internal.HtmlCompressor();
             compressor.setRemoveComments(true);
             compressor.setCssCompressor(new CssCompressor());
             compressor.setCompressCss(true);
