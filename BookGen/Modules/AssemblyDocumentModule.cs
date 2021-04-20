@@ -8,7 +8,6 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
-using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
@@ -53,11 +52,6 @@ namespace BookGen.Modules
             }
 
             return true;
-        }
-
-        public override string GetHelp()
-        {
-            return HelpUtils.GetHelpForModule(nameof(AssemblyDocumentModule));
         }
     }
 }

@@ -6,7 +6,6 @@
 using BookGen.Domain;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
-using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -121,11 +120,6 @@ namespace BookGen.Modules
                 }
                 AppSettingHandler.SaveAppSettings(_settings);
             }
-        }
-
-        public override string GetHelp()
-        {
-            return HelpUtils.GetHelpForModule(nameof(SettingsModule));
         }
     }
 }

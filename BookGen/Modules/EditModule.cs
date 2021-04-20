@@ -62,10 +62,5 @@ namespace BookGen.Modules
                 return false;
             }
         }
-
-        public override string GetHelp()
-        {
-            return HelpUtils.GetHelpForModule(nameof(EditModule));
-        }
     }
 }

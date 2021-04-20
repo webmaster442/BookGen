@@ -8,7 +8,6 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Framework.Server;
 using BookGen.Ui.ArgumentParser;
-using BookGen.Utilities;
 using System;
 
 namespace BookGen.Modules
@@ -57,11 +56,6 @@ namespace BookGen.Modules
 
             }
             return true;
-        }
-
-        public override string GetHelp()
-        {
-            return HelpUtils.GetHelpForModule(nameof(PagegenModule));
         }
     }
 }
