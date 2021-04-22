@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework;
-using BookGen.Utilities;
 using System;
 
 namespace BookGen.Modules.Special
@@ -15,14 +14,10 @@ namespace BookGen.Modules.Special
 
         public override bool Execute(string[] arguments)
         {
-            Console.WriteLine("BookGen Build date: {0:yyyy:MM:dd}", Program.CurrentState.BuildDate.Date);
+            Console.WriteLine("BookGen Build date: {0:yyyy.MM.dd}", Program.CurrentState.BuildDate.Date);
+            Console.WriteLine("Build timestamp: {0:HH:mm:ss}", Program.CurrentState.BuildDate);
             Console.WriteLine("Config API version: {0}", Program.CurrentState.ProgramVersion);
             return true;
-        }
-
-        public override string GetHelp()
-        {
-            return HelpUtils.GetHelpForModule(nameof(VersionModule));
         }
     }
 }

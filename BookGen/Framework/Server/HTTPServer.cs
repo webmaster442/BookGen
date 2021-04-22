@@ -1,18 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Resources;
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Threading;
 using System.IO;
-using BookGen.Core;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
-using BookGen.Resources;
 
 namespace BookGen.Framework.Server
 {
@@ -38,6 +36,13 @@ namespace BookGen.Framework.Server
                 Thread.Sleep(100);
                 _cts.Dispose();
                 _cts = null;
+            }
+            foreach (var handler in _handlers)
+            {
+                if (handler is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
             }
             if (_listener != null)
             {

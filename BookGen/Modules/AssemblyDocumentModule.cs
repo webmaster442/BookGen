@@ -3,11 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Documenter;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
-using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
@@ -46,18 +46,12 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(parameters.OutputDirectory.ToString()))
             {
-
-                var documenter = new AssemblyDocumenter.AssemblyDocumenter(CurrentState.Log);
+                var documenter = new AssemblyDocumenter(CurrentState.Log);
 
                 documenter.Document(parameters.AssemblyPath, parameters.XmlPath, parameters.OutputDirectory);
             }
 
             return true;
-        }
-
-        public override string GetHelp()
-        {
-            return HelpUtils.GetHelpForModule(nameof(AssemblyDocumentModule));
         }
     }
 }

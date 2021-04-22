@@ -22,7 +22,7 @@ namespace BookGen
         private readonly CsharpScriptHandler _scriptHandler;
         private readonly ProjectLoader _projectLoader;
 
-        private const string exitString = "Press a key to exit...";
+        public const string ExitString = "Press a key to exit...";
 
         private Config? _configuration;
         private ToC? _toc;
@@ -52,7 +52,7 @@ namespace BookGen
         {
             Console.WriteLine(HelpUtils.GetGeneralHelp());
         }
-
+        
         #region Helpers
 
         public void InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
@@ -70,9 +70,10 @@ namespace BookGen
         public bool Initialize(bool compileScripts = true)
         {
             Log.Info("---------------------------------------------------------");
-            Log.Info("BookGen Build date: {0:yyyy:MM:dd} Starting...", Program.CurrentState.BuildDate.Date);
+            Log.Info("BookGen Build date: {0:yyyy.MM.dd} Starting...", Program.CurrentState.BuildDate.Date);
             Log.Info("Config API version: {0}", Program.CurrentState.ProgramVersion);
             Log.Info("Working directory: {0}", WorkDirectory);
+            Log.Info("Os: {0}", Environment.OSVersion.VersionString);
             Log.Info("---------------------------------------------------------");
 
 
@@ -83,7 +84,7 @@ namespace BookGen
                 ret = ret && LoadAndCompileScripts();
 
             if (!ret && !NoWait)
-                Program.ShowMessageBox(exitString);
+                Program.ShowMessageBox(ExitString);
 
             return ret;
         }
@@ -209,17 +210,19 @@ namespace BookGen
                     StartUrl(_configuration.HostName);
                 }
 
-                Console.WriteLine(exitString);
+                Console.WriteLine(ExitString);
                 Console.ReadLine();
             }
         }
 
-        private void StartUrl(string url)
+        public static void StartUrl(string url)
         {
-            Process p = new Process();
-            p.StartInfo.UseShellExecute = true;
-            p.StartInfo.FileName = url;
-            p.Start();
+            using (var p = new Process())
+            {
+                p.StartInfo.UseShellExecute = true;
+                p.StartInfo.FileName = url;
+                p.Start();
+            }
         }
 
         #endregion

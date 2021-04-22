@@ -17,7 +17,7 @@ namespace BookGen.Modules.Special
     {
         public override string ModuleCommand => "Help";
 
-        public IEnumerable<ModuleWithState>? Modules { get; set; }
+        public IEnumerable<ModuleBase>? Modules { get; set; }
 
         public override bool Execute(string[] arguments)
         {

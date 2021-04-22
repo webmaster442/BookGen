@@ -11,7 +11,6 @@ using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace BookGen.Utilities
 {

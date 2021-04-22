@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -8,14 +8,8 @@ using BookGen.Ui.ArgumentParser;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class Md2HtmlParameters : ArgumentsBase
+    internal class Md2HtmlParameters : InputOutputArguments
     {
-        [Switch("i", "input", true)]
-        public FsPath InputFile { get; set; }
-
-        [Switch("o", "output", true)]
-        public FsPath OutputFile { get; set; }
-
         [Switch("c", "css")]
         public FsPath Css { get; set; }
 
@@ -29,8 +23,6 @@ namespace BookGen.Domain.ArgumentParsing
         public Md2HtmlParameters()
         {
             Css = FsPath.Empty;
-            InputFile = FsPath.Empty;
-            OutputFile = FsPath.Empty;
         }
 
         public override bool Validate()

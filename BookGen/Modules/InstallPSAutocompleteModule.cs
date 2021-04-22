@@ -9,7 +9,6 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Resources;
 using BookGen.Ui.ArgumentParser;
-using BookGen.Utilities;
 using System.Text;
 
 namespace BookGen.Modules
@@ -49,11 +48,6 @@ namespace BookGen.Modules
             target.WriteFile(CurrentState.Log, contents.ToString());
 
             return true;
-        }
-
-        public override string GetHelp()
-        {
-            return HelpUtils.GetHelpForModule(nameof(InstallPSAutocompleteModule));
         }
     }
 }

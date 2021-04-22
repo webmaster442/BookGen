@@ -12,7 +12,6 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.GeneratorSteps.MarkdownGenerators;
 using BookGen.Ui.ArgumentParser;
-using BookGen.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -99,7 +98,7 @@ namespace BookGen.Modules
             if (stopwords.Count < 1)
             {
                 log.Warning("Stopwords file doesn't contain words. Output may be unusable.");
-                stopwords.Add(" "); //add a single space as fallback;
+                stopwords.Add(" "); //add a single space as fallback
             }
 
             var chapterSummerizer = new ChapterSummarizer(stopwords);
@@ -139,11 +138,6 @@ namespace BookGen.Modules
             log.Info("Writing file: links.md...");
             FsPath output = settings.SourceDirectory.Combine("links.md");
             output.WriteFile(log, content);
-        }
-
-        public override string GetHelp()
-        {
-            return HelpUtils.GetHelpForModule(nameof(PagegenModule));
         }
     }
 }

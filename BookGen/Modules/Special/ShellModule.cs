@@ -15,13 +15,11 @@ namespace BookGen.Modules.Special
     {
         public override string ModuleCommand => "Shell";
 
-        public IEnumerable<ModuleWithState>? Modules { get; set; }
+        public IEnumerable<ModuleBase>? Modules { get; set; }
 
         public override bool Execute(string[] arguments)
         {
-            IEnumerable<string> results = DoComplete(arguments);
-
-            foreach (var item in results)
+            foreach (var item in DoComplete(arguments))
             {
                 Console.WriteLine(item);
             }
@@ -43,7 +41,7 @@ namespace BookGen.Modules.Special
 
             if (words.Length > 0)
             {
-                ModuleWithState? command = Modules?.FirstOrDefault(c => c.AutoCompleteInfo.ModuleName.StartsWith(words[0], StringComparison.OrdinalIgnoreCase));
+                ModuleBase? command = Modules?.FirstOrDefault(c => c.AutoCompleteInfo.ModuleName.StartsWith(words[0], StringComparison.OrdinalIgnoreCase));
                 if (command != null)
                 {
                     if (words.Length > 1)

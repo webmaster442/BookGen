@@ -1,16 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.AssemblyDocumenter.Internals;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 
-namespace BookGen.AssemblyDocumenter.Documenters
+namespace BookGen.Core.Documenter.Documenters
 {
     internal class MethodDocumenter : DocumenterBase
     {
@@ -58,11 +57,10 @@ namespace BookGen.AssemblyDocumenter.Documenters
                 targetDocument.WriteLine("* `{0} {1}({2});`", method.ReturnType.Name, method.Name, pars);
                 targetDocument.WriteLine("    {0}", DocumentSelectors.GetMethodSummary(docSource, selector));
 
-                foreach ((string name, string description) paramDesc in DocumentSelectors.GetMethodParamDescriptions(docSource, selector))
+                foreach ((string name, string description) in DocumentSelectors.GetMethodParamDescriptions(docSource, selector))
                 {
-                    targetDocument.WriteLine("    * `{0}`: {1}", paramDesc.name, paramDesc.description);
+                    targetDocument.WriteLine("    * `{0}`: {1}", name, description);
                 }
-
             }
         }
 
@@ -93,7 +91,6 @@ namespace BookGen.AssemblyDocumenter.Documenters
             {
                 return $"{type.FullName}.{method.Name}({types})";
             }
-
         }
     }
 }

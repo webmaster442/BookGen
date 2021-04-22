@@ -78,11 +78,6 @@ namespace BookGen.Modules
 
         }
 
-        public override string GetHelp()
-        {
-            return HelpUtils.GetHelpForModule(nameof(StatModule));
-        }
-
         private bool TryComputeStat(string input, ref StatisticsData stat)
         {
             try

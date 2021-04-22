@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -8,11 +8,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace BookGen.AssemblyDocumenter.Internals
+namespace BookGen.Core.Documenter
 {
     internal static class DocumentSelectors
     {
-
         private static string Cleanup(this string input)
         {
             return Regex.Replace(input, @"\s+", " ");

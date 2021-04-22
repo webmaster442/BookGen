@@ -19,10 +19,5 @@ namespace BookGen.Modules.Special
             Environment.Exit(1);
             return true;
         }
-
-        public override string GetHelp()
-        {
-            return HelpUtils.GetHelpForModule(nameof(ConfigHelpModule));
-        }
     }
 }

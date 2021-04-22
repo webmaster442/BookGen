@@ -18,7 +18,7 @@ namespace BookGen
             BuildDate = DateTime.ParseExact(datestamp,
                                             "yyyyMMddHHmmss", 
                                             CultureInfo.InvariantCulture,
-                                            DateTimeStyles.None);
+                                            DateTimeStyles.AssumeLocal);
         }
     }
 }

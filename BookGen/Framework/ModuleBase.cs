@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Shell;
+using BookGen.Utilities;
 
 namespace BookGen.Framework
 {
@@ -11,7 +12,11 @@ namespace BookGen.Framework
     {
         public abstract string ModuleCommand { get; }
         public abstract bool Execute(string[] arguments);
-        public abstract string GetHelp();
+        public virtual string GetHelp()
+        {
+            return HelpUtils.GetHelpForModule(GetType().Name);
+        }
+
         public virtual AutoCompleteItem AutoCompleteInfo
         {
             get => new AutoCompleteItem(ModuleCommand);

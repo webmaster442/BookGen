@@ -1,0 +1,7 @@
+﻿Launch a browser that allows markdown file previewing
+-------------------------------------------------------------------------------
+
+    BookGen preview
+
+    Arguments:
+    No arguments are required

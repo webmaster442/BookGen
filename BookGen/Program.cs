@@ -21,7 +21,7 @@ namespace BookGen
     {
         #region Internal API
 
-        internal static ProgramState CurrentState { get; private set; } = new ProgramState();
+        internal static ProgramState CurrentState { get; } = new ProgramState();
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
 #if TESTBUILD
@@ -143,15 +143,17 @@ namespace BookGen
                 new ChaptersModule(CurrentState),
                 new StatModule(CurrentState),
                 new EditModule(CurrentState, AppSetting),
+                new PreviewModule(CurrentState),
             };
         }
 
         private static void ConfiugreStatelessModules(ModuleWithState[] modulesWithState)
         {
-            foreach (var module in StatelessModules)
+            IEnumerable<ModuleBase>? allmodules = StatelessModules.Concat(modulesWithState);
+            foreach (var module in allmodules)
             {
                 if (module is IModuleCollection moduleCollection)
-                    moduleCollection.Modules = modulesWithState;
+                    moduleCollection.Modules = allmodules;
             }
         }
 
