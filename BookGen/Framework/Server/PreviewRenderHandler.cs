@@ -90,6 +90,8 @@ namespace BookGen.Framework.Server
 
         public void Serve(string AbsoluteUri, HttpListenerResponse response, ILog log)
         {
+            response.Headers.Add("Cache-Control", "no-store");
+
             if (AbsoluteUri == "/")
             {
                 _log.Info("Serving index...");

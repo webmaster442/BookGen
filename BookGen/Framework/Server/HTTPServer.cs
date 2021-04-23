@@ -149,10 +149,15 @@ namespace BookGen.Framework.Server
                     {
                         if (handler.CanServe(filename))
                         {
+                            _log.Info("Serving {0} with {1} type handler", filename, handler.GetType());
                             if (handler is ISimpleRequestHandler simple)
+                            {
                                 simple.Serve(filename, context.Response, _log);
+                            }
                             else if (handler is IAdvancedRequestHandler advanced)
+                            {
                                 advanced.Serve(context.Request, context.Response, _log);
+                            }
 
                             return true;
                         }
