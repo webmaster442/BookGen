@@ -4,14 +4,16 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
+using BookGen.Framework;
 using System;
 using System.Reflection;
+using Webmaster442.HttpServerFramework;
 
 namespace BookGen
 {
     internal class ProgramState
     {
+        private readonly ConsoleLog _log;
         public bool Gui { get; set; }
         public bool NoWaitForExit { get; set; }
         public GeneratorRunner? GeneratorRunner { get; set; }
@@ -19,7 +21,15 @@ namespace BookGen
         public DateTime BuildDate { get; }
         public string ProgramDirectory { get; }
         public int ConfigVersion { get; }
-        public ILog Log { get; internal set; }
+
+#if TESTBUILD
+        public ILog Log { get; set; }
+        public IServerLog ServerLog { get; set; }
+#else
+
+        public ILog Log => _log;
+        public IServerLog ServerLog => _log;
+#endif
 
         private static DateTime GetProgramDate()
         {
@@ -42,7 +52,12 @@ namespace BookGen
             ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
             BuildDate = GetProgramDate();
             ProgramDirectory = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
-            Log = new ConsoleLog();
+            _log = new ConsoleLog();
+#if TESTBUILD
+            var l = new ConsoleLog();
+            Log = l;
+            ServerLog = l;
+#endif
         }
 
     }

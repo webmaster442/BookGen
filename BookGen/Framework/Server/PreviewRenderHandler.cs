@@ -34,7 +34,6 @@ namespace BookGen.Framework.Server
         {
             _directory = directory;
             _log = log;
-
             _fsw = new FileSystemWatcher(_directory, "*.md");
             _fsw.Created += OnRefreshDir;
             _fsw.Deleted += OnRefreshDir;

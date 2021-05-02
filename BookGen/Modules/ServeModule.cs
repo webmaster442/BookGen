@@ -42,12 +42,14 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(args.Directory))
             {
-                using (var server = new HttpServer(args.Directory, 8081, CurrentState.Log))
+                using (var server = HttpServerFactory.CreateServerForServModule(CurrentState.ServerLog, args.Directory))
                 {
+                    server.Start();
                     Console.WriteLine("Serving: {0}", args.Directory);
                     Console.WriteLine("Server running on http://localhost:8081");
                     Console.WriteLine("Press a key to exit...");
                     Console.ReadLine();
+                    server.Stop();
                 }
             }
 

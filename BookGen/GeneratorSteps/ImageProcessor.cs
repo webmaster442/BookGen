@@ -105,12 +105,12 @@ namespace BookGen.GeneratorSteps
         private void InlineImage(FsPath file, RuntimeSettings settings, SKData data, string? extensionOverride)
         {
             string base64 = Convert.ToBase64String(data.ToArray());
-            string mime = Framework.Server.MimeTypes.GetMimeForExtension(file.Extension);
+            string mime = Webmaster442.HttpServerFramework.MimeTypes.GetMimeForExtension(file.Extension);
             string fnmame = file.ToString();
 
             if (extensionOverride != null)
             {
-                mime = Framework.Server.MimeTypes.GetMimeForExtension(extensionOverride);
+                mime = Webmaster442.HttpServerFramework.MimeTypes.GetMimeForExtension(extensionOverride);
                 fnmame = Path.ChangeExtension(file.ToString(), extensionOverride);
             }
 

@@ -3,13 +3,15 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Framework.Server;
 using BookGen.Tests.Environment;
 using Moq;
 using NUnit.Framework;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
+using Webmaster442.HttpServerFramework;
+using Webmaster442.HttpServerFramework.Domain;
+using Webmaster442.HttpServerFramework.Handlers;
 
 namespace BookGen.Tests
 {
@@ -17,34 +19,47 @@ namespace BookGen.Tests
     public class UT_TestServer
     {
         private HttpServer _server;
-        private Mock<ILog> _log;
+        private Mock<IServerLog> _log;
 
-        private class TestHandler : ISimpleRequestHandler
+        private class TestHandler : IRequestHandler
         {
-            public bool CanServe(string AbsoluteUri)
+            private bool CanServe(string AbsoluteUri)
             {
                 return AbsoluteUri == "/testme";
             }
 
-            public void Serve(string AbsoluteUri, HttpListenerResponse response, ILog log)
+            public async Task<bool> Handle(IServerLog log, HttpRequest request, HttpResponse response)
             {
-                byte[] msg = Encoding.UTF8.GetBytes("TestHandler");
-                response.StatusCode = 200;
-                response.ContentType = "text/plain";
-                response.OutputStream.Write(msg, 0, msg.Length);
+                if (CanServe(request.Url))
+                {
+                    byte[] msg = Encoding.UTF8.GetBytes("TestHandler");
+                    response.ResponseCode = HttpResponseCode.Ok;
+                    response.ContentType = "text/plain";
+                    await response.Write(msg);
+                    return true;
+                }
+                return false;
             }
         }
 
         [SetUp]
         public void Setup()
         {
-            _log = new Mock<ILog>();
-            _server = new HttpServer(TestEnvironment.GetTestFolder(), 8080, _log.Object, new TestHandler());
+            _log = new Mock<IServerLog>();
+            _server = new HttpServer(new HttpServerConfiguration
+            {
+                Port = 8080,
+            }, _log.Object);
+
+            _server.RegisterHandler(new TestHandler());
+            _server.RegisterHandler(new FileServeHandler(TestEnvironment.GetTestFolder(), "/"));
+            _server.Start();
         }
 
         [TearDown]
         public void Teardown()
         {
+            _server.Stop();
             _server.Dispose();
             _server = null;
             _log = null;

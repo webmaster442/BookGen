@@ -33,7 +33,7 @@ namespace BookGen
         public static GeneratorRunner CreateRunner(bool verbose, string workDir)
         {
             CurrentState.Log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
-            return new GeneratorRunner(CurrentState.Log, workDir);
+            return new GeneratorRunner(CurrentState.Log, CurrentState.ServerLog, workDir);
         }
 
         public static void ShowMessageBox(string text, params object[] args)

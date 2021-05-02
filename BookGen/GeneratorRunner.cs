@@ -14,6 +14,7 @@ using BookGen.Utilities;
 using System;
 using System.Diagnostics;
 using System.IO;
+using Webmaster442.HttpServerFramework;
 
 namespace BookGen
 {
@@ -35,10 +36,12 @@ namespace BookGen
         }
 
         public ILog Log { get; }
+        public IServerLog ServerLog { get; }
         public bool NoWait { get; internal set; }
 
-        public GeneratorRunner(ILog log, string workDir)
+        public GeneratorRunner(ILog log, IServerLog serverLog, string workDir)
         {
+            ServerLog = serverLog;
             Log = log;
             _projectLoader = new ProjectLoader(log, workDir);
             _scriptHandler = new CsharpScriptHandler(Log);
@@ -198,8 +201,9 @@ namespace BookGen
             WebsiteBuilder builder = new WebsiteBuilder(settings, Log, _scriptHandler);
             var runTime = builder.Run();
 
-            using (var server = new HttpServer(Path.Combine(WorkDirectory, _configuration.TargetWeb.OutPutDirectory), 8080, Log))
+            using (var server = HttpServerFactory.CreateServerForTest(ServerLog, Path.Combine(WorkDirectory, _configuration.TargetWeb.OutPutDirectory)))
             {
+                server.Start();
                 Log.Info("-------------------------------------------------");
                 Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
                 Log.Info("Test server running on: http://localhost:8080/");
@@ -212,6 +216,7 @@ namespace BookGen
 
                 Console.WriteLine(ExitString);
                 Console.ReadLine();
+                server.Stop();
             }
         }
 

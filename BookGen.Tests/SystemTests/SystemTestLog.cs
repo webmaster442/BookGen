@@ -8,10 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Webmaster442.HttpServerFramework;
 
 namespace BookGen.Tests.SystemTests
 {
-    public class SystemTestLog : ILog
+    public class SystemTestLog : ILog, IServerLog
     {
         private List<string> _logContents;
 
