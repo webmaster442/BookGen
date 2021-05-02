@@ -4,20 +4,22 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Core;
+using BookGen.Core.Contracts;
+using BookGen.Core.Markdown;
 using BookGen.Resources;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
-using BookGen.Core;
-using BookGen.Core.Contracts;
-using BookGen.Core.Markdown;
+using System.Threading.Tasks;
+using Webmaster442.HttpServerFramework;
+using Webmaster442.HttpServerFramework.Domain;
 
 namespace BookGen.Framework.Server
 {
-    internal sealed class PreviewRenderHandler : ISimpleRequestHandler, IDisposable
+    internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
     {
 
         private readonly string _directory;
@@ -88,26 +90,6 @@ namespace BookGen.Framework.Server
             _dirFiles = new HashSet<string>(Directory.GetFiles(_directory, "*.md"));
         }
 
-        public void Serve(string AbsoluteUri, HttpListenerResponse response, ILog log)
-        {
-            response.Headers.Add("Cache-Control", "no-store");
-
-            if (AbsoluteUri == "/")
-            {
-                _log.Info("Serving index...");
-                _processor.Content = WriteIndex();
-                _processor.Title = "Preview";
-                response.WriteHtmlString(_processor.Render());
-            }
-            else if (CanServeFromDir(AbsoluteUri, out string found))
-            {
-                _processor.Title = $"Preview of {AbsoluteUri}";
-                FsPath path = new FsPath(found);
-                _processor.Content = _mdpipeline.RenderMarkdown(path.ReadFile(log));
-                response.WriteHtmlString(_processor.Render());
-            }
-        }
-
         public string WriteIndex()
         {
             StringBuilder html = new StringBuilder();
@@ -125,6 +107,30 @@ namespace BookGen.Framework.Server
         private static string GetLink(string file)
         {
             return $"<a target=\"_blank\" href=\"{Path.GetFileName(file)}\">Preview</a>";
+        }
+
+        public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
+        {
+            response.AdditionalHeaders.Add("Cache-Control", "no-store");
+            response.ContentType = "text/html";
+            if (request.Url == "/")
+            {
+                _log.Info("Serving index...");
+                _processor.Content = WriteIndex();
+                _processor.Title = "Preview";
+                await response.Write(_processor.Render());
+                return true;
+            }
+            else if (CanServeFromDir(request.Url, out string found) 
+                     && log is ILog bookGenLog)
+            {
+                _processor.Title = $"Preview of {request.Url}";
+                FsPath path = new FsPath(found);
+                _processor.Content = _mdpipeline.RenderMarkdown(path.ReadFile(bookGenLog));
+                await response.Write(_processor.Render());
+                return true;
+            }
+            return false;
         }
     }
 }

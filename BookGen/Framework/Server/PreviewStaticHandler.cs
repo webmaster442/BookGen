@@ -3,14 +3,15 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Resources;
 using System.Collections.Generic;
-using System.Net;
+using System.Threading.Tasks;
+using Webmaster442.HttpServerFramework;
+using Webmaster442.HttpServerFramework.Domain;
 
 namespace BookGen.Framework.Server
 {
-    internal class PreviewStaticHandler : ISimpleRequestHandler
+    internal class PreviewStaticHandler : IRequestHandler
     {
         private readonly Dictionary<string, KnownFile> _table;
 
@@ -25,15 +26,22 @@ namespace BookGen.Framework.Server
         }
 
 
-        public bool CanServe(string AbsoluteUri)
+        private bool CanServe(string AbsoluteUri)
         {
             return _table.ContainsKey(AbsoluteUri);
         }
 
-        public void Serve(string AbsoluteUri, HttpListenerResponse response, ILog log)
+        public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
         {
-            var file = ResourceHandler.GetFile(_table[AbsoluteUri]);
-            response.WriteString(file, MimeTypes.GetMimeTypeForFile(AbsoluteUri));
+            if (CanServe(request.Url))
+            {
+                log?.Info("Serving: {0}...", request.Url);
+                var file = ResourceHandler.GetFile(_table[request.Url]);
+                response.ContentType = MimeTypes.GetMimeTypeForFile(request.Url);
+                await response.Write(file);
+                return true;
+            }
+            return false;
         }
     }
 }
