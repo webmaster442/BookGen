@@ -54,7 +54,13 @@ namespace BookGen.Core.Markdown.Renderers
                 _underlyingRenderer.Write(renderer, obj);
                 return;
             }
-
+          
+            if (string.IsNullOrEmpty(fencedCodeBlock.Info)
+                || string.IsNullOrEmpty(parser.InfoPrefix))
+            {
+                _underlyingRenderer.Write(renderer, obj);
+                return;
+            }
             var languageMoniker = fencedCodeBlock.Info.Replace(parser.InfoPrefix, string.Empty);
             if (string.IsNullOrEmpty(languageMoniker) || IsUnknown(languageMoniker))
             {

@@ -37,13 +37,14 @@ namespace BookGen.Utilities
                     {
                         InsertChapter(parsed, ref chapterTitle, ref chapterLinks);
                     }
-                    chapterTitle = heading.Inline.FirstChild.ToString();
+                    chapterTitle = heading.Inline?.FirstChild?.ToString() ?? string.Empty;
                     chapterLinks = new List<Link>(50);
                 }
-                else if (item is LinkInline link && !link.IsImage)
+                else if (item is LinkInline link
+                    && !link.IsImage 
+                    && link.FirstChild != null)
                 {
-                    if (link.FirstChild != null)
-                        chapterLinks.Add(new Link(link.FirstChild.ToString()!, link.Url));
+                    chapterLinks.Add(new Link(link.FirstChild.ToString()!, link.Url ?? string.Empty));
                 }
             }
             InsertChapter(parsed, ref chapterTitle, ref chapterLinks);

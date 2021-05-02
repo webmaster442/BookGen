@@ -81,8 +81,11 @@ namespace BookGen.Core.Markdown
             }
         }
 
-        private static string FixExtension(string url, bool jpegtoWebp)
+        private static string FixExtension(string? url, bool jpegtoWebp)
         {
+            if (string.IsNullOrEmpty(url))
+                return string.Empty;
+
             string extension = System.IO.Path.GetExtension(url);
             if (extension == ".svg")
             {

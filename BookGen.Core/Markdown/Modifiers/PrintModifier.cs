@@ -67,8 +67,11 @@ namespace BookGen.Core.Markdown.Modifiers
             }
         }
 
-        private string RewiteToHostUrl(string url)
+        private string RewiteToHostUrl(string? url)
         {
+            if (string.IsNullOrEmpty(url))
+                return string.Empty;
+
             var parts = url.Replace("\\", "/").Split('/').ToList();
             var imgdirIndex = parts.IndexOf(RuntimeConfig!.Configuration.ImageDir);
 

@@ -55,7 +55,9 @@ namespace BookGen.Core.Markdown.Modifiers
         {
             foreach (var node in document.Descendants())
             {
-                if (node is LinkInline link && link.IsImage)
+                if (node is LinkInline link
+                    && link.IsImage
+                    && !string.IsNullOrEmpty(link.Url))
                {
                     link.Url = Base64EncodeIfLocal(link.Url);
                 }

@@ -42,7 +42,7 @@ namespace BookGen.Core.Markdown.Modifiers
         private static bool IsOffHostLink(LinkInline link, IReadonlyRuntimeSettings RuntimeConfig)
         {
             if (RuntimeConfig.Configuration != null)
-                return !link.Url.StartsWith(RuntimeConfig.Configuration.HostName);
+                return !link.Url?.StartsWith(RuntimeConfig.Configuration.HostName) ?? false;
             else
                 return true;
         }
