@@ -27,7 +27,7 @@
     <PackageReference Include="YamlDotNet" Version="11.1.1" />
     <PackageReference Include="Markdig" Version="0.24.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
-    <PackageReference Include="ZetaProducerHtmlCompressor" Version="15.2.0" />
+    <PackageReference Include="ZetaProducerHtmlCompressorStandard" Version="1.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
@@ -50,5 +50,8 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Compressor\HtmlCompressor\" />
   </ItemGroup>
 </Project>
