@@ -24,7 +24,7 @@ namespace BookGen.Framework.Server
                 Port = 8080,
             }, log);
 
-            server.RegisterHandler(new FileServeHandler(folder, "/"));
+            server.RegisterHandler(new FileServeHandler(folder, false,  "/"));
 
             return server;
         }
@@ -42,7 +42,7 @@ namespace BookGen.Framework.Server
                 Port = 8081,
             }, log);
 
-            server.RegisterHandler(new FileServeHandler(folder, "/"));
+            server.RegisterHandler(new FileServeHandler(folder, true, "/"));
 
             return server;
         }

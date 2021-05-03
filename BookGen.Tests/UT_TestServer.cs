@@ -52,7 +52,7 @@ namespace BookGen.Tests
             }, _log.Object);
 
             _server.RegisterHandler(new TestHandler());
-            _server.RegisterHandler(new FileServeHandler(TestEnvironment.GetTestFolder(), "/"));
+            _server.RegisterHandler(new FileServeHandler(TestEnvironment.GetTestFolder(), false, "/"));
             _server.Start();
         }
 
