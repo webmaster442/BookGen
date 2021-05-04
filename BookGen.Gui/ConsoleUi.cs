@@ -6,17 +6,24 @@
 using BookGen.Ui.Mvvm;
 using BookGen.Ui.XmlEntities;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using Terminal.Gui;
 
 namespace BookGen.Ui
 {
-    public class ConsoleUi: IView
+    public sealed class ConsoleUi: IView, IDisposable
     {
         private UiElementFactory? _elementFactory;
         private Window? _window;
         private Binder? _binder;
+        private readonly List<IDisposable> _disposables;
+
+        public ConsoleUi()
+        {
+            _disposables = new List<IDisposable>();
+        }
 
         public void Run(Stream view, ViewModelBase model)
         {
@@ -88,6 +95,8 @@ namespace BookGen.Ui
                 Height = Dim.Fill()
             };
 
+            _disposables.Add(root);
+
             int row = 1;
 
             foreach (var child in deserialized.Children)
@@ -99,13 +108,17 @@ namespace BookGen.Ui
                 }
                 else if (child is XTextBlock textBlock)
                 {
-                    _elementFactory?.RenderTextBlock(textBlock, root, ref row);
+                    _elementFactory?.RenderTextBlock(textBlock, root, _disposables, ref row);
                 }
                 else
                 {
                     rendered = RenderSimple(child, root, row);
-                    root.Add(rendered);
-                    ++row;
+                    if (rendered != null)
+                    {
+                        _disposables.Add(rendered);
+                        root.Add(rendered);
+                        ++row;
+                    }
                 }
             }
 
@@ -124,6 +137,14 @@ namespace BookGen.Ui
                     return _elementFactory?.CreateCheckBox(checkBox, root, row);
                 default:
                     throw new InvalidOperationException($"Unknown node type: {child.GetType().Name}");
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (var disposable in _disposables)
+            {
+                disposable.Dispose();
             }
         }
     }

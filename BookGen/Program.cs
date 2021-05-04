@@ -98,6 +98,7 @@ namespace BookGen
                 if (moduleToRun == null)
                 {
                     Console.WriteLine(HelpUtils.GetGeneralHelp());
+                    Cleanup(moduleToRun);
                     Exit(ExitCode.UnknownCommand);
                     return;
                 }
@@ -105,9 +106,11 @@ namespace BookGen
                 if (!moduleToRun.Execute(parameters))
                 {
                     Console.WriteLine(moduleToRun?.GetHelp());
+                    Cleanup(moduleToRun);
                     Exit(ExitCode.BadParameters);
                 }
 
+                Cleanup(moduleToRun);
             }
             catch (Exception ex)
             {
@@ -126,6 +129,14 @@ namespace BookGen
 #if TESTBUILD
                 }
 #endif
+            }
+        }
+
+        private static void Cleanup(ModuleBase? moduleToRun)
+        {
+            if (moduleToRun is IDisposable disposable)
+            {
+                disposable.Dispose();
             }
         }
 
