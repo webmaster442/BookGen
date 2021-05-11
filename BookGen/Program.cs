@@ -33,7 +33,7 @@ namespace BookGen
         public static GeneratorRunner CreateRunner(bool verbose, string workDir)
         {
             CurrentState.Log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
-            return new GeneratorRunner(CurrentState.Log, workDir);
+            return new GeneratorRunner(CurrentState.Log, CurrentState.ServerLog, workDir);
         }
 
         public static void ShowMessageBox(string text, params object[] args)
@@ -98,6 +98,7 @@ namespace BookGen
                 if (moduleToRun == null)
                 {
                     Console.WriteLine(HelpUtils.GetGeneralHelp());
+                    Cleanup(moduleToRun);
                     Exit(ExitCode.UnknownCommand);
                     return;
                 }
@@ -105,9 +106,11 @@ namespace BookGen
                 if (!moduleToRun.Execute(parameters))
                 {
                     Console.WriteLine(moduleToRun?.GetHelp());
+                    Cleanup(moduleToRun);
                     Exit(ExitCode.BadParameters);
                 }
 
+                Cleanup(moduleToRun);
             }
             catch (Exception ex)
             {
@@ -129,6 +132,14 @@ namespace BookGen
             }
         }
 
+        private static void Cleanup(ModuleBase? moduleToRun)
+        {
+            if (moduleToRun is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+        }
+
         public static ModuleWithState[] CreateModules()
         {
             return new ModuleWithState[]
@@ -144,6 +155,7 @@ namespace BookGen
                 new StatModule(CurrentState),
                 new EditModule(CurrentState, AppSetting),
                 new PreviewModule(CurrentState),
+                new ServeModule(CurrentState),
             };
         }
 

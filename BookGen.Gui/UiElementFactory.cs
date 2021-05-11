@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Ui.XmlEntities;
+using System;
+using System.Collections.Generic;
 using Terminal.Gui;
 
 namespace BookGen.Ui
@@ -68,7 +70,10 @@ namespace BookGen.Ui
             return result;
         }
 
-        internal void RenderTextBlock(XTextBlock textBlock, Window root, ref int row)
+        internal void RenderTextBlock(XTextBlock textBlock,
+                                      Window root, 
+                                      List<IDisposable> disposables,
+                                      ref int row)
         {
             var lines = textBlock.Text?.ToString().Split('\n');
             if (lines == null) return;
@@ -82,6 +87,7 @@ namespace BookGen.Ui
                     X = Pos.Left(root) + textBlock.Left,
                     Y = Pos.Top(root) + row,
                 };
+                disposables.Add(label);
                 root.Add(label);
                 ++row;
             }

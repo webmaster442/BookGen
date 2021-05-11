@@ -9,12 +9,13 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
+using System;
 
 namespace BookGen.Modules
 {
-    internal class InitModule : ModuleWithState
+    internal sealed class InitModule : ModuleWithState, IDisposable
     {
-        private readonly Ui.ConsoleUi uiRunner;
+        private Ui.ConsoleUi uiRunner;
 
         public InitModule(ProgramState currentState) : base(currentState)
         {
@@ -33,9 +34,7 @@ namespace BookGen.Modules
                 return false;
             }
 
-            Api.LogLevel logLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
-
-            CurrentState.Log.LogLevel = logLevel;
+            CurrentState.Log.LogLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
             FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
@@ -57,6 +56,15 @@ namespace BookGen.Modules
         public override void Abort()
         {
             uiRunner?.SuspendUi();
+        }
+
+        public void Dispose()
+        {
+            if (uiRunner != null)
+            {
+                uiRunner.Dispose();
+                uiRunner = null;
+            }
         }
     }
 }

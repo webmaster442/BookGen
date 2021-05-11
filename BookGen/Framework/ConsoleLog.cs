@@ -7,14 +7,30 @@ using BookGen.Api;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using Webmaster442.HttpServerFramework;
 
-namespace BookGen.Core
+namespace BookGen.Framework
 {
-    public sealed class ConsoleLog : ILog
+    public sealed class ConsoleLog : ILog, IServerLog
     {
         public ConsoleLog(LogLevel level = LogLevel.Info)
         {
             LogLevel = level;
+        }
+
+        void IServerLog.Critical(Exception ex)
+        {
+            Log(LogLevel.Critical, ex.Message);
+        }
+
+        void IServerLog.Info(string format, params object[] args)
+        {
+            Log(LogLevel.Info, format, args);
+        }
+
+        void IServerLog.Warning(string format, params object[] args)
+        {
+            Log(LogLevel.Warning, format, args);
         }
 
         public LogLevel LogLevel { get; set; }

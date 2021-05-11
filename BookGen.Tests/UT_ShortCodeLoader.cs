@@ -3,9 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
+using BookGen.Api;
 using BookGen.Framework.Shortcodes;
 using BookGen.Tests.Environment;
+using Moq;
 using NUnit.Framework;
 using System.Linq;
 
@@ -15,12 +16,13 @@ namespace BookGen.Tests
     public class UT_ShortCodeLoader
     {
         private ShortCodeLoader _sut;
+        private Mock<ILog> _logMock;
 
         [SetUp]
         public void Setup()
         {
-            var log = new ConsoleLog();
-            _sut = new ShortCodeLoader(log, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
+            _logMock = new Mock<ILog>();
+            _sut = new ShortCodeLoader(_logMock.Object, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
             _sut.LoadAll();
         }
 

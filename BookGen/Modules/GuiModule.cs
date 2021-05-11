@@ -8,12 +8,13 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
+using System;
 
 namespace BookGen.Modules
 {
-    internal class GuiModule : ModuleWithState
+    internal sealed class GuiModule : ModuleWithState, IDisposable
     {
-        private readonly Ui.ConsoleUi uiRunner;
+        private Ui.ConsoleUi uiRunner;
 
         public GuiModule(ProgramState currentState) : base(currentState)
         {
@@ -65,6 +66,16 @@ namespace BookGen.Modules
         public override void Abort()
         {
             uiRunner?.SuspendUi();
+        }
+
+        public void Dispose()
+        {
+            if (uiRunner != null)
+            {
+                uiRunner.Dispose();
+                uiRunner = null;
+            }
+            
         }
     }
 }

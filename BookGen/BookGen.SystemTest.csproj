@@ -108,6 +108,7 @@
 		<ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
 		<ProjectReference Include="..\BookGen.Gui\BookGen.Ui.csproj" />
 		<ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
+		<ProjectReference Include="..\HttpServerFramework\Source\Webmaster442.HttpServerFramework.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="BookGen">
