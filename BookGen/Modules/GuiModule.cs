@@ -14,7 +14,7 @@ namespace BookGen.Modules
 {
     internal sealed class GuiModule : ModuleWithState, IDisposable
     {
-        private Ui.ConsoleUi uiRunner;
+        private Ui.ConsoleUi? uiRunner;
 
         public GuiModule(ProgramState currentState) : base(currentState)
         {
@@ -56,7 +56,7 @@ namespace BookGen.Modules
 
                 if (Ui != null)
                 {
-                    uiRunner.Run(Ui, vm);
+                    uiRunner?.Run(Ui, vm);
                     return true;
                 }
             }

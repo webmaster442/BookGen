@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace BookGen.Ui.XmlEntities
 {
-    public record XView
+    public abstract record XView
     {
         [XmlAttribute]
         public int Left { get; set; }

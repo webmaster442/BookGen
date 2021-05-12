@@ -12,7 +12,7 @@ namespace BookGen.Framework
 {
     internal sealed class FolderLock : IDisposable
     {
-        private string _lockfile;
+        private readonly string _lockfile;
         private const string lockName = "bookGen.lock";
 
         public FolderLock(string folder)
@@ -34,8 +34,18 @@ namespace BookGen.Framework
 
         public static void ExitIfFolderIsLocked(string folder, ILog log)
         {
-            if (File.Exists(Path.Combine(folder, lockName)))
+            var lockfile = Path.Combine(folder, lockName);
+            if (File.Exists(lockfile))
             {
+#if DEBUG
+                var running = System.Diagnostics.Process.GetProcessesByName(nameof(BookGen));
+                if (running.Length == 1) //only this current instance is running
+                {
+                    log.Warning("Lockfile was found, but no other bookgen is running. Removing lock...");
+                    File.Delete(lockfile);
+                    return;
+                }
+#endif
                 log.Critical("An other bookgen process is using this folder. Exiting...");
                 Environment.Exit((int)ExitCode.FolderLocked);
             }
