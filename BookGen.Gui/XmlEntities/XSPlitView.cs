@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2021 Ruzsinszki Gábor
+// (c) 2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -8,11 +8,11 @@ using System.Xml.Serialization;
 
 namespace BookGen.Ui.XmlEntities
 {
-    public record XWindow
+    public record XSPlitView: XView
     {
-        [XmlAttribute]
-        public string Title { get; set; }
-        
+        [XmlArray]
+        public List<int> DivideRatios { get; set; }
+
         [XmlArray]
         [XmlArrayItem(nameof(XLabel), typeof(XLabel))]
         [XmlArrayItem(nameof(XButton), typeof(XButton))]
@@ -23,9 +23,9 @@ namespace BookGen.Ui.XmlEntities
         [XmlArrayItem(nameof(XTextBox), typeof(XTextBox))]
         public List<XView> Children { get; set; }
 
-        public XWindow()
+        public XSPlitView()
         {
-            Title = string.Empty;
+            DivideRatios = new List<int>(0);
             Children = new List<XView>();
         }
     }
