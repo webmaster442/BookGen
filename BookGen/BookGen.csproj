@@ -28,6 +28,7 @@
 		<Version>2020.07.23</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseFile>LICENCE</PackageLicenseFile>
+    <RootNamespace>BookGen</RootNamespace>
 	</PropertyGroup>
 	<ItemGroup>
 		<Compile Remove="DefaultTemplate\**" />

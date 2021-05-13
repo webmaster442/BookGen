@@ -36,94 +36,102 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <DefineConstants>TRACE;TESTBUILD</DefineConstants>
 	</PropertyGroup>
-	<ItemGroup>
-		<Compile Remove="DefaultTemplate\**" />
-		<EmbeddedResource Remove="DefaultTemplate\**" />
-		<None Remove="DefaultTemplate\**" />
-		<None Include="..\LICENCE">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-		<None Include="$(PkgNode_js_redist)\tools\win-x64\node.exe" Link="node.exe">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-	<ItemGroup>
-		<None Remove="ConsoleUi\InitializeView.xml" />
-		<None Remove="ConsoleUi\MainView.xml" />
-		<None Remove="Resources\completer.dn.ps1" />
-		<None Remove="Resources\completer.ps1" />
-		<None Remove="Resources\Help.AssemblyDocumentModule.txt" />
-		<None Remove="Resources\Help.BuildModule.txt" />
-		<None Remove="Resources\Help.ChaptersModule.txt" />
-		<None Remove="Resources\Help.ConfigHelpModule.txt" />
-		<None Remove="Resources\Help.EditorModule.txt" />
-		<None Remove="Resources\Help.General.txt" />
-		<None Remove="Resources\Help.GuiModule.txt" />
-		<None Remove="Resources\Help.InitModule.txt" />
-		<None Remove="Resources\Help.InstallPSAutocompleteModule.txt" />
-		<None Remove="Resources\Help.Md2HtmlModule.txt" />
-		<None Remove="Resources\Help.PagegenModule.txt" />
-		<None Remove="Resources\Help.ServeModule.txt" />
-		<None Remove="Resources\Help.SettingsModule.txt" />
-		<None Remove="Resources\Help.VersionModule.txt" />
-		<None Remove="Resources\ReplaceContents.bat" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Markdig" Version="0.24.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
-		<PackageReference Include="Node.js.redist" Version="14.2.0" />
-		<PackageReference Include="SkiaSharp" Version="2.80.2" />
-		<PackageReference Include="Svg.Skia" Version="0.5.3" />
-		<PackageReference Include="System.ComponentModel.Composition" Version="5.0.0" />
-		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
-		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="System.Net.Http" Version="4.3.4" />
-		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-		<PackageReference Include="System.Text.Json" Version="5.0.2" />
-	</ItemGroup>
-	<ItemGroup>
-		<EmbeddedResource Include="ConsoleUi\InitializeView.xml" />
-		<EmbeddedResource Include="ConsoleUi\MainView.xml" />
-		<EmbeddedResource Include="Resources\Help.ChaptersModule.txt" />
-		<EmbeddedResource Include="Resources\Help.ConfigHelpModule.txt" />
-		<EmbeddedResource Include="Resources\Error404.html" />
-		<EmbeddedResource Include="Resources\Help.AssemblyDocumentModule.txt" />
-		<EmbeddedResource Include="Resources\Help.BuildModule.txt" />
-		<EmbeddedResource Include="Resources\Help.EditorModule.txt" />
-		<EmbeddedResource Include="Resources\Help.General.txt" />
-		<EmbeddedResource Include="Resources\Help.GuiModule.txt" />
-		<EmbeddedResource Include="Resources\Help.InitModule.txt" />
-		<EmbeddedResource Include="Resources\Help.Md2HtmlModule.txt" />
-		<EmbeddedResource Include="Resources\Help.PagegenModule.txt" />
-		<EmbeddedResource Include="Resources\Help.ServeModule.txt" />
-		<EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
-		<EmbeddedResource Include="Resources\Help.VersionModule.txt" />
-		<EmbeddedResource Include="Resources\ReplaceContents.bat" />
+  <ItemGroup>
+    <Compile Remove="DefaultTemplate\**" />
+    <EmbeddedResource Remove="DefaultTemplate\**" />
+    <None Remove="DefaultTemplate\**" />
+    <None Include="..\LICENCE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="$(PkgNode_js_redist)\tools\win-x64\node.exe" Link="node.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="ConsoleUi\HelpView.xml" />
+    <None Remove="ConsoleUi\InitializeView.xml" />
+    <None Remove="ConsoleUi\MainView.xml" />
+    <None Remove="Resources\Help.AssemblyDocumentModule.txt" />
+    <None Remove="Resources\Help.BuildModule.txt" />
+    <None Remove="Resources\Help.ChaptersModule.txt" />
+    <None Remove="Resources\Help.ConfigHelpModule.txt" />
+    <None Remove="Resources\Help.EditModule.txt" />
+    <None Remove="Resources\Help.General.txt" />
+    <None Remove="Resources\Help.GuiModule.txt" />
+    <None Remove="Resources\Help.InitModule.txt" />
+    <None Remove="Resources\Help.InstallPSAutocompleteModule.txt" />
+    <None Remove="Resources\Help.Md2HtmlModule.txt" />
+    <None Remove="Resources\Help.PagegenModule.txt" />
+    <None Remove="Resources\Help.PreviewModule.txt" />
+    <None Remove="Resources\Help.ServeModule.txt" />
+    <None Remove="Resources\Help.SettingsModule.txt" />
+    <None Remove="Resources\Help.StatModule.txt" />
+    <None Remove="Resources\Help.VersionModule.txt" />
+    <None Remove="Resources\HelpCompressModule.txt" />
+    <None Remove="Resources\HelpEditModule.txt" />
+    <None Remove="Resources\ReplaceContents.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.24.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
+    <PackageReference Include="Node.js.redist" Version="14.2.0" />
+    <PackageReference Include="SkiaSharp" Version="2.80.2" />
+    <PackageReference Include="Svg.Skia" Version="0.5.3" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="5.0.0" />
+    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConsoleUi\HelpView.xml" />
+    <EmbeddedResource Include="ConsoleUi\InitializeView.xml" />
+    <EmbeddedResource Include="ConsoleUi\MainView.xml" />
+    <EmbeddedResource Include="Resources\Help.ChaptersModule.txt" />
+    <EmbeddedResource Include="Resources\Help.ConfigHelpModule.txt" />
+    <EmbeddedResource Include="Resources\Error404.html" />
+    <EmbeddedResource Include="Resources\Help.AssemblyDocumentModule.txt" />
+    <EmbeddedResource Include="Resources\Help.BuildModule.txt" />
+    <EmbeddedResource Include="Resources\Help.EditModule.txt" />
+    <EmbeddedResource Include="Resources\Help.General.txt" />
+    <EmbeddedResource Include="Resources\Help.GuiModule.txt" />
+    <EmbeddedResource Include="Resources\Help.InitModule.txt" />
+    <EmbeddedResource Include="Resources\Help.Md2HtmlModule.txt" />
+    <EmbeddedResource Include="Resources\Help.PagegenModule.txt" />
+    <EmbeddedResource Include="Resources\Help.PreviewModule.txt" />
+    <EmbeddedResource Include="Resources\Help.ServeModule.txt" />
+    <EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
+    <EmbeddedResource Include="Resources\Help.StatModule.txt" />
+    <EmbeddedResource Include="Resources\Help.VersionModule.txt" />
+    <EmbeddedResource Include="Resources\HelpCompressModule.txt" />
+    <EmbeddedResource Include="Resources\HelpEditModule.txt" />
+    <EmbeddedResource Include="Resources\ReplaceContents.bat" />
     <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
-		<ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
-		<ProjectReference Include="..\BookGen.Gui\BookGen.Ui.csproj" />
-		<ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
-		<ProjectReference Include="..\HttpServerFramework\Source\Webmaster442.HttpServerFramework.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="BookGen">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="BookGen.cmd">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-	<ItemGroup>
-		<AssemblyAttribute Include="BookGen.AssemblyBuildDateAttribute">
-			<_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>
-	<ItemGroup>
-	  <Resource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
-	</ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+    <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
+    <ProjectReference Include="..\BookGen.Gui\BookGen.Ui.csproj" />
+    <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
+    <ProjectReference Include="..\HttpServerFramework\Source\Webmaster442.HttpServerFramework.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="BookGen">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BookGen.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="BookGen.AssemblyBuildDateAttribute">
+      <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
+  </ItemGroup>
 </Project>
