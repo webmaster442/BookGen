@@ -3,16 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Modules;
 using BookGen.Ui.Mvvm;
 using BookGen.Utilities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BookGen.ConsoleUi
 {
-    public class HelpViewModel : ViewModelBase
+    internal class HelpViewModel : ViewModelBase
     {
         private int _selectedIndex;
+        private readonly Dictionary<string, string> _commandTable;
 
         public List<string> AvailableCommands { get; }
 
@@ -23,26 +24,32 @@ namespace BookGen.ConsoleUi
             {
                 _selectedIndex = value;
                 UpdateText(value);
-                Notify(nameof(CommandText));
             }
         }
 
-        public DelegateCommand BackCommand { get; }
-
         public string CommandText { get; set; }
 
-        public HelpViewModel(IEnumerable<string> commands)
+        public HelpViewModel(IEnumerable<Framework.ModuleBase> modules)
         {
-            BackCommand = new DelegateCommand(() => View?.SwitchToView(GuiModule.MainView));
+
             CommandText = string.Empty;
-            AvailableCommands = new List<string>(commands);
+
+            _commandTable = modules.ToDictionary(module => module.ModuleCommand,
+                                                  module => module.GetType().Name);
+
+            AvailableCommands = modules
+                                    .Select(module => module.ModuleCommand)
+                                    .ToList();
+
             SelectedIndex = 0;
+
         }
 
         private void UpdateText(int value)
         {
-            var moduleName = AvailableCommands[value];
-            CommandText = HelpUtils.GetHelpForModule(moduleName);
+            string moduleName = AvailableCommands[value];
+            CommandText = HelpUtils.GetHelpForModule(_commandTable[moduleName]);
+            View?.UpdateViewFromModel();
         }
     }
 }
