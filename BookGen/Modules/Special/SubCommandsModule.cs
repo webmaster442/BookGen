@@ -32,7 +32,7 @@ namespace BookGen.Modules.Special
 
         public override string GetHelp()
         {
-            return string.Empty;
+            return "List available subcommands";
         }
     }
 }

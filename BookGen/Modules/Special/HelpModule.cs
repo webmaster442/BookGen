@@ -44,7 +44,7 @@ namespace BookGen.Modules.Special
 
         public override string GetHelp()
         {
-            return string.Empty;
+            return "Displays help for a given subcommand";
         }
     }
 }

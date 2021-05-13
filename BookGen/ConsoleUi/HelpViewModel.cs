@@ -13,7 +13,7 @@ namespace BookGen.ConsoleUi
     internal class HelpViewModel : ViewModelBase
     {
         private int _selectedIndex;
-        private readonly Dictionary<string, string> _commandTable;
+        private List<Framework.ModuleBase> _modules;
 
         public List<string> AvailableCommands { get; }
 
@@ -33,9 +33,7 @@ namespace BookGen.ConsoleUi
         {
 
             CommandText = string.Empty;
-
-            _commandTable = modules.ToDictionary(module => module.ModuleCommand,
-                                                  module => module.GetType().Name);
+            _modules = new List<Framework.ModuleBase>(modules);
 
             AvailableCommands = modules
                                     .Select(module => module.ModuleCommand)
@@ -48,7 +46,9 @@ namespace BookGen.ConsoleUi
         private void UpdateText(int value)
         {
             string moduleName = AvailableCommands[value];
-            CommandText = HelpUtils.GetHelpForModule(_commandTable[moduleName]);
+            CommandText = _modules
+                .Find(module => module.ModuleCommand == moduleName)
+                ?.GetHelp() ?? string.Empty;
             View?.UpdateViewFromModel();
         }
     }

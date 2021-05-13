@@ -19,5 +19,10 @@ namespace BookGen.Modules.Special
             Console.WriteLine("Config API version: {0}", Program.CurrentState.ProgramVersion);
             return true;
         }
+
+        public override string GetHelp()
+        {
+            return "Print program version";
+        }
     }
 }
