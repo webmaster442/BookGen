@@ -10,15 +10,19 @@ namespace BookGen.Ui.XmlEntities
     public record XListBox : XView
     {
         [XmlAttribute]
+        public string Title { get; set; }
+
+        [XmlAttribute]
         public string ItemSourceProperty { get; set; }
 
         [XmlAttribute]
-        public int SelectedIndex { get; set; }
+        public string SelectedIndex { get; set; }
 
         public XListBox()
         {
+            Title = string.Empty;
             ItemSourceProperty = string.Empty;
-            SelectedIndex = -1;
+            SelectedIndex = "-1";
         }
     }
 }
