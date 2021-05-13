@@ -12,5 +12,6 @@ namespace BookGen.Ui.Mvvm
         void ExitApp();
         void UpdateBindingsToModel();
         void SwitchToView(string name);
+        void UpdateViewFromModel();
     }
 }

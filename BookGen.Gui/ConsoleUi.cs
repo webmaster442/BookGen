@@ -95,7 +95,12 @@ namespace BookGen.Ui
 
         public void UpdateBindingsToModel()
         {
-            _binder?.Update();
+            _binder?.UpdateToModel();
+        }
+
+        public void UpdateViewFromModel()
+        {
+            _binder?.UpdateFromModel();
         }
 
         private XWindow? DeserializeXmlView(Stream view)

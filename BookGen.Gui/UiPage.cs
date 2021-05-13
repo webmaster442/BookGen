@@ -21,7 +21,7 @@ namespace BookGen.Ui
             Render(window);
         }
 
-        private static void SetWidth(View view, XView xView)
+        public static void SetWidth(View view, XView xView)
         {
             if (xView.WidthHandling == WidthHandling.Auto
                 || float.IsNaN(xView.Width))
@@ -48,12 +48,7 @@ namespace BookGen.Ui
             Height = Dim.Fill();
             Title = window.Title;
 
-            RenderInternal(window);
-        }
-
-        private void RenderInternal(XChildContainer container)
-        {
-            foreach (var child in container.Children)
+            foreach (var child in window.Children)
             {
                 switch (child)
                 {
@@ -72,11 +67,19 @@ namespace BookGen.Ui
                     case XCheckBox checkBox:
                         RenderCheckBox(checkBox);
                         break;
+                    case XSPlitView sPlitView:
+                        RenderSplitView(sPlitView);
+                        break;
                     default:
                         throw new InvalidOperationException($"Unknown node type: {child.GetType().Name}");
                 }
                 ++_rowCounter;
             }
+        }
+
+        private void RenderSplitView(XSPlitView sPlitView)
+        {
+            Add(new SplitView(sPlitView, _binder, _rowCounter));
         }
 
         private void RenderButton(XButton button)
@@ -147,7 +150,7 @@ namespace BookGen.Ui
             if (Binder.IsBindable(checkBox.IsChecked))
             {
                 result.Checked = _binder.GetBindedBool(checkBox.IsChecked);
-                _binder.Register(checkBox, result);
+                _binder.Register(checkBox, result, typeof(bool));
             }
             SetWidth(result, checkBox);
             Add(result);
