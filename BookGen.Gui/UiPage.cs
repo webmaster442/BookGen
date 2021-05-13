@@ -23,25 +23,22 @@ namespace BookGen.Ui
 
         private static void SetWidth(View view, XView xView)
         {
-            if (xView.WidthHandling == null
-                || xView.WidthHandling  == WidthHandling.Auto)
+            if (xView.WidthHandling == WidthHandling.Auto
+                || float.IsNaN(xView.Width))
             {
                 return;
             }
 
-            if (xView.Width.HasValue)
+            switch (xView.WidthHandling)
             {
-                switch (xView.WidthHandling)
-                {
-                    case WidthHandling.Percent:
-                        view.Width = Dim.Percent(xView.Width.Value);
-                        break;
-                    case WidthHandling.Columns:
-                        view.Width = (int)Math.Ceiling(xView.Width.Value);
-                        break;
-                    default:
-                        return;
-                }
+                case WidthHandling.Percent:
+                    view.Width = Dim.Percent(xView.Width);
+                    break;
+                case WidthHandling.Columns:
+                    view.Width = (int)Math.Ceiling(xView.Width);
+                    break;
+                default:
+                    return;
             }
         }
 

@@ -13,9 +13,15 @@ namespace BookGen.Ui.XmlEntities
         public int Left { get; set; }
         
         [XmlAttribute]
-        public WidthHandling? WidthHandling { get; set; }
+        public WidthHandling WidthHandling { get; set; }
         
         [XmlAttribute]
-        public float? Width { get; set; }
+        public float Width { get; set; }
+
+        public XView()
+        {
+            Width = float.NaN;
+            WidthHandling = WidthHandling.Auto;
+        }
     }
 }

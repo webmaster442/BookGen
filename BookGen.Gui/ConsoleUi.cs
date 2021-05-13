@@ -36,6 +36,28 @@ namespace BookGen.Ui
             }
         }
 
+        public event Func<string, (Stream view, ViewModelBase model)>? OnNavigaton;
+
+        public void SwitchToView(string name)
+        {
+            if (OnNavigaton!= null)
+            {
+                (Stream view, ViewModelBase model)? result = OnNavigaton?.Invoke(name);
+                if (_window != null)
+                {
+                    _window.Dispose();
+                    _binder = null;
+                    _window = null;
+                }
+                if (result != null)
+                {
+                    Run(result.Value.view, result.Value.model);
+                }
+
+            }
+        }
+
+
         public void SuspendUi()
         {
             if (Application.Top?.Running == true)
@@ -67,6 +89,8 @@ namespace BookGen.Ui
         public void ExitApp()
         {
             SuspendUi();
+            Dispose();
+            Environment.Exit(0);
         }
 
         public void UpdateBindingsToModel()

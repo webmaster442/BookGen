@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -11,5 +11,6 @@ namespace BookGen.Ui.Mvvm
         void ResumeUi();
         void ExitApp();
         void UpdateBindingsToModel();
+        void SwitchToView(string name);
     }
 }

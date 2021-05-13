@@ -42,6 +42,7 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
+		<None Remove="ConsoleUi\HelpView.xml" />
 		<None Remove="ConsoleUi\InitializeView.xml" />
 		<None Remove="ConsoleUi\MainView.xml" />
 		<None Remove="Resources\Help.AssemblyDocumentModule.txt" />
@@ -79,6 +80,7 @@
 		<PackageReference Include="System.Text.Json" Version="5.0.2" />
 	</ItemGroup>
 	<ItemGroup>
+		<EmbeddedResource Include="ConsoleUi\HelpView.xml" />
 		<EmbeddedResource Include="ConsoleUi\InitializeView.xml" />
 		<EmbeddedResource Include="ConsoleUi\MainView.xml" />
 		<EmbeddedResource Include="Resources\Help.ChaptersModule.txt" />

@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Modules;
 using BookGen.Ui.Mvvm;
 
 namespace BookGen.ConsoleUi
@@ -36,7 +37,7 @@ namespace BookGen.ConsoleUi
             BuildPrintCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoPrint()));
             BuildEpubCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoEpub()));
             BuildWordpressCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoWordpress()));
-            HelpCommand = new DelegateCommand(this, () => _runner.RunHelp());
+            HelpCommand = new DelegateCommand(this, () => View?.SwitchToView(GuiModule.HelpView));
             ExitCommand = new DelegateCommand(() => View?.ExitApp());
         }
     }

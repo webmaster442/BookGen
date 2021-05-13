@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Modules;
 using BookGen.Ui.Mvvm;
 using BookGen.Utilities;
 using System.Collections.Generic;
@@ -26,10 +27,13 @@ namespace BookGen.ConsoleUi
             }
         }
 
+        public DelegateCommand BackCommand { get; }
+
         public string CommandText { get; set; }
 
         public HelpViewModel(IEnumerable<string> commands)
         {
+            BackCommand = new DelegateCommand(() => View?.SwitchToView(GuiModule.MainView));
             CommandText = string.Empty;
             AvailableCommands = new List<string>(commands);
             SelectedIndex = 0;
