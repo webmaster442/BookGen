@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XWindow
+  Title="BookGen Help"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Children>
+    <XButton
+      Text ="Back to previous menu"
+      Left="2"
+      Command="{BackCommand}"/>
+    <XSPlitView>
+      <XListBox
+        WidthHandling="Percent"
+        Width="30"
+        SelectedIndex="{SelectedIndex}"
+        ItemSourceProperty="{AvailableCommands}"/>
+      <XTextBox
+        WidthHandling="Percent"
+        Width="70"
+        Text="{CommandText}" />
+    </XSPlitView>
+  </Children>
+</XWindow>
