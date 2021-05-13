@@ -11,5 +11,11 @@ namespace BookGen.Ui.XmlEntities
     {
         [XmlAttribute]
         public int Left { get; set; }
+        
+        [XmlAttribute]
+        public WidthHandling? WidthHandling { get; set; }
+        
+        [XmlAttribute]
+        public float? Width { get; set; }
     }
 }
