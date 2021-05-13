@@ -21,13 +21,42 @@ namespace BookGen.Ui
             Render(window);
         }
 
+        private static void SetWidth(View view, XView xView)
+        {
+            if (xView.WidthHandling == null
+                || xView.WidthHandling  == WidthHandling.Auto)
+            {
+                return;
+            }
+
+            if (xView.Width.HasValue)
+            {
+                switch (xView.WidthHandling)
+                {
+                    case WidthHandling.Percent:
+                        view.Width = Dim.Percent(xView.Width.Value);
+                        break;
+                    case WidthHandling.Columns:
+                        view.Width = (int)Math.Ceiling(xView.Width.Value);
+                        break;
+                    default:
+                        return;
+                }
+            }
+        }
+
         private void Render(XWindow window)
         {
             Width = Dim.Fill();
             Height = Dim.Fill();
             Title = window.Title;
 
-            foreach (var child in window.Children)
+            RenderInternal(window);
+        }
+
+        private void RenderInternal(XChildContainer container)
+        {
+            foreach (var child in container.Children)
             {
                 switch (child)
                 {
@@ -65,6 +94,7 @@ namespace BookGen.Ui
                 var act = _binder.BindCommand(button.Command);
                 result.Clicked += act;
             }
+            SetWidth(result, button);
             Add(result);
         }
 
@@ -75,11 +105,14 @@ namespace BookGen.Ui
             if (Binder.IsBindable(text))
                 text = _binder.GetBindedText(text);
 
-            Add(new Label(text)
+
+            var result = new Label(text)
             {
                 X = Pos.Left(this) + label.Left,
                 Y = Pos.Top(this) + _rowCounter,
-            });
+            };
+            SetWidth(result, label);
+            Add(result);
         }
 
         private void RenderTextBlock(XTextBlock textBlock)
@@ -94,6 +127,7 @@ namespace BookGen.Ui
                     X = Pos.Left(this) + textBlock.Left,
                     Y = Pos.Top(this) + row,
                 };
+                SetWidth(label, textBlock);
                 Add(label);
                 ++row;
             }
@@ -118,7 +152,7 @@ namespace BookGen.Ui
                 result.Checked = _binder.GetBindedBool(checkBox.IsChecked);
                 _binder.Register(checkBox, result);
             }
-
+            SetWidth(result, checkBox);
             Add(result);
         }
 
