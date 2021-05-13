@@ -56,13 +56,13 @@
 		<None Remove="Resources\Help.InstallPSAutocompleteModule.txt" />
 		<None Remove="Resources\Help.Md2HtmlModule.txt" />
 		<None Remove="Resources\Help.PagegenModule.txt" />
+		<None Remove="Resources\Help.PreviewModule.txt" />
 		<None Remove="Resources\Help.ServeModule.txt" />
 		<None Remove="Resources\Help.SettingsModule.txt" />
 		<None Remove="Resources\Help.StatModule.txt" />
 		<None Remove="Resources\Help.VersionModule.txt" />
 		<None Remove="Resources\HelpCompressModule.txt" />
 		<None Remove="Resources\HelpEditModule.txt" />
-		<None Remove="Resources\HelpPreview.txt" />
 		<None Remove="Resources\ReplaceContents.bat" />
 	</ItemGroup>
 	<ItemGroup>
@@ -94,13 +94,13 @@
 		<EmbeddedResource Include="Resources\Help.InitModule.txt" />
 		<EmbeddedResource Include="Resources\Help.Md2HtmlModule.txt" />
 		<EmbeddedResource Include="Resources\Help.PagegenModule.txt" />
+		<EmbeddedResource Include="Resources\Help.PreviewModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ServeModule.txt" />
 		<EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
 		<EmbeddedResource Include="Resources\Help.StatModule.txt" />
 		<EmbeddedResource Include="Resources\Help.VersionModule.txt" />
 		<EmbeddedResource Include="Resources\HelpCompressModule.txt" />
 		<EmbeddedResource Include="Resources\HelpEditModule.txt" />
-		<EmbeddedResource Include="Resources\HelpPreview.txt" />
 		<EmbeddedResource Include="Resources\ReplaceContents.bat" />
     <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
 	</ItemGroup>

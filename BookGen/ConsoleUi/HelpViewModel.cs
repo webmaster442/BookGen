@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Modules;
 using BookGen.Ui.Mvvm;
 using BookGen.Utilities;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ namespace BookGen.ConsoleUi
     internal class HelpViewModel : ViewModelBase
     {
         private int _selectedIndex;
-        private List<Framework.ModuleBase> _modules;
+        private readonly List<Framework.ModuleBase> _modules;
+        private const string back = "<-- Back to previous menu";
 
         public List<string> AvailableCommands { get; }
 
@@ -39,6 +41,8 @@ namespace BookGen.ConsoleUi
                                     .Select(module => module.ModuleCommand)
                                     .ToList();
 
+            AvailableCommands.Add(back);
+
             SelectedIndex = 0;
 
         }
@@ -46,6 +50,12 @@ namespace BookGen.ConsoleUi
         private void UpdateText(int value)
         {
             string moduleName = AvailableCommands[value];
+
+            if (moduleName == back)
+            {
+                View?.SwitchToView(GuiModule.MainView);
+            }
+
             CommandText = _modules
                 .Find(module => module.ModuleCommand == moduleName)
                 ?.GetHelp() ?? string.Empty;
