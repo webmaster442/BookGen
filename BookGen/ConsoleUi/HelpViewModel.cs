@@ -5,7 +5,6 @@
 
 using BookGen.Modules;
 using BookGen.Ui.Mvvm;
-using BookGen.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 

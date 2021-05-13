@@ -5,21 +5,18 @@
 
 using BookGen.Ui.XmlEntities;
 using System;
-using System.Collections.Generic;
 using Terminal.Gui;
 
 namespace BookGen.Ui
 {
     internal class SplitView : View
     {
-        private int _rowCounter;
         private Pos _left = 0;
-        private Binder _binder;
+        private readonly Binder _binder;
 
         public SplitView(XSPlitView xSPlitView, Binder binder, int startRow)
         {
             _binder = binder;
-            _rowCounter = startRow;
             Render(xSPlitView);
             Width = Dim.Fill();
             Y = startRow;
@@ -41,7 +38,6 @@ namespace BookGen.Ui
                     default:
                         throw new InvalidOperationException();
                 }
-                ++_rowCounter;
             }
         }
 
@@ -56,7 +52,7 @@ namespace BookGen.Ui
             {
                 Width = Dim.Fill(),
                 Height = Dim.Fill(),
-                CanFocus = !textBox.IsReadonly,
+                ReadOnly = textBox.IsReadonly
             };
 
             if (Binder.IsBindable(textBox.Text))
