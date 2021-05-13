@@ -11,9 +11,6 @@ namespace BookGen.Ui.XmlEntities
     public record XSPlitView: XView
     {
         [XmlArray]
-        public List<int> DivideRatios { get; set; }
-
-        [XmlArray]
         [XmlArrayItem(nameof(XLabel), typeof(XLabel))]
         [XmlArrayItem(nameof(XButton), typeof(XButton))]
         [XmlArrayItem(nameof(XSpacer), typeof(XSpacer))]
@@ -25,7 +22,6 @@ namespace BookGen.Ui.XmlEntities
 
         public XSPlitView()
         {
-            DivideRatios = new List<int>(0);
             Children = new List<XView>();
         }
     }
