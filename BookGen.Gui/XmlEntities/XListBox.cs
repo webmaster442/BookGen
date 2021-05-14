@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2021 Ruzsinszki Gábor
+// (c) 2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,21 +7,22 @@ using System.Xml.Serialization;
 
 namespace BookGen.Ui.XmlEntities
 {
-    public abstract record XView
+    public record XListBox : XView
     {
         [XmlAttribute]
-        public int Left { get; set; }
-        
-        [XmlAttribute]
-        public WidthHandling WidthHandling { get; set; }
-        
-        [XmlAttribute]
-        public float Width { get; set; }
+        public string Title { get; set; }
 
-        public XView()
+        [XmlAttribute]
+        public string ItemSourceProperty { get; set; }
+
+        [XmlAttribute]
+        public string SelectedIndex { get; set; }
+
+        public XListBox()
         {
-            Width = float.NaN;
-            WidthHandling = WidthHandling.Auto;
+            Title = string.Empty;
+            ItemSourceProperty = string.Empty;
+            SelectedIndex = "-1";
         }
     }
 }

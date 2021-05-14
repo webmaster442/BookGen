@@ -6,7 +6,6 @@
 using BookGen.Ui.Mvvm;
 using BookGen.Ui.XmlEntities;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using Terminal.Gui;
@@ -15,25 +14,19 @@ namespace BookGen.Ui
 {
     public sealed class ConsoleUi: IView, IDisposable
     {
-        private UiElementFactory? _elementFactory;
         private Window? _window;
         private Binder? _binder;
-        private readonly List<IDisposable> _disposables;
-
-        public ConsoleUi()
-        {
-            _disposables = new List<IDisposable>();
-        }
 
         public void Run(Stream view, ViewModelBase model)
         {
+#pragma warning disable S2696 // Instance members should not write to "static" fields
             Application.UseSystemConsole = false;
+#pragma warning restore S2696 // Instance members should not write to "static" fields
             _binder = new Binder(model);
-            _elementFactory = new UiElementFactory(_binder);
             XWindow? deserialized = DeserializeXmlView(view);
             if (deserialized != null)
             {
-                _window = ParseDeserialized(deserialized);
+                _window = new UiPage(deserialized, _binder);
                 model.InjectView(this);
                 ResumeUi();
             }
@@ -42,6 +35,28 @@ namespace BookGen.Ui
                 throw new InvalidOperationException("View load error");
             }
         }
+
+        public event Func<string, (Stream view, ViewModelBase model)>? OnNavigaton;
+
+        public void SwitchToView(string name)
+        {
+            if (OnNavigaton!= null)
+            {
+                (Stream view, ViewModelBase model)? result = OnNavigaton?.Invoke(name);
+                if (_window != null)
+                {
+                    _window.Dispose();
+                    _binder = null;
+                    _window = null;
+                }
+                if (result != null)
+                {
+                    Run(result.Value.view, result.Value.model);
+                }
+
+            }
+        }
+
 
         public void SuspendUi()
         {
@@ -74,11 +89,18 @@ namespace BookGen.Ui
         public void ExitApp()
         {
             SuspendUi();
+            Dispose();
+            Environment.Exit(0);
         }
 
         public void UpdateBindingsToModel()
         {
-            _binder?.Update();
+            _binder?.UpdateToModel();
+        }
+
+        public void UpdateViewFromModel()
+        {
+            _binder?.UpdateFromModel();
         }
 
         private XWindow? DeserializeXmlView(Stream view)
@@ -87,64 +109,12 @@ namespace BookGen.Ui
             return xs.Deserialize(view) as XWindow;
         }
 
-        private Window ParseDeserialized(XWindow deserialized)
-        {
-            Window root = new Window(deserialized.Title ?? "")
-            {
-                Width = Dim.Fill(),
-                Height = Dim.Fill()
-            };
-
-            _disposables.Add(root);
-
-            int row = 1;
-
-            foreach (var child in deserialized.Children)
-            {
-                View? rendered = null;
-                if (child is XSpacer spacer)
-                {
-                    row += spacer.Rows;
-                }
-                else if (child is XTextBlock textBlock)
-                {
-                    _elementFactory?.RenderTextBlock(textBlock, root, _disposables, ref row);
-                }
-                else
-                {
-                    rendered = RenderSimple(child, root, row);
-                    if (rendered != null)
-                    {
-                        _disposables.Add(rendered);
-                        root.Add(rendered);
-                        ++row;
-                    }
-                }
-            }
-
-            return root;
-        }
-
-        private View? RenderSimple(XView child, Window root, int row)
-        {
-            switch (child)
-            {
-                case XButton button:
-                    return _elementFactory?.CreateButton(button, root, row);
-                case XLabel label:
-                    return _elementFactory?.CreateLabel(label, root, row);
-                case XCheckBox checkBox:
-                    return _elementFactory?.CreateCheckBox(checkBox, root, row);
-                default:
-                    throw new InvalidOperationException($"Unknown node type: {child.GetType().Name}");
-            }
-        }
-
         public void Dispose()
         {
-            foreach (var disposable in _disposables)
+            if (_window != null)
             {
-                disposable.Dispose();
+                _window.Dispose();
+                _window = null;
             }
         }
     }

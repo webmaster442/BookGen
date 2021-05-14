@@ -4,17 +4,23 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.ConsoleUi;
+using BookGen.Contracts;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BookGen.Modules
 {
-    internal sealed class GuiModule : ModuleWithState, IDisposable
+    internal sealed class GuiModule : ModuleWithState, IDisposable, IModuleCollection
     {
-        private Ui.ConsoleUi uiRunner;
+        private Ui.ConsoleUi? uiRunner;
+
+        public const string MainView = "BookGen.ConsoleUi.MainView.xml";
+        public const string HelpView = "BookGen.ConsoleUi.HelpView.xml";
 
         public GuiModule(ProgramState currentState) : base(currentState)
         {
@@ -35,6 +41,8 @@ namespace BookGen.Modules
             }
         }
 
+        public IEnumerable<ModuleBase>? Modules { get; set; }
+
         public override bool Execute(string[] arguments)
         {
 
@@ -51,16 +59,42 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(args.Directory))
             {
-                System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.MainView.xml");
-                var vm = new MainViewModel(CurrentState.GeneratorRunner);
-
-                if (Ui != null)
+                if (uiRunner != null)
                 {
-                    uiRunner.Run(Ui, vm);
+
+                    uiRunner.OnNavigaton += UiRunner_OnNavigaton;
+                    var (view, model) = UiRunner_OnNavigaton(MainView);
+                    uiRunner?.Run(view, model);
                     return true;
                 }
             }
             return false;
+        }
+
+        private System.IO.Stream GetView(string name)
+        {
+            System.IO.Stream? result = typeof(GuiModule).Assembly.GetManifestResourceStream(name);
+            if (result != null)
+            {
+                return result;
+            }
+            throw new InvalidOperationException($"Can't find view: {name}");
+        }
+
+        private (System.IO.Stream view, Ui.Mvvm.ViewModelBase model) UiRunner_OnNavigaton(string arg)
+        {
+            if (arg == MainView 
+                && CurrentState.GeneratorRunner != null)
+            {
+                var vm = new MainViewModel(CurrentState.GeneratorRunner);
+                return (GetView(MainView), vm);
+            }
+            else if (arg == HelpView)
+            {
+                var helpvm = new HelpViewModel(Modules);
+                return (GetView(HelpView), helpvm);
+            }
+            throw new InvalidOperationException($"Can't find view: {arg}");
         }
 
         public override void Abort()
@@ -75,7 +109,7 @@ namespace BookGen.Modules
                 uiRunner.Dispose();
                 uiRunner = null;
             }
-            
+
         }
     }
 }

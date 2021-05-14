@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XWindow
+  Title="BookGen Help"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Children>
+    <XSPlitView>
+      <Children>
+        <XListBox
+          Title="Navigation:"
+          WidthHandling="Percent"
+          SelectedIndex="{SelectedIndex}"
+          Width="30.0"
+          ItemSourceProperty="{AvailableCommands}"/>
+        <XTextBox
+          IsReadonly="true"
+          WidthHandling="Percent"
+          Width="70.0"
+          Text="{CommandText}" />
+      </Children>
+    </XSPlitView>
+  </Children>
+</XWindow>

@@ -1,0 +1,12 @@
+﻿Launch a browser that allows markdown file previewing
+-------------------------------------------------------------------------------
+
+    BookGen preview {-v} {-d [directory]}
+    BookGen preview {--verbose} {--dir [directory]}
+
+  Arguments:
+    -d, --dir:
+        Optional argument. Specifies work directory. If not specified, then
+        the current directory will be used as working directory.
+    -v, --verbose: 
+        Optional argument, turns on detailed logging. Usefull for locating issues

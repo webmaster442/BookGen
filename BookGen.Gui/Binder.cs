@@ -6,6 +6,7 @@
 using BookGen.Ui.Mvvm;
 using BookGen.Ui.XmlEntities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,13 +20,13 @@ namespace BookGen.Ui
         private static readonly Regex _propertyRegex = new Regex("\\{[a-zA-Z0-9]+\\}", RegexOptions.Compiled);
         private readonly Type _modelType;
 
-        private readonly List<(XView xmlEntity, View rendered)> _table;
+        private readonly List<(XView xmlEntity, View rendered, Type type)> _table;
 
         public Binder(object model)
         {
             _model = model;
             _modelType = model.GetType();
-            _table = new List<(XView xmlEntity, View rendered)>();
+            _table = new List<(XView xmlEntity, View rendered, Type type)>();
         }
 
         public Action? BindCommand(string bindingExpression)
@@ -56,6 +57,18 @@ namespace BookGen.Ui
 
         }
 
+        private T? GetPropertyValue<T>(string bindingExpression) where T: class
+        {
+            var property = GetPropertyName(bindingExpression);
+            if (_propertyRegex.IsMatch(property))
+                return default;
+
+            var reflected = _modelType.GetProperty(property);
+
+            return reflected?.GetValue(_model) as T;
+
+        }
+
         public static bool IsBindable(string expression)
         {
             return _propertyRegex.IsMatch(expression);
@@ -78,14 +91,46 @@ namespace BookGen.Ui
             return Convert.ToBoolean(value);
         }
 
-        public void Register(XView xmlEntity, View rendered)
+        internal IList GetList(string itemSourceProperty)
         {
-            _table.Add((xmlEntity, rendered));
+            var result = GetPropertyValue<IList>(itemSourceProperty);
+            return result ?? new ArrayList();
         }
 
-        public void Update()
+        public void Register(XView xmlEntity, View rendered, Type t)
         {
-            foreach (var (xmlEntity, rendered) in _table)
+            _table.Add((xmlEntity, rendered, t));
+        }
+
+        public void UpdateFromModel()
+        {
+            foreach (var (xmlEntity, rendered, type) in _table)
+            {
+                switch (xmlEntity)
+                {
+                    case XCheckBox checkBox:
+                        if (IsBindable(checkBox.IsChecked)
+                            && rendered is CheckBox checkBoxRender
+                            && type== typeof(bool))
+                        {
+                            checkBoxRender.Checked = GetBindedBool(checkBox.IsChecked);
+                        }
+                        break;
+                    case XTextBox textBox:
+                        if (IsBindable(textBox.Text)
+                            && rendered is TextView textView
+                            && type == typeof(string))
+                        {
+                            textView.Text = GetBindedText(textBox.Text);
+                        }
+                        break;
+                }
+            }
+        }
+
+        public void UpdateToModel()
+        {
+            foreach (var (xmlEntity, rendered, type) in _table)
             {
                 switch (xmlEntity)
                 {
@@ -97,6 +142,15 @@ namespace BookGen.Ui
                             var property = GetPropertyName(checkBox.IsChecked);
                             _modelType.GetProperty(property)?.SetValue(_model, value);
 
+                        }
+                        break;
+                    case XListBox listBox:
+                        if (IsBindable(listBox.SelectedIndex)
+                            && rendered is ListView listView)
+                        {
+                            var value = listView.SelectedItem;
+                            var property = GetPropertyName(listBox.SelectedIndex);
+                            _modelType.GetProperty(property)?.SetValue(_model, value);
                         }
                         break;
                 }
