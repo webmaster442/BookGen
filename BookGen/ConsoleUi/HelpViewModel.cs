@@ -5,8 +5,10 @@
 
 using BookGen.Modules;
 using BookGen.Ui.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace BookGen.ConsoleUi
 {
@@ -55,10 +57,17 @@ namespace BookGen.ConsoleUi
                 View?.SwitchToView(GuiModule.MainView);
             }
 
-            CommandText = _modules
+            CommandText = ReformatText(moduleName);
+            View?.UpdateViewFromModel();
+        }
+
+        private string ReformatText(string moduleName)
+        {
+            var text = _modules
                 .Find(module => module.ModuleCommand == moduleName)
                 ?.GetHelp() ?? string.Empty;
-            View?.UpdateViewFromModel();
+
+            return text.Replace("  ", "");
         }
     }
 }
