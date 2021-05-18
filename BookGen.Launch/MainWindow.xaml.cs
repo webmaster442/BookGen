@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookGen.Launch.Launcher;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BookGen.Launch
 {
@@ -20,9 +10,23 @@ namespace BookGen.Launch
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const string key = "BookGen.Launcher";
+        private readonly RegistryAdapter _registryAdapter;
+        private readonly Launcher.Launcher _launcher;
+
+        private ObservableCollection<string> RecentFiles { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            _launcher = new();
+            _registryAdapter = new(key);
+            RecentFiles = new(_registryAdapter.GetRecentDirectoryList());
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            _registryAdapter.SaveRecentDirectoryList(RecentFiles);
         }
     }
 }
