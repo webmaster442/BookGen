@@ -2,7 +2,55 @@
     x:Class="BookGen.Launch.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:BookGen.Launch"
     ShutdownMode="OnMainWindowClose"
     StartupUri="MainWindow.xaml">
-    <Application.Resources />
+    <Application.Resources>
+        <Style
+            x:Key="Tile"
+            TargetType="Button">
+            <Setter Property="Background" Value="{Binding Source={local:TileColorProvider}, Path=Brush}" />
+            <Setter Property="Width" Value="205" />
+            <Setter Property="Height" Value="100" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        </Style>
+
+        <Style
+            x:Key="ToggleTile"
+            TargetType="ToggleButton">
+            <Setter Property="Background" Value="{Binding Source={local:TileColorProvider}, Path=Brush}" />
+            <Setter Property="Width" Value="205" />
+            <Setter Property="Height" Value="100" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        </Style>
+
+        <Style
+            x:Key="TileText"
+            TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect
+                        BlurRadius="0"
+                        ShadowDepth="1" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="MaxWidth" Value="190" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+        <Style
+            x:Key="Title"
+            TargetType="TextBlock">
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+        </Style>
+    </Application.Resources>
 </Application>

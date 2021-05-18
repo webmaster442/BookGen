@@ -21,7 +21,18 @@ namespace BookGen.Launch
             InitializeComponent();
             _launcher = new();
             _registryAdapter = new(key);
-            RecentFiles = new(_registryAdapter.GetRecentDirectoryList());
+            RecentFiles = new ObservableCollection<string>(new[]
+{
+                    "c:\\test",
+                    "d:\\test\\book",
+                    "e:\\aafw\\wfwfg\\ee",
+                    "e:\\aafw\\wfwfg\\ee",
+                    "e:\\aafw\\wfwfg\\ee",
+                    "e:\\aafw\\wfwfg\\ee",
+                });
+
+            //RecentFiles = new(_registryAdapter.GetRecentDirectoryList());
+            PART_Items.ItemsSource = RecentFiles;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
