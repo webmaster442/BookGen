@@ -8,6 +8,7 @@
     Width="1024"
     Height="576"
     Background="#180049"
+    WindowStyle="ToolWindow"
     Closing="Window_Closing"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -24,19 +25,74 @@
             Text="Actions &amp; Options" />
         <WrapPanel Grid.Row="1">
             <Button Style="{StaticResource Tile}">
-                <TextBlock
-                    Style="{StaticResource TileText}"
-                    Text="Open folder..." />
+                <Button.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Viewbox Child="{StaticResource IconOpen}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Style="{StaticResource TileText}"
+                            Text="Open folder..." />
+                    </Grid>
+                </Button.Content>
             </Button>
             <Button Style="{StaticResource Tile}">
-                <TextBlock
-                    Style="{StaticResource TileText}"
-                    Text="Clear Recent folder list" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Viewbox Child="{StaticResource IconRemove}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Style="{StaticResource TileText}"
+                        Text="Clear recent folder list" />
+                </Grid>
             </Button>
-            <ToggleButton Style="{StaticResource ToggleTile}">
-                <TextBlock
-                    Style="{StaticResource TileText}"
-                    Text="Use windows terminal" />
+            <ToggleButton>
+                <ToggleButton.Style>
+                    <Style
+                        BasedOn="{StaticResource ToggleTile}"
+                        TargetType="ToggleButton">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Viewbox Child="{StaticResource IconUnchecked}" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Style="{StaticResource TileText}"
+                                        Text="Use windows terminal" />
+                                </Grid>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Child="{StaticResource IconChecked}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Style="{StaticResource TileText}"
+                                                Text="Use windows terminal" />
+                                        </Grid>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
             </ToggleButton>
         </WrapPanel>
         <TextBlock
@@ -62,14 +118,9 @@
                                     <RowDefinition />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Rectangle
+                                <Viewbox
                                     Grid.Row="0"
-                                    Width="60"
-                                    Height="60"
-                                    Margin="3"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Fill="Red" />
+                                    Child="{StaticResource IconRecent}" />
                                 <TextBlock
                                     Grid.Row="1"
                                     Style="{StaticResource TileText}"
