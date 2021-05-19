@@ -70,11 +70,56 @@ namespace BookGen.Launch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Selected folder can&apos;t be located anymore. Probably it was deleted. It will be removed from the recent folders list..
+        /// </summary>
+        internal static string FolderNoLongerExists {
+            get {
+                return ResourceManager.GetString("FolderNoLongerExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a folder to start bookgen shell.
+        /// </summary>
+        internal static string FolderselectDescription {
+            get {
+                return ResourceManager.GetString("FolderselectDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No folder was selected. Application will exit..
+        /// </summary>
+        internal static string NoFolderSelected {
+            get {
+                return ResourceManager.GetString("NoFolderSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Question.
         /// </summary>
         internal static string Question {
             get {
                 return ResourceManager.GetString("Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to start shell. Application will exit..
+        /// </summary>
+        internal static string ShellScriptStartFail {
+            get {
+                return ResourceManager.GetString("ShellScriptStartFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to write start script. Application will exit..
+        /// </summary>
+        internal static string ShellScriptWriteFail {
+            get {
+                return ResourceManager.GetString("ShellScriptWriteFail", resourceCulture);
             }
         }
     }

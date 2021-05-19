@@ -62,5 +62,46 @@ namespace BookGen.Launch.Launcher
                 }
             }
         }
+
+        internal void SaveWindowsTerminal(bool value)
+        {
+            using var key = Registry.CurrentUser.CreateSubKey(_subKey);
+            if (key != null)
+            {
+                int write = value ? 1 : 0;
+                key.SetValue("WinTerminal", write, RegistryValueKind.DWord);
+            }
+        }
+
+        internal bool? GetWindowsTerminalUsage()
+        {
+            using var key = Registry.CurrentUser.OpenSubKey(_subKey);
+            if (key != null)
+            {
+                var value = key.GetValue("WinTerminal");
+                if (value != null)
+                {
+                    return (int)value == 1;
+                }
+            }
+            return null;
+        }
+
+        internal void DeleteRecentItem(string directory)
+        {
+            using var key = Registry.CurrentUser.CreateSubKey(_subKey);
+            if (key != null)
+            {
+                for (int i = 0; i < maxDirectories; i++)
+                {
+                    var dirKey = key.GetValue($"Dir{i}");
+                    if (dirKey != null
+                        && (string)dirKey == directory)
+                    {
+                        key.DeleteValue($"Dir{i}");
+                    }
+                }
+            }
+        }
     }
 }

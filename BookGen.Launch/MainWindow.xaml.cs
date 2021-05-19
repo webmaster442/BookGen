@@ -28,6 +28,7 @@ namespace BookGen.Launch
             set
             {
                 useWindowsTerminal = value;
+                _registryAdapter.SaveWindowsTerminal(value);
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(UseWindowsTerminal)));
             }
         }
@@ -37,18 +38,9 @@ namespace BookGen.Launch
             InitializeComponent();
             _launcher = new();
             _registryAdapter = new(key);
+            UseWindowsTerminal = _registryAdapter.GetWindowsTerminalUsage() ?? true;
             DataContext = this;
-            RecentFiles = new ObservableCollection<string>(new[]
-{
-                    "c:\\test",
-                    "d:\\test\\book",
-                    "e:\\aafw\\wfwfg\\ee",
-                    "e:\\aafw\\wfwfg\\ee",
-                    "e:\\aafw\\wfwfg\\ee",
-                    "e:\\aafw\\wfwfg\\ee",
-                });
-
-            //RecentFiles = new(_registryAdapter.GetRecentDirectoryList());
+            RecentFiles = new(_registryAdapter.GetRecentDirectoryList());
             PART_Items.ItemsSource = RecentFiles;
             OpenCommand = new DelegateCommand(OnOpen);
             ClearCommand = new DelegateCommand(OnClear);
@@ -61,7 +53,22 @@ namespace BookGen.Launch
 
         private void OnOpen(object obj)
         {
-            throw new NotImplementedException();
+            Launcher.Launcher.LaunchResult result;
+            if (obj is string directory && 
+                !string.IsNullOrEmpty(directory))
+            {
+                result = _launcher.Run(UseWindowsTerminal, directory);
+                if (result == Launcher.Launcher.LaunchResult.FolderNoLongerExists)
+                {
+                    _registryAdapter.DeleteRecentItem(directory);
+                    return;
+                }
+            }
+            else
+            {
+                result = _launcher.Run(UseWindowsTerminal);
+            }
+            Application.Current.Shutdown((int)result);
         }
 
         private void OnClear(object obj)
