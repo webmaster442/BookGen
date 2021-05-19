@@ -8,9 +8,9 @@
     Width="1024"
     Height="576"
     Background="#180049"
-    WindowStyle="ToolWindow"
     Closing="Window_Closing"
     WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow"
     mc:Ignorable="d">
     <Grid Margin="15">
         <Grid.RowDefinitions>
@@ -24,7 +24,9 @@
             Style="{StaticResource Title}"
             Text="Actions &amp; Options" />
         <WrapPanel Grid.Row="1">
-            <Button Style="{StaticResource Tile}">
+            <Button
+                Command="{Binding OpenCommand}"
+                Style="{StaticResource Tile}">
                 <Button.Content>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -39,7 +41,9 @@
                     </Grid>
                 </Button.Content>
             </Button>
-            <Button Style="{StaticResource Tile}">
+            <Button
+                Command="{Binding ClearCommand}"
+                Style="{StaticResource Tile}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -52,7 +56,7 @@
                         Text="Clear recent folder list" />
                 </Grid>
             </Button>
-            <ToggleButton>
+            <ToggleButton IsChecked="{Binding UseWindowsTerminal}">
                 <ToggleButton.Style>
                     <Style
                         BasedOn="{StaticResource ToggleTile}"
@@ -110,6 +114,8 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button
+                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.OpenCommand}"
+                        CommandParameter="{Binding}"
                         Style="{StaticResource Tile}"
                         ToolTip="{Binding}">
                         <Button.Content>
