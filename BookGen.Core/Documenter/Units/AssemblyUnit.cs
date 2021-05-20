@@ -27,12 +27,12 @@ namespace BookGen.Core.Documenter.Units
         {
         }
 
-        private string AssemblyName => GetChild("name").Value;
+        private string AssemblyName => GetChild("name")?.Value ?? string.Empty;
 
         /// <inheritdoc />
         public override IEnumerable<string> ToMarkdown()
         {
-            yield return $"{Href.ToAnchor()}# {this.AssemblyName}";
+            yield return $"{Href.ToAnchor()}# {AssemblyName}";
         }
     }
 }

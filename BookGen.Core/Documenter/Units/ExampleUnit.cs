@@ -39,7 +39,7 @@ namespace BookGen.Core.Documenter.Units
         /// </summary>
         /// <param name="element">The example XML element.</param>
         /// <returns>The generated Markdown.</returns>
-        internal static IEnumerable<string> ToMarkdown(XElement element) =>
+        internal static IEnumerable<string> ToMarkdown(XElement? element) =>
             element != null
                 ? new ExampleUnit(element).ToMarkdown()
                 : Enumerable.Empty<string>();

@@ -40,7 +40,7 @@ namespace BookGen.Core.Documenter.Units
         /// </summary>
         /// <param name="element">The summary XML element.</param>
         /// <returns>The generated Markdown.</returns>
-        internal static IEnumerable<string> ToMarkdown(XElement element) =>
+        internal static IEnumerable<string> ToMarkdown(XElement? element) =>
             element != null
                 ? new SummaryUnit(element).ToMarkdown()
                 : Enumerable.Empty<string>();

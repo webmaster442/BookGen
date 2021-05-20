@@ -89,7 +89,8 @@ namespace BookGen.Modules
                 var vm = new MainViewModel(CurrentState.GeneratorRunner);
                 return (GetView(MainView), vm);
             }
-            else if (arg == HelpView)
+            else if (arg == HelpView && 
+                     Modules != null)
             {
                 var helpvm = new HelpViewModel(Modules);
                 return (GetView(HelpView), helpvm);

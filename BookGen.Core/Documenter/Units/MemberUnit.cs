@@ -33,7 +33,7 @@ namespace BookGen.Core.Documenter.Units
         {
             _name = new MemberName(
                 GetAttribute("name"),
-                GetChildren("param").Select(x => x.Attribute("name").Value));
+                GetChildren("param").Select(x => x.Attribute("name")?.Value ?? string.Empty));
         }
 
         /// <summary>
@@ -145,8 +145,10 @@ namespace BookGen.Core.Documenter.Units
         private class MemberUnitComparer : IComparer<MemberUnit>
         {
             /// <inheritdoc />
-            public int Compare(MemberUnit x, MemberUnit y) =>
-                x._name.CompareTo(y._name);
+            public int Compare(MemberUnit? x, MemberUnit? y)
+            {
+                return x?._name.CompareTo(y?._name) ?? -1;
+            }
         }
     }
 }
