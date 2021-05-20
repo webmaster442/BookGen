@@ -1,4 +1,9 @@
-﻿using BookGen.Launch.Launcher;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Launch.Launcher;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

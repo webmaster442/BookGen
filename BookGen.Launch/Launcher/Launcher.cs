@@ -1,4 +1,9 @@
-﻿using BookGen.Resources;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Resources;
 using System;
 using System.IO;
 using System.Windows;

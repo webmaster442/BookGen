@@ -1,4 +1,9 @@
-﻿using Microsoft.Win32;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 
