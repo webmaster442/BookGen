@@ -1,0 +1,141 @@
+﻿<Window
+    x:Class="BookGen.Launch.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="BookGen launcher"
+    Width="1024"
+    Height="576"
+    Background="#180049"
+    Closing="Window_Closing"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Style="{StaticResource Title}"
+            Text="Actions &amp; Options" />
+        <WrapPanel Grid.Row="1">
+            <Button
+                Command="{Binding OpenCommand}"
+                Style="{StaticResource Tile}">
+                <Button.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Viewbox Child="{StaticResource IconOpen}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Style="{StaticResource TileText}"
+                            Text="Open folder..." />
+                    </Grid>
+                </Button.Content>
+            </Button>
+            <Button
+                Command="{Binding ClearCommand}"
+                Style="{StaticResource Tile}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Viewbox Child="{StaticResource IconRemove}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Style="{StaticResource TileText}"
+                        Text="Clear recent folder list" />
+                </Grid>
+            </Button>
+            <ToggleButton IsChecked="{Binding UseWindowsTerminal}">
+                <ToggleButton.Style>
+                    <Style
+                        BasedOn="{StaticResource ToggleTile}"
+                        TargetType="ToggleButton">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Viewbox Child="{StaticResource IconUnchecked}" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Style="{StaticResource TileText}"
+                                        Text="Use windows terminal" />
+                                </Grid>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Child="{StaticResource IconChecked}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Style="{StaticResource TileText}"
+                                                Text="Use windows terminal" />
+                                        </Grid>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+        </WrapPanel>
+        <TextBlock
+            Grid.Row="2"
+            Style="{StaticResource Title}"
+            Text="Recent Folders" />
+        <ItemsControl
+            x:Name="PART_Items"
+            Grid.Row="3">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button
+                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.OpenCommand}"
+                        CommandParameter="{Binding}"
+                        Style="{StaticResource Tile}"
+                        ToolTip="{Binding}">
+                        <Button.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Viewbox
+                                    Grid.Row="0"
+                                    Child="{StaticResource IconRecent}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Style="{StaticResource TileText}"
+                                    Text="{Binding}" />
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</Window>

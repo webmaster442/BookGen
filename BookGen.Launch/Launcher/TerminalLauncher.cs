@@ -8,9 +8,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 
-namespace BookGen.Launch
+namespace BookGen.Launch.Launcher
 {
-    internal class TerminalLauncher
+    internal static class TerminalLauncher
     {
         private const string WindowsTerminalCommand = "wt.exe";
         private const string Powershell = "powershell.exe";
@@ -50,9 +50,9 @@ namespace BookGen.Launch
             }
         }
 
-        public static bool Launch(string shellScript)
+        public static bool Launch(string shellScript, bool useWinTerminal)
         {
-            if (IsWindowsTerminalInstalled())
+            if (IsWindowsTerminalInstalled() && useWinTerminal)
                 return RunProgram(WindowsTerminalCommand, $"new-tab -p \"Powershell\" --title \"BookGen shell\" powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
             else
                 return RunProgram(Powershell, $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");

@@ -6,59 +6,81 @@
 using BookGen.Resources;
 using System;
 using System.IO;
-using System.Windows.Forms;
+using System.Windows;
 
-namespace BookGen.Launch
+namespace BookGen.Launch.Launcher
 {
     internal class Launcher
     {
         private readonly string _appdir;
         private string _selectedFolder;
-        private string _shellScript;
+
+        public enum LaunchResult
+        {
+            FolderNoLongerExists = 1,
+            NoFolderSelected = 2,
+            ShellScriptWriteFail = 3,
+            ShellScriptStartFail = 4,
+            Ok = 0
+        }
 
         internal Launcher()
         {
             _appdir = AppContext.BaseDirectory;
             _selectedFolder = string.Empty;
-            _shellScript = string.Empty;
         }
 
-        internal void Run()
+        private static void Message(string text, MessageBoxImage icon)
         {
-            if (!TryselectFolder(out _selectedFolder))
+            MessageBox.Show(text, icon.ToString(), MessageBoxButton.OK, icon);
+        }
+
+        internal (LaunchResult result, string Finalfolder) Run(bool useWinTerminal, string folder = "")
+        {
+            if (!string.IsNullOrEmpty(folder))
             {
-                Message("No folder was selected. Application will exit.", MessageBoxIcon.Information);
-                Environment.Exit(1);
+                if (Directory.Exists(folder))
+                {
+                    _selectedFolder = folder;
+                }
+                else
+                {
+                    Message(Properties.Resources.FolderNoLongerExists, MessageBoxImage.Information);
+                    return (LaunchResult.FolderNoLongerExists, string.Empty);
+                }
+            }
+            else if (!TryselectFolder(out _selectedFolder))
+            {
+                Message(Properties.Resources.NoFolderSelected, MessageBoxImage.Information);
+                return (LaunchResult.NoFolderSelected, string.Empty);
             }
 
+            string _shellScript;
             if (!TryCreateShellScript(out _shellScript))
             {
-                Message("Failed to write start script. Application will exit.", MessageBoxIcon.Error);
-                Environment.Exit(2);
+                Message(Properties.Resources.ShellScriptWriteFail, MessageBoxImage.Error);
+                return (LaunchResult.ShellScriptWriteFail, string.Empty);
             }
 
-            if (!TerminalLauncher.Launch(_shellScript))
+            if (!TerminalLauncher.Launch(_shellScript, useWinTerminal))
             {
-                Message("Failed to start shell. Application will exit.", MessageBoxIcon.Error);
-                Environment.Exit(3);
+                Message(Properties.Resources.ShellScriptStartFail, MessageBoxImage.Error);
+                return (LaunchResult.ShellScriptStartFail, string.Empty);
             }
-        }
 
-        private static void Message(string text, MessageBoxIcon icon)
-        {
-            MessageBox.Show(text, icon.ToString(), MessageBoxButtons.OK, icon);
+            return (LaunchResult.Ok, _selectedFolder);
         }
 
         private static bool TryselectFolder(out string folderPath)
         {
-            var dialog = new FolderBrowserDialog
+            using var dialog = new System.Windows.Forms.FolderBrowserDialog
             {
-                Description = "Select a folder to start bookgen shell",
+                Description = Properties.Resources.FolderselectDescription,
                 UseDescriptionForTitle = true,
                 ShowNewFolderButton = false,
                 AutoUpgradeEnabled = true
             };
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 folderPath = dialog.SelectedPath;
                 return true;
