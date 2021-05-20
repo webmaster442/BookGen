@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 
 namespace BookGen.Launch
@@ -39,12 +40,24 @@ namespace BookGen.Launch
             _launcher = new();
             _registryAdapter = new(key);
             UseWindowsTerminal = _registryAdapter.GetWindowsTerminalUsage() ?? true;
+
+            HandleArguments();
+
             DataContext = this;
             RecentFiles = new(_registryAdapter.GetRecentDirectoryList());
             PART_Items.ItemsSource = RecentFiles;
             OpenCommand = new DelegateCommand(OnOpen);
             ClearCommand = new DelegateCommand(OnClear);
             App.UpdateJumplist(RecentFiles);
+        }
+
+        private void HandleArguments()
+        {
+            string argument = Environment.GetCommandLineArgs().Skip(1).FirstOrDefault() ?? string.Empty;
+            if (!string.IsNullOrEmpty(argument))
+            {
+                OnOpen(argument);
+            }
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
