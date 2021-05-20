@@ -4,19 +4,19 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Vsxmd.Units
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
+namespace BookGen.Core.Documenter.Units
+{
     /// <summary>
     /// Param unit.
     /// </summary>
     internal class ParamUnit : BaseUnit
     {
-        private readonly string paramType;
+        private readonly string _paramType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParamUnit"/> class.
@@ -27,18 +27,18 @@ namespace Vsxmd.Units
         internal ParamUnit(XElement element, string paramType)
             : base(element, "param")
         {
-            this.paramType = paramType;
+            _paramType = paramType;
         }
 
-        private string Name => this.GetAttribute("name");
+        private string Name => GetAttribute("name");
 
-        private string Description => this.ElementContent;
+        private string Description => ElementContent;
 
         /// <inheritdoc />
         public override IEnumerable<string> ToMarkdown() =>
             new[]
             {
-                $"| {this.Name} | {this.paramType.ToReferenceLink()} | {this.Description} |",
+                $"| {Name} | {_paramType.ToReferenceLink()} | {Description} |",
             };
 
         /// <summary>

@@ -4,12 +4,14 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Vsxmd.Units
+using BookGen.Core.Documenter.Units;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
+namespace BookGen.Core.Documenter
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
 
     /// <summary>
     /// Extensions helper.

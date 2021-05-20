@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Vsxmd.Units
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
+namespace BookGen.Core.Documenter.Units
+{ 
     /// <summary>
     /// Exception unit.
     /// </summary>
@@ -31,11 +31,10 @@ namespace Vsxmd.Units
         private string Description => this.ElementContent;
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                $"| {this.Name} | {this.Description} |",
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return $"| {this.Name} | {this.Description} |";
+        }
 
         /// <summary>
         /// Convert the exception XML element to Markdown safely.

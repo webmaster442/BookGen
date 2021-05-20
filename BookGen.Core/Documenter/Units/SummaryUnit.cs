@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Vsxmd.Units
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
+namespace BookGen.Core.Documenter.Units
+{
     /// <summary>
     /// Summary unit.
     /// </summary>

@@ -4,19 +4,19 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Vsxmd.Units
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
+namespace BookGen.Core.Documenter.Units
+{
     /// <summary>
     /// Member unit.
     /// </summary>
     internal class MemberUnit : BaseUnit
     {
-        private readonly MemberName name;
+        private readonly MemberName _name;
 
         static MemberUnit()
         {
@@ -31,9 +31,9 @@ namespace Vsxmd.Units
         internal MemberUnit(XElement element)
             : base(element, "member")
         {
-            this.name = new MemberName(
-                this.GetAttribute("name"),
-                this.GetChildren("param").Select(x => x.Attribute("name").Value));
+            _name = new MemberName(
+                GetAttribute("name"),
+                GetChildren("param").Select(x => x.Attribute("name").Value));
         }
 
         /// <summary>
@@ -47,22 +47,22 @@ namespace Vsxmd.Units
         /// </summary>
         /// <value>The the type name.</value>
         /// <example><c>Vsxmd.Program</c>, <c>Vsxmd.Units.TypeUnit</c>.</example>
-        internal string TypeName => this.name.TypeName;
+        internal string TypeName => _name.TypeName;
 
         /// <summary>
         /// Gets the member kind, one of <see cref="MemberKind"/>.
         /// </summary>
         /// <value>The member kind.</value>
-        internal MemberKind Kind => this.name.Kind;
+        internal MemberKind Kind => _name.Kind;
 
         /// <summary>
         /// Gets the link pointing to this member unit.
         /// </summary>
         /// <value>The link pointing to this member unit.</value>
-        internal string Link => this.name.Link;
+        internal string Link => _name.Link;
 
         private IEnumerable<string> InheritDoc =>
-            this.GetChild("inheritdoc") == null
+            GetChild("inheritdoc") == null
                 ? Enumerable.Empty<string>()
                 : new[]
                 {
@@ -71,58 +71,58 @@ namespace Vsxmd.Units
                 };
 
         private IEnumerable<string> Namespace =>
-            this.Kind != MemberKind.Type
+            Kind != MemberKind.Type
             ? Enumerable.Empty<string>()
             : new[]
             {
                 $"##### Namespace",
-                $"{this.name.Namespace}",
+                $"{_name.Namespace}",
             };
 
         private IEnumerable<string> Summary =>
-            SummaryUnit.ToMarkdown(this.GetChild("summary"));
+            SummaryUnit.ToMarkdown(GetChild("summary"));
 
         private IEnumerable<string> Returns =>
-            ReturnsUnit.ToMarkdown(this.GetChild("returns"));
+            ReturnsUnit.ToMarkdown(GetChild("returns"));
 
         private IEnumerable<string> Params =>
             ParamUnit.ToMarkdown(
-                this.GetChildren("param"),
-                this.name.GetParamTypes(),
-                this.Kind);
+                GetChildren("param"),
+                _name.GetParamTypes(),
+                Kind);
 
         private IEnumerable<string> Typeparams =>
-            TypeparamUnit.ToMarkdown(this.GetChildren("typeparam"));
+            TypeparamUnit.ToMarkdown(GetChildren("typeparam"));
 
         private IEnumerable<string> Exceptions =>
-            ExceptionUnit.ToMarkdown(this.GetChildren("exception"));
+            ExceptionUnit.ToMarkdown(GetChildren("exception"));
 
         private IEnumerable<string> Permissions =>
-            PermissionUnit.ToMarkdown(this.GetChildren("permission"));
+            PermissionUnit.ToMarkdown(GetChildren("permission"));
 
         private IEnumerable<string> Example =>
-            ExampleUnit.ToMarkdown(this.GetChild("example"));
+            ExampleUnit.ToMarkdown(GetChild("example"));
 
         private IEnumerable<string> Remarks =>
-            RemarksUnit.ToMarkdown(this.GetChild("remarks"));
+            RemarksUnit.ToMarkdown(GetChild("remarks"));
 
         private IEnumerable<string> Seealsos =>
-            SeealsoUnit.ToMarkdown(this.GetChildren("seealso"));
+            SeealsoUnit.ToMarkdown(GetChildren("seealso"));
 
         /// <inheritdoc />
         public override IEnumerable<string> ToMarkdown() =>
-            new[] { this.name.Caption }
-                .Concat(this.Namespace)
-                .Concat(this.InheritDoc)
-                .Concat(this.Summary)
-                .Concat(this.Returns)
-                .Concat(this.Params)
-                .Concat(this.Typeparams)
-                .Concat(this.Exceptions)
-                .Concat(this.Permissions)
-                .Concat(this.Example)
-                .Concat(this.Remarks)
-                .Concat(this.Seealsos);
+            new[] { _name.Caption }
+                .Concat(Namespace)
+                .Concat(InheritDoc)
+                .Concat(Summary)
+                .Concat(Returns)
+                .Concat(Params)
+                .Concat(Typeparams)
+                .Concat(Exceptions)
+                .Concat(Permissions)
+                .Concat(Example)
+                .Concat(Remarks)
+                .Concat(Seealsos);
 
         /// <summary>
         /// Complement a type unit if the member unit <paramref name="group"/> does not have one.
@@ -146,7 +146,7 @@ namespace Vsxmd.Units
         {
             /// <inheritdoc />
             public int Compare(MemberUnit x, MemberUnit y) =>
-                x.name.CompareTo(y.name);
+                x._name.CompareTo(y._name);
         }
     }
 }

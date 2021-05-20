@@ -4,12 +4,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Vsxmd.Units
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
+namespace BookGen.Core.Documenter.Units
+{
     /// <summary>
     /// Assembly unit.
     /// </summary>
@@ -27,13 +27,12 @@ namespace Vsxmd.Units
         {
         }
 
-        private string AssemblyName => this.GetChild("name").Value;
+        private string AssemblyName => GetChild("name").Value;
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                $"{Href.ToAnchor()}# {this.AssemblyName}",
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return $"{Href.ToAnchor()}# {this.AssemblyName}";
+        }
     }
 }

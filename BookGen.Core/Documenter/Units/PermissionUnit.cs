@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Vsxmd.Units
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
+namespace BookGen.Core.Documenter.Units
+{
     /// <summary>
     /// Permission unit.
     /// </summary>
@@ -26,15 +26,15 @@ namespace Vsxmd.Units
         {
         }
 
-        private string Name => this.GetAttribute("cref").ToReferenceLink();
+        private string Name => GetAttribute("cref").ToReferenceLink();
 
-        private string Description => this.ElementContent;
+        private string Description => ElementContent;
 
         /// <inheritdoc />
         public override IEnumerable<string> ToMarkdown() =>
             new[]
             {
-                $"| {this.Name} | {this.Description} |",
+                $"| {Name} | {Description} |",
             };
 
         /// <summary>

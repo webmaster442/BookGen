@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Vsxmd.Units
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
+namespace BookGen.Core.Documenter.Units
+{
     /// <summary>
     /// Example unit.
     /// </summary>
@@ -27,12 +27,11 @@ namespace Vsxmd.Units
         }
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                $"##### Example",
-                $"{this.ElementContent}",
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return $"##### Example";
+            yield return $"{ElementContent}";
+        }
 
         /// <summary>
         /// Convert the example XML element to Markdown safely.

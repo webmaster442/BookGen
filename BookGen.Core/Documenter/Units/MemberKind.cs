@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Vsxmd.Units
+namespace BookGen.Core.Documenter.Units
 {
     /// <summary>
     /// The member kind.
