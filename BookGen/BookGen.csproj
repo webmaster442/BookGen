@@ -38,9 +38,6 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
-		<None Include="$(PkgNode_js_redist)\tools\win-x64\node.exe" Link="node.exe">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="ConsoleUi\HelpView.xml" />
@@ -69,9 +66,8 @@
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.24.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
-		<PackageReference Include="Node.js.redist" Version="14.2.0" />
 		<PackageReference Include="SkiaSharp" Version="2.80.2" />
-		<PackageReference Include="Svg.Skia" Version="0.5.4.3" />
+		<PackageReference Include="Svg.Skia" Version="0.5.5" />
 		<PackageReference Include="System.ComponentModel.Composition" Version="5.0.0" />
 		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
