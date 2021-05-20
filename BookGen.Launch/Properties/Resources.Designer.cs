@@ -106,6 +106,15 @@ namespace BookGen.Launch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recent Folders.
+        /// </summary>
+        internal static string RecentFolders {
+            get {
+                return ResourceManager.GetString("RecentFolders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to start shell. Application will exit..
         /// </summary>
         internal static string ShellScriptStartFail {

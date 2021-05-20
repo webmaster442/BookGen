@@ -44,6 +44,7 @@ namespace BookGen.Launch
             PART_Items.ItemsSource = RecentFiles;
             OpenCommand = new DelegateCommand(OnOpen);
             ClearCommand = new DelegateCommand(OnClear);
+            App.UpdateJumplist(RecentFiles);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -76,6 +77,7 @@ namespace BookGen.Launch
                     RecentFiles.Remove(launcherResult.selectedFolder);
                 }
                 RecentFiles.Insert(0, launcherResult.selectedFolder);
+                App.UpdateJumplist(RecentFiles);
                 Application.Current.Shutdown((int)launcherResult.result);
             }
         }
@@ -89,6 +91,7 @@ namespace BookGen.Launch
             {
                 RecentFiles.Clear();
                 _registryAdapter.DeleteRecentDirectoryList();
+                App.UpdateJumplist(RecentFiles);
             }
         }
     }

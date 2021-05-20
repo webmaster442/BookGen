@@ -132,6 +132,9 @@
   <data name="Question" xml:space="preserve">
     <value>Question</value>
   </data>
+  <data name="RecentFolders" xml:space="preserve">
+    <value>Recent Folders</value>
+  </data>
   <data name="ShellScriptStartFail" xml:space="preserve">
     <value>Failed to start shell. Application will exit.</value>
   </data>
