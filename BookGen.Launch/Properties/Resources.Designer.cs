@@ -88,7 +88,7 @@ namespace BookGen.Launch.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No folder was selected. Application will exit..
+        ///   Looks up a localized string similar to No folder was selected..
         /// </summary>
         internal static string NoFolderSelected {
             get {

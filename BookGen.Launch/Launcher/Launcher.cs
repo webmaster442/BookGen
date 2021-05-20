@@ -30,7 +30,7 @@ namespace BookGen.Launch.Launcher
             MessageBox.Show(text, icon.ToString(), MessageBoxButton.OK, icon);
         }
 
-        internal LaunchResult Run(bool useWinTerminal, string folder = "")
+        internal (LaunchResult result, string Finalfolder) Run(bool useWinTerminal, string folder = "")
         {
             if (!string.IsNullOrEmpty(folder))
             {
@@ -41,29 +41,29 @@ namespace BookGen.Launch.Launcher
                 else
                 {
                     Message(Properties.Resources.FolderNoLongerExists, MessageBoxImage.Information);
-                    return LaunchResult.FolderNoLongerExists;
+                    return (LaunchResult.FolderNoLongerExists, string.Empty);
                 }
             }
             else if (!TryselectFolder(out _selectedFolder))
             {
                 Message(Properties.Resources.NoFolderSelected, MessageBoxImage.Information);
-                return LaunchResult.NoFolderSelected;
+                return (LaunchResult.NoFolderSelected, string.Empty);
             }
 
             string _shellScript;
             if (!TryCreateShellScript(out _shellScript))
             {
                 Message(Properties.Resources.ShellScriptWriteFail, MessageBoxImage.Error);
-                return LaunchResult.ShellScriptWriteFail;
+                return (LaunchResult.ShellScriptWriteFail, string.Empty);
             }
 
             if (!TerminalLauncher.Launch(_shellScript, useWinTerminal))
             {
                 Message(Properties.Resources.ShellScriptStartFail, MessageBoxImage.Error);
-                return LaunchResult.ShellScriptStartFail;
+                return (LaunchResult.ShellScriptStartFail, string.Empty);
             }
 
-            return LaunchResult.Ok;
+            return (LaunchResult.Ok, _selectedFolder);
         }
 
         private static bool TryselectFolder(out string folderPath)

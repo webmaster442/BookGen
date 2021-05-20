@@ -29,7 +29,7 @@ namespace BookGen.Launch
             {
                 useWindowsTerminal = value;
                 _registryAdapter.SaveWindowsTerminal(value);
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(UseWindowsTerminal)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseWindowsTerminal)));
             }
         }
 
@@ -53,12 +53,12 @@ namespace BookGen.Launch
 
         private void OnOpen(object obj)
         {
-            Launcher.Launcher.LaunchResult result;
+            (Launcher.Launcher.LaunchResult result, string selectedFolder) launcherResult;
             if (obj is string directory && 
                 !string.IsNullOrEmpty(directory))
             {
-                result = _launcher.Run(UseWindowsTerminal, directory);
-                if (result == Launcher.Launcher.LaunchResult.FolderNoLongerExists)
+                launcherResult = _launcher.Run(UseWindowsTerminal, directory);
+                if (launcherResult.result == Launcher.Launcher.LaunchResult.FolderNoLongerExists)
                 {
                     _registryAdapter.DeleteRecentItem(directory);
                     return;
@@ -66,9 +66,18 @@ namespace BookGen.Launch
             }
             else
             {
-                result = _launcher.Run(UseWindowsTerminal);
+                launcherResult = _launcher.Run(UseWindowsTerminal);
             }
-            Application.Current.Shutdown((int)result);
+
+            if (launcherResult.result == Launcher.Launcher.LaunchResult.Ok)
+            {
+                if (RecentFiles.Contains(launcherResult.selectedFolder))
+                {
+                    RecentFiles.Remove(launcherResult.selectedFolder);
+                }
+                RecentFiles.Insert(0, launcherResult.selectedFolder);
+                Application.Current.Shutdown((int)launcherResult.result);
+            }
         }
 
         private void OnClear(object obj)
@@ -78,6 +87,7 @@ namespace BookGen.Launch
                                 MessageBoxButton.YesNo,
                                 MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+                RecentFiles.Clear();
                 _registryAdapter.DeleteRecentDirectoryList();
             }
         }

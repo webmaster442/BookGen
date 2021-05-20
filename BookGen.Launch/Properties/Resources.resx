@@ -127,7 +127,7 @@
     <value>Select a folder to start bookgen shell</value>
   </data>
   <data name="NoFolderSelected" xml:space="preserve">
-    <value>No folder was selected. Application will exit.</value>
+    <value>No folder was selected.</value>
   </data>
   <data name="Question" xml:space="preserve">
     <value>Question</value>
