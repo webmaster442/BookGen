@@ -1,3 +1,12 @@
+# 2021.05.26
+* Removed Node.exe bundle
+* Gui extended with help
+* New subcommand that allows HTML compression
+* Powershell Autocomplete improvements
+* Rewrote launcher
+* New HTTP server that works on local subnetwork
+* New HttpServ subcommand
+
 # 2021.04.13
 * Now uses .NET 5.0
 * Node.exe bundled with release
