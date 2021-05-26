@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BookGen.AssemblyDocument.Assembly">
+    <Position X="14.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Assembly.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.C">
+    <Position X="16.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>XmlDoc\C.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Code">
+    <Position X="18" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>XmlDoc\Code.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.CompletionList">
+    <Position X="27.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\CompletionList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Content">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>XmlDoc\Content.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Example">
+    <Position X="17.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Example.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Exception">
+    <Position X="1.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Exception.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Include">
+    <Position X="8.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Include.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.List">
+    <Position X="5.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAEAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\List.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.ListItem">
+    <Position X="7" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAEAAACAAAAAA=</HashCode>
+      <FileName>XmlDoc\ListItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.ListListheader">
+    <Position X="10.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\ListListheader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Member">
+    <Position X="12.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Member.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Members">
+    <Position X="3.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Members.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Para">
+    <Position X="6.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Para.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Param">
+    <Position X="10.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Param.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Paramref">
+    <Position X="25.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>XmlDoc\Paramref.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Permission">
+    <Position X="25.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Permission.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.PermissionSet">
+    <Position X="22" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\PermissionSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.PermissionSetIPermission">
+    <Position X="1.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAABAACAAAAAAAAAAIAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\PermissionSetIPermission.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Remarks">
+    <Position X="8.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Remarks.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Returns">
+    <Position X="13" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Returns.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.See">
+    <Position X="22.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\See.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Seealso">
+    <Position X="24" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Seealso.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Summary">
+    <Position X="19.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Summary.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Typeparam">
+    <Position X="4" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Typeparam.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Typeparamref">
+    <Position X="23.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>XmlDoc\Typeparamref.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.Value">
+    <Position X="15.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Value.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.XmlDoc.Doc">
+    <Position X="19.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAEAAAAAAA=</HashCode>
+      <FileName>XmlDoc\Doc.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.AssemblyDocument.CrefText">
+    <Position X="24" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>XmlDoc\CrefText.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

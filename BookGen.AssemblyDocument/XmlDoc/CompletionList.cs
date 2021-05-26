@@ -1,22 +1,9 @@
-﻿using System.Xml.Serialization;
-using System;
+﻿using System;
 
-namespace BookGen.AssemblyDocument
+namespace BookGen.AssemblyDocument.XmlDoc
 {
     [Serializable]
-    public class CompletionList
+    public class CompletionList : CrefText
     {
-        public CompletionList()
-        {
-            Cref = string.Empty;
-            Text = Array.Empty<string>();
-        }
-
-        [XmlAttribute("cref")]
-        public string Cref { get; set; }
-
-
-        [XmlText]
-        public string[] Text { get; set; }
     }
 }

@@ -1,23 +1,9 @@
-﻿using System.Xml.Serialization;
-using System;
+﻿using System;
 
-namespace BookGen.AssemblyDocument
+namespace BookGen.AssemblyDocument.XmlDoc
 {
     [Serializable]
-    public class See
+    public class See : CrefText
     {
-        [XmlAttribute("cref")]
-        public string Cref { get; set; }
-
-
-        [XmlText]
-        public string[] Text { get; set; }
-
-        public See()
-        {
-            Cref = string.Empty;
-            Text = Array.Empty<string>();
-        }
-
     }
 }

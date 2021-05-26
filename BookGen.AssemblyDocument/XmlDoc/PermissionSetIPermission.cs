@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace BookGen.AssemblyDocument
+namespace BookGen.AssemblyDocument.XmlDoc
 {
     [Serializable]
     [XmlType(AnonymousType = true)]

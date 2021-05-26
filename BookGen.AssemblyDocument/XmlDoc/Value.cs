@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BookGen.AssemblyDocument
+namespace BookGen.AssemblyDocument.XmlDoc
 {
     [Serializable]
     public class Value : Content

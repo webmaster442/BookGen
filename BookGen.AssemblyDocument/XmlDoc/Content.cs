@@ -1,7 +1,7 @@
 ﻿using System.Xml.Serialization;
 using System;
 
-namespace BookGen.AssemblyDocument
+namespace BookGen.AssemblyDocument.XmlDoc
 {
     [XmlInclude(typeof(Typeparam))]
     [XmlInclude(typeof(Param))]
