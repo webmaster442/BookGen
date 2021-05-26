@@ -15,4 +15,8 @@
     <EmbeddedResource Include="Schema.xsd" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
+  </ItemGroup>
+
 </Project>
