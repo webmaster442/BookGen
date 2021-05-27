@@ -26,11 +26,7 @@ namespace BookGen.Core.Documenter
             _propertyDocumenter = new PropertyDocumenter();
         }
 
-        private static IEnumerable<Type> GetDocumentableTypes(FsPath assembly)
-        {
-            var asm = Assembly.LoadFrom(assembly.ToString());
-            return asm.GetExportedTypes();
-        }
+
 
         private static void CreatePageTitle(MarkdownDocument document, Type type)
         {
