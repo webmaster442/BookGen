@@ -77,7 +77,7 @@ namespace BookGen.Core.Documenter
 
         public void Document(FsPath assembly, FsPath xmlFile, FsPath outputDir)
         {
-            IEnumerable<Type> documentableTypes = GetDocumentableTypes(assembly);
+            /*IEnumerable<Type> documentableTypes = GetDocumentableTypes(assembly);
             XElement documentation = XElement.Load(xmlFile.ToString());
             foreach (var type in documentableTypes)
             {
@@ -86,7 +86,7 @@ namespace BookGen.Core.Documenter
                     _log.Info("Documenting type: {0}", type?.FullName ?? string.Empty);
                     DocumentType(type!, documentation, outputDir);
                 }
-            }
+            }*/
         }
     }
 }

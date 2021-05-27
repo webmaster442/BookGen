@@ -12,6 +12,10 @@ namespace BookGen.AssemblyDocument.Documenters
 
         public override void Execute(Type type, MarkdownBuilder output)
         {
+            if (type.IsGenericType)
+            {
+                output.H1($"{type.FullName}");
+            }
             throw new NotImplementedException();
         }
     }

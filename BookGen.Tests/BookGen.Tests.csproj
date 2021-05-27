@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BookGen.AssemblyDocument\BookGen.AssemblyDocument.csproj" />
     <ProjectReference Include="..\BookGen.Gui\BookGen.Ui.csproj" />
     <ProjectReference Include="..\BookGen\BookGen.SystemTest.csproj" />
   </ItemGroup>
