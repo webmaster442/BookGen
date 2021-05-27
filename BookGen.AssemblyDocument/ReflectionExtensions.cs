@@ -44,6 +44,11 @@ namespace BookGen.AssemblyDocument
             }
         }
 
+        public static string GetTypeSelectorName(this Type type)
+        {
+            return $"T:{type.FullName}";
+        }
+
         private static bool IsRecord(Type type)
         {
             var check1 = type

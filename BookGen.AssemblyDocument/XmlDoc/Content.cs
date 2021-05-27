@@ -26,6 +26,12 @@ namespace BookGen.AssemblyDocument.XmlDoc
         [XmlText]
         public string[] Text { get; set; }
 
+        [XmlIgnore]
+        public string JoinedText
+        {
+            get => string.Join('\n', Text);
+        }
+
 
         public Content()
         {
