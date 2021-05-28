@@ -7,6 +7,10 @@
     <OutputPath>..\bin\TESTBUILD\$(Configuration)</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningsAsErrors>;NU1605</WarningsAsErrors>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Environment\TestScript.cs" />
     <Compile Remove="UT_NodeJsHost.cs" />
@@ -25,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BookGen.AssemblyDocument\BookGen.AssemblyDocument.csproj" />
     <ProjectReference Include="..\BookGen.Gui\BookGen.Ui.csproj" />
+    <ProjectReference Include="..\BookGen.Tests.Assemblydoc\BookGen.Tests.Assemblydoc.csproj" />
     <ProjectReference Include="..\BookGen\BookGen.SystemTest.csproj" />
   </ItemGroup>
 

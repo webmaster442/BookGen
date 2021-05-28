@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <SonarQubeTestProject>True</SonarQubeTestProject>
+    <IsPackable>false</IsPackable>
+    <OutputPath>..\bin\TESTBUILD\$(Configuration)</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\bin\TESTBUILD\$(Configuration)BookGen.Tests.Assemblydoc.xml</DocumentationFile>
+    <WarningsAsErrors>;NU1605;CS1591</WarningsAsErrors>
   </PropertyGroup>
 
 </Project>
