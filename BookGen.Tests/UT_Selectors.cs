@@ -41,9 +41,23 @@ namespace BookGen.Tests
 
         [TestCase(typeof(TestBaseA), "")]
         [TestCase(typeof(TestBaseB), "Remarks")]
-        public void EnsureThat_Selectors__ReturnsCorrect(Type t, string expected)
+        public void EnsureThat_Selectors_GetTypeRemarks_ReturnsCorrect(Type t, string expected)
         {
             var result = _document.GetTypeRemarks(t);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestCase("GetProperty", "A gettable property")]
+        [TestCase("GetProperty2", "An other gettable property")]
+        public void EnsureThat_Selectors_GetPropertySelectorName_ReturnsCorrect(string propName, string expected)
+        {
+            var prop = typeof(TestClass).GetProperty(propName,
+                                         System.Reflection.BindingFlags.Public
+                                         | System.Reflection.BindingFlags.NonPublic
+                                         | System.Reflection.BindingFlags.Instance);
+
+
+            var result = _document.GetPropertySummary(prop);
             Assert.AreEqual(expected, result);
         }
     }
