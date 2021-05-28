@@ -1,5 +1,5 @@
-﻿using System.Xml.Serialization;
-using System;
+﻿using System;
+using System.Xml.Serialization;
 
 namespace BookGen.AssemblyDocument.XmlDoc
 {
@@ -24,19 +24,23 @@ namespace BookGen.AssemblyDocument.XmlDoc
         public object[] Items { get; set; }
 
         [XmlText]
-        public string[] Text { get; set; }
+        public string Text { get; set; }
 
         [XmlIgnore]
-        public string JoinedText
+        public string NormalizedText
         {
-            get => string.Join('\n', Text);
+            get
+            {
+                string result = System.Text.RegularExpressions.Regex.Replace(Text, @"(\r|  )", string.Empty);
+                return result.Trim();
+            }
         }
 
 
         public Content()
         {
             Items = Array.Empty<object>();
-            Text = Array.Empty<string>();
+            Text = string.Empty;
         }
     }
 }
