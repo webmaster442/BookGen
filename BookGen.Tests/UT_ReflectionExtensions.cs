@@ -25,7 +25,7 @@ namespace BookGen.Tests
         [TestCase(typeof(string), "")]
         public void EnsureThat_GetTypeArgumentString_ReturnsCorrect(Type input, string expected)
         {
-            var result = input.GetTypeArgumentString();
+            var result = input.GetTypeNameForTitle();
             Assert.AreEqual(expected, result);
         }
 

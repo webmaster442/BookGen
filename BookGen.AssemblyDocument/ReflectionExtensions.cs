@@ -27,11 +27,11 @@ namespace BookGen.AssemblyDocument
                 return TypeType.Unknown;
         }
 
-        public static string GetTypeArgumentString(this Type type)
+        public static string GetTypeNameForTitle(this Type type)
         {
             if (type.IsGenericType)
                 return $"<{string.Join(", ", type.GetGenericTypeDefinition().GetTypeInfo().GenericTypeParameters.Select(x => x.Name))}>";
-            return string.Empty;
+            return type.FullName ?? string.Empty;
         }
 
         public static IEnumerable<Type> GetInheritanceChain(this Type type)

@@ -6,7 +6,7 @@ namespace BookGen.AssemblyDocument
 {
     public class MarkdownBuilder
     {
-        private StringBuilder _buffer;
+        private readonly StringBuilder _buffer;
 
         public MarkdownBuilder(int capacity = 4096)
         {
@@ -60,6 +60,14 @@ namespace BookGen.AssemblyDocument
             {
                 _buffer.Append($"* {item}\n");
             }
+            return this;
+        }
+
+        public MarkdownBuilder Code(string code, string language)
+        {
+            _buffer.Append($"```{language}\n");
+            _buffer.Append(code);
+            _buffer.Append("```\n");
             return this;
         }
 
