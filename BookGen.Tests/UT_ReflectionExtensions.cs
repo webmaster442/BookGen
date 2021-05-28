@@ -28,5 +28,18 @@ namespace BookGen.Tests
             var result = input.GetTypeArgumentString();
             Assert.AreEqual(expected, result);
         }
+
+        [Test]
+        public void EnsureThat_GetInheritanceChain_ReturnsCorrect()
+        {
+            var result = typeof(TestInheritanceChain).GetInheritanceChain();
+            CollectionAssert.AreEqual(new[]
+            {
+                typeof(TestBaseC),
+                typeof(TestBaseB),
+                typeof(TestBaseA),
+                typeof(object),
+            }, result);
+        }
     }
 }

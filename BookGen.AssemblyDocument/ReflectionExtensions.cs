@@ -34,12 +34,12 @@ namespace BookGen.AssemblyDocument
             return string.Empty;
         }
 
-        public static IEnumerable<string> GetInheritanceChain(this Type type)
+        public static IEnumerable<Type> GetInheritanceChain(this Type type)
         {
             Type? cycle = type.BaseType;
             while (cycle != null)
             {
-                yield return cycle.Name;
+                yield return cycle;
                 cycle = cycle.BaseType;
             }
         }
