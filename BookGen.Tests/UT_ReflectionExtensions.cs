@@ -1,6 +1,6 @@
 ﻿using BookGen.AssemblyDocument;
 using BookGen.AssemblyDocument.Domain;
-using BookGen.Tests.Reflection;
+using BookGen.Tests.Assemblydoc;
 using NUnit.Framework;
 using System;
 
@@ -12,7 +12,7 @@ namespace BookGen.Tests
         [TestCase(typeof(ITestInterface), TypeType.Interface)]
         [TestCase(typeof(TestClass), TypeType.Class)]
         [TestCase(typeof(TestStruct), TypeType.Struct)]
-        [TestCase(typeof(Reflection.TestDelegate), TypeType.Delegate)]
+        [TestCase(typeof(Assemblydoc.TestDelegate), TypeType.Delegate)]
         [TestCase(typeof(TestEnum), TypeType.Enum)]
         [TestCase(typeof(TestRecord), TypeType.Record)]
         public void EnsureThat_GetTypeType_ReturnsCorrect(Type input, TypeType expected)

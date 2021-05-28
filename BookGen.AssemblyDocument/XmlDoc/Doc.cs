@@ -4,7 +4,7 @@ using System;
 namespace BookGen.AssemblyDocument.XmlDoc
 {
     [Serializable]
-    [XmlRoot(Namespace = "", IsNullable = true)]
+    [XmlRoot("doc")]
     public class Doc
     {
         [XmlElement("assembly")]
