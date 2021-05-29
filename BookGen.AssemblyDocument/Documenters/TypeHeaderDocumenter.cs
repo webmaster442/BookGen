@@ -14,25 +14,43 @@ namespace BookGen.AssemblyDocument.Documenters
 
         private string CreateInheritanceChain(IEnumerable<Type> types)
         {
-            var bulder = new StringBuilder();
+            var builder = new StringBuilder(1024);
             foreach (var type in types)
             {
-                string link = $"type://{type.FullName}";
-                if (type.FullName?.StartsWith("System") ?? false)
-                {
-                    link = $"https://docs.microsoft.com/en-us/dotnet/api/{type.FullName}";
-                }
-                bulder.Append($"    * [{type.GetNormalizedTypeName()}]({link})\n");
+                builder.Append($"    * {type.GetDocLinkFromType()}\n");
             }
-            return bulder.ToString();
+            return builder.ToString();
+        }
+
+        private string CreateInterfaceList(Type type)
+        {
+            var ifaces = type.GetInterfaces();
+            if (ifaces.Length < 1)
+                return "* No interfaces are implemented";
+
+            var builder = new StringBuilder(1024);
+            foreach (var iface in ifaces)
+            {
+                builder.Append($"    * {iface.GetDocLinkFromType()}\n");
+            }
+            return builder.ToString();
         }
 
         public override void Execute(Type type, MarkdownBuilder output)
         {
             output.H1($"{type.GetTypeNameForTitle()} {type.GetTypeType()}");
-            output.Paragraph($"Inheritance chain:");
+            output.Paragraph("Inheritance chain:");
             output.Paragraph(CreateInheritanceChain(type.GetInheritanceChain()));
-        }
+            output.Paragraph("Implemented interfaces:");
+            output.Paragraph(CreateInterfaceList(type));
 
+            output.Paragraph(XmlDocumentation.GetTypeSummary(type));
+            var remarks = XmlDocumentation.GetTypeRemarks(type);
+            if (!string.IsNullOrEmpty(remarks))
+            {
+                output.Paragraph("**Remarks:**");
+                output.Paragraph(remarks);
+            }
+        }
     }
 }

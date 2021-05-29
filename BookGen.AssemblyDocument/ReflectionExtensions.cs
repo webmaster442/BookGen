@@ -100,36 +100,29 @@ namespace BookGen.AssemblyDocument
             }
         }
 
-        public static string GetPropertyCode(this PropertyInfo property)
+        public static string GetPropertyCode(this PropertyInfo property, bool isStatic = false)
         {
             List<string> parts = new List<string>();
             if (property.GetMethod?.IsPublic ?? false)
-            {
                 parts.Add("public");
-            }
             else if (property.GetMethod?.IsFamilyOrAssembly ?? false)
-            {
                 parts.Add("protected internal");
-            }
             else if (property.GetMethod?.IsAssembly ?? false)
-            {
                 parts.Add("internal");
-            }
             else if (property.GetMethod?.IsFamily ?? false)
-            {
                 parts.Add("protected");
-            }
             else
-            {
                 parts.Add("private");
-            }
+
+            if (isStatic)
+                parts.Add("static");
+
             parts.Add(GetNormalizedTypeName(property.PropertyType) ?? "");
             parts.Add(property.Name);
             parts.Add("{");
+
             if (property.CanRead)
-            {
                 parts.Add("get;");
-            }
 
             if (property.IsInitOnly())
             {
@@ -142,6 +135,16 @@ namespace BookGen.AssemblyDocument
             }
             parts.Add("}");
             return string.Join(' ', parts);
+        }
+
+        public static string GetDocLinkFromType(this Type type)
+        {
+            string link = $"type://{type.FullName}";
+
+            if (type.FullName?.StartsWith("System.") ?? false)
+                link = $"https://docs.microsoft.com/en-us/dotnet/api/{type.FullName}";
+
+            return $"[{type.GetNormalizedTypeName()}]({link})";
         }
 
         private static bool IsInitOnly(this PropertyInfo propertyInfo)

@@ -11,11 +11,13 @@ namespace BookGen.AssemblyDocument
     {
         private readonly ILog _log;
         private readonly XmlLoader _loader;
+        private int _unknown;
 
         public Documenter(ILog log)
         {
             _log = log;
             _loader = new XmlLoader();
+            _unknown = 0;
         }
 
         private static IEnumerable<Type> GetDocumentableTypes(FsPath assembly)
@@ -24,19 +26,29 @@ namespace BookGen.AssemblyDocument
             return asm.GetExportedTypes();
         }
 
-        public void DocumentAssembly(FsPath assembly, FsPath xmlDoc)
+        private string CreateTypeKey(Type type)
         {
-            if (!_loader.TryValidatedLoad(xmlDoc.Filename, out XmlDoc.Doc? doc)
+            if (string.IsNullOrEmpty(type.FullName))
+            {
+                return $"Unknown type #{++_unknown}";
+            }
+            return type.FullName;
+        }
+
+        public IDictionary<string, string> DocumentAssembly(FsPath assembly, FsPath xmlDoc)
+        {
+            var results = new Dictionary<string, string>();
+
+            if (!_loader.TryValidatedLoad(xmlDoc.ToString(), out XmlDoc.Doc? doc)
                 || doc == null)
             {
                 _log.Critical("Xml file can't be loaded or not a valid XML documentation");
-                return;
+                return results;
             }
 
             var documenters = new DocumenterBase[]
             {
                 new TypeHeaderDocumenter(doc, _log),
-
             };
             try
             {
@@ -47,11 +59,14 @@ namespace BookGen.AssemblyDocument
                     {
                         documenter.Execute(type, typeDoc);
                     }
+                    results.Add(CreateTypeKey(type), typeDoc.ToString());
                 }
+                return results;
             }
             catch (Exception ex)
             {
                 _log.Critical(ex);
+                return new Dictionary<string, string>();
             }
         }
     }

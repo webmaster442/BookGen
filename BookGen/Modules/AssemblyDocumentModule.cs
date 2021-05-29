@@ -37,7 +37,8 @@ namespace BookGen.Modules
         {
             var parameters = new AssemblyDocumentParameters();
 
-            if (!ArgumentParser.ParseArguments(arguments, parameters))
+            if (!ArgumentParser.ParseArguments(arguments, parameters)
+               || !parameters.Validate())
             {
                 return false;
             }
@@ -47,7 +48,7 @@ namespace BookGen.Modules
             using (var l = new FolderLock(parameters.OutputDirectory.ToString()))
             {
                 var documenter = new Documenter(CurrentState.Log);
-                documenter.DocumentAssembly(parameters.AssemblyPath, parameters.XmlPath);
+                var results = documenter.DocumentAssembly(parameters.AssemblyPath, parameters.XmlPath);
             }
 
             return true;
