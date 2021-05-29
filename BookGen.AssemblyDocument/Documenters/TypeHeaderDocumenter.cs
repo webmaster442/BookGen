@@ -38,11 +38,23 @@ namespace BookGen.AssemblyDocument.Documenters
 
         public override void Execute(Type type, MarkdownBuilder output)
         {
-            output.H1($"{type.GetTypeNameForTitle()} {type.GetTypeType()}");
-            output.Paragraph("Inheritance chain:");
-            output.Paragraph(CreateInheritanceChain(type.GetInheritanceChain()));
-            output.Paragraph("Implemented interfaces:");
-            output.Paragraph(CreateInterfaceList(type));
+            var t = type.GetTypeType();
+
+            output.H1($"{type.GetTypeNameForTitle()} {t}");
+            if (t == Domain.TypeType.Class 
+                || t == Domain.TypeType.Struct 
+                || t == Domain.TypeType.Record)
+            {
+                output.Paragraph("Inheritance chain:");
+                output.Paragraph(CreateInheritanceChain(type.GetInheritanceChain()));
+            }
+
+            if (t != Domain.TypeType.Delegate &&
+                t != Domain.TypeType.Enum)
+            {
+                output.Paragraph("Implemented interfaces:");
+                output.Paragraph(CreateInterfaceList(type));
+            }
 
             output.Paragraph(XmlDocumentation.GetTypeSummary(type));
             var remarks = XmlDocumentation.GetTypeRemarks(type);
