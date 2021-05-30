@@ -16,7 +16,40 @@ namespace BookGen.Resources
             { "figcaption", "p" }
         };
 
-        public static string NormalizeToXHTML(string input)
+        private static string[] selfclosing = new[]
+        {
+            "area",
+            "base",
+            "br",
+            "col",
+            "command",
+            "embed",
+            "hr",
+            "img",
+            "input",
+            "keygen",
+            "link",
+            "menuitem",
+            "meta",
+            "param",
+            "source",
+            "track",
+            "wbr"
+        };
+
+        public static string Html5ToXmlCompatible(string html)
+        {
+            StringBuilder buffer = new StringBuilder(html);
+
+            foreach (var elementToReplace in selfclosing)
+            {
+                buffer.Replace($"<{elementToReplace}>", $"<{elementToReplace} />");
+            }
+
+            return buffer.ToString();
+        }
+
+        public static string Html5ToXhtml(string input)
         {
             StringBuilder buffer = new StringBuilder(input);
 

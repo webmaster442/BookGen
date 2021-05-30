@@ -56,7 +56,7 @@ namespace BookGen.GeneratorSteps.Epub
                 Content.Title = MarkdownUtils.GetTitle(inputContent);
                 Content.Content = pipeline.RenderMarkdown(inputContent);
 
-                var html = XhtmlNormalizer.NormalizeToXHTML(Template.Render());
+                var html = XhtmlNormalizer.Html5ToXhtml(Template.Render());
 
                 target.WriteFile(log, html);
                 ++index;
