@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace BookGen.AssemblyDocument
 {
     public static class ReflectionExtensions
     {
+        private static readonly Regex GenericStripper = new Regex(@"\`\d+", RegexOptions.Compiled);
+
         public static TypeType GetTypeType(this Type type)
         {
             if (type.IsInterface)
@@ -27,13 +30,6 @@ namespace BookGen.AssemblyDocument
                 return TypeType.Unknown;
         }
 
-        public static string GetTypeNameForTitle(this Type type)
-        {
-            if (type.IsGenericType)
-                return $"<{string.Join(", ", type.GetGenericTypeDefinition().GetTypeInfo().GenericTypeParameters.Select(x => x.Name))}>";
-            return type.FullName ?? string.Empty;
-        }
-
         public static IEnumerable<Type> GetInheritanceChain(this Type type)
         {
             Type? cycle = type.BaseType;
@@ -44,60 +40,37 @@ namespace BookGen.AssemblyDocument
             }
         }
 
-        public static string GetNormalizedTypeName(this Type type)
+        public static string GetNormalizedTypeName(this Type type, bool fullName = true)
         {
-            if (type.FullName == typeof(int).FullName)
+            var selector = type.FullName ?? string.Empty;
+            if (!string.IsNullOrEmpty(selector) 
+                && Constants.KnownTypeNames.ContainsKey(selector))
             {
-                return "int";
+                return Constants.KnownTypeNames[selector];
             }
-            else if (type.FullName == typeof(uint).FullName)
+
+            if (!type.IsGenericType)
             {
-                return "uint";
+                if (fullName)
+                    return selector;
+                else
+                    return type.Name;
             }
-            else if (type.FullName == typeof(byte).FullName)
+
+            var name = GenericStripper.Replace(type.Name, "");
+
+            var generalizedType = type.GetTypeInfo();
+            if (!type.IsGenericTypeDefinition)
             {
-                return "byte";
+                generalizedType = type.GetGenericTypeDefinition().GetTypeInfo();
             }
-            else if (type.FullName == typeof(sbyte).FullName)
-            {
-                return "sbyte";
-            }
-            else if (type.FullName == typeof(long).FullName)
-            {
-                return "long";
-            }
-            else if (type.FullName == typeof(ulong).FullName)
-            {
-                return "ulong";
-            }
-            else if (type.FullName == typeof(short).FullName)
-            {
-                return "short";
-            }
-            else if (type.FullName == typeof(ushort).FullName)
-            {
-                return "ushort";
-            }
-            else if (type.FullName == typeof(float).FullName)
-            {
-                return "float";
-            }
-            else if (type.FullName == typeof(double).FullName)
-            {
-                return "double";
-            }
-            else if (type.FullName == typeof(decimal).FullName)
-            {
-                return "decimal";
-            }
-            else if (type.FullName == typeof(string).FullName)
-            {
-                return "string";
-            }
-            else
-            {
-                return type.FullName ?? string.Empty;
-            }
+
+            var typeparams = string.Join(", ", generalizedType.GenericTypeParameters.Select(t => t.Name));
+
+            if (fullName)
+                return $"{type.Namespace}.{name}<{typeparams}>";
+
+            return $"{name}<{typeparams}>";
         }
 
         public static string GetPropertyCode(this PropertyInfo property, bool isStatic = false)
@@ -137,14 +110,30 @@ namespace BookGen.AssemblyDocument
             return string.Join(' ', parts);
         }
 
-        public static string GetDocLinkFromType(this Type type)
+        public static string GetMarkdownDocLinkFromType(this Type type)
         {
-            string link = $"type://{type.FullName}";
+            string link = $"type://{GetNormalizedTypeName(type)}";
 
             if (type.FullName?.StartsWith("System.") ?? false)
-                link = $"https://docs.microsoft.com/en-us/dotnet/api/{type.FullName}";
+            {
+                if (type.IsGenericType)
+                {
+                    var generalizedType = type.GetTypeInfo();
+                    if (!type.IsGenericTypeDefinition)
+                    {
+                        generalizedType = type.GetGenericTypeDefinition().GetTypeInfo();
+                    }
+                    var name = generalizedType.Name.Replace('`', '-');
+                    link = $"https://docs.microsoft.com/en-us/dotnet/api/{type.Namespace}.{name}".ToLower();
 
-            return $"[{type.GetNormalizedTypeName()}]({link})";
+                }
+                else
+                {
+                    link = $"https://docs.microsoft.com/en-us/dotnet/api/{type.FullName}".ToLower();
+                }
+            }
+            var linkname = type.GetNormalizedTypeName().Replace("<", "\\<").Replace(">", "\\>");
+            return $"[{linkname}]({link})";
         }
 
         private static bool IsInitOnly(this PropertyInfo propertyInfo)

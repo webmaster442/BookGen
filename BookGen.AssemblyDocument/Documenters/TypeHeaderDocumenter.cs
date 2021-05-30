@@ -17,7 +17,7 @@ namespace BookGen.AssemblyDocument.Documenters
             var builder = new StringBuilder(1024);
             foreach (var type in types)
             {
-                builder.Append($"    * {type.GetDocLinkFromType()}\n");
+                builder.Append($"    * {type.GetMarkdownDocLinkFromType()}\n");
             }
             return builder.ToString();
         }
@@ -31,7 +31,7 @@ namespace BookGen.AssemblyDocument.Documenters
             var builder = new StringBuilder(1024);
             foreach (var iface in ifaces)
             {
-                builder.Append($"    * {iface.GetDocLinkFromType()}\n");
+                builder.Append($"    * {iface.GetMarkdownDocLinkFromType()}\n");
             }
             return builder.ToString();
         }
@@ -40,7 +40,7 @@ namespace BookGen.AssemblyDocument.Documenters
         {
             var t = type.GetTypeType();
 
-            output.H1($"{type.GetTypeNameForTitle()} {t}");
+            output.H1($"{type.GetNormalizedTypeName(false)} {t}");
             if (t == Domain.TypeType.Class 
                 || t == Domain.TypeType.Struct 
                 || t == Domain.TypeType.Record)

@@ -3,6 +3,7 @@ using BookGen.AssemblyDocument.Domain;
 using BookGen.Tests.Assemblydoc;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace BookGen.Tests
 {
@@ -18,14 +19,6 @@ namespace BookGen.Tests
         public void EnsureThat_GetTypeType_ReturnsCorrect(Type input, TypeType expected)
         {
             var result = input.GetTypeType();
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestCase(typeof(TestGenericType<string, string>), "<TFirst, TSecond>")]
-        [TestCase(typeof(string), "")]
-        public void EnsureThat_GetTypeArgumentString_ReturnsCorrect(Type input, string expected)
-        {
-            var result = input.GetTypeNameForTitle();
             Assert.AreEqual(expected, result);
         }
 
@@ -47,7 +40,7 @@ namespace BookGen.Tests
         [TestCase(nameof(TestClass.NormalProperty), "public int NormalProperty { get; set; }")]
         [TestCase(nameof(TestClass.InitProperty), "public int InitProperty { get; init; }")]
         [TestCase("Portected", "protected int Portected { get; }")]
-        [TestCase("Private", "private int Prviate { get; }")]
+        [TestCase("Private", "private int Private { get; }")]
         public void EnsureThat_GetPropertyCode_ReturnsCorrect(string propName, string expected)
         {
             var prop = typeof(TestClass).GetProperty(propName,
@@ -71,9 +64,22 @@ namespace BookGen.Tests
         [TestCase(typeof(string), "string")]
         [TestCase(typeof(decimal), "decimal")]
         [TestCase(typeof(Exception), "System.Exception")]
+        [TestCase(typeof(IEnumerable<int>), "System.Collections.Generic.IEnumerable<T>")]
+        [TestCase(typeof(Dictionary<string, int>), "System.Collections.Generic.Dictionary<TKey, TValue>")]
         public void EnsureThat_GetNormalizedTypeName_ReturnsCorrect(Type input, string expected)
         {
             var result = input.GetNormalizedTypeName();
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestCase(typeof(int), "[int](https://docs.microsoft.com/en-us/dotnet/api/system.int32)")]
+        [TestCase(typeof(Exception), "[System.Exception](https://docs.microsoft.com/en-us/dotnet/api/system.exception)")]
+        [TestCase(typeof(List<string>), "[System.Collections.Generic.List\\<T\\>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)")]
+        [TestCase(typeof(Dictionary<string, int>), "[System.Collections.Generic.Dictionary\\<TKey, TValue\\>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2)")]
+        [TestCase(typeof(IEnumerable<string>), "[System.Collections.Generic.IEnumerable\\<T\\>](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)")]
+        public void EnsureThat_GetMarkdownDocLinkFromType_ReturnsCorrect(Type input, string expected)
+        {
+            var result = input.GetMarkdownDocLinkFromType();
             Assert.AreEqual(expected, result);
         }
     }
