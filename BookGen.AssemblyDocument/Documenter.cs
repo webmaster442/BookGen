@@ -49,6 +49,8 @@ namespace BookGen.AssemblyDocument
             var documenters = new DocumenterBase[]
             {
                 new TypeHeaderDocumenter(doc, _log),
+                new EnumValuesDocumenter(doc, _log),
+                new TypeMembersDocumenter(doc, _log),
             };
             try
             {
@@ -57,7 +59,8 @@ namespace BookGen.AssemblyDocument
                     var typeDoc = new MarkdownBuilder();
                     foreach (var documenter in documenters)
                     {
-                        documenter.Execute(type, typeDoc);
+                        if (documenter.CanExecute(type))
+                            documenter.Execute(type, typeDoc);
                     }
                     results.Add(CreateTypeKey(type), typeDoc.ToString());
                 }
