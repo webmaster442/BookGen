@@ -60,5 +60,13 @@ namespace BookGen.Tests
             var result = _document.GetPropertySummary(prop);
             Assert.AreEqual(expected, result);
         }
+
+        [TestCase(TestEnum.Value1, "Test value 1")]
+        [TestCase(TestEnum.Value2, "Test value 2")]
+        public void EnsureThat_Selectors_GetEnumValueSummary_ReturnsCorrect(TestEnum value, string expected)
+        {
+            var result = _document.GetEnumValueSummary(typeof(TestEnum), value.ToString());
+            Assert.AreEqual(expected, result);
+        }
     }
 }

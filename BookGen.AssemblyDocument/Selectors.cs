@@ -17,6 +17,10 @@ namespace BookGen.AssemblyDocument
             return $"P:{property.ReflectedType?.FullName}.{property.Name}";
         }
 
+        private static string GetFieldSelectorName(this Type type, string field)
+        {
+            return $"F:{type.FullName}.{field}";
+        }
 
         public static string GetTypeSummary(this Doc documentation, Type t)
         {
@@ -41,6 +45,16 @@ namespace BookGen.AssemblyDocument
         public static string GetPropertySummary(this Doc documentation, PropertyInfo property)
         {
             var member = Array.Find(documentation.Members.Items, m => m.Name == property.GetPropertySelectorName());
+            if (member != null)
+            {
+                return member.Items?.OfType<Summary>()?.FirstOrDefault()?.NormalizedText ?? string.Empty;
+            }
+            return string.Empty;
+        }
+
+        public static string GetEnumValueSummary(this Doc documentation, Type type, string enumItem)
+        {
+            var member = Array.Find(documentation.Members.Items, m => m.Name == type.GetFieldSelectorName(enumItem));
             if (member != null)
             {
                 return member.Items?.OfType<Summary>()?.FirstOrDefault()?.NormalizedText ?? string.Empty;

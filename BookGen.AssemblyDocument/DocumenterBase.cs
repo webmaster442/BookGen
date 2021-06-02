@@ -17,5 +17,7 @@ namespace BookGen.AssemblyDocument
         protected ILog Log { get; }
 
         public abstract void Execute(Type type, MarkdownBuilder output);
+
+        public virtual bool CanExecute(Type type) => true;
     }
 }
