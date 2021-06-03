@@ -73,14 +73,13 @@ namespace BookGen.Launch.Launcher
 
         private static bool TryselectFolder(out string folderPath)
         {
-            using var dialog = new System.Windows.Forms.FolderBrowserDialog
+            var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog
             {
                 Description = Properties.Resources.FolderselectDescription,
                 UseDescriptionForTitle = true,
                 ShowNewFolderButton = false,
-                AutoUpgradeEnabled = true
             };
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog() == true)
             {
                 folderPath = dialog.SelectedPath;
                 return true;

@@ -22,7 +22,7 @@ namespace BookGen.Launch
         private readonly Launcher.Launcher _launcher;
         private bool useWindowsTerminal;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private ObservableCollection<string> RecentFiles { get; set; }
         public DelegateCommand OpenCommand { get; }
@@ -70,7 +70,7 @@ namespace BookGen.Launch
             _registryAdapter.SaveRecentDirectoryList(RecentFiles);
         }
 
-        private void OnOpen(object obj)
+        private void OnOpen(object? obj)
         {
             (Launcher.Launcher.LaunchResult result, string selectedFolder) launcherResult;
             if (obj is string directory && 
@@ -100,7 +100,7 @@ namespace BookGen.Launch
             }
         }
 
-        private void OnClear(object obj)
+        private void OnClear(object? obj)
         {
             if (MessageBox.Show(Properties.Resources.ClearRecentList,
                                 Properties.Resources.Question,
