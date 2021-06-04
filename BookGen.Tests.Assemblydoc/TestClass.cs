@@ -34,5 +34,17 @@
         /// A private property
         /// </summary>
         private int Private { get; }
+
+        /// <summary>
+        /// Test class constructor
+        /// </summary>
+        public TestClass() { }
+
+        /// <summary>
+        /// Test class constructor 2
+        /// </summary>
+        /// <param name="a">A parameter</param>
+        /// <param name="b">B parameter</param>
+        public TestClass(int a, int b) { }
     }
 }

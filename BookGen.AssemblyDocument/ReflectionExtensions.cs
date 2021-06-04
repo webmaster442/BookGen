@@ -73,43 +73,6 @@ namespace BookGen.AssemblyDocument
             return $"{name}<{typeparams}>";
         }
 
-        public static string GetPropertyCode(this PropertyInfo property, bool isStatic = false)
-        {
-            List<string> parts = new List<string>();
-            if (property.GetMethod?.IsPublic ?? false)
-                parts.Add("public");
-            else if (property.GetMethod?.IsFamilyOrAssembly ?? false)
-                parts.Add("protected internal");
-            else if (property.GetMethod?.IsAssembly ?? false)
-                parts.Add("internal");
-            else if (property.GetMethod?.IsFamily ?? false)
-                parts.Add("protected");
-            else
-                parts.Add("private");
-
-            if (isStatic)
-                parts.Add("static");
-
-            parts.Add(GetNormalizedTypeName(property.PropertyType) ?? "");
-            parts.Add(property.Name);
-            parts.Add("{");
-
-            if (property.CanRead)
-                parts.Add("get;");
-
-            if (property.IsInitOnly())
-            {
-                parts.Add("init;");
-            }
-            else if (property.CanWrite 
-                && (property.SetMethod?.IsPublic ?? false))
-            {
-                parts.Add("set;");
-            }
-            parts.Add("}");
-            return string.Join(' ', parts);
-        }
-
         public static string GetMarkdownDocLinkFromType(this Type type)
         {
             string link = $"type://{GetNormalizedTypeName(type)}";
@@ -136,14 +99,15 @@ namespace BookGen.AssemblyDocument
             return $"[{linkname}]({link})";
         }
 
-        private static bool IsInitOnly(this PropertyInfo propertyInfo)
+        public static IEnumerable<T> GetPublicProtected<T>(this IEnumerable<T> input)
+            where T : MethodBase
         {
-            MethodInfo? setMethod = propertyInfo.SetMethod;
-            if (setMethod == null)
-                return false;
+            return input.Where(m => m.IsPublic || m.IsFamily || m.IsFamilyOrAssembly);
+        }
 
-            var isExternalInitType = typeof(System.Runtime.CompilerServices.IsExternalInit);
-            return setMethod.ReturnParameter.GetRequiredCustomModifiers().Contains(isExternalInitType);
+        public static IEnumerable<FieldInfo> GetPublicProtected(this IEnumerable<FieldInfo> input)
+        {
+            return input.Where(m => m.IsPublic || m.IsFamily || m.IsFamilyOrAssembly);
         }
 
         private static bool IsRecord(Type type)

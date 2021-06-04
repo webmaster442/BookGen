@@ -2,6 +2,7 @@
 using BookGen.AssemblyDocument.XmlDoc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace BookGen.AssemblyDocument.Documenters
@@ -59,7 +60,10 @@ namespace BookGen.AssemblyDocument.Documenters
 
         private void WriteConstructors(List<ConstructorInfo> constructors, MarkdownBuilder output)
         {
-            throw new NotImplementedException();
+            foreach (var ctor in constructors.GetPublicProtected())
+            {
+                
+            }
         }
 
         private void WriteFields(List<FieldInfo> fields, MarkdownBuilder output)

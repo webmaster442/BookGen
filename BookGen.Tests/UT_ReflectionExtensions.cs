@@ -41,15 +41,26 @@ namespace BookGen.Tests
         [TestCase(nameof(TestClass.InitProperty), "public int InitProperty { get; init; }")]
         [TestCase("Portected", "protected int Portected { get; }")]
         [TestCase("Private", "private int Private { get; }")]
-        public void EnsureThat_GetPropertyCode_ReturnsCorrect(string propName, string expected)
+        public void EnsureThat_GetCode_ReturnsCorrect_ForProperty(string propName, string expected)
         {
             var prop = typeof(TestClass).GetProperty(propName,
                                                      System.Reflection.BindingFlags.Public 
                                                      | System.Reflection.BindingFlags.NonPublic
                                                      | System.Reflection.BindingFlags.Instance);
-            var result = prop.GetPropertyCode();
+            var result = prop.GetCode();
             Assert.AreEqual(expected, result);
         }
+
+        [Test]
+        public void EnsureThat_GetCode_ReturnsCorrect_ForConstructors()
+        {
+            var ctors = typeof(TestClass).GetConstructors();
+
+            Assert.AreEqual(2, ctors.Length);
+            Assert.AreEqual("public TestClass ( );", ctors[0].GetCode());
+            Assert.AreEqual("public TestClass ( int a , int b );", ctors[1].GetCode());
+        }
+
 
         [TestCase(typeof(int), "int")]
         [TestCase(typeof(uint), "uint")]
