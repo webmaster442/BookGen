@@ -91,7 +91,7 @@ namespace BookGen.Modules
             }
             else if (arg == HelpView)
             {
-                var helpvm = new HelpViewModel(Modules);
+                var helpvm = new HelpViewModel(Modules ?? Enumerable.Empty<ModuleBase>());
                 return (GetView(HelpView), helpvm);
             }
             throw new InvalidOperationException($"Can't find view: {arg}");
