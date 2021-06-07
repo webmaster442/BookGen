@@ -68,5 +68,19 @@ namespace BookGen.Tests
             var result = _document.GetEnumValueSummary(typeof(TestEnum), value.ToString());
             Assert.AreEqual(expected, result);
         }
+
+        [Test]
+        public void EnsureThat_Selectors_GetConstructorSummary_ReturnsCorrect_Parameterless()
+        {
+            var ctor = typeof(TestClass).GetConstructor(new Type[] { });
+            Assert.AreEqual("Test class constructor", _document.GetConstructorSummary(ctor));
+        }
+
+        [Test]
+        public void EnsureThat_Selectors_GetConstructorSummary_ReturnsCorrect_Parametered()
+        {
+            var ctor = typeof(TestClass).GetConstructor(new Type[] { typeof(int), typeof(int) });
+            Assert.AreEqual("Test class constructor 2", _document.GetConstructorSummary(ctor));
+        }
     }
 }

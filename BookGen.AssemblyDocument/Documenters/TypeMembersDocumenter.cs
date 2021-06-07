@@ -62,7 +62,8 @@ namespace BookGen.AssemblyDocument.Documenters
         {
             foreach (var ctor in constructors.GetPublicProtected())
             {
-                
+                output.Code(ctor.GetCode(), "csharp");
+                output.Paragraph(XmlDocumentation.GetConstructorSummary(ctor));
             }
         }
 
