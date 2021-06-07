@@ -46,5 +46,29 @@
         /// <param name="a">A parameter</param>
         /// <param name="b">B parameter</param>
         public TestClass(int a, int b) { }
+
+        /// <summary>
+        /// A simple void method
+        /// </summary>
+        public void VoidMethod() { }
+
+        /// <summary>
+        /// A void method with parameters
+        /// </summary>
+        /// <param name="first">first parameter</param>
+        /// <param name="second">second parameter</param>
+        public void VoidMethodParams(int first, int second) { }
+
+        /// <summary>
+        /// A reference and out parameter method
+        /// </summary>
+        /// <param name="parameter">reference parameter</param>
+        /// <param name="another">out parameter</param>
+        /// <returns>return value</returns>
+        public int RefOutMethod(ref int parameter, out int another)
+        {
+            another = 1;
+            return parameter;
+        }
     }
 }

@@ -61,6 +61,15 @@ namespace BookGen.Tests
             Assert.AreEqual("public TestClass ( int a , int b );", ctors[1].GetCode());
         }
 
+        [TestCase("VoidMethod", "public void VoidMethod ( );")]
+        [TestCase("VoidMethodParams", "public void VoidMethodParams ( int first , int second );")]
+        [TestCase("RefOutMethod", "public int RefOutMethod ( ref int parameter , out int another );")]
+        public void EnsureThat_GetCode_ReturnsCorrect_ForMethods(string methodName, string expected)
+        {
+            var method = typeof(TestClass).GetMethod(methodName);
+            Assert.AreEqual(expected, method.GetCode());
+        }
+
 
         [TestCase(typeof(int), "int")]
         [TestCase(typeof(uint), "uint")]
@@ -77,6 +86,7 @@ namespace BookGen.Tests
         [TestCase(typeof(Exception), "System.Exception")]
         [TestCase(typeof(IEnumerable<int>), "System.Collections.Generic.IEnumerable<T>")]
         [TestCase(typeof(Dictionary<string, int>), "System.Collections.Generic.Dictionary<TKey, TValue>")]
+        [TestCase(typeof(void), "void")]
         public void EnsureThat_GetNormalizedTypeName_ReturnsCorrect(Type input, string expected)
         {
             var result = input.GetNormalizedTypeName();

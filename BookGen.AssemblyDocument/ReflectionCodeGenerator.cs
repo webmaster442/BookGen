@@ -25,6 +25,8 @@ namespace BookGen.AssemblyDocument
 
             if (isStatic)
                 output.Add("static");
+            else if (property.GetMethod?.IsAbstract ?? false)
+                output.Add("abstract");
 
             output.Add(property.PropertyType.GetNormalizedTypeName());
             output.Add(property.Name);
@@ -48,25 +50,45 @@ namespace BookGen.AssemblyDocument
 
         public static string GetCode(this ConstructorInfo constructor, bool isStatic = false)
         {
+            List<string> output = GetAccessModifiers(constructor, isStatic);
+
+            output.Add(constructor.DeclaringType?.GetNormalizedTypeName(false) ?? "");
+            AddParameters(constructor.GetParameters(), output);
+
+            return string.Join(' ', output);
+        }
+
+        public static string GetCode(this MethodInfo method, bool isStatic = false)
+        {
+            List<string> output = GetAccessModifiers(method, isStatic);
+
+            output.Add(method.ReturnType.GetNormalizedTypeName(false) ?? "");
+            output.Add(method.Name);
+            AddParameters(method.GetParameters(), output);
+
+            return string.Join(' ', output);
+        }
+
+        private static List<string> GetAccessModifiers(MethodBase method, bool isStatic)
+        {
             List<string> output = new List<string>();
-            if (constructor.IsPublic)
+            if (method.IsPublic)
                 output.Add("public");
-            else if (constructor.IsFamilyOrAssembly)
+            else if (method.IsFamilyOrAssembly)
                 output.Add("protected internal");
-            else if (constructor.IsAssembly)
+            else if (method.IsAssembly)
                 output.Add("internal");
-            else if (constructor.IsFamily)
+            else if (method.IsFamily)
                 output.Add("protected");
             else
                 output.Add("private");
 
             if (isStatic)
                 output.Add("static");
+            else if (method.IsAbstract)
+                output.Add("abstract");
 
-            output.Add(constructor.DeclaringType?.GetNormalizedTypeName(false) ?? "");
-            AddParameters(constructor.GetParameters(), output);
-
-            return string.Join(' ', output);
+            return output;
         }
 
         private static void AddParameters(ParameterInfo[] parameterInfos, List<string> output)
@@ -79,7 +101,7 @@ namespace BookGen.AssemblyDocument
 
                 if (parameter.IsOut)
                     output.Add("out");
-                if (parameter.ParameterType.IsByRef)
+                else if (parameter.ParameterType.IsByRef)
                     output.Add("ref");
                 output.Add(parameter.ParameterType.GetNormalizedTypeName());
                 output.Add(parameter.Name ?? "");

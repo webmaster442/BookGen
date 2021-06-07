@@ -42,14 +42,22 @@ namespace BookGen.AssemblyDocument
 
         public static string GetNormalizedTypeName(this Type type, bool fullName = true)
         {
-            var selector = type.FullName ?? string.Empty;
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
+            string selector = type.FullName ?? string.Empty;
+            if (type.IsByRef)
+            {
+                selector = type?.FullName?[0..^1] ?? string.Empty;
+            }
+
             if (!string.IsNullOrEmpty(selector) 
                 && Constants.KnownTypeNames.ContainsKey(selector))
             {
                 return Constants.KnownTypeNames[selector];
             }
 
-            if (!type.IsGenericType)
+            if (!type!.IsGenericType)
             {
                 if (fullName)
                     return selector;

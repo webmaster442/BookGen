@@ -18,6 +18,7 @@ namespace BookGen.AssemblyDocument
             { "System.Double", "double" },
             { "System.Decimal", "decimal" },
             { "System.String", "string" },
+            { "System.Void", "void" },
         };
     }
 }
