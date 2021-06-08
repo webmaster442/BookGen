@@ -3,11 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Documenter;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
+using XmlDocMarkdown.Core;
 
 namespace BookGen.Modules
 {
@@ -26,8 +26,6 @@ namespace BookGen.Modules
                 return new AutoCompleteItem(ModuleCommand,
                                             "-a",
                                             "--assembly",
-                                            "-x",
-                                            "--xml",
                                             "-o",
                                             "--output");
             }
@@ -46,9 +44,15 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(parameters.OutputDirectory.ToString()))
             {
-                var documenter = new AssemblyDocumenter(CurrentState.Log);
-
-                documenter.Document(parameters.AssemblyPath, parameters.XmlPath, parameters.OutputDirectory);
+                XmlDocMarkdownGenerator.Generate(parameters.AssemblyPath.ToString(), 
+                                                 parameters.OutputDirectory.ToString(),
+                                                 new XmlDocMarkdownSettings
+                                                 {
+                                                     IsQuiet = true,
+                                                     ShouldClean = true,
+                                                     VisibilityLevel = XmlDocVisibilityLevel.Protected,
+                                                     SkipUnbrowsable = true,
+                                                 });
             }
 
             return true;

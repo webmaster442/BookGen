@@ -5,6 +5,7 @@
 
 using BookGen.Core;
 using BookGen.Ui.ArgumentParser;
+using System.IO;
 
 namespace BookGen.Domain.ArgumentParsing
 {
@@ -12,9 +13,6 @@ namespace BookGen.Domain.ArgumentParsing
     {
         [Switch("a", "assembly", true)]
         public FsPath AssemblyPath { get; set; }
-        
-        [Switch("x", "xml", true)]
-        public FsPath XmlPath { get; set; }
 
         [Switch("o", "output", true)]
         public FsPath OutputDirectory { get; set; }
@@ -22,7 +20,6 @@ namespace BookGen.Domain.ArgumentParsing
         public AssemblyDocumentParameters()
         {
             AssemblyPath = FsPath.Empty;
-            XmlPath = FsPath.Empty;
             OutputDirectory = FsPath.Empty;
         }
 
@@ -30,7 +27,7 @@ namespace BookGen.Domain.ArgumentParsing
         {
             return
                 AssemblyPath.IsExisting
-                && XmlPath.IsExisting
+                && new FsPath(Path.ChangeExtension(AssemblyPath.ToString(), "xml")).IsExisting
                 && !FsPath.IsEmptyPath(OutputDirectory);
         }
     }
