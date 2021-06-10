@@ -53,7 +53,7 @@ namespace BookGen.Launch.Launcher
         public static bool Launch(string shellScript, bool useWinTerminal)
         {
             if (IsWindowsTerminalInstalled() && useWinTerminal)
-                return RunProgram(WindowsTerminalCommand, $"new-tab -p \"Powershell\" --title \"BookGen shell\" powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+                return RunProgram(WindowsTerminalCommand, $"new-tab -p \"Powershell\" --title \"BookGen shell\" --colorScheme \"Campbell Powershell\" powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
             else
                 return RunProgram(Powershell, $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
         }

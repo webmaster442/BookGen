@@ -108,6 +108,9 @@ namespace BookGen.Launch.Launcher
                     file.WriteLine(dn);
                     file.WriteLine(bg);
                     file.WriteLine("Remove-Item \"{0}\"", name);
+                    file.WriteLine("echo \"To get info on using bookgen type: Bookgen Help\"");
+                    file.WriteLine("echo \"To get list of commands type: Bookgen SubCommands\"");
+                    file.WriteLine("echo \"\"");
                 }
 
                 shellScriptPath = name;
