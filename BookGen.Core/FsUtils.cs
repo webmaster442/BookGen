@@ -21,7 +21,7 @@ namespace BookGen.Core
         {
             try
             {
-                log?.Detail("Creating directory: {0}", path);
+                log.Detail("Creating directory: {0}", path);
                 if (!FsPath.IsEmptyPath(path))
                 {
                     Directory.CreateDirectory(path.ToString());
@@ -29,7 +29,7 @@ namespace BookGen.Core
                 }
                 else
                 {
-                    log?.Warning("CreateDir called with empty input path");
+                    log.Warning("CreateDir called with empty input path");
                     return false;
                 }
             }
@@ -56,12 +56,12 @@ namespace BookGen.Core
                     SearchOption.AllDirectories))
                 {
                     var targetfile = newPath.Replace(sourceDirectory.ToString(), TargetDir.ToString());
-                    log?.Detail("Copy file: {0} to {1}", newPath, targetfile);
+                    log.Detail("Copy file: {0} to {1}", newPath, targetfile);
 
                     var targetDir = Path.GetDirectoryName(targetfile);
                     if (targetDir != null && !Directory.Exists(targetDir))
                     {
-                        log?.Detail("Creating directory: {0}", targetDir);
+                        log.Detail("Creating directory: {0}", targetDir);
                         Directory.CreateDirectory(targetDir.ToString());
                     }
 

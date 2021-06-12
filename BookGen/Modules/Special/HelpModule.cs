@@ -35,7 +35,7 @@ namespace BookGen.Modules.Special
             }
             else
             {
-                Console.WriteLine(foundMoudle?.GetHelp());
+                Console.WriteLine(foundMoudle.GetHelp());
                 Program.Exit(ExitCode.BadParameters);
             }
 

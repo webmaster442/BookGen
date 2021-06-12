@@ -105,7 +105,7 @@ namespace BookGen
 
                 if (!moduleToRun.Execute(parameters))
                 {
-                    Console.WriteLine(moduleToRun?.GetHelp());
+                    Console.WriteLine(moduleToRun.GetHelp());
                     Cleanup(moduleToRun);
                     Exit(ExitCode.BadParameters);
                 }
@@ -187,7 +187,7 @@ namespace BookGen
         private static void HandleUncaughtException(ModuleBase? currentModule, Exception ex)
         {
             if (currentModule is ModuleWithState stateModule)
-                stateModule?.Abort();
+                stateModule.Abort();
 
             ShowMessageBox("Unhandled exception\r\n{0}", ex);
 #if DEBUG

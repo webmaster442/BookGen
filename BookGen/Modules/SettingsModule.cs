@@ -99,7 +99,7 @@ namespace BookGen.Modules
             PropertyInfo? prop = GetProperty(setting);
             if (prop != null)
             {
-                var value = prop?.GetValue(_settings)?.ToString() ?? "<null>";
+                var value = prop.GetValue(_settings)?.ToString() ?? "<null>";
                 Console.WriteLine(value);
             }
         }
@@ -112,7 +112,7 @@ namespace BookGen.Modules
                 try
                 {
                     var changed = Convert.ChangeType(value, prop.PropertyType);
-                    prop?.SetValue(_settings, changed);
+                    prop.SetValue(_settings, changed);
                 }
                 catch (Exception)
                 {

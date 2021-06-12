@@ -24,22 +24,14 @@ namespace BookGen.Framework.Server
 
         private readonly string _directory;
         private readonly ILog _log;
-        private FileSystemWatcher? _fsw;
-        private HashSet<string> _dirFiles;
         private readonly TemplateProcessor _processor;
-        private readonly BookGenPipeline _mdpipeline;
+        private BookGenPipeline? _mdpipeline;
 
 
         public PreviewRenderHandler(string directory, ILog log)
         {
             _directory = directory;
             _log = log;
-            _fsw = new FileSystemWatcher(_directory, "*.md");
-            _fsw.Created += OnRefreshDir;
-            _fsw.Deleted += OnRefreshDir;
-            _fsw.Renamed += OnRefreshDir;
-            _fsw.EnableRaisingEvents = true;
-            _dirFiles = new HashSet<string>(Directory.GetFiles(_directory, "*.md"));
 
             _processor = new TemplateProcessor(new Core.Configuration.Config(),
                              new ShortCodeParser(new List<ITemplateShortCode>(),
@@ -69,25 +61,19 @@ namespace BookGen.Framework.Server
                 proble = absoluteUri[1..];
             }
 
-            foundUri = _dirFiles.FirstOrDefault(x => x.EndsWith(proble)) ?? string.Empty;
+            foundUri = Directory.GetFiles(_directory, "*.md").FirstOrDefault(x => x.EndsWith(proble)) ?? string.Empty;
             return !string.IsNullOrEmpty(foundUri);
         }
 
         public void Dispose()
         {
-            if (_fsw != null)
+            if (_mdpipeline != null)
             {
-                _fsw.EnableRaisingEvents = false;
-                _fsw.Dispose();
-                _fsw = null;
+                _mdpipeline.Dispose();
+                _mdpipeline = null;
             }
         }
 
-        private void OnRefreshDir(object sender, FileSystemEventArgs e)
-        {
-            _log.Info("Refreshing file list of: {0}...", _directory);
-            _dirFiles = new HashSet<string>(Directory.GetFiles(_directory, "*.md"));
-        }
 
         public string WriteIndex()
         {
@@ -95,7 +81,7 @@ namespace BookGen.Framework.Server
             html.WriteHeader(1, "Index of: {0}", _directory);
             html.WriteElement(HtmlElement.Table);
             html.WriteTableHeader("File name", "Actions");
-            foreach (var file in _dirFiles)
+            foreach (var file in Directory.GetFiles(_directory, "*.md"))
             {
                 html.WriteTableRow(Path.GetFileName(file), GetLink(file));
             }
@@ -125,7 +111,7 @@ namespace BookGen.Framework.Server
             {
                 _processor.Title = $"Preview of {request.Url}";
                 FsPath path = new FsPath(found);
-                _processor.Content = _mdpipeline.RenderMarkdown(path.ReadFile(bookGenLog));
+                _processor.Content = _mdpipeline?.RenderMarkdown(path.ReadFile(bookGenLog)) ?? string.Empty;
                 await response.Write(_processor.Render());
                 return true;
             }
