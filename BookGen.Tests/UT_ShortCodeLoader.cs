@@ -29,6 +29,7 @@ namespace BookGen.Tests
         [TearDown]
         public void TearDown()
         {
+            _sut.Dispose();
             _sut = null;
         }
 
