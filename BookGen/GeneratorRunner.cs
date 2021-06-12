@@ -55,7 +55,7 @@ namespace BookGen
         {
             Console.WriteLine(HelpUtils.GetGeneralHelp());
         }
-        
+
         #region Helpers
 
         public void InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
@@ -132,9 +132,13 @@ namespace BookGen
             var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetWeb);
 
             Log.Info("Building deploy configuration...");
-            WebsiteBuilder builder = new WebsiteBuilder(settings, Log, _scriptHandler);
-            var runTime = builder.Run();
-            Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+
+            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
+            {
+                WebsiteBuilder builder = new WebsiteBuilder(settings, Log, loader, _scriptHandler);
+                var runTime = builder.Run();
+                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+            }
         }
 
         public void DoPrint()
@@ -148,9 +152,13 @@ namespace BookGen
             var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetPrint);
 
             Log.Info("Building print configuration...");
-            PrintBuilder builder = new PrintBuilder(settings, Log, _scriptHandler);
-            var runTime = builder.Run();
-            Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+
+            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
+            {
+                PrintBuilder builder = new PrintBuilder(settings, Log, loader, _scriptHandler);
+                var runTime = builder.Run();
+                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+            }
         }
 
         public void DoEpub()
@@ -164,9 +172,13 @@ namespace BookGen
             var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetEpub);
 
             Log.Info("Building epub configuration...");
-            EpubBuilder builder = new EpubBuilder(settings, Log, _scriptHandler);
-            var runTime = builder.Run();
-            Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+
+            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
+            {
+                EpubBuilder builder = new EpubBuilder(settings, Log, loader, _scriptHandler);
+                var runTime = builder.Run();
+                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+            }
         }
 
         public void DoWordpress()
@@ -180,9 +192,13 @@ namespace BookGen
             var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetWordpress);
 
             Log.Info("Building Wordpress configuration...");
-            WordpressBuilder builder = new WordpressBuilder(settings, Log, _scriptHandler);
-            var runTime = builder.Run();
-            Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+
+            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
+            {
+                WordpressBuilder builder = new WordpressBuilder(settings, Log, loader, _scriptHandler);
+                var runTime = builder.Run();
+                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+            }
         }
 
         public void DoTest()
@@ -198,25 +214,29 @@ namespace BookGen
 
             var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetWeb);
 
-            WebsiteBuilder builder = new WebsiteBuilder(settings, Log, _scriptHandler);
-            var runTime = builder.Run();
 
-            using (var server = HttpServerFactory.CreateServerForTest(ServerLog, Path.Combine(WorkDirectory, _configuration.TargetWeb.OutPutDirectory)))
+            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
             {
-                server.Start();
-                Log.Info("-------------------------------------------------");
-                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
-                Log.Info("Test server running on: http://localhost:8080/");
-                Log.Info("Serving from: {0}", _configuration.TargetWeb.OutPutDirectory);
+                WebsiteBuilder builder = new WebsiteBuilder(settings, Log, loader, _scriptHandler);
+                var runTime = builder.Run();
 
-                if (Program.AppSetting.AutoStartWebserver)
+                using (var server = HttpServerFactory.CreateServerForTest(ServerLog, Path.Combine(WorkDirectory, _configuration.TargetWeb.OutPutDirectory)))
                 {
-                    StartUrl(_configuration.HostName);
-                }
+                    server.Start();
+                    Log.Info("-------------------------------------------------");
+                    Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+                    Log.Info("Test server running on: http://localhost:8080/");
+                    Log.Info("Serving from: {0}", _configuration.TargetWeb.OutPutDirectory);
 
-                Console.WriteLine(ExitString);
-                Console.ReadLine();
-                server.Stop();
+                    if (Program.AppSetting.AutoStartWebserver)
+                    {
+                        StartUrl(_configuration.HostName);
+                    }
+
+                    Console.WriteLine(ExitString);
+                    Console.ReadLine();
+                    server.Stop();
+                }
             }
         }
 

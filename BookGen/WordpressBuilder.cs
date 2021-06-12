@@ -13,8 +13,8 @@ namespace BookGen
 {
     internal class WordpressBuilder : Builder
     {
-        public WordpressBuilder(RuntimeSettings settings, ILog log, CsharpScriptHandler scriptHandler)
-            : base(settings, log, scriptHandler)
+        public WordpressBuilder(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
+            : base(settings, log, loader, scriptHandler)
         {
             var session = new GeneratorSteps.Wordpress.Session();
             AddStep(new GeneratorSteps.CreateOutputDirectory());

@@ -14,8 +14,8 @@ namespace BookGen
 {
     internal class EpubBuilder : Builder
     {
-        public EpubBuilder(RuntimeSettings settings, ILog log, CsharpScriptHandler scriptHandler)
-            : base(settings, log, scriptHandler)
+        public EpubBuilder(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
+            : base(settings, log, loader, scriptHandler)
         {
             var session = new GeneratorSteps.Epub.EpubSession();
 

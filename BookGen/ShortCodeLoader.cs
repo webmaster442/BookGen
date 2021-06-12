@@ -14,7 +14,7 @@ using System.ComponentModel.Composition.Hosting;
 
 namespace BookGen
 {
-    internal class ShortCodeLoader
+    internal sealed class ShortCodeLoader : IDisposable
     {
         [ImportMany]
         public List<ITemplateShortCode> Imports { get; }
@@ -31,7 +31,7 @@ namespace BookGen
         [Export(typeof(IAppSetting))]
         private readonly IAppSetting _appSetting;
 
-        private readonly CompositionContainer _container;
+        private CompositionContainer? _container;
 
         public ShortCodeLoader(ILog log, IReadonlyRuntimeSettings settings, IAppSetting appSetting)
         {
@@ -53,12 +53,24 @@ namespace BookGen
         {
             try
             {
-                _container.ComposeParts(this);
-                _container.SatisfyImportsOnce(this);
+                if (_container != null)
+                {
+                    _container.ComposeParts(this);
+                    _container.SatisfyImportsOnce(this);
+                }
             }
             catch (Exception ex)
             {
                 _log.Critical(ex);
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_container != null)
+            {
+                _container.Dispose();
+                _container = null;
             }
         }
     }

@@ -17,8 +17,8 @@ namespace BookGen
 {
     internal class WebsiteBuilder : Builder
     {
-        public WebsiteBuilder(RuntimeSettings settings, ILog log, CsharpScriptHandler scriptHandler) 
-            :base(settings, log, scriptHandler)
+        public WebsiteBuilder(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler) 
+            :base(settings, log, loader, scriptHandler)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(CreateAssets());

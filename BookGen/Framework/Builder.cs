@@ -27,12 +27,13 @@ namespace BookGen.Framework
         private readonly StaticTemplateContent _staticContent;
         protected Builder(RuntimeSettings settings,
                           ILog log,
+                          ShortCodeLoader shortCodeLoader,
                           CsharpScriptHandler scriptHandler)
         {
             Settings = settings;
 
             _staticContent = new StaticTemplateContent();
-            _loader = new ShortCodeLoader(log, Settings, Program.AppSetting);
+            _loader = shortCodeLoader;
             _loader.LoadAll();
 
             _scriptHandler = scriptHandler;

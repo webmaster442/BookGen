@@ -14,8 +14,8 @@ namespace BookGen
 {
     internal class PrintBuilder : Builder
     {
-        public PrintBuilder(RuntimeSettings settings, ILog log, CsharpScriptHandler scriptHandler)
-            : base(settings, log, scriptHandler)
+        public PrintBuilder(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
+            : base(settings, log, loader, scriptHandler)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets(settings.Configuration.TargetPrint));
