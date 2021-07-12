@@ -6,22 +6,31 @@
 using BookGen.Resources;
 using Microsoft.ClearScript.V8;
 using System;
+using PreMailer.Net;
 
 namespace BookGen.Core
 {
     public sealed class JavaScriptInterop : IDisposable
     {
         private V8ScriptEngine? _engine;
+        private readonly string _prismcss;
 
         public JavaScriptInterop()
         {
             _engine = new V8ScriptEngine();
             _engine.Execute(ResourceHandler.GetFile(KnownFile.PrismJs));
+            _prismcss = ResourceHandler.GetFile(KnownFile.PrismCss);
         }
 
-        private void InlineCss()
+        private string InlineCss(string? soruce)
         {
-
+            if (!string.IsNullOrEmpty(soruce))
+            {
+                var pm = new PreMailer.Net.PreMailer(soruce);
+                var result = pm.MoveCssInline(false, string.Empty, _prismcss);
+                return result.Html;
+            }
+            return string.Empty;
         }
 
         public string SyntaxHighlight(string code, string language)
@@ -30,7 +39,7 @@ namespace BookGen.Core
             {
                 _engine.Script.code = code;
                 var result = _engine?.Evaluate($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
-                return result as string ?? string.Empty;
+                return InlineCss(result as string);
             }
             return string.Empty;
         }
