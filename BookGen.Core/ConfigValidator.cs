@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Configuration;
-using BookGen.Core.Properties;
-using System;
 
 namespace BookGen.Core
 {
@@ -35,19 +33,19 @@ namespace BookGen.Core
         {
             if (target == null)
             {
-                AddError(Resources.MissingSection);
+                AddError(Properties.Resources.MissingSection);
                 return;
             }
 
             if (!string.IsNullOrEmpty(target.TemplateFile)
                 && !WorkDirectory.Combine(target.TemplateFile).IsExisting)
             {
-                AddError(Resources.MissingTemplateFile, target.TemplateFile);
+                AddError(Properties.Resources.MissingTemplateFile, target.TemplateFile);
             }
 
             if (target.TemplateAssets == null)
             {
-                AddError(Resources.MissingAssets);
+                AddError(Properties.Resources.MissingAssets);
             }
             else
             {
@@ -56,12 +54,12 @@ namespace BookGen.Core
                     var source = WorkDirectory.Combine(asset.Source);
 
                     if (!source.IsExisting)
-                        AddError(Resources.MissingAsset, source.ToString());
+                        AddError(Properties.Resources.MissingAsset, source.ToString());
                 }
             }
 
             if (target.StyleClasses == null)
-                AddError(Resources.MissingStyleClasses);
+                AddError(Properties.Resources.MissingStyleClasses);
 
             ValidateImageOptions(target.ImageOptions);
         }
@@ -69,16 +67,16 @@ namespace BookGen.Core
         private void ValidateImageOptions(ImageOptions imageOptions)
         {
             if (imageOptions.InlineImageSizeLimit < 0)
-                AddError(Resources.InvalidValueMustBePositive, nameof(imageOptions.InlineImageSizeLimit));
+                AddError(Properties.Resources.InvalidValueMustBePositive, nameof(imageOptions.InlineImageSizeLimit));
 
             if (imageOptions.MaxHeight < 0)
-                AddError(Resources.InvalidValueMustBePositive, nameof(imageOptions.MaxHeight));
+                AddError(Properties.Resources.InvalidValueMustBePositive, nameof(imageOptions.MaxHeight));
 
             if (imageOptions.MaxWidth < 0)
-                AddError(Resources.InvalidValueMustBePositive, nameof(imageOptions.MaxWidth));
+                AddError(Properties.Resources.InvalidValueMustBePositive, nameof(imageOptions.MaxWidth));
 
             if (imageOptions.ImageQuality < 0 || imageOptions.ImageQuality > 100)
-                AddError(Resources.InvalidValueMustBeBetweenRange, nameof(imageOptions.MaxWidth), 0, 100);
+                AddError(Properties.Resources.InvalidValueMustBeBetweenRange, nameof(imageOptions.MaxWidth), 0, 100);
         }
 
         public override void Validate()
@@ -107,27 +105,27 @@ namespace BookGen.Core
             }
 
             if (!string.IsNullOrEmpty(_config.ImageDir) && !WorkDirectory.Combine(_config.ImageDir).IsExisting)
-                AddError(Resources.MissingImageDir, _config.ImageDir);
+                AddError(Properties.Resources.MissingImageDir, _config.ImageDir);
 
             if (!WorkDirectory.Combine(_config.TOCFile).IsExisting)
-                AddError(Resources.MissingTocFile, _config.TOCFile);
+                AddError(Properties.Resources.MissingTocFile, _config.TOCFile);
 
             if (string.IsNullOrEmpty(_config.HostName))
             {
-                AddError(Resources.MissingHostName);
+                AddError(Properties.Resources.MissingHostName);
             }
             else if (!_config.HostName.EndsWith("/"))
             {
-                AddError(Resources.MissingTrailingSlash);
+                AddError(Properties.Resources.MissingTrailingSlash);
             }
 
             if (string.IsNullOrEmpty(_config.Index))
-                AddError(Resources.MissingIndex);
+                AddError(Properties.Resources.MissingIndex);
 
             if (_config.Translations == null)
-                AddError(Resources.MissingTranslations);
+                AddError(Properties.Resources.MissingTranslations);
             if (_config.Metadata == null)
-                AddError(Resources.MissingMetadata);
+                AddError(Properties.Resources.MissingMetadata);
         }
     }
 }
