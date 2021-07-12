@@ -21,14 +21,12 @@
   <ItemGroup>
     <PackageReference Include="ColorCode.Netstandard" Version="1.0.4.3" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.1.4" />
-    <PackageReference Include="NUglify" Version="1.13.12" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
     <PackageReference Include="Markdig" Version="0.25.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
-    <PackageReference Include="ZetaProducerHtmlCompressorStandard" Version="1.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
