@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -63,6 +63,9 @@ namespace BookGen.Core.Markdown.Modifiers
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
+            if (SyntaxEnabled)
+                PipelineHelpers.AppendPrismCss(document);
+
             foreach (var node in document.Descendants())
             {
                 if (node is LinkInline link
