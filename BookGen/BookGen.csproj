@@ -64,10 +64,10 @@
 		<None Remove="Resources\ReplaceContents.bat" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Markdig" Version="0.25.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0" />
+		<PackageReference Include="Markdig" Version="0.26.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
 		<PackageReference Include="SkiaSharp" Version="2.80.3" />
-		<PackageReference Include="Svg.Skia" Version="0.5.6.1" />
+		<PackageReference Include="Svg.Skia" Version="0.5.7.1" />
 		<PackageReference Include="System.ComponentModel.Composition" Version="5.0.0" />
 		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
@@ -75,7 +75,7 @@
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
 		<PackageReference Include="System.Text.Json" Version="5.0.2" />
-		<PackageReference Include="XmlDocMarkdown.Core" Version="2.5.2" />
+		<PackageReference Include="XmlDocMarkdown.Core" Version="2.6.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="ConsoleUi\HelpView.xml" />
