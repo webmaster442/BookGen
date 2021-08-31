@@ -16,6 +16,12 @@ namespace BookGen.Core.Markdown.Modifiers
     {
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
         private MarkdownPipelineBuilder? _pipeline;
+        private JavaScriptInterop? _interop;
+
+        public EpubModifier()
+        {
+            _interop = new JavaScriptInterop();
+        }
 
         public bool SyntaxEnabled
         {
@@ -25,6 +31,11 @@ namespace BookGen.Core.Markdown.Modifiers
 
         public void Dispose()
         {
+            if (_interop != null)
+            {
+                _interop.Dispose();
+                _interop = null;
+            }
             if (_pipeline != null)
             {
                 _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
@@ -40,7 +51,10 @@ namespace BookGen.Core.Markdown.Modifiers
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
-            PipelineHelpers.SetupSyntaxRender(renderer);
+            if (_interop == null)
+                throw new InvalidOperationException();
+
+            PipelineHelpers.SetupSyntaxRender(renderer, _interop);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)

@@ -16,7 +16,7 @@ namespace BookGen.Core.Markdown
 {
     internal static class PipelineHelpers
     {
-        public static void SetupSyntaxRender(IMarkdownRenderer renderer)
+        public static void SetupSyntaxRender(IMarkdownRenderer renderer, JavaScriptInterop interop)
         {
             if (renderer == null)
                 throw new ArgumentNullException(nameof(renderer));
@@ -27,8 +27,7 @@ namespace BookGen.Core.Markdown
             if (originalCodeBlockRenderer != null)
             {
                 htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
-
-                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer));
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer, interop));
             }
         }
 

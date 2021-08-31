@@ -17,10 +17,12 @@ namespace BookGen.Core.Markdown.Modifiers
     internal sealed class PreviewModifier : IMarkdownExtensionWithPath, IMarkdownExtensionWithSyntaxToggle, IDisposable
     {
         private MarkdownPipelineBuilder? _pipeline;
+        private JavaScriptInterop? _interop;
 
         public PreviewModifier()
         {
             Path = FsPath.Empty;
+            _interop = new JavaScriptInterop();
         }
 
         public FsPath Path { get; set; }
@@ -38,6 +40,11 @@ namespace BookGen.Core.Markdown.Modifiers
                 _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
                 _pipeline = null;
             }
+            if (_interop != null)
+            {
+                _interop.Dispose();
+                _interop = null;
+            }
         }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
@@ -48,7 +55,10 @@ namespace BookGen.Core.Markdown.Modifiers
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
-            PipelineHelpers.SetupSyntaxRender(renderer);
+            if (_interop == null)
+                throw new InvalidOperationException();
+
+            PipelineHelpers.SetupSyntaxRender(renderer, _interop);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)

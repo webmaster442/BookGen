@@ -20,14 +20,7 @@
 		<PackageLicenseFile>LICENCE</PackageLicenseFile>
 		<Version>1.0.5</Version>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>..\bin\$(Configuration)\BookGen.Api.xml</DocumentationFile>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>..\bin\$(Configuration)\BookGen.Api.xml</DocumentationFile>
+    <DocumentationFile>..\bin\$(Configuration)\BookGen.Api.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
