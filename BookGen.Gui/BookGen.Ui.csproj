@@ -1,32 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<Product>BookGen</Product>
-		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-		<OutputPath>..\bin\$(Configuration)\</OutputPath>
-		<Authors>Ruzsinszki Gábor</Authors>
-		<PackageLicenseExpression></PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
-		<PackageLicenseFile>LICENCE</PackageLicenseFile>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Terminal.Gui" Version="1.2.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="..\LICENCE">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
-	</ItemGroup>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
 </Project>
