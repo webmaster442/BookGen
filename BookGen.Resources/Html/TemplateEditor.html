@@ -67,12 +67,29 @@
             padding: 5px;
             text-align: center;
         }
+
+        .tab {
+            display: none;
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function switchTab(targetTab) {
+            $("#EditorBox").css("display", "none");
+            $("#PreivewBox").css("display", "none");
+            $("#" + targetTab).css("display", "flex");
+        }
+        $(document).ready(function () {
+            switchTab("EditorBox");
+        });
+        
+    </script>
 </head>
 
 <body>
     <div id="Parent" class="container maxsize">
-        <div id="Editor" class="container">
+        <div id="SubContainer" class="container">
             <div class="box box-1 toolbar">
                 <div id="filename">FullPath/of/file/being/edited/at/themoment.md</div>
                 <nav>
@@ -145,8 +162,13 @@
                         </svg>
                     </button>
                 </nav>
+                <div id="switcher" style="direction: rtl; margin-top: -30px;">
+                    <button id="Preview" onclick="switchTab('PreivewBox');">Preview</button>
+                    <button id="EditorButton" onclick="switchTab('EditorBox');">Editor</button>
+                </div>
             </div>
-            <textarea class="box box-2 editorBox">textarea</textarea>
+            <textarea id="EditorBox" class="box box-2 editorBox">textarea</textarea>
+            <iframe id="PreivewBox" class="box box-2"></iframe>
         </div>
     </div>
 </body>
