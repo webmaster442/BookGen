@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -17,8 +17,14 @@ namespace BookGen.Core.Markdown.Modifiers
     internal sealed class PrintModifier : IMarkdownExtensionWithRuntimeConfig, IMarkdownExtensionWithSyntaxToggle, IDisposable
     {
         private MarkdownPipelineBuilder? _pipeline;
+        private JavaScriptInterop? _interop;
 
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
+
+        public PrintModifier()
+        {
+            _interop = new JavaScriptInterop();
+        }
 
         public bool SyntaxEnabled
         {
@@ -33,6 +39,11 @@ namespace BookGen.Core.Markdown.Modifiers
                 _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
                 _pipeline = null;
             }
+            if (_interop != null)
+            {
+                _interop.Dispose();
+                _interop = null;
+            }
         }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
@@ -43,7 +54,10 @@ namespace BookGen.Core.Markdown.Modifiers
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
-            PipelineHelpers.SetupSyntaxRender(renderer);
+            if (_interop == null)
+                throw new InvalidOperationException();
+
+            PipelineHelpers.SetupSyntaxRender(renderer, _interop);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
@@ -51,8 +65,12 @@ namespace BookGen.Core.Markdown.Modifiers
             if (RuntimeConfig == null)
                 return;
 
+            if (SyntaxEnabled)
+                PipelineHelpers.AppendPrismCss(document);
+
             PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetPrint, document);
             PipelineHelpers.RenderImages(RuntimeConfig, document);
+
 
             foreach (var node in document.Descendants())
             {

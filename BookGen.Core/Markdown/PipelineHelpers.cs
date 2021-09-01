@@ -1,22 +1,35 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Core.Markdown.Renderers;
+using Markdig.Parsers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
+using System.Text;
 
 namespace BookGen.Core.Markdown
 {
     internal static class PipelineHelpers
     {
-        public static void SetupSyntaxRender(IMarkdownRenderer renderer)
+        public static void AppendPrismCss(MarkdownDocument document)
+        {
+            StringBuilder content = new StringBuilder();
+            content.Append("<style type=\"text/css\">\r\n");
+            content.Append(Resources.ResourceHandler.GetFile(Resources.KnownFile.PrismCss));
+            content.Append("</style>\r\n");
+            var block = new HtmlBlock(new HtmlBlockParser());
+            block.Lines = new Markdig.Helpers.StringLineGroup(content.ToString());
+            document.Insert(0, block);
+        }
+
+        public static void SetupSyntaxRender(IMarkdownRenderer renderer, JavaScriptInterop interop)
         {
             if (renderer == null)
                 throw new ArgumentNullException(nameof(renderer));
@@ -27,8 +40,7 @@ namespace BookGen.Core.Markdown
             if (originalCodeBlockRenderer != null)
             {
                 htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
-
-                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer));
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer, interop));
             }
         }
 
