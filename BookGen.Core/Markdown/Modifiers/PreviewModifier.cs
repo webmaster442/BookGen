@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -17,10 +17,12 @@ namespace BookGen.Core.Markdown.Modifiers
     internal sealed class PreviewModifier : IMarkdownExtensionWithPath, IMarkdownExtensionWithSyntaxToggle, IDisposable
     {
         private MarkdownPipelineBuilder? _pipeline;
+        private JavaScriptInterop? _interop;
 
         public PreviewModifier()
         {
             Path = FsPath.Empty;
+            _interop = new JavaScriptInterop();
         }
 
         public FsPath Path { get; set; }
@@ -38,6 +40,11 @@ namespace BookGen.Core.Markdown.Modifiers
                 _pipeline.DocumentProcessed -= PipelineOnDocumentProcessed;
                 _pipeline = null;
             }
+            if (_interop != null)
+            {
+                _interop.Dispose();
+                _interop = null;
+            }
         }
 
         public void Setup(MarkdownPipelineBuilder pipeline)
@@ -48,11 +55,17 @@ namespace BookGen.Core.Markdown.Modifiers
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
-            PipelineHelpers.SetupSyntaxRender(renderer);
+            if (_interop == null)
+                throw new InvalidOperationException();
+
+            PipelineHelpers.SetupSyntaxRender(renderer, _interop);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
         {
+            if (SyntaxEnabled)
+                PipelineHelpers.AppendPrismCss(document);
+
             foreach (var node in document.Descendants())
             {
                 if (node is LinkInline link

@@ -1,10 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Properties;
 using System.Linq;
 
 namespace BookGen.Core
@@ -39,16 +38,16 @@ namespace BookGen.Core
         public override void Validate()
         {
             if (!_toc.Chapters.Any())
-                AddError(Resources.TOCNoChapters);
+                AddError(Properties.Resources.TOCNoChapters);
 
             foreach (var file in _toc.Files)
             {
                 var source =  _workdir.Combine(file);
                 if (!source.IsExisting)
-                    AddError(Resources.TOCFileNotExists, file);
+                    AddError(Properties.Resources.TOCFileNotExists, file);
 
                 if (!IsValidFileName(file))
-                    AddError(Resources.TOCInvalidFilePathChars, file);
+                    AddError(Properties.Resources.TOCInvalidFilePathChars, file);
             }
         }
     }
