@@ -6,14 +6,13 @@
 using BookGen.Api.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Core.Markdown.Renderers;
+using Markdig.Parsers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using System;
 using System.Text;
-using System.Linq;
-using Markdig.Parsers;
 
 namespace BookGen.Core.Markdown
 {
@@ -27,7 +26,7 @@ namespace BookGen.Core.Markdown
             content.Append("</style>\r\n");
             var block = new HtmlBlock(new HtmlBlockParser());
             block.Lines = new Markdig.Helpers.StringLineGroup(content.ToString());
-            document.Add(block);
+            document.Insert(0, block);
         }
 
         public static void SetupSyntaxRender(IMarkdownRenderer renderer, JavaScriptInterop interop)

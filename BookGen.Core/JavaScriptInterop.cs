@@ -12,22 +12,28 @@ namespace BookGen.Core
     public sealed class JavaScriptInterop : IDisposable
     {
         private V8ScriptEngine? _engine;
+        private bool _prismLoaded;
 
         public JavaScriptInterop()
         {
             _engine = new V8ScriptEngine();
-            _engine.Execute(ResourceHandler.GetFile(KnownFile.PrismJs));
+            _prismLoaded = false;
         }
 
         public string SyntaxHighlight(string code, string language)
         {
-            if (_engine != null)
+            if (_engine == null)
+                throw new InvalidOperationException("After Dispose no operation is possible");
+
+            if (!_prismLoaded)
             {
-                _engine.Script.code = code;
-                var result = _engine?.Evaluate($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
-                return result as string ?? string.Empty;
+                _engine.Execute(ResourceHandler.GetFile(KnownFile.PrismJs));
+                _prismLoaded = true;
             }
-            return string.Empty;
+
+            _engine.Script.code = code;
+            var result = _engine?.Evaluate($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
+            return result as string ?? string.Empty;
         }
 
         public void Dispose()
