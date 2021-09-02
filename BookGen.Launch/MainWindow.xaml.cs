@@ -16,6 +16,7 @@ namespace BookGen.Launch
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
         }
 
         private void WindowChrome_MouseDown(object sender, MouseButtonEventArgs e)

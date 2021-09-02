@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace BookGen.Launch.Application
+namespace BookGen.Launch.Code
 {
     internal static class FolderList
     {

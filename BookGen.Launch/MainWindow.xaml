@@ -29,7 +29,9 @@
             Grid.Row="0"
             Grid.ColumnSpan="2"
             Background="{StaticResource AppBackground}"
-            MouseDown="WindowChrome_MouseDown">
+            MouseDown="WindowChrome_MouseDown"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True">
             <!--  Window chrome  -->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -69,8 +71,14 @@
             Grid.Row="2"
             Grid.Column="0"
             BorderBrush="{StaticResource Border}"
-            BorderThickness="0,0,2,0">
-            <ItemsControl>
+            BorderThickness="0,0,2,0"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True">
+            <ItemsControl
+                Margin="0,22,0,0"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                ItemsSource="{Binding Items}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel
@@ -78,6 +86,83 @@
                             VirtualizationMode="Recycling" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Width="853"
+                            Height="140"
+                            Background="White"
+                            BorderBrush="{StaticResource Border}"
+                            BorderThickness="1"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="0"
+                                    Color="LightGray" />
+                            </Border.Effect>
+                            <Grid
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Viewbox
+                                    Grid.RowSpan="2"
+                                    Grid.Column="0"
+                                    Width="48"
+                                    Height="48"
+                                    Margin="10"
+                                    VerticalAlignment="Top">
+                                    <Canvas
+                                        Width="24"
+                                        Height="24">
+                                        <Path
+                                            Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z"
+                                            Fill="Black" />
+                                    </Canvas>
+                                </Viewbox>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SmallHederText}"
+                                    Text="{Binding FolderName}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Top"
+                                    TextWrapping="Wrap"
+                                    Foreground="{StaticResource TextColor}"
+                                    Text="{Binding FullPath}" />
+                                <StackPanel
+                                    Grid.RowSpan="5"
+                                    Grid.Column="3"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center">
+                                    <Button
+                                        Content="Start bookgen shell..."
+                                        Style="{StaticResource ItemButton}" />
+                                    <Button
+                                        Content="Start bookgen preivew..."
+                                        Style="{StaticResource ItemButton}" />
+                                    <Button
+                                        Content="Open folder..."
+                                        Style="{StaticResource ItemButton}" />
+                                    <Button
+                                        Content="Open in VS Code..."
+                                        Style="{StaticResource ItemButton}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
 
                 <ItemsControl.Template>
                     <ControlTemplate TargetType="ItemsControl">
@@ -102,14 +187,18 @@
         <StackPanel
             Grid.Row="2"
             Grid.Column="1"
-            Margin="20,0,0,0">
+            Margin="20,0,0,0"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True">
             <TextBlock
                 Style="{StaticResource SmallHederText}"
                 Text="Actions" />
             <Button
+                Command="{Binding OpenFolderCommand}"
                 Content="Add folder..."
                 Style="{StaticResource LinkButton}" />
             <Button
+                Command="{Binding ClearFoldersCommand}"
                 Content="Clear recent folders..."
                 Style="{StaticResource LinkButton}" />
             <Button

@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Windows;
 
-namespace BookGen.Launch.Launcher
+namespace BookGen.Launch.Code
 {
     internal class Launcher
     {
@@ -17,10 +17,8 @@ namespace BookGen.Launch.Launcher
 
         public enum LaunchResult
         {
-            FolderNoLongerExists = 1,
-            NoFolderSelected = 2,
-            ShellScriptWriteFail = 3,
-            ShellScriptStartFail = 4,
+            ShellScriptWriteFail = 1,
+            ShellScriptStartFail = 2,
             Ok = 0
         }
 
@@ -37,24 +35,6 @@ namespace BookGen.Launch.Launcher
 
         internal (LaunchResult result, string Finalfolder) Run(bool useWinTerminal, string folder = "")
         {
-            if (!string.IsNullOrEmpty(folder))
-            {
-                if (Directory.Exists(folder))
-                {
-                    _selectedFolder = folder;
-                }
-                else
-                {
-                    Message(Properties.Resources.FolderNoLongerExists, MessageBoxImage.Information);
-                    return (LaunchResult.FolderNoLongerExists, string.Empty);
-                }
-            }
-            else if (!TryselectFolder(out _selectedFolder))
-            {
-                Message(Properties.Resources.NoFolderSelected, MessageBoxImage.Information);
-                return (LaunchResult.NoFolderSelected, string.Empty);
-            }
-
             string _shellScript;
             if (!TryCreateShellScript(out _shellScript))
             {
@@ -69,26 +49,6 @@ namespace BookGen.Launch.Launcher
             }
 
             return (LaunchResult.Ok, _selectedFolder);
-        }
-
-        private static bool TryselectFolder(out string folderPath)
-        {
-            var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog
-            {
-                Description = Properties.Resources.FolderselectDescription,
-                UseDescriptionForTitle = true,
-                ShowNewFolderButton = false,
-            };
-            if (dialog.ShowDialog() == true)
-            {
-                folderPath = dialog.SelectedPath;
-                return true;
-            }
-            else
-            {
-                folderPath = string.Empty;
-                return false;
-            }
         }
 
         private bool TryCreateShellScript(out string shellScriptPath)

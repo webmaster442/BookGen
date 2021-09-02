@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 
-namespace BookGen.Launch.Launcher
+namespace BookGen.Launch.Code
 {
     internal static class TerminalLauncher
     {
