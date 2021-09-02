@@ -134,11 +134,12 @@
                 Style="{StaticResource LinkButton}" />
             <Rectangle
                 Height="1"
-                Margin="0,10,0,0"
+                Margin="0,10,20,10"
                 Fill="{StaticResource Disabled}" />
             <Button
                 Command="{Binding InstallPathVariableCommand}"
-                Style="{StaticResource LinkButton}" />
+                Style="{StaticResource LinkButton}"
+                Content="Install to Path environment variable..."/>
         </StackPanel>
 
         <Border

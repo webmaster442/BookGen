@@ -58,10 +58,15 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground" Value="{StaticResource LinkBlue}" />
+        <Setter Property="Foreground" Value="{StaticResource LinkBlue}"/>
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Margin" Value="5" />
         <Setter Property="FontSize" Value="14" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Disabled}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style
