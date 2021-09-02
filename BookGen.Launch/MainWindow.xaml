@@ -3,140 +3,119 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:BookGen.Launch"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="BookGen launcher"
-    Width="1024"
-    Height="576"
-    Background="#E6E6E6"
-    Closing="Window_Closing"
+    x:Name="AppWindow"
+    Title="BookGen Launcher"
+    Width="1280"
+    Height="720"
+    Background="{StaticResource AppBackground}"
     WindowStartupLocation="CenterScreen"
-    WindowStyle="ToolWindow"
-    ResizeMode="NoResize"
+    WindowStyle="None"
     mc:Ignorable="d">
-    <Grid Margin="15">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="25" />
             <RowDefinition />
+            <!--  Content  -->
+            <RowDefinition Height="590" />
         </Grid.RowDefinitions>
-        <TextBlock
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="320" />
+        </Grid.ColumnDefinitions>
+        <Grid
+            x:Name="WindowChrome"
             Grid.Row="0"
-            Style="{StaticResource Title}"
-            Text="Actions &amp; Options" />
-        <WrapPanel Grid.Row="1">
+            Grid.ColumnSpan="2"
+            Background="{StaticResource AppBackground}"
+            MouseDown="WindowChrome_MouseDown">
+            <!--  Window chrome  -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" />
             <Button
-                Command="{Binding OpenCommand}"
-                Style="{StaticResource Tile}">
-                <Button.Content>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Viewbox Child="{StaticResource IconOpen}" />
-                        <TextBlock
-                            Grid.Row="1"
-                            Style="{StaticResource TileText}"
-                            Text="Open folder..." />
-                    </Grid>
-                </Button.Content>
-            </Button>
+                x:Name="WindowChromeMinimize"
+                Grid.Column="2"
+                Click="WindowChromeMinimize_Click"
+                Content="{StaticResource IconMinimize}"
+                Style="{StaticResource ChromeButton}"
+                ToolTip="Minimize" />
             <Button
-                Command="{Binding ClearCommand}"
-                Style="{StaticResource Tile}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Viewbox Child="{StaticResource IconRemove}" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Style="{StaticResource TileText}"
-                        Text="Clear recent folder list" />
-                </Grid>
-            </Button>
-            <ToggleButton IsChecked="{Binding UseWindowsTerminal}">
-                <ToggleButton.Style>
-                    <Style
-                        BasedOn="{StaticResource ToggleTile}"
-                        TargetType="ToggleButton">
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Viewbox Child="{StaticResource IconUnchecked}" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Style="{StaticResource TileText}"
-                                        Text="Use windows terminal" />
-                                </Grid>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <Viewbox Child="{StaticResource IconChecked}" />
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Style="{StaticResource TileText}"
-                                                Text="Use windows terminal" />
-                                        </Grid>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ToggleButton.Style>
-            </ToggleButton>
-        </WrapPanel>
-        <TextBlock
+                x:Name="WindowChromeClose"
+                Grid.Column="3"
+                Click="WindowChromeClose_Click"
+                Content="{StaticResource IconClose}"
+                Style="{StaticResource ChromeCloseButton}"
+                ToolTip="Close" />
+        </Grid>
+
+        <!--  Header  -->
+        <Border
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            BorderBrush="{StaticResource Border}"
+            BorderThickness="0,0,0,2">
+            <TextBlock
+                Style="{StaticResource HeaderText}"
+                Text="BookGen Launcher" />
+        </Border>
+
+        <Border
             Grid.Row="2"
-            Style="{StaticResource Title}"
-            Text="Recent Folders" />
-        <ItemsControl
-            x:Name="PART_Items"
-            Grid.Row="3">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button
-                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=DataContext.OpenCommand}"
-                        CommandParameter="{Binding}"
-                        Style="{StaticResource Tile}"
-                        ToolTip="{Binding}">
-                        <Button.Content>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Viewbox
-                                    Grid.Row="0"
-                                    Child="{StaticResource IconRecent}" />
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Style="{StaticResource TileText}"
-                                    Text="{Binding}" />
-                            </Grid>
-                        </Button.Content>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            Grid.Column="0"
+            BorderBrush="{StaticResource Border}"
+            BorderThickness="0,0,2,0">
+            <ItemsControl>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel
+                            IsVirtualizing="True"
+                            VirtualizationMode="Recycling" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer
+                                Padding="{TemplateBinding Padding}"
+                                CanContentScroll="True"
+                                Focusable="False"
+                                HorizontalScrollBarVisibility="Auto"
+                                VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+            </ItemsControl>
+        </Border>
+
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="20,0,0,0">
+            <TextBlock
+                Style="{StaticResource SmallHederText}"
+                Text="Actions" />
+            <Button
+                Content="Add folder..."
+                Style="{StaticResource LinkButton}" />
+            <Button
+                Content="Clear recent folders..."
+                Style="{StaticResource LinkButton}" />
+            <Button
+                Content="Visit website..."
+                Style="{StaticResource LinkButton}" />
+        </StackPanel>
+
     </Grid>
 </Window>

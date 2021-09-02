@@ -1,0 +1,83 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style
+        x:Key="ChromeButton"
+        TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Width" Value="46" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    </Style>
+
+    <ControlTemplate
+        x:Key="RedChromeButton"
+        TargetType="Button">
+        <Border
+            x:Name="Border"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}">
+            <ContentPresenter Content="{TemplateBinding Content}" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#DE061A" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style
+        x:Key="ChromeCloseButton"
+        BasedOn="{StaticResource ChromeButton}"
+        TargetType="Button">
+        <Setter Property="Template" Value="{StaticResource RedChromeButton}" />
+    </Style>
+
+    <Style
+        x:Key="LinkButton"
+        TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock
+                        x:Name="PartText"
+                        Foreground="{TemplateBinding Foreground}"
+                        TextDecorations="None">
+                        <ContentPresenter />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PartText" Property="TextDecorations" Value="Underline"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="{StaticResource LinkBlue}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+
+    <Style
+        x:Key="HeaderText"
+        TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+        <Setter Property="FontSize" Value="36" />
+        <Setter Property="Margin" Value="50,20,0,20" />
+    </Style>
+
+    <Style
+        x:Key="SmallHederText"
+        TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Margin" Value="0,15,0,15" />
+    </Style>
+
+</ResourceDictionary>

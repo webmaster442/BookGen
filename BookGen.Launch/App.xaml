@@ -1,110 +1,15 @@
-﻿<Application
-    x:Class="BookGen.Launch.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:BookGen.Launch"
-    ShutdownMode="OnMainWindowClose"
-    StartupUri="MainWindow.xaml">
+﻿<Application x:Class="BookGen.Launch.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:BookGen.Launch"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style
-            x:Key="Tile"
-            TargetType="Button">
-            <Setter Property="Background" Value="{Binding Source={local:TileColorProvider}, Path=Brush}" />
-            <Setter Property="Width" Value="205" />
-            <Setter Property="Height" Value="100" />
-            <Setter Property="Margin" Value="2" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        </Style>
-
-        <Style
-            x:Key="ToggleTile"
-            BasedOn="{x:Null}"
-            TargetType="ToggleButton">
-            <Setter Property="Background" Value="{Binding Source={local:TileColorProvider}, Path=Brush}" />
-            <Setter Property="Width" Value="205" />
-            <Setter Property="Height" Value="100" />
-            <Setter Property="Margin" Value="2" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        </Style>
-
-        <Style
-            x:Key="TileText"
-            TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect
-                        BlurRadius="0"
-                        ShadowDepth="1" />
-                </Setter.Value>
-            </Setter>
-            <Setter Property="MaxWidth" Value="190" />
-            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-            <Setter Property="Margin" Value="3" />
-            <Setter Property="FontSize" Value="14" />
-        </Style>
-
-        <Style
-            x:Key="Title"
-            TargetType="TextBlock">
-            <Setter Property="FontSize" Value="28" />
-            <Setter Property="Margin" Value="5" />
-            <Setter Property="Foreground" Value="Black" />
-        </Style>
-
-        <Style TargetType="Viewbox">
-            <Setter Property="Margin" Value="3" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="VerticalAlignment" Value="Top" />
-        </Style>
-
-        <Canvas
-            x:Key="IconOpen"
-            Width="24"
-            Height="24">
-            <Path
-                Data="M6.1,10L4,18V8H21A2,2 0 0,0 19,6H12L10,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H19C19.9,20 20.7,19.4 20.9,18.5L23.2,10H6.1M19,18H6L7.6,12H20.6L19,18Z"
-                Fill="WhiteSmoke" />
-        </Canvas>
-
-        <Canvas
-            x:Key="IconRemove"
-            Width="24"
-            Height="24">
-            <Path
-                Data="M13.09 20C13.21 20.72 13.46 21.39 13.81 22H6C4.89 22 4 21.11 4 20V4C4 2.9 4.89 2 6 2H18C19.11 2 20 2.9 20 4V13.09C19.67 13.04 19.34 13 19 13C18.66 13 18.33 13.04 18 13.09V4H13V12L10.5 9.75L8 12V4H6V20H13.09M22.54 16.88L21.12 15.47L19 17.59L16.88 15.47L15.47 16.88L17.59 19L15.47 21.12L16.88 22.54L19 20.41L21.12 22.54L22.54 21.12L20.41 19L22.54 16.88Z"
-                Fill="WhiteSmoke" />
-        </Canvas>
-
-        <Canvas
-            x:Key="IconRecent"
-            Width="24"
-            Height="24"
-            x:Shared="false">
-            <Path
-                Data="M13.09 20C13.21 20.72 13.46 21.39 13.81 22H6C4.89 22 4 21.11 4 20V4C4 2.9 4.89 2 6 2H18C19.11 2 20 2.9 20 4V13.09C19.67 13.04 19.34 13 19 13C18.66 13 18.33 13.04 18 13.09V4H13V12L10.5 9.75L8 12V4H6V20H13.09M20 20V16H18V20H16L19 23L22 20H20Z"
-                Fill="WhiteSmoke" />
-        </Canvas>
-
-        <Canvas
-            x:Key="IconUnchecked"
-            Width="24"
-            Height="24">
-            <Path
-                Data="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19Z"
-                Fill="WhiteSmoke" />
-        </Canvas>
-
-        <Canvas
-            x:Key="IconChecked"
-            Width="24"
-            Height="24">
-            <Path
-                Data="M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,5V19H5V5H19M10,17L6,13L7.41,11.58L10,14.17L16.59,7.58L18,9"
-                Fill="WhiteSmoke" />
-        </Canvas>
-
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Colors.xaml"/>
+                <ResourceDictionary Source="Themes/Icons.xaml"/>
+                <ResourceDictionary Source="Themes/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
