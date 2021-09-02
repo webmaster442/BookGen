@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Launch.Properties;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -59,6 +60,11 @@ namespace BookGen.Launch.Code
         public void Execute(object? parameter)
         {
             Execute(parameter as string);
+            if (Settings.Default.AutoExitLauncher)
+            {
+                Settings.Default.Save();
+                Application.Current.Shutdown(0);
+            }
         }
 
         public void Refresh()

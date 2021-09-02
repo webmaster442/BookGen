@@ -126,6 +126,9 @@
   <data name="FolderselectDescription" xml:space="preserve">
     <value>Select a folder to start bookgen shell</value>
   </data>
+  <data name="InstallToPathVar" xml:space="preserve">
+    <value>Install tool to the PATH environment variable?</value>
+  </data>
   <data name="NoFolderSelected" xml:space="preserve">
     <value>No folder was selected.</value>
   </data>

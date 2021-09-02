@@ -1,10 +1,16 @@
-﻿using BookGen.Gui.Wpf;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Gui.Wpf;
 using BookGen.Launch.Code;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 
 namespace BookGen.Launch
 {
@@ -14,12 +20,15 @@ namespace BookGen.Launch
         public DelegateCommand ClearFoldersCommand { get; }
         public DelegateCommand OpenWebsiteCommand { get; }
 
-        public DelegateCommand StartShellCommand { get; }
-        public DelegateCommand StartPreviewCommand { get; }
-        public DelegateCommand OpenSelectedFolderCommand { get; }
-        public DelegateCommand OpenInVsCodeCommand { get; }
+        public ICommand StartShellCommand { get; }
+        public ICommand StartPreviewCommand { get; }
+        public ICommand OpenSelectedFolderCommand { get; }
+        public ICommand OpenInVsCodeCommand { get; }
+        public DelegateCommand InstallPathVariableCommand { get; }
 
         public ObservableCollection<ItemViewModel> Items { get; }
+
+        private const string EnvPathVariable = "PATH";
 
         public MainViewModel()
         {
@@ -28,27 +37,37 @@ namespace BookGen.Launch
             ClearFoldersCommand = new DelegateCommand(OnClearFolders);
             OpenWebsiteCommand = new DelegateCommand(OnOpenWebsite);
 
-            StartShellCommand = new DelegateCommand(OnStartShell);
-            StartPreviewCommand = new DelegateCommand(OnStartPreview);
-            OpenSelectedFolderCommand = new DelegateCommand(OnOpenSelectedFolder);
-            OpenInVsCodeCommand = new DelegateCommand(OnOpenVsCodeCommand);
+            InstallPathVariableCommand = new DelegateCommand(OnInstallPath, OnCaninstall);
+
+            StartShellCommand = new StartShellCommand();
+            StartPreviewCommand = new RunProgramCommand("BookGen.exe", "preview");
+            OpenSelectedFolderCommand = new RunProgramCommand("Explorer.exe", "");
+            OpenInVsCodeCommand = new RunVsCodeCommand();
         }
 
-        private void OnOpenVsCodeCommand(object? obj)
+        private bool OnCaninstall(object? obj)
         {
+            const EnvironmentVariableTarget scope = EnvironmentVariableTarget.User; // or User
+            string? oldValue = Environment.GetEnvironmentVariable(EnvPathVariable, scope);
+
+            return oldValue != null
+                && oldValue.Contains(AppContext.BaseDirectory);
         }
 
-        private void OnOpenSelectedFolder(object? obj)
+        private void OnInstallPath(object? obj)
         {
-        }
+            if (MessageBox.Show(Properties.Resources.InstallToPathVar,
+                Properties.Resources.Question,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
 
-        private void OnStartPreview(object? obj)
-        {
-        }
-
-        private void OnStartShell(object? obj)
-        {
-
+                const EnvironmentVariableTarget scope = EnvironmentVariableTarget.User; // or User
+                string? oldValue = Environment.GetEnvironmentVariable(EnvPathVariable, scope);
+                string? newValue = oldValue + AppContext.BaseDirectory;
+                Environment.SetEnvironmentVariable(EnvPathVariable, newValue, scope);
+                InstallPathVariableCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private void OnClearFolders(object? obj)

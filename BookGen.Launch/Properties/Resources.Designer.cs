@@ -88,6 +88,15 @@ namespace BookGen.Launch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Install tool to the PATH environment variable?.
+        /// </summary>
+        internal static string InstallToPathVar {
+            get {
+                return ResourceManager.GetString("InstallToPathVar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No folder was selected..
         /// </summary>
         internal static string NoFolderSelected {

@@ -46,5 +46,17 @@ namespace BookGen.Launch.Properties {
                 this["FolderListJson"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoExitLauncher {
+            get {
+                return ((bool)(this["AutoExitLauncher"]));
+            }
+            set {
+                this["AutoExitLauncher"] = value;
+            }
+        }
     }
 }

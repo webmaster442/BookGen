@@ -3,13 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:BookGen.Launch"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:BookGen.Launch.Properties"
     x:Name="AppWindow"
     Title="BookGen Launcher"
     Width="1280"
     Height="720"
     Background="{StaticResource AppBackground}"
+    Closing="AppWindow_Closing"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
@@ -18,7 +19,9 @@
             <RowDefinition Height="25" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto" MinHeight="100" />
+            <RowDefinition
+                Height="Auto"
+                MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -69,8 +72,8 @@
 
         <Border
             Grid.Row="2"
-            Grid.Column="0"
             Grid.RowSpan="3"
+            Grid.Column="0"
             BorderBrush="{StaticResource Border}"
             BorderThickness="0,0,2,0"
             SnapsToDevicePixels="True"
@@ -126,8 +129,15 @@
                 Content="Clear recent folders..."
                 Style="{StaticResource LinkButton}" />
             <Button
-                Content="Visit website..."
                 Command="{Binding OpenWebsiteCommand}"
+                Content="Visit website..."
+                Style="{StaticResource LinkButton}" />
+            <Rectangle
+                Height="1"
+                Margin="0,10,0,0"
+                Fill="{StaticResource Disabled}" />
+            <Button
+                Command="{Binding InstallPathVariableCommand}"
                 Style="{StaticResource LinkButton}" />
         </StackPanel>
 
@@ -142,7 +152,12 @@
                 <TextBlock
                     Style="{StaticResource SmallHederText}"
                     Text="Settings" />
-                <CheckBox Content="Use Windows terminal"/>
+                <CheckBox
+                    Content="Use Windows terminal"
+                    IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=UseWindowsTerminal}" />
+                <CheckBox
+                    Content="Close launcher after performing action"
+                    IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=AutoExitLauncher}" />
             </StackPanel>
         </Border>
 
