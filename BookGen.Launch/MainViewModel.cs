@@ -12,6 +12,12 @@ namespace BookGen.Launch
     {
         public DelegateCommand OpenFolderCommand { get; }
         public DelegateCommand ClearFoldersCommand { get; }
+        public DelegateCommand OpenWebsiteCommand { get; }
+
+        public DelegateCommand StartShellCommand { get; }
+        public DelegateCommand StartPreviewCommand { get; }
+        public DelegateCommand OpenSelectedFolderCommand { get; }
+        public DelegateCommand OpenInVsCodeCommand { get; }
 
         public ObservableCollection<ItemViewModel> Items { get; }
 
@@ -20,6 +26,29 @@ namespace BookGen.Launch
             Items = new ObservableCollection<ItemViewModel>(GetModels());
             OpenFolderCommand = new DelegateCommand(OnOpenFolder);
             ClearFoldersCommand = new DelegateCommand(OnClearFolders);
+            OpenWebsiteCommand = new DelegateCommand(OnOpenWebsite);
+
+            StartShellCommand = new DelegateCommand(OnStartShell);
+            StartPreviewCommand = new DelegateCommand(OnStartPreview);
+            OpenSelectedFolderCommand = new DelegateCommand(OnOpenSelectedFolder);
+            OpenInVsCodeCommand = new DelegateCommand(OnOpenVsCodeCommand);
+        }
+
+        private void OnOpenVsCodeCommand(object? obj)
+        {
+        }
+
+        private void OnOpenSelectedFolder(object? obj)
+        {
+        }
+
+        private void OnStartPreview(object? obj)
+        {
+        }
+
+        private void OnStartShell(object? obj)
+        {
+
         }
 
         private void OnClearFolders(object? obj)
@@ -31,6 +60,16 @@ namespace BookGen.Launch
             {
                 Items.Clear();
                 SaveList();
+            }
+        }
+
+        private void OnOpenWebsite(object? obj)
+        {
+            using (var p = new System.Diagnostics.Process())
+            {
+                p.StartInfo.FileName = "https://webmaster442.github.io/BookGen/";
+                p.StartInfo.UseShellExecute = true;
+                p.Start();
             }
         }
 

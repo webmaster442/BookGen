@@ -16,9 +16,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
-            <!--  Content  -->
-            <RowDefinition Height="590" />
+            <RowDefinition Height="Auto" MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -70,6 +70,7 @@
         <Border
             Grid.Row="2"
             Grid.Column="0"
+            Grid.RowSpan="3"
             BorderBrush="{StaticResource Border}"
             BorderThickness="0,0,2,0"
             SnapsToDevicePixels="True"
@@ -78,6 +79,7 @@
                 Margin="0,22,0,0"
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
+                ItemTemplate="{StaticResource ItemDataTemplate}"
                 ItemsSource="{Binding Items}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -86,84 +88,6 @@
                             VirtualizationMode="Recycling" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border
-                            Width="853"
-                            Height="140"
-                            Background="White"
-                            BorderBrush="{StaticResource Border}"
-                            BorderThickness="1"
-                            SnapsToDevicePixels="True"
-                            UseLayoutRounding="True">
-                            <Border.Effect>
-                                <DropShadowEffect
-                                    BlurRadius="0"
-                                    Color="LightGray" />
-                            </Border.Effect>
-                            <Grid
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Viewbox
-                                    Grid.RowSpan="2"
-                                    Grid.Column="0"
-                                    Width="48"
-                                    Height="48"
-                                    Margin="10"
-                                    VerticalAlignment="Top">
-                                    <Canvas
-                                        Width="24"
-                                        Height="24">
-                                        <Path
-                                            Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z"
-                                            Fill="Black" />
-                                    </Canvas>
-                                </Viewbox>
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Style="{StaticResource SmallHederText}"
-                                    Text="{Binding FolderName}" />
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    VerticalAlignment="Top"
-                                    TextWrapping="Wrap"
-                                    Foreground="{StaticResource TextColor}"
-                                    Text="{Binding FullPath}" />
-                                <StackPanel
-                                    Grid.RowSpan="5"
-                                    Grid.Column="3"
-                                    Margin="0,0,10,0"
-                                    VerticalAlignment="Center">
-                                    <Button
-                                        Content="Start bookgen shell..."
-                                        Style="{StaticResource ItemButton}" />
-                                    <Button
-                                        Content="Start bookgen preivew..."
-                                        Style="{StaticResource ItemButton}" />
-                                    <Button
-                                        Content="Open folder..."
-                                        Style="{StaticResource ItemButton}" />
-                                    <Button
-                                        Content="Open in VS Code..."
-                                        Style="{StaticResource ItemButton}" />
-                                </StackPanel>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-
                 <ItemsControl.Template>
                     <ControlTemplate TargetType="ItemsControl">
                         <Border
@@ -203,8 +127,24 @@
                 Style="{StaticResource LinkButton}" />
             <Button
                 Content="Visit website..."
+                Command="{Binding OpenWebsiteCommand}"
                 Style="{StaticResource LinkButton}" />
         </StackPanel>
+
+        <Border
+            Grid.Row="3"
+            Grid.Column="1"
+            BorderBrush="{StaticResource Border}"
+            BorderThickness="0,2,0,0"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True">
+            <StackPanel Margin="20,0,0,0">
+                <TextBlock
+                    Style="{StaticResource SmallHederText}"
+                    Text="Settings" />
+                <CheckBox Content="Use Windows terminal"/>
+            </StackPanel>
+        </Border>
 
     </Grid>
 </Window>
