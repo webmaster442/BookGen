@@ -11,12 +11,13 @@
     Height="720"
     Background="{StaticResource AppBackground}"
     Closing="AppWindow_Closing"
+    ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition
@@ -31,7 +32,7 @@
             x:Name="WindowChrome"
             Grid.Row="0"
             Grid.ColumnSpan="2"
-            Background="{StaticResource AppBackground}"
+            Background="{StaticResource HeaderBackground}"
             MouseDown="WindowChrome_MouseDown"
             SnapsToDevicePixels="True"
             UseLayoutRounding="True">
@@ -117,6 +118,21 @@
             Margin="20,0,0,0"
             SnapsToDevicePixels="True"
             UseLayoutRounding="True">
+
+            <TextBox
+                Height="28"
+                BorderThickness="1"
+                BorderBrush="{StaticResource Border}"
+                Margin="5,10,25,10"
+                VerticalContentAlignment="Center"
+                Background="{StaticResource ItemBackground}"
+                Text="Search" />
+            
+            <Rectangle
+                Height="1"
+                Margin="0,5,20,10"
+                Fill="{StaticResource Disabled}" />
+
             <TextBlock
                 Style="{StaticResource SmallHederText}"
                 Text="Actions" />
@@ -138,8 +154,8 @@
                 Fill="{StaticResource Disabled}" />
             <Button
                 Command="{Binding InstallPathVariableCommand}"
-                Style="{StaticResource LinkButton}"
-                Content="Install to Path environment variable..."/>
+                Content="Install to Path environment variable..."
+                Style="{StaticResource LinkButton}" />
         </StackPanel>
 
         <Border

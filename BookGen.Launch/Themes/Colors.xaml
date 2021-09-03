@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <SolidColorBrush x:Key="AppBackground" Color="#FBFBFB"/>
+    <SolidColorBrush x:Key="HeaderBackground" Color="#F8F8F8"/>
     <SolidColorBrush x:Key="TextColor" Color="#212121"/>
     <SolidColorBrush x:Key="SelectedBlue" Color="#4A9AFF"/>
     <SolidColorBrush x:Key="LinkBlue" Color="#3F8CD8"/>
