@@ -37,7 +37,7 @@ namespace BookGen.Launch
             ClearFoldersCommand = new DelegateCommand(OnClearFolders);
             OpenWebsiteCommand = new DelegateCommand(OnOpenWebsite);
 
-            InstallPathVariableCommand = new DelegateCommand(OnInstallPath, OnCaninstall);
+            InstallPathVariableCommand = new DelegateCommand(OnInstallPath, OnCaninstallPath);
 
             StartShellCommand = new StartShellCommand();
             StartPreviewCommand = new RunProgramCommand("BookGen.exe", "preview");
@@ -45,13 +45,13 @@ namespace BookGen.Launch
             OpenInVsCodeCommand = new RunVsCodeCommand();
         }
 
-        private bool OnCaninstall(object? obj)
+        private bool OnCaninstallPath(object? obj)
         {
             const EnvironmentVariableTarget scope = EnvironmentVariableTarget.User; // or User
             string? oldValue = Environment.GetEnvironmentVariable(EnvPathVariable, scope);
 
             return oldValue != null
-                && oldValue.Contains(AppContext.BaseDirectory);
+                && !oldValue.Contains(AppContext.BaseDirectory);
         }
 
         private void OnInstallPath(object? obj)
@@ -64,7 +64,7 @@ namespace BookGen.Launch
 
                 const EnvironmentVariableTarget scope = EnvironmentVariableTarget.User; // or User
                 string? oldValue = Environment.GetEnvironmentVariable(EnvPathVariable, scope);
-                string? newValue = oldValue + AppContext.BaseDirectory;
+                string? newValue = oldValue + ";" + AppContext.BaseDirectory;
                 Environment.SetEnvironmentVariable(EnvPathVariable, newValue, scope);
                 InstallPathVariableCommand.RaiseCanExecuteChanged();
             }
