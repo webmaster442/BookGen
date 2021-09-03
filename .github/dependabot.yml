@@ -11,5 +11,5 @@ updates:
     schedule:
       interval: "daily"
     commit-message:
-      prefix: "Updated nuget dependencies"
+      prefix: "nuget"
       include: "scope"
