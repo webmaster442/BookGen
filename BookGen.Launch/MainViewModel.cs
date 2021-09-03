@@ -26,13 +26,13 @@ namespace BookGen.Launch
         public ICommand OpenInVsCodeCommand { get; }
         public DelegateCommand InstallPathVariableCommand { get; }
 
-        public ObservableCollection<ItemViewModel> Items { get; }
+        public FolderList FolderList { get; }
 
         private const string EnvPathVariable = "PATH";
 
         public MainViewModel()
         {
-            Items = new ObservableCollection<ItemViewModel>(GetModels());
+            FolderList = new FolderList();
             OpenFolderCommand = new DelegateCommand(OnOpenFolder);
             ClearFoldersCommand = new DelegateCommand(OnClearFolders);
             OpenWebsiteCommand = new DelegateCommand(OnOpenWebsite);
@@ -77,8 +77,7 @@ namespace BookGen.Launch
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                Items.Clear();
-                SaveList();
+                FolderList.Clear();
             }
         }
 
@@ -96,19 +95,8 @@ namespace BookGen.Launch
         {
             if (TryselectFolder(out string selected))
             {
-                Items.Add(new ItemViewModel
-                {
-                    FullPath = selected
-                });
-                SaveList();
+                FolderList.Add(selected);
             }
-        }
-
-        private void SaveList()
-        {
-            var list = Items.Select(x => x.FullPath).ToList();
-            FolderList.SaveFolders(list);
-            App.UpdateJumplist(list);
         }
 
         private static bool TryselectFolder(out string folderPath)
@@ -129,14 +117,6 @@ namespace BookGen.Launch
                 folderPath = string.Empty;
                 return false;
             }
-        }
-
-        private IEnumerable<ItemViewModel> GetModels()
-        {
-            return FolderList.GetFolders().Select(x => new ItemViewModel
-            {
-                FullPath = x
-            });
         }
     }
 }

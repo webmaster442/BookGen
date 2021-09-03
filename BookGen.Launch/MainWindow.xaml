@@ -15,6 +15,9 @@
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolVisConv" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -79,37 +82,47 @@
             BorderThickness="0,0,2,0"
             SnapsToDevicePixels="True"
             UseLayoutRounding="True">
-            <ItemsControl
-                Margin="0,22,0,0"
-                HorizontalContentAlignment="Stretch"
-                VerticalContentAlignment="Stretch"
-                ItemTemplate="{StaticResource ItemDataTemplate}"
-                ItemsSource="{Binding Items}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel
-                            IsVirtualizing="True"
-                            VirtualizationMode="Recycling" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.Template>
-                    <ControlTemplate TargetType="ItemsControl">
-                        <Border
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                            <ScrollViewer
-                                Padding="{TemplateBinding Padding}"
-                                CanContentScroll="True"
-                                Focusable="False"
-                                HorizontalScrollBarVisibility="Auto"
-                                VerticalScrollBarVisibility="Auto">
-                                <ItemsPresenter />
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </ItemsControl.Template>
-            </ItemsControl>
+            <Grid>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    Foreground="{StaticResource Disabled}"
+                    Text="No Folders are available or none matches the search criteria"
+                    Visibility="{Binding FolderList.IsEmpty, Converter={StaticResource BoolVisConv}}" />
+                <ItemsControl
+                    Margin="0,22,0,0"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    ItemTemplate="{StaticResource ItemDataTemplate}"
+                    Visibility="{Binding FolderList.IsNotEmpty, Converter={StaticResource BoolVisConv}}"
+                    ItemsSource="{Binding FolderList.View}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel
+                                IsVirtualizing="True"
+                                VirtualizationMode="Recycling" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <Border
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <ScrollViewer
+                                    Padding="{TemplateBinding Padding}"
+                                    CanContentScroll="True"
+                                    Focusable="False"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    VerticalScrollBarVisibility="Auto">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                </ItemsControl>
+            </Grid>
         </Border>
 
         <StackPanel
@@ -121,13 +134,13 @@
 
             <TextBox
                 Height="28"
-                BorderThickness="1"
-                BorderBrush="{StaticResource Border}"
                 Margin="5,10,25,10"
                 VerticalContentAlignment="Center"
                 Background="{StaticResource ItemBackground}"
-                Text="Search" />
-            
+                BorderBrush="{StaticResource Border}"
+                BorderThickness="1"
+                Text="{Binding FolderList.Filter, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
+
             <Rectangle
                 Height="1"
                 Margin="0,5,20,10"
