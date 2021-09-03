@@ -25,6 +25,8 @@ namespace BookGen.Launch
 
         public FolderList FolderList { get; }
 
+        public string Version { get; }
+
         private const string EnvPathVariable = "PATH";
 
         public MainViewModel()
@@ -40,6 +42,13 @@ namespace BookGen.Launch
             StartPreviewCommand = new RunProgramCommand("BookGen.exe", "preview");
             OpenSelectedFolderCommand = new RunProgramCommand("Explorer.exe", "");
             OpenInVsCodeCommand = new RunVsCodeCommand();
+            Version = GetVersion();
+        }
+
+        private string GetVersion()
+        {
+            var name = typeof(App).Assembly.GetName();
+            return name?.Version?.ToString() ?? "Couldn't get version";
         }
 
         private bool OnCaninstallPath(object? obj)

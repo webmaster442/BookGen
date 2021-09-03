@@ -86,6 +86,13 @@
         <Setter Property="Margin" Value="50,20,0,20" />
     </Style>
 
+    <Style TargetType="TextBlock" x:Key="VersionText">
+        <Setter Property="Foreground" Value="{StaticResource Disabled}"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="Margin" Value="5,20,0,20" />
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
     <Style
         x:Key="SmallHederText"
         TargetType="TextBlock">
