@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:code="clr-namespace:BookGen.Launch.Code"
     xmlns:properties="clr-namespace:BookGen.Launch.Properties"
     x:Name="AppWindow"
     Title="BookGen Launcher"
@@ -95,8 +96,8 @@
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
                     ItemTemplate="{StaticResource ItemDataTemplate}"
-                    Visibility="{Binding FolderList.IsNotEmpty, Converter={StaticResource BoolVisConv}}"
-                    ItemsSource="{Binding FolderList.View}">
+                    ItemsSource="{Binding FolderList.View}"
+                    Visibility="{Binding FolderList.IsNotEmpty, Converter={StaticResource BoolVisConv}}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel
@@ -132,14 +133,29 @@
             SnapsToDevicePixels="True"
             UseLayoutRounding="True">
 
-            <TextBox
-                Height="28"
-                Margin="5,10,25,10"
-                VerticalContentAlignment="Center"
-                Background="{StaticResource ItemBackground}"
-                BorderBrush="{StaticResource Border}"
-                BorderThickness="1"
-                Text="{Binding FolderList.Filter, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
+            <Grid Margin="5,10,25,10">
+                <TextBox
+                    Height="28"
+                    x:Name="SearchBox"
+                    VerticalContentAlignment="Center"
+                    Background="{StaticResource ItemBackground}"
+                    BorderBrush="{StaticResource Border}"
+                    BorderThickness="1"
+                    Text="{Binding FolderList.Filter, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
+                <TextBlock
+                    IsHitTestVisible="False"
+                    VerticalAlignment="Center"
+                    Foreground="{StaticResource Disabled}"
+                    Text="Type here to search"
+                    Margin="5,0">
+                    <TextBlock.Visibility>
+                        <MultiBinding Converter="{code:SearchBoxWatermarkVisibility}">
+                            <Binding ElementName="SearchBox" Path="Text"/>
+                            <Binding ElementName="SearchBox" Path="IsKeyboardFocused"/>
+                        </MultiBinding>
+                    </TextBlock.Visibility>
+                </TextBlock>
+            </Grid>
 
             <Rectangle
                 Height="1"
