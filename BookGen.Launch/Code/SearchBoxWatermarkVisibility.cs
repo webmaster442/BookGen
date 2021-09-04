@@ -26,7 +26,7 @@ namespace BookGen.Launch.Code
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            return null;
+            return Array.Empty<object>();
         }
 
         public override object ProvideValue(IServiceProvider serviceProvider)

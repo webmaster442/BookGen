@@ -32,7 +32,7 @@ namespace BookGen.Core
             }
 
             _engine.Script.code = code;
-            var result = _engine?.Evaluate($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
+            object? result = _engine.Evaluate($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
             return result as string ?? string.Empty;
         }
 
