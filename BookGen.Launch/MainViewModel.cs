@@ -22,15 +22,18 @@ namespace BookGen.Launch
         public ICommand OpenSelectedFolderCommand { get; }
         public ICommand OpenInVsCodeCommand { get; }
         public DelegateCommand InstallPathVariableCommand { get; }
+        public DelegateCommand ShowChangeLogCommand { get; }
 
         public FolderList FolderList { get; }
 
         public string Version { get; }
 
         private const string EnvPathVariable = "PATH";
+        private readonly IMainWindow _mainWindow;
 
-        public MainViewModel()
+        public MainViewModel(IMainWindow mainWindow)
         {
+            _mainWindow = mainWindow;
             FolderList = new FolderList();
             OpenFolderCommand = new DelegateCommand(OnOpenFolder);
             ClearFoldersCommand = new DelegateCommand(OnClearFolders);
@@ -42,6 +45,7 @@ namespace BookGen.Launch
             StartPreviewCommand = new RunProgramCommand("BookGen.exe", "preview");
             OpenSelectedFolderCommand = new RunProgramCommand("Explorer.exe", "");
             OpenInVsCodeCommand = new RunVsCodeCommand();
+            ShowChangeLogCommand = new DelegateCommand((o) => _mainWindow.ShowChangeLog());
             Version = GetVersion();
         }
 

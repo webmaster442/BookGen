@@ -64,6 +64,53 @@
                 ToolTip="Close" />
         </Grid>
 
+        <Border
+            x:Name="Popup"
+            Grid.Row="1"
+            Grid.RowSpan="3"
+            Grid.ColumnSpan="2"
+            Margin="30"
+            Panel.ZIndex="99"
+            BorderBrush="{StaticResource Border}"
+            BorderThickness="2"
+            Visibility="Collapsed">
+            <Grid Background="{StaticResource AppBackground}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="5,0"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Text="Changelog" />
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Click="CloseChangeLog"
+                    Content="×"
+                    Style="{StaticResource ChromeButton}" />
+                <TextBox
+                    x:Name="Changelog"
+                    Grid.Row="1"
+                    FontSize="16"
+                    Grid.ColumnSpan="2"
+                    Background="{StaticResource AppBackground}"
+                    BorderBrush="{StaticResource Border}"
+                    BorderThickness="0,2,0,0"
+                    IsReadOnly="True"
+                    VerticalScrollBarVisibility="Visible"/>
+            </Grid>
+        </Border>
+
         <!--  Header  -->
         <Border
             Grid.Row="1"
@@ -72,8 +119,8 @@
             BorderThickness="0,0,0,2">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock
                     Grid.Column="0"
@@ -199,6 +246,10 @@
             <Button
                 Command="{Binding InstallPathVariableCommand}"
                 Content="Install to Path environment variable..."
+                Style="{StaticResource LinkButton}" />
+            <Button
+                Command="{Binding ShowChangeLogCommand}"
+                Content="Show changelog..."
                 Style="{StaticResource LinkButton}" />
         </StackPanel>
 

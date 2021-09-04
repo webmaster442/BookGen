@@ -61,6 +61,27 @@ namespace BookGen.Launch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to # 2021.09
+        ///* New: XML documentation generator reworked. Now uses XmlDocMarkdown
+        ///* New: Syntax rendering reworked, improved
+        ///* New: Rewrote launcher (again), Has more features
+        ///	* New layout
+        ///	* Options to start VS code, File explorer, Preview and bookgen shell for folder
+        ///	* Filtering for recent folders
+        ///	* Integrated changelog
+        ///	* Will be used as base point for future installers
+        ///* Fix: Improved XHTML compatibility for epub
+        ///* Fix: Fixed a memory leak in the generator
+        ///* Fix: Various code quality fixes
+        ///* [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Changelog {
+            get {
+                return ResourceManager.GetString("Changelog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to clear the recent files list?.
         /// </summary>
         internal static string ClearRecentList {

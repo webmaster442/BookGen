@@ -9,15 +9,22 @@ using System.Windows.Input;
 
 namespace BookGen.Launch
 {
+
+    internal interface IMainWindow
+    {
+        void ShowChangeLog();
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IMainWindow
     {
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            DataContext = new MainViewModel(this);
+            Changelog.Text = Properties.Resources.Changelog;
         }
 
         private void WindowChrome_MouseDown(object sender, MouseButtonEventArgs e)
@@ -39,6 +46,16 @@ namespace BookGen.Launch
         private void AppWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Settings.Default.Save();
+        }
+
+        private void CloseChangeLog(object sender, RoutedEventArgs e)
+        {
+            Popup.Visibility = Visibility.Collapsed;
+        }
+
+        public void ShowChangeLog()
+        {
+            Popup.Visibility = Visibility.Visible;
         }
     }
 }
