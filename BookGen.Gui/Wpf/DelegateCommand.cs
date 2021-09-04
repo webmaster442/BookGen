@@ -6,7 +6,7 @@
 using System;
 using System.Windows.Input;
 
-namespace BookGen.Launch
+namespace BookGen.Gui.Wpf
 {
     public class DelegateCommand : ICommand
     {

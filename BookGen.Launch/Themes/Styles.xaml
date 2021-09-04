@@ -1,0 +1,189 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:BookGen.Launch">
+
+    <Style
+        x:Key="ChromeButton"
+        TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Width" Value="50" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <ControlTemplate
+        x:Key="RedChromeButton"
+        TargetType="Button">
+        <Border
+            x:Name="Border"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}">
+            <ContentPresenter Content="{TemplateBinding Content}" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#DE061A" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style
+        x:Key="ChromeCloseButton"
+        BasedOn="{StaticResource ChromeButton}"
+        TargetType="Button">
+        <Setter Property="Template" Value="{StaticResource RedChromeButton}" />
+    </Style>
+
+    <Style
+        x:Key="LinkButton"
+        TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock
+                        x:Name="PartText"
+                        Foreground="{TemplateBinding Foreground}"
+                        TextDecorations="None">
+                        <ContentPresenter />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PartText" Property="TextDecorations" Value="Underline" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="{StaticResource LinkBlue}"/>
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="FontSize" Value="14" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Disabled}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="ItemButton"
+        TargetType="Button">
+        <Setter Property="Height" Value="23" />
+        <Setter Property="Width" Value="150" />
+        <Setter Property="Margin" Value="3" />
+        <Setter Property="Background" Value="{StaticResource AppBackground}" />
+    </Style>
+
+    <Style
+        x:Key="HeaderText"
+        TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+        <Setter Property="FontSize" Value="36" />
+        <Setter Property="Margin" Value="50,20,0,20" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="VersionText">
+        <Setter Property="Foreground" Value="{StaticResource Disabled}"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="Margin" Value="5,20,0,20" />
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style
+        x:Key="SmallHederText"
+        TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextColor}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Margin" Value="0,10,0,15" />
+    </Style>
+
+    <DataTemplate
+        x:Key="ItemDataTemplate"
+        DataType="{x:Type local:ItemViewModel}">
+        <Border
+            Width="853"
+            Height="140"
+            Background="White"
+            BorderBrush="{StaticResource Border}"
+            BorderThickness="1"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True">
+            <Border.Effect>
+                <DropShadowEffect
+                    BlurRadius="0"
+                    Color="LightGray" />
+            </Border.Effect>
+            <Grid
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Viewbox
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Width="48"
+                    Height="48"
+                    Margin="10"
+                    VerticalAlignment="Top">
+                    <Canvas
+                        Width="24"
+                        Height="24">
+                        <Path
+                            Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z"
+                            Fill="#F7D068" />
+                    </Canvas>
+                </Viewbox>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Style="{StaticResource SmallHederText}"
+                    Text="{Binding FolderName}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Top"
+                    Foreground="{StaticResource TextColor}"
+                    Text="{Binding FullPath}"
+                    TextWrapping="Wrap" />
+                <StackPanel
+                    Grid.RowSpan="5"
+                    Grid.Column="3"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center">
+                    <Button
+                        Command="{Binding DataContext.StartShellCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+                        CommandParameter="{Binding FullPath}"
+                        Content="Start bookgen shell..."
+                        Style="{StaticResource ItemButton}" />
+                    <Button
+                        Command="{Binding DataContext.StartPreviewCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+                        CommandParameter="{Binding FullPath}"
+                        Content="Start bookgen preivew..."
+                        Style="{StaticResource ItemButton}" />
+                    <Button
+                        Command="{Binding DataContext.OpenSelectedFolderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+                        CommandParameter="{Binding FullPath}"
+                        Content="Open folder..."
+                        Style="{StaticResource ItemButton}" />
+                    <Button
+                        Command="{Binding DataContext.OpenInVsCodeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+                        CommandParameter="{Binding FullPath}"
+                        Content="Open in VS Code..."
+                        Style="{StaticResource ItemButton}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+</ResourceDictionary>

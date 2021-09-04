@@ -1,3 +1,17 @@
+# 2021.09
+* New: XML documentation generator reworked. Now uses XmlDocMarkdown
+* New: Syntax rendering reworked, improved
+* New: Rewrote launcher (again), Has more features
+	* New layout
+	* Options to start VS code, File explorer, Preview and bookgen shell for folder
+	* Filtering for recent folders
+	* Integrated changelog
+	* Will be used as base point for future installers
+* Fix: Improved XHTML compatibility for epub
+* Fix: Fixed a memory leak in the generator
+* Fix: Various code quality fixes
+* Change: Removed HTML compressor code due to bad quality of dependency code
+
 # 2021.05.26
 * Removed Node.exe bundle
 * Gui extended with help
