@@ -145,6 +145,15 @@ namespace BookGen.Launch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to remove the directory:\r\n {0} ?.
+        /// </summary>
+        internal static string RemoveFolder {
+            get {
+                return ResourceManager.GetString("RemoveFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to start shell. Application will exit..
         /// </summary>
         internal static string ShellScriptStartFail {

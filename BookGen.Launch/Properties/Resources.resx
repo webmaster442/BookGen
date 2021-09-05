@@ -142,6 +142,9 @@
   <data name="RecentFolders" xml:space="preserve">
     <value>Recent Folders</value>
   </data>
+  <data name="RemoveFolder" xml:space="preserve">
+    <value>Do you want to remove the directory:\r\n {0} ?</value>
+  </data>
   <data name="ShellScriptStartFail" xml:space="preserve">
     <value>Failed to start shell. Application will exit.</value>
   </data>

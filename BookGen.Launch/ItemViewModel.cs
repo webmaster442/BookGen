@@ -5,7 +5,8 @@ namespace BookGen.Launch
     internal record ItemViewModel
     {
         public string FolderName => Path.GetFileName(FullPath) ?? string.Empty;
-        public bool IsExisting => Directory.Exists(FullPath);
+        public bool IsDisabled => !Directory.Exists(FullPath);
+        public bool IsEnabled => Directory.Exists(FullPath);
         public string FullPath { get; init; }
 
         public ItemViewModel()

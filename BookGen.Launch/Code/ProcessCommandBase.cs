@@ -54,7 +54,7 @@ namespace BookGen.Launch.Code
 
         public virtual bool CanExecute(string? folder)
         {
-            return true;
+            return Directory.Exists(folder);
         }
 
         public void Execute(object? parameter)

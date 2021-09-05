@@ -82,6 +82,13 @@ namespace BookGen.Launch.Code
             App.UpdateJumplist(_elements);
         }
 
+        internal void Remove(string folder)
+        {
+            _elements.Remove(folder);
+            ApplyFilter();
+            SaveFolders();
+        }
+
         private void ApplyFilter()
         {
             if (!string.IsNullOrEmpty(Filter))

@@ -12,7 +12,8 @@ namespace BookGen.Launch.Code
     {
         public override bool CanExecute(string? folder)
         {
-            return isVSCodeInstalled;
+            return isVSCodeInstalled 
+                && Directory.Exists(folder);
         }
 
         public override void Execute(string? folder)

@@ -17,12 +17,14 @@ namespace BookGen.Launch
         public DelegateCommand ClearFoldersCommand { get; }
         public DelegateCommand OpenWebsiteCommand { get; }
 
+        public DelegateCommand InstallPathVariableCommand { get; }
+        public DelegateCommand ShowChangeLogCommand { get; }
+
         public ICommand StartShellCommand { get; }
         public ICommand StartPreviewCommand { get; }
         public ICommand OpenSelectedFolderCommand { get; }
         public ICommand OpenInVsCodeCommand { get; }
-        public DelegateCommand InstallPathVariableCommand { get; }
-        public DelegateCommand ShowChangeLogCommand { get; }
+        public DelegateCommand RemoveItemCommand { get; }
 
         public FolderList FolderList { get; }
 
@@ -40,13 +42,31 @@ namespace BookGen.Launch
             OpenWebsiteCommand = new DelegateCommand(OnOpenWebsite);
 
             InstallPathVariableCommand = new DelegateCommand(OnInstallPath, OnCaninstallPath);
+            ShowChangeLogCommand = new DelegateCommand((o) => _mainWindow.ShowChangeLog());
 
             StartShellCommand = new StartShellCommand();
             StartPreviewCommand = new RunProgramCommand("BookGen.exe", "preview");
             OpenSelectedFolderCommand = new RunProgramCommand("Explorer.exe", "");
             OpenInVsCodeCommand = new RunVsCodeCommand();
-            ShowChangeLogCommand = new DelegateCommand((o) => _mainWindow.ShowChangeLog());
+            RemoveItemCommand = new DelegateCommand(OnRemoveItem);
             Version = GetVersion();
+        }
+
+        private void OnRemoveItem(object? obj)
+        {
+            if (obj is string folder)
+            {
+                MessageBoxResult confirm = MessageBox.Show(
+                    string.Format(Properties.Resources.RemoveFolder, folder),
+                    Properties.Resources.Question,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (confirm == MessageBoxResult.Yes)
+                {
+                    FolderList.Remove(folder);
+                }
+            }
         }
 
         private string GetVersion()

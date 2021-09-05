@@ -3,6 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:BookGen.Launch">
 
+    <BooleanToVisibilityConverter x:Key="BoolVisConv" />
+
     <Style
         x:Key="ChromeButton"
         TargetType="Button">
@@ -58,13 +60,13 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground" Value="{StaticResource LinkBlue}"/>
+        <Setter Property="Foreground" Value="{StaticResource LinkBlue}" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Margin" Value="5" />
         <Setter Property="FontSize" Value="14" />
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource Disabled}"/>
+                <Setter Property="Foreground" Value="{StaticResource Disabled}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -74,7 +76,7 @@
         TargetType="Button">
         <Setter Property="Height" Value="23" />
         <Setter Property="Width" Value="150" />
-        <Setter Property="Margin" Value="3" />
+        <Setter Property="Margin" Value="2" />
         <Setter Property="Background" Value="{StaticResource AppBackground}" />
     </Style>
 
@@ -86,11 +88,13 @@
         <Setter Property="Margin" Value="50,20,0,20" />
     </Style>
 
-    <Style TargetType="TextBlock" x:Key="VersionText">
-        <Setter Property="Foreground" Value="{StaticResource Disabled}"/>
-        <Setter Property="VerticalAlignment" Value="Bottom"/>
+    <Style
+        x:Key="VersionText"
+        TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource Disabled}" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="Margin" Value="5,20,0,20" />
-        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontSize" Value="12" />
     </Style>
 
     <Style
@@ -107,6 +111,7 @@
         <Border
             Width="853"
             Height="140"
+            Margin="0,5"
             Background="White"
             BorderBrush="{StaticResource Border}"
             BorderThickness="1"
@@ -128,6 +133,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Viewbox
                     Grid.RowSpan="2"
@@ -149,13 +155,21 @@
                     Grid.Column="1"
                     Style="{StaticResource SmallHederText}"
                     Text="{Binding FolderName}" />
-                <TextBlock
+                <StackPanel
                     Grid.Row="1"
                     Grid.Column="1"
-                    VerticalAlignment="Top"
-                    Foreground="{StaticResource TextColor}"
-                    Text="{Binding FullPath}"
-                    TextWrapping="Wrap" />
+                    VerticalAlignment="Top">
+                    <TextBlock
+                        Foreground="{StaticResource TextColor}"
+                        Text="{Binding FullPath}"
+                        TextWrapping="Wrap" />
+                    <Button
+                        Content="Remove..."
+                        Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+                        CommandParameter="{Binding FullPath}"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource ItemButton}" />
+                </StackPanel>
                 <StackPanel
                     Grid.RowSpan="5"
                     Grid.Column="3"
@@ -182,6 +196,14 @@
                         Content="Open in VS Code..."
                         Style="{StaticResource ItemButton}" />
                 </StackPanel>
+
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    Margin="5"
+                    Foreground="Red"
+                    Text="Folder doesn't exist"
+                    Visibility="{Binding IsDisabled, Converter={StaticResource BoolVisConv}}" />
             </Grid>
         </Border>
     </DataTemplate>
