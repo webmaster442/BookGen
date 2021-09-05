@@ -7,11 +7,14 @@ BookGen is a command line toolchain for writing books and documentation in markd
 It is designed to be cross platform, but It's developed and tested under Windows. It features a web based, cross platform Markdown editor.
 
 * MIT Licensed
-* Written in C#, targets .NET Core 3.1
+* Written in C#, targets .NET 5.0
 * Extremely fast, compared to GitBook and other NodeJs stuff
 * It hasn't got a template engine, so you don't have to learn a new template language. However it's extendable via shortcodes, like wordpress
 * Can be extended with Scripting API
 * Can be extended with NodeJs, Python, Php Scripts
+* Should be cross platform (Only tested & developed on windows)
+* Can resize & convert pictures during build.
+* Syntax highlighting is rendered during compile for Epub and printable documents.
 * Many output formats: 
     * Static website with Bootstrap template
     * Printable or Word processor importable plain HTML
@@ -30,21 +33,6 @@ cd BookGen
 git submodule init
 git submodule update
 ```
-
-# Installing
-
-To run the tool you will need the .NET Core 3.1 SDK. Installation can be done with the dotnet command:
-
-```bash
-dotnet tool install --global BookGen
-```
-
-Update:
-
-```bash
-dotnet tool update --global BookGen
-```
-
 ## Documentation
 
 https://github.com/webmaster442/BookGen/wiki
