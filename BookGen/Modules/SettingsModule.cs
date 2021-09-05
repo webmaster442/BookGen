@@ -46,23 +46,23 @@ namespace BookGen.Modules
 
         public override bool Execute(string[] arguments)
         {
-            if (arguments.Length < 2) return false;
+            if (arguments.Length < 1) return false;
 
-            if (string.Equals(arguments[1], "list", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(arguments[0], "list", StringComparison.OrdinalIgnoreCase))
             {
                 ListAvailableSettings();
                 return true;
             }
-            else if (string.Equals(arguments[1], "get", StringComparison.OrdinalIgnoreCase)
-                     && arguments.Length == 3)
+            else if (string.Equals(arguments[0], "get", StringComparison.OrdinalIgnoreCase)
+                     && arguments.Length == 2)
             {
-                GetSetting(arguments[2]);
+                GetSetting(arguments[1]);
                 return true;
             }
-            else if (string.Equals(arguments[1], "set", StringComparison.OrdinalIgnoreCase)
-                     && arguments.Length == 4)
+            else if (string.Equals(arguments[0], "set", StringComparison.OrdinalIgnoreCase)
+                     && arguments.Length == 3)
             {
-                SetSetting(arguments[2], arguments[3]);
+                SetSetting(arguments[1], arguments[2]);
                 return true;
             }
 
