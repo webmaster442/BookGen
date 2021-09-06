@@ -1,37 +1,44 @@
-## Welcome to GitHub Pages
+![logo](https://raw.githubusercontent.com/wiki/webmaster442/BookGen/img/logo.png)
 
-You can use the [editor on GitHub](https://github.com/webmaster442/BookGen/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+# BookGen - A C# documentation generator
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+BookGen is a command line toolchain for writing books and documentation in markdown. It was inspired by GitBook. Generaly speeking you can call it a static website generator, but it has some neat features compared to other products.
 
-### Markdown
+It is designed to be cross platform, but It's developed and tested under Windows. It features a web based, cross platform Markdown editor.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+* MIT Licensed
+* Written in C#, targets .NET 5.0
+* Extremely fast, compared to GitBook and other NodeJs stuff
+* It hasn't got a template engine, so you don't have to learn a new template language. However it's extendable via shortcodes, like wordpress
+* Can be extended with Scripting API
+* Can be extended with NodeJs, Python, Php Scripts
+* Should be cross platform (Only tested & developed on windows)
+* Can resize & convert pictures during build.
+* Syntax highlighting is rendered during compile for Epub and printable documents.
+* Many output formats: 
+    * Static website with Bootstrap template
+    * Printable or Word processor importable plain HTML
+    * EPub v. 3.0
+    * Wordpress compatible XML export file
 
-```markdown
-Syntax highlighted code block
+To Build and develop you will need:
+* Visual Studio 2019 with latest updates - https://visualstudio.microsoft.com/vs/
+* .NET 5 SDK - https://dotnet.microsoft.com/download
 
-# Header 1
-## Header 2
-### Header 3
+# Getting the repo
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```bash
+git clone https://github.com/webmaster442/BookGen.git
+cd BookGen
+git submodule init
+git submodule update
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## Links
 
-### Jekyll Themes
+* [Changelog](https://github.com/webmaster442/BookGen/blob/master/Changelog.md)
+* [Visit the project releases page](https://github.com/webmaster442/BookGen/releases)
+* [Documentation](https://github.com/webmaster442/BookGen/wiki)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/webmaster442/BookGen/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+---
+Icon source: https://icons8.com/
