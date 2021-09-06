@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Core;
 using BookGen.Domain;
+using BookGen.Resources;
 using System;
 using System.Linq;
 using System.Net;
@@ -18,11 +20,13 @@ namespace BookGen.Utilities
         private const string UpdateUrl = "";
         private readonly ILog _log;
         private readonly Version _currentBuild;
+        private readonly string _appDir;
 
-        public Updater(ILog log, DateTime currentBuild)
+        public Updater(ILog log, DateTime currentBuild, string appDir)
         {
             _log = log;
             _currentBuild = new Version(currentBuild.Year, currentBuild.Month, currentBuild.Year);
+            _appDir = appDir;
         }
 
         private async Task<Release[]> GetReleases()
@@ -40,13 +44,13 @@ namespace BookGen.Utilities
             }
         }
 
-        public async Task<Version?> GetLatestVersion()
+        public async Task<Version?> GetLatestVersion(bool preview = false)
         {
             var releases = await GetReleases();
             return releases
                 .OrderByDescending(x => x.Version)
-                .Select(x => x.Version)
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.IsPreview == preview)
+                ?.Version;
         }
 
         public bool IsUpdateNewerThanCurrentVersion(Version? updateVersion)
@@ -59,7 +63,19 @@ namespace BookGen.Utilities
 
         public void LaunchUpdateScript()
         {
-            //todo: Launch powershell update script
+            var updater = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.ps1");
+
+            FsPath script = new FsPath(_appDir, "updater.ps1");
+            if (script.WriteFile(_log, updater))
+            {
+                using (var process = new System.Diagnostics.Process())
+                {
+                    process.StartInfo.FileName = "powershell.exe";
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.Arguments = $"-ExecutionPolicy Bypass -File \"{script}\"";
+                    process.Start();
+                }
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ namespace BookGen.Domain
         public Version Version { get; init; }
         public string ZipPackageUrl { get; init; }
         public string HashSha256 { get; init; }
+        public bool IsPreview { get; init; }
 
         public Release()
         {

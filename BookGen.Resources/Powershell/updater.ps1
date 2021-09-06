@@ -6,6 +6,13 @@ if ($($args.Count) -lt 2) {
 	exit
 }
 
+function PlaySound() {
+	$player = New-Object -TypeName System.Media.SoundPlayer
+	$player.SoundLocation = ($env:windir)+'\Media\tada.wav'
+	$player.Load()
+	$player.Play()
+}
+
 clear
 Write-host "  ____              _     _____              _    _           _       _            "
 Write-host " |  _ \            | |   / ____|            | |  | |         | |     | |           "
@@ -38,9 +45,11 @@ Expand-Archive -Path $env:temp\update.zip -DestinationPath (pwd).Path -Force
 Write-host Removing update package...
 Remove-Item -Path $env:temp\update.zip -Force
 
-Write-host DONE!
-Write-host Press a key to exit
 
 Remove-Item -Path .\updater.ps1
+PlaySound
+
+Write-host DONE!
+Write-host Press a key to exit
 
 Read-Host
