@@ -28,8 +28,13 @@ namespace BookGen.Tests
             Assert.IsTrue(results.Any());
         }
 
+        [TestCase("BookGen", "bookGen")]
+        [TestCase("BookGen", "Bookgen")]
+        [TestCase("BookGen", "bookgen")]
         [TestCase("AssemblyDocument", "BookGen ass")]
         [TestCase("--assembly", "BookGen AssemblyDocument --ass")]
+        [TestCase("AssemblyDocument", "bookgen ass")]
+        [TestCase("--assembly", "bookGen AssemblyDocument --ass")]
         public void EnsureThat_ShellProgram_DoComplete_Completes(string expected, params string[] input)
         {
             var results = _sut.DoComplete(input);

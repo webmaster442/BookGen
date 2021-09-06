@@ -15,6 +15,8 @@ namespace BookGen.Modules.Special
     {
         public override string ModuleCommand => "Shell";
 
+        public const string ProgramName = "BookGen";
+
         public IEnumerable<ModuleBase>? Modules { get; set; }
 
         public override bool Execute(string[] arguments)
@@ -33,9 +35,9 @@ namespace BookGen.Modules.Special
 
             string request = args[0] ?? "";
 
-            if (request.StartsWith("BookGen", StringComparison.OrdinalIgnoreCase))
+            if (request.StartsWith(ProgramName, StringComparison.OrdinalIgnoreCase))
             {
-                request = request.Substring("BookGen".Length);
+                request = request.Substring(ProgramName.Length);
             }
             string[] words = request.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -55,7 +57,7 @@ namespace BookGen.Modules.Special
                 }
             }
 
-            return Enumerable.Empty<string>();
+            return new string[] { ProgramName };
         }
 
         public override string GetHelp()
