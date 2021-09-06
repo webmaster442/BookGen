@@ -10,6 +10,7 @@
 * Fix: Improved XHTML compatibility for epub
 * Fix: Fixed a memory leak in the generator
 * Fix: Various code quality fixes
+* Fix: Autocompleter now reacts better
 * Change: Removed HTML compressor code due to bad quality of dependency code
 
 # 2021.05.26
