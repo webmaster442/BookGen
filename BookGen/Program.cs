@@ -156,6 +156,7 @@ namespace BookGen
                 new EditModule(CurrentState, AppSetting),
                 new PreviewModule(CurrentState),
                 new ServeModule(CurrentState),
+                new UpdateModule(CurrentState),
             };
         }
 

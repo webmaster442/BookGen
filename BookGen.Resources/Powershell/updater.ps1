@@ -25,6 +25,7 @@ Write-host "                                                   |_|              
 
 
 Write-host Stopping all running BookGen instances...
+Start-Sleep -s 3
 if((get-process "BookGen" -ea SilentlyContinue) -ne $Null){ 
 	Stop-process -name BookGen -Force
 }

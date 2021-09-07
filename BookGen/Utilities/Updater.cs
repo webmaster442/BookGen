@@ -11,7 +11,6 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace BookGen.Utilities
 {
@@ -29,13 +28,13 @@ namespace BookGen.Utilities
             _appDir = appDir;
         }
 
-        private async Task<Release[]> GetReleases()
+        private Release[] GetReleases()
         {
             using (var client = new WebClient())
             {
                 client.UseDefaultCredentials = true;
                 client.Proxy = WebRequest.GetSystemWebProxy();
-                var json = await client.DownloadStringTaskAsync(new Uri(UpdateUrl));
+                var json = client.DownloadString(new Uri(UpdateUrl));
                 var result = JsonSerializer.Deserialize<Release[]>(json);
                 if (result == null)
                     throw new InvalidOperationException("Error while deserializing update info...");
@@ -44,10 +43,9 @@ namespace BookGen.Utilities
             }
         }
 
-        public async Task<Version?> GetLatestVersion(bool preview = false)
+        public Version? GetLatestVersion(bool preview = false)
         {
-            var releases = await GetReleases();
-            return releases
+            return GetReleases()
                 .OrderByDescending(x => x.Version)
                 .FirstOrDefault(x => x.IsPreview == preview)
                 ?.Version;
