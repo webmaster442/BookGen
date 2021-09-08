@@ -16,7 +16,7 @@ namespace BookGen.Utilities
 {
     public class Updater
     {
-        private const string UpdateUrl = "";
+        private const string UpdateUrl = "https://raw.githubusercontent.com/webmaster442/BookGen/master/.github/updates.json";
         private readonly ILog _log;
         private readonly Version _currentBuild;
         private readonly string _appDir;
