@@ -22,6 +22,7 @@ namespace BookGen
         public string ProgramDirectory { get; }
         public int ConfigVersion { get; }
 
+
 #if TESTBUILD
         public ILog Log { get; set; }
         public IServerLog ServerLog { get; set; }

@@ -5,6 +5,7 @@
 
 using BookGen.Framework;
 using BookGen.Utilities;
+using System.Runtime.InteropServices;
 
 namespace BookGen.Modules
 {
@@ -18,19 +19,30 @@ namespace BookGen.Modules
 
         public override bool Execute(string[] arguments)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                CurrentState.Log.Warning("Auto update feature only available on windows");
+                return false;
+            }
+
             var updater = new Updater(CurrentState.Log,
                                       CurrentState.BuildDate,
                                       CurrentState.ProgramDirectory);
 
-            var updateVersion = updater.GetLatestVersion();
+            var release = updater.GetLatestRelease();
 
             CurrentState.Log.Info("Current version: {0}", CurrentState.BuildDate);
-            CurrentState.Log.Info("Update version: {0}", updateVersion?.ToString() ?? "unknown");
+            CurrentState.Log.Info("Update version: {0}", release?.Version ?? "unknown");
 
-            if (updater.IsUpdateNewerThanCurrentVersion(updateVersion))
+            if (release !=null 
+                && updater.IsUpdateNewerThanCurrentVersion(release))
             {
                 CurrentState.Log.Info("Preparing to launch update script...");
-                updater.LaunchUpdateScript();
+                updater.LaunchUpdateScript(release);
+            }
+            else
+            {
+                CurrentState.Log.Info("Allready up to date");
             }
 
             return true;

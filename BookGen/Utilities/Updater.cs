@@ -43,27 +43,19 @@ namespace BookGen.Utilities
             }
         }
 
-        public Version? GetLatestVersion(bool preview = false)
+        public Release? GetLatestRelease(bool preview = false)
         {
-            var release = GetReleases()
+            return GetReleases()
                 .OrderByDescending(x => Version.Parse(x.Version))
                 .FirstOrDefault(x => x.IsPreview == preview);
-
-            if (release != null)
-                return Version.Parse(release.Version);
-
-            return null;
         }
 
-        public bool IsUpdateNewerThanCurrentVersion(Version? updateVersion)
+        public bool IsUpdateNewerThanCurrentVersion(Release release)
         {
-            if (updateVersion == null)
-                return false;
-
-            return updateVersion > _currentBuild;
+            return Version.Parse(release.Version) > _currentBuild;
         }
 
-        public void LaunchUpdateScript()
+        public void LaunchUpdateScript(Release release)
         {
             var updater = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.ps1");
 
@@ -74,7 +66,7 @@ namespace BookGen.Utilities
                 {
                     process.StartInfo.FileName = "powershell.exe";
                     process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.Arguments = $"-ExecutionPolicy Bypass -File \"{script}\"";
+                    process.StartInfo.Arguments = $"-ExecutionPolicy Bypass -File \"{script}\" \"{release.ZipPackageUrl}\" \"{release.HashSha256}\"";
                     process.Start();
                 }
             }
