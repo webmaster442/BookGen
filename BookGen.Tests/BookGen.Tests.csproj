@@ -5,6 +5,7 @@
     <SonarQubeTestProject>True</SonarQubeTestProject>
     <IsPackable>false</IsPackable>
     <OutputPath>..\bin\TESTBUILD\$(Configuration)</OutputPath>
+    <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
   <ItemGroup>

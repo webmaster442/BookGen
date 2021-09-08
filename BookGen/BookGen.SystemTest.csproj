@@ -16,6 +16,7 @@
 		<ToolCommandName>BookGen</ToolCommandName>
 		<PackageOutputPath>..\bin\nupkg</PackageOutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <IsPublishable>false</IsPublishable>
 	</PropertyGroup>
 	<PropertyGroup>
     <ApplicationIcon>..\Icon.ico</ApplicationIcon>

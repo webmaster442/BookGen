@@ -1,4 +1,5 @@
 # 2021.09
+* New: Added an Update command to make future updates easy
 * New: XML documentation generator reworked. Now uses XmlDocMarkdown
 * New: Syntax rendering reworked, improved
 * New: Rewrote launcher (again), Has more features

@@ -9,7 +9,7 @@ namespace BookGen.Resources
 {
     internal static class KnownFileMap
     {
-        public static Dictionary<KnownFile, string> Map = new Dictionary<KnownFile, string>
+        public static readonly Dictionary<KnownFile, string> Map = new Dictionary<KnownFile, string>
         {
             //JsCss
             { KnownFile.BootstrapMinCss, "/JsCss/bootstrap.min.css" },
