@@ -251,6 +251,10 @@
                 Command="{Binding ShowChangeLogCommand}"
                 Content="Show changelog..."
                 Style="{StaticResource LinkButton}" />
+            <Button
+                Command="{Binding CheckUpdateCommand}"
+                Content="Check for uptates..."
+                Style="{StaticResource LinkButton}"/>
         </StackPanel>
 
         <Border

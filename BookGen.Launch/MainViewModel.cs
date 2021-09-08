@@ -24,6 +24,7 @@ namespace BookGen.Launch
         public ICommand StartPreviewCommand { get; }
         public ICommand OpenSelectedFolderCommand { get; }
         public ICommand OpenInVsCodeCommand { get; }
+        public ICommand CheckUpdateCommand { get; }
         public DelegateCommand RemoveItemCommand { get; }
 
         public FolderList FolderList { get; }
@@ -46,6 +47,7 @@ namespace BookGen.Launch
 
             StartShellCommand = new StartShellCommand();
             StartPreviewCommand = new RunProgramCommand("BookGen.exe", "preview");
+            CheckUpdateCommand = new RunProgramCommand("BookGen.exe", "Update");
             OpenSelectedFolderCommand = new RunProgramCommand("Explorer.exe", "");
             OpenInVsCodeCommand = new RunVsCodeCommand();
             RemoveItemCommand = new DelegateCommand(OnRemoveItem);
