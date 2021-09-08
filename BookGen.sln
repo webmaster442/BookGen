@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141
 		Documentation\Template\DocumentationTemplate.html = Documentation\Template\DocumentationTemplate.html
 		publish.sh = publish.sh
 		README.md = README.md
+		.github\updates.json = .github\updates.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Api", "BookGen.Api\BookGen.Api.csproj", "{3D07DD2E-A6CA-4AAC-909D-7A09B967B7E6}"
