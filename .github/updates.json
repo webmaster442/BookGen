@@ -1,13 +1,6 @@
 [
 	{
-		"Version": {
-			"Major": 2021,
-			"Minor": 11,
-			"Build": 11,
-			"Revision": -1,
-			"MajorRevision": -1,
-			"MinorRevision": -1
-		},
+		"Version": "2021.01.01",
 		"ZipPackageUrl": "zip",
 		"HashSha256": "hash",
 		"IsPreview": false

@@ -45,10 +45,14 @@ namespace BookGen.Utilities
 
         public Version? GetLatestVersion(bool preview = false)
         {
-            return GetReleases()
-                .OrderByDescending(x => x.Version)
-                .FirstOrDefault(x => x.IsPreview == preview)
-                ?.Version;
+            var release = GetReleases()
+                .OrderByDescending(x => Version.Parse(x.Version))
+                .FirstOrDefault(x => x.IsPreview == preview);
+
+            if (release != null)
+                return Version.Parse(release.Version);
+
+            return null;
         }
 
         public bool IsUpdateNewerThanCurrentVersion(Version? updateVersion)
