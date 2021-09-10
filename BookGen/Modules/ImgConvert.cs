@@ -9,7 +9,6 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
-using SkiaSharp;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,6 +33,8 @@ namespace BookGen.Modules
                                             "--output",
                                             "-q",
                                             "--quality",
+                                            "-f",
+                                            "--format",
                                             "-w",
                                             "--width",
                                             "-h",
@@ -56,7 +57,7 @@ namespace BookGen.Modules
                 Parallel.ForEach(files, file =>
                 {
                     var output = args.Output.Combine(file.Filename);
-                    ImageUtils.ConvertImageFile(CurrentState.Log, file, output, args.Quality, args.Width, args.Height);
+                    ImageUtils.ConvertImageFile(CurrentState.Log, file, output, args.Quality, args.Width, args.Height, args.Format);
                 });
 
                 return true;

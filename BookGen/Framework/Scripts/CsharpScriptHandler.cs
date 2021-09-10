@@ -40,7 +40,7 @@ namespace BookGen.Framework.Scripts
         {
             try
             {
-                var files = scriptsDir.GetAllFiles("*.cs");
+                var files = scriptsDir.GetAllFiles(true, "*.cs");
                 IEnumerable<Microsoft.CodeAnalysis.SyntaxTree> trees = _compiler.ParseToSyntaxTree(files);
 
                 Assembly? assembly = _compiler.CompileToAssembly(trees);

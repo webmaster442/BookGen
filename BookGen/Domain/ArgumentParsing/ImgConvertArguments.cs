@@ -25,10 +25,14 @@ namespace BookGen.Domain.ArgumentParsing
         [Switch("h", "height", false)]
         public int? Height { get; set; }
 
+        [Switch("f", "format", false)]
+        public string Format { get; set; }
+
         public ImgConvertArguments()
         {
             Input = FsPath.Empty;
             Output = FsPath.Empty;
+            Format = string.Empty;
             Quality = 90;
         }
 
@@ -36,7 +40,9 @@ namespace BookGen.Domain.ArgumentParsing
         {
             if (Input.IsWildCard())
             {
-                return Output.IsDirectory;
+
+                return Output.IsDirectory 
+                    && !string.IsNullOrEmpty(Format);
             }
             return Input.IsExisting 
                 && Output.IsExisting;

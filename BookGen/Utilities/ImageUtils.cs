@@ -29,22 +29,32 @@ namespace BookGen.Utilities
             }
         }
 
-        public static SKEncodedImageFormat GetSkiaImageFormat(FsPath file)
+        public static SKEncodedImageFormat GetSkiaImageFormat(string extension)
         {
-            switch (file.Extension)
+            switch (extension.ToLower())
             {
                 case ".png":
+                case "png":
                     return SKEncodedImageFormat.Png;
                 case ".jpg":
+                case "jpg":
                 case ".jpeg":
+                case "jpeg":
                     return SKEncodedImageFormat.Jpeg;
                 case ".gif":
+                case "gif":
                     return SKEncodedImageFormat.Gif;
                 case ".webp":
+                case "webp":
                     return SKEncodedImageFormat.Webp;
                 default:
                     throw new InvalidOperationException("Unknown file type");
             }
+        }
+
+        public static SKEncodedImageFormat GetSkiaImageFormat(FsPath file)
+        {
+            return GetSkiaImageFormat(file.Extension);
         }
 
         public static bool IsSvg(FsPath file)
@@ -127,11 +137,19 @@ namespace BookGen.Utilities
             }
         }
 
-        public static bool ConvertImageFile(ILog log, FsPath input, FsPath output, int quality, int? width, int? height)
+        public static bool ConvertImageFile(ILog log, FsPath input, FsPath output, int quality, int? width, int? height, string? format = null)
         {
+            SKEncodedImageFormat targetFormat;
             using (SKBitmap image = LoadImage(input))
             {
-                var targetFormat = GetSkiaImageFormat(output);
+                if (!string.IsNullOrEmpty(format))
+                {
+                    targetFormat = GetSkiaImageFormat(format);
+                }
+                else
+                {
+                    targetFormat = GetSkiaImageFormat(output);
+                }
                 using (SKBitmap resized = ResizeIfBigger(image, width, height))
                 {
                     using SKData encoded = EncodeToFormat(resized, targetFormat, quality);
