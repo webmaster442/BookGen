@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Core;
 using SkiaSharp;
 using Svg.Skia;
@@ -104,12 +105,15 @@ namespace BookGen.Utilities
             return SKBitmap.Decode(file.ToString());
         }
 
-        public static SKBitmap ResizeIfBigger(SKBitmap input, int width, int height)
+        public static SKBitmap ResizeIfBigger(SKBitmap input, int? width, int? height)
         {
-            if (input.Width < width && input.Height < height)
+            int w = width ?? int.MaxValue;
+            int h = height ?? int.MaxValue;
+
+            if (input.Width < w && input.Height < h)
                 return input;
 
-            (int renderWidth, int renderHeight, float scale) sizeData = CalcNewSize(new SKRect(0, 0, input.Width, input.Height), width, height);
+            (int renderWidth, int renderHeight, float scale) sizeData = CalcNewSize(new SKRect(0, 0, input.Width, input.Height), w, h);
 
 
             return input.Resize(new SKImageInfo(sizeData.renderWidth, sizeData.renderHeight), SKFilterQuality.High);
@@ -120,6 +124,31 @@ namespace BookGen.Utilities
             using (SKImage image = SKImage.FromBitmap(bitmap))
             {
                 return image.Encode(format, quality);
+            }
+        }
+
+        public static bool ConvertImageFile(ILog log, FsPath input, FsPath output, int quality, int? width, int? height)
+        {
+            using (SKBitmap image = LoadImage(input))
+            {
+                var targetFormat = GetSkiaImageFormat(output);
+                using (SKBitmap resized = ResizeIfBigger(image, width, height))
+                {
+                    using SKData encoded = EncodeToFormat(resized, targetFormat, quality);
+                    using (var stream = output.CreateStream(log))
+                    {
+                        try
+                        {
+                            encoded.SaveTo(stream);
+                            return true;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Warning(ex);
+                            return false;
+                        }
+                    }
+                }
             }
         }
     }

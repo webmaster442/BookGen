@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -406,6 +406,11 @@ namespace BookGen.Core
         {
             var fullpath = Path.GetFullPath(path.ToString());
             return new FsPath(Path.GetDirectoryName(fullpath) ?? string.Empty);
+        }
+
+        public static bool IsWildCard(this FsPath path)
+        {
+            return path.ToString().Contains("*");
         }
     }
 }
