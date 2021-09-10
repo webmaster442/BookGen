@@ -53,7 +53,7 @@ namespace BookGen.Modules
 
             if (args.Input.IsDirectory)
             {
-                var files = args.Input.IsDirectory.GetAllFiles(false).Where(x => ImageUtils.IsImage(x));
+                var files = args.Input.GetAllFiles(false).Where(x => ImageUtils.IsImage(x));
                 Parallel.ForEach(files, file =>
                 {
                     var output = args.Output.Combine(file.Filename);
