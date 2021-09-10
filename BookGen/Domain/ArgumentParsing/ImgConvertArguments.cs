@@ -44,8 +44,7 @@ namespace BookGen.Domain.ArgumentParsing
                 return Output.IsDirectory 
                     && !string.IsNullOrEmpty(Format);
             }
-            return Input.IsExisting 
-                && Output.IsExisting;
+            return Input.IsExisting;
         }
     }
 }

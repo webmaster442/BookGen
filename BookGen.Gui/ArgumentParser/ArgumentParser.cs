@@ -131,7 +131,9 @@ namespace BookGen.Ui.ArgumentParser
                 }
                 else if (currenttype == typeof(FsPath))
                 {
-                    prop.SetValue(targetClass, new FsPath(value));
+                    FsPath path = new FsPath(System.IO.Path.GetFullPath(value));
+
+                    prop.SetValue(targetClass, path);
                     ++_filled;
                 }
                 else

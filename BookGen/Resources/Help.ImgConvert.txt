@@ -9,10 +9,12 @@
 
     Arguments:
     -i, --input:
-        Input file or a wildcard of files. E.g: *.jpg
+        Input file or Directory.
     -o, --output:
-        Output file or directory. If input is wildcards, then output must be a directory.
-        In this mode, the -f or --format argument is nesceccary. 
+        Output file or directory. 
+        If input is a directory, then output must be a directory too.
+        If input is a file, then input must be a file too.
+        In directory mode the -f or --format argument is nesceccary. 
     -f, --format:
         Optional argument. Specifies or overrides output format
     -w, --width

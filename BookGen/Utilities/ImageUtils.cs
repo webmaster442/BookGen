@@ -68,7 +68,15 @@ namespace BookGen.Utilities
         {
             float scale = 1.0f;
 
-            if (size.Width > maxwidth || size.Height > maxHeight)
+            if (size.Height > maxHeight && maxwidth <= (int)size.Width)
+            {
+                scale = maxHeight / size.Height;
+            }
+            else if (size.Width > maxwidth && maxHeight <= (int)size.Height)
+            {
+                scale = maxwidth / size.Width;
+            }
+            else if (size.Width > maxwidth || size.Height > maxHeight)
             {
                 float imgMax = Math.Max(size.Width, size.Height);
                 float targetMin = Math.Min(maxwidth, maxHeight);
@@ -117,8 +125,11 @@ namespace BookGen.Utilities
 
         public static SKBitmap ResizeIfBigger(SKBitmap input, int? width, int? height)
         {
-            int w = width ?? int.MaxValue;
-            int h = height ?? int.MaxValue;
+            if (width == null && height == null)
+                return input;
+
+            int w = width ?? input.Width;
+            int h = height ?? input.Height; 
 
             if (input.Width < w && input.Height < h)
                 return input;

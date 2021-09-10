@@ -14,9 +14,9 @@ using System.Threading.Tasks;
 
 namespace BookGen.Modules
 {
-    internal class ImgConvert : ModuleWithState
+    internal class ImgConvertModule : ModuleWithState
     {
-        protected ImgConvert(ProgramState currentState) : base(currentState)
+        public ImgConvertModule(ProgramState currentState) : base(currentState)
         {
         }
 
@@ -51,9 +51,9 @@ namespace BookGen.Modules
                 return false;
             }
 
-            if (args.Input.IsWildCard())
+            if (args.Input.IsDirectory)
             {
-                var files = args.Input.GetAllFiles(false).Where(x => ImageUtils.IsImage(x));
+                var files = args.Input.IsDirectory.GetAllFiles(false).Where(x => ImageUtils.IsImage(x));
                 Parallel.ForEach(files, file =>
                 {
                     var output = args.Output.Combine(file.Filename);
