@@ -47,5 +47,10 @@ namespace BookGen.Modules
 
             return true;
         }
+
+        public override string GetHelp()
+        {
+            return "Upde program to latest stable release";
+        }
     }
 }
