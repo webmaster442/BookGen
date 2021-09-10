@@ -27,7 +27,7 @@ namespace BookGen.Modules
 
         public override bool Execute(string[] arguments)
         {
-            var args = new StatParameters();
+            var args = new StatArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return false;

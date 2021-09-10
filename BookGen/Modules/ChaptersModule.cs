@@ -37,7 +37,7 @@ namespace BookGen.Modules
 
         public override bool Execute(string[] arguments)
         {
-            ChaptersParameters args = new ChaptersParameters();
+            var args = new ChaptersArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return false;

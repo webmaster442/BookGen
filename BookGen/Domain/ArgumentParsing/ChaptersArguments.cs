@@ -8,7 +8,7 @@ using System;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class ChaptersParameters : ArgumentsBase
+    internal class ChaptersArguments : ArgumentsBase
     {
         [Switch("a", "action", true)]
         public ChaptersAction? Action { get; set; }
@@ -16,7 +16,7 @@ namespace BookGen.Domain.ArgumentParsing
         [Switch("d", "dir")]
         public string WorkDir { get; set; }
 
-        public ChaptersParameters()
+        public ChaptersArguments()
         {
             WorkDir = Environment.CurrentDirectory;
         }

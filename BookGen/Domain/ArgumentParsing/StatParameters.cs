@@ -8,7 +8,7 @@ using System;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class StatParameters : ArgumentsBase
+    internal class StatArguments : ArgumentsBase
     {
         [Switch("d", "dir")]
         public string Directory { get; set; }
@@ -16,7 +16,7 @@ namespace BookGen.Domain.ArgumentParsing
         [Switch("i", "input")]
         public string Input { get; set; }
 
-        public StatParameters()
+        public StatArguments()
         {
             Directory = Environment.CurrentDirectory;
             Input = string.Empty;

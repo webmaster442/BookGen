@@ -33,7 +33,7 @@ namespace BookGen.Modules
 
         public override bool Execute(string[] arguments)
         {
-            var parameters = new AssemblyDocumentParameters();
+            var parameters = new AssemblyDocumentArguments();
 
             if (!ArgumentParser.ParseArguments(arguments, parameters))
             {

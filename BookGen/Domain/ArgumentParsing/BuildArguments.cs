@@ -7,13 +7,12 @@ using BookGen.Ui.ArgumentParser;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class PageGenParameters: BookGenArgumentBase
+    internal class BuildArguments: BookGenArgumentBase
     {
-        [Switch("p", "page", true)]
-        public PageType? PageType { get; set; }
+        [Switch("a", "action", true)]
+        public BuildAction? Action { get; set; }
 
-        public PageGenParameters(): base()
-        {
-        }
+        [Switch("n", "nowait")]
+        public bool NoWaitForExit { get; set; }
     }
 }

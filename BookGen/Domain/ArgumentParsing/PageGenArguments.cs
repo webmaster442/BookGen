@@ -4,16 +4,12 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Ui.ArgumentParser;
-using System;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class BuildParameters: BookGenArgumentBase
+    internal class PageGenArguments: BookGenArgumentBase
     {
-        [Switch("a", "action", true)]
-        public BuildAction? Action { get; set; }
-
-        [Switch("n", "nowait")]
-        public bool NoWaitForExit { get; set; }
+        [Switch("p", "page", true)]
+        public PageType? PageType { get; set; }
     }
 }
