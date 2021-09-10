@@ -10,6 +10,8 @@ using BookGen.Framework;
 using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using SkiaSharp;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookGen.Modules
 {
@@ -47,6 +49,20 @@ namespace BookGen.Modules
             {
                 return false;
             }
+
+            if (args.Input.IsWildCard())
+            {
+                var files = args.Input.GetAllFiles(false).Where(x => ImageUtils.IsImage(x));
+                Parallel.ForEach(files, file =>
+                {
+                    var output = args.Output.Combine(file.Filename);
+                    ImageUtils.ConvertImageFile(CurrentState.Log, file, output, args.Quality, args.Width, args.Height);
+                });
+
+                return true;
+            }
+
+            return ImageUtils.ConvertImageFile(CurrentState.Log, args.Input, args.Output, args.Quality, args.Width, args.Height);
         }
     }
 }
