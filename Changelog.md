@@ -1,4 +1,4 @@
-# 2021.09
+# 2021.09.12
 * New: Added an Update command to make future updates easy
 * New: Added ImgConvert commmand to convert imgages
 * New: XML documentation generator reworked. Now uses XmlDocMarkdown
