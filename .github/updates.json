@@ -1,8 +1,8 @@
 [
 	{
-		"Version": "2021.01.01",
-		"ZipPackageUrl": "zip",
-		"HashSha256": "hash",
+		"Version": "2021.09.12",
+		"ZipPackageUrl": "https://github.com/webmaster442/BookGen/releases/download/2021-09-12/bookgen.2021-09-12.zip",
+		"HashSha256": "A90C36801CEB34527801259CD6B39802C019808E937711225A7BB76F7FD2B224",
 		"IsPreview": false
 	}
 ]
