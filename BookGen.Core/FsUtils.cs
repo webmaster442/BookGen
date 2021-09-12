@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -206,9 +206,10 @@ namespace BookGen.Core
             outp.WriteFile(log, sb.ToString());
         }
 
-        public static IEnumerable<FsPath> GetAllFiles(this FsPath directory, string mask = "*.*")
+        public static IEnumerable<FsPath> GetAllFiles(this FsPath directory, bool recursive = true, string mask = "*.*")
         {
-            foreach (var file in Directory.GetFiles(directory.ToString(), mask, SearchOption.AllDirectories))
+            SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+            foreach (var file in Directory.GetFiles(directory.ToString(), mask, searchOption))
             {
                 yield return new FsPath(file);
             }
@@ -406,6 +407,11 @@ namespace BookGen.Core
         {
             var fullpath = Path.GetFullPath(path.ToString());
             return new FsPath(Path.GetDirectoryName(fullpath) ?? string.Empty);
+        }
+
+        public static bool IsWildCard(this FsPath path)
+        {
+            return path.ToString().Contains("*");
         }
     }
 }

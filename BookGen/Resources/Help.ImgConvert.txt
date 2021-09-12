@@ -1,0 +1,25 @@
+﻿Converts images from a format to an other format
+-------------------------------------------------------------------------------
+
+    BookGen ImgConvert -i [input] -o [output] 
+                      {-f [format]} {-q [quality]} {-w [width]} {-h [height]}
+    BookGen ImgConvert --input [input] --output [output]
+                        {--format [format]} {--quality [quality]} 
+                        {--width [width]} {--hegiht [height]}
+
+    Arguments:
+    -i, --input:
+        Input file or Directory.
+    -o, --output:
+        Output file or directory. 
+        If input is a directory, then output must be a directory too.
+        If input is a file, then input must be a file too.
+        In directory mode the -f or --format argument is nesceccary. 
+    -f, --format:
+        Optional argument. Specifies or overrides output format
+    -w, --width
+        Optional argument. Specifies output file max width in pixels.
+    -h, --height
+        Optional argument. Specifies output file max height in pixels.
+
+Supported formats: jpg, jpeg, png, webp, gif

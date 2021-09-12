@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Core;
 using SkiaSharp;
 using Svg.Skia;
@@ -28,22 +29,32 @@ namespace BookGen.Utilities
             }
         }
 
-        public static SKEncodedImageFormat GetSkiaImageFormat(FsPath file)
+        public static SKEncodedImageFormat GetSkiaImageFormat(string extension)
         {
-            switch (file.Extension)
+            switch (extension.ToLower())
             {
                 case ".png":
+                case "png":
                     return SKEncodedImageFormat.Png;
                 case ".jpg":
+                case "jpg":
                 case ".jpeg":
+                case "jpeg":
                     return SKEncodedImageFormat.Jpeg;
                 case ".gif":
+                case "gif":
                     return SKEncodedImageFormat.Gif;
                 case ".webp":
+                case "webp":
                     return SKEncodedImageFormat.Webp;
                 default:
                     throw new InvalidOperationException("Unknown file type");
             }
+        }
+
+        public static SKEncodedImageFormat GetSkiaImageFormat(FsPath file)
+        {
+            return GetSkiaImageFormat(file.Extension);
         }
 
         public static bool IsSvg(FsPath file)
@@ -57,7 +68,15 @@ namespace BookGen.Utilities
         {
             float scale = 1.0f;
 
-            if (size.Width > maxwidth || size.Height > maxHeight)
+            if (size.Height > maxHeight && maxwidth <= (int)size.Width)
+            {
+                scale = maxHeight / size.Height;
+            }
+            else if (size.Width > maxwidth && maxHeight <= (int)size.Height)
+            {
+                scale = maxwidth / size.Width;
+            }
+            else if (size.Width > maxwidth || size.Height > maxHeight)
             {
                 float imgMax = Math.Max(size.Width, size.Height);
                 float targetMin = Math.Min(maxwidth, maxHeight);
@@ -104,12 +123,18 @@ namespace BookGen.Utilities
             return SKBitmap.Decode(file.ToString());
         }
 
-        public static SKBitmap ResizeIfBigger(SKBitmap input, int width, int height)
+        public static SKBitmap ResizeIfBigger(SKBitmap input, int? width, int? height)
         {
-            if (input.Width < width && input.Height < height)
+            if (width == null && height == null)
                 return input;
 
-            (int renderWidth, int renderHeight, float scale) sizeData = CalcNewSize(new SKRect(0, 0, input.Width, input.Height), width, height);
+            int w = width ?? input.Width;
+            int h = height ?? input.Height; 
+
+            if (input.Width < w && input.Height < h)
+                return input;
+
+            (int renderWidth, int renderHeight, float scale) sizeData = CalcNewSize(new SKRect(0, 0, input.Width, input.Height), w, h);
 
 
             return input.Resize(new SKImageInfo(sizeData.renderWidth, sizeData.renderHeight), SKFilterQuality.High);
@@ -120,6 +145,39 @@ namespace BookGen.Utilities
             using (SKImage image = SKImage.FromBitmap(bitmap))
             {
                 return image.Encode(format, quality);
+            }
+        }
+
+        public static bool ConvertImageFile(ILog log, FsPath input, FsPath output, int quality, int? width, int? height, string? format = null)
+        {
+            SKEncodedImageFormat targetFormat;
+            using (SKBitmap image = LoadImage(input))
+            {
+                if (!string.IsNullOrEmpty(format))
+                {
+                    targetFormat = GetSkiaImageFormat(format);
+                }
+                else
+                {
+                    targetFormat = GetSkiaImageFormat(output);
+                }
+                using (SKBitmap resized = ResizeIfBigger(image, width, height))
+                {
+                    using SKData encoded = EncodeToFormat(resized, targetFormat, quality);
+                    using (var stream = output.CreateStream(log))
+                    {
+                        try
+                        {
+                            encoded.SaveTo(stream);
+                            return true;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Warning(ex);
+                            return false;
+                        }
+                    }
+                }
             }
         }
     }

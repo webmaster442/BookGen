@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -55,26 +55,15 @@ namespace BookGen.Core
             return new FsPath(_path, part);
         }
 
-        public bool IsExisting
-        {
-            get
-            {
-                return Directory.Exists(_path) || File.Exists(_path);
-            }
-        }
+        public bool IsDirectory => Directory.Exists(_path);
 
-        public string Extension
-        {
-            get
-            {
-                return Path.GetExtension(_path);
-            }
-        }
+        public bool IsFile => File.Exists(_path);
 
-        public string Filename
-        {
-            get { return Path.GetFileName(_path); }
-        }
+        public bool IsExisting => IsDirectory || IsFile;
+
+        public string Extension => Path.GetExtension(_path);
+
+        public string Filename => Path.GetFileName(_path);
 
         public override string ToString()
         {
