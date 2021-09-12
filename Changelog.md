@@ -1,18 +1,21 @@
 # 2021.09
 * New: Added an Update command to make future updates easy
+* New: Added ImgConvert commmand to convert imgages
 * New: XML documentation generator reworked. Now uses XmlDocMarkdown
 * New: Syntax rendering reworked, improved
-* New: Rewrote launcher (again), Has more features
+* New: Rewrote launcher (again), Has more features.
 	* New layout
 	* Options to start VS code, File explorer, Preview and bookgen shell for folder
 	* Filtering for recent folders
 	* Integrated changelog
-	* Will be used as base point for future installers
+	* Integrated updtate laucher
+	* Can install to path
 * Fix: Improved XHTML compatibility for epub
 * Fix: Fixed a memory leak in the generator
 * Fix: Various code quality fixes
 * Fix: Autocompleter now reacts better
 * Change: Removed HTML compressor code due to bad quality of dependency code
+* Change: No more ISO image releases, due to auto updater.
 
 # 2021.05.26
 * Removed Node.exe bundle
