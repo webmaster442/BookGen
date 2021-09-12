@@ -3,11 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.ConsoleUi;
 using BookGen.Contracts;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
+using BookGen.Gui;
 using BookGen.Ui.ArgumentParser;
 using System;
 using System.Collections.Generic;
@@ -17,14 +17,14 @@ namespace BookGen.Modules
 {
     internal sealed class GuiModule : ModuleWithState, IDisposable, IModuleCollection
     {
-        private Ui.ConsoleUi? uiRunner;
+        private ConsoleUi? uiRunner;
 
         public const string MainView = "BookGen.ConsoleUi.MainView.xml";
         public const string HelpView = "BookGen.ConsoleUi.HelpView.xml";
 
         public GuiModule(ProgramState currentState) : base(currentState)
         {
-            uiRunner = new Ui.ConsoleUi();
+            uiRunner = new ConsoleUi();
         }
 
         public override string ModuleCommand => "Gui";
