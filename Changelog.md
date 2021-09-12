@@ -16,6 +16,7 @@
 * Fix: Autocompleter now reacts better
 * Change: Removed HTML compressor code due to bad quality of dependency code
 * Change: No more ISO image releases, due to auto updater.
+* Change: Rar self extracting installer provided
 
 # 2021.05.26
 * Removed Node.exe bundle
