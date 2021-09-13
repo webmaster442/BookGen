@@ -14,6 +14,23 @@ namespace BookGen.Gui
     {
         private ViewBase? _currentWindow;
 
+        private void RunView(ViewBase view)
+        {
+#pragma warning disable S2696 // Instance members should not write to "static" fields
+            Application.UseSystemConsole = false;
+#pragma warning restore S2696 // Instance members should not write to "static" fields
+            view.DrawView();
+            _currentWindow = view;
+
+            ResumeUi();
+        }
+
+        public void RunMainView(IMainViewController controller)
+        {
+            var view = new MainGuiView(controller, this);
+            RunView(view);
+        }
+
         public void SuspendUi()
         {
             if (Application.Top?.Running == true)

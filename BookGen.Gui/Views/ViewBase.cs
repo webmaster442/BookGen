@@ -9,7 +9,6 @@ using Terminal.Gui;
 namespace BookGen.Gui.Views
 {
 #pragma warning disable S3442 // "abstract" classes should not have "public" constructors
-#pragma warning disable S1699 // Constructors should only call non-overridable methods
     internal abstract class ViewBase<TController>
         : ViewBase where TController : IControllerBase
     {
@@ -28,11 +27,6 @@ namespace BookGen.Gui.Views
     internal abstract class ViewBase : Window
     {
         public abstract void DrawView();
-
-        public ViewBase()
-        {
-            DrawView();
-        }
 
         private static void SetWidth(View view, ElementBase element)
         {
@@ -98,6 +92,5 @@ namespace BookGen.Gui.Views
                 result.Toggled += element.OnCheckedChange;
         }
     }
-#pragma warning restore S1699 // Constructors should only call non-overridable methods
 #pragma warning restore S3442 // "abstract" classes should not have "public" constructors
 }

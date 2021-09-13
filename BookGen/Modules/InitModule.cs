@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.ConsoleUi;
-using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
+using BookGen.Gui;
 using BookGen.Ui.ArgumentParser;
 using System;
 
@@ -15,11 +14,11 @@ namespace BookGen.Modules
 {
     internal sealed class InitModule : ModuleWithState, IDisposable
     {
-        private Ui.ConsoleUi? uiRunner;
+        private ConsoleUi? uiRunner;
 
         public InitModule(ProgramState currentState) : base(currentState)
         {
-            uiRunner = new Ui.ConsoleUi();
+            uiRunner = new ConsoleUi();
         }
 
         public override string ModuleCommand => "Init";
@@ -41,14 +40,14 @@ namespace BookGen.Modules
             using (var l = new FolderLock(args.Directory))
             {
 
-                System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
+                /*System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
                 var vm = new InitializeViewModel(CurrentState.Log, new FsPath(args.Directory));
 
                 if (Ui != null)
                 {
                     uiRunner?.Run(Ui, vm);
                     return true;
-                }
+                }*/
             }
             return false;
         }

@@ -7,6 +7,6 @@ namespace BookGen.Gui
 {
     public interface IControllerBase
     {
-        public IConsoleUi Ui { get; set; }
+        public IConsoleUi? Ui { get; set; }
     }
 }

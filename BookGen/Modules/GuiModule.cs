@@ -7,11 +7,11 @@ using BookGen.Contracts;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
+using BookGen.Framework.InternalGui;
 using BookGen.Gui;
 using BookGen.Ui.ArgumentParser;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BookGen.Modules
 {
@@ -58,40 +58,11 @@ namespace BookGen.Modules
             {
                 if (uiRunner != null)
                 {
-
-                    uiRunner.OnNavigaton += UiRunner_OnNavigaton;
-                    var (view, model) = UiRunner_OnNavigaton(MainView);
-                    uiRunner.Run(view, model);
-                    return true;
+                    var controller = new MainViewController(CurrentState.GeneratorRunner);
+                    uiRunner.RunMainView(controller);
                 }
             }
             return false;
-        }
-
-        private System.IO.Stream GetView(string name)
-        {
-            System.IO.Stream? result = typeof(GuiModule).Assembly.GetManifestResourceStream(name);
-            if (result != null)
-            {
-                return result;
-            }
-            throw new InvalidOperationException($"Can't find view: {name}");
-        }
-
-        private (System.IO.Stream view, Ui.Mvvm.ViewModelBase model) UiRunner_OnNavigaton(string arg)
-        {
-            if (arg == MainView 
-                && CurrentState.GeneratorRunner != null)
-            {
-                var vm = new MainViewModel(CurrentState.GeneratorRunner);
-                return (GetView(MainView), vm);
-            }
-            else if (arg == HelpView)
-            {
-                var helpvm = new HelpViewModel(Modules ?? Enumerable.Empty<ModuleBase>());
-                return (GetView(HelpView), helpvm);
-            }
-            throw new InvalidOperationException($"Can't find view: {arg}");
         }
 
         public override void Abort()

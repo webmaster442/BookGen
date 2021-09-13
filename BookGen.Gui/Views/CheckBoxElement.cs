@@ -9,6 +9,6 @@ namespace BookGen.Gui.Views
 {
     internal record CheckBoxElement : TextElement
     {
-        public Action<bool>? OnCheckedChange;
+        public Action<bool>? OnCheckedChange { get; set; }
     }
 }
