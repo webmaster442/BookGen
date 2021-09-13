@@ -19,9 +19,6 @@ namespace BookGen.Modules
     {
         private ConsoleUi? uiRunner;
 
-        public const string MainView = "BookGen.ConsoleUi.MainView.xml";
-        public const string HelpView = "BookGen.ConsoleUi.HelpView.xml";
-
         public GuiModule(ProgramState currentState) : base(currentState)
         {
             uiRunner = new ConsoleUi();
