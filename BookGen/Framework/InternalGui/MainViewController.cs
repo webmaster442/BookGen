@@ -14,6 +14,7 @@ namespace BookGen.Framework.InternalGui
         public MainViewController(GeneratorRunner runner)
         {
             _runner = runner;
+            _runner.IsGuiMode = true;
         }
 
         public string WorkDir => _runner.WorkDirectory;

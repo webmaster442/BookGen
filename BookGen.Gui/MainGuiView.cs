@@ -15,11 +15,11 @@ namespace BookGen.Gui
             {
                 Left = 2,
                 Top = 0,
-                Text = @"  ____              _     ____            \r\n"
-                     + @" | __ )  ___   ___ | | __/ ___| ___ _ __  \r\n"
-                     + @" |  _ \ / _ \ / _ \| |/ / |  _ / _ \ '_ \ \r\n"
-                     + @" | |_) | (_) | (_) |   <| |_| |  __/ | | |\r\n"
-                     + @" |____/ \___/ \___/|_|\_\\____|\___|_| |_|\r\n"
+                Text = "  ____              _     ____            \r\n"
+                     + " | __ )  ___   ___ | | __/ ___| ___ _ __  \r\n"
+                     + " |  _ \\ / _ \\ / _ \\| |/ / |  _ / _ \\ '_ \\ \r\n"
+                     + " | |_) | (_) | (_) |   <| |_| |  __/ | | |\r\n"
+                     + " |____/ \\___/ \\___/|_| \\_\\____|\\___|_| |_|\r\n"
             });
             AddText(new TextElement
             {
@@ -38,6 +38,7 @@ namespace BookGen.Gui
                 Left = 4,
                 Top = 9,
                 Text = "Validate config",
+                ClickSuspendsUi = true,
                 OnClick = Controller.ValidateConfig
             });
             AddButton(new ButtonElement
@@ -45,6 +46,7 @@ namespace BookGen.Gui
                 Left = 4,
                 Top = 10,
                 Text = "Clean output directory",
+                ClickSuspendsUi = true,
                 OnClick = Controller.CleanOutDir
             });
             AddButton(new ButtonElement
@@ -52,6 +54,7 @@ namespace BookGen.Gui
                 Left = 4,
                 Top = 11,
                 Text = "Build test website",
+                ClickSuspendsUi = true,
                 OnClick = Controller.BuildTest
             });
             AddButton(new ButtonElement
@@ -66,6 +69,7 @@ namespace BookGen.Gui
                 Left = 4,
                 Top = 13,
                 Text = "Build printable html",
+                ClickSuspendsUi = true,
                 OnClick = Controller.BuildPrint
             });
             AddButton(new ButtonElement
@@ -73,6 +77,7 @@ namespace BookGen.Gui
                 Left = 4,
                 Top = 14,
                 Text = "Build E-pub",
+                ClickSuspendsUi = true,
                 OnClick = Controller.BuildEpub
             });
             AddButton(new ButtonElement
@@ -80,6 +85,7 @@ namespace BookGen.Gui
                 Left = 4,
                 Top = 15,
                 Text = "Build E-pub",
+                ClickSuspendsUi = true,
                 OnClick = Controller.BuildWordpress
             });
             AddText(new TextElement
@@ -98,8 +104,9 @@ namespace BookGen.Gui
             {
                 Left = 4,
                 Top = 21,
+                ClickSuspendsUi = true,
                 Text = "Exit program",
-                OnClick = Ui.ExitApp,
+                OnClick = () => Ui?.ExitApp(),
             });
         }
     }

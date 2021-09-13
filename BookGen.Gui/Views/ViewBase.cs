@@ -21,12 +21,13 @@ namespace BookGen.Gui.Views
         }
 
         protected TController Controller { get; }
-        protected IConsoleUi Ui { get; }
     }
 
     internal abstract class ViewBase : Window
     {
         public abstract void DrawView();
+
+        protected IConsoleUi? Ui { get; set; }
 
         private static void SetWidth(View view, ElementBase element)
         {
@@ -57,7 +58,23 @@ namespace BookGen.Gui.Views
                 Y = Pos.Top(this) + element.Top,
             };
             if (element.OnClick != null)
-                result.Clicked += element.OnClick;
+            {
+                if (element.ClickSuspendsUi)
+                {
+                    result.Clicked += () =>
+                    {
+                        Ui?.SuspendUi();
+                        element.OnClick();
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
+                        Ui?.ResumeUi();
+                    };
+                }
+                else
+                {
+                    result.Clicked += element.OnClick;
+                }    
+            }
 
             SetWidth(result, element);
             Add(result);

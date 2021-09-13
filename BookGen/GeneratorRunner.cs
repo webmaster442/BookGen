@@ -38,6 +38,7 @@ namespace BookGen
         public ILog Log { get; }
         public IServerLog ServerLog { get; }
         public bool NoWait { get; internal set; }
+        public bool IsGuiMode { get; internal set; }
 
         public GeneratorRunner(ILog log, IServerLog serverLog, string workDir)
         {
@@ -51,11 +52,6 @@ namespace BookGen
             _toc = new ToC();
         }
 
-        public void RunHelp()
-        {
-            Console.WriteLine(HelpUtils.GetGeneralHelp());
-        }
-
         #region Helpers
 
         public void InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
@@ -64,7 +60,7 @@ namespace BookGen
             {
                 actionToExecute.Invoke(this);
             }
-            else
+            else if (!IsGuiMode)
             {
                 Program.Exit(ExitCode.BadConfiguration);
             }
