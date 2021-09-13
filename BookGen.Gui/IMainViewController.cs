@@ -8,6 +8,10 @@ namespace BookGen.Gui
     public interface IMainViewController : IControllerBase
     {
         public string WorkDir { get; }
+        string CurrentHelpText { get; set; }
+        string[] HelpItemSource { get; }
+        int SelectedHelpIndex { get; set; }
+
         public void ValidateConfig();
         public void CleanOutDir();
         public void BuildTest();

@@ -29,27 +29,6 @@ namespace BookGen.Gui.Views
 
         protected IConsoleUi? Ui { get; set; }
 
-        private static void SetWidth(View view, ElementBase element)
-        {
-            if (element.WidthHandling == WidthHandling.Auto
-                || float.IsNaN(element.Width))
-            {
-                return;
-            }
-
-            switch (element.WidthHandling)
-            {
-                case WidthHandling.Percent:
-                    view.Width = Dim.Percent(element.Width);
-                    break;
-                case WidthHandling.Columns:
-                    view.Width = (int)Math.Ceiling(element.Width);
-                    break;
-                default:
-                    return;
-            }
-        }
-
         protected void AddButton(ButtonElement element)
         {
             var result = new Button(element.Text)
@@ -75,8 +54,6 @@ namespace BookGen.Gui.Views
                     result.Clicked += element.OnClick;
                 }    
             }
-
-            SetWidth(result, element);
             Add(result);
         }
 
@@ -92,7 +69,6 @@ namespace BookGen.Gui.Views
                     X = Pos.Left(this) + element.Left,
                     Y = Pos.Top(this) + rowCounter,
                 };
-                SetWidth(label, element);
                 Add(label);
                 ++rowCounter;
             }

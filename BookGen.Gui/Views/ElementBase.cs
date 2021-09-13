@@ -9,14 +9,5 @@ namespace BookGen.Gui.Views
     {
         public int Left { get; init; }
         public int Top { get; init; }
-
-        public float Width { get; init; }
-
-        public WidthHandling WidthHandling { get; init; }
-
-        public ElementBase()
-        {
-            WidthHandling = WidthHandling.Auto;
-        }
     }
 }
