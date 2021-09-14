@@ -12,11 +12,11 @@ namespace BookGen.Framework.InternalGui
     internal sealed class MainViewController : IMainViewController
     {
         private readonly GeneratorRunner _runner;
-        private readonly List<Framework.ModuleBase> _modules;
-        private int selectedHelpIndex;
+        private readonly List<ModuleBase> _modules;
+        private int _selectedHelpIndex;
 
         public MainViewController(GeneratorRunner runner, 
-                                  IEnumerable<Framework.ModuleBase> modules)
+                                  IEnumerable<ModuleBase> modules)
         {
             _runner = runner;
             _modules = modules.ToList();
@@ -34,10 +34,10 @@ namespace BookGen.Framework.InternalGui
 
         public int SelectedHelpIndex
         {
-            get { return selectedHelpIndex; }
+            get { return _selectedHelpIndex; }
             set 
             { 
-                selectedHelpIndex = value;
+                _selectedHelpIndex = value;
                 UpdateText(value);
             }
         }
@@ -73,5 +73,10 @@ namespace BookGen.Framework.InternalGui
         public void CleanOutDir() => _runner.InitializeAndExecute(x => x.DoClean());
 
         public void ValidateConfig() => _runner.Initialize();
+
+        public void SelectedHelpItemChange(int index)
+        {
+            SelectedHelpIndex = index;
+        }
     }
 }

@@ -19,5 +19,6 @@ namespace BookGen.Gui
         public void BuildPrint();
         public void BuildEpub();
         public void BuildWordpress();
+        void SelectedHelpItemChange(int index);
     }
 }

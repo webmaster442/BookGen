@@ -56,9 +56,10 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(args.Directory))
             {
-                if (uiRunner != null)
+                if (uiRunner != null &&
+                    Modules != null)
                 {
-                    var controller = new MainViewController(CurrentState.GeneratorRunner);
+                    var controller = new MainViewController(CurrentState.GeneratorRunner, Modules);
                     uiRunner.RunMainView(controller);
                 }
             }

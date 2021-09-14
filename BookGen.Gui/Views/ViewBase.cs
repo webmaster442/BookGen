@@ -117,7 +117,7 @@ namespace BookGen.Gui.Views
             return text;
         }
 
-        protected void AddListBox(ListBoxElement element)
+        protected ListView AddListBox(ListBoxElement element)
         {
             var result = new FrameView()
             {
@@ -141,6 +141,7 @@ namespace BookGen.Gui.Views
 
             result.Add(list);
             Add(result);
+            return list;
         }
     }
 #pragma warning restore S3442 // "abstract" classes should not have "public" constructors
