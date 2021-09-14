@@ -74,5 +74,10 @@ namespace BookGen.Gui
                 _currentWindow = null;
             }
         }
+
+        public void RefreshCurrentView()
+        {
+            _currentWindow?.Refresh();
+        }
     }
 }

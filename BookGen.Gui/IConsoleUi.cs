@@ -7,8 +7,21 @@ namespace BookGen.Gui
 {
     public interface IConsoleUi
     {
+        /// <summary>
+        /// Suspend UI Execution
+        /// </summary>
         void SuspendUi();
+        /// <summary>
+        /// Resume the UI Execution
+        /// </summary>
         void ResumeUi();
+        /// <summary>
+        /// Exit application
+        /// </summary>
         void ExitApp();
+        /// <summary>
+        /// Refresh the current view. Pulls data from Controller
+        /// </summary>
+        void RefreshCurrentView();
     }
 }

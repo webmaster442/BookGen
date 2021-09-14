@@ -26,10 +26,15 @@ namespace BookGen.Gui.Views
     internal abstract class ViewBase : Window
     {
         public abstract void DrawView();
+        public virtual void Refresh()
+        {
+            Clear();
+            DrawView();
+        }
 
         protected IConsoleUi? Ui { get; set; }
 
-        protected void AddButton(ButtonElement element)
+        protected Button AddButton(ButtonElement element)
         {
             var result = new Button(element.Text)
             {
@@ -55,6 +60,7 @@ namespace BookGen.Gui.Views
                 }    
             }
             Add(result);
+            return result;
         }
 
         protected void AddText(TextElement element)
@@ -74,7 +80,7 @@ namespace BookGen.Gui.Views
             }
         }
 
-        protected void AddCheckBox(CheckBoxElement element)
+        protected CheckBox AddCheckBox(CheckBoxElement element)
         {
             var result = new CheckBox(element.Text)
             {
@@ -83,6 +89,32 @@ namespace BookGen.Gui.Views
             };
             if (element.OnCheckedChange != null)
                 result.Toggled += element.OnCheckedChange;
+
+            Add(result);
+            return result;
+        }
+
+
+        protected TextView AddTextView(TextBoxElement element)
+        {
+            var result = new FrameView()
+            {
+                X = Pos.Left(this) + element.Left,
+                Height = Dim.Fill(),
+                Width = Dim.Percent(element.Width),
+            };
+
+            var text = new TextView
+            {
+                Width = Dim.Fill(),
+                Height = Dim.Fill(),
+                ReadOnly = element.IsReadonly,
+                Text = element.Text,
+            };
+
+            result.Add(text);
+            Add(result);
+            return text;
         }
     }
 #pragma warning restore S3442 // "abstract" classes should not have "public" constructors
