@@ -7,7 +7,7 @@ using System;
 
 namespace BookGen.Gui.Views
 {
-    internal record ButtonElement : TextElement
+    internal sealed record ButtonElement : TextElement
     {
         public Action? OnClick { get; init; }
         public bool ClickSuspendsUi { get; init; }

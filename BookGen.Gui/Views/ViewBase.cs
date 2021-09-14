@@ -116,6 +116,32 @@ namespace BookGen.Gui.Views
             Add(result);
             return text;
         }
+
+        protected void AddListBox(ListBoxElement element)
+        {
+            var result = new FrameView()
+            {
+                Title = element.Title,
+                X = Pos.Left(this) + element.Left,
+                Height = Dim.Fill(),
+                Width = Dim.Percent(element.Width),
+            };
+            var list = new ListView
+            {
+                Width = Dim.Fill(),
+                Height = Dim.Fill(),
+            };
+            if (element.SelectedItemChanged != null)
+                list.SelectedItemChanged += element.SelectedItemChanged;
+
+            list.SelectedItem = element.SelectedIndex;
+
+            if (element.Source != null)
+                list.SetSource(element.Source);
+
+            result.Add(list);
+            Add(result);
+        }
     }
 #pragma warning restore S3442 // "abstract" classes should not have "public" constructors
 }

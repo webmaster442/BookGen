@@ -7,7 +7,7 @@ using System;
 
 namespace BookGen.Gui.Views
 {
-    internal record CheckBoxElement : TextElement
+    internal sealed record CheckBoxElement : TextElement
     {
         public Action<bool>? OnCheckedChange { get; set; }
     }
