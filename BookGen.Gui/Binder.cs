@@ -29,17 +29,6 @@ namespace BookGen.Ui
             _table = new List<(XView xmlEntity, View rendered, Type type)>();
         }
 
-        public Action? BindCommand(string bindingExpression)
-        {
-            if (!_propertyRegex.IsMatch(bindingExpression))
-                return null;
-
-            var actionName = GetPropertyName(bindingExpression);
-            var prop = _modelType.GetProperty(actionName);
-            DelegateCommand? cmd = prop?.GetValue(_model) as DelegateCommand;
-            return cmd?.Action;
-        }
-
         private string GetPropertyName(string bindingExpression)
         {
             return bindingExpression.Replace("{", "").Replace("}", "");
@@ -69,6 +58,17 @@ namespace BookGen.Ui
 
         }
 
+        public Action? BindCommand(string bindingExpression)
+        {
+            if (!_propertyRegex.IsMatch(bindingExpression))
+                return null;
+
+            var actionName = GetPropertyName(bindingExpression);
+            var prop = _modelType.GetProperty(actionName);
+            DelegateCommand? cmd = prop?.GetValue(_model) as DelegateCommand;
+            return cmd?.Action;
+        }
+
         public static bool IsBindable(string expression)
         {
             return _propertyRegex.IsMatch(expression);
@@ -91,7 +91,7 @@ namespace BookGen.Ui
             return Convert.ToBoolean(value);
         }
 
-        internal IList GetList(string itemSourceProperty)
+        internal IList GetBindedList(string itemSourceProperty)
         {
             var result = GetPropertyValue<IList>(itemSourceProperty);
             return result ?? new ArrayList();

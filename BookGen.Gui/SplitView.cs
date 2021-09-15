@@ -91,7 +91,7 @@ namespace BookGen.Ui
 
             if (Binder.IsBindable(listBox.ItemSourceProperty))
             {
-                list.SetSource(_binder.GetList(listBox.ItemSourceProperty));
+                list.SetSource(_binder.GetBindedList(listBox.ItemSourceProperty));
             }
             if (Binder.IsBindable(listBox.SelectedIndex))
             {
