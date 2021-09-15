@@ -15,5 +15,10 @@ namespace BookGen
             Program.CurrentState.Log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
             return new GeneratorRunner(Program.CurrentState.Log, Program.CurrentState.ServerLog, workDir);
         }
+
+        public void ExecuteModule(string module, string[] arguments)
+        {
+            Program.RunModule(module, arguments);
+        }
     }
 }

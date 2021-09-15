@@ -50,7 +50,7 @@ namespace BookGen
             else
             {
 #endif
-                Environment.Exit((int)exitCode);
+            Environment.Exit((int)exitCode);
 #if TESTBUILD
         }
 #endif
@@ -66,28 +66,14 @@ namespace BookGen
             new ShellModule(),
         };
 
+        private static readonly List<ModuleWithState> ModulesWithState = new List<ModuleWithState>();
 
-        public static void Main(string[] args)
+        public static void RunModule(string moduleName, string[] parameters)
         {
             ModuleBase? moduleToRun = null;
             try
             {
-                var loaded = AppSettingHandler.LoadAppSettings();
-
-                if (loaded != null)
-                {
-                    AppSetting = loaded;
-                }
-
-                var modulesWithState = CreateModules();
-                ConfiugreStatelessModules(modulesWithState);
-
-
-                string command = SubcommandParser.GetCommand(args, out string[] parameters);
-
-                DebugHelper.WaitForDebugger(parameters);
-
-                moduleToRun = GetModuleToRun(StatelessModules, modulesWithState, command);
+                moduleToRun = GetModuleToRun(StatelessModules, ModulesWithState, moduleName);
 
                 if (moduleToRun == null)
                 {
@@ -118,12 +104,30 @@ namespace BookGen
                 else
                 {
 #endif
-                    HandleUncaughtException(moduleToRun, ex);
-
+                HandleUncaughtException(moduleToRun, ex);
 #if TESTBUILD
                 }
 #endif
             }
+        }
+
+
+        public static void Main(string[] args)
+        {
+            var loaded = AppSettingHandler.LoadAppSettings();
+
+            if (loaded != null)
+            {
+                AppSetting = loaded;
+            }
+
+            ModulesWithState.AddRange(CreateModules());
+            ConfiugreStatelessModules(ModulesWithState);
+
+            string module = SubcommandParser.GetCommand(args, out string[] parameters);
+            DebugHelper.WaitForDebugger(parameters);
+
+            RunModule(module, parameters);
         }
 
         private static void Cleanup(ModuleBase? moduleToRun)
@@ -155,7 +159,7 @@ namespace BookGen
             };
         }
 
-        private static void ConfiugreStatelessModules(ModuleWithState[] modulesWithState)
+        private static void ConfiugreStatelessModules(IEnumerable<ModuleWithState> modulesWithState)
         {
             IEnumerable<ModuleBase>? allmodules = StatelessModules.Concat(modulesWithState);
             foreach (var module in allmodules)

@@ -8,5 +8,6 @@ namespace BookGen.Contracts
     internal interface IMoudleApi
     {
         GeneratorRunner CreateRunner(bool verbose, string workDir);
+        void ExecuteModule(string module, string[] arguments);
     }
 }
