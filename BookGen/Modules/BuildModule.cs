@@ -56,31 +56,31 @@ namespace BookGen.Modules
             using (var l = new FolderLock(args.Directory))
             {
 
-                CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.Directory);
-                CurrentState.GeneratorRunner.NoWait = args.NoWaitForExit;
+                var runner = CurrentState.Api.CreateRunner(args.Verbose, args.Directory);
+                runner.NoWait = args.NoWaitForExit;
 
                 switch (args.Action)
                 {
                     case BuildAction.BuildWeb:
-                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoBuild());
+                        runner.InitializeAndExecute(x => x.DoBuild());
                         break;
                     case BuildAction.Clean:
-                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoClean());
+                        runner.InitializeAndExecute(x => x.DoClean());
                         break;
                     case BuildAction.Test:
-                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoTest());
+                        runner.InitializeAndExecute(x => x.DoTest());
                         break;
                     case BuildAction.BuildPrint:
-                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoPrint());
+                        runner.InitializeAndExecute(x => x.DoPrint());
                         break;
                     case BuildAction.BuildWordpress:
-                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoWordpress());
+                        runner.InitializeAndExecute(x => x.DoWordpress());
                         break;
                     case BuildAction.BuildEpub:
-                        CurrentState.GeneratorRunner.InitializeAndExecute(x => x.DoEpub());
+                        runner.InitializeAndExecute(x => x.DoEpub());
                         break;
                     case BuildAction.ValidateConfig:
-                        CurrentState.GeneratorRunner.Initialize();
+                        runner.Initialize();
                         break;
                 }
             }

@@ -3,13 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Framework;
+using BookGen.Gui.ArgumentParser;
 using BookGen.Modules;
 using BookGen.Modules.Special;
-using BookGen.Gui.ArgumentParser;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
@@ -21,7 +20,8 @@ namespace BookGen
     {
         #region Internal API
 
-        internal static ProgramState CurrentState { get; } = new ProgramState();
+        internal static ModuleApi Api { get; } = new ModuleApi();
+        internal static ProgramState CurrentState { get; } = new ProgramState(Api);
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
 #if TESTBUILD
@@ -29,12 +29,6 @@ namespace BookGen
         internal static string ErrorText { get; set; } = "";
         internal static bool ErrorHappened { get; set; } = false;
 #endif
-
-        public static GeneratorRunner CreateRunner(bool verbose, string workDir)
-        {
-            CurrentState.Log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
-            return new GeneratorRunner(CurrentState.Log, CurrentState.ServerLog, workDir);
-        }
 
         public static void ShowMessageBox(string text, params object[] args)
         {

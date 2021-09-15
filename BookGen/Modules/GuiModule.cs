@@ -18,6 +18,7 @@ namespace BookGen.Modules
     internal sealed class GuiModule : ModuleWithState, IDisposable, IModuleCollection
     {
         private Gui.ConsoleUi? uiRunner;
+        private GeneratorRunner? _runner;
 
         public const string MainView = "BookGen.ConsoleUi.MainView.xml";
         public const string HelpView = "BookGen.ConsoleUi.HelpView.xml";
@@ -53,7 +54,7 @@ namespace BookGen.Modules
             }
 
             CurrentState.Gui = true;
-            CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.Directory);
+            _runner = CurrentState.Api.CreateRunner(args.Verbose, args.Directory);
 
             FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
@@ -84,9 +85,9 @@ namespace BookGen.Modules
         private (System.IO.Stream view, Gui.Mvvm.ViewModelBase model) UiRunner_OnNavigaton(string arg)
         {
             if (arg == MainView 
-                && CurrentState.GeneratorRunner != null)
+                && _runner != null)
             {
-                var vm = new MainViewModel(CurrentState.GeneratorRunner);
+                var vm = new MainViewModel(_runner);
                 return (GetView(MainView), vm);
             }
             else if (arg == HelpView)
