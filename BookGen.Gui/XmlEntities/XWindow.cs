@@ -21,6 +21,7 @@ namespace BookGen.Ui.XmlEntities
         [XmlArrayItem(nameof(XListBox), typeof(XListBox))]
         [XmlArrayItem(nameof(XTextBox), typeof(XTextBox))]
         [XmlArrayItem(nameof(XSPlitView), typeof(XSPlitView))]
+        [XmlArrayItem(nameof(XVerticalLine), typeof(XVerticalLine))]
         public List<XView> Children { get; set; }
 
         public XWindow()
