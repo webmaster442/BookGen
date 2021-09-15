@@ -9,7 +9,7 @@ using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Modules;
 using BookGen.Modules.Special;
-using BookGen.Ui.ArgumentParser;
+using BookGen.Gui.ArgumentParser;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;

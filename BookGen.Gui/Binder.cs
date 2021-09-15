@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Ui.Mvvm;
-using BookGen.Ui.XmlEntities;
+using BookGen.Gui.Mvvm;
+using BookGen.Gui.XmlEntities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Terminal.Gui;
 
-namespace BookGen.Ui
+namespace BookGen.Gui
 {
     internal class Binder
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BookGen.Ui.ArgumentParser
+namespace BookGen.Gui.ArgumentParser
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public sealed class SwitchAttribute : Attribute, IEquatable<SwitchAttribute?>

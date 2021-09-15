@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.ArgumentParsing;
-using BookGen.Ui.ArgumentParser;
+using BookGen.Gui.ArgumentParser;
 using NUnit.Framework;
 
 namespace BookGen.Tests

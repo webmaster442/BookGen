@@ -1,4 +1,4 @@
-﻿namespace BookGen.Ui.ArgumentParser
+﻿namespace BookGen.Gui.ArgumentParser
 {
     public abstract class ArgumentsBase
     {

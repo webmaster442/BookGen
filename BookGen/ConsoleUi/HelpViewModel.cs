@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Modules;
-using BookGen.Ui.Mvvm;
+using BookGen.Gui.Mvvm;
 using System.Collections.Generic;
 using System.Linq;
 

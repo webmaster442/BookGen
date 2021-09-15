@@ -6,7 +6,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace BookGen.Ui.XmlEntities
+namespace BookGen.Gui.XmlEntities
 {
     public record XWindow
     {
