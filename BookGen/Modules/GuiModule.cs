@@ -87,7 +87,7 @@ namespace BookGen.Modules
             if (arg == MainView 
                 && _runner != null)
             {
-                var vm = new MainViewModel(_runner);
+                var vm = new MainViewModel(_runner, CurrentState.Api);
                 return (GetView(MainView), vm);
             }
             else if (arg == HelpView)
