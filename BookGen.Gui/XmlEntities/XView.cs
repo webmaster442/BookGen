@@ -11,6 +11,9 @@ namespace BookGen.Ui.XmlEntities
     {
         [XmlAttribute]
         public int Left { get; set; }
+
+        [XmlAttribute]
+        public int Top { get; set; }
         
         [XmlAttribute]
         public WidthHandling WidthHandling { get; set; }

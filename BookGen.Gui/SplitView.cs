@@ -14,13 +14,13 @@ namespace BookGen.Ui
         private Pos _left = 0;
         private readonly Binder _binder;
 
-        public SplitView(XSPlitView xSPlitView, Binder binder, int startRow)
+        public SplitView(XSPlitView xSPlitView, Binder binder)
         {
             _binder = binder;
             Render(xSPlitView);
             Width = Dim.Fill();
-            Y = startRow;
-            Height = Dim.Fill() - startRow;
+            Y = xSPlitView.Top;
+            Height = Dim.Fill() - xSPlitView.Top;
         }
 
         private void Render(XSPlitView xSPlitView)

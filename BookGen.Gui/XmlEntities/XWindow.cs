@@ -16,7 +16,6 @@ namespace BookGen.Ui.XmlEntities
         [XmlArray]
         [XmlArrayItem(nameof(XLabel), typeof(XLabel))]
         [XmlArrayItem(nameof(XButton), typeof(XButton))]
-        [XmlArrayItem(nameof(XSpacer), typeof(XSpacer))]
         [XmlArrayItem(nameof(XTextBlock), typeof(XTextBlock))]
         [XmlArrayItem(nameof(XCheckBox), typeof(XCheckBox))]
         [XmlArrayItem(nameof(XListBox), typeof(XListBox))]
