@@ -14,7 +14,6 @@ namespace BookGen.Launch
     {
         public MessageDialog()
         {
-            DialogText = string.Empty;
             InitializeComponent();
         }
 
@@ -38,7 +37,17 @@ namespace BookGen.Launch
 
         public MessageBoxResult ClickedButton { get; private set; }
 
-        public string DialogText { get; set; }
+        public string DialogText
+        {
+            get { return (string)GetValue(DialogTextProperty); }
+            set { SetValue(DialogTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DialogText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DialogTextProperty =
+            DependencyProperty.Register("DialogText", typeof(string), typeof(MessageDialog), new PropertyMetadata(string.Empty));
+
+
 
         private void BtnOk_Click(object sender, RoutedEventArgs e)
         {

@@ -18,7 +18,7 @@ namespace BookGen.Launch.Code
             var dialog = new MessageDialog
             {
                 Owner = Application.Current.MainWindow,
-                Width = Application.Current.MainWindow.ActualWidth * 0.8,
+                Width = Application.Current.MainWindow.ActualWidth * 0.6,
                 Title = title,
                 DialogText = content,
                 Image = image,

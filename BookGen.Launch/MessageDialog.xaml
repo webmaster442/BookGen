@@ -7,9 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="DialogWindow"
     Title="{Binding ElementName=DialogWindow, Path=Title}"
-    MaxHeight="200"
-    Background="#F0F0F0"
-    BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrush}}"
+    Height="180"
+    Background="{StaticResource ItemBackground}"
+    BorderBrush="{StaticResource Border}"
     BorderThickness="2"
     ResizeMode="NoResize"
     ShowInTaskbar="False"
@@ -134,14 +134,15 @@
         <TextBlock
             Grid.Row="0"
             Grid.Column="1"
+            Margin="10,0"
             FontSize="32"
             FontWeight="Bold"
             Text="{Binding ElementName=DialogWindow, Path=Title}" />
         <TextBlock
             Grid.Row="1"
             Grid.Column="1"
-            Margin="10,0"
-            FontSize="14"
+            Margin="15,0"
+            FontSize="14" 
             Text="{Binding ElementName=DialogWindow, Path=DialogText}"
             TextWrapping="Wrap" />
         <StackPanel
