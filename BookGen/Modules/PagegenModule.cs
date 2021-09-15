@@ -11,7 +11,7 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.GeneratorSteps.MarkdownGenerators;
-using BookGen.Ui.ArgumentParser;
+using BookGen.Gui.ArgumentParser;
 using System.Collections.Generic;
 using System.Diagnostics;
 

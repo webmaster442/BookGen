@@ -3,9 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
 using BookGen.Core.Configuration;
-using BookGen.Domain.ArgumentParsing;
 using BookGen.Framework;
 using BookGen.Resources;
 using System;

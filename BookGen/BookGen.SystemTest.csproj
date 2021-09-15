@@ -57,7 +57,7 @@
     <None Remove="Resources\Help.EditModule.txt" />
     <None Remove="Resources\Help.General.txt" />
     <None Remove="Resources\Help.GuiModule.txt" />
-    <None Remove="Resources\Help.ImgConvert.txt" />
+    <None Remove="Resources\Help.ImgConvertModule.txt" />
     <None Remove="Resources\Help.InitModule.txt" />
     <None Remove="Resources\Help.InstallPSAutocompleteModule.txt" />
     <None Remove="Resources\Help.Md2HtmlModule.txt" />
@@ -97,7 +97,7 @@
     <EmbeddedResource Include="Resources\Help.EditModule.txt" />
     <EmbeddedResource Include="Resources\Help.General.txt" />
     <EmbeddedResource Include="Resources\Help.GuiModule.txt" />
-    <EmbeddedResource Include="Resources\Help.ImgConvert.txt" />
+    <EmbeddedResource Include="Resources\Help.ImgConvertModule.txt" />
     <EmbeddedResource Include="Resources\Help.InitModule.txt" />
     <EmbeddedResource Include="Resources\Help.Md2HtmlModule.txt" />
     <EmbeddedResource Include="Resources\Help.PagegenModule.txt" />
@@ -106,7 +106,6 @@
     <EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
     <EmbeddedResource Include="Resources\Help.StatModule.txt" />
     <EmbeddedResource Include="Resources\Help.VersionModule.txt" />
-    <EmbeddedResource Include="Resources\HelpCompressModule.txt" />
     <EmbeddedResource Include="Resources\HelpEditModule.txt" />
     <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
   </ItemGroup>

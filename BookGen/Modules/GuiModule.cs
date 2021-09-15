@@ -8,7 +8,7 @@ using BookGen.Contracts;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
-using BookGen.Ui.ArgumentParser;
+using BookGen.Gui.ArgumentParser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +17,15 @@ namespace BookGen.Modules
 {
     internal sealed class GuiModule : ModuleWithState, IDisposable, IModuleCollection
     {
-        private Ui.ConsoleUi? uiRunner;
+        private Gui.ConsoleUi? uiRunner;
+        private GeneratorRunner? _runner;
 
         public const string MainView = "BookGen.ConsoleUi.MainView.xml";
         public const string HelpView = "BookGen.ConsoleUi.HelpView.xml";
 
         public GuiModule(ProgramState currentState) : base(currentState)
         {
-            uiRunner = new Ui.ConsoleUi();
+            uiRunner = new Gui.ConsoleUi();
         }
 
         public override string ModuleCommand => "Gui";
@@ -53,7 +54,7 @@ namespace BookGen.Modules
             }
 
             CurrentState.Gui = true;
-            CurrentState.GeneratorRunner = Program.CreateRunner(args.Verbose, args.Directory);
+            _runner = CurrentState.Api.CreateRunner(args.Verbose, args.Directory);
 
             FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
 
@@ -81,12 +82,12 @@ namespace BookGen.Modules
             throw new InvalidOperationException($"Can't find view: {name}");
         }
 
-        private (System.IO.Stream view, Ui.Mvvm.ViewModelBase model) UiRunner_OnNavigaton(string arg)
+        private (System.IO.Stream view, Gui.Mvvm.ViewModelBase model) UiRunner_OnNavigaton(string arg)
         {
             if (arg == MainView 
-                && CurrentState.GeneratorRunner != null)
+                && _runner != null)
             {
-                var vm = new MainViewModel(CurrentState.GeneratorRunner);
+                var vm = new MainViewModel(_runner, CurrentState.Api);
                 return (GetView(MainView), vm);
             }
             else if (arg == HelpView)

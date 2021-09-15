@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Ui.Mvvm
+namespace BookGen.Gui.Mvvm
 {
     public interface IView
     {

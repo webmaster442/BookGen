@@ -5,7 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Core;
-using BookGen.Ui.Mvvm;
+using BookGen.Gui.Mvvm;
 
 namespace BookGen.ConsoleUi
 {
@@ -20,6 +20,8 @@ namespace BookGen.ConsoleUi
         public bool CreateTemplates { get; set; }
         public bool CreateScripts { get; set; }
         public bool CreateVsTasks { get; set; }
+
+        public string WorkDirectory => _workDir.ToString();
 
         public DelegateCommand ExecuteCommand { get; }
         public DelegateCommand CancelCommand { get; }

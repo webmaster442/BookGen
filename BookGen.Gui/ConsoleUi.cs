@@ -3,14 +3,14 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Ui.Mvvm;
-using BookGen.Ui.XmlEntities;
+using BookGen.Gui.Mvvm;
+using BookGen.Gui.XmlEntities;
 using System;
 using System.IO;
 using System.Xml.Serialization;
 using Terminal.Gui;
 
-namespace BookGen.Ui
+namespace BookGen.Gui
 {
     public sealed class ConsoleUi: IView, IDisposable
     {

@@ -11,7 +11,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace BookGen.Ui.ArgumentParser
+namespace BookGen.Gui.ArgumentParser
 {
     public static class ArgumentParser
     {

@@ -8,18 +8,18 @@ using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
-using BookGen.Ui.ArgumentParser;
+using BookGen.Gui.ArgumentParser;
 using System;
 
 namespace BookGen.Modules
 {
     internal sealed class InitModule : ModuleWithState, IDisposable
     {
-        private Ui.ConsoleUi? uiRunner;
+        private Gui.ConsoleUi? uiRunner;
 
         public InitModule(ProgramState currentState) : base(currentState)
         {
-            uiRunner = new Ui.ConsoleUi();
+            uiRunner = new Gui.ConsoleUi();
         }
 
         public override string ModuleCommand => "Init";

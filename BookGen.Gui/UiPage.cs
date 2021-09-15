@@ -3,20 +3,18 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Ui.XmlEntities;
+using BookGen.Gui.XmlEntities;
 using System;
 using Terminal.Gui;
 
-namespace BookGen.Ui
+namespace BookGen.Gui
 {
     internal class UiPage : Window
     {
         private readonly Binder _binder;
-        private int _rowCounter;
 
         public UiPage(XWindow window, Binder binder)
         {
-            _rowCounter = 0;
             _binder = binder;
             Render(window);
         }
@@ -52,9 +50,6 @@ namespace BookGen.Ui
             {
                 switch (child)
                 {
-                    case XSpacer spacer:
-                        _rowCounter += spacer.Rows;
-                        continue;
                     case XTextBlock textBlock:
                         RenderTextBlock(textBlock);
                         break;
@@ -70,16 +65,34 @@ namespace BookGen.Ui
                     case XSPlitView sPlitView:
                         RenderSplitView(sPlitView);
                         break;
+                    case XVerticalLine verticalLine:
+                        RenderVerticalLine(verticalLine);
+                        break;
                     default:
                         throw new InvalidOperationException($"Unknown node type: {child.GetType().Name}");
                 }
-                ++_rowCounter;
+            }
+        }
+
+        private void RenderVerticalLine(XVerticalLine verticalLine)
+        {
+            int end = verticalLine.Height + verticalLine.Top;
+
+            for (int i=verticalLine.Top; i<end; i++)
+            {
+                var label = new Label(verticalLine.Symbol.ToString())
+                {
+                    X = Pos.Left(this) + verticalLine.Left,
+                    Y = Pos.Top(this) + i,
+                };
+                SetWidth(label, verticalLine);
+                Add(label);
             }
         }
 
         private void RenderSplitView(XSPlitView sPlitView)
         {
-            Add(new SplitView(sPlitView, _binder, _rowCounter));
+            Add(new SplitView(sPlitView, _binder));
         }
 
         private void RenderButton(XButton button)
@@ -87,7 +100,7 @@ namespace BookGen.Ui
             var result = new Button(button.Text ?? "")
             {
                 X = Pos.Left(this) + button.Left,
-                Y = Pos.Top(this) + _rowCounter,
+                Y = Pos.Top(this) +  button.Top,
             };
             if (button.Command != null)
             {
@@ -109,7 +122,7 @@ namespace BookGen.Ui
             var result = new Label(text)
             {
                 X = Pos.Left(this) + label.Left,
-                Y = Pos.Top(this) + _rowCounter,
+                Y = Pos.Top(this) + label.Top,
             };
             SetWidth(result, label);
             Add(result);
@@ -119,7 +132,7 @@ namespace BookGen.Ui
         {
             var lines = textBlock.Text?.ToString().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
             if (lines == null) return;
-            int row = _rowCounter;
+            int row = textBlock.Top;
             foreach (var line in lines)
             {
                 var label = new Label(line)
@@ -131,7 +144,6 @@ namespace BookGen.Ui
                 Add(label);
                 ++row;
             }
-            _rowCounter = row;
         }
 
         private void RenderCheckBox(XCheckBox checkBox)
@@ -144,7 +156,7 @@ namespace BookGen.Ui
             var result = new CheckBox(text)
             {
                 X = Pos.Left(this) + checkBox.Left,
-                Y = Pos.Top(this) + _rowCounter,
+                Y = Pos.Top(this) + checkBox.Top,
             };
 
             if (Binder.IsBindable(checkBox.IsChecked))

@@ -5,16 +5,19 @@
 
 using System.Xml.Serialization;
 
-namespace BookGen.Ui.XmlEntities
+namespace BookGen.Gui.XmlEntities
 {
-    public record XSpacer: XView
+    public record XVerticalLine : XView
     {
         [XmlAttribute]
-        public int Rows { get; set; }
+        public int Height { get; set; }
 
-        public XSpacer()
+        [XmlAttribute]
+        public char Symbol { get; set; }
+
+        public XVerticalLine()
         {
-            Rows = 1;
+            Symbol = '|';
         }
     }
 }

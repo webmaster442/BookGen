@@ -101,11 +101,11 @@ namespace BookGen.Utilities
 
             foreach (var phrase in phraseList)
             {
-                if (minKeywordFrequency > 1
+                /*if (minKeywordFrequency > 1
                     && phraseList.Count(s => s.Equals(phrase)) < minKeywordFrequency)
                 {
                     continue;
-                }
+                }*/
 
                 if (!keywordCandidates.ContainsKey(phrase)) keywordCandidates[phrase] = 0;
 

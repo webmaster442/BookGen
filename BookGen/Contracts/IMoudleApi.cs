@@ -1,18 +1,13 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2021 Ruzsinszki Gábor
+// (c) 2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Gui.XmlEntities
+namespace BookGen.Contracts
 {
-    public record XTextBlock: XView
+    internal interface IMoudleApi
     {
-        public CData Text { get; set; }
-
-        public XTextBlock()
-        {
-            Text = new CData(string.Empty);
-        }
-
+        GeneratorRunner CreateRunner(bool verbose, string workDir);
+        void ExecuteModule(string module, string[] arguments);
     }
 }

@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Modules;
-using BookGen.Ui.Mvvm;
-using System;
+using BookGen.Gui.Mvvm;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace BookGen.ConsoleUi
 {
@@ -40,6 +38,7 @@ namespace BookGen.ConsoleUi
 
             AvailableCommands = modules
                                     .Select(module => module.ModuleCommand)
+                                    .OrderBy(x => x)
                                     .ToList();
 
             AvailableCommands.Add(back);

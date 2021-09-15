@@ -5,12 +5,15 @@
 
 using System.Xml.Serialization;
 
-namespace BookGen.Ui.XmlEntities
+namespace BookGen.Gui.XmlEntities
 {
     public abstract record XView
     {
         [XmlAttribute]
         public int Left { get; set; }
+
+        [XmlAttribute]
+        public int Top { get; set; }
         
         [XmlAttribute]
         public WidthHandling WidthHandling { get; set; }

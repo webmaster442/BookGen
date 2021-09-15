@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Ui.Mvvm;
-using BookGen.Ui.XmlEntities;
+using BookGen.Gui.Mvvm;
+using BookGen.Gui.XmlEntities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Terminal.Gui;
 
-namespace BookGen.Ui
+namespace BookGen.Gui
 {
     internal class Binder
     {
@@ -27,17 +27,6 @@ namespace BookGen.Ui
             _model = model;
             _modelType = model.GetType();
             _table = new List<(XView xmlEntity, View rendered, Type type)>();
-        }
-
-        public Action? BindCommand(string bindingExpression)
-        {
-            if (!_propertyRegex.IsMatch(bindingExpression))
-                return null;
-
-            var actionName = GetPropertyName(bindingExpression);
-            var prop = _modelType.GetProperty(actionName);
-            DelegateCommand? cmd = prop?.GetValue(_model) as DelegateCommand;
-            return cmd?.Action;
         }
 
         private string GetPropertyName(string bindingExpression)
@@ -69,6 +58,17 @@ namespace BookGen.Ui
 
         }
 
+        public Action? BindCommand(string bindingExpression)
+        {
+            if (!_propertyRegex.IsMatch(bindingExpression))
+                return null;
+
+            var actionName = GetPropertyName(bindingExpression);
+            var prop = _modelType.GetProperty(actionName);
+            DelegateCommand? cmd = prop?.GetValue(_model) as DelegateCommand;
+            return cmd?.Action;
+        }
+
         public static bool IsBindable(string expression)
         {
             return _propertyRegex.IsMatch(expression);
@@ -91,7 +91,7 @@ namespace BookGen.Ui
             return Convert.ToBoolean(value);
         }
 
-        internal IList GetList(string itemSourceProperty)
+        internal IList GetBindedList(string itemSourceProperty)
         {
             var result = GetPropertyValue<IList>(itemSourceProperty);
             return result ?? new ArrayList();

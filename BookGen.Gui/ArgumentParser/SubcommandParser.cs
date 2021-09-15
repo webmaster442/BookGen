@@ -5,7 +5,7 @@
 
 using System.Linq;
 
-namespace BookGen.Ui.ArgumentParser
+namespace BookGen.Gui.ArgumentParser
 {
     public static class SubcommandParser
     {

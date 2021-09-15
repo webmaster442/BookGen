@@ -3,24 +3,24 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Ui.XmlEntities;
+using BookGen.Gui.XmlEntities;
 using System;
 using Terminal.Gui;
 
-namespace BookGen.Ui
+namespace BookGen.Gui
 {
     internal class SplitView : View
     {
         private Pos _left = 0;
         private readonly Binder _binder;
 
-        public SplitView(XSPlitView xSPlitView, Binder binder, int startRow)
+        public SplitView(XSPlitView xSPlitView, Binder binder)
         {
             _binder = binder;
             Render(xSPlitView);
             Width = Dim.Fill();
-            Y = startRow;
-            Height = Dim.Fill() - startRow;
+            Y = xSPlitView.Top;
+            Height = Dim.Fill() - xSPlitView.Top;
         }
 
         private void Render(XSPlitView xSPlitView)
@@ -91,7 +91,7 @@ namespace BookGen.Ui
 
             if (Binder.IsBindable(listBox.ItemSourceProperty))
             {
-                list.SetSource(_binder.GetList(listBox.ItemSourceProperty));
+                list.SetSource(_binder.GetBindedList(listBox.ItemSourceProperty));
             }
             if (Binder.IsBindable(listBox.SelectedIndex))
             {

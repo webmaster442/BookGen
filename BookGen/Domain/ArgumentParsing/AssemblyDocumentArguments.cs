@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
-using BookGen.Ui.ArgumentParser;
+using BookGen.Gui.ArgumentParser;
 using System.IO;
 
 namespace BookGen.Domain.ArgumentParsing

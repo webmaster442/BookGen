@@ -3,13 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Framework;
+using BookGen.Gui.ArgumentParser;
 using BookGen.Modules;
 using BookGen.Modules.Special;
-using BookGen.Ui.ArgumentParser;
 using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
@@ -21,7 +20,8 @@ namespace BookGen
     {
         #region Internal API
 
-        internal static ProgramState CurrentState { get; } = new ProgramState();
+        internal static ModuleApi Api { get; } = new ModuleApi();
+        internal static ProgramState CurrentState { get; } = new ProgramState(Api);
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
 #if TESTBUILD
@@ -29,12 +29,6 @@ namespace BookGen
         internal static string ErrorText { get; set; } = "";
         internal static bool ErrorHappened { get; set; } = false;
 #endif
-
-        public static GeneratorRunner CreateRunner(bool verbose, string workDir)
-        {
-            CurrentState.Log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
-            return new GeneratorRunner(CurrentState.Log, CurrentState.ServerLog, workDir);
-        }
 
         public static void ShowMessageBox(string text, params object[] args)
         {
@@ -56,7 +50,7 @@ namespace BookGen
             else
             {
 #endif
-                Environment.Exit((int)exitCode);
+            Environment.Exit((int)exitCode);
 #if TESTBUILD
         }
 #endif
@@ -72,28 +66,14 @@ namespace BookGen
             new ShellModule(),
         };
 
+        private static readonly List<ModuleWithState> ModulesWithState = new List<ModuleWithState>();
 
-        public static void Main(string[] args)
+        public static void RunModule(string moduleName, string[] parameters)
         {
             ModuleBase? moduleToRun = null;
             try
             {
-                var loaded = AppSettingHandler.LoadAppSettings();
-
-                if (loaded != null)
-                {
-                    AppSetting = loaded;
-                }
-
-                var modulesWithState = CreateModules();
-                ConfiugreStatelessModules(modulesWithState);
-
-
-                string command = SubcommandParser.GetCommand(args, out string[] parameters);
-
-                DebugHelper.WaitForDebugger(parameters);
-
-                moduleToRun = GetModuleToRun(StatelessModules, modulesWithState, command);
+                moduleToRun = GetModuleToRun(StatelessModules, ModulesWithState, moduleName);
 
                 if (moduleToRun == null)
                 {
@@ -124,12 +104,30 @@ namespace BookGen
                 else
                 {
 #endif
-                    HandleUncaughtException(moduleToRun, ex);
-
+                HandleUncaughtException(moduleToRun, ex);
 #if TESTBUILD
                 }
 #endif
             }
+        }
+
+
+        public static void Main(string[] args)
+        {
+            var loaded = AppSettingHandler.LoadAppSettings();
+
+            if (loaded != null)
+            {
+                AppSetting = loaded;
+            }
+
+            ModulesWithState.AddRange(CreateModules());
+            ConfiugreStatelessModules(ModulesWithState);
+
+            string module = SubcommandParser.GetCommand(args, out string[] parameters);
+            DebugHelper.WaitForDebugger(parameters);
+
+            RunModule(module, parameters);
         }
 
         private static void Cleanup(ModuleBase? moduleToRun)
@@ -161,7 +159,7 @@ namespace BookGen
             };
         }
 
-        private static void ConfiugreStatelessModules(ModuleWithState[] modulesWithState)
+        private static void ConfiugreStatelessModules(IEnumerable<ModuleWithState> modulesWithState)
         {
             IEnumerable<ModuleBase>? allmodules = StatelessModules.Concat(modulesWithState);
             foreach (var module in allmodules)
