@@ -65,9 +65,28 @@ namespace BookGen.Gui
                     case XSPlitView sPlitView:
                         RenderSplitView(sPlitView);
                         break;
+                    case XVerticalLine verticalLine:
+                        RenderVerticalLine(verticalLine);
+                        break;
                     default:
                         throw new InvalidOperationException($"Unknown node type: {child.GetType().Name}");
                 }
+            }
+        }
+
+        private void RenderVerticalLine(XVerticalLine verticalLine)
+        {
+            int end = verticalLine.Height + verticalLine.Top;
+
+            for (int i=verticalLine.Top; i<end; i++)
+            {
+                var label = new Label(verticalLine.Symbol.ToString())
+                {
+                    X = Pos.Left(this) + verticalLine.Left,
+                    Y = Pos.Top(this) + i,
+                };
+                SetWidth(label, verticalLine);
+                Add(label);
             }
         }
 
