@@ -21,6 +21,8 @@ namespace BookGen.ConsoleUi
         public bool CreateScripts { get; set; }
         public bool CreateVsTasks { get; set; }
 
+        public string WorkDirectory => _workDir.ToString();
+
         public DelegateCommand ExecuteCommand { get; }
         public DelegateCommand CancelCommand { get; }
 
