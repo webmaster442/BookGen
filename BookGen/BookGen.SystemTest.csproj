@@ -106,7 +106,6 @@
     <EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
     <EmbeddedResource Include="Resources\Help.StatModule.txt" />
     <EmbeddedResource Include="Resources\Help.VersionModule.txt" />
-    <EmbeddedResource Include="Resources\HelpCompressModule.txt" />
     <EmbeddedResource Include="Resources\HelpEditModule.txt" />
     <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
   </ItemGroup>
