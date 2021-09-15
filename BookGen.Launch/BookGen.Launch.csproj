@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Gui\BookGen.Gui.csproj" />
     <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
-    <ProjectReference Include="..\BookGen\BookGen.csproj" />
   </ItemGroup>
 
   <ItemGroup>
