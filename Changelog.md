@@ -1,3 +1,8 @@
+# 2021.
+* New: Launcher has more modern Message boxes
+* New: Added more options to the console Gui
+
+
 # 2021.09.12
 * New: Added an Update command to make future updates easy
 * New: Added ImgConvert commmand to convert imgages
