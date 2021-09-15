@@ -101,13 +101,13 @@
                 <TextBox
                     x:Name="Changelog"
                     Grid.Row="1"
-                    FontSize="16"
                     Grid.ColumnSpan="2"
                     Background="{StaticResource AppBackground}"
                     BorderBrush="{StaticResource Border}"
                     BorderThickness="0,2,0,0"
+                    FontSize="16"
                     IsReadOnly="True"
-                    VerticalScrollBarVisibility="Visible"/>
+                    VerticalScrollBarVisibility="Visible" />
             </Grid>
         </Border>
 
@@ -254,7 +254,7 @@
             <Button
                 Command="{Binding CheckUpdateCommand}"
                 Content="Check for uptates..."
-                Style="{StaticResource LinkButton}"/>
+                Style="{StaticResource LinkButton}" />
         </StackPanel>
 
         <Border
@@ -276,6 +276,13 @@
                     IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=AutoExitLauncher}" />
             </StackPanel>
         </Border>
-
+        <Border
+            x:Name="Blocker"
+            Grid.Column="0"
+            Grid.Row="0"
+            Grid.RowSpan="99"
+            Grid.ColumnSpan="99"
+            Background="#70000000"
+            Visibility="Collapsed" />
     </Grid>
 </Window>

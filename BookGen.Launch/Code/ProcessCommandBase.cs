@@ -74,7 +74,7 @@ namespace BookGen.Launch.Code
 
         protected static void Message(string text, MessageBoxImage icon)
         {
-            MessageBox.Show(text, icon.ToString(), MessageBoxButton.OK, icon);
+            MessageBoxEx.Show(text, icon.ToString(), MessageBoxButton.OK, icon);
         }
 
         protected static bool RunProgram(string program, string arguments)

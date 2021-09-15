@@ -88,10 +88,10 @@ namespace BookGen.Launch
 
         private void OnInstallPath(object? obj)
         {
-            if (MessageBox.Show(Properties.Resources.InstallToPathVar,
-                Properties.Resources.Question,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBoxEx.Show(Properties.Resources.InstallToPathVar,
+                                  Properties.Resources.Question,
+                                  MessageBoxButton.YesNo,
+                                  MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
 
                 const EnvironmentVariableTarget scope = EnvironmentVariableTarget.User; // or User
@@ -104,10 +104,10 @@ namespace BookGen.Launch
 
         private void OnClearFolders(object? obj)
         {
-            if (MessageBox.Show(Properties.Resources.ClearRecentList,
-                    Properties.Resources.Question,
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBoxEx.Show(Properties.Resources.ClearRecentList,
+                                  Properties.Resources.Question,
+                                  MessageBoxButton.YesNo,
+                                  MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 FolderList.Clear();
             }
