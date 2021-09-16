@@ -11,9 +11,6 @@ namespace BookGen.Utilities
 {
     internal static class EditorHelper
     {
-        private const string vsCodePath = @"%localappdata%\Programs\Microsoft VS Code\Code.exe";
-        private const string notepadPath = @"%windir%\notepad.exe";
-
         private static readonly HashSet<string> supportedFileTypes = new HashSet<string>
         {
             ".txt",
@@ -41,13 +38,13 @@ namespace BookGen.Utilities
 
         public static bool TryFindVsCodeInstall(out string installedVsCodePath)
         {
-            installedVsCodePath = Environment.ExpandEnvironmentVariables(vsCodePath);
+            installedVsCodePath = Environment.ExpandEnvironmentVariables(Constants.VsCodePath);
             return File.Exists(installedVsCodePath);
         }
 
         public static string GetNotepadPath()
         {
-            return Environment.ExpandEnvironmentVariables(notepadPath);
+            return Environment.ExpandEnvironmentVariables(Constants.NotepadPath);
         }
     }
 }
