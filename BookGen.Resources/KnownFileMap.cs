@@ -21,6 +21,7 @@ namespace BookGen.Resources
             { KnownFile.PrismJs, "/JsCss/prism.js" },
             { KnownFile.TurbolinksJs, "/JsCss/turbolinks.js" },
             { KnownFile.PreviewCss, "/JsCss/preview.css" },
+            { KnownFile.SinglePageCss, "/JsCss/SinglePage.css"  },
 
             //html files
             { KnownFile.CookieWarningHtml, "/Html/CookieWarning.html" },

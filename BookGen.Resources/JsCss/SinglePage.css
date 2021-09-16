@@ -1,0 +1,9 @@
+﻿body {
+    max-width: 1200px;
+    text-align: justify;
+    font-size: 16px;
+    margin: 2em auto;
+    line-height: 1.4;
+    font-family: Open Sans,Arial;
+    color: #454545;
+}

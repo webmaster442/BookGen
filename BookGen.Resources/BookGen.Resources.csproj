@@ -43,6 +43,7 @@
 		<None Remove="JsCss\prism.js" />
 		<None Remove="JsCss\simplemde.min.css" />
 		<None Remove="JsCss\simplemde.min.js" />
+		<None Remove="JsCss\SinglePage.css" />
 		<None Remove="JsCss\turbolinks.js" />
 		<None Remove="Powershell\completer.dn.ps1" />
 		<None Remove="Powershell\completer.ps1" />
@@ -73,6 +74,7 @@
 		<EmbeddedResource Include="JsCss\preview.css" />
 		<EmbeddedResource Include="JsCss\prism.css" />
 		<EmbeddedResource Include="JsCss\prism.js" />
+		<EmbeddedResource Include="JsCss\SinglePage.css" />
 		<EmbeddedResource Include="JsCss\turbolinks.js" />
 		<EmbeddedResource Include="Powershell\completer.dn.ps1" />
 		<EmbeddedResource Include="Powershell\completer.ps1" />

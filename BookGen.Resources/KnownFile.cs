@@ -27,5 +27,6 @@ namespace BookGen.Resources
         PrismCss,
         PreviewCss,
         PreviewHtml,
+        SinglePageCss
     }
 }

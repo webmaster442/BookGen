@@ -54,7 +54,11 @@ namespace BookGen.Modules
             string pageTemplate = ResourceHandler.GetFile(KnownFile.TemplateSinglePageHtml);
 
             string cssForInline = "";
-            if (args.Css.IsExisting)
+            if (FsPath.IsEmptyPath(args.Css))
+            {
+                cssForInline = ResourceHandler.GetFile(KnownFile.SinglePageCss);
+            }
+            else if (args.Css.IsExisting)
             {
                 cssForInline = args.Css.ReadFile(CurrentState.Log);
             }
