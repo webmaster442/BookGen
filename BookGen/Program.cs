@@ -64,6 +64,7 @@ namespace BookGen
             new HelpModule(),
             new SubCommandsModule(),
             new ShellModule(),
+            new WikiModule(),
         };
 
         private static readonly List<ModuleWithState> ModulesWithState = new List<ModuleWithState>();
