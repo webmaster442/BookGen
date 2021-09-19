@@ -5,6 +5,7 @@
 
 using System;
 using System.Web;
+using System.Linq;
 
 namespace BookGen.Utilities
 {
@@ -30,9 +31,9 @@ namespace BookGen.Utilities
 
         internal static bool OpenUrlWithParameters(string url, params string[] parameters)
         {
-            string full = string.Format(url, parameters);
-            string encoded = HttpUtility.UrlEncode(full);
-            return OpenUrl(encoded);
+            var encoded = parameters.Select(x => HttpUtility.UrlEncode(x)).ToArray();
+            string full = string.Format(url, encoded);
+            return OpenUrl(full);
         }
     }
 }
