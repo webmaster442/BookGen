@@ -126,7 +126,7 @@ namespace BookGen
             ConfiugreStatelessModules(ModulesWithState);
 
             string module = SubcommandParser.GetCommand(args, out string[] parameters);
-            DebugHelper.WaitForDebugger(parameters);
+            DebugHelper.WaitForDebugger(ref parameters);
 
             RunModule(module, parameters);
         }

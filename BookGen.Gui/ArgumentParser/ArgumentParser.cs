@@ -51,6 +51,9 @@ namespace BookGen.Gui.ArgumentParser
                 SwitchAttribute? sw = GetSwitchAttrubute(property);
                 if (sw != null)
                 {
+                    if (!sw.NamingGood)
+                        throw new InvalidOperationException($"Longname or Shortname shoudn't start with - symbol in {nameof(SwitchAttribute)}");
+
                     if (sw.Required) ++_required;
                     _properties.Add(sw, property);
                 }
