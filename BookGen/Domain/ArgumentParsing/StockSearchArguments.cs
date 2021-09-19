@@ -9,14 +9,13 @@ namespace BookGen.Domain.ArgumentParsing
 {
     internal class StockSearchArguments : ArgumentsBase
     {
-        [Switch("-pe", "--pexels")]
+        [Switch("pe", "pexels", false)]
         public bool? Pexels { get; set; }
-        [Switch("-un", "--unsplash")]
+        [Switch("un", "unsplash", false)]
         public bool? Unsplash { get; set; }
-        [Switch("-pi", "--pixabay")]
+        [Switch("pi", "pixabay", false)]
         public bool? Pixabay { get; set; }
-
-        [Switch("-s", "--search")]
+        [Switch("s", "search", true)]
         public string SearchTerms { get; set; }
 
         public bool All

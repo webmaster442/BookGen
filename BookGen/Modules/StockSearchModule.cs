@@ -9,6 +9,7 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Utilities;
+using System.Threading;
 
 namespace BookGen.Modules
 {
@@ -70,6 +71,7 @@ namespace BookGen.Modules
             {
                 log.Warning("Coudn't open: {0}", searchUrl);
             }
+            Thread.Sleep(100);
         }
     }
 }
