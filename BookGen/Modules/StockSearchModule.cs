@@ -5,6 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Utilities;
@@ -18,6 +19,22 @@ namespace BookGen.Modules
         }
 
         public override string ModuleCommand => "StockSearch";
+
+        public override AutoCompleteItem AutoCompleteInfo
+        {
+            get
+            {
+                return new AutoCompleteItem(ModuleCommand,
+                                            "-s",
+                                            "--search",
+                                            "-pe",
+                                            "--pexels",
+                                            "-un",
+                                            "--unsplash",
+                                            "-pi",
+                                            "--pixabay");
+            }
+        }
 
         public override bool Execute(string[] arguments)
         {
