@@ -157,6 +157,7 @@ namespace BookGen
                 new ServeModule(CurrentState),
                 new UpdateModule(CurrentState),
                 new ImgConvertModule(CurrentState),
+                new StockSearchModule(CurrentState),
             };
         }
 
