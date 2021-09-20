@@ -13,3 +13,11 @@ To Get more help about a subcommand type: BookGen Help <module>
 To list available subcommands type: BookGen SubCommands
 
 To install powershell atuocomplete type: BookGen InstallPsAutocomplete $profile
+
+General arguments:
+
+	-wd:
+	Waits for a debugger to be attached. Usefull for error reporting & error finding.
+
+	-js:
+	Outputs log in JSON format. Usefull for interop purposes.
