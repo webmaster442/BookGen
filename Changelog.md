@@ -1,4 +1,6 @@
 # 2021.
+* New: Wiki command - Opens the BookGen wiki page
+* New: Stocksearch command - Search for free stock images online
 * New: Launcher has more modern Message boxes
 * New: Added more options to the console Gui
 
