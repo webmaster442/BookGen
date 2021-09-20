@@ -19,9 +19,11 @@ namespace BookGen
     internal static class Program
     {
         #region Internal API
-
-        internal static ModuleApi Api { get; } = new ModuleApi();
-        internal static ProgramState CurrentState { get; } = new ProgramState(Api);
+#pragma warning disable CS8618 
+        // Non-nullable field must contain a non-null value when exiting constructor.
+        // Consider declaring as nullable.
+        internal static ProgramState CurrentState { get; private set; }
+#pragma warning restore CS8618
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
 #if TESTBUILD
@@ -69,7 +71,7 @@ namespace BookGen
 
         private static readonly List<ModuleWithState> ModulesWithState = new List<ModuleWithState>();
 
-        public static void RunModule(string moduleName, string[] parameters)
+        public static void RunModule(string moduleName, IReadOnlyList<string> parameters)
         {
             ModuleBase? moduleToRun = null;
             try
@@ -84,7 +86,7 @@ namespace BookGen
                     return;
                 }
 
-                if (!moduleToRun.Execute(parameters))
+                if (!moduleToRun.Execute(parameters.ToArray()))
                 {
                     Console.WriteLine(moduleToRun.GetHelp());
                     Cleanup(moduleToRun);
@@ -116,19 +118,22 @@ namespace BookGen
         public static void Main(string[] args)
         {
             var loaded = AppSettingHandler.LoadAppSettings();
+            var argumentsToParse = args.ToList();
 
             if (loaded != null)
             {
                 AppSetting = loaded;
             }
 
+            string module = SubcommandParser.GetCommand(argumentsToParse);
+            ProgramConfigurator.WaitForDebugger(argumentsToParse);
+            CurrentState = ProgramConfigurator.ConfigureState(argumentsToParse);
+
             ModulesWithState.AddRange(CreateModules());
             ConfiugreStatelessModules(ModulesWithState);
 
-            string module = SubcommandParser.GetCommand(args, out string[] parameters);
-            DebugHelper.WaitForDebugger(ref parameters);
 
-            RunModule(module, parameters);
+            RunModule(module, argumentsToParse);
         }
 
         private static void Cleanup(ModuleBase? moduleToRun)

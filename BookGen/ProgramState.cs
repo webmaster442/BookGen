@@ -14,7 +14,6 @@ namespace BookGen
 {
     internal class ProgramState
     {
-        private readonly ConsoleLog _log;
         public bool Gui { get; set; }
         public bool NoWaitForExit { get; set; }
         public Version ProgramVersion { get; }
@@ -28,8 +27,8 @@ namespace BookGen
         public IServerLog ServerLog { get; set; }
 #else
 
-        public ILog Log => _log;
-        public IServerLog ServerLog => _log;
+        public ILog Log { get; }
+        public IServerLog ServerLog { get; }
 #endif
 
         private static DateTime GetProgramDate()
@@ -46,20 +45,16 @@ namespace BookGen
             return new DateTime();
         }
 
-        public ProgramState(IMoudleApi apiImplementation)
+        public ProgramState(IMoudleApi apiImplementation, ILog log, IServerLog serverLog)
         {
+            Log = log;
+            ServerLog = serverLog;
             Api = apiImplementation;
             var asm = Assembly.GetAssembly(typeof(ProgramState));
             ProgramVersion = asm?.GetName()?.Version ?? new Version(1, 0);
             ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
             BuildDate = GetProgramDate();
             ProgramDirectory = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
-            _log = new ConsoleLog();
-#if TESTBUILD
-            var l = new ConsoleLog();
-            Log = l;
-            ServerLog = l;
-#endif
         }
 
     }
