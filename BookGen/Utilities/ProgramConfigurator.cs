@@ -3,10 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 
 namespace BookGen.Utilities
@@ -66,9 +66,18 @@ namespace BookGen.Utilities
             }
         }
 
-        internal static ProgramState ConfigureState(List<string> argumentsToParse)
+        internal static ProgramState ConfigureState(List<string> arguments)
         {
-            throw new NotImplementedException();
+            if (GetSwitch(arguments, JsonLogShort, JsonLogLong))
+            {
+                var log = new JsonLog();
+                return new ProgramState(new ModuleApi(), log, log);
+            }
+            else
+            {
+                var log = new ConsoleLog();
+                return new ProgramState(new ModuleApi(), log, log);
+            }
         }
     }
 }
