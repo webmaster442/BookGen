@@ -25,6 +25,10 @@ namespace BookGen.Api
         /// <summary>
         /// Detailed info messages. Only visible when verbose 
         /// </summary>
-        Detail = 3
+        Detail = 3,
+        /// <summary>
+        /// The Logger interface PrintLine method was called
+        /// </summary>
+        PrintLine = 255
     }
 }

@@ -20,10 +20,11 @@ namespace BookGen.Api
         /// Log message content
         /// </summary>
         public string Message { get; init; }
+
         /// <summary>
-        /// Message details
+        /// Timestamp in UTC
         /// </summary>
-        public string[] Details { get; init; }
+        public DateTime TimeStamp { get; init; }
 
         /// <summary>
         /// Creates a new instance of LogEntry
@@ -31,7 +32,6 @@ namespace BookGen.Api
         public LogEntry()
         {
             Message = string.Empty;
-            Details = Array.Empty<string>();
         }
     }
 }
