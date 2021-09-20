@@ -39,7 +39,7 @@ namespace BookGen.Modules
             {
                 if (TryComputeStat(args.Input, ref stat))
                 {
-                    stat.Pages = (double)stat.Chars / StatisticsData.CharsPerA4Page;
+                    stat.Pages = (double)stat.Chars / Constants.CharsPerA4Page;
                     CurrentState.Log.PrintLine(stat);
                     return true;
                 }
@@ -68,7 +68,7 @@ namespace BookGen.Modules
 
                     if (result)
                     {
-                        stat.Pages = (double)stat.Chars / StatisticsData.CharsPerA4Page;
+                        stat.Pages = (double)stat.Chars / Constants.CharsPerA4Page;
                         CurrentState.Log.PrintLine(stat);
                     }
 

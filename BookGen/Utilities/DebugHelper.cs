@@ -12,10 +12,12 @@ namespace BookGen.Utilities
 {
     internal static class DebugHelper
     {
-        public static void WaitForDebugger(string[] args)
+        public static void WaitForDebugger(ref string[] args)
         {
             if (GetSwitch(args, "-wd", "--wait-debugger"))
             {
+                args = args.Where(x => x != "-wd" && x != "--wait-debugger").ToArray();
+
                 Console.WriteLine("Waiting for debugger to be attached...");
                 Console.WriteLine("ESC to cancel & contine execution...");
                 while (!Debugger.IsAttached)

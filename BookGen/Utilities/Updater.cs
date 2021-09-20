@@ -16,7 +16,6 @@ namespace BookGen.Utilities
 {
     public class Updater
     {
-        private const string UpdateUrl = "https://raw.githubusercontent.com/webmaster442/BookGen/master/.github/updates.json";
         private readonly ILog _log;
         private readonly Version _currentBuild;
         private readonly string _appDir;
@@ -34,7 +33,7 @@ namespace BookGen.Utilities
             {
                 client.UseDefaultCredentials = true;
                 client.Proxy = WebRequest.GetSystemWebProxy();
-                var json = client.DownloadString(new Uri(UpdateUrl));
+                var json = client.DownloadString(new Uri(Constants.UpdateUrl));
                 var result = JsonSerializer.Deserialize<Release[]>(json);
                 if (result == null)
                     throw new InvalidOperationException("Error while deserializing update info...");

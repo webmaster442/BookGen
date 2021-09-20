@@ -59,6 +59,7 @@
 		<None Remove="Resources\Help.ServeModule.txt" />
 		<None Remove="Resources\Help.SettingsModule.txt" />
 		<None Remove="Resources\Help.StatModule.txt" />
+		<None Remove="Resources\Help.StockSearchModule.txt" />
 		<None Remove="Resources\Help.VersionModule.txt" />
 		<None Remove="Resources\HelpEditModule.txt" />
 	</ItemGroup>
@@ -96,8 +97,8 @@
 		<EmbeddedResource Include="Resources\Help.ServeModule.txt" />
 		<EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
 		<EmbeddedResource Include="Resources\Help.StatModule.txt" />
+		<EmbeddedResource Include="Resources\Help.StockSearchModule.txt" />
 		<EmbeddedResource Include="Resources\Help.VersionModule.txt" />
-		<EmbeddedResource Include="Resources\HelpEditModule.txt" />
     <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
 	</ItemGroup>
 	<ItemGroup>

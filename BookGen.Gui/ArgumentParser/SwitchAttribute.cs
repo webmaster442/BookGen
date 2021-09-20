@@ -23,6 +23,8 @@ namespace BookGen.Gui.ArgumentParser
             Required = required;
         }
 
+        internal bool NamingGood => !ShortName.StartsWith("-") && !LongName.StartsWith("--");
+
         public override bool Equals(object? obj)
         {
             return Equals(obj as SwitchAttribute);

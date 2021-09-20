@@ -18,7 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141
 		.editorconfig = .editorconfig
 		.vsconfig = .vsconfig
 		Changelog.md = Changelog.md
-		Documentation\Template\DocumentationTemplate.html = Documentation\Template\DocumentationTemplate.html
 		Scripts\publish.ps1 = Scripts\publish.ps1
 		README.md = README.md
 		.github\updates.json = .github\updates.json

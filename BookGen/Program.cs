@@ -64,6 +64,7 @@ namespace BookGen
             new HelpModule(),
             new SubCommandsModule(),
             new ShellModule(),
+            new WikiModule(),
         };
 
         private static readonly List<ModuleWithState> ModulesWithState = new List<ModuleWithState>();
@@ -125,7 +126,7 @@ namespace BookGen
             ConfiugreStatelessModules(ModulesWithState);
 
             string module = SubcommandParser.GetCommand(args, out string[] parameters);
-            DebugHelper.WaitForDebugger(parameters);
+            DebugHelper.WaitForDebugger(ref parameters);
 
             RunModule(module, parameters);
         }
@@ -156,6 +157,7 @@ namespace BookGen
                 new ServeModule(CurrentState),
                 new UpdateModule(CurrentState),
                 new ImgConvertModule(CurrentState),
+                new StockSearchModule(CurrentState),
             };
         }
 
