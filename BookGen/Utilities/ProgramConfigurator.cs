@@ -18,6 +18,17 @@ namespace BookGen.Utilities
         private const string JsonLogShort = "-js";
         private const string JsonLogLong = "--json-log";
 
+        public static IEnumerable<string> GeneralArguments
+        {
+            get
+            {
+                yield return DebuggerShort;
+                yield return DebuggerLong;
+                yield return JsonLogShort;
+                yield return JsonLogLong;
+            }
+        }
+
         private static bool GetSwitch(IList<string> inputs, string shortName, string longName)
         {
             bool result = false;
