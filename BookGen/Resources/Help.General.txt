@@ -21,3 +21,12 @@ General arguments:
 
 	-js:
 	Outputs log in JSON format. Usefull for interop purposes.
+
+Program exit codes:
+
+	Succes => 0
+	Exception => -1
+	UnknownCommand => 1,
+	BadParameters => 2
+	BadConfiguration => 3
+	FolderLocked => 4

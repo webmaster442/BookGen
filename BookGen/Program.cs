@@ -134,6 +134,7 @@ namespace BookGen
 
 
             RunModule(module, argumentsToParse);
+            CurrentState.Log.Flush();
         }
 
         private static void Cleanup(ModuleBase? moduleToRun)
@@ -196,7 +197,8 @@ namespace BookGen
             if (currentModule is ModuleWithState stateModule)
                 stateModule.Abort();
 
-            ShowMessageBox("Unhandled exception\r\n{0}", ex);
+            CurrentState.Log.Critical(ex);
+            ShowMessageBox("Unhandled exception\r\n{0}", ex.Message);
 #if DEBUG
             System.Diagnostics.Debugger.Break();
 #endif

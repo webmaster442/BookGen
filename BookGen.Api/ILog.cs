@@ -14,6 +14,14 @@ namespace BookGen.Api
     public interface ILog
     {
         /// <summary>
+        /// Write out all remaining info in buffered implementations.
+        /// </summary>
+        void Flush() 
+        {
+            //by default do nothing
+        }
+
+        /// <summary>
         /// Current log level
         /// </summary>
         LogLevel LogLevel { get; set; }

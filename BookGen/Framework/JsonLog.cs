@@ -6,6 +6,8 @@
 using BookGen.Api;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Webmaster442.HttpServerFramework;
 
 namespace BookGen.Framework
@@ -13,10 +15,22 @@ namespace BookGen.Framework
     internal class JsonLog : ILog, IServerLog
     {
         private readonly List<LogEntry> _entries;
+        private readonly JsonSerializerOptions _options;
 
         public JsonLog()
         {
             _entries = new List<LogEntry>(20);
+            _options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+            _options.Converters.Add(new JsonStringEnumConverter());
+        }
+
+        public void Flush()
+        {
+            var result = JsonSerializer.Serialize(_entries, _options);
+            Console.WriteLine(result);
         }
 
         public LogLevel LogLevel { get; set; }
