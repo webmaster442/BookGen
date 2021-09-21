@@ -26,11 +26,17 @@ namespace BookGen.Core.Documenter
             _methodDocumenter = new MethodDocumenter();
             _propertyDocumenter = new PropertyDocumenter();
         }
-        public void Document(string assemblyPath, FsPath outputPath)
+        public void Document(FsPath assemblyPath, FsPath outputPath)
         {
+            if (!assemblyPath.IsFile)
+            {
+                _log.Critical("Can't find assembly file: {0}", assemblyPath);
+                return;
+            }
+
             MarkdownWriter mardkown = new MarkdownWriter();
 
-            var xml = Path.ChangeExtension(assemblyPath, "xml");
+            var xml = Path.ChangeExtension(assemblyPath.ToString(), "xml");
             if (!File.Exists(xml))
             {
                 _log.Critical("Can't find xml file: {0}", xml);
@@ -44,13 +50,13 @@ namespace BookGen.Core.Documenter
             {
                 if (type != null)
                 {
+                    _log.Detail("Documenting: {0}", type.FullName ?? string.Empty);
                     DocumentType(type, documentation, mardkown);
                     mardkown.HorizontalLine();
                 }
             }
 
             outputPath.WriteFile(_log, mardkown.ToString());
-
         }
 
         private void CreatePageTitle(MarkdownWriter document, Type type)
@@ -79,9 +85,9 @@ namespace BookGen.Core.Documenter
             document.Paragraph("Namespace: {0}", type?.Namespace ?? string.Empty);
         }
 
-        private IEnumerable<Type> GetDocumentableTypes(string assemblyPath)
+        private IEnumerable<Type> GetDocumentableTypes(FsPath assemblyPath)
         {
-            var asm = Assembly.LoadFrom(assemblyPath);
+            var asm = Assembly.LoadFrom(assemblyPath.ToString());
             return asm.GetExportedTypes();
         }
 
