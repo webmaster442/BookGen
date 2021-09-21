@@ -3,6 +3,7 @@
 * New: Stocksearch command - Search for free stock images online
 * New: Launcher has more modern Message boxes
 * New: Added more options to the console Gui
+* New: Log output to JSON with the global -js argument.
 
 
 # 2021.09.12
