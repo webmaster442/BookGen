@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Gui.Wpf;
-using BookGen.Launch.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 
@@ -16,22 +18,28 @@ namespace BookGen.Launch.Code
     {
         private readonly List<string> _elements;
         private string _filter;
+        private readonly string _fileName;
         public BindingList<ItemViewModel> View { get; }
 
         public FolderList()
         {
             _elements = new List<string>();
+            _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
             View = new BindingList<ItemViewModel>();
             _filter = string.Empty;
 
-            if (!string.IsNullOrEmpty(Settings.Default.FolderListJson))
+            var json = ReadFile();
+
+            if (!string.IsNullOrEmpty(json))
             {
-                string[]? deserialized = JsonSerializer.Deserialize<string[]>(Settings.Default.FolderListJson);
+                string[]? deserialized = JsonSerializer.Deserialize<string[]>(json);
                 if (deserialized != null)
                 {
                     _elements = new List<string>(deserialized);
                 }
             }
+
+            App.UpdateJumplist(_elements);
             ApplyFilter();
         }
 
@@ -77,8 +85,7 @@ namespace BookGen.Launch.Code
         public void SaveFolders()
         {
             var text = JsonSerializer.Serialize(_elements);
-            Settings.Default.FolderListJson = text;
-            Settings.Default.Save();
+            WriteFile(text);
             App.UpdateJumplist(_elements);
         }
 
@@ -117,6 +124,34 @@ namespace BookGen.Launch.Code
             }
             View.RaiseListChangedEvents = true;
             View.ResetBindings();
+        }
+
+        private string ReadFile()
+        {
+            if (File.Exists(_fileName))
+            {
+                try
+                {
+                    return File.ReadAllText(_fileName);
+                }
+                catch (Exception)
+                {
+                    return string.Empty;
+                }
+            }
+            return string.Empty;
+        }
+
+        private void WriteFile(string content)
+        {
+            try
+            {
+                File.WriteAllText(_fileName, content);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
     }
 }

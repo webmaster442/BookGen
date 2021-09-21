@@ -6,6 +6,7 @@
 using BookGen.Gui.Wpf;
 using BookGen.Launch.Code;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -52,6 +53,19 @@ namespace BookGen.Launch
             OpenInVsCodeCommand = new RunVsCodeCommand();
             RemoveItemCommand = new DelegateCommand(OnRemoveItem);
             Version = GetVersion();
+
+            ProcessArguments();
+        }
+
+        private void ProcessArguments()
+        {
+            var args = Environment.GetCommandLineArgs().ToList();
+            var launchIndex = args.IndexOf("launch");
+            if (launchIndex > -1 &&
+                (launchIndex + 1) < args.Count)
+            {
+                StartShellCommand.Execute(args[launchIndex + 1]);
+            }
         }
 
         private void OnRemoveItem(object? obj)

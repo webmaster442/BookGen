@@ -27,7 +27,7 @@ namespace BookGen.Launch
                     Title = item,
                     CustomCategory = Launch.Properties.Resources.RecentFolders,
                     ApplicationPath = System.IO.Path.Combine(AppContext.BaseDirectory, FileName),
-                    Arguments = $"\"{item}\"",
+                    Arguments = $"launch \"{item}\"",
                     IconResourcePath = System.IO.Path.Combine(AppContext.BaseDirectory, FileName),
                     IconResourceIndex = 0,
                     Description = item,
