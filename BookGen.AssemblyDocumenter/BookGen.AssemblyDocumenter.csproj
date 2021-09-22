@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Ruzsinszki Gábor</Authors>
+    <Nullable>enable</Nullable>
+    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+    <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

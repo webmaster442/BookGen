@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webmaster442.HttpServerFram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Launch", "BookGen.Launch\BookGen.Launch.csproj", "{86604E95-EE37-4F9D-AD5A-7D56C20B5A99}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.AssemblyDocumenter", "BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj", "{56F14119-A13A-4FA0-911A-6A35D161A745}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -231,6 +233,26 @@ Global
 		{86604E95-EE37-4F9D-AD5A-7D56C20B5A99}.Release|x64.Build.0 = Release|Any CPU
 		{86604E95-EE37-4F9D-AD5A-7D56C20B5A99}.Release|x86.ActiveCfg = Release|Any CPU
 		{86604E95-EE37-4F9D-AD5A-7D56C20B5A99}.Release|x86.Build.0 = Release|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Debug|ARM.Build.0 = Debug|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Debug|x64.Build.0 = Debug|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Debug|x86.Build.0 = Debug|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Release|ARM.ActiveCfg = Release|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Release|ARM.Build.0 = Release|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Release|ARM64.Build.0 = Release|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Release|x64.ActiveCfg = Release|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Release|x64.Build.0 = Release|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Release|x86.ActiveCfg = Release|Any CPU
+		{56F14119-A13A-4FA0-911A-6A35D161A745}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
