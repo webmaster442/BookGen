@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
 namespace Vsxmd.Units
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-
     /// <summary>
     /// Exception unit.
     /// </summary>
@@ -21,21 +21,19 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="element">The exception XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>exception</c>.</exception>
-        internal ExceptionUnit(XElement element)
-            : base(element, "exception")
+        internal ExceptionUnit(XElement element) : base(element, "exception")
         {
         }
 
-        private string Name => this.GetAttribute("cref").ToReferenceLink();
+        private string Name => GetAttribute("cref").ToReferenceLink();
 
-        private string Description => this.ElementContent;
+        private string Description => ElementContent;
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                $"| {this.Name} | {this.Description} |",
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return $"| {Name} | {Description} |";
+        }
 
         /// <summary>
         /// Convert the exception XML element to Markdown safely.

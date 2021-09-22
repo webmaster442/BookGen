@@ -21,14 +21,14 @@ namespace Vsxmd.Units
         /// <param name="element">The XML element.</param>
         /// <param name="elementName">The expected XML element name.</param>
         /// <exception cref="ArgumentException">Throw if XML <paramref name="element"/> name not matches the expected <paramref name="elementName"/>.</exception>
-        internal BaseUnit(XElement element, string elementName)
+        public BaseUnit(XElement element, string elementName)
         {
             if (element.Name != elementName)
             {
                 throw new ArgumentException("The element name is not expected", nameof(element));
             }
 
-            this.Element = element;
+            Element = element;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Vsxmd.Units
         /// Gets the Markdown content representing the element.
         /// </summary>
         /// <value>The Markdown content.</value>
-        protected string ElementContent => this.Element.ToMarkdownText();
+        protected string ElementContent => Element.ToMarkdownText();
 
         /// <inheritdoc />
         public abstract IEnumerable<string> ToMarkdown();
@@ -51,24 +51,21 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="name">The <see cref="XName"/> to match.</param>
         /// <returns>A <see cref="XName"/> that matches the specified <paramref name="name"/>, or <value>null</value>.</returns>
-        protected XElement GetChild(XName name) =>
-            this.Element.Element(name);
+        protected XElement? GetChild(XName name) => Element?.Element(name);
 
         /// <summary>
-        /// Returns a collection of the child elements of this element or document, in document order.
+        /// Returns a collection of the child elements of element or document, in document order.
         /// Only elements that have a matching <see cref="XName"/> are included in the collection.
         /// </summary>
         /// <param name="name">The <see cref="XName"/> to match.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="XElement"/> containing the children that have a matching <see cref="XName"/>, in document order.</returns>
-        protected IEnumerable<XElement> GetChildren(XName name) =>
-            this.Element.Elements(name);
+        protected IEnumerable<XElement> GetChildren(XName name) => Element.Elements(name);
 
         /// <summary>
-        /// Returns the <see cref="XAttribute"/> value of this <see cref="XElement"/> that has the specified <paramref name="name"/>.
+        /// Returns the <see cref="XAttribute"/> value of <see cref="XElement"/> that has the specified <paramref name="name"/>.
         /// </summary>
         /// <param name="name">The <see cref="XName"/> of the <see cref="XAttribute"/> to get.</param>
         /// <returns>An <see cref="XAttribute"/> value that has the specified <paramref name="name"/>; <value>null</value> if there is no attribute with the specified <paramref name="name"/>.</returns>
-        protected string GetAttribute(XName name) =>
-            this.Element.Attribute(name).Value;
+        protected string GetAttribute(XName name) => Element?.Attribute(name)?.Value ?? string.Empty;
     }
 }

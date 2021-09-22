@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
 namespace Vsxmd.Units
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-
     /// <summary>
     /// Extensions helper.
     /// </summary>
@@ -21,10 +21,7 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="memberKind">The member kind.</param>
         /// <returns>The member kind's lowercase name.</returns>
-        internal static string ToLowerString(this MemberKind memberKind) =>
-#pragma warning disable CA1308 // We use lower case in URL anchor.
-            memberKind.ToString().ToLowerInvariant();
-#pragma warning restore CA1308
+        internal static string ToLowerString(this MemberKind memberKind) => memberKind.ToString().ToLowerInvariant();
 
         /// <summary>
         /// Concatenates the <paramref name="value"/>s with the <paramref name="separator"/>.
@@ -32,8 +29,7 @@ namespace Vsxmd.Units
         /// <param name="value">The string values.</param>
         /// <param name="separator">The separator.</param>
         /// <returns>The concatenated string.</returns>
-        internal static string Join(this IEnumerable<string> value, string separator) =>
-            string.Join(separator, value);
+        internal static string Join(this IEnumerable<string> value, string separator) => string.Join(separator, value);
 
         /// <summary>
         /// Suffix the <paramref name="suffix"/> to the <paramref name="value"/>, and generate a new string.
@@ -41,32 +37,28 @@ namespace Vsxmd.Units
         /// <param name="value">The original string value.</param>
         /// <param name="suffix">The suffix string.</param>
         /// <returns>The new string.</returns>
-        internal static string Suffix(this string value, string suffix) =>
-            string.Concat(value, suffix);
+        internal static string Suffix(this string value, string suffix) => string.Concat(value, suffix);
 
         /// <summary>
         /// Escape the content to keep it raw in Markdown syntax.
         /// </summary>
         /// <param name="content">The content.</param>
         /// <returns>The escaped content.</returns>
-        internal static string Escape(this string content) =>
-            content.Replace("`", @"\`", StringComparison.InvariantCulture);
+        internal static string Escape(this string content) => content.Replace("`", @"\`", StringComparison.InvariantCulture);
 
         /// <summary>
         /// Generate an anchor for the <paramref name="href"/>.
         /// </summary>
         /// <param name="href">The href.</param>
         /// <returns>The anchor for the <paramref name="href"/>.</returns>
-        internal static string ToAnchor(this string href) =>
-            $"<a name='{href}'></a>\n";
+        internal static string ToAnchor(this string href) => $"<a name='{href}'></a>\n";
 
         /// <summary>
         /// Generate "to here" link for the <paramref name="href"/>.
         /// </summary>
         /// <param name="href">The href.</param>
         /// <returns>The "to here" link for the <paramref name="href"/>.</returns>
-        internal static string ToHereLink(this string href) =>
-            $"[#](#{href} 'Go To Here')";
+        internal static string ToHereLink(this string href) => $"[#](#{href} 'Go To Here')";
 
         /// <summary>
         /// Generate the reference link for the <paramref name="memberName"/>.
@@ -78,8 +70,10 @@ namespace Vsxmd.Units
         /// <para>For <c>T:Vsxmd.Units.MemberUnit</c>, convert it to <c>[MemberUnit](#T-Vsxmd.Units.MemberUnit)</c>.</para>
         /// <para>For <c>T:System.ArgumentException</c>, convert it to <c>[ArgumentException](http://msdn/path/to/System.ArgumentException)</c>.</para>
         /// </example>
-        internal static string ToReferenceLink(this string memberName, bool useShortName = false) =>
-            new MemberName(memberName).ToReferenceLink(useShortName);
+        internal static string ToReferenceLink(this string memberName, bool useShortName = false)
+        {
+            return new MemberName(memberName).ToReferenceLink(useShortName);
+        }
 
         /// <summary>
         /// Wrap the <paramref name="code"/> into Markdown backtick safely.
@@ -96,9 +90,15 @@ namespace Vsxmd.Units
                 backticks += "`";
             }
 
-            return code.StartsWith("`", StringComparison.Ordinal) || code.EndsWith("`", StringComparison.Ordinal)
-                ? $"{backticks} {code} {backticks}"
-                : $"{backticks}{code}{backticks}";
+            if (code.StartsWith("`", StringComparison.Ordinal)
+                || code.EndsWith("`", StringComparison.Ordinal))
+            {
+                return $"{backticks} {code} {backticks}";
+            }
+            else
+            {
+                return $"{backticks}{code}{backticks}";
+            }
         }
 
         /// <summary>
@@ -108,9 +108,7 @@ namespace Vsxmd.Units
         /// <param name="source">The source enumerable.</param>
         /// <param name="index">The index for the n-th last.</param>
         /// <returns>The element at the specified position in the <paramref name="source"/> sequence.</returns>
-        internal static TSource NthLast<TSource>(
-            this IEnumerable<TSource> source, int index) =>
-            source.Reverse().ElementAt(index - 1);
+        internal static TSource NthLast<TSource>(this IEnumerable<TSource> source, int index) => source.Reverse().ElementAt(index - 1);
 
         /// <summary>
         /// Take all element except the last <paramref name="count"/>.
@@ -119,10 +117,7 @@ namespace Vsxmd.Units
         /// <param name="source">The source enumerable.</param>
         /// <param name="count">The number to except.</param>
         /// <returns>The generated enumerable.</returns>
-        internal static IEnumerable<TSource> TakeAllButLast<TSource>(
-            this IEnumerable<TSource> source,
-            int count) =>
-            source.Reverse().Skip(count).Reverse();
+        internal static IEnumerable<TSource> TakeAllButLast<TSource>(this IEnumerable<TSource> source, int count) => source.Reverse().Skip(count).Reverse();
 
         /// <summary>
         /// Convert the inline XML nodes to Markdown text.
@@ -140,45 +135,48 @@ namespace Vsxmd.Units
         /// The `element` value is `null`, it throws `ArgumentException`. For more, see `ToMarkdownText`.
         /// </code>
         /// </example>
-        internal static string ToMarkdownText(this XElement element) =>
-            element.Nodes()
+        internal static string ToMarkdownText(this XElement element)
+        {
+            return element
+                .Nodes()
                 .Select(ToMarkdownSpan)
                 .Aggregate(string.Empty, JoinMarkdownSpan)
                 .Trim();
+        }
 
         private static string ToMarkdownSpan(XNode node)
         {
-            var text = node as XText;
-            if (text != null)
+            if (node is XText text)
             {
                 return text.Value.Escape().TrimStart(' ').Replace("            ", string.Empty, StringComparison.InvariantCulture);
             }
 
-            var child = node as XElement;
-            if (child != null)
+            if (node is XElement child)
             {
                 switch (child.Name.ToString())
                 {
                     case "see":
-                        return $"{child.ToSeeTagMarkdownSpan()}{child.NextNode.AsSpanMargin()}";
+                        return $"{child.ToSeeTagMarkdownSpan()}{child?.NextNode?.AsSpanMargin()}";
                     case "paramref":
                     case "typeparamref":
-                        return $"{child.Attribute("name")?.Value?.AsCode()}{child.NextNode.AsSpanMargin()}";
+                        return $"{child.Attribute("name")?.Value?.AsCode()}{child?.NextNode?.AsSpanMargin()}";
                     case "c":
                     case "value":
-                        return $"{child.Value.AsCode()}{child.NextNode.AsSpanMargin()}";
+                        return $"{child.Value.AsCode()}{child?.NextNode?.AsSpanMargin()}";
                     case "code":
-                        var lang = child.Attribute("lang")?.Value ?? string.Empty;
+                        {
+                            var lang = child.Attribute("lang")?.Value ?? string.Empty;
 
-                        string value = child.Nodes().First().ToString().Replace("\t", "    ", StringComparison.InvariantCulture);
-                        var indexOf = FindIndexOf(value);
+                            string value = child.Nodes().First().ToString().Replace("\t", "    ", StringComparison.InvariantCulture);
+                            var indexOf = FindIndexOf(value);
 
-                        var codeblockLines = value.Split(Environment.NewLine.ToCharArray())
-                            .Where(t => t.Length > indexOf)
-                            .Select(t => t.Substring(indexOf));
-                        var codeblock = string.Join("\n", codeblockLines);
+                            var codeblockLines = value.Split(Environment.NewLine.ToCharArray())
+                                .Where(t => t.Length > indexOf)
+                                .Select(t => t.Substring(indexOf));
+                            var codeblock = string.Join("\n", codeblockLines);
 
-                        return $"\n\n```{lang}\n{codeblock}\n```\n\n";
+                            return $"\n\n```{lang}\n{codeblock}\n```\n\n";
+                        }
                     case "example":
                     case "para":
                         return $"\n\n{child.ToMarkdownText()}\n\n";
@@ -194,14 +192,13 @@ namespace Vsxmd.Units
         {
             List<int> result = new List<int>();
 
-            foreach (var item in node.Split(Environment.NewLine.ToCharArray())
-                .Where(t => t.Length > 0))
+            foreach (var item in node.Split(Environment.NewLine.ToCharArray()).Where(t => t.Length > 0))
             {
                 result.Add(0);
 
                 for (int i = 0; i < item.Length; i++)
                 {
-                    if (item.ToCharArray()[i] != ' ')
+                    if (item[i] != ' ')
                     {
                         break;
                     }
@@ -213,25 +210,35 @@ namespace Vsxmd.Units
             return result.Min();
         }
 
-        private static string JoinMarkdownSpan(string x, string y) =>
-            x.EndsWith("\n\n", StringComparison.Ordinal)
-                ? $"{x}{y.TrimStart()}"
-                : y.StartsWith("\n\n", StringComparison.Ordinal)
-                ? $"{x.TrimEnd()}{y}"
-                : $"{x}{y}";
+        private static string JoinMarkdownSpan(string x, string y)
+        {
+            if (x.EndsWith("\n\n", StringComparison.Ordinal))
+            {
+                return $"{x}{y.TrimStart()}";
+            }
+            else if (y.StartsWith("\n\n", StringComparison.Ordinal))
+            {
+                return $"{x.TrimEnd()}{y}";
+            }
+            else
+            {
+                return $"{x}{y}";
+            }
+        }
 
-        private static string ToSeeTagMarkdownSpan(this XElement seeTag) =>
-            seeTag.Attribute("cref")?.Value?.ToReferenceLink(useShortName: true) ??
-            seeTag.Attribute("langword")?.Value?.AsCode();
+        private static string ToSeeTagMarkdownSpan(this XElement seeTag)
+        {
+            return seeTag?.Attribute("cref")?.Value?.ToReferenceLink(useShortName: true) 
+                ?? seeTag?.Attribute("langword")?.Value?.AsCode() 
+                ?? string.Empty;
+        }
 
         private static string AsSpanMargin(this XNode node)
         {
-            var text = node as XText;
-            if (text != null && text.Value.StartsWith(" ", StringComparison.Ordinal))
+            if (node is XText text && text.Value.StartsWith(" ", StringComparison.Ordinal))
             {
                 return " ";
             }
-
             return string.Empty;
         }
     }

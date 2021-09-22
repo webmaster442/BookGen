@@ -4,12 +4,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
+
 namespace Vsxmd.Units
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Xml.Linq;
-
     /// <summary>
     /// Assembly unit.
     /// </summary>
@@ -22,18 +22,16 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="element">The assembly XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>assembly</c>.</exception>
-        internal AssemblyUnit(XElement element)
-            : base(element, "assembly")
+        internal AssemblyUnit(XElement element): base(element, "assembly")
         {
         }
 
-        private string AssemblyName => this.GetChild("name").Value;
+        private string AssemblyName => GetChild("name")?.Value ?? string.Empty;
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                $"{Href.ToAnchor()}# {this.AssemblyName}",
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return $"{Href.ToAnchor()}# {AssemblyName}";
+        }
     }
 }

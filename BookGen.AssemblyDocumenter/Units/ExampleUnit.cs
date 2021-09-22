@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
 namespace Vsxmd.Units
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-
     /// <summary>
     /// Example unit.
     /// </summary>
@@ -21,18 +21,16 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="element">The example XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>example</c>.</exception>
-        internal ExampleUnit(XElement element)
-            : base(element, "example")
+        internal ExampleUnit(XElement element) : base(element, "example")
         {
         }
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                $"##### Example",
-                $"{this.ElementContent}",
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return $"##### Example";
+            yield return $"{ElementContent}";
+        }
 
         /// <summary>
         /// Convert the example XML element to Markdown safely.
@@ -40,9 +38,16 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="element">The example XML element.</param>
         /// <returns>The generated Markdown.</returns>
-        internal static IEnumerable<string> ToMarkdown(XElement element) =>
-            element != null
-                ? new ExampleUnit(element).ToMarkdown()
-                : Enumerable.Empty<string>();
+        internal static IEnumerable<string> ToMarkdown(XElement element)
+        {
+            if (element != null)
+            {
+                return new ExampleUnit(element).ToMarkdown();
+            }
+            else
+            {
+                return Enumerable.Empty<string>();
+            }
+        }
     }
 }
