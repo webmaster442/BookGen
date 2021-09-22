@@ -48,18 +48,12 @@
             FontSize="32"
             FontWeight="Bold"
             Text="Checking for updates..." />
-        <StackPanel
+
+        <ListBox
+            x:Name="LogBox"
             Grid.Row="1"
-            Grid.Column="1">
-            <ProgressBar
-                x:Name="Progressbar"
-                Height="20"
-                VerticalAlignment="Center"
-                Foreground="{StaticResource LinkBlue}"
-                IsIndeterminate="True" />
-            <TextBlock Text="New Update available. Click Ok to Update." />
-            <TextBlock Text="No new update is available" />
-        </StackPanel>
+            Grid.Column="1"
+            ScrollViewer.VerticalScrollBarVisibility="Visible" />
         <StackPanel
             Grid.Row="2"
             Grid.ColumnSpan="2"
