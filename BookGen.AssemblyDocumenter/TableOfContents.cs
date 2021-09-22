@@ -4,12 +4,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using Vsxmd.Units;
+
 namespace Vsxmd
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Vsxmd.Units;
-
     /// <summary>
     /// Table of contents.
     /// </summary>
@@ -17,16 +17,16 @@ namespace Vsxmd
     {
         private const string Href = "contents";
 
-        private readonly IOrderedEnumerable<MemberUnit> memberUnits;
+        private readonly IEnumerable<MemberUnit> _memberUnits;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TableOfContents"/> class.
         /// <para>It convert the table of contents from the <paramref name="memberUnits"/>.</para>
         /// </summary>
         /// <param name="memberUnits">The member unit list.</param>
-        internal TableOfContents(IOrderedEnumerable<MemberUnit> memberUnits)
+        internal TableOfContents(IEnumerable<MemberUnit> memberUnits)
         {
-            this.memberUnits = memberUnits;
+            _memberUnits = memberUnits;
         }
 
         /// <summary>
@@ -39,17 +39,17 @@ namespace Vsxmd
         /// Convert the table of contents to Markdown syntax.
         /// </summary>
         /// <returns>The table of contents in Markdown syntax.</returns>
-        public IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
+        public IEnumerable<string> ToMarkdown()
+        {
+            return new[]
+{
                 $"## Contents",
-                this.memberUnits.Select(ToMarkdown).Join("\n"),
+                _memberUnits.Select(ToMarkdown).Join("\n"),
             };
+        }
 
-        private static string ToMarkdown(MemberUnit memberUnit) =>
-            $"{GetIndentation(memberUnit)}- {memberUnit.Link}";
+        private static string ToMarkdown(MemberUnit memberUnit) => $"{GetIndentation(memberUnit)}- {memberUnit.Link}";
 
-        private static string GetIndentation(MemberUnit memberUnit) =>
-            memberUnit.Kind == MemberKind.Type ? string.Empty : "  ";
+        private static string GetIndentation(MemberUnit memberUnit) => memberUnit.Kind == MemberKind.Type ? string.Empty : "  ";
     }
 }

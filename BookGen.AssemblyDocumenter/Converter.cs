@@ -4,17 +4,17 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+using Vsxmd.Units;
+
 namespace Vsxmd
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-    using Vsxmd.Units;
-
     /// <inheritdoc/>
     public class Converter : IConverter
     {
-        private readonly XDocument document;
+        private readonly XDocument _document;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Converter"/> class.
@@ -22,7 +22,7 @@ namespace Vsxmd
         /// <param name="document">The XML document.</param>
         public Converter(XDocument document)
         {
-            this.document = document;
+            _document = document;
         }
 
         /// <summary>
@@ -34,34 +34,46 @@ namespace Vsxmd
             new Converter(document).ToMarkdown();
 
         /// <inheritdoc/>
-        public string ToMarkdown() =>
-            ToUnits(this.document.Root)
-                .SelectMany(x => x.ToMarkdown())
-                .Join("\n\n")
-                .Suffix("\n");
+        public string ToMarkdown()
+        {
+            if (_document.Root != null)
+            {
+                return
+                    ToUnits(_document.Root)
+                    .SelectMany(x => x.ToMarkdown())
+                    .Join("\n\n")
+                    .Suffix("\n");
+            }
+            return string.Empty;
+        }
 
         private static IEnumerable<IUnit> ToUnits(XElement docElement)
         {
-            // assembly unit
-            var assemblyUnit = new AssemblyUnit(docElement.Element("assembly"));
-
             // member units
             var memberUnits = docElement
-                .Element("members")
-                .Elements("member")
+                ?.Element("members")
+                ?.Elements("member")
                 .Select(element => new MemberUnit(element))
                 .Where(member => member.Kind != MemberKind.NotSupported)
                 .GroupBy(unit => unit.TypeName)
                 .Select(MemberUnit.ComplementType)
                 .SelectMany(group => group)
-                .OrderBy(member => member, MemberUnit.Comparer);
+                .OrderBy(member => member, MemberUnit.Comparer) ?? Enumerable.Empty<MemberUnit>();
 
             // table of contents
             var tableOfContents = new TableOfContents(memberUnits);
 
-            return new IUnit[] { assemblyUnit }
-                .Concat(new[] { tableOfContents })
-                .Concat(memberUnits);
+            var result = new List<IUnit>();
+
+            var asm = docElement?.Element("assembly");
+            if (asm != null)
+            {
+                result.Add(new AssemblyUnit(asm));
+            }
+            result.Add(tableOfContents);
+            result.AddRange(memberUnits);
+
+            return result;
         }
     }
 }
