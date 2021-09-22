@@ -56,7 +56,7 @@ namespace BookGen.Utilities
 
         public void LaunchUpdateScript(Release release)
         {
-            var updater = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.ps1");
+            var updater = ResourceHandler.GetResourceFile<KnownFile>("Powershell/updater.ps1");
 
             FsPath script = new FsPath(_appDir, "updater.ps1");
             if (script.WriteFile(_log, updater))
