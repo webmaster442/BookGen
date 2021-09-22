@@ -3,10 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Core.Documenter;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
+using System.Collections.ObjectModel;
 using XmlDocMarkdown.Core;
 
 namespace BookGen.Modules
@@ -27,7 +29,9 @@ namespace BookGen.Modules
                                             "-a",
                                             "--assembly",
                                             "-o",
-                                            "--output");
+                                            "--output",
+                                            "-s",
+                                            "--singlepage");
             }
         }
 
@@ -44,7 +48,19 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(parameters.OutputDirectory.ToString()))
             {
-                XmlDocMarkdownGenerator.Generate(parameters.AssemblyPath.ToString(), 
+                if (parameters.SinglePage)
+                {
+                    var filename = parameters.OutputDirectory
+                        .Combine(parameters.AssemblyPath.Filename)
+                        .Combine("_doc.md");
+                    
+                    var documenter = new SinglePageAssemblyDocumenter(CurrentState.Log);
+
+                    documenter.Document(parameters.AssemblyPath, filename);
+                }
+                else
+                {
+                    var result = XmlDocMarkdownGenerator.Generate(parameters.AssemblyPath.ToString(),
                                                  parameters.OutputDirectory.ToString(),
                                                  new XmlDocMarkdownSettings
                                                  {
@@ -53,9 +69,18 @@ namespace BookGen.Modules
                                                      VisibilityLevel = XmlDocVisibilityLevel.Protected,
                                                      SkipUnbrowsable = true,
                                                  });
+                    Logdetails(result.Messages);
+                }
             }
-
             return true;
+        }
+
+        private void Logdetails(Collection<string> messages)
+        {
+            foreach (var msg in messages)
+            {
+                CurrentState.Log.Detail(msg);
+            }
         }
     }
 }

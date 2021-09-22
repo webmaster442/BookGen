@@ -3,21 +3,21 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Linq;
+using System.Collections.Generic;
 
 namespace BookGen.Gui.ArgumentParser
 {
     public static class SubcommandParser
     {
-        public static string GetCommand(string[] input, out string[] rest)
+        public static string GetCommand(IList<string> argumentsToParse)
         {
-            if (input.Length == 0)
+            if (argumentsToParse.Count == 0)
             {
-                rest = new string[0];
                 return string.Empty;
             }
-            rest = input.Skip(1).ToArray();
-            return input[0];
+            string command = argumentsToParse[0];
+            argumentsToParse.RemoveAt(0);
+            return command;
         }
     }
 }

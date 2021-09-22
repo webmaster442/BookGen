@@ -1,34 +1,37 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
+
+using System;
 
 namespace BookGen.Api
 {
     /// <summary>
-    /// Logging level
+    /// Represents a log enty
     /// </summary>
-    public enum LogLevel
+    public sealed class LogEntry
     {
         /// <summary>
-        /// Critical errors
+        /// Message log level
         /// </summary>
-        Critical = 0,
+        public LogLevel LogLevel { get; init; }
         /// <summary>
-        /// Warnings
+        /// Log message content
         /// </summary>
-        Warning = 1,
+        public string Message { get; init; }
+
         /// <summary>
-        /// Info messages
+        /// Timestamp in UTC
         /// </summary>
-        Info = 2,
+        public DateTime TimeStamp { get; init; }
+
         /// <summary>
-        /// Detailed info messages. Only visible when verbose 
+        /// Creates a new instance of LogEntry
         /// </summary>
-        Detail = 3,
-        /// <summary>
-        /// The Logger interface PrintLine method was called
-        /// </summary>
-        PrintLine = 255
+        public LogEntry()
+        {
+            Message = string.Empty;
+        }
     }
 }

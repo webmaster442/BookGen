@@ -17,6 +17,9 @@ namespace BookGen.Domain.ArgumentParsing
         [Switch("o", "output", true)]
         public FsPath OutputDirectory { get; set; }
 
+        [Switch("s", "singlepage")]
+        public bool SinglePage { get; set; }
+
         public AssemblyDocumentArguments()
         {
             AssemblyPath = FsPath.Empty;

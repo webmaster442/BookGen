@@ -6,6 +6,7 @@
 using BookGen.Gui.Wpf;
 using BookGen.Launch.Code;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -41,17 +42,30 @@ namespace BookGen.Launch
             OpenFolderCommand = new DelegateCommand(OnOpenFolder);
             ClearFoldersCommand = new DelegateCommand(OnClearFolders);
             OpenWebsiteCommand = new DelegateCommand(OnOpenWebsite);
+            CheckUpdateCommand = new UpdateCommand();
 
             InstallPathVariableCommand = new DelegateCommand(OnInstallPath, OnCaninstallPath);
             ShowChangeLogCommand = new DelegateCommand((o) => _mainWindow.ShowChangeLog());
 
             StartShellCommand = new StartShellCommand();
             StartPreviewCommand = new RunProgramCommand("BookGen.exe", "preview");
-            CheckUpdateCommand = new RunProgramCommand("BookGen.exe", "Update");
             OpenSelectedFolderCommand = new RunProgramCommand("Explorer.exe", "");
             OpenInVsCodeCommand = new RunVsCodeCommand();
             RemoveItemCommand = new DelegateCommand(OnRemoveItem);
             Version = GetVersion();
+
+            ProcessArguments();
+        }
+
+        private void ProcessArguments()
+        {
+            var args = Environment.GetCommandLineArgs().ToList();
+            var launchIndex = args.IndexOf("launch");
+            if (launchIndex > -1 &&
+                (launchIndex + 1) < args.Count)
+            {
+                StartShellCommand.Execute(args[launchIndex + 1]);
+            }
         }
 
         private void OnRemoveItem(object? obj)

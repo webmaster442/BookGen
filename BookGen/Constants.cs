@@ -8,7 +8,6 @@ namespace BookGen
     internal static class Constants
     {
         public const string WikiUrl = "https://github.com/webmaster442/BookGen/wiki";
-        public const string UpdateUrl = "https://raw.githubusercontent.com/webmaster442/BookGen/master/.github/updates.json";
 
         public const string PexelSearchUrl = "https://www.pexels.com/search/{0}/";
         public const string UnsplashSearchUrl = "https://unsplash.com/s/photos/{0}";

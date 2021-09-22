@@ -5,6 +5,7 @@
 
 using BookGen.Contracts;
 using BookGen.Framework;
+using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,11 @@ namespace BookGen.Modules.Special
                 {
                     if (words.Length > 1)
                     {
-                        return command.AutoCompleteInfo.ArgumentList.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
+                        var candidate = command.AutoCompleteInfo.ArgumentList.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
+                        if (candidate.Any())
+                            return candidate;
+                        else
+                            return ProgramConfigurator.GeneralArguments.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
                     }
                     else
                     {

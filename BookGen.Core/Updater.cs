@@ -4,18 +4,20 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
-using BookGen.Domain;
 using BookGen.Resources;
 using System;
 using System.Linq;
 using System.Net;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace BookGen.Utilities
+namespace BookGen.Core
 {
     public class Updater
     {
+        private const string UpdateUrl = "https://raw.githubusercontent.com/webmaster442/BookGen/master/.github/updates.json";
+
         private readonly ILog _log;
         private readonly Version _currentBuild;
         private readonly string _appDir;
@@ -33,11 +35,13 @@ namespace BookGen.Utilities
             {
                 client.UseDefaultCredentials = true;
                 client.Proxy = WebRequest.GetSystemWebProxy();
-                var json = client.DownloadString(new Uri(Constants.UpdateUrl));
+                var json = client.DownloadString(new Uri(UpdateUrl));
                 var result = JsonSerializer.Deserialize<Release[]>(json);
                 if (result == null)
-                    throw new InvalidOperationException("Error while deserializing update info...");
-                
+                {
+                    _log.Warning("JSON Result parse failed");
+                    return Array.Empty<Release>();
+                }
                 return result;
             }
         }
@@ -49,6 +53,11 @@ namespace BookGen.Utilities
                 .FirstOrDefault(x => x.IsPreview == preview);
         }
 
+        public Task<Release?> GetLatestReleaseAsync(CancellationToken token, bool preview = false)
+        {
+            return Task.Run(() => GetLatestRelease(preview), token);
+        }
+
         public bool IsUpdateNewerThanCurrentVersion(Release release)
         {
             return Version.Parse(release.Version) > _currentBuild;
@@ -56,7 +65,7 @@ namespace BookGen.Utilities
 
         public void LaunchUpdateScript(Release release)
         {
-            var updater = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.ps1");
+            var updater = ResourceHandler.GetResourceFile<KnownFile>("Powershell/updater.ps1");
 
             FsPath script = new FsPath(_appDir, "updater.ps1");
             if (script.WriteFile(_log, updater))
