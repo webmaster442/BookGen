@@ -9,6 +9,8 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BookGen.Core
 {
@@ -36,8 +38,10 @@ namespace BookGen.Core
                 var json = client.DownloadString(new Uri(UpdateUrl));
                 var result = JsonSerializer.Deserialize<Release[]>(json);
                 if (result == null)
-                    throw new InvalidOperationException("Error while deserializing update info...");
-                
+                {
+                    _log.Warning("JSON Result parse failed");
+                    return Array.Empty<Release>();
+                }
                 return result;
             }
         }
@@ -47,6 +51,11 @@ namespace BookGen.Core
             return GetReleases()
                 .OrderByDescending(x => Version.Parse(x.Version))
                 .FirstOrDefault(x => x.IsPreview == preview);
+        }
+
+        public Task<Release?> GetLatestReleaseAsync(CancellationToken token, bool preview = false)
+        {
+            return Task.Run(() => GetLatestRelease(preview), token);
         }
 
         public bool IsUpdateNewerThanCurrentVersion(Release release)

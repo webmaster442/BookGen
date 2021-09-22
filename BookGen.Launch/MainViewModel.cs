@@ -42,13 +42,13 @@ namespace BookGen.Launch
             OpenFolderCommand = new DelegateCommand(OnOpenFolder);
             ClearFoldersCommand = new DelegateCommand(OnClearFolders);
             OpenWebsiteCommand = new DelegateCommand(OnOpenWebsite);
+            CheckUpdateCommand = new UpdateCommand();
 
             InstallPathVariableCommand = new DelegateCommand(OnInstallPath, OnCaninstallPath);
             ShowChangeLogCommand = new DelegateCommand((o) => _mainWindow.ShowChangeLog());
 
             StartShellCommand = new StartShellCommand();
             StartPreviewCommand = new RunProgramCommand("BookGen.exe", "preview");
-            CheckUpdateCommand = new RunProgramCommand("BookGen.exe", "Update");
             OpenSelectedFolderCommand = new RunProgramCommand("Explorer.exe", "");
             OpenInVsCodeCommand = new RunVsCodeCommand();
             RemoveItemCommand = new DelegateCommand(OnRemoveItem);
