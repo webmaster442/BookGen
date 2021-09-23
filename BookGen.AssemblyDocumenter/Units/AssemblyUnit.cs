@@ -22,11 +22,11 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="element">The assembly XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>assembly</c>.</exception>
-        internal AssemblyUnit(XElement element): base(element, "assembly")
+        internal AssemblyUnit(XElement element): base(element, XmlElements.Assembly)
         {
         }
 
-        private string AssemblyName => GetChild("name")?.Value ?? string.Empty;
+        private string AssemblyName => GetChild(XmlElements.Name)?.Value ?? string.Empty;
 
         /// <inheritdoc />
         public override IEnumerable<string> ToMarkdown()

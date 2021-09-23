@@ -22,14 +22,14 @@ namespace Vsxmd.Units
         /// <param name="element">The seealso XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>seealso</c>.</exception>
         internal SeealsoUnit(XElement element)
-            : base(element, "seealso")
+            : base(element, XmlElements.Seealso)
         {
         }
 
         /// <inheritdoc />
         public override IEnumerable<string> ToMarkdown()
         {
-            yield return GetAttribute("cref").ToReferenceLink();
+            yield return GetAttribute(XmlAttributes.Cref).ToReferenceLink();
         }
 
         /// <summary>

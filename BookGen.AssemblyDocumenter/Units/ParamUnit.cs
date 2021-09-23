@@ -25,12 +25,12 @@ namespace Vsxmd.Units
         /// <param name="paramType">The parameter type corresponding to the param XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>param</c>.</exception>
         internal ParamUnit(XElement element, string paramType)
-            : base(element, "param")
+            : base(element, XmlElements.Param)
         {
             _paramType = paramType;
         }
 
-        private string Name => GetAttribute("name");
+        private string Name => GetAttribute(XmlAttributes.Name);
 
         private string Description => ElementContent;
 

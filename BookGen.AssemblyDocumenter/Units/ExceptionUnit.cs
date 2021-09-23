@@ -21,11 +21,11 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="element">The exception XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>exception</c>.</exception>
-        internal ExceptionUnit(XElement element) : base(element, "exception")
+        internal ExceptionUnit(XElement element) : base(element, XmlElements.Exception)
         {
         }
 
-        private string Name => GetAttribute("cref").ToReferenceLink();
+        private string Name => GetAttribute(XmlAttributes.Cref).ToReferenceLink();
 
         private string Description => ElementContent;
 

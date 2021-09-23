@@ -22,11 +22,11 @@ namespace Vsxmd.Units
         /// <param name="element">The typeparam XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>typeparam</c>.</exception>
         internal TypeparamUnit(XElement element)
-            : base(element, "typeparam")
+            : base(element, XmlElements.Typeparam)
         {
         }
 
-        private string Name => GetAttribute("name");
+        private string Name => GetAttribute(XmlAttributes.Name);
 
         private string Description => ElementContent;
 

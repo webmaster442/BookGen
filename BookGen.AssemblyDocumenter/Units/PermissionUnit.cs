@@ -22,11 +22,11 @@ namespace Vsxmd.Units
         /// <param name="element">The permission XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>permission</c>.</exception>
         internal PermissionUnit(XElement element)
-            : base(element, "permission")
+            : base(element, XmlElements.Permission)
         {
         }
 
-        private string Name => GetAttribute("cref").ToReferenceLink();
+        private string Name => GetAttribute(XmlAttributes.Cref).ToReferenceLink();
 
         private string Description => ElementContent;
 

@@ -4,10 +4,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace Vsxmd.Units
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// <see cref="IUnit"/> is wrapper to handle XML elements.
     /// </summary>

@@ -29,11 +29,11 @@ namespace Vsxmd.Units
         /// <param name="element">The member XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>member</c>.</exception>
         internal MemberUnit(XElement element)
-            : base(element, "member")
+            : base(element, XmlElements.Member)
         {
             _name = new MemberName(
-                GetAttribute("name"),
-                GetChildren("param").Select(x => x.Attribute("name")?.Value ?? string.Empty));
+                GetAttribute(XmlAttributes.Name),
+                GetChildren(XmlElements.Param).Select(x => x.Attribute("name")?.Value ?? string.Empty));
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Vsxmd.Units
         {
             get
             {
-                if (GetChild("inheritdoc") != null)
+                if (GetChild(XmlElements.Inheritdoc) != null)
                 {
                     yield return "##### Summary";
                     yield return "*Inherit from parent.*";
@@ -150,7 +150,7 @@ namespace Vsxmd.Units
 
         private static MemberUnit Create(string typeName)
         {
-            return new MemberUnit(new XElement("member", new XAttribute("name", $"T:{typeName}")));
+            return new MemberUnit(new XElement(XmlElements.Member, new XAttribute(XmlAttributes.Name, $"T:{typeName}")));
         }
     }
 }

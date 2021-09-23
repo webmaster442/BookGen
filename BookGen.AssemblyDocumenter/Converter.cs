@@ -51,8 +51,8 @@ namespace Vsxmd
         {
             // member units
             var memberUnits = docElement
-                ?.Element("members")
-                ?.Elements("member")
+                ?.Element(XmlElements.Members)
+                ?.Elements(XmlElements.Member)
                 .Select(element => new MemberUnit(element))
                 .Where(member => member.Kind != MemberKind.NotSupported)
                 .GroupBy(unit => unit.TypeName)
@@ -65,7 +65,7 @@ namespace Vsxmd
 
             var result = new List<IUnit>();
 
-            var asm = docElement?.Element("assembly");
+            var asm = docElement?.Element(XmlElements.Assembly);
             if (asm != null)
             {
                 result.Add(new AssemblyUnit(asm));

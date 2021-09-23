@@ -22,7 +22,7 @@ namespace Vsxmd.Units
         /// <param name="element">The remarks XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>remarks</c>.</exception>
         internal RemarksUnit(XElement element)
-            : base(element, "remarks")
+            : base(element, XmlElements.Remarks)
         {
         }
 

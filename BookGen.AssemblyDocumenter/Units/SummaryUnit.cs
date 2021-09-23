@@ -22,7 +22,7 @@ namespace Vsxmd.Units
         /// <param name="element">The summary XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>summary</c>.</exception>
         internal SummaryUnit(XElement element)
-            : base(element, "summary")
+            : base(element, XmlElements.Summary)
         {
         }
 
