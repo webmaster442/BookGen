@@ -38,7 +38,7 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="element">The example XML element.</param>
         /// <returns>The generated Markdown.</returns>
-        internal static IEnumerable<string> ToMarkdown(XElement element)
+        internal static IEnumerable<string> ToMarkdown(XElement? element)
         {
             if (element != null)
             {

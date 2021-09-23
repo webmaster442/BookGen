@@ -4,19 +4,19 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
 namespace Vsxmd.Units
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-
     /// <summary>
     /// Param unit.
     /// </summary>
     internal class ParamUnit : BaseUnit
     {
-        private readonly string paramType;
+        private readonly string _paramType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParamUnit"/> class.
@@ -27,19 +27,18 @@ namespace Vsxmd.Units
         internal ParamUnit(XElement element, string paramType)
             : base(element, "param")
         {
-            this.paramType = paramType;
+            _paramType = paramType;
         }
 
-        private string Name => this.GetAttribute("name");
+        private string Name => GetAttribute("name");
 
-        private string Description => this.ElementContent;
+        private string Description => ElementContent;
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                $"| {this.Name} | {this.paramType.ToReferenceLink()} | {this.Description} |",
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return $"| {Name} | {_paramType.ToReferenceLink()} | {Description} |";
+        }
 
         /// <summary>
         /// Convert the param XML element to Markdown safely.
@@ -60,15 +59,18 @@ namespace Vsxmd.Units
         {
             if (!elements.Any())
             {
-                return
-                    memberKind != MemberKind.Constructor &&
-                    memberKind != MemberKind.Method
-                    ? Enumerable.Empty<string>()
-                    : new[]
-                    {
+                if (memberKind != MemberKind.Constructor && memberKind != MemberKind.Method)
+                {
+                    return Enumerable.Empty<string>();
+                }
+                else
+                {
+                    return new[] 
+                    { 
                         "##### Parameters",
                         $"This {memberKind.ToLowerString()} has no parameters.",
                     };
+                }
             }
 
             var markdowns = elements

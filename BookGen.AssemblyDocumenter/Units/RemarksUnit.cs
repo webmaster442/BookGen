@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
 namespace Vsxmd.Units
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-
     /// <summary>
     /// Remarks unit.
     /// </summary>
@@ -27,12 +27,11 @@ namespace Vsxmd.Units
         }
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                "##### Remarks",
-                this.ElementContent,
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return "##### Remarks";
+            yield return ElementContent;
+        }
 
         /// <summary>
         /// Convert the remarks XML element to Markdown safely.
@@ -40,9 +39,16 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="element">The remarks XML element.</param>
         /// <returns>The generated Markdown.</returns>
-        internal static IEnumerable<string> ToMarkdown(XElement element) =>
-            element != null
-                ? new RemarksUnit(element).ToMarkdown()
-                : Enumerable.Empty<string>();
+        internal static IEnumerable<string> ToMarkdown(XElement? element)
+        {
+            if (element != null)
+            {
+                return new RemarksUnit(element).ToMarkdown();
+            }
+            else
+            {
+                return Enumerable.Empty<string>();
+            }
+        }
     }
 }

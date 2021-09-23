@@ -14,7 +14,7 @@ namespace Vsxmd.Units
     /// <summary>
     /// Member name.
     /// </summary>
-    internal class MemberName : IComparable<MemberName>
+    internal class MemberName
     {
         private readonly string _name;
         private readonly char _type;
@@ -126,7 +126,7 @@ namespace Vsxmd.Units
             }
         }
 
-        private string TypeShortName
+        internal string TypeShortName
         {
             get
             {
@@ -148,7 +148,7 @@ namespace Vsxmd.Units
         private string StrippedName =>
             _name.Substring(2);
 
-        private string LongName =>
+        internal string LongName =>
             StrippedName.Split('(').First();
 
         private string MsdnName =>
@@ -167,23 +167,6 @@ namespace Vsxmd.Units
                     MemberKind.Constants or MemberKind.Property or MemberKind.Constructor or MemberKind.Method => NameSegments.Last(),
                     _ => string.Empty
                 };
-            }
-        }
-
-        /// <inheritdoc />
-        public int CompareTo(MemberName? other)
-        {
-            if (TypeShortName != other?.TypeShortName)
-            {
-                return string.Compare(TypeShortName, other.TypeShortName, StringComparison.Ordinal);
-            }
-            else if (Kind != other?.Kind)
-            {
-                return Kind.CompareTo(other?.Kind);
-            }
-            else
-            {
-                return string.Compare(LongName, other.LongName, StringComparison.Ordinal);
             }
         }
 

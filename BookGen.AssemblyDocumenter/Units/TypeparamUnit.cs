@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
 namespace Vsxmd.Units
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-
     /// <summary>
     /// Typeparam unit.
     /// </summary>
@@ -26,16 +26,15 @@ namespace Vsxmd.Units
         {
         }
 
-        private string Name => this.GetAttribute("name");
+        private string Name => GetAttribute("name");
 
-        private string Description => this.ElementContent;
+        private string Description => ElementContent;
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                $"| {this.Name} | {this.Description} |",
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return $"| {Name} | {Description} |";
+        }
 
         /// <summary>
         /// Convert the param XML element to Markdown safely.

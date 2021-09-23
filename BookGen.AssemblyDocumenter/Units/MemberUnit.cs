@@ -14,7 +14,7 @@ namespace Vsxmd.Units
     /// <summary>
     /// Member unit.
     /// </summary>
-    internal class MemberUnit : BaseUnit
+    internal partial class MemberUnit : BaseUnit
     {
         private readonly MemberName _name;
 
@@ -65,17 +65,10 @@ namespace Vsxmd.Units
         {
             get
             {
-                if (GetChild("inheritdoc") == null)
+                if (GetChild("inheritdoc") != null)
                 {
-                    return Enumerable.Empty<string>();
-                }
-                else
-                {
-                    return new[]
-{
-                        "##### Summary",
-                        "*Inherit from parent.*",
-                    };
+                    yield return "##### Summary";
+                    yield return "*Inherit from parent.*";
                 }
             }
         }
@@ -158,16 +151,6 @@ namespace Vsxmd.Units
         private static MemberUnit Create(string typeName)
         {
             return new MemberUnit(new XElement("member", new XAttribute("name", $"T:{typeName}")));
-        }
-
-        private class MemberUnitComparer : IComparer<MemberUnit>
-        {
-            public int Compare(MemberUnit? x, MemberUnit? y)
-            {
-                if (x != null && y != null)
-                    return x._name.CompareTo(y._name);
-                return -1;
-            }
         }
     }
 }

@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
 namespace Vsxmd.Units
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-
     /// <summary>
     /// Seealso unit.
     /// </summary>
@@ -27,11 +27,10 @@ namespace Vsxmd.Units
         }
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                $"- {this.GetAttribute("cref").ToReferenceLink()}",
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return GetAttribute("cref").ToReferenceLink();
+        }
 
         /// <summary>
         /// Convert the seealso XML element to Markdown safely.

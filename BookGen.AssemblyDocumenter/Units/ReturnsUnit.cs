@@ -4,13 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+
 namespace Vsxmd.Units
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-
     /// <summary>
     /// Returns unit.
     /// </summary>
@@ -27,12 +27,11 @@ namespace Vsxmd.Units
         }
 
         /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown() =>
-            new[]
-            {
-                "##### Returns",
-                this.ElementContent,
-            };
+        public override IEnumerable<string> ToMarkdown()
+        {
+            yield return "##### Returns";
+            yield return ElementContent;
+        }
 
         /// <summary>
         /// Convert the returns XML element to Markdown safely.
@@ -40,9 +39,16 @@ namespace Vsxmd.Units
         /// </summary>
         /// <param name="element">The returns XML element.</param>
         /// <returns>The generated Markdown.</returns>
-        internal static IEnumerable<string> ToMarkdown(XElement element) =>
-            element != null
-                ? new ReturnsUnit(element).ToMarkdown()
-                : Enumerable.Empty<string>();
+        internal static IEnumerable<string> ToMarkdown(XElement? element)
+        {
+            if (element != null)
+            {
+                return new ReturnsUnit(element).ToMarkdown();
+            }
+            else
+            {
+                return Enumerable.Empty<string>();
+            }
+        }
     }
 }
