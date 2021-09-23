@@ -1,8 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="IUnit.cs" company="Junle Li">
-//     Copyright (c) Junle Li. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------------
+// (c) 2021 Ruzsinszki Gábor
+// Based on the work of Junle Li and the Vsxmd project
+// https://github.com/lijunle/Vsxmd
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
 
 using System.Collections.Generic;
 

@@ -1,4 +1,11 @@
-﻿namespace Vsxmd
+﻿//-----------------------------------------------------------------------------
+// (c) 2021 Ruzsinszki Gábor
+// Based on the work of Junle Li and the Vsxmd project
+// https://github.com/lijunle/Vsxmd
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace Vsxmd
 {
     internal static class XmlElements
     {
