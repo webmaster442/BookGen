@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace Vsxmd
+﻿namespace Vsxmd
 {
     internal static class XmlElements
     {
@@ -18,11 +16,5 @@ namespace Vsxmd
         public const string Seealso = "seealso";
         public const string Summary = "summary";
         public const string Typeparam = "typeparam";
-    }
-
-    internal static class XmlAttributes
-    {
-        public const string Cref = "cref";
-        public const string Name = "name";
     }
 }

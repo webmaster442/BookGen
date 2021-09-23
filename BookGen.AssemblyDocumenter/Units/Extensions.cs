@@ -159,13 +159,13 @@ namespace Vsxmd.Units
                         return $"{child.ToSeeTagMarkdownSpan()}{child.NextNode?.AsSpanMargin()}";
                     case "paramref":
                     case "typeparamref":
-                        return $"{child.Attribute("name")?.Value?.AsCode()}{child.NextNode?.AsSpanMargin()}";
+                        return $"{child.Attribute(XmlAttributes.Name)?.Value?.AsCode()}{child.NextNode?.AsSpanMargin()}";
                     case "c":
                     case "value":
                         return $"{child.Value.AsCode()}{child.NextNode?.AsSpanMargin()}";
                     case "code":
                         {
-                            var lang = child.Attribute("lang")?.Value ?? string.Empty;
+                            var lang = child.Attribute(XmlAttributes.Lang)?.Value ?? string.Empty;
 
                             string value = child.Nodes().First().ToString().Replace("\t", "    ", StringComparison.InvariantCulture);
                             var indexOf = FindIndexOf(value);
@@ -228,8 +228,8 @@ namespace Vsxmd.Units
 
         private static string ToSeeTagMarkdownSpan(this XElement seeTag)
         {
-            return seeTag?.Attribute("cref")?.Value?.ToReferenceLink(useShortName: true) 
-                ?? seeTag?.Attribute("langword")?.Value?.AsCode() 
+            return seeTag?.Attribute(XmlAttributes.Cref)?.Value?.ToReferenceLink(useShortName: true) 
+                ?? seeTag?.Attribute(XmlAttributes.Langword)?.Value?.AsCode() 
                 ?? string.Empty;
         }
 
