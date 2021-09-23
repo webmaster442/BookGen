@@ -118,6 +118,11 @@ namespace BookGen.Core
             return File.Create(target.ToString());
         }
 
+        public static FileStream OpenStream(this FsPath source)
+        {
+            return File.OpenRead(source.ToString());
+        }
+
         public static bool CreateBackup(this FsPath source, ILog log)
         {
             try
