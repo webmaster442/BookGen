@@ -156,13 +156,13 @@ namespace Vsxmd.Units
                 switch (child.Name.ToString())
                 {
                     case "see":
-                        return $"{child.ToSeeTagMarkdownSpan()}{child?.NextNode?.AsSpanMargin()}";
+                        return $"{child.ToSeeTagMarkdownSpan()}{child.NextNode?.AsSpanMargin()}";
                     case "paramref":
                     case "typeparamref":
-                        return $"{child.Attribute("name")?.Value?.AsCode()}{child?.NextNode?.AsSpanMargin()}";
+                        return $"{child.Attribute("name")?.Value?.AsCode()}{child.NextNode?.AsSpanMargin()}";
                     case "c":
                     case "value":
-                        return $"{child.Value.AsCode()}{child?.NextNode?.AsSpanMargin()}";
+                        return $"{child.Value.AsCode()}{child.NextNode?.AsSpanMargin()}";
                     case "code":
                         {
                             var lang = child.Attribute("lang")?.Value ?? string.Empty;
