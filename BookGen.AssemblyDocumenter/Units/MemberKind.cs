@@ -5,7 +5,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace Vsxmd.Units
+namespace BookGen.AssemblyDocumenter.Units
 {
     /// <summary>
     /// The member kind.

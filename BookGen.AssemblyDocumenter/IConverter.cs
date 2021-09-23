@@ -5,7 +5,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace Vsxmd
+namespace BookGen.AssemblyDocumenter
 {
     /// <summary>
     /// Converter for XML document to Markdown syntax conversion.

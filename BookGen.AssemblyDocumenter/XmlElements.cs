@@ -5,7 +5,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace Vsxmd
+namespace BookGen.AssemblyDocumenter
 {
     internal static class XmlElements
     {

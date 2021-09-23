@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Vsxmd.Units
+namespace BookGen.AssemblyDocumenter.Units
 {
     internal partial class MemberUnit
     {

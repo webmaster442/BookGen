@@ -7,7 +7,7 @@
 
 using System.Collections.Generic;
 
-namespace Vsxmd.Units
+namespace BookGen.AssemblyDocumenter.Units
 {
     /// <summary>
     /// <see cref="IUnit"/> is wrapper to handle XML elements.

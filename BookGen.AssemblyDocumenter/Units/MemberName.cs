@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Vsxmd.Units
+namespace BookGen.AssemblyDocumenter.Units
 {
     /// <summary>
     /// Member name.

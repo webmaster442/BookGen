@@ -5,9 +5,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace Vsxmd
+namespace BookGen.AssemblyDocumenter
 {
-
     internal static class XmlAttributes
     {
         public const string Cref = "cref";

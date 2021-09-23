@@ -5,11 +5,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.AssemblyDocumenter.Units;
 using System.Collections.Generic;
 using System.Linq;
-using Vsxmd.Units;
 
-namespace Vsxmd
+namespace BookGen.AssemblyDocumenter
 {
     /// <summary>
     /// Table of contents.
@@ -42,11 +42,8 @@ namespace Vsxmd
         /// <returns>The table of contents in Markdown syntax.</returns>
         public IEnumerable<string> ToMarkdown()
         {
-            return new[]
-{
-                $"## Contents",
-                _memberUnits.Select(ToMarkdown).Join("\n"),
-            };
+            yield return $"## Contents";
+            yield return _memberUnits.Select(ToMarkdown).Join("\n");
         }
 
         private static string ToMarkdown(MemberUnit memberUnit) => $"{GetIndentation(memberUnit)}- {memberUnit.Link}";

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Vsxmd.Units
+namespace BookGen.AssemblyDocumenter.Units
 {
     /// <summary>
     /// Param unit.

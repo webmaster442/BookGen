@@ -5,12 +5,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.AssemblyDocumenter.Units;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Vsxmd.Units;
 
-namespace Vsxmd
+namespace BookGen.AssemblyDocumenter
 {
     /// <inheritdoc/>
     public class Converter : IConverter

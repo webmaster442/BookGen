@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace Vsxmd.Units
+namespace BookGen.AssemblyDocumenter.Units
 {
     /// <summary>
     /// The base unit.
