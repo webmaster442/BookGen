@@ -85,21 +85,40 @@ namespace BookGen.AssemblyDocumenter.Units
         /// <remarks>Reference: http://meta.stackexchange.com/questions/55437/how-can-the-backtick-character-be-included-in-code .</remarks>
         internal static string AsCode(this string code)
         {
+            code = EscapeBackticks(code);
+            return ParseBrackets(code);
+        }
+
+        private static string EscapeBackticks(string str)
+        {
             string backticks = "`";
-            while (code.Contains(backticks, StringComparison.InvariantCulture))
+            while (str.Contains(backticks, StringComparison.InvariantCulture))
             {
                 backticks += "`";
             }
 
-            if (code.StartsWith("`", StringComparison.Ordinal)
-                || code.EndsWith("`", StringComparison.Ordinal))
+            return str.StartsWith("`", StringComparison.Ordinal) || str.EndsWith("`", StringComparison.Ordinal)
+                ? $"{backticks} {str} {backticks}"
+                : $"{backticks}{str}{backticks}";
+        }
+
+        private static string ParseBrackets(string str)
+        {
+            Dictionary<string, string> bracketsToReplace = new Dictionary<string, string>
             {
-                return $"{backticks} {code} {backticks}";
-            }
-            else
+                { "&lt;", "<" },
+                { "&gt;", ">" },
+            };
+
+            foreach (var (originalSymbol, newSymbol) in bracketsToReplace)
             {
-                return $"{backticks}{code}{backticks}";
+                while (str.Contains(originalSymbol, StringComparison.InvariantCulture))
+                {
+                    str = str.Replace(originalSymbol, newSymbol, StringComparison.InvariantCulture);
+                }
             }
+
+            return str;
         }
 
         /// <summary>
