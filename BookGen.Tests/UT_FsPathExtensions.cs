@@ -7,6 +7,7 @@ using BookGen.Core;
 using BookGen.Tests.Environment;
 using NUnit.Framework;
 using System.IO;
+using System.Linq;
 
 namespace BookGen.Tests
 {
@@ -81,13 +82,15 @@ namespace BookGen.Tests
             var source = new FsPath(TestEnvironment.GetTestFolder());
             var target = new FsPath(_testDir, "copydir");
 
+            var expectedCount = source.GetAllFiles(false).Count();
+
             var result = source.CopyDirectory(target, TestEnvironment.GetMockedLog());
 
             Assert.IsTrue(result);
 
             var files = Directory.GetFiles(Path.Combine(_testDir, "copydir"));
 
-            Assert.AreEqual(6, files.Length);
+            Assert.AreEqual(expectedCount, files.Length);
         }
 
         [TestCase("", "")]
@@ -166,6 +169,26 @@ namespace BookGen.Tests
             var result = source.GetRelativePathRelativeTo(relativeTo);
 
             Assert.AreEqual(expected, result.ToString());
+        }
+
+        [TestCase(@"c:\foo.bar", ".txt", @"c:\foo.txt")]
+        [TestCase(@"c:\foo.bar", "", @"c:\foo.")]
+        [TestCase(@"c:\foo.bar", "txt", @"c:\foo.txt")]
+        public void EnsureThat_FsUtils_ChangeExtension_Works(string input, string ext, string expected)
+        {
+            var result = new FsPath(input).ChangeExtension(ext);
+            Assert.AreEqual(expected, result.ToString());
+        }
+
+        [TestCase("", false)]
+        [TestCase(@"c:\foo.bar", false)]
+        [TestCase(@"c:\foo.*", true)]
+        [TestCase(@"c:\*.bar", true)]
+        [TestCase(@"c:\*.*", true)]
+        public void EnsureThat_FsUtils_IsWildCard_Works(string input, bool expected)
+        {
+            var result = new FsPath(input).IsWildCard();
+            Assert.AreEqual(expected, result);
         }
     }
 }

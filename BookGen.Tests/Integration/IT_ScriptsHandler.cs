@@ -11,7 +11,6 @@ using BookGen.Framework.Scripts;
 using BookGen.Tests.Environment;
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace BookGen.Tests.Integration
 {

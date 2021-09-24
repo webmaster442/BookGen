@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Configuration;
+using BookGen.Utilities;
 using NUnit.Framework;
 using System;
 using System.IO;
@@ -27,6 +28,9 @@ namespace BookGen.Tests.SystemTests
 
             CreateDirectory(Workdir);
             CreateDirectory(BuildDir);
+
+            Program.CurrentState = ProgramConfigurator.ConfigureState(new System.Collections.Generic.List<string>());
+
             Configuration = Config.CreateDefault(Program.CurrentState.ConfigVersion);
             Configuration.TOCFile = "Summary.md";
             Configuration.ImageDir = "Img";

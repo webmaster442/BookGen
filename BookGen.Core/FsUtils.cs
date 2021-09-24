@@ -118,6 +118,11 @@ namespace BookGen.Core
             return File.Create(target.ToString());
         }
 
+        public static FileStream OpenStream(this FsPath source)
+        {
+            return File.OpenRead(source.ToString());
+        }
+
         public static bool CreateBackup(this FsPath source, ILog log)
         {
             try
@@ -412,6 +417,12 @@ namespace BookGen.Core
         public static bool IsWildCard(this FsPath path)
         {
             return path.ToString().Contains("*");
+        }
+
+        public static FsPath ChangeExtension(this FsPath path, string extension)
+        {
+            var x = Path.ChangeExtension(path.ToString(), extension);
+            return new FsPath(x);
         }
     }
 }
