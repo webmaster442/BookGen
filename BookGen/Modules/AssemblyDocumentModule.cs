@@ -3,7 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Documenter;
+using BookGen.AssemblyDocumenter;
+using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
@@ -53,10 +54,20 @@ namespace BookGen.Modules
                     var filename = parameters.OutputDirectory
                         .Combine(parameters.AssemblyPath.Filename)
                         .Combine("_doc.md");
-                    
-                    var documenter = new SinglePageAssemblyDocumenter(CurrentState.Log);
 
-                    documenter.Document(parameters.AssemblyPath, filename);
+                    var xmlfile = parameters.AssemblyPath.ChangeExtension(".xml");
+
+                    if (XmlDocValidator.ValidateXml(xmlfile, CurrentState.Log))
+                    {
+
+                        var documenter = new XmlDocumenter(xmlfile);
+
+                        var result = documenter.ToMarkdown();
+
+                        filename.WriteFile(CurrentState.Log, result);
+                        return true;
+                    }
+                    return false;
                 }
                 else
                 {
@@ -70,9 +81,9 @@ namespace BookGen.Modules
                                                      SkipUnbrowsable = true,
                                                  });
                     Logdetails(result.Messages);
+                    return true;
                 }
             }
-            return true;
         }
 
         private void Logdetails(Collection<string> messages)

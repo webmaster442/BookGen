@@ -418,5 +418,11 @@ namespace BookGen.Core
         {
             return path.ToString().Contains("*");
         }
+
+        public static FsPath ChangeExtension(this FsPath path, string extension)
+        {
+            var x = Path.ChangeExtension(path.ToString(), extension);
+            return new FsPath(x);
+        }
     }
 }
