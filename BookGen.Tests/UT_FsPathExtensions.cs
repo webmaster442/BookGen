@@ -7,6 +7,7 @@ using BookGen.Core;
 using BookGen.Tests.Environment;
 using NUnit.Framework;
 using System.IO;
+using System.Linq;
 
 namespace BookGen.Tests
 {
@@ -81,13 +82,15 @@ namespace BookGen.Tests
             var source = new FsPath(TestEnvironment.GetTestFolder());
             var target = new FsPath(_testDir, "copydir");
 
+            var expectedCount = source.GetAllFiles(false).Count();
+
             var result = source.CopyDirectory(target, TestEnvironment.GetMockedLog());
 
             Assert.IsTrue(result);
 
             var files = Directory.GetFiles(Path.Combine(_testDir, "copydir"));
 
-            Assert.AreEqual(6, files.Length);
+            Assert.AreEqual(expectedCount, files.Length);
         }
 
         [TestCase("", "")]

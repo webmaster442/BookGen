@@ -22,7 +22,15 @@ namespace BookGen
 #pragma warning disable CS8618 
         // Non-nullable field must contain a non-null value when exiting constructor.
         // Consider declaring as nullable.
-        internal static ProgramState CurrentState { get; private set; }
+        internal static ProgramState CurrentState 
+        { 
+            get;
+#if TESTBUILD
+            set;
+#else
+            private set;
+#endif
+        }
 #pragma warning restore CS8618
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
 
@@ -57,7 +65,7 @@ namespace BookGen
         }
 #endif
         }
-        #endregion
+#endregion
 
         private static readonly ModuleBase[] StatelessModules = new ModuleBase[]
         {
