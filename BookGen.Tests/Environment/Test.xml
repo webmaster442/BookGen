@@ -1,0 +1,563 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BookGen.Api</name>
+    </assembly>
+    <members>
+        <member name="T:BookGen.Api.Configuration.IReadOnlyAsset">
+            <summary>
+            Represents an asset that needs to be coppied to the output directory
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyAsset.Source">
+            <summary>
+            Source path not containing the root source folder
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyAsset.Target">
+            <summary>
+            Target path not containing the target root folder
+            </summary>
+        </member>
+        <member name="T:BookGen.Api.Configuration.IReadOnlyBuildConfig">
+            <summary>
+            Current build configuration
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyBuildConfig.OutPutDirectory">
+            <summary>
+            Config output directory
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyBuildConfig.TemplateFile">
+            <summary>
+            Template file path
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyBuildConfig.TemplateAssets">
+            <summary>
+            List of required assets
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyBuildConfig.StyleClasses">
+            <summary>
+            Additional style classes that will be aplied
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyBuildConfig.TemplateOptions">
+            <summary>
+            Additional template options
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyBuildConfig.ImageOptions">
+            <summary>
+            Image processing options for this build configuration
+            </summary>
+        </member>
+        <member name="T:BookGen.Api.Configuration.IReadOnlyConfig">
+            <summary>
+            Provides acces the current configuration
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.HostName">
+            <summary>
+            Host name
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.ImageDir">
+            <summary>
+            Images directory
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.Index">
+            <summary>
+            Index file
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.LinksOutSideOfHostOpenNewTab">
+            <summary>
+            Links that do not target the HostName open in new tabs
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.Metadata">
+            <summary>
+            Metadata information
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.ScriptsDirectory">
+            <summary>
+            Scripts folder
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.StopwordsFile">
+            <summary>
+            File containing list of stopwords to ignore, when generating chapter summary.
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.TargetEpub">
+            <summary>
+            Build configuration for epubs
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.TargetPrint">
+            <summary>
+            Build configuration for Printing
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.TargetWeb">
+            <summary>
+            Build configuration for static website
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.TargetWordpress">
+            <summary>
+            Build configuration for Wordpress export
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.TOCFile">
+            <summary>
+            Table of contents file
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.Translations">
+            <summary>
+            Translations
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyConfig.Version">
+            <summary>
+            Config file version
+            </summary>
+        </member>
+        <member name="T:BookGen.Api.Configuration.IReadonlyImageOptions">
+            <summary>
+            Image pipeline options
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadonlyImageOptions.RecodeJpegToWebp">
+            <summary>
+            If set to true, then JPEG images will be converted to WebP format
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadonlyImageOptions.RecodePngToWebp">
+            <summary>
+            If set to true, then PNG images will be converted to WebP format
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadonlyImageOptions.EncodeSvgAsWebp">
+            <summary>
+            If set to true, then SVG images will be converted to WebP format
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadonlyImageOptions.ImageQuality">
+            <summary>
+            WebP codec quality. Minimum 0 and maximum 100. Only used, when RecodeJpegToWebp enabled.
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadonlyImageOptions.EnableResize">
+            <summary>
+            If set to true, then output images will be resized
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadonlyImageOptions.MaxWidth">
+            <summary>
+            Maximal output image width when resize enabled or image is SVG
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadonlyImageOptions.MaxHeight">
+            <summary>
+            Maximal output image height when resize enabled or image is SVG
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadonlyImageOptions.InlineImageSizeLimit">
+            <summary>
+            Inline images, that are smaller the given limit in bytes
+            </summary>
+        </member>
+        <member name="T:BookGen.Api.Configuration.IReadOnlyMetadata">
+            <summary>
+            Metadata informations
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyMetadata.Author">
+            <summary>
+            Atuhtor name
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyMetadata.CoverImage">
+            <summary>
+            Cover Image
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnlyMetadata.Title">
+            <summary>
+            Book title
+            </summary>
+        </member>
+        <member name="T:BookGen.Api.Configuration.IReadOnlyTemplateOptions">
+            <summary>
+            Template options.
+            </summary>
+        </member>
+        <member name="M:BookGen.Api.Configuration.IReadOnlyTemplateOptions.TryGetOption``1(System.String,``0@)">
+            <summary>
+            Tries to get an option from the config
+            </summary>
+            <typeparam name="T">Option to cast to type</typeparam>
+            <param name="setting">Setting name</param>
+            <param name="value">Casted setting value</param>
+            <returns>true, if setting found and casted succesfully to target type, otherwise false</returns>
+        </member>
+        <member name="T:BookGen.Api.Configuration.IReadOnlyTranslations">
+            <summary>
+            a Dictionary of key - value paris that can be used for translating
+            </summary>
+        </member>
+        <member name="T:BookGen.Api.Configuration.IReadOnylStyleClasses">
+            <summary>
+            Additional style classes that will be aplied to html elements
+            during rendering
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.Heading1">
+            <summary>
+            Style classed for H1 elements
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.Heading2">
+            <summary>
+            Style classed for H2 elements
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.Heading3">
+            <summary>
+            Style classed for H3 elements
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.Image">
+            <summary>
+            Img
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.Table">
+            <summary>
+            Style classed for Table elements
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.Blockquote">
+            <summary>
+            Style classed for Blockquote elements
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.Figure">
+            <summary>
+            Style classed for Figure elements
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.FigureCaption">
+            <summary>
+            Style classed for FigureCaption elements
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.Link">
+            <summary>
+            Style classed for A elements
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.OrderedList">
+            <summary>
+            Style classed for Ol elements
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.UnorederedList">
+            <summary>
+            Style classed for Ul elements
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Configuration.IReadOnylStyleClasses.ListItem">
+            <summary>
+            Style classed for Li elements
+            </summary>
+        </member>
+        <member name="T:BookGen.Api.IArguments">
+            <summary>
+            Represents Arguments and values that are passed to the Script.
+            Argument names are case insensitive.
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.IArguments.ArgumentNames">
+            <summary>
+            Argument names -> all lowercase
+            </summary>
+        </member>
+        <member name="M:BookGen.Api.IArguments.HasArgument(System.String)">
+            <summary>
+            Checks if the specified argument name is in the collection or not.
+            </summary>
+            <param name="name">Argument name to search</param>
+            <returns>true, if argument name can be found, otherwise false</returns>
+        </member>
+        <member name="P:BookGen.Api.IArguments.Item(System.Int32)">
+            <summary>
+            Get argument based on its index
+            </summary>
+            <param name="index">Index of argument to get</param>
+            <returns>The argument value at the specified index</returns>
+        </member>
+        <member name="M:BookGen.Api.IArguments.GetArgumentOrFallback``1(System.String,``0)">
+            <summary>
+            Tries to get argument value and convert it to type.
+            If argument not found fallback value will be returned
+            </summary>
+            <typeparam name="T">Specifies conversion target type. Must implement IConvertible</typeparam>
+            <param name="argument">Argument to get</param>
+            <param name="fallback">Fallback value if argument not found</param>
+            <returns>Argument value converted to type if found, otherwise the fallback value</returns>
+        </member>
+        <member name="M:BookGen.Api.IArguments.GetArgumentOrThrow``1(System.String)">
+            <summary>
+            Get argument value and convert it to type.
+            If argument not found an exception will be thrown
+            </summary>
+            <typeparam name="T">Specifies conversion target type. Must implement IConvertible</typeparam>
+            <param name="argument">Argument to get</param>
+            <returns>Argument value converted to type.</returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="T:BookGen.Api.ILog">
+            <summary>
+            Interface for logging. Provides methods that allow information logging
+            to console.
+            </summary>
+        </member>
+        <member name="M:BookGen.Api.ILog.Flush">
+            <summary>
+            Write out all remaining info in buffered implementations.
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.ILog.LogLevel">
+            <summary>
+            Current log level
+            </summary>
+        </member>
+        <member name="M:BookGen.Api.ILog.Log(BookGen.Api.LogLevel,System.String,System.Object[])">
+            <summary>
+            Log a message
+            </summary>
+            <param name="logLevel">Log level</param>
+            <param name="format">Message, a fomat string that can be handled by the String.Format method</param>
+            <param name="args">Arguments for formatting</param>
+        </member>
+        <member name="M:BookGen.Api.ILog.PrintLine(System.String)">
+            <summary>
+            Print a string, without formatting
+            </summary>
+            <param name="str">string to print</param>
+        </member>
+        <member name="M:BookGen.Api.ILog.PrintLine(System.Object)">
+            <summary>
+            Print an object
+            </summary>
+            <param name="obj">object to print</param>
+        </member>
+        <member name="M:BookGen.Api.ILog.Critical(System.String,System.Object[])">
+            <summary>
+            Log a Critical error. 
+            Critcal error is an error that causes the program to stop working
+            </summary>
+            <param name="format">Message, a fomat string that can be handled by the String.Format method</param>
+            <param name="args">Arguments for formatting</param>
+        </member>
+        <member name="M:BookGen.Api.ILog.Critical(System.Exception)">
+            <summary>
+            Log a critical exception.
+            </summary>
+            <param name="ex">Exception to log</param>
+        </member>
+        <member name="M:BookGen.Api.ILog.Warning(System.String,System.Object[])">
+            <summary>
+            Log a warning message.
+            Warning is an error that shouldn't happen idealy, but we are expecting it to occure.
+            </summary>
+            <param name="format">Message, a fomat string that can be handled by the String.Format method</param>
+            <param name="args">Arguments for formatting</param>
+        </member>
+        <member name="M:BookGen.Api.ILog.Warning(System.Exception)">
+            <summary>
+            Log a warning exception.
+            </summary>
+            <param name="ex">Exception to log</param>
+        </member>
+        <member name="M:BookGen.Api.ILog.Info(System.String,System.Object[])">
+            <summary>
+            Log an iformational message.
+            Informations give the user feedback about what is happening.
+            </summary>
+            <param name="format">Message, a fomat string that can be handled by the String.Format method</param>
+            <param name="args">Arguments for formatting</param>
+        </member>
+        <member name="M:BookGen.Api.ILog.Detail(System.String,System.Object[])">
+            <summary>
+            Log a detail. Details are usually not important, so Details are only displayed when
+            verbose output is enabled.
+            </summary>
+            <param name="format">Message, a fomat string that can be handled by the String.Format method</param>
+            <param name="args">Arguments for formatting</param>
+        </member>
+        <member name="T:BookGen.Api.IScript">
+            <summary>
+            Interface for scripts.
+            Every Script must implement this interface.
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.IScript.InvokeName">
+            <summary>
+            Script name. Later you can reference the script as a shorcode with this name.
+            </summary>
+        </member>
+        <member name="M:BookGen.Api.IScript.ScriptMain(BookGen.Api.IScriptHost,BookGen.Api.IArguments)">
+            <summary>
+            The main entrypoint of the script. It gets executed when parsing the shortcode.
+            </summary>
+            <param name="host">Current script host</param>
+            <param name="arguments">Arguments for the script</param>
+            <returns>Markdown string</returns>
+        </member>
+        <member name="T:BookGen.Api.IScriptHost">
+            <summary>
+            Interface for accesing the current script runtime
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.IScriptHost.SourceDirectory">
+            <summary>
+            Source directory of input files
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.IScriptHost.Configuration">
+            <summary>
+            Current configuration in read-only mode.
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.IScriptHost.TableOfContents">
+            <summary>
+            Currently processed book table of contents
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.IScriptHost.CurrentBuildConfig">
+            <summary>
+            Currently active build configuration
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.IScriptHost.Log">
+            <summary>
+            Script host log
+            </summary>
+        </member>
+        <member name="T:BookGen.Api.ITableOfContents">
+            <summary>
+            Interface for accesing the table of contents
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.ITableOfContents.Chapters">
+            <summary>
+            A flat list of chapters without hierarchy
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.ITableOfContents.Files">
+            <summary>
+            All files referenced in the Table of Contents
+            </summary>
+        </member>
+        <member name="M:BookGen.Api.ITableOfContents.GetLinksForChapter(System.String)">
+            <summary>
+            Gets Links for a chapter
+            </summary>
+            <param name="chapter">chapter name. Can be null. If null, all links returned from the TOC</param>
+            <returns>Enumerable collection of HTMLLinks</returns>
+        </member>
+        <member name="T:BookGen.Api.Link">
+            <summary>
+            Represents a link in the Markdown Table of Contents.
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Link.Text">
+            <summary>
+            Link text, that will be displayed.
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.Link.Url">
+            <summary>
+            Link url
+            </summary>
+        </member>
+        <member name="M:BookGen.Api.Link.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new link
+            </summary>
+            <param name="text">link text</param>
+            <param name="url">link url</param>
+        </member>
+        <member name="M:BookGen.Api.Link.ConvertToLinkOnHost(System.String)">
+            <summary>
+            Convert the link extension to .html file that can be referenced
+            </summary>
+            <param name="host">Host link</param>
+            <returns>A link on host</returns>
+        </member>
+        <member name="T:BookGen.Api.LogEntry">
+            <summary>
+            Represents a log enty
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.LogEntry.LogLevel">
+            <summary>
+            Message log level
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.LogEntry.Message">
+            <summary>
+            Log message content
+            </summary>
+        </member>
+        <member name="P:BookGen.Api.LogEntry.TimeStamp">
+            <summary>
+            Timestamp in UTC
+            </summary>
+        </member>
+        <member name="M:BookGen.Api.LogEntry.#ctor">
+            <summary>
+            Creates a new instance of LogEntry
+            </summary>
+        </member>
+        <member name="T:BookGen.Api.LogLevel">
+            <summary>
+            Logging level
+            </summary>
+        </member>
+        <member name="F:BookGen.Api.LogLevel.Critical">
+            <summary>
+            Critical errors
+            </summary>
+        </member>
+        <member name="F:BookGen.Api.LogLevel.Warning">
+            <summary>
+            Warnings
+            </summary>
+        </member>
+        <member name="F:BookGen.Api.LogLevel.Info">
+            <summary>
+            Info messages
+            </summary>
+        </member>
+        <member name="F:BookGen.Api.LogLevel.Detail">
+            <summary>
+            Detailed info messages. Only visible when verbose 
+            </summary>
+        </member>
+        <member name="F:BookGen.Api.LogLevel.PrintLine">
+            <summary>
+            The Logger interface PrintLine method was called
+            </summary>
+        </member>
+    </members>
+</doc>

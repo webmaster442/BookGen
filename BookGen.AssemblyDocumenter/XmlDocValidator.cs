@@ -13,7 +13,7 @@ using System.Xml.Schema;
 
 namespace BookGen.AssemblyDocumenter
 {
-    public static class Validator
+    public static class XmlDocValidator
     {
         public static bool ValidateXml(FsPath xml, ILog log)
         {
@@ -48,7 +48,7 @@ namespace BookGen.AssemblyDocumenter
 
         private static XmlSchema LoadXsd()
         {
-            Assembly current = typeof(Validator).Assembly;
+            Assembly current = typeof(XmlDocValidator).Assembly;
             using (var stream = current.GetManifestResourceStream("BookGen.AssemblyDocumenter.DocComment.xsd"))
             {
                 if (stream != null)
