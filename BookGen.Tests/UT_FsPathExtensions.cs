@@ -170,5 +170,25 @@ namespace BookGen.Tests
 
             Assert.AreEqual(expected, result.ToString());
         }
+
+        [TestCase(@"c:\foo.bar", ".txt", @"c:\foo.txt")]
+        [TestCase(@"c:\foo.bar", "", @"c:\foo.")]
+        [TestCase(@"c:\foo.bar", "txt", @"c:\foo.txt")]
+        public void EnsureThat_FsUtils_ChangeExtension_Works(string input, string ext, string expected)
+        {
+            var result = new FsPath(input).ChangeExtension(ext);
+            Assert.AreEqual(expected, result.ToString());
+        }
+
+        [TestCase("", false)]
+        [TestCase(@"c:\foo.bar", false)]
+        [TestCase(@"c:\foo.*", true)]
+        [TestCase(@"c:\*.bar", true)]
+        [TestCase(@"c:\*.*", true)]
+        public void EnsureThat_FsUtils_IsWildCard_Works(string input, bool expected)
+        {
+            var result = new FsPath(input).IsWildCard();
+            Assert.AreEqual(expected, result);
+        }
     }
 }
