@@ -14,7 +14,7 @@ namespace BookGen.Core.Markdown
         private readonly StringBuilder _footnotes;
         private readonly StringBuilder _regulartext;
         private readonly static Regex footnoteRef = new Regex(@"\[\^\d+\]");
-        private readonly static Regex footnoteDef = new Regex(@"\[\d+\]:");
+        private readonly static Regex footnoteDef = new Regex(@"\[\^\d+\]:");
         private int _counter;
 
 
