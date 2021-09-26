@@ -61,15 +61,15 @@ namespace BookGen.Tests
                 "first[^1]\r\n"
                 + "second[^2]\r\n"
                 + "\r\n"
-                + "[1]: first\r\n"
-                + "[2]: second\r\n";
+                + "[^1]: first\r\n"
+                + "[^2]: second\r\n";
 
             string s2 =
                 "third[^1]\r\n"
                 + "fourth[^2]\r\n"
                 + "\r\n"
-                + "[1]: third\r\n"
-                + "[2]: forth\r\n";
+                + "[^1]: third\r\n"
+                + "[^2]: forth\r\n";
 
             string expected =
                 "first[^1]\r\n"
