@@ -153,6 +153,15 @@ namespace BookGen.Gui
                             _modelType.GetProperty(property)?.SetValue(_model, value);
                         }
                         break;
+                    case XRadioGroup radioGroup:
+                        if (IsBindable(radioGroup.SelectedIndex)
+                            && rendered is RadioGroup radio)
+                        {
+                            var value = radio.SelectedItem;
+                            var property = GetPropertyName(radioGroup.SelectedIndex);
+                            _modelType.GetProperty(property)?.SetValue(_model, value);
+                        }
+                        break;
                 }
             }
         }

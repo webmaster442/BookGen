@@ -21,11 +21,29 @@ namespace BookGen
         private const string WebTemplate = "Templates\\TemplateWeb.html";
         private const string ScriptProject = "Scripts\\ScriptProject.csproj";
 
-        public static void DoCreateConfig(ILog log,
-                                          FsPath ConfigFile,
-                                          bool createdmdFiles,
-                                          bool extractedTemplate,
-                                          bool createdScript)
+        internal static void CreateConfig(ILog log,
+                                          FsPath workDir, 
+                                          bool configInYaml, 
+                                          bool createMdFiles, 
+                                          bool createTemplates,
+                                          bool createScripts)
+        {
+            Config createdConfig = MakeConfigStructure(createMdFiles, createTemplates, createScripts);
+
+            if (configInYaml)
+            {
+                var file = workDir.Combine("bookgen.yml");
+                file.SerializeYaml(createdConfig, log);
+            }
+            else
+            {
+                var file = workDir.Combine("bookgen.json");
+                file.SerializeJson(createdConfig, log, true);
+            }
+
+        }
+
+        private static Config MakeConfigStructure(bool createdmdFiles, bool extractedTemplate, bool createdScript)
         {
             Config configuration = Config.CreateDefault(Program.CurrentState.ConfigVersion);
 
@@ -60,9 +78,9 @@ namespace BookGen
                 };
             }
 
-            log.Info("Creating config file: {0}", ConfigFile.ToString());
-            ConfigFile.SerializeJson(configuration, log);
+            return configuration;
         }
+
 
         public static void DoCreateMdFiles(ILog log, FsPath workdir)
         {
