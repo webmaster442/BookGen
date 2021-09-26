@@ -1,12 +1,12 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Tests.Environment;
 using Moq;
 using NUnit.Framework;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Webmaster442.HttpServerFramework;
@@ -68,10 +68,18 @@ namespace BookGen.Tests
 
         private string DoRequest(string url)
         {
-            using (var client = new WebClient())
+            using (HttpClient client = new HttpClient())
             {
-                return client.DownloadString(url);
+                using (var response = client.GetAsync(url).GetAwaiter().GetResult())
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                        return content;
+                    }
+                }
             }
+            return string.Empty;
         }
 
         [Test]
