@@ -13,8 +13,8 @@ namespace BookGen.Core.Markdown
     {
         private readonly StringBuilder _footnotes;
         private readonly StringBuilder _regulartext;
-        private readonly static Regex footnoteRef = new Regex(@"\[\^\d+\]");
-        private readonly static Regex footnoteDef = new Regex(@"\[\^\d+\]:");
+        private readonly static Regex footnoteRef = new Regex(@"\w\[\^\d+\]");
+        private readonly static Regex footnoteDef = new Regex(@"\[\^\d+\]\:");
         private int _counter;
 
 
@@ -47,7 +47,7 @@ namespace BookGen.Core.Markdown
 
             if (lastDefinition != null)
             {
-                var numberString = lastDefinition.Value[2..^1];
+                var numberString = lastDefinition.Value[3..^1];
                 currentDocLimit = int.Parse(numberString);
 
                 if (currentDocLimit != referenceMatches.Count)
@@ -77,7 +77,7 @@ namespace BookGen.Core.Markdown
                 int targetIndex = _counter + i + 1;
 
                 regular.Replace($"[^{indexToReplace}]", $"[^{targetIndex}]");
-                footnote.Replace($"[{indexToReplace}]:", $"[{targetIndex}]:");
+                footnote.Replace($"[^{indexToReplace}]:", $"[^{targetIndex}]:");
             }
         }
 
