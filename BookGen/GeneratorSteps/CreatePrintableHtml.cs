@@ -36,31 +36,29 @@ namespace BookGen.GeneratorSteps
             log.Info("Generating Printable html...");
             FsPath? target = settings.OutputDirectory.Combine("print.html");
 
-            StringBuilder buffer = new StringBuilder();
-
             using var pipeline = new BookGenPipeline(BookGenPipeline.Print);
             pipeline.InjectRuntimeConfig(settings);
+
+            FootNoteReindexer reindexer = new(log, appendLineBreakbeforeDefs: true);
 
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 log.Info("Processing: {0}...", chapter);
-                buffer.AppendFormat("<h1>{0}</h1>\r\n\r\n", chapter);
                 foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing file for print output: {0}", file);
                     var input = settings.SourceDirectory.Combine(file);
 
                     var inputContent = input.ReadFile(log);
-
-                    var rendered = pipeline.RenderMarkdown(inputContent);
-
-                    buffer.AppendLine(rendered);
-                    buffer.AppendLine(NewPage);
+                    reindexer.AddMarkdown(inputContent);
                 }
             }
 
-            Content.Content = buffer.ToString();
-            
+            FsPath? debug = settings.OutputDirectory.Combine("debug.md");
+            debug.WriteFile(log, reindexer.ToString());
+
+            Content.Content = pipeline.RenderMarkdown(reindexer.ToString());
+
             target.WriteFile(log, Template.Render());
         }
     }

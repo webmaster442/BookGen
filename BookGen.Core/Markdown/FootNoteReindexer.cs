@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -13,16 +14,20 @@ namespace BookGen.Core.Markdown
     {
         private readonly StringBuilder _footnotes;
         private readonly StringBuilder _regulartext;
-        private readonly static Regex footnoteRef = new Regex(@"\w\[\^\d+\]");
+        private readonly static Regex footnoteRef = new Regex(@".\[\^\d+\]");
         private readonly static Regex footnoteDef = new Regex(@"\[\^\d+\]\:");
+        private readonly ILog _log;
+        private readonly bool _appendLineBreakbeforeDefs;
         private int _counter;
 
 
-        public FootNoteReindexer()
+        public FootNoteReindexer(ILog log, bool appendLineBreakbeforeDefs = false)
         {
             _regulartext = new StringBuilder(8096);
             _footnotes = new StringBuilder(4096);
             _counter = 0;
+            _log = log;
+            _appendLineBreakbeforeDefs = appendLineBreakbeforeDefs;
         }
 
         public void Clear()
@@ -52,7 +57,7 @@ namespace BookGen.Core.Markdown
 
                 if (currentDocLimit != referenceMatches.Count)
                 {
-                    //Log this
+                    _log.Warning("Expected {0} footnotes. Found: {0}", currentDocLimit, referenceMatches.Count);
                     return;
                 }
             }
@@ -71,13 +76,16 @@ namespace BookGen.Core.Markdown
 
         private void DoReindexing(int currentDocLimit, StringBuilder regular, StringBuilder footnote)
         {
-            for (int i = 0; i < currentDocLimit; i++)
+            for (int i=currentDocLimit-1; i>=0; i--)
             {
                 int indexToReplace = i + 1;
                 int targetIndex = _counter + i + 1;
 
                 regular.Replace($"[^{indexToReplace}]", $"[^{targetIndex}]");
-                footnote.Replace($"[^{indexToReplace}]:", $"[^{targetIndex}]:");
+                if (_appendLineBreakbeforeDefs)
+                    footnote.Replace($"[^{indexToReplace}]:", $"\r\n[^{targetIndex}]:");
+                else
+                    footnote.Replace($"[^{indexToReplace}]:", $"[^{targetIndex}]:");
             }
         }
 
