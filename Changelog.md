@@ -4,8 +4,12 @@
 * New: Launcher has more modern Message boxes
 * New: Added more options to the console Gui
 * New: Log output to JSON with the global -js argument.
+* New: Assembly documenting to a single markdown file (usefull for wiki pages)
+* Change: Autocomplete handles global arguments.
 * Change: Launcher folder list is now independent from version
+* Change: Now requires .NET 6 runtime
 * Fix: Launcher JumpList was not starting the shell in the folder
+* Fix: Auto updater now works
 
 
 # 2021.09.12
