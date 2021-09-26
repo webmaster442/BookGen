@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,40 +16,71 @@ namespace BookGen
 {
     internal class ProjectLoader
     {
+        private enum ConfigMode
+        {
+            Yaml,
+            Json,
+            NotFound,
+            Both
+        }
+
         private readonly ILog _log;
-        private readonly FsPath _configfile;
+        private readonly FsPath _configJson;
+        private readonly FsPath _configYaml;
         private readonly string _workdir;
 
         public ProjectLoader(ILog log, string workdir)
         {
             _log = log;
             _workdir = workdir;
-            _configfile = new FsPath(workdir, "bookgen.json");
+            _configJson = new FsPath(workdir, "bookgen.json");
+            _configYaml = new FsPath(workdir, "bookgen.yml");
+
+        }
+
+        private ConfigMode GetConfigMode()
+        {
+            if (_configJson.IsExisting && _configYaml.IsExisting)
+                return ConfigMode.Both;
+            if (_configJson.IsExisting)
+                return ConfigMode.Json;
+            else if (_configYaml.IsExisting)
+                return ConfigMode.Yaml;
+            else
+                return ConfigMode.NotFound;
         }
 
         public bool TryLoadAndValidateConfig(out Config? config)
         {
             config = null;
 
-            if (!_configfile.IsExisting)
-            {
-                _log.Info("No bookgen.json config found.");
-                return false;
-            }
+            var mode = GetConfigMode();
 
-            config = _configfile.DeserializeJson<Config>(_log);
+            switch (mode)
+            {
+                case ConfigMode.Yaml:
+                    config = _configYaml.DeserializeYaml<Config>(_log);
+                    break;
+                case ConfigMode.Json:
+                    config = _configJson.DeserializeJson<Config>(_log);
+                    break;
+                case ConfigMode.Both:
+                    _log.Critical("both bookgen.json and bookgen.yml present. Decicde config format by deleting one of them");
+                    return false;
+                default:
+                    _log.Critical("No bookgen.json config found.");
+                    return false;
+            }
 
             if (config == null)
             {
-                _log.Critical("bookgen.json deserialize error. Invalid config file");
+                _log.Critical("bookgen.json or boookgen.yml deserialize error. Invalid config file");
                 return false;
             }
 
             if (config.Version < Program.CurrentState.ConfigVersion)
             {
-                _configfile.CreateBackup(_log);
-                config.UpgradeTo(Program.CurrentState.ConfigVersion);
-                _configfile.SerializeJson(config, _log, true);
+                Upgrade(config, mode);
                 _log.Info("Configuration file migrated to new version.");
                 _log.Info("Review configuration then run program again");
                 return false;
@@ -69,6 +100,29 @@ namespace BookGen
             }
 
             return true;
+        }
+
+        private void Upgrade(Config config, ConfigMode mode)
+        {
+            switch (mode)
+            {
+                case ConfigMode.Json:
+                    _configJson.CreateBackup(_log);
+                    break;
+                case ConfigMode.Yaml:
+                    _configYaml.CreateBackup(_log);
+                    break;
+            }
+            config.UpgradeTo(Program.CurrentState.ConfigVersion);
+            switch (mode)
+            {
+                case ConfigMode.Json:
+                    _configJson.SerializeJson(config, _log, true);
+                    break;
+                case ConfigMode.Yaml:
+                    _configYaml.SerializeYaml(config, _log);
+                    break;
+            }
         }
 
         public bool TryLoadAndValidateToc(Config? config, out ToC? toc)
