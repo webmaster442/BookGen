@@ -7,7 +7,7 @@ using BookGen.Api;
 using BookGen.Resources;
 using System;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,21 +29,37 @@ namespace BookGen.Core
             _appDir = appDir;
         }
 
+        private static string? Download(string url)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                using (var response = client.GetAsync(url).GetAwaiter().GetResult())
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                        return content;
+                    }
+                }
+            }
+            return null;
+        }
+
         private Release[] GetReleases()
         {
-            using (var client = new WebClient())
+            string? json = Download(UpdateUrl);
+            if (json == null)
             {
-                client.UseDefaultCredentials = true;
-                client.Proxy = WebRequest.GetSystemWebProxy();
-                var json = client.DownloadString(new Uri(UpdateUrl));
-                var result = JsonSerializer.Deserialize<Release[]>(json);
-                if (result == null)
-                {
-                    _log.Warning("JSON Result parse failed");
-                    return Array.Empty<Release>();
-                }
-                return result;
+                _log.Warning("JSON Result download failed");
+                return Array.Empty<Release>();
             }
+            var result = JsonSerializer.Deserialize<Release[]>(json);
+            if (result == null)
+            {
+                _log.Warning("JSON Result parse failed");
+                return Array.Empty<Release>();
+            }
+            return result;
         }
 
         public Release? GetLatestRelease(bool preview = false)

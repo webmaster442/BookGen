@@ -14,7 +14,7 @@ namespace BookGen.Core
     {
         public static string GetSRI(string content)
         {
-            using (var hashAlgorithm = new SHA384Managed())
+            using (var hashAlgorithm = SHA384.Create())
             {
 
                 byte[] textData = Encoding.UTF8.GetBytes(content);
@@ -28,7 +28,7 @@ namespace BookGen.Core
         {
             using (var fs = File.OpenRead(path.ToString()))
             {
-                using (var hashAlgorithm = new SHA384Managed())
+                using (var hashAlgorithm = SHA384.Create())
                 {
                     byte[] hash = hashAlgorithm.ComputeHash(fs);
                     return "sha384-" + Convert.ToBase64String(hash);

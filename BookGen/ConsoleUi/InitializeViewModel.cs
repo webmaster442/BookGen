@@ -12,7 +12,6 @@ namespace BookGen.ConsoleUi
     internal class InitializeViewModel: ViewModelBase
     {
         private readonly ILog _log;
-        private readonly FsPath _configFile;
         private readonly FsPath _workDir;
 
         public bool CreateConfig { get; set; }
@@ -20,6 +19,8 @@ namespace BookGen.ConsoleUi
         public bool CreateTemplates { get; set; }
         public bool CreateScripts { get; set; }
         public bool CreateVsTasks { get; set; }
+
+        public int ConfigFormat { get; set; }
 
         public string WorkDirectory => _workDir.ToString();
 
@@ -30,7 +31,7 @@ namespace BookGen.ConsoleUi
         {
             _log = log;
             _workDir = WorkDir;
-            _configFile = WorkDir.Combine("bookgen.json");
+            ConfigFormat = 0;
             ExecuteCommand = new DelegateCommand(OnExecute);
             CancelCommand = new DelegateCommand(() => View?.ExitApp());
 
@@ -63,7 +64,9 @@ namespace BookGen.ConsoleUi
             if (CreateConfig)
             {
                 _log.Info("Creating and configuring config file...");
-                InitializerMethods.DoCreateConfig(_log, _configFile, CreateMdFiles, CreateTemplates, CreateScripts);
+                bool configInYaml = ConfigFormat == 1;
+                InitializerMethods.CreateConfig(_log, _workDir, configInYaml, CreateMdFiles, CreateTemplates, CreateScripts);
+                //InitializerMethods.DoCreateConfig(_log, _configFile, CreateMdFiles, CreateTemplates, CreateScripts);
             }
             if (CreateVsTasks)
             {

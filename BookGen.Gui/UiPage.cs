@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Gui.XmlEntities;
+using NStack;
 using System;
 using Terminal.Gui;
 
@@ -58,6 +59,9 @@ namespace BookGen.Gui
                         break;
                     case XLabel label:
                         RenderLabel(label);
+                        break;
+                    case XRadioGroup radioGroup:
+                        RenderRadioButton(radioGroup);
                         break;
                     case XCheckBox checkBox:
                         RenderCheckBox(checkBox);
@@ -168,5 +172,33 @@ namespace BookGen.Gui
             Add(result);
         }
 
+
+        private void RenderRadioButton(XRadioGroup radioGroup)
+        {
+            var result = new RadioGroup
+            {
+                RadioLabels = ConvertTexts(radioGroup.Options),
+                X = Pos.Left(this) + radioGroup.Left,
+                Y = Pos.Top(this) + radioGroup.Top,
+            };
+
+            if (Binder.IsBindable(radioGroup.SelectedIndex))
+            {
+                result.SelectedItem = Convert.ToInt32(_binder.GetBindedText(radioGroup.SelectedIndex));
+                _binder.Register(radioGroup, result, typeof(int));
+            }
+            SetWidth(result, radioGroup);
+            Add(result);
+        }
+
+        private static ustring[] ConvertTexts(string[] texts)
+        {
+            var result = new ustring[texts.Length];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = texts[i];
+            }
+            return result;
+        }
     }
 }
