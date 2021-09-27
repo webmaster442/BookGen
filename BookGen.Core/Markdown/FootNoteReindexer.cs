@@ -50,7 +50,8 @@ namespace BookGen.Core.Markdown
                 return;
             }
 
-            if (lastDefinition != null)
+            if (lastDefinition != null 
+                && lastDefinition.Length > 3)
             {
                 var numberString = lastDefinition.Value[3..^1];
                 currentDocLimit = int.Parse(numberString);
