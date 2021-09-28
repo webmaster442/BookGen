@@ -11,7 +11,7 @@ namespace BookGen.Core.Markdown
 {
     public class MarkdownTableConverter
     {
-        public static bool ConvertToMarkdownTable(string input, char delimiter, out string formatted)
+        public static bool TryConvertToMarkdownTable(string input, char delimiter, out string formatted)
         {
             List<string[]> table = ParseTable(input, delimiter);
             
@@ -38,7 +38,7 @@ namespace BookGen.Core.Markdown
                 md.Append(":--");
                 md.Append(" ");
             }
-            md.Append("|");
+            md.Append("|\r\n");
         }
 
         private static void WriteRow(StringBuilder md, string[] columns)
@@ -49,16 +49,16 @@ namespace BookGen.Core.Markdown
                 md.Append(column);
                 md.Append(" ");
             }
-            md.Append("|");
+            md.Append("|\r\n");
         }
 
         private static List<string[]> ParseTable(string input, char delimiter)
         {
-            var lines = input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            var lines = input.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             List<string[]> table = new List<string[]>(lines.Length);
             foreach (var line in lines)
             {
-                var columns = line.Split(delimiter);
+                var columns = line.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
                 table.Add(columns);
             }
             return table;

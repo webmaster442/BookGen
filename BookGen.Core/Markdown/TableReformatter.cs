@@ -123,7 +123,11 @@ namespace BookGen.Core.Markdown
                         padded = table[i][j].PadLeft(padsizes[j]);
 
                     result.Append(padded);
-                    result.Append(" | ");
+                    result.Append(" |");
+                    if (j != table[i].Length -1)
+                    {
+                        result.Append(" ");
+                    }
                 }
                 result.Append("\r\n");
                 ++insetedRow;
@@ -146,16 +150,21 @@ namespace BookGen.Core.Markdown
         private void WriteHeaderDivider(StringBuilder result, List<int> padsizes, PaddingMode paddingMode)
         {
             result.Append("| ");
-            string divider = string.Empty;
-            foreach (var padsize in padsizes)
+            for (int i = 0; i < padsizes.Count; i++)
             {
+                int padsize = padsizes[i];
+                string divider;
                 if (paddingMode == PaddingMode.Left)
                     divider = ":".PadRight(padsize, '-');
                 else
                     divider = ":".PadLeft(padsize, '-');
 
                 result.Append(divider);
-                result.Append(" | ");
+                result.Append(" |");
+                if (i != padsizes.Count - 1)
+                {
+                    result.Append(" ");
+                }
             }
             result.Append("\r\n");
         }
