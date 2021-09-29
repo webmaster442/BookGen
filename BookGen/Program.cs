@@ -94,14 +94,31 @@ namespace BookGen
                     return;
                 }
 
-                if (!moduleToRun.Execute(parameters.ToArray()))
+                ExitCode exitCode = ExitCode.Succes;
+                var result = moduleToRun.Execute(parameters.ToArray());
+                switch (result)
                 {
-                    Console.WriteLine(moduleToRun.GetHelp());
-                    Cleanup(moduleToRun);
-                    Exit(ExitCode.BadParameters);
+                    case ModuleRunResult.ArgumentsError:
+                        Console.WriteLine(moduleToRun.GetHelp());
+                        Cleanup(moduleToRun);
+                        exitCode = ExitCode.BadParameters;
+                        break;
+                    case ModuleRunResult.OsNotSupportedError:
+                        Cleanup(moduleToRun);
+                        CurrentState.Log.Warning("this subcommand is only available on windows");
+                        exitCode = ExitCode.PlatformNotSupported;
+                        break;
+                    case ModuleRunResult.GeneralError:
+                        exitCode = ExitCode.Exception;
+                        break;
+                    case ModuleRunResult.Succes:
+                    default:
+                        exitCode = ExitCode.Succes;
+                        break;
                 }
 
                 Cleanup(moduleToRun);
+                Exit(exitCode);
             }
             catch (Exception ex)
             {

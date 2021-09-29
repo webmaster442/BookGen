@@ -37,12 +37,12 @@ namespace BookGen.Modules
             }
         }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             var args = new StockSearchArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             if (args.Pixabay == true || args.All)
@@ -61,7 +61,7 @@ namespace BookGen.Modules
                 PerformSearch(Constants.UnsplashSearchUrl, CurrentState.Log, args.SearchTerms);
             }
 
-            return true;
+            return ModuleRunResult.Succes;
 
         }
 

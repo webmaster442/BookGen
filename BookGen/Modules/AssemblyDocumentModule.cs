@@ -36,13 +36,13 @@ namespace BookGen.Modules
             }
         }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             var parameters = new AssemblyDocumentArguments();
 
             if (!ArgumentParser.ParseArguments(arguments, parameters))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             FolderLock.ExitIfFolderIsLocked(parameters.OutputDirectory.ToString(), CurrentState.Log);
@@ -65,9 +65,9 @@ namespace BookGen.Modules
                         var result = documenter.ToMarkdown();
 
                         filename.WriteFile(CurrentState.Log, result);
-                        return true;
+                        return ModuleRunResult.Succes;
                     }
-                    return false;
+                    return ModuleRunResult.GeneralError;
                 }
                 else
                 {
@@ -81,7 +81,7 @@ namespace BookGen.Modules
                                                      SkipUnbrowsable = true,
                                                  });
                     Logdetails(result.Messages);
-                    return true;
+                    return ModuleRunResult.Succes;
                 }
             }
         }

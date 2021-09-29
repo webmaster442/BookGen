@@ -25,18 +25,18 @@ namespace BookGen.Modules
 
         public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem(ModuleCommand);
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             if (arguments.Length != 1)
             {
                 CurrentState.Log.Warning("No file name given");
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             if (string.IsNullOrEmpty(_settings.EditorPath))
             {
                 CurrentState.Log.Warning("No Editor configured");
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             var file = System.IO.Path.GetFullPath(arguments[0]);
@@ -44,7 +44,7 @@ namespace BookGen.Modules
             if (!EditorHelper.IsSupportedFile(file))
             {
                 CurrentState.Log.Warning("Unsupported file type");
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             try
@@ -54,12 +54,12 @@ namespace BookGen.Modules
                 p.StartInfo.Arguments = $"\"{file}\"";
                 p.StartInfo.UseShellExecute = false;
                 p.Start();
-                return true;
+                return ModuleRunResult.Succes;
             }
             catch (Exception ex)
             {
                 CurrentState.Log.Critical(ex);
-                return false;
+                return ModuleRunResult.GeneralError;
             }
         }
     }

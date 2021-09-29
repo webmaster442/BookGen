@@ -27,14 +27,14 @@ namespace BookGen.Modules
                                                                                   "-d",
                                                                                   "--dir");
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             const string url = "http://localhost:8082/";
 
             BookGenArgumentBase args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             using (var server = HttpServerFactory.CreateServerForPreview(CurrentState.Log, CurrentState.ServerLog, args.Directory))
@@ -53,7 +53,7 @@ namespace BookGen.Modules
                 Console.ReadLine();
                 server.Stop();
             }
-            return true;
+            return ModuleRunResult.Succes;
         }
     }
 }

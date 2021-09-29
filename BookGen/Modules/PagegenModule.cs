@@ -12,6 +12,7 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.GeneratorSteps.MarkdownGenerators;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -39,13 +40,13 @@ namespace BookGen.Modules
             }
         }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
 
             PageGenArguments args = new PageGenArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             CurrentState.Log.LogLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
@@ -56,7 +57,7 @@ namespace BookGen.Modules
             {
                 ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
 
-                loader.TryLoadProjectAndExecuteOperation((config, toc) =>
+                return loader.TryLoadProjectAndExecuteOperation((config, toc) =>
                 {
                     Stopwatch stopwatch = new Stopwatch();
                     stopwatch.Start();
@@ -77,10 +78,8 @@ namespace BookGen.Modules
                     CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
                     return true;
-                });
+                }).ToSuccesOrError();
             }
-
-            return false;
         }
 
         private void RunChapterSummary(RuntimeSettings settings, ILog log)

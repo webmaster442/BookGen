@@ -43,12 +43,12 @@ namespace BookGen.Modules
             }
         }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             BuildArguments args = new BuildArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
@@ -85,7 +85,7 @@ namespace BookGen.Modules
                 }
             }
 
-            return true;
+            return ModuleRunResult.Succes;
         }
 
         public override string GetHelp()

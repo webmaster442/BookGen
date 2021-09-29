@@ -13,11 +13,10 @@ namespace BookGen.Modules.Special
     {
         public override string ModuleCommand => "ConfigHelp";
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             Console.WriteLine(HelpUtils.DocumentConfiguration());
-            Environment.Exit(1);
-            return true;
+            return ModuleRunResult.Succes;
         }
     }
 }

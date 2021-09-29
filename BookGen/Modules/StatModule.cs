@@ -25,12 +25,12 @@ namespace BookGen.Modules
 
         public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem(ModuleCommand, "-d", "--dir", "-i", "--input");
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             var args = new StatArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             var stat = new StatisticsData();
@@ -41,9 +41,9 @@ namespace BookGen.Modules
                 {
                     stat.Pages = (double)stat.Chars / Constants.CharsPerA4Page;
                     CurrentState.Log.PrintLine(stat);
-                    return true;
+                    return ModuleRunResult.Succes;
                 }
-                return false;
+                return ModuleRunResult.GeneralError;
             }
             else
             {
@@ -72,7 +72,7 @@ namespace BookGen.Modules
                         CurrentState.Log.PrintLine(stat);
                     }
 
-                    return result;
+                    return result.ToSuccesOrError();
                 }
             }
 

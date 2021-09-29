@@ -11,7 +11,7 @@ namespace BookGen.Framework
     internal abstract class ModuleBase
     {
         public abstract string ModuleCommand { get; }
-        public abstract bool Execute(string[] arguments);
+        public abstract ModuleRunResult Execute(string[] arguments);
         public virtual string GetHelp()
         {
             return HelpUtils.GetHelpForModule(GetType().Name);

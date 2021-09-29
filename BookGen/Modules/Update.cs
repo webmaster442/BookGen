@@ -18,12 +18,11 @@ namespace BookGen.Modules
 
         public override string ModuleCommand => "Update";
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                CurrentState.Log.Warning("Auto update feature only available on windows");
-                return false;
+                return ModuleRunResult.OsNotSupportedError;
             }
 
             var updater = new Updater(CurrentState.Log,
@@ -46,7 +45,7 @@ namespace BookGen.Modules
                 CurrentState.Log.Info("Allready up to date");
             }
 
-            return true;
+            return ModuleRunResult.Succes;
         }
 
         public override string GetHelp()

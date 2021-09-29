@@ -10,6 +10,7 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
@@ -33,12 +34,12 @@ namespace BookGen.Modules
             }
         }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             ProjectConvertArguments args = new ProjectConvertArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
             var json = new FsPath(args.Directory, Constants.ConfigJson);
             var yml = new FsPath(args.Directory, Constants.ConfigYml);
@@ -46,15 +47,15 @@ namespace BookGen.Modules
             if (json.IsFile && yml.IsFile)
             {
                 CurrentState.Log.Warning("Configuration exists in both formats. Can't continue");
-                return false;
+                return ModuleRunResult.GeneralError;
             }
             else if (json.IsFile)
             {
-                return ConvertToYml(json, yml, CurrentState.Log, args.Backup);
+                return ConvertToYml(json, yml, CurrentState.Log, args.Backup).ToSuccesOrError();
             }
             else
             {
-                return ConvertYmlToJson(yml, json, CurrentState.Log, args.Backup);
+                return ConvertYmlToJson(yml, json, CurrentState.Log, args.Backup).ToSuccesOrError();
             }
         }
 

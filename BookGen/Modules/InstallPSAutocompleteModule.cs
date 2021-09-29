@@ -23,12 +23,12 @@ namespace BookGen.Modules
 
         public override string ModuleCommand => "InstallPsAutocomplete";
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             var args = new InstallPsArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
 
@@ -47,7 +47,7 @@ namespace BookGen.Modules
 
             target.WriteFile(CurrentState.Log, contents.ToString());
 
-            return true;
+            return ModuleRunResult.Succes;
         }
     }
 }
