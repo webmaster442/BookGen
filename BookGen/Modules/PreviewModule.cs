@@ -8,6 +8,7 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Framework.Server;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Utilities;
 using System;
 
 namespace BookGen.Modules
@@ -45,7 +46,7 @@ namespace BookGen.Modules
 
                 if (Program.AppSetting.AutoStartWebserver)
                 {
-                    GeneratorRunner.StartUrl(url);
+                    UrlOpener.OpenUrl(url);
                 }
 
                 Console.WriteLine(GeneratorRunner.ExitString);
