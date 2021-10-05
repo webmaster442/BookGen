@@ -1,6 +1,7 @@
 ﻿//-----------------------------------------------------------------------------
 // (c) 2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
+// Based on code from the TextCopy project - https://github.com/CopyText/TextCopy
 //-----------------------------------------------------------------------------
 
 using System;
