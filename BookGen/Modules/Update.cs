@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Domain;
 using BookGen.Framework;
-using BookGen.Utilities;
-using System.Runtime.InteropServices;
 
 namespace BookGen.Modules
 {
@@ -18,13 +17,10 @@ namespace BookGen.Modules
 
         public override string ModuleCommand => "Update";
 
+        public override SupportedOs SupportedOs => SupportedOs.Windows;
+
         public override ModuleRunResult Execute(string[] arguments)
         {
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return ModuleRunResult.OsNotSupportedError;
-            }
-
             var updater = new Updater(CurrentState.Log,
                                       CurrentState.BuildDate,
                                       CurrentState.ProgramDirectory);

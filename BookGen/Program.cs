@@ -13,6 +13,7 @@ using BookGen.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace BookGen
 {
@@ -79,6 +80,18 @@ namespace BookGen
 
         private static readonly List<ModuleWithState> ModulesWithState = new List<ModuleWithState>();
 
+        private static SupportedOs GetCurrentOs()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return SupportedOs.Windows;
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                return SupportedOs.Linux;
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                return SupportedOs.OsX;
+            else
+                return SupportedOs.None;
+        }
+
         public static void RunModule(string moduleName, IReadOnlyList<string> parameters)
         {
             ModuleBase? moduleToRun = null;
@@ -95,26 +108,30 @@ namespace BookGen
                 }
 
                 ExitCode exitCode = ExitCode.Succes;
-                var result = moduleToRun.Execute(parameters.ToArray());
-                switch (result)
+
+                if (!moduleToRun.SupportedOs.HasFlag(GetCurrentOs()))
                 {
-                    case ModuleRunResult.ArgumentsError:
-                        Console.WriteLine(moduleToRun.GetHelp());
-                        Cleanup(moduleToRun);
-                        exitCode = ExitCode.BadParameters;
-                        break;
-                    case ModuleRunResult.OsNotSupportedError:
-                        Cleanup(moduleToRun);
-                        CurrentState.Log.Warning("this subcommand is only available on windows");
-                        exitCode = ExitCode.PlatformNotSupported;
-                        break;
-                    case ModuleRunResult.GeneralError:
-                        exitCode = ExitCode.Exception;
-                        break;
-                    case ModuleRunResult.Succes:
-                    default:
-                        exitCode = ExitCode.Succes;
-                        break;
+                    CurrentState.Log.Warning("this subcommand is only available on windows");
+                    exitCode = ExitCode.PlatformNotSupported;
+                }
+                else
+                {
+                    var result = moduleToRun.Execute(parameters.ToArray());
+                    switch (result)
+                    {
+                        case ModuleRunResult.ArgumentsError:
+                            Console.WriteLine(moduleToRun.GetHelp());
+                            Cleanup(moduleToRun);
+                            exitCode = ExitCode.BadParameters;
+                            break;
+                        case ModuleRunResult.GeneralError:
+                            exitCode = ExitCode.Exception;
+                            break;
+                        case ModuleRunResult.Succes:
+                        default:
+                            exitCode = ExitCode.Succes;
+                            break;
+                    }
                 }
 
                 Cleanup(moduleToRun);

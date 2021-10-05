@@ -9,7 +9,6 @@ namespace BookGen.Framework
     {
         Succes = 0,
         ArgumentsError = 1,
-        OsNotSupportedError = 2,
         GeneralError = int.MaxValue,
     }
 }
