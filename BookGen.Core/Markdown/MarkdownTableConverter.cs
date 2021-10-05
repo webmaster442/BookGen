@@ -9,7 +9,7 @@ using System.Text;
 
 namespace BookGen.Core.Markdown
 {
-    public class MarkdownTableConverter
+    public static class MarkdownTableConverter
     {
         public static bool TryConvertToMarkdownTable(string input, char delimiter, out string formatted)
         {
