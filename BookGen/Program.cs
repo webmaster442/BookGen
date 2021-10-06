@@ -78,7 +78,7 @@ namespace BookGen
             new WikiModule(),
         };
 
-        private static ModuleWithState[] CreateModules()
+        internal static ModuleWithState[] CreateModules()
         {
             return new ModuleWithState[]
             {

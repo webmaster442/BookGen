@@ -90,7 +90,6 @@
     <EmbeddedResource Include="ConsoleUi\MainView.xml" />
     <EmbeddedResource Include="Resources\Help.ChaptersModule.txt" />
     <EmbeddedResource Include="Resources\Help.ConfigHelpModule.txt" />
-    <EmbeddedResource Include="Resources\Error404.html" />
     <EmbeddedResource Include="Resources\Help.AssemblyDocumentModule.txt" />
     <EmbeddedResource Include="Resources\Help.BuildModule.txt" />
     <EmbeddedResource Include="Resources\Help.EditModule.txt" />
