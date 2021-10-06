@@ -43,12 +43,12 @@ namespace BookGen.Modules
         }
 
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             var args = new ImgConvertArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             if (args.Input.IsDirectory)
@@ -60,10 +60,10 @@ namespace BookGen.Modules
                     ImageUtils.ConvertImageFile(CurrentState.Log, file, output, args.Quality, args.Width, args.Height, args.Format);
                 });
 
-                return true;
+                return ModuleRunResult.Succes;
             }
 
-            return ImageUtils.ConvertImageFile(CurrentState.Log, args.Input, args.Output, args.Quality, args.Width, args.Height);
+            return ImageUtils.ConvertImageFile(CurrentState.Log, args.Input, args.Output, args.Quality, args.Width, args.Height).ToSuccesOrError();
         }
     }
 }

@@ -26,12 +26,12 @@ namespace BookGen.Modules
 
         public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem(ModuleCommand, "-d", "--dir", "-v", "--verbose");
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             BookGenArgumentBase args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             CurrentState.Log.LogLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
@@ -47,10 +47,10 @@ namespace BookGen.Modules
                 if (Ui != null)
                 {
                     uiRunner?.Run(Ui, vm);
-                    return true;
+                    return ModuleRunResult.Succes;
                 }
             }
-            return false;
+            return ModuleRunResult.GeneralError;
         }
 
         public override void Abort()

@@ -28,12 +28,12 @@ namespace BookGen.Modules
             }
         }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             BookGenArgumentBase args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             CurrentState.Log.LogLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
@@ -53,7 +53,7 @@ namespace BookGen.Modules
                 }
             }
 
-            return true;
+            return ModuleRunResult.Succes;
         }
     }
 }

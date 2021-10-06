@@ -1,18 +1,18 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System;
+
 namespace BookGen.Domain
 {
-    internal enum ExitCode
+    [Flags]
+    internal enum SupportedOs
     {
-        Succes = 0,
-        Exception = -1,
-        UnknownCommand = 1,
-        BadParameters = 2,
-        BadConfiguration = 3,
-        FolderLocked = 4,
-        PlatformNotSupported = 5,
+        None = 0,
+        Windows = 1,
+        Linux = 2,
+        OsX = 4,
     }
 }

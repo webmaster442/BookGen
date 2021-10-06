@@ -44,29 +44,29 @@ namespace BookGen.Modules
             }
         }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
-            if (arguments.Length < 1) return false;
+            if (arguments.Length < 1) return ModuleRunResult.ArgumentsError;
 
             if (string.Equals(arguments[0], "list", StringComparison.OrdinalIgnoreCase))
             {
                 ListAvailableSettings();
-                return true;
+                return ModuleRunResult.Succes;
             }
             else if (string.Equals(arguments[0], "get", StringComparison.OrdinalIgnoreCase)
                      && arguments.Length == 2)
             {
                 GetSetting(arguments[1]);
-                return true;
+                return ModuleRunResult.Succes;
             }
             else if (string.Equals(arguments[0], "set", StringComparison.OrdinalIgnoreCase)
                      && arguments.Length == 3)
             {
                 SetSetting(arguments[1], arguments[2]);
-                return true;
+                return ModuleRunResult.Succes;
             }
 
-            return false;
+            return ModuleRunResult.GeneralError;
         }
 
         private void ListAvailableSettings()
@@ -116,7 +116,7 @@ namespace BookGen.Modules
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Can't convert {0} to type {1}", value, prop.PropertyType);
+                    CurrentState.Log.Warning("Can't convert {0} to type {1}", value, prop.PropertyType);
                 }
                 AppSettingHandler.SaveAppSettings(_settings);
             }

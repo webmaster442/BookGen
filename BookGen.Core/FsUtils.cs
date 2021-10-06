@@ -424,5 +424,20 @@ namespace BookGen.Core
             var x = Path.ChangeExtension(path.ToString(), extension);
             return new FsPath(x);
         }
+
+        public static bool Delete(this FsPath path, ILog log)
+        {
+            try
+            {
+                File.Delete(path.ToString());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warning("File detlete failed: {0}", path);
+                log.Critical(ex);
+                return false;
+            }
+        }
     }
 }

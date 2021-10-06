@@ -35,12 +35,12 @@ namespace BookGen.Modules
 
         public override string ModuleCommand => "Chapters";
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             var args = new ChaptersArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             FolderLock.ExitIfFolderIsLocked(args.WorkDir, CurrentState.Log);
@@ -53,20 +53,23 @@ namespace BookGen.Modules
                 if (!loader.TryLoadAndValidateConfig(out Config? configuration)
                     || configuration == null)
                 {
-                    return false;
+                    return ModuleRunResult.GeneralError;
                 }
 
                 switch (args.Action)
                 {
                     case ChaptersAction.GenSummary:
-                        return ChapterProcessingUtils.GenerateSummaryFile(args.WorkDir, configuration, CurrentState.Log);
+                        return ChapterProcessingUtils.GenerateSummaryFile(args.WorkDir, 
+                                                                          configuration, 
+                                                                          CurrentState.Log)
+                                                      .ToSuccesOrError();
                     case ChaptersAction.Scan:
                         ChapterProcessingUtils.ScanMarkdownFiles(args.WorkDir, configuration, CurrentState.Log);
                         break;
                 }
             }
 
-            return true;
+            return ModuleRunResult.Succes;
         }
 
         public override string GetHelp()

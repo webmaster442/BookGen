@@ -9,6 +9,9 @@ namespace BookGen
     {
         public const string WikiUrl = "https://github.com/webmaster442/BookGen/wiki";
 
+        public const string ConfigJson = "config.json";
+        public const string ConfigYml = "config.yml";
+
         public const string PexelSearchUrl = "https://www.pexels.com/search/{0}/";
         public const string UnsplashSearchUrl = "https://unsplash.com/s/photos/{0}";
         public const string PixabaySearchUrl = "https://pixabay.com/images/search/{0}/";

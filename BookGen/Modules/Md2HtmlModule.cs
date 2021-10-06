@@ -40,12 +40,12 @@ namespace BookGen.Modules
             }
         }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             var args = new Md2HtmlArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
 
@@ -89,7 +89,7 @@ namespace BookGen.Modules
                 args.OutputFile.WriteFile(CurrentState.Log, rendered);
             }
 
-            return true;
+            return ModuleRunResult.Succes;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace BookGen.Modules.Special
 
         public IEnumerable<ModuleBase>? Modules { get; set; }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             if (Modules == null)
                 throw new DependencyException("Modules is null");
@@ -31,15 +31,13 @@ namespace BookGen.Modules.Special
             if (foundMoudle == null)
             {
                 Console.WriteLine(HelpUtils.GetGeneralHelp());
-                Program.Exit(ExitCode.UnknownCommand);
             }
             else
             {
                 Console.WriteLine(foundMoudle.GetHelp());
-                Program.Exit(ExitCode.BadParameters);
             }
 
-            return true;
+            return ModuleRunResult.Succes;
         }
 
         public override string GetHelp()

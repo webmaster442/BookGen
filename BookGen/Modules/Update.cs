@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core;
+using BookGen.Domain;
 using BookGen.Framework;
-using BookGen.Utilities;
-using System.Runtime.InteropServices;
 
 namespace BookGen.Modules
 {
@@ -18,14 +17,10 @@ namespace BookGen.Modules
 
         public override string ModuleCommand => "Update";
 
-        public override bool Execute(string[] arguments)
-        {
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                CurrentState.Log.Warning("Auto update feature only available on windows");
-                return false;
-            }
+        public override SupportedOs SupportedOs => SupportedOs.Windows;
 
+        public override ModuleRunResult Execute(string[] arguments)
+        {
             var updater = new Updater(CurrentState.Log,
                                       CurrentState.BuildDate,
                                       CurrentState.ProgramDirectory);
@@ -46,7 +41,7 @@ namespace BookGen.Modules
                 CurrentState.Log.Info("Allready up to date");
             }
 
-            return true;
+            return ModuleRunResult.Succes;
         }
 
         public override string GetHelp()

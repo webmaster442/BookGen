@@ -230,23 +230,13 @@ namespace BookGen
 
                     if (Program.AppSetting.AutoStartWebserver)
                     {
-                        StartUrl(_configuration.HostName);
+                        UrlOpener.OpenUrl(_configuration.HostName);
                     }
 
                     Console.WriteLine(ExitString);
                     Console.ReadLine();
                     server.Stop();
                 }
-            }
-        }
-
-        public static void StartUrl(string url)
-        {
-            using (var p = new Process())
-            {
-                p.StartInfo.UseShellExecute = true;
-                p.StartInfo.FileName = url;
-                p.Start();
             }
         }
 

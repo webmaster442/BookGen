@@ -8,6 +8,7 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Framework.Server;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Utilities;
 using System;
 
 namespace BookGen.Modules
@@ -26,14 +27,14 @@ namespace BookGen.Modules
                                                                                   "-d",
                                                                                   "--dir");
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             const string url = "http://localhost:8082/";
 
             BookGenArgumentBase args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             using (var server = HttpServerFactory.CreateServerForPreview(CurrentState.Log, CurrentState.ServerLog, args.Directory))
@@ -45,14 +46,14 @@ namespace BookGen.Modules
 
                 if (Program.AppSetting.AutoStartWebserver)
                 {
-                    GeneratorRunner.StartUrl(url);
+                    UrlOpener.OpenUrl(url);
                 }
 
                 Console.WriteLine(GeneratorRunner.ExitString);
                 Console.ReadLine();
                 server.Stop();
             }
-            return true;
+            return ModuleRunResult.Succes;
         }
     }
 }

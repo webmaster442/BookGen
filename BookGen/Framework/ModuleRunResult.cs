@@ -1,18 +1,14 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Domain
+namespace BookGen.Framework
 {
-    internal enum ExitCode
+    internal enum ModuleRunResult
     {
         Succes = 0,
-        Exception = -1,
-        UnknownCommand = 1,
-        BadParameters = 2,
-        BadConfiguration = 3,
-        FolderLocked = 4,
-        PlatformNotSupported = 5,
+        ArgumentsError = 1,
+        GeneralError = int.MaxValue,
     }
 }

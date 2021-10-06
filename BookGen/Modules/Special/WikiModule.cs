@@ -13,9 +13,9 @@ namespace BookGen.Modules.Special
     {
         public override string ModuleCommand => "Wiki";
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
-            return UrlOpener.OpenUrl(Constants.WikiUrl);
+            return UrlOpener.OpenUrl(Constants.WikiUrl) ? ModuleRunResult.Succes : ModuleRunResult.GeneralError;
         }
 
         public override string GetHelp()

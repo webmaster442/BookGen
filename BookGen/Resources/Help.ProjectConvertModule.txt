@@ -1,0 +1,21 @@
+﻿Converts between configuration JSON and YML formats.
+-------------------------------------------------------------------------------
+
+    BookGen Serve {-d [directory]} {-b}
+    BookGen Serve {--dir [directory]} {--backup}
+    
+    Arguments:
+    -d, --dir:
+        Optional argument. Specifies work directory. If not specified, then
+        the current directory will be used as working directory.
+
+    -b, --backup:
+        Optional argument. If given backups the current configuration. If
+        the backup allready exists, then it will be simply overwritten.
+
+    Note:
+        If the configuration is in json (bookgen.json found) then it will
+        be converted to yml (bookgen.yml) format.
+        If the configuration is in yml (bookgen.yml found) then it will
+        be converted to json (bookgen.json) format.
+        If both formats exist, then the command exits with a waring.

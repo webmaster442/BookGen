@@ -18,13 +18,13 @@ namespace BookGen.Modules.Special
 
         public IEnumerable<ModuleBase>? Modules { get; set; }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
             foreach (var item in DoComplete(arguments))
             {
                 Console.WriteLine(item);
             }
-            return true;
+            return ModuleRunResult.Succes;
         }
 
         internal IEnumerable<string> DoComplete(string[] args)

@@ -44,13 +44,13 @@ namespace BookGen.Modules
 
         public IEnumerable<ModuleBase>? Modules { get; set; }
 
-        public override bool Execute(string[] arguments)
+        public override ModuleRunResult Execute(string[] arguments)
         {
 
             BookGenArgumentBase args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
-                return false;
+                return ModuleRunResult.ArgumentsError;
             }
 
             CurrentState.Gui = true;
@@ -66,10 +66,10 @@ namespace BookGen.Modules
                     uiRunner.OnNavigaton += UiRunner_OnNavigaton;
                     var (view, model) = UiRunner_OnNavigaton(MainView);
                     uiRunner.Run(view, model);
-                    return true;
+                    return ModuleRunResult.Succes;
                 }
             }
-            return false;
+            return ModuleRunResult.GeneralError;
         }
 
         private System.IO.Stream GetView(string name)
