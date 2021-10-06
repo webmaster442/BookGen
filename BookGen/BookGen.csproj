@@ -54,6 +54,7 @@
 		<None Remove="Resources\Help.InitModule.txt" />
 		<None Remove="Resources\Help.InstallPSAutocompleteModule.txt" />
 		<None Remove="Resources\Help.Md2HtmlModule.txt" />
+		<None Remove="Resources\Help.MdTableModule.txt" />
 		<None Remove="Resources\Help.PagegenModule.txt" />
 		<None Remove="Resources\Help.PreviewModule.txt" />
 		<None Remove="Resources\Help.ProjectConvertModule.txt" />
@@ -93,6 +94,7 @@
 		<EmbeddedResource Include="Resources\Help.ImgConvertModule.txt" />
 		<EmbeddedResource Include="Resources\Help.InitModule.txt" />
 		<EmbeddedResource Include="Resources\Help.Md2HtmlModule.txt" />
+		<EmbeddedResource Include="Resources\Help.MdTableModule.txt" />
 		<EmbeddedResource Include="Resources\Help.PagegenModule.txt" />
 		<EmbeddedResource Include="Resources\Help.PreviewModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ProjectConvertModule.txt" />

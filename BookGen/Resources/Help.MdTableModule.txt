@@ -1,0 +1,15 @@
+﻿Converts a CSV or Spreadsheet cell range to a markdown table
+-------------------------------------------------------------------------------
+
+
+    BookGen Init {-d [delimiter]}
+    BookGen Init {--delimiter [delimiter]}
+
+    Arguments:
+    -d, --delimiter:
+        Optional argument. Specifies the delimiter char. By default it assumes
+        that the text is a spreadsheet range, which uses tabs. Only needed
+        when you want to import CSV.
+
+    Note: the command gets the data from the clipboard and the generated
+    markdown is also written to the clipboard.

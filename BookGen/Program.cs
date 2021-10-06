@@ -78,6 +78,29 @@ namespace BookGen
             new WikiModule(),
         };
 
+        private static ModuleWithState[] CreateModules()
+        {
+            return new ModuleWithState[]
+            {
+                new BuildModule(CurrentState),
+                new GuiModule(CurrentState),
+                new AssemblyDocumentModule(CurrentState),
+                new SettingsModule(CurrentState, AppSetting),
+                new InitModule(CurrentState),
+                new PagegenModule(CurrentState),
+                new Md2HtmlModule(CurrentState),
+                new ChaptersModule(CurrentState),
+                new StatModule(CurrentState),
+                new EditModule(CurrentState, AppSetting),
+                new PreviewModule(CurrentState),
+                new ServeModule(CurrentState),
+                new UpdateModule(CurrentState),
+                new ImgConvertModule(CurrentState),
+                new StockSearchModule(CurrentState),
+                new MdTableModule(CurrentState),
+            };
+        }
+
         private static readonly List<ModuleWithState> ModulesWithState = new List<ModuleWithState>();
 
         private static SupportedOs GetCurrentOs()
@@ -92,7 +115,7 @@ namespace BookGen
                 return SupportedOs.None;
         }
 
-        public static void RunModule(string moduleName, IReadOnlyList<string> parameters)
+        internal static void RunModule(string moduleName, IReadOnlyList<string> parameters)
         {
             ModuleBase? moduleToRun = null;
             try
@@ -185,28 +208,6 @@ namespace BookGen
             {
                 disposable.Dispose();
             }
-        }
-
-        public static ModuleWithState[] CreateModules()
-        {
-            return new ModuleWithState[]
-            {
-                new BuildModule(CurrentState),
-                new GuiModule(CurrentState),
-                new AssemblyDocumentModule(CurrentState),
-                new SettingsModule(CurrentState, AppSetting),
-                new InitModule(CurrentState),
-                new PagegenModule(CurrentState),
-                new Md2HtmlModule(CurrentState),
-                new ChaptersModule(CurrentState),
-                new StatModule(CurrentState),
-                new EditModule(CurrentState, AppSetting),
-                new PreviewModule(CurrentState),
-                new ServeModule(CurrentState),
-                new UpdateModule(CurrentState),
-                new ImgConvertModule(CurrentState),
-                new StockSearchModule(CurrentState),
-            };
         }
 
         private static void ConfiugreStatelessModules(IEnumerable<ModuleWithState> modulesWithState)

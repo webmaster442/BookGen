@@ -6,6 +6,7 @@
 using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Utilities;
@@ -19,6 +20,8 @@ namespace BookGen.Modules
         }
 
         public override string ModuleCommand => "MdTable";
+
+        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem(ModuleCommand, "-d", "--delimiter");
 
         public override SupportedOs SupportedOs => SupportedOs.Windows;
 
