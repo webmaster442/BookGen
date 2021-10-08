@@ -39,7 +39,7 @@ namespace BookGen.Launch.Code
 
         public void Execute(object? parameter)
         {
-            if (Application.Current.MainWindow is not MainWindow main 
+            if (Application.Current.MainWindow is not MainWindow main
                 || string.IsNullOrEmpty(_appdir))
             {
                 return;

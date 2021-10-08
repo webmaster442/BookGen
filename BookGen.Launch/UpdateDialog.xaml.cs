@@ -69,7 +69,7 @@ namespace BookGen.Launch
             _searching = true;
             Dispatcher.Invoke(() => BtnOk.Visibility = Visibility.Collapsed);
             _latest = await _updater.GetLatestReleaseAsync(_tokenSource.Token, false);
-            if (_latest != null && 
+            if (_latest != null &&
                 _updater.IsUpdateNewerThanCurrentVersion(_latest))
             {
                 Log(LogLevel.Info, "Update found. Click Ok to start update");
@@ -84,7 +84,7 @@ namespace BookGen.Launch
 
         private void BtnOk_Click(object sender, RoutedEventArgs e)
         {
-            if (_latest != null 
+            if (_latest != null
                 && _updater.IsUpdateNewerThanCurrentVersion(_latest))
             {
                 _updater.LaunchUpdateScript(_latest);

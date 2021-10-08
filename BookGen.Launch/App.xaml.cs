@@ -16,7 +16,7 @@ namespace BookGen.Launch
     public partial class App : Application
     {
         private const string FileName = "BookGen.Launch.exe";
-        
+
         public static void UpdateJumplist(IEnumerable<string> items)
         {
             JumpList list = new JumpList();
