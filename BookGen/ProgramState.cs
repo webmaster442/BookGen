@@ -5,7 +5,6 @@
 
 using BookGen.Api;
 using BookGen.Contracts;
-using BookGen.Framework;
 using System;
 using System.Reflection;
 using Webmaster442.HttpServerFramework;

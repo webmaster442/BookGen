@@ -6,8 +6,6 @@
 using BookGen.Api;
 using BookGen.Core;
 using BookGen.Core.Contracts;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
 namespace BookGen.Framework.Shortcodes

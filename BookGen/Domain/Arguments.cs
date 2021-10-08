@@ -53,7 +53,7 @@ namespace BookGen.Domain
         public T GetArgumentOrFallback<T>(string argument, T fallback) where T : IConvertible
         {
             var key = _storage.Keys.FirstOrDefault(k => string.Compare(k, argument, true) == 0);
-            
+
             if (key == null)
                 return fallback;
 
@@ -63,7 +63,7 @@ namespace BookGen.Domain
         public T GetArgumentOrThrow<T>(string argument) where T : IConvertible
         {
             var key = _storage.Keys.FirstOrDefault(k => string.Compare(k, argument, true) == 0);
-            
+
             if (key == null)
                 throw new ArgumentException($"{argument} was not found");
 

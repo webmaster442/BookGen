@@ -21,7 +21,7 @@ namespace BookGen.Framework.Shortcodes
             _generator = generator;
         }
 
-        public string Tag { get;  }
+        public string Tag { get; }
 
         public string Generate(IArguments arguments)
         {

@@ -33,7 +33,7 @@ namespace BookGen.GeneratorSteps.Epub
                 {
                     //note: 1st entry is mimetype. It must not be compressed for correct epub export
                     zip.CreateEntryFromFile(files[0], GetEntryName(files[0], removeLength), CompressionLevel.NoCompression);
-                    for (int i=1; i<files.Length; i++)
+                    for (int i = 1; i < files.Length; i++)
                     {
                         zip.CreateEntryFromFile(files[i], GetEntryName(files[i], removeLength), CompressionLevel.Optimal);
                     }

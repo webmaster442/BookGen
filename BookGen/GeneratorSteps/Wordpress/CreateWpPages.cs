@@ -103,7 +103,7 @@ namespace BookGen.GeneratorSteps.Wordpress
         {
             var builder = new StringBuilder();
             builder.Append("<ul>\n");
-            foreach(var link in links)
+            foreach (var link in links)
             {
                 builder.AppendFormat("<li>{0}</li>\n", link.Text);
             }

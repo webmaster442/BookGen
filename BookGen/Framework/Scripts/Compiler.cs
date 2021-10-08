@@ -56,7 +56,7 @@ namespace BookGen.Framework.Scripts
                 .Where(p => neededAssemblies.Contains(Path.GetFileNameWithoutExtension(p)))
                 .Select(p => MetadataReference.CreateFromFile(p));
 
-            foreach(var reference in references)
+            foreach (var reference in references)
             {
                 _references.Add(reference);
             }

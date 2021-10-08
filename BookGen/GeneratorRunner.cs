@@ -12,7 +12,6 @@ using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
 using BookGen.Utilities;
 using System;
-using System.Diagnostics;
 using System.IO;
 using Webmaster442.HttpServerFramework;
 

@@ -43,7 +43,7 @@ namespace BookGen.GeneratorSteps.MarkdownGenerators
                     var contents = input.ReadFile(log);
 
                     var keywords = _keywordExtractor.GetKeywords(contents, 15);
-                    
+
                     foreach (var keyword in keywords)
                     {
                         terms.Add(keyword);

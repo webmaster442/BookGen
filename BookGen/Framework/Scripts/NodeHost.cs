@@ -20,7 +20,7 @@ namespace BookGen.Framework.Scripts
         public NodeHost(ILog log, IAppSetting appSettings)
         {
             _log = log;
-           _appSettings = appSettings;
+            _appSettings = appSettings;
         }
 
         internal static string EncodeForCmdLine(string arg)

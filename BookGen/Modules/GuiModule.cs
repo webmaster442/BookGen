@@ -84,7 +84,7 @@ namespace BookGen.Modules
 
         private (System.IO.Stream view, Gui.Mvvm.ViewModelBase model) UiRunner_OnNavigaton(string arg)
         {
-            if (arg == MainView 
+            if (arg == MainView
                 && _runner != null)
             {
                 var vm = new MainViewModel(_runner, CurrentState.Api);

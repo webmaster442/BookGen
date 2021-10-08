@@ -10,11 +10,11 @@ using BookGen.Core.Configuration;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
+using BookGen.Resources;
 using BookGen.Utilities;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using BookGen.Resources;
 
 namespace BookGen.GeneratorSteps
 {

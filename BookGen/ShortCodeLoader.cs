@@ -41,7 +41,7 @@ namespace BookGen
             _appSetting = appSetting;
 
             var catalog = new AggregateCatalog();
-            catalog.Catalogs.Add(new TypeCatalog(typeof(ILog), 
+            catalog.Catalogs.Add(new TypeCatalog(typeof(ILog),
                                                  typeof(IReadonlyRuntimeSettings),
                                                  typeof(IAppSetting)));
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(ShortCodeLoader).Assembly));

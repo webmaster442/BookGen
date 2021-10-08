@@ -4,21 +4,19 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Resources;
+using BookGen.Contracts;
 using BookGen.Core;
-using BookGen.Core.Configuration;
+using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Framework.Scripts;
-using BookGen.Domain;
-using BookGen.Contracts;
-using System;
+using BookGen.Resources;
 
 namespace BookGen
 {
     internal class WebsiteBuilder : Builder
     {
-        public WebsiteBuilder(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler) 
-            :base(settings, log, loader, scriptHandler)
+        public WebsiteBuilder(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
+            : base(settings, log, loader, scriptHandler)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(CreateAssets());

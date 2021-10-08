@@ -41,7 +41,7 @@ namespace BookGen.Domain.ArgumentParsing
             if (Input.IsWildCard())
             {
 
-                return Output.IsDirectory 
+                return Output.IsDirectory
                     && !string.IsNullOrEmpty(Format);
             }
             return Input.IsExisting;

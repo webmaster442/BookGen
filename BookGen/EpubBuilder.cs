@@ -36,9 +36,9 @@ namespace BookGen
 
         protected override string ConfigureTemplateContent()
         {
-            return TemplateLoader.LoadTemplate(Settings.SourceDirectory, 
+            return TemplateLoader.LoadTemplate(Settings.SourceDirectory,
                                                Settings.Configuration.TargetEpub,
-                                               _log, 
+                                               _log,
                                                ResourceHandler.GetFile(KnownFile.TemplateEpubHtml));
         }
     }

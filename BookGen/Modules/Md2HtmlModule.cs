@@ -8,8 +8,8 @@ using BookGen.Core.Markdown;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
-using BookGen.Resources;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Resources;
 using System;
 
 namespace BookGen.Modules

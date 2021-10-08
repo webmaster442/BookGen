@@ -9,14 +9,14 @@ using System.Globalization;
 namespace BookGen
 {
     [AttributeUsage(AttributeTargets.Assembly)]
-    internal class AssemblyBuildDateAttribute: Attribute
+    internal class AssemblyBuildDateAttribute : Attribute
     {
         public DateTime BuildDate { get; }
 
         public AssemblyBuildDateAttribute(string datestamp)
         {
             BuildDate = DateTime.ParseExact(datestamp,
-                                            "yyyyMMddHHmmss", 
+                                            "yyyyMMddHHmmss",
                                             CultureInfo.InvariantCulture,
                                             DateTimeStyles.AssumeLocal);
         }

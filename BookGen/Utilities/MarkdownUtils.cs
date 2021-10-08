@@ -41,7 +41,7 @@ namespace BookGen.Utilities
                     chapterLinks = new List<Link>(50);
                 }
                 else if (item is LinkInline link
-                    && !link.IsImage 
+                    && !link.IsImage
                     && link.FirstChild != null)
                 {
                     chapterLinks.Add(new Link(link.FirstChild.ToString()!, link.Url ?? string.Empty));

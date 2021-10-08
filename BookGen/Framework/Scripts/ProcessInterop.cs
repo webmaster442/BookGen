@@ -31,7 +31,7 @@ namespace BookGen.Framework.Scripts
                 string output = process.StandardOutput.ReadToEnd();
                 string err = process.StandardError.ReadToEnd();
 
-                if (process.WaitForExit(timeout*1000))
+                if (process.WaitForExit(timeout * 1000))
                 {
                     result.output = output;
                     result.exitcode = process.ExitCode;

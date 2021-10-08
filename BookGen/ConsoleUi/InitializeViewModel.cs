@@ -9,7 +9,7 @@ using BookGen.Gui.Mvvm;
 
 namespace BookGen.ConsoleUi
 {
-    internal class InitializeViewModel: ViewModelBase
+    internal class InitializeViewModel : ViewModelBase
     {
         private readonly ILog _log;
         private readonly FsPath _workDir;
@@ -59,7 +59,7 @@ namespace BookGen.ConsoleUi
             if (CreateScripts)
             {
                 _log.Info("Creating Script project...");
-                InitializerMethods.CreateScriptProject(_log, _workDir,  Program.CurrentState.ProgramDirectory);
+                InitializerMethods.CreateScriptProject(_log, _workDir, Program.CurrentState.ProgramDirectory);
             }
             if (CreateConfig)
             {

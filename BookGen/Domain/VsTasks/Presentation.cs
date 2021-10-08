@@ -55,7 +55,7 @@ namespace BookGen.Domain.VsTasks
         /// <summary>
         /// Controls whether the terminal instance is shared between task runs.
         /// </summary>
-        public Panel panel { get; set;}
+        public Panel panel { get; set; }
         /// <summary>
         /// Controls whether the terminal is cleared before this task is run. Default is false.
         /// </summary>

@@ -7,7 +7,6 @@ using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Resources;
-using System.IO;
 
 namespace BookGen.GeneratorSteps
 {

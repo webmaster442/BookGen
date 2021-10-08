@@ -62,8 +62,8 @@ namespace BookGen.Utilities
             return file.Extension == ".svg";
         }
 
-        private static (int renderWidth, int renderHeight, float scale) CalcNewSize(SKRect size, 
-                                                                                    int maxwidth, 
+        private static (int renderWidth, int renderHeight, float scale) CalcNewSize(SKRect size,
+                                                                                    int maxwidth,
                                                                                     int maxHeight)
         {
             float scale = 1.0f;
@@ -83,8 +83,8 @@ namespace BookGen.Utilities
                 scale = targetMin / imgMax;
             }
 
-            return (renderWidth: (int)(size.Width * scale), 
-                    renderHeight: (int)(size.Height * scale), 
+            return (renderWidth: (int)(size.Width * scale),
+                    renderHeight: (int)(size.Height * scale),
                     scale);
 
         }
@@ -129,7 +129,7 @@ namespace BookGen.Utilities
                 return input;
 
             int w = width ?? input.Width;
-            int h = height ?? input.Height; 
+            int h = height ?? input.Height;
 
             if (input.Width < w && input.Height < h)
                 return input;

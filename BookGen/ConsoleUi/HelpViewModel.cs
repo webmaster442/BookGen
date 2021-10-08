@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Modules;
 using BookGen.Gui.Mvvm;
+using BookGen.Modules;
 using System.Collections.Generic;
 using System.Linq;
 

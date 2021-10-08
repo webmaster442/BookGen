@@ -134,7 +134,7 @@ namespace BookGen
 
             var tocFile = new FsPath(_workdir).Combine(config.TOCFile);
             _log.Info("Parsing TOC file...");
-            
+
             toc = MarkdownUtils.ParseToc(tocFile.ReadFile(_log));
 
             _log.Info("Found {0} chapters and {1} files", toc.ChapterCount, toc.FilesCount);

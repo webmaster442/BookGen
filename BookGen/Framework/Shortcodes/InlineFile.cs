@@ -27,7 +27,7 @@ namespace BookGen.Framework.Shortcodes
 
         public string Generate(IArguments arguments)
         {
-           var name = arguments.GetArgumentOrThrow<string>("file");
+            var name = arguments.GetArgumentOrThrow<string>("file");
 
             FsPath file = new FsPath(name);
 
