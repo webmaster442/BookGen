@@ -14,9 +14,9 @@ namespace BookGen.Core.Markdown
         public static bool TryConvertToMarkdownTable(string input, char delimiter, out string formatted)
         {
             List<string[]> table = ParseTable(input, delimiter);
-            
+
             StringBuilder md = new StringBuilder();
-            for (int i=0; i<table.Count; i++)
+            for (int i = 0; i < table.Count; i++)
             {
                 WriteRow(md, table[i]);
                 if (i == 0)
@@ -32,7 +32,7 @@ namespace BookGen.Core.Markdown
 
         private static void WriteHeaderDivider(StringBuilder md, int length)
         {
-            for (int i=0; i<length; i++)
+            for (int i = 0; i < length; i++)
             {
                 md.Append("| ");
                 md.Append(":--");

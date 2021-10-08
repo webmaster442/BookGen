@@ -23,7 +23,7 @@ namespace BookGen.AssemblyDocumenter.Units
         /// </summary>
         /// <param name="element">The assembly XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>assembly</c>.</exception>
-        internal AssemblyUnit(XElement element): base(element, XmlElements.Assembly)
+        internal AssemblyUnit(XElement element) : base(element, XmlElements.Assembly)
         {
         }
 

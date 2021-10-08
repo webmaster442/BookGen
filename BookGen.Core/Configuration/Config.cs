@@ -25,7 +25,7 @@ namespace BookGen.Core.Configuration
             set;
         }
 
-        [Doc("Scripts directory relative to workdir. Scipts can extend the functionality of the generator", IsOptional =true)]
+        [Doc("Scripts directory relative to workdir. Scipts can extend the functionality of the generator", IsOptional = true)]
         public string ScriptsDirectory
         {
             get;

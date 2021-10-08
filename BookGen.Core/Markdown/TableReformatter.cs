@@ -124,7 +124,7 @@ namespace BookGen.Core.Markdown
 
                     result.Append(padded);
                     result.Append(" |");
-                    if (j != table[i].Length -1)
+                    if (j != table[i].Length - 1)
                     {
                         result.Append(" ");
                     }

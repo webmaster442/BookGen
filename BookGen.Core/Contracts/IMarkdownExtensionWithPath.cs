@@ -7,7 +7,7 @@ using Markdig;
 
 namespace BookGen.Core.Contracts
 {
-    public interface IMarkdownExtensionWithPath: IMarkdownExtension
+    public interface IMarkdownExtensionWithPath : IMarkdownExtension
     {
         FsPath Path { get; set; }
     }

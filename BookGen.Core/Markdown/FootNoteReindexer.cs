@@ -50,7 +50,7 @@ namespace BookGen.Core.Markdown
                 return;
             }
 
-            if (lastDefinition != null 
+            if (lastDefinition != null
                 && lastDefinition.Length > 3)
             {
                 var numberString = lastDefinition.Value[3..^1];
@@ -77,7 +77,7 @@ namespace BookGen.Core.Markdown
 
         private void DoReindexing(int currentDocLimit, StringBuilder regular, StringBuilder footnote)
         {
-            for (int i=currentDocLimit-1; i>=0; i--)
+            for (int i = currentDocLimit - 1; i >= 0; i--)
             {
                 int indexToReplace = i + 1;
                 int targetIndex = _counter + i + 1;

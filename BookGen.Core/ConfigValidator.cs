@@ -7,7 +7,7 @@ using BookGen.Core.Configuration;
 
 namespace BookGen.Core
 {
-    public class ConfigValidator: Validator
+    public class ConfigValidator : Validator
     {
         public ValidateFor ValidationLevel { get; set; }
 

@@ -14,10 +14,10 @@ namespace BookGen.Gui.XmlEntities
 
         [XmlAttribute]
         public int Top { get; set; }
-        
+
         [XmlAttribute]
         public WidthHandling WidthHandling { get; set; }
-        
+
         [XmlAttribute]
         public float Width { get; set; }
 

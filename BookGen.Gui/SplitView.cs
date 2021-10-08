@@ -27,7 +27,7 @@ namespace BookGen.Gui
         {
             foreach (var child in xSPlitView.Children)
             {
-                switch(child)
+                switch (child)
                 {
                     case XListBox listBox:
                         RenderListBox(listBox);
@@ -102,7 +102,7 @@ namespace BookGen.Gui
             result.Add(list);
             result.Height = Dim.Fill();
             UiPage.SetWidth(result, listBox);
-            
+
             Add(result);
             _left += Pos.Right(result);
         }

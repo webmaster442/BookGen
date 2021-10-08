@@ -12,7 +12,7 @@ using Terminal.Gui;
 
 namespace BookGen.Gui
 {
-    public sealed class ConsoleUi: IView, IDisposable
+    public sealed class ConsoleUi : IView, IDisposable
     {
         private Window? _window;
         private Binder? _binder;
@@ -40,7 +40,7 @@ namespace BookGen.Gui
 
         public void SwitchToView(string name)
         {
-            if (OnNavigaton!= null)
+            if (OnNavigaton != null)
             {
                 (Stream view, ViewModelBase model)? result = OnNavigaton?.Invoke(name);
                 if (_window != null)

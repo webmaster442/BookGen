@@ -72,7 +72,7 @@ namespace BookGen.Core.Configuration
             };
         }
 
-        public bool TryGetOption<T>(string setting, out T value) where T: struct
+        public bool TryGetOption<T>(string setting, out T value) where T : struct
         {
             if (!ContainsKey(setting))
             {
@@ -85,7 +85,7 @@ namespace BookGen.Core.Configuration
                 value = (T)Convert.ChangeType(this[setting], typeof(T));
                 return true;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 value = default;
                 return false;

@@ -10,7 +10,7 @@ namespace BookGen.Api.Configuration
     /// <summary>
     /// a Dictionary of key - value paris that can be used for translating
     /// </summary>
-    public interface IReadOnlyTranslations: IReadOnlyDictionary<string, string>
+    public interface IReadOnlyTranslations : IReadOnlyDictionary<string, string>
     {
     }
 }

@@ -7,7 +7,7 @@ using BookGen.Api.Configuration;
 
 namespace BookGen.Core.Configuration
 {
-    public sealed class StyleClasses: IReadOnylStyleClasses
+    public sealed class StyleClasses : IReadOnylStyleClasses
     {
         [Doc("css classes for: <H1>", true)]
         public string Heading1

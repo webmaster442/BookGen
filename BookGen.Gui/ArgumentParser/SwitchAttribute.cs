@@ -12,7 +12,7 @@ namespace BookGen.Gui.ArgumentParser
     public sealed class SwitchAttribute : Attribute, IEquatable<SwitchAttribute?>
     {
         public string LongName { get; }
-        public string ShortName { get;}
+        public string ShortName { get; }
 
         public bool Required { get; }
 

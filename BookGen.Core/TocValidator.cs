@@ -42,7 +42,7 @@ namespace BookGen.Core
 
             foreach (var file in _toc.Files)
             {
-                var source =  _workdir.Combine(file);
+                var source = _workdir.Combine(file);
                 if (!source.IsExisting)
                     AddError(Properties.Resources.TOCFileNotExists, file);
 
