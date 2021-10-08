@@ -11,12 +11,13 @@ dotnet publish -c Release --no-restore --no-build -o bin\publish\
 Write-Host "Creating changelog..."
 cd bin\Publish\ 
 .\BookGen.exe Md2HTML -i ..\..\Changelog.md -ns -o ChangeLog.html
+.\BookGen.exe Md2HTML -i ..\..\notes.md -ns -o RelaseNotes.html
 cd ..
 cd ..
 
 Write-Host "Creating zip package..."
 $compress = @{
-  Path = "bin\publish\*.*"
+  Path = "bin\publish\*"
   CompressionLevel = "Optimal"
   DestinationPath = "bin\published.Zip"
 }

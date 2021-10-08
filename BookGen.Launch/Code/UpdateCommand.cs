@@ -33,6 +33,7 @@ namespace BookGen.Launch.Code
 
         public bool CanExecute(object? parameter)
         {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
             return true;
         }
 
