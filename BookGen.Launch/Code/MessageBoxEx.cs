@@ -28,7 +28,25 @@ namespace BookGen.Launch.Code
             dialog.ShowDialog();
             main.Blocker.Visibility = Visibility.Collapsed;
             return dialog.ClickedButton;
+        }
 
+        public static void ShowDocument(string title, string fileName)
+        {
+            if (Application.Current.MainWindow is not MainWindow main)
+            {
+                return;
+            }
+
+            string text = "File can't be displayed";
+            if (System.IO.File.Exists(fileName))
+            {
+                text = System.IO.File.ReadAllText(fileName);
+            }
+            var dialog = new DocumentDialog(main, title, text);
+            dialog.Owner = Application.Current.MainWindow;
+            main.Blocker.Visibility = Visibility.Visible;
+            dialog.ShowDialog();
+            main.Blocker.Visibility = Visibility.Collapsed;
         }
     }
 }

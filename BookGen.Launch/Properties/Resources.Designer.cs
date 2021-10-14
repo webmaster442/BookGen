@@ -19,7 +19,7 @@ namespace BookGen.Launch.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,27 +57,6 @@ namespace BookGen.Launch.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to # 2021.09
-        ///* New: XML documentation generator reworked. Now uses XmlDocMarkdown
-        ///* New: Syntax rendering reworked, improved
-        ///* New: Rewrote launcher (again), Has more features
-        ///	* New layout
-        ///	* Options to start VS code, File explorer, Preview and bookgen shell for folder
-        ///	* Filtering for recent folders
-        ///	* Integrated changelog
-        ///	* Will be used as base point for future installers
-        ///* Fix: Improved XHTML compatibility for epub
-        ///* Fix: Fixed a memory leak in the generator
-        ///* Fix: Various code quality fixes
-        ///* [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string Changelog {
-            get {
-                return ResourceManager.GetString("Changelog", resourceCulture);
             }
         }
         

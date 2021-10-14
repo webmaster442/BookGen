@@ -11,7 +11,9 @@ namespace BookGen.Launch.Code
 {
     public class UpdateCommand : ICommand
     {
+#pragma warning disable CS0067
         public event EventHandler? CanExecuteChanged;
+#pragma warning restore CS0067
 
         private readonly DateTime _version;
         private readonly string _appdir;
@@ -33,7 +35,6 @@ namespace BookGen.Launch.Code
 
         public bool CanExecute(object? parameter)
         {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
             return true;
         }
 
