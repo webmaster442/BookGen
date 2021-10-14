@@ -12,6 +12,11 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 ---
 
+## Recomended tools
+
+* [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701)
+* [Visual Studio code](https://code.visualstudio.com/)
+
 ## Used libaries
 
 
