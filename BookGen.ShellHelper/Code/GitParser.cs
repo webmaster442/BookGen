@@ -1,4 +1,9 @@
-﻿using BookGen.ShellHelper.Domain;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.ShellHelper.Domain;
 using System;
 
 namespace BookGen.ShellHelper.Code
