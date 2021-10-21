@@ -1,5 +1,5 @@
 ﻿function prompt {
-    $git = $(BookGen.ShellHelper.exe "prompt" $(Get-Location)) | Out-String
+    $git = $(BookGen.ShellHelper.exe "prompt" $(Get-Location).Path) | Out-String
     'PS ' +  $(Get-Location) + ' '+$git+ $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
 }
 

@@ -18,6 +18,7 @@ public static class Program
 
     public static void Main(string[] arguments)
     {
+        //Console.ReadKey();
         if (arguments.Length == 2
             && arguments[0] == PromptMode)
         {
@@ -28,14 +29,14 @@ public static class Program
 
     private static void DoPrompt(string workDir)
     {
-        if (string.IsNullOrEmpty(workDir)
+        if (!string.IsNullOrEmpty(workDir)
             && TestIfGitDir(workDir))
         {
             var (exitcode, output) = ProcessRunner.RunProcess("git", "status -b -s --porcelain=2 --ignored MADRU", TimeOut);
             if (exitcode == 0)
             {
                 var status = GitParser.ParseStatus(output);
-                Console.WriteLine("({0}) ↙: {1} ↗:{2}", status.BranchName, status.IncommingCommits, status.OutGoingCommits);
+                Console.WriteLine("({0}) ↓: {1} ↑:{2}", status.BranchName, status.IncommingCommits, status.OutGoingCommits);
             }
         }
     }

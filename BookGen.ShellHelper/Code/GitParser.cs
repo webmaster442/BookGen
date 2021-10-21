@@ -14,7 +14,7 @@ namespace BookGen.ShellHelper.Code
         {
             string[] lines = status.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (lines.Length != 5)
+            if (lines.Length < 4)
                 return new GitStatus();
 
             string[] inout = Extract(lines[3], "# branch.ab ").Split(' ');
