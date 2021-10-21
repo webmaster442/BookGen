@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Core;
 using System;
 using System.IO;
 
@@ -36,7 +37,7 @@ namespace BookGen.Framework.Scripts
 
             try
             {
-                var (exitcode, output) = ProcessInterop.RunProcess(programPath, fileToExecute, timeout);
+                var (exitcode, output) = ProcessRunner.RunProcess(programPath, fileToExecute, timeout);
 
                 if (exitcode != 0)
                 {
