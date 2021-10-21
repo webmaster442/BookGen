@@ -25,15 +25,14 @@ namespace BookGen.Launch.Code
                 {
                     var dn = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.dn.ps1");
                     var bg = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.ps1");
+                    var sh = ResourceHandler.GetResourceFile<KnownFile>("Powershell/shell.ps1");
 
                     file.WriteLine("$env:Path += \";{0}\"", AppContext.BaseDirectory);
                     file.WriteLine("Set-Location \"{0}\"", folder);
                     file.WriteLine(dn);
                     file.WriteLine(bg);
                     file.WriteLine("Remove-Item \"{0}\"", name);
-                    file.WriteLine("echo \"To get info on using bookgen type: Bookgen Help\"");
-                    file.WriteLine("echo \"To get list of commands type: Bookgen SubCommands\"");
-                    file.WriteLine("echo \"\"");
+                    file.WriteLine(sh);
                 }
 
                 shellScriptPath = name;

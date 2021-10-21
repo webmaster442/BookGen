@@ -10,7 +10,7 @@ namespace BookGen.Core
 {
     public static class ProcessRunner
     {
-        public static (int exitcode, string output) RunProcess(string command, string arguments, int timeout)
+        public static (int exitcode, string output) RunProcess(string command, string arguments, int timeout, string workdir = "")
         {
             (int exitcode, string output) result = (-1, string.Empty);
 
@@ -21,6 +21,8 @@ namespace BookGen.Core
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
+                if (!string.IsNullOrEmpty(workdir))
+                    process.StartInfo.WorkingDirectory = workdir;
                 process.StartInfo.CreateNoWindow = true;
 
                 process.Start();

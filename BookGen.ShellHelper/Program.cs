@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 public static class Program
 {
     private const string PromptMode = "prompt";
+    private const int TimeOut = 1000;
 
     public static void Main(string[] arguments)
     {
@@ -28,14 +29,20 @@ public static class Program
     private static void DoPrompt(string workDir)
     {
         if (string.IsNullOrEmpty(workDir)
-            && Directory.Exists(Path.Combine(workDir, ".git")))
+            && TestIfGitDir(workDir))
         {
-            var (exitcode, output) = ProcessRunner.RunProcess("git", "status -b -s --porcelain=2 --ignored MADRU", 1000);
+            var (exitcode, output) = ProcessRunner.RunProcess("git", "status -b -s --porcelain=2 --ignored MADRU", TimeOut);
             if (exitcode == 0)
             {
                 var status = GitParser.ParseStatus(output);
                 Console.WriteLine("({0}) ↙: {1} ↗:{2}", status.BranchName, status.IncommingCommits, status.OutGoingCommits);
             }
         }
+    }
+
+    private static bool TestIfGitDir(string workDir)
+    {
+        var (exitcode, _) = ProcessRunner.RunProcess("git", "status 2", TimeOut);
+        return exitcode == 0;
     }
 }
