@@ -6,7 +6,6 @@
 using BookGen.Core;
 using BookGen.ShellHelper.Code;
 using System;
-using System.IO;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("BookGen.Tests")]
