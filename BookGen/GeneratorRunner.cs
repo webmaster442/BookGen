@@ -120,6 +120,16 @@ namespace BookGen
 
         #region Argument handlers
 
+        private void RunBuilder<TBuilder>(Func<ShortCodeLoader, TBuilder> builderCreator, RuntimeSettings settings) where TBuilder : BookGen.Framework.Builder
+        {
+            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
+            {
+                TBuilder instance = builderCreator(loader);
+                var runTime = instance.Run();
+                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+            }
+        }
+
         public void DoBuild()
         {
             if (_configuration == null)
@@ -128,16 +138,11 @@ namespace BookGen
             if (_toc == null)
                 throw new InvalidOperationException("Table of contents is null");
 
-            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetWeb);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetWeb);
 
             Log.Info("Building deploy configuration...");
 
-            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
-            {
-                WebsiteBuilder builder = new WebsiteBuilder(settings, Log, loader, _scriptHandler);
-                var runTime = builder.Run();
-                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
-            }
+            RunBuilder((loader) => new WebsiteBuilder(settings, Log, loader, _scriptHandler), settings);
         }
 
         public void DoPrint()
@@ -152,12 +157,7 @@ namespace BookGen
 
             Log.Info("Building print configuration...");
 
-            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
-            {
-                PrintBuilder builder = new PrintBuilder(settings, Log, loader, _scriptHandler);
-                var runTime = builder.Run();
-                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
-            }
+            RunBuilder((loader) => new PrintBuilder(settings, Log, loader, _scriptHandler), settings);
         }
 
         public void DoEpub()
@@ -172,12 +172,7 @@ namespace BookGen
 
             Log.Info("Building epub configuration...");
 
-            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
-            {
-                EpubBuilder builder = new EpubBuilder(settings, Log, loader, _scriptHandler);
-                var runTime = builder.Run();
-                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
-            }
+            RunBuilder((loader) => new EpubBuilder(settings, Log, loader, _scriptHandler), settings);
         }
 
         public void DoWordpress()
@@ -192,12 +187,7 @@ namespace BookGen
 
             Log.Info("Building Wordpress configuration...");
 
-            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
-            {
-                WordpressBuilder builder = new WordpressBuilder(settings, Log, loader, _scriptHandler);
-                var runTime = builder.Run();
-                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
-            }
+            RunBuilder((loader) => new WordpressBuilder(settings, Log, loader, _scriptHandler), settings);
         }
 
         public void DoTest()
