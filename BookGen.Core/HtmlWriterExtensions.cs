@@ -50,7 +50,7 @@ namespace BookGen.Core
             stringBuilder.Append("</p>");
             return stringBuilder;
         }
-        
+
         public static StringBuilder WriteHref(this StringBuilder stringBuilder, string link, string displaystring, params string[] cssclasses)
         {
             var css = string.Join(' ', cssclasses);

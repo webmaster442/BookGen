@@ -10,7 +10,6 @@ using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Framework;
 using System.Linq;
-using System.Text;
 
 namespace BookGen.GeneratorSteps
 {

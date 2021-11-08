@@ -7,7 +7,7 @@ using BookGen.Api.Configuration;
 
 namespace BookGen.Core.Configuration
 {
-    public sealed class Asset: IReadOnlyAsset
+    public sealed class Asset : IReadOnlyAsset
     {
         [Doc("path relative to input directory", true)]
         public string Source

@@ -106,7 +106,7 @@ namespace BookGen.Framework.Server
                 await response.Write(_processor.Render());
                 return true;
             }
-            else if (CanServeFromDir(request.Url, out string found) 
+            else if (CanServeFromDir(request.Url, out string found)
                      && log is ILog bookGenLog)
             {
                 _processor.Title = $"Preview of {request.Url}";

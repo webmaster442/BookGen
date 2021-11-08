@@ -7,7 +7,7 @@ namespace BookGen.Api
     /// Represents Arguments and values that are passed to the Script.
     /// Argument names are case insensitive.
     /// </summary>
-    public interface IArguments:  IReadOnlyCollection<KeyValuePair<string, string>>
+    public interface IArguments : IReadOnlyCollection<KeyValuePair<string, string>>
     {
         /// <summary>
         /// Argument names -> all lowercase
@@ -46,6 +46,6 @@ namespace BookGen.Api
         /// <param name="argument">Argument to get</param>
         /// <returns>Argument value converted to type.</returns>
         /// <exception cref="ArgumentException"></exception>
-        T GetArgumentOrThrow<T>(string argument) where T: IConvertible;
+        T GetArgumentOrThrow<T>(string argument) where T : IConvertible;
     }
 }

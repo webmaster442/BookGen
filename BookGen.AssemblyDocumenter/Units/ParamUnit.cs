@@ -66,8 +66,8 @@ namespace BookGen.AssemblyDocumenter.Units
                 }
                 else
                 {
-                    return new[] 
-                    { 
+                    return new[]
+                    {
                         "##### Parameters",
                         $"This {memberKind.ToLowerString()} has no parameters.",
                     };

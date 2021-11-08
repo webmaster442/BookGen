@@ -19,7 +19,7 @@ namespace BookGen.Launch
         public DelegateCommand OpenWebsiteCommand { get; }
 
         public DelegateCommand InstallPathVariableCommand { get; }
-        public DelegateCommand ShowChangeLogCommand { get; }
+        public DelegateCommand ShowDocumentCommand { get; }
 
         public ICommand StartShellCommand { get; }
         public ICommand StartPreviewCommand { get; }
@@ -33,11 +33,9 @@ namespace BookGen.Launch
         public string Version { get; }
 
         private const string EnvPathVariable = "PATH";
-        private readonly IMainWindow _mainWindow;
 
-        public MainViewModel(IMainWindow mainWindow)
+        public MainViewModel()
         {
-            _mainWindow = mainWindow;
             FolderList = new FolderList();
             OpenFolderCommand = new DelegateCommand(OnOpenFolder);
             ClearFoldersCommand = new DelegateCommand(OnClearFolders);
@@ -45,7 +43,7 @@ namespace BookGen.Launch
             CheckUpdateCommand = new UpdateCommand();
 
             InstallPathVariableCommand = new DelegateCommand(OnInstallPath, OnCaninstallPath);
-            ShowChangeLogCommand = new DelegateCommand((o) => _mainWindow.ShowChangeLog());
+            ShowDocumentCommand = new DelegateCommand(OnShowDocument);
 
             StartShellCommand = new StartShellCommand();
             StartPreviewCommand = new RunProgramCommand("BookGen.exe", "preview");
@@ -55,6 +53,15 @@ namespace BookGen.Launch
             Version = GetVersion();
 
             ProcessArguments();
+        }
+
+        private void OnShowDocument(object? obj)
+        {
+            if (obj is string fileName)
+            {
+                var fileWithPath = System.IO.Path.Combine(AppContext.BaseDirectory, fileName);
+                MessageBoxEx.ShowDocument(fileName, fileWithPath);
+            }
         }
 
         private void ProcessArguments()

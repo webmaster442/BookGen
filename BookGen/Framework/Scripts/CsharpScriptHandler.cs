@@ -29,7 +29,7 @@ namespace BookGen.Framework.Scripts
         {
             _log = log;
             _compiler = new Compiler(log);
-            _compiler.AddTypeReference<IReadOnlyDictionary<string,string>>();
+            _compiler.AddTypeReference<IReadOnlyDictionary<string, string>>();
             _compiler.AddTypeReference<IScript>();
             _compiler.AddTypeReference<IScriptHost>();
             _scripts = new List<IScript>();

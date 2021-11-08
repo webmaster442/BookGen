@@ -82,7 +82,7 @@ namespace BookGen.Gui
         {
             int end = verticalLine.Height + verticalLine.Top;
 
-            for (int i=verticalLine.Top; i<end; i++)
+            for (int i = verticalLine.Top; i < end; i++)
             {
                 var label = new Label(verticalLine.Symbol.ToString())
                 {
@@ -104,7 +104,7 @@ namespace BookGen.Gui
             var result = new Button(button.Text ?? "")
             {
                 X = Pos.Left(this) + button.Left,
-                Y = Pos.Top(this) +  button.Top,
+                Y = Pos.Top(this) + button.Top,
             };
             if (button.Command != null)
             {

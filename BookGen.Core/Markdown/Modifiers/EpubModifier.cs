@@ -12,7 +12,7 @@ using System;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    internal sealed class EpubModifier: IMarkdownExtensionWithRuntimeConfig, IMarkdownExtensionWithSyntaxToggle, IDisposable
+    internal sealed class EpubModifier : IMarkdownExtensionWithRuntimeConfig, IMarkdownExtensionWithSyntaxToggle, IDisposable
     {
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
         private MarkdownPipelineBuilder? _pipeline;

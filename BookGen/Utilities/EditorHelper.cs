@@ -21,7 +21,7 @@ namespace BookGen.Utilities
             ".html",
             ".htm",
             ".css",
-            ".cmd", 
+            ".cmd",
             ".ps",
             ".sh",
             ".css",

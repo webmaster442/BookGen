@@ -55,7 +55,7 @@ namespace BookGen.Framework
             };
         }
 
-        private static string DescriptionAttr<T>(this T source) where T: struct
+        private static string DescriptionAttr<T>(this T source) where T : struct
         {
             string name = source.ToString() ?? "";
             FieldInfo? fi = source.GetType().GetField(name);
@@ -68,7 +68,7 @@ namespace BookGen.Framework
 
             if (attributes?.Length > 0)
                 return attributes[0].Description;
-            else 
+            else
                 return name;
         }
 
@@ -88,7 +88,7 @@ namespace BookGen.Framework
             {
                 BuildAction value = (BuildAction)Enum.Parse(typeof(BuildAction), task);
                 yield return CreateTask($"Build -a {value} -d $PWD",
-                                         $"Build -a {value} -d %cd%", 
+                                         $"Build -a {value} -d %cd%",
                                          value.DescriptionAttr());
 
             }

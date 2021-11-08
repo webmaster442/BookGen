@@ -59,8 +59,8 @@ namespace BookGen.Core.Markdown.Modifiers
                                          document);
             foreach (var node in document.Descendants())
             {
-                if (node is LinkInline link 
-                    && IsOffHostLink(link, RuntimeConfig) 
+                if (node is LinkInline link
+                    && IsOffHostLink(link, RuntimeConfig)
                     && RuntimeConfig.Configuration.LinksOutSideOfHostOpenNewTab)
                 {
                     link.GetAttributes().AddProperty("target", "_blank");

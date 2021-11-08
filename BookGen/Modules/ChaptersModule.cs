@@ -59,8 +59,8 @@ namespace BookGen.Modules
                 switch (args.Action)
                 {
                     case ChaptersAction.GenSummary:
-                        return ChapterProcessingUtils.GenerateSummaryFile(args.WorkDir, 
-                                                                          configuration, 
+                        return ChapterProcessingUtils.GenerateSummaryFile(args.WorkDir,
+                                                                          configuration,
                                                                           CurrentState.Log)
                                                       .ToSuccesOrError();
                     case ChaptersAction.Scan:

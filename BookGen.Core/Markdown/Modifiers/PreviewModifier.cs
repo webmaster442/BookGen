@@ -71,7 +71,7 @@ namespace BookGen.Core.Markdown.Modifiers
                 if (node is LinkInline link
                     && link.IsImage
                     && !string.IsNullOrEmpty(link.Url))
-               {
+                {
                     link.Url = Base64EncodeIfLocal(link.Url);
                 }
             }

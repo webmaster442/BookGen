@@ -48,7 +48,7 @@ namespace BookGen
 
         public static void SaveAppSettings(AppSetting appSetting)
         {
-            string file = GetConfigFile()+".new";
+            string file = GetConfigFile() + ".new";
 
             var contents = JsonSerializer.Serialize<AppSetting>(appSetting, new JsonSerializerOptions
             {

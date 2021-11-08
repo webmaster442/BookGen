@@ -204,7 +204,7 @@ namespace BookGen.Core
         {
             var outp = directory.Combine("index.html");
             StringBuilder sb = new StringBuilder(4096);
-            for (int i=0; i<256; i++)
+            for (int i = 0; i < 256; i++)
             {
                 sb.Append("                ");
             }
@@ -284,7 +284,7 @@ namespace BookGen.Core
             }
         }
 
-        public static T? DeserializeJson<T>(this FsPath path, ILog log) where T: class, new()
+        public static T? DeserializeJson<T>(this FsPath path, ILog log) where T : class, new()
         {
             try
             {
@@ -384,7 +384,7 @@ namespace BookGen.Core
             {
                 string filespec = path.ToString();
                 string folder = file.ToString();
-                
+
                 if (file.Extension == null)
                     folder = Path.GetDirectoryName(file.ToString()) ?? string.Empty;
 

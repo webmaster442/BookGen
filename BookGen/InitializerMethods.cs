@@ -22,9 +22,9 @@ namespace BookGen
         private const string ScriptProject = "Scripts\\ScriptProject.csproj";
 
         internal static void CreateConfig(ILog log,
-                                          FsPath workDir, 
-                                          bool configInYaml, 
-                                          bool createMdFiles, 
+                                          FsPath workDir,
+                                          bool configInYaml,
+                                          bool createMdFiles,
                                           bool createTemplates,
                                           bool createScripts)
         {

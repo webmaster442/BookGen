@@ -13,7 +13,7 @@ namespace BookGen.Gui.Wpf
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void Set<T>(ref T field, T value, [CallerMemberName]string? propName = null)
+        protected void Set<T>(ref T field, T value, [CallerMemberName] string? propName = null)
         {
             if (!EqualityComparer<T>.Default.Equals(field, value))
             {

@@ -12,7 +12,7 @@ using System;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
-    public sealed class WordpressModifier: IMarkdownExtensionWithRuntimeConfig, IDisposable
+    public sealed class WordpressModifier : IMarkdownExtensionWithRuntimeConfig, IDisposable
     {
         private MarkdownPipelineBuilder? _pipeline;
 

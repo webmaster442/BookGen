@@ -96,9 +96,9 @@ namespace BookGen.GeneratorSteps.Epub
             });
             manifest.Item.Add(new Item
             {
-               Id = "ncx",
-               Mediatype = "application/x-dtbncx+xml",
-               Href = "toc.ncx"
+                Id = "ncx",
+                Mediatype = "application/x-dtbncx+xml",
+                Href = "toc.ncx"
             });
 
             foreach (var file in _session.GeneratedFiles)

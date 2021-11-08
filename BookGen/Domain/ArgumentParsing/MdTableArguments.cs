@@ -7,10 +7,10 @@ using BookGen.Gui.ArgumentParser;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class MdTableArguments: ArgumentsBase
+    internal class MdTableArguments : ArgumentsBase
     {
         [Switch("d", "delimiter")]
-        public char Delimiter {  get; set; }
+        public char Delimiter { get; set; }
 
         public MdTableArguments()
         {

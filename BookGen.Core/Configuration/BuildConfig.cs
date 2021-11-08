@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace BookGen.Core.Configuration
 {
-    public sealed class BuildConfig: IReadOnlyBuildConfig
+    public sealed class BuildConfig : IReadOnlyBuildConfig
     {
         [Doc("Output directory, relative to work directory")]
         public string OutPutDirectory { get; set; }

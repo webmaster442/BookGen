@@ -16,7 +16,7 @@ namespace BookGen.Api
         /// <summary>
         /// Write out all remaining info in buffered implementations.
         /// </summary>
-        void Flush() 
+        void Flush()
         {
             //by default do nothing
         }

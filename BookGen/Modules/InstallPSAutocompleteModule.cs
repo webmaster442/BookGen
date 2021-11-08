@@ -7,8 +7,8 @@ using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
-using BookGen.Resources;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Resources;
 using System.Text;
 
 namespace BookGen.Modules

@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace BookGen.Gui.XmlEntities
 {
-    public record XCheckBox: XView
+    public record XCheckBox : XView
     {
         [XmlAttribute]
         public string IsChecked { get; set; }

@@ -132,7 +132,7 @@ namespace BookGen.Modules
         private void RunGetLinks(RuntimeSettings settings, ILog log)
         {
             var generator = new GetLinksGenerator();
-            string? content =  generator.RunStep(settings, log);
+            string? content = generator.RunStep(settings, log);
 
             log.Info("Writing file: links.md...");
             FsPath output = settings.SourceDirectory.Combine("links.md");

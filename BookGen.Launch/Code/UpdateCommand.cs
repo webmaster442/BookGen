@@ -11,7 +11,9 @@ namespace BookGen.Launch.Code
 {
     public class UpdateCommand : ICommand
     {
+#pragma warning disable CS0067
         public event EventHandler? CanExecuteChanged;
+#pragma warning restore CS0067
 
         private readonly DateTime _version;
         private readonly string _appdir;
@@ -39,7 +41,7 @@ namespace BookGen.Launch.Code
 
         public void Execute(object? parameter)
         {
-            if (Application.Current.MainWindow is not MainWindow main 
+            if (Application.Current.MainWindow is not MainWindow main
                 || string.IsNullOrEmpty(_appdir))
             {
                 return;

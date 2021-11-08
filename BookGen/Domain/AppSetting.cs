@@ -7,7 +7,7 @@ using BookGen.Contracts;
 
 namespace BookGen.Domain
 {
-    public class AppSetting: IAppSetting
+    public class AppSetting : IAppSetting
     {
         public int NodeJsTimeout { get; set; }
         public string NodeJsPath { get; set; }

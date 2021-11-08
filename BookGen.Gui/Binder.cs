@@ -46,7 +46,7 @@ namespace BookGen.Gui
 
         }
 
-        private T? GetPropertyValue<T>(string bindingExpression) where T: class
+        private T? GetPropertyValue<T>(string bindingExpression) where T : class
         {
             var property = GetPropertyName(bindingExpression);
             if (_propertyRegex.IsMatch(property))
@@ -111,7 +111,7 @@ namespace BookGen.Gui
                     case XCheckBox checkBox:
                         if (IsBindable(checkBox.IsChecked)
                             && rendered is CheckBox checkBoxRender
-                            && type== typeof(bool))
+                            && type == typeof(bool))
                         {
                             checkBoxRender.Checked = GetBindedBool(checkBox.IsChecked);
                         }

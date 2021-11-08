@@ -45,9 +45,9 @@ namespace BookGen.Framework
 
         private TemplateProcessor CreateTemplateProcessor()
         {
-            return new TemplateProcessor(Settings.Configuration, 
-                                         new ShortCodeParser(_loader.Imports, 
-                                                             _scriptHandler, 
+            return new TemplateProcessor(Settings.Configuration,
+                                         new ShortCodeParser(_loader.Imports,
+                                                             _scriptHandler,
                                                              Settings.Configuration.Translations,
                                                              _log),
                                          _staticContent);

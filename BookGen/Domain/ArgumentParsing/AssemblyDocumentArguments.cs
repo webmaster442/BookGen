@@ -9,7 +9,7 @@ using System.IO;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal sealed class AssemblyDocumentArguments: ArgumentsBase
+    internal sealed class AssemblyDocumentArguments : ArgumentsBase
     {
         [Switch("a", "assembly", true)]
         public FsPath AssemblyPath { get; set; }

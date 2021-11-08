@@ -30,7 +30,7 @@ namespace BookGen.Modules
             CurrentState.Log.Info("Current version: {0}", CurrentState.BuildDate);
             CurrentState.Log.Info("Update version: {0}", release?.Version ?? "unknown");
 
-            if (release !=null 
+            if (release != null
                 && updater.IsUpdateNewerThanCurrentVersion(release))
             {
                 CurrentState.Log.Info("Preparing to launch update script...");

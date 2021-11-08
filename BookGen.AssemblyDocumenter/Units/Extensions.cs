@@ -248,8 +248,8 @@ namespace BookGen.AssemblyDocumenter.Units
 
         private static string ToSeeTagMarkdownSpan(this XElement seeTag)
         {
-            return seeTag?.Attribute(XmlAttributes.Cref)?.Value?.ToReferenceLink(useShortName: true) 
-                ?? seeTag?.Attribute(XmlAttributes.Langword)?.Value?.AsCode() 
+            return seeTag?.Attribute(XmlAttributes.Cref)?.Value?.ToReferenceLink(useShortName: true)
+                ?? seeTag?.Attribute(XmlAttributes.Langword)?.Value?.AsCode()
                 ?? string.Empty;
         }
 

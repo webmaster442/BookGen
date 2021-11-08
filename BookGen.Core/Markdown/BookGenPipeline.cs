@@ -16,12 +16,12 @@ namespace BookGen.Core.Markdown
         {
             get => new MarkdownPipelineBuilder().Use<WebModifier>().UseAdvancedExtensions().Build();
         }
-        
+
         public static MarkdownPipeline Print
         {
             get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
         }
-        
+
         public static MarkdownPipeline Plain
         {
             get => new MarkdownPipelineBuilder().Build();
@@ -36,7 +36,7 @@ namespace BookGen.Core.Markdown
         {
             get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PreviewModifier>().Build();
         }
-        
+
         public static MarkdownPipeline Wordpress
         {
             get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<WordpressModifier>().Build();

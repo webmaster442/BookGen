@@ -5,10 +5,10 @@
 
 namespace BookGen.Gui.XmlEntities
 {
-	public enum WidthHandling
-	{
-		Auto,
-		Percent,
-		Columns,
-	}
+    public enum WidthHandling
+    {
+        Auto,
+        Percent,
+        Columns,
+    }
 }
