@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2021 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,6 +16,7 @@ namespace BookGen.Gui
     {
         private Window? _window;
         private Binder? _binder;
+        private bool _running;
 
         public void Run(Stream view, ViewModelBase model)
         {
@@ -62,10 +63,11 @@ namespace BookGen.Gui
         {
             if (Application.Top?.Running == true)
             {
-                Application.RequestStop();
-                Application.Driver.End();
+                Application.Top.Remove(_window);
+                Application.Shutdown();
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.Clear();
+                _running = false;
             }
         }
 
@@ -81,9 +83,13 @@ namespace BookGen.Gui
                     HotNormal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
                     Normal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
                 };
-                Application.Top.Add(_window);
+                if (Application.Top.Subviews.Count < 1)
+                {
+                    Application.Top.Add(_window);
+                }
             }
             Application.Run();
+            _running = false;
         }
 
         public void ExitApp()
@@ -111,7 +117,7 @@ namespace BookGen.Gui
 
         public void Dispose()
         {
-            if (_window != null)
+            if (_window != null && _running)
             {
                 _window.Dispose();
                 _window = null;
