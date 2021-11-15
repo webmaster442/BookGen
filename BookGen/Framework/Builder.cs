@@ -8,6 +8,7 @@ using BookGen.Contracts;
 using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Framework.Scripts;
+using BookGen.Gui;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -66,9 +67,11 @@ namespace BookGen.Framework
         {
             Settings.OutputDirectory = ConfigureOutputDirectory(Settings.SourceDirectory);
             Stopwatch sw = new Stopwatch();
+            ConsoleProgressbar progressbar = new(0, _steps.Count);
             sw.Start();
             try
             {
+                progressbar.SwitchBuffers();
                 int stepCounter = 1;
                 foreach (var step in _steps)
                 {
@@ -85,13 +88,15 @@ namespace BookGen.Framework
                             break;
                     }
 
-                    _log.Info("Step {0} of {1}", stepCounter, _steps.Count);
+                    progressbar.Report(stepCounter, "Step {0} of {1}", stepCounter, _steps.Count);
                     step.RunStep(Settings, _log);
                     ++stepCounter;
                 }
+                progressbar.SwitchBuffers();
             }
             catch (Exception ex)
             {
+                progressbar.SwitchBuffers();
                 _log.Critical(ex);
 
 #if TESTBUILD
