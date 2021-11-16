@@ -6,6 +6,7 @@
 * New: Log output to JSON with the global -js argument.
 * New: Assembly documenting to a single markdown file (usefull for wiki pages)
 * New: Installer based on Inno setup
+* Change: Build process now indicates with a console progressbar
 * Change: Updated bootstrap to 5.1
 * Change: BookGen shell now displays git info in prompt, if folder is git repo.
 * Change: Autocomplete handles global arguments.
