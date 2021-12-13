@@ -36,7 +36,32 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
-
+                <Menu
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Background="Transparent">
+                    <MenuItem Header="File">
+                        <MenuItem Header="Open ..." />
+                        <Separator />
+                        <MenuItem Header="Save" />
+                        <MenuItem Header="Save as ..." />
+                        <Separator />
+                        <MenuItem Header="Close" />
+                    </MenuItem>
+                    <MenuItem Header="Export">
+                        <MenuItem Header="Options">
+                            <MenuItem
+                                Header="Raw html"
+                                IsCheckable="True" />
+                            <MenuItem
+                                Header="Syntax highlight"
+                                IsCheckable="True" />
+                        </MenuItem>
+                        <MenuItem Header="Export to file ..." />
+                        <MenuItem Header="Export to clipboard" />
+                    </MenuItem>
+                </Menu>
+                <Rectangle Width="20"/>
                 <Button
                     Command="{Binding ElementName=Editor, Path=WrapOnBothSidesCommand}"
                     CommandParameter="#"
@@ -106,10 +131,10 @@
             Orientation="Horizontal">
             <Button
                 Command="{Binding ElementName=Editor, Path=FontDecrease}"
-                Content="-"/>
+                Content="-" />
             <Button
                 Command="{Binding ElementName=Editor, Path=FontIncrease}"
-                Content="+"/>
+                Content="+" />
             <TextBlock
                 Margin="5,0"
                 VerticalAlignment="Center"
