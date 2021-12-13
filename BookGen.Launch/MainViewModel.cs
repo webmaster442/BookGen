@@ -26,6 +26,7 @@ namespace BookGen.Launch
         public ICommand OpenSelectedFolderCommand { get; }
         public ICommand OpenInVsCodeCommand { get; }
         public ICommand CheckUpdateCommand { get; }
+        public ICommand QuickEditCommand { get; }
         public DelegateCommand RemoveItemCommand { get; }
 
         public FolderList FolderList { get; }
@@ -50,9 +51,15 @@ namespace BookGen.Launch
             OpenSelectedFolderCommand = new RunProgramCommand("Explorer.exe", "");
             OpenInVsCodeCommand = new RunVsCodeCommand();
             RemoveItemCommand = new DelegateCommand(OnRemoveItem);
+            QuickEditCommand = new DelegateCommand(OnQuickEdit);
             Version = GetVersion();
 
             ProcessArguments();
+        }
+
+        private void OnQuickEdit(object? obj)
+        {
+            MessageBoxEx.ShowQuickEdit();
         }
 
         private void OnShowDocument(object? obj)
