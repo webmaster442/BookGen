@@ -81,6 +81,13 @@
     </Style>
 
     <Style
+        x:Key="Toolbar"
+        TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style
         x:Key="HeaderText"
         TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
@@ -103,6 +110,19 @@
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />
         <Setter Property="FontSize" Value="22" />
         <Setter Property="Margin" Value="0,10,0,15" />
+    </Style>
+
+    <Style TargetType="TabItem">
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock
+                        Margin="10,5"
+                        FontSize="14"
+                        Text="{Binding}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <DataTemplate
@@ -164,10 +184,10 @@
                         Text="{Binding FullPath}"
                         TextWrapping="Wrap" />
                     <Button
-                        Content="Remove..."
+                        HorizontalAlignment="Left"
                         Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
                         CommandParameter="{Binding FullPath}"
-                        HorizontalAlignment="Left"
+                        Content="Remove..."
                         Style="{StaticResource ItemButton}" />
                 </StackPanel>
                 <StackPanel
