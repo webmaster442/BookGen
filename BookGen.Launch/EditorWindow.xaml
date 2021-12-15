@@ -39,10 +39,10 @@
                 VerticalAlignment="Center"
                 Text="Markdown Editor" />
             <Button
+                x:Name="BtnClose"
                 Grid.Column="1"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                x:Name="BtnClose"
                 Click="BtnClose_Click"
                 Content="{StaticResource IconClose}"
                 Style="{StaticResource ChromeCloseButton}"
@@ -71,24 +71,38 @@
                     VerticalAlignment="Center"
                     Background="Transparent">
                     <MenuItem Header="File">
-                        <MenuItem Header="Open ..." />
+                        <MenuItem
+                            Command="{Binding Open}"
+                            Header="Open ..." />
                         <Separator />
-                        <MenuItem Header="Save" />
-                        <MenuItem Header="Save as ..." />
+                        <MenuItem
+                            Command="{Binding Save}"
+                            Header="Save" />
+                        <MenuItem
+                            Command="{Binding SaveAs}"
+                            Header="Save as ..." />
                         <Separator />
-                        <MenuItem Header="Close" />
+                        <MenuItem
+                            Click="BtnClose_Click"
+                            Header="Close" />
                     </MenuItem>
                     <MenuItem Header="Export">
                         <MenuItem Header="Options">
                             <MenuItem
                                 Header="Raw html"
-                                IsCheckable="True" />
+                                IsCheckable="True"
+                                IsChecked="{Binding ExportRaw}" />
                             <MenuItem
                                 Header="Syntax highlight"
-                                IsCheckable="True" />
+                                IsCheckable="True"
+                                IsChecked="{Binding ExportSyntaxHighlight}" />
                         </MenuItem>
-                        <MenuItem Header="Export to file ..." />
-                        <MenuItem Header="Export to clipboard" />
+                        <MenuItem
+                            Command="{Binding ExportFile}"
+                            Header="Export to file ..." />
+                        <MenuItem
+                            Command="{Binding ExportClipboard}"
+                            Header="Export to clipboard" />
                     </MenuItem>
                 </Menu>
                 <Rectangle Width="20" />
