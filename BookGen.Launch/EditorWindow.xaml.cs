@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Windows;
+using System.Windows.Input;
 
 namespace BookGen.Launch
 {
@@ -15,6 +16,21 @@ namespace BookGen.Launch
         public EditorWindow()
         {
             InitializeComponent();
+        }
+
+        private void Chrome_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                DragMove();
+                Owner.Left = Left - ((Owner.Width - Width) / 2);
+                Owner.Top = Top - ((Owner.Height - Height) / 2);
+            }
+        }
+
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

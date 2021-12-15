@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using ICSharpCode.AvalonEdit.Document;
 using System;
 using System.Windows.Input;
 
@@ -52,17 +53,25 @@ namespace BookGen.Launch.Controls
 
         protected void IsertTextAtCarret(string symbols)
         {
-            throw new NotImplementedException();
+            _editor.Document.Insert(_editor.SelectionStart, symbols);
         }
 
         protected void ReplaceSelectedText(string selected)
         {
-            throw new NotImplementedException();
+            _editor.Document.Replace(_editor.SelectionStart, _editor.SelectionLength, selected, OffsetChangeMappingType.RemoveAndInsert);
         }
 
         protected bool TryGetSelectedText(out string selected)
         {
-            throw new NotImplementedException();
+            if (_editor.SelectionStart > -1
+                && _editor.SelectionLength > 0
+                && (_editor.SelectionStart + _editor.SelectionLength) <= _editor.Document.TextLength)
+            {
+                selected = _editor.Document.GetText(_editor.SelectionStart, _editor.SelectionLength);
+                return true;
+            }
+            selected = string.Empty;
+            return false;
         }
     }
 }
