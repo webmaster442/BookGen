@@ -52,7 +52,9 @@
             Grid.Row="1"
             Grid.ColumnSpan="2">
             <TabItem Header="Editor">
-                <controls:MarkdownEditor x:Name="Editor" />
+                <controls:MarkdownEditor
+                    x:Name="Editor"
+                    IsDirty="{Binding IsDirty, Mode=TwoWay}" />
             </TabItem>
             <TabItem Header="Preview">
                 <WebBrowser />
@@ -77,9 +79,11 @@
                         <Separator />
                         <MenuItem
                             Command="{Binding Save}"
+                            CommandParameter="{Binding ElementName=Editor, Path=Document}"
                             Header="Save" />
                         <MenuItem
                             Command="{Binding SaveAs}"
+                            CommandParameter="{Binding ElementName=Editor, Path=Document}"
                             Header="Save as ..." />
                         <Separator />
                         <MenuItem
