@@ -3,9 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Domain;
 using BookGen.Domain.Shell;
 using BookGen.Utilities;
+using System;
+using System.IO;
 
 namespace BookGen.Framework
 {
@@ -13,6 +16,7 @@ namespace BookGen.Framework
     {
         public abstract string ModuleCommand { get; }
         public abstract ModuleRunResult Execute(string[] arguments);
+
         public virtual string GetHelp()
         {
             return HelpUtils.GetHelpForModule(GetType().Name);
@@ -25,8 +29,7 @@ namespace BookGen.Framework
 
         public virtual AutoCompleteItem AutoCompleteInfo
         {
-            get => new AutoCompleteItem(ModuleCommand);
+            get => new(ModuleCommand);
         }
-
     }
 }

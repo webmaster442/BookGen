@@ -47,7 +47,7 @@ namespace BookGen.Modules
             }
             else
             {
-                FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
+                CheckLockFileExistsAndExitWhenNeeded(args.Directory);
 
                 using (var l = new FolderLock(args.Directory))
                 {

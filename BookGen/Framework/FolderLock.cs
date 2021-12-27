@@ -32,23 +32,10 @@ namespace BookGen.Framework
             }
         }
 
-        public static void ExitIfFolderIsLocked(string folder, ILog log)
+        public static bool TryCheckLockExistance(string folder, out string lockFile)
         {
-            var lockfile = Path.Combine(folder, lockName);
-            if (File.Exists(lockfile))
-            {
-#if DEBUG
-                var running = System.Diagnostics.Process.GetProcessesByName(nameof(BookGen));
-                if (running.Length == 1) //only this current instance is running
-                {
-                    log.Warning("Lockfile was found, but no other bookgen is running. Removing lock...");
-                    File.Delete(lockfile);
-                    return;
-                }
-#endif
-                log.Critical("An other bookgen process is using this folder. Exiting...");
-                Environment.Exit((int)ExitCode.FolderLocked);
-            }
+            lockFile = Path.Combine(folder, lockName);
+            return File.Exists(lockFile);
         }
     }
 }

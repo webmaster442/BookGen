@@ -115,7 +115,9 @@ namespace BookGen
                 return SupportedOs.None;
         }
 
-        internal static void RunModule(string moduleName, IReadOnlyList<string> parameters)
+        internal static void RunModule(string moduleName,
+                                       IReadOnlyList<string> parameters,
+                                       bool skipLockCheck = false)
         {
             ModuleBase? moduleToRun = null;
             try
@@ -131,6 +133,12 @@ namespace BookGen
                 }
 
                 ExitCode exitCode = ExitCode.Succes;
+
+                if (moduleToRun is ModuleWithState moduleWithState)
+                {
+                    moduleWithState.ShouldSkipLockCheck = skipLockCheck;
+                    moduleToRun = moduleWithState;
+                }
 
                 if (!moduleToRun.SupportedOs.HasFlag(GetCurrentOs()))
                 {

@@ -56,7 +56,7 @@ namespace BookGen.Modules
             CurrentState.Gui = true;
             _runner = CurrentState.Api.CreateRunner(args.Verbose, args.Directory);
 
-            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
+            CheckLockFileExistsAndExitWhenNeeded(args.Directory);
 
             using (var l = new FolderLock(args.Directory))
             {
