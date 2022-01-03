@@ -97,8 +97,11 @@ namespace BookGen.Launch
             {
                 try
                 {
-                    File.WriteAllText(FileName, string.Empty);
-                    IsDirty = false;
+                    if (obj is IDocument doc)
+                    {
+                        File.WriteAllText(FileName, doc.Text);
+                        IsDirty = false;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -120,6 +123,7 @@ namespace BookGen.Launch
                 try
                 {
                     doc.Text = File.ReadAllText(ofd.FileName);
+                    FileName = ofd.FileName;
                     IsDirty = false;
                 }
                 catch (Exception ex)
@@ -129,46 +133,83 @@ namespace BookGen.Launch
             }
         }
 
-        private string Export()
+        private bool TryExport(out string Output)
         {
             try
             {
-                Process process = new Process();
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.FileName = "bookgen.exe";
-                process.StartInfo.Arguments = GetArguments();
-                process.Start();
-                return process.StandardOutput.ReadToEnd();
+                if (TryGetArguments(out string arguments))
+                {
+                    Process process = new Process();
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.WorkingDirectory = AppContext.BaseDirectory;
+                    process.StartInfo.FileName = "bookgen.exe";
+                    process.StartInfo.Arguments = arguments;
+                    process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+                    process.Start();
+                    string st = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+                    Output =  st;
+                    return true;
+                }
             }
             catch (Win32Exception ex)
             {
                 MessageBoxEx.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return string.Empty;
             }
+            Output = string.Empty;
+            return false;
         }
 
-        private string GetArguments()
+        private bool TryGetArguments(out string arguments)
         {
+            if (string.IsNullOrEmpty(FileName))
+            {
+                MessageBoxEx.Show("Please save the file first", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                arguments = string.Empty;
+                return false;
+            }
+
             StringBuilder sb = new();
-            sb.Append($"-i {FileName} -o con");
+            sb.Append($"md2html -i \"{FileName}\" -o con");
             if (ExportRaw)
                 sb.Append(" -r");
             if (!ExportSyntaxHighlight)
                 sb.Append(" -ns");
-            return sb.ToString();
+            arguments = sb.ToString();
+            return true;
         }
 
         private void OnExportClipboard(object? obj)
         {
-            var text = Export();
-            Clipboard.SetText(text);
-            MessageBoxEx.Show("Export successfull", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (TryExport(out string text))
+            {
+                Clipboard.SetText(text);
+                MessageBoxEx.Show("Export successfull", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void OnExportFile(object? obj)
         {
-            var text = Export();
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                Filter = "Markdown (*.md)|*.md",
+                Title = "Save file..."
+            };
+
+            if (saveFileDialog.ShowDialog() == true
+                && TryExport(out string text))
+            {
+                try
+                {
+                    File.WriteAllText(saveFileDialog.FileName, text);
+                    MessageBoxEx.Show("Export successfull", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (IOException)
+                {
+                    MessageBoxEx.Show("File write failed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
 
         }
     }

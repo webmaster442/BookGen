@@ -11,6 +11,7 @@ using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Resources;
 using System;
+using System.IO;
 
 namespace BookGen.Modules
 {
@@ -80,9 +81,9 @@ namespace BookGen.Modules
                 rendered = rendered.Replace("<!--{content}-->", mdcontent);
             }
 
-            if (args.OutputFile == new FsPath("con"))
+            if (args.OutputFile.IsConsole)
             {
-                Console.WriteLine(rendered);
+                WriteToStdout(rendered);
             }
             else
             {
@@ -90,6 +91,12 @@ namespace BookGen.Modules
             }
 
             return ModuleRunResult.Succes;
+        }
+
+        private static void WriteToStdout(string rendered)
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.WriteLine(rendered);
         }
     }
 }

@@ -75,6 +75,11 @@ namespace BookGen.Core
             get { return new FsPath(); }
         }
 
+        public bool IsConsole
+        {
+            get => _path == "con" || _path == @"\\.\con";
+        }
+
         public static bool IsEmptyPath(FsPath path)
         {
             return string.IsNullOrEmpty(path._path);

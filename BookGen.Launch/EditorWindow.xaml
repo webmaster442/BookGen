@@ -75,6 +75,7 @@
                     <MenuItem Header="File">
                         <MenuItem
                             Command="{Binding Open}"
+                            CommandParameter="{Binding ElementName=Editor, Path=Document}"
                             Header="Open ..." />
                         <Separator />
                         <MenuItem
