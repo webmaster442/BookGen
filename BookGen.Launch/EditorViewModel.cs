@@ -133,27 +133,39 @@ namespace BookGen.Launch
             }
         }
 
-        private bool TryExport(out string Output)
+        private bool TryExport(string text, out string Output)
         {
             try
             {
-                if (TryGetArguments(out string arguments))
-                {
-                    Process process = new Process();
-                    process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.WorkingDirectory = AppContext.BaseDirectory;
-                    process.StartInfo.FileName = "bookgen.exe";
-                    process.StartInfo.Arguments = arguments;
-                    process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
-                    process.Start();
-                    string st = process.StandardOutput.ReadToEnd();
-                    process.WaitForExit();
-                    Output =  st;
-                    return true;
-                }
+                var fn = Path.GetTempFileName();
+                File.WriteAllText(fn, text);
+                StringBuilder sb = new();
+                sb.Append($"md2html -i \"{fn}\" -o con");
+                if (ExportRaw)
+                    sb.Append(" -r");
+                if (!ExportSyntaxHighlight)
+                    sb.Append(" -ns");
+
+                var arguments = sb.ToString();
+
+                Process process = new Process();
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.WorkingDirectory = AppContext.BaseDirectory;
+                process.StartInfo.FileName = "bookgen.exe";
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+                process.Start();
+                string st = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+
+                if (File.Exists(fn))
+                    File.Delete(fn);
+
+                Output = st;
+                return true;
             }
-            catch (Win32Exception ex)
+            catch (Exception ex)
             {
                 MessageBoxEx.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -161,28 +173,9 @@ namespace BookGen.Launch
             return false;
         }
 
-        private bool TryGetArguments(out string arguments)
-        {
-            if (string.IsNullOrEmpty(FileName))
-            {
-                MessageBoxEx.Show("Please save the file first", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                arguments = string.Empty;
-                return false;
-            }
-
-            StringBuilder sb = new();
-            sb.Append($"md2html -i \"{FileName}\" -o con");
-            if (ExportRaw)
-                sb.Append(" -r");
-            if (!ExportSyntaxHighlight)
-                sb.Append(" -ns");
-            arguments = sb.ToString();
-            return true;
-        }
-
         private void OnExportClipboard(object? obj)
         {
-            if (TryExport(out string text))
+            if (obj is IDocument document && TryExport(document.Text, out string text))
             {
                 Clipboard.SetText(text);
                 MessageBoxEx.Show("Export successfull", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -198,7 +191,8 @@ namespace BookGen.Launch
             };
 
             if (saveFileDialog.ShowDialog() == true
-                && TryExport(out string text))
+                && obj is IDocument document
+                && TryExport(document.Text, out string text))
             {
                 try
                 {

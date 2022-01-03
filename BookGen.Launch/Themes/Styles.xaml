@@ -80,6 +80,14 @@
         <Setter Property="Background" Value="{StaticResource AppBackground}" />
     </Style>
 
+    <Style TargetType="Button" x:Key="EditorStatusbar">
+        <Setter Property="Width" Value="28"/>
+        <Setter Property="Height" Value="28"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
     <Style
         x:Key="Toolbar"
         TargetType="Button">

@@ -37,7 +37,8 @@ namespace BookGen.Launch.Controls
 
         public MarkdownEditor()
         {
-            _selectedFontIndex = _fontSizeTable.IndexOf(12.0);
+            _selectedFontIndex = _fontSizeTable.IndexOf(16.0);
+            FontSize = _fontSizeTable[_selectedFontIndex];
             Options = new TextEditorOptions
             {
                 AllowScrollBelowDocument = false,

@@ -104,9 +104,11 @@
                         </MenuItem>
                         <MenuItem
                             Command="{Binding ExportFile}"
+                            CommandParameter="{Binding ElementName=Editor, Path=Document}"
                             Header="Export to file ..." />
                         <MenuItem
                             Command="{Binding ExportClipboard}"
+                            CommandParameter="{Binding ElementName=Editor, Path=Document}"
                             Header="Export to clipboard" />
                     </MenuItem>
                 </Menu>
@@ -180,9 +182,11 @@
             Orientation="Horizontal">
             <Button
                 Command="{Binding ElementName=Editor, Path=FontDecrease}"
+                Style="{StaticResource EditorStatusbar}"
                 Content="-" />
             <Button
                 Command="{Binding ElementName=Editor, Path=FontIncrease}"
+                Style="{StaticResource EditorStatusbar}"
                 Content="+" />
             <TextBlock
                 Margin="5,0"
