@@ -1,5 +1,9 @@
-﻿using Microsoft.Web.WebView2.Wpf;
-using System;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Microsoft.Web.WebView2.Wpf;
 using System.Threading.Tasks;
 using System.Windows;
 

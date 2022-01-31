@@ -1,11 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Gui.Wpf;
 using BookGen.Launch.Code;
-using ICSharpCode.AvalonEdit.Document;
 using Microsoft.Win32;
 using System;
 using System.Diagnostics;
