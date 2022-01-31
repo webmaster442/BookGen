@@ -72,14 +72,7 @@ namespace BookGen.Framework
 
         public void PrintLine(object obj)
         {
-            foreach (var property in obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (property != null)
-                {
-                    var value = property.GetValue(obj)?.ToString() ?? "null";
-                    Console.WriteLine("{0}: {1}", property.Name, value);
-                }
-            }
+            Console.WriteLine(obj);
         }
     }
 }

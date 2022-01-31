@@ -10,7 +10,16 @@ namespace BookGen.Domain
         public long Chars { get; set; }
         public long Bytes { get; set; }
         public long Words { get; set; }
-        public long Lines { get; set; }
-        public double Pages { get; set; }
+        public long ParagraphLines { get; set; }
+        public long PageCountLines { get; set; }
+
+        public override string ToString()
+        {
+            return $"Characters: {Chars}"
+                + $"Total bytes: {Bytes}"
+                + $"Words:       {Words}"
+                + $"Paragraphs:  {ParagraphLines}"
+                + $"Pages:       {PageCountLines / Constants.LinesPerPage}";
+        }
     }
 }
