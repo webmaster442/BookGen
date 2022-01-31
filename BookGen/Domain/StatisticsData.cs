@@ -15,11 +15,11 @@ namespace BookGen.Domain
 
         public override string ToString()
         {
-            return $"Characters: {Chars}"
-                + $"Total bytes: {Bytes}"
-                + $"Words:       {Words}"
-                + $"Paragraphs:  {ParagraphLines}"
-                + $"Pages:       {PageCountLines / Constants.LinesPerPage}";
+            return $"Characters:  {Chars:n0}\r\n"
+                 + $"Total bytes: {Bytes:n0}\r\n"
+                 + $"Words:       {Words:n0}\r\n"
+                 + $"Paragraphs:  {ParagraphLines:n0}\r\n"
+                 + $"Pages:       {(PageCountLines / Constants.LinesPerPage):n0}";
         }
     }
 }

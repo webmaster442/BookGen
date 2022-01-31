@@ -39,6 +39,7 @@ namespace BookGen.Modules
             {
                 if (TryComputeStat(args.Input, ref stat))
                 {
+                    CurrentState.Log.PrintLine("");
                     CurrentState.Log.PrintLine(stat);
                     return ModuleRunResult.Succes;
                 }
@@ -67,6 +68,7 @@ namespace BookGen.Modules
 
                     if (result)
                     {
+                        CurrentState.Log.PrintLine("");
                         CurrentState.Log.PrintLine(stat);
                     }
 
@@ -83,7 +85,7 @@ namespace BookGen.Modules
                 string? line = null;
                 using (var reader = File.OpenText(input))
                 {
-                    stat.Bytes = reader.BaseStream.Length;
+                    stat.Bytes += reader.BaseStream.Length;
                     do
                     {
                         line = reader.ReadLine();
@@ -92,7 +94,7 @@ namespace BookGen.Modules
                             stat.Chars += line.Length;
                             ++stat.ParagraphLines;
                             stat.Words += line.GetWordCount();
-                            stat.ParagraphLines += ComputeParagraphLine(line.Length);
+                            stat.PageCountLines += ComputeParagraphLine(line.Length);
                         }
                     }
                     while (line != null);
