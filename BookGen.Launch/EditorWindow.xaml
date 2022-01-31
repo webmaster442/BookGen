@@ -50,6 +50,7 @@
         </Grid>
         <TabControl
             Grid.Row="1"
+            SelectedIndex="{Binding TabIndex}"
             Grid.ColumnSpan="2">
             <TabItem Header="Editor">
                 <controls:MarkdownEditor
@@ -57,7 +58,8 @@
                     IsDirty="{Binding IsDirty, Mode=TwoWay}" />
             </TabItem>
             <TabItem Header="Preview">
-                <WebBrowser />
+                <controls:Preview
+                    HtmlText="{Binding PreviewHtml}"/>
             </TabItem>
         </TabControl>
         <Border
@@ -75,16 +77,13 @@
                     <MenuItem Header="File">
                         <MenuItem
                             Command="{Binding Open}"
-                            CommandParameter="{Binding ElementName=Editor, Path=Document}"
                             Header="Open ..." />
                         <Separator />
                         <MenuItem
                             Command="{Binding Save}"
-                            CommandParameter="{Binding ElementName=Editor, Path=Document}"
                             Header="Save" />
                         <MenuItem
                             Command="{Binding SaveAs}"
-                            CommandParameter="{Binding ElementName=Editor, Path=Document}"
                             Header="Save as ..." />
                         <Separator />
                         <MenuItem
@@ -104,11 +103,9 @@
                         </MenuItem>
                         <MenuItem
                             Command="{Binding ExportFile}"
-                            CommandParameter="{Binding ElementName=Editor, Path=Document}"
                             Header="Export to file ..." />
                         <MenuItem
                             Command="{Binding ExportClipboard}"
-                            CommandParameter="{Binding ElementName=Editor, Path=Document}"
                             Header="Export to clipboard" />
                     </MenuItem>
                 </Menu>
@@ -173,7 +170,6 @@
                     Style="{StaticResource Toolbar}"
                     ToolTip="Redo" />
                 <Rectangle Width="5" />
-
             </StackPanel>
         </Border>
         <StackPanel

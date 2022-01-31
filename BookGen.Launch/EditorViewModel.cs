@@ -8,7 +8,6 @@ using BookGen.Launch.Code;
 using ICSharpCode.AvalonEdit.Document;
 using Microsoft.Win32;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -23,6 +22,7 @@ namespace BookGen.Launch
         private bool _exportSyntaxHighlight;
         private string _fileName;
         private bool _isDirty;
+        private int _tabIndex;
 
         public bool ExportRaw
         {
@@ -48,13 +48,26 @@ namespace BookGen.Launch
             set => Set(ref _fileName, value);
         }
 
+        public int TabIndex
+        {
+            get => _tabIndex;
+            set
+            {
+                Set(ref _tabIndex, value);
+                RefreshPreviewIfNeeded();
+            }
+        }
+
         public ICommand ExportFile { get; }
         public ICommand ExportClipboard { get; }
         public ICommand Open { get; }
         public ICommand Save { get; }
         public ICommand SaveAs { get; }
+        public IEditorDialog View { get; }
 
-        public EditorViewModel()
+        public string PreviewHtml { get; private set; }
+
+        public EditorViewModel(IEditorDialog view)
         {
             ExportFile = new DelegateCommand(OnExportFile);
             ExportClipboard = new DelegateCommand(OnExportClipboard);
@@ -62,78 +75,11 @@ namespace BookGen.Launch
             Save = new DelegateCommand(OnSave);
             SaveAs = new DelegateCommand(OnSaveAs);
             _fileName = string.Empty;
+            View = view;
+            PreviewHtml = string.Empty;
         }
 
-        private void OnSaveAs(object? obj)
-        {
-            var sfd = new SaveFileDialog
-            {
-                Filter = "Markdown (*.md)|*.md",
-                Title = "Save file..."
-            };
-            if (sfd.ShowDialog() == true
-                && obj is IDocument doc)
-            {
-                try
-                {
-                    File.WriteAllText(sfd.FileName, doc.Text);
-                    FileName = sfd.FileName;
-                    IsDirty = false;
-                }
-                catch (Exception ex)
-                {
-                    MessageBoxEx.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-
-        private void OnSave(object? obj)
-        {
-            if (string.IsNullOrEmpty(FileName))
-            {
-                OnSaveAs(obj);
-            }
-            else
-            {
-                try
-                {
-                    if (obj is IDocument doc)
-                    {
-                        File.WriteAllText(FileName, doc.Text);
-                        IsDirty = false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBoxEx.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-
-        private void OnOpen(object? obj)
-        {
-            var ofd = new OpenFileDialog
-            {
-                Filter = "Markdown (*.md)|*.md",
-                Title = "Open file..."
-            };
-            if (ofd.ShowDialog() == true
-                && obj is IDocument doc)
-            {
-                try
-                {
-                    doc.Text = File.ReadAllText(ofd.FileName);
-                    FileName = ofd.FileName;
-                    IsDirty = false;
-                }
-                catch (Exception ex)
-                {
-                    MessageBoxEx.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-
-        private bool TryExport(string text, out string Output)
+        private bool TryExport(string text, bool raw, bool syntaxhighlight, out string Output)
         {
             try
             {
@@ -141,9 +87,9 @@ namespace BookGen.Launch
                 File.WriteAllText(fn, text);
                 StringBuilder sb = new();
                 sb.Append($"md2html -i \"{fn}\" -o con");
-                if (ExportRaw)
+                if (raw)
                     sb.Append(" -r");
-                if (!ExportSyntaxHighlight)
+                if (!syntaxhighlight)
                     sb.Append(" -ns");
 
                 var arguments = sb.ToString();
@@ -173,9 +119,83 @@ namespace BookGen.Launch
             return false;
         }
 
+        private void RefreshPreviewIfNeeded()
+        {
+            if (TabIndex == 1 
+                && TryExport(View.Document.Text, false, true, out string html))
+            {
+                PreviewHtml = html;
+                RaisePropertyChanged(nameof(PreviewHtml));
+            }
+        }
+
+        private void OnSaveAs(object? obj)
+        {
+            var sfd = new SaveFileDialog
+            {
+                Filter = "Markdown (*.md)|*.md",
+                Title = "Save file..."
+            };
+            if (sfd.ShowDialog() == true)
+            {
+                try
+                {
+                    File.WriteAllText(sfd.FileName, View.Document.Text);
+                    FileName = sfd.FileName;
+                    IsDirty = false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBoxEx.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void OnSave(object? obj)
+        {
+            if (string.IsNullOrEmpty(FileName))
+            {
+                OnSaveAs(obj);
+            }
+            else
+            {
+                try
+                {
+                        File.WriteAllText(FileName, View.Document.Text);
+                        IsDirty = false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBoxEx.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void OnOpen(object? obj)
+        {
+            var ofd = new OpenFileDialog
+            {
+                Filter = "Markdown (*.md)|*.md",
+                Title = "Open file..."
+            };
+            if (ofd.ShowDialog() == true)
+            {
+                try
+                {
+                    View.Document.Text = File.ReadAllText(ofd.FileName);
+                    FileName = ofd.FileName;
+                    IsDirty = false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBoxEx.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
         private void OnExportClipboard(object? obj)
         {
-            if (obj is IDocument document && TryExport(document.Text, out string text))
+            if (TryExport(View.Document.Text, ExportRaw, ExportSyntaxHighlight, out string text))
             {
                 Clipboard.SetText(text);
                 MessageBoxEx.Show("Export successfull", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -191,8 +211,7 @@ namespace BookGen.Launch
             };
 
             if (saveFileDialog.ShowDialog() == true
-                && obj is IDocument document
-                && TryExport(document.Text, out string text))
+                && TryExport(View.Document.Text, ExportRaw, ExportSyntaxHighlight, out string text))
             {
                 try
                 {
@@ -204,7 +223,6 @@ namespace BookGen.Launch
                     MessageBoxEx.Show("File write failed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-
         }
     }
 }

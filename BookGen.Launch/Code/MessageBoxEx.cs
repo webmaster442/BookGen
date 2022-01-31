@@ -41,8 +41,8 @@ namespace BookGen.Launch.Code
                 Owner = Application.Current.MainWindow,
                 Width = Application.Current.MainWindow.ActualWidth * 0.96,
                 Height = Application.Current.MainWindow.ActualHeight * 0.96,
-                DataContext = new EditorViewModel(),
             };
+            dialog.DataContext = new EditorViewModel(dialog);
             main.Blocker.Visibility = Visibility.Visible;
             dialog.ShowDialog();
             main.Blocker.Visibility = Visibility.Collapsed;

@@ -3,16 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Launch.Code;
+using ICSharpCode.AvalonEdit.Document;
 using System.Windows;
 using System.Windows.Input;
 
 namespace BookGen.Launch
 {
-    /// <summary>
-    /// Interaction logic for EditorWindow.xaml
-    /// </summary>
-    public partial class EditorWindow : Window
+    public partial class EditorWindow : Window, IEditorDialog
     {
+        public IDocument Document => Editor.Document;
+
         public EditorWindow()
         {
             InitializeComponent();
