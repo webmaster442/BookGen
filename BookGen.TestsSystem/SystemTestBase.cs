@@ -48,10 +48,6 @@ namespace BookGen.TestsSystem
                 var logmsg = GetLastLogMsg();
                 Assert.Fail(logmsg);
             }
-            else
-            {
-                Assert.Pass(GetLastLogMsg());
-            }
         }
 
         private static List<LogEntry> GetLog(string output)

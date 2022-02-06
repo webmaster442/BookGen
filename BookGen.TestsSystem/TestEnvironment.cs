@@ -19,6 +19,11 @@ namespace BookGen.TestsSystem
             Assert.IsTrue(f.Length > 0);
         }
 
+        public string ReadFileContents(string file)
+        {
+            return File.ReadAllText(Path.Combine(_workDir, file));
+        }
+
         internal TestEnvironment(string workDir)
         {
             _workDir = workDir;
