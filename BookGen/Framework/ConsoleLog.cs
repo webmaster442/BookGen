@@ -6,16 +6,20 @@
 using BookGen.Api;
 using System;
 using System.Diagnostics;
-using System.Reflection;
+using System.IO;
 using Webmaster442.HttpServerFramework;
 
 namespace BookGen.Framework
 {
     public sealed class ConsoleLog : ILog, IServerLog
     {
-        public ConsoleLog(LogLevel level = LogLevel.Info)
+        private readonly TextWriter? _logFile;
+
+        public ConsoleLog(bool logFile, LogLevel level = LogLevel.Info)
         {
             LogLevel = level;
+            if (logFile)
+                _logFile = File.CreateText("BookGen.log");
         }
 
         void IServerLog.Critical(Exception ex)
@@ -55,14 +59,25 @@ namespace BookGen.Framework
             {
                 Console.ForegroundColor = GetConsoleColor(logLevel);
                 Console.WriteLine(line);
+                _logFile?.WriteLine(line);
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
 #if DEBUG
             else
             {
                 Debug.WriteLine(line);
+                _logFile?.WriteLine(line);
             }
 #endif
+        }
+
+        public void Flush()
+        {
+            if (_logFile != null)
+            {
+                _logFile.Flush();
+                _logFile.Close();
+            }
         }
 
         public void PrintLine(string str)

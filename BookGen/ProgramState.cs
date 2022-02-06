@@ -20,15 +20,8 @@ namespace BookGen
         public string ProgramDirectory { get; }
         public int ConfigVersion { get; }
         public IMoudleApi Api { get; }
-
-#if TESTBUILD
-        public ILog Log { get; set; }
-        public IServerLog ServerLog { get; set; }
-#else
-
         public ILog Log { get; }
         public IServerLog ServerLog { get; }
-#endif
 
         private static DateTime GetProgramDate()
         {

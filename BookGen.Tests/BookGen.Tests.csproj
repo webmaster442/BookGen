@@ -27,7 +27,7 @@
     <ProjectReference Include="..\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
     <ProjectReference Include="..\BookGen.Gui\BookGen.Gui.csproj" />
     <ProjectReference Include="..\BookGen.ShellHelper\BookGen.ShellHelper.csproj" />
-    <ProjectReference Include="..\BookGen\BookGen.SystemTest.csproj" />
+    <ProjectReference Include="..\BookGen\BookGen.csproj" />
   </ItemGroup>
 
   <ItemGroup>

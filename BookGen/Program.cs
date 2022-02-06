@@ -26,20 +26,10 @@ namespace BookGen
         internal static ProgramState CurrentState
         {
             get;
-#if TESTBUILD
-            set;
-#else
             private set;
-#endif
         }
 #pragma warning restore CS8618
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
-
-#if TESTBUILD
-        internal static bool IsTesting { get; set; }
-        internal static string ErrorText { get; set; } = "";
-        internal static bool ErrorHappened { get; set; } = false;
-#endif
 
         public static void ShowMessageBox(string text, params object[] args)
         {
@@ -52,19 +42,7 @@ namespace BookGen
 
         public static void Exit(ExitCode exitCode)
         {
-#if TESTBUILD
-            if (IsTesting && exitCode != ExitCode.Succes)
-            {
-                ErrorText = exitCode.ToString();
-                ErrorHappened = true;
-            }
-            else
-            {
-#endif
             Environment.Exit((int)exitCode);
-#if TESTBUILD
-        }
-#endif
         }
         #endregion
 
@@ -170,20 +148,7 @@ namespace BookGen
             }
             catch (Exception ex)
             {
-#if TESTBUILD
-                if (IsTesting)
-                {
-                    ErrorHappened = true;
-                    ErrorText = ex.Message;
-                    return;
-                }
-                else
-                {
-#endif
                 HandleUncaughtException(moduleToRun, ex);
-#if TESTBUILD
-                }
-#endif
             }
         }
 

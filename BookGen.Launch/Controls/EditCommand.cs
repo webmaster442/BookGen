@@ -20,6 +20,7 @@ namespace BookGen.Launch.Controls
             _editor = editor;
             _wrapLeft = wrapLeft;
             _wrapRight = wrapRight;
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public event EventHandler? CanExecuteChanged;

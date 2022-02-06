@@ -98,14 +98,6 @@ namespace BookGen.Framework
             {
                 progressbar.SwitchBuffers();
                 _log.Critical(ex);
-
-#if TESTBUILD
-                if (Program.IsTesting)
-                {
-                    Program.ErrorHappened = true;
-                    Program.ErrorText = ex.Message;
-                }
-#endif
 #if DEBUG
                 Debugger.Break();
 #endif

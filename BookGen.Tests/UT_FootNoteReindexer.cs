@@ -43,13 +43,17 @@ namespace BookGen.Tests
                 "first[^1]\r\n"
                 + "second[^2]\r\n"
                 + "\r\n"
+                + "\r\n"
                 + "third[^3]\r\n"
                 + "fourth[^4]\r\n"
                 + "\r\n"
+                + "\r\n"
                 + "[^1]: first\r\n"
                 + "[^2]: second\r\n"
+                + "\r\n"
                 + "[^3]: third\r\n"
-                + "[^4]: forth\r\n";
+                + "[^4]: forth\r\n"
+                + "\r\n";
             _sut.AddMarkdown(s1);
             _sut.AddMarkdown(s2);
 
@@ -79,14 +83,18 @@ namespace BookGen.Tests
                 "first[^1]\r\n"
                 + "second[^2]\r\n"
                 + "\r\n"
+                + "\r\n"
                 + "foo\r\n"
                 + "third[^3]\r\n"
                 + "fourth[^4]\r\n"
                 + "\r\n"
+                + "\r\n"
                 + "[^1]: first\r\n"
                 + "[^2]: second\r\n"
+                + "\r\n"
                 + "[^3]: third\r\n"
-                + "[^4]: forth\r\n";
+                + "[^4]: forth\r\n"
+                + "\r\n";
             _sut.AddMarkdown(s1);
             _sut.AddMarkdown("foo\r\n");
             _sut.AddMarkdown(s2);
@@ -121,18 +129,22 @@ namespace BookGen.Tests
                 "first[^1]\r\n"
                 + "second[^2]\r\n"
                 + "\r\n"
+                + "\r\n"
                 + "foo\r\n"
                 + "third[^3]\r\n"
                 + "fourth[^4]\r\n"
                 + "asd[^5]\r\n"
                 + "bsd[^6]\r\n"
                 + "\r\n"
+                + "\r\n"
                 + "[^1]: first\r\n"
                 + "[^2]: second\r\n"
+                + "\r\n"
                 + "[^3]: third\r\n"
                 + "[^4]: forth\r\n"
                 + "[^5]: foo\r\n"
-                + "[^6]: bar\r\n";
+                + "[^6]: bar\r\n"
+                + "\r\n";
             _sut.AddMarkdown(s1);
             _sut.AddMarkdown("foo\r\n");
             _sut.AddMarkdown(s2);
