@@ -215,10 +215,13 @@ namespace BookGen
                 stateModule.Abort();
 
             CurrentState.Log.Critical(ex);
+                
             ShowMessageBox("Unhandled exception\r\n{0}", ex.Message);
 #if DEBUG
             System.Diagnostics.Debugger.Break();
 #endif
+
+            CurrentState.Log.Flush();
             Exit(ExitCode.Exception);
         }
 
