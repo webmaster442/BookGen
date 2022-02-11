@@ -1,4 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Diagnostics.CodeAnalysis;
 using WordPressPCL;
 using WpLoad.Domain;
 using WpLoad.Infrastructure;

@@ -1,4 +1,9 @@
-﻿namespace WpLoad.Infrastructure
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace WpLoad.Infrastructure
 {
     internal class ConsoleLog : ILog
     {
@@ -24,10 +29,6 @@
         }
         public void Info(string message) => Log(message, ConsoleColor.White);
 
-        public void Info(string message, string[] arguments) => Log(string.Format(message, arguments), ConsoleColor.White);
-
         public void Warn(string message) => Log(message, ConsoleColor.Yellow);
-
-        public void Warn(string message, string[] arguments) => Log(string.Format(message, arguments), ConsoleColor.Yellow);
     }
 }

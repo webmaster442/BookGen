@@ -1,4 +1,9 @@
-﻿namespace WpLoad
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace WpLoad
 {
     /// <summary>
     /// Represents an authentication info for wordpress site

@@ -1,8 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Xml;
-using System.Xml.Serialization;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Diagnostics.CodeAnalysis;
 
 namespace WpLoad.Infrastructure
 {

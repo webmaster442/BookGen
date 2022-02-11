@@ -1,4 +1,9 @@
-﻿using WpLoad.Domain;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using WpLoad.Domain;
 using WpLoad.Infrastructure;
 using WpLoad.Services;
 
