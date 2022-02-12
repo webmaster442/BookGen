@@ -45,9 +45,10 @@ namespace WpLoad.Commands
                     await UploadHtml(log, client, mediaFiles.htmls);
                     return ExitCode.Success;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     log.Error("Upload failed");
+                    log.Error(ex);
                     return ExitCode.Fail;
                 }
 

@@ -18,14 +18,11 @@ namespace WpLoad.Commands
             if (arguments.TryGetArgument(0, out string? name))
             {
                 log.Info("Creating new profile & opening editor...");
-                string newTempFile = SiteServices.CreateRandomName();
-                SiteServices.WriteDefault(newTempFile);
+                SiteServices.WriteDefault(name);
 
                 log.Info("Waiting for editor to close...");
-                await EditorService.OpenAndWaitClose(newTempFile);
+                await SiteServices.OpenEditorAndWaitClose(name);
 
-                log.Info("Encrypting...");
-                SiteServices.EncryptAndDeleteTemp(newTempFile, name);
                 return ExitCode.Success;
             }
             return ExitCode.BadParameters;

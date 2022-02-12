@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -12,12 +12,19 @@ namespace WpLoad.Services
 {
     internal class SiteServices
     {
-        private static readonly string Profiles 
-            = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
+        private static readonly string Profiles
+            = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 nameof(WpLoad));
 
-        internal static void WriteDefault(string newTempFile)
+        private const int step = 100;
+
+        internal static void WriteDefault(string profileName)
         {
+            if (!Directory.Exists(Profiles))
+                Directory.CreateDirectory(Profiles);
+
+            var sourceFile = Path.Combine(Profiles, profileName + ".xml");
+
             var defaultConfig = new SiteInfo
             {
                 ApiEndPoint = "API endpoint like https://localhost/wordpress/wp-json/wp/v2/",
@@ -26,7 +33,7 @@ namespace WpLoad.Services
             };
             XmlSerializer xs = new(typeof(SiteInfo));
 
-            using (var f = File.CreateText(newTempFile))
+            using (var f = File.CreateText(sourceFile))
             {
                 using (var xmlWriter = XmlWriter.Create(f, new XmlWriterSettings { Indent = true }))
                 {
@@ -36,40 +43,14 @@ namespace WpLoad.Services
             }
         }
 
-        internal static string CreateRandomName()
-        {
-            Random r = new();
-            StringBuilder sb = new();
-            for (int i=0; i < 10; i++)
-            {
-                sb.Append(r.Next('0', '9'));
-            }
-            sb.Append(".txt");
-            var temp = Path.GetTempPath();
-            return Path.Combine(Path.GetTempPath(), sb.ToString());
-        }
-
-        internal static void EncryptAndDeleteTemp(string sourceTempFile, string profileName)
-        {
-            if (!Directory.Exists(Profiles))
-            {
-                Directory.CreateDirectory(Profiles);
-            }
-            string targetFile = Path.Combine(Profiles, profileName);
-            File.Copy(sourceTempFile, targetFile);
-            File.Encrypt(targetFile);
-            File.Delete(sourceTempFile);
-        }
-
         internal static bool TryReadSiteInfo(string profileName, [NotNullWhen(true)] out SiteInfo? siteInfo)
         {
             siteInfo = null;
-            var sourceFile = Path.Combine(Profiles, profileName);
+            var sourceFile = Path.Combine(Profiles, profileName + ".xml");
             if (!File.Exists(sourceFile))
             {
                 return false;
             }
-            File.Decrypt(sourceFile);
             using (var reader = File.OpenRead(sourceFile))
             {
                 XmlSerializer xs = new XmlSerializer(typeof(SiteInfo));
@@ -78,7 +59,6 @@ namespace WpLoad.Services
                     siteInfo = info;
                 }
             }
-            File.Encrypt(sourceFile);
             return siteInfo != null;
         }
 
@@ -95,13 +75,35 @@ namespace WpLoad.Services
 
         internal static bool TryRemove(string name)
         {
-            string fullName = Path.Combine(Profiles, name);
+            string fullName = Path.Combine(Profiles, name + ".xml");
             if (File.Exists(fullName))
             {
                 File.Delete(fullName);
                 return true;
             }
             return false;
+        }
+
+        internal static async Task<int> OpenEditorAndWaitClose(string profileName)
+        {
+            var sourceFile = Path.Combine(Profiles, profileName + ".xml");
+
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = "notepad.exe";
+                process.StartInfo.Arguments = sourceFile;
+                process.StartInfo.UseShellExecute = true;
+                process.Start();
+
+                int time = 0;
+                while (!process.HasExited)
+                {
+                    time += step;
+                    await Task.Delay(time);
+                }
+            }
+
+            return step;
         }
     }
 }
