@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Xml.Serialization;
+
 namespace WpLoad
 {
     /// <summary>
@@ -13,7 +15,7 @@ namespace WpLoad
         /// <summary>
         /// Wordpress host name
         /// </summary>
-        public string Host { get; init; }
+        public string ApiEndPoint { get; init; }
         /// <summary>
         /// Wordpress user name
         /// </summary>
@@ -23,11 +25,18 @@ namespace WpLoad
         /// </summary>
         public string Password { get; init; }
 
+        /// <summary>
+        /// Disable https cert validation. NOT recomented
+        /// </summary>
+        [XmlAttribute]
+        public bool DisableCertValidation { get; init; }
+
         public SiteInfo()
         {
-            Host = string.Empty;
+            ApiEndPoint = string.Empty;
             Username = string.Empty;
             Password = string.Empty;
+            DisableCertValidation = false;
         }
     }
 }

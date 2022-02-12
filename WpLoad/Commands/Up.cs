@@ -4,7 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Encodings.Web;
+using System.Web;
 using WordPressPCL;
+using WordPressPCL.Models;
 using WpLoad.Domain;
 using WpLoad.Infrastructure;
 using WpLoad.Services;
@@ -27,7 +30,7 @@ namespace WpLoad.Commands
                 }
 
                 log.Info("Configuring connection...");
-                if (!TryConfifgureConnection(site, out WordPressClient? client))
+                if (!ClientService.TryConfifgureConnection(site, out WordPressClient? client))
                 {
                     log.Error($"{site} profile doesn't exist");
                     return ExitCode.Fail;
@@ -40,10 +43,12 @@ namespace WpLoad.Commands
                 {
                     await UploadMedia(log, client, mediaFiles.mediaFiles);
                     await UploadHtml(log, client, mediaFiles.htmls);
+                    return ExitCode.Success;
                 }
                 catch (Exception)
                 {
                     log.Error("Upload failed");
+                    return ExitCode.Fail;
                 }
 
             }
@@ -52,49 +57,51 @@ namespace WpLoad.Commands
 
         private static async Task UploadHtml(ILog log, WordPressClient client, IReadOnlyList<string> htmls)
         {
+            ProgressReporter reporter = new ProgressReporter(log);
+            reporter.Start();
             foreach (var html in htmls)
             {
                 string content = await File.ReadAllTextAsync(html);
                 log.Info($"Uploading {Path.GetFileName(html)}...");
-                await client.Posts.Create(new WordPressPCL.Models.Post
-                {
-                    Date = DateTime.Now,
-                    DateGmt = DateTime.UtcNow,
-                    Status = WordPressPCL.Models.Status.Draft,
-                    Title = new WordPressPCL.Models.Title
-                    {
-                        Raw = Path.GetFileName(html),
-                    },
-                    Content = new WordPressPCL.Models.Content
-                    {
-                        Raw = content,
-                    }
-                });
+                await client.Posts.Create(CreatePost(html, content));
+                reporter.Report(html);
+
             }
+            reporter.Stop();
         }
 
         private static async Task UploadMedia(ILog log, WordPressClient client, IReadOnlyList<string> mediaFiles)
         {
+            ProgressReporter reporter = new ProgressReporter(log);
+            reporter.Start();
             foreach (var media in mediaFiles)
             {
                 log.Info($"Uploading {Path.GetFileName(media)}...");
                 await client.Media.Create(media,
-                                          Path.GetFileName(media),
+                                          HttpUtility.UrlEncode(Path.GetFileName(media)),
                                           FileServices.GetMimeType(media));
+                reporter.Report(media);
             }
+            reporter.Stop();
         }
 
-        private static bool TryConfifgureConnection(string site, [NotNullWhen(true)] out WordPressClient? client)
+
+        private static Post CreatePost(string html, string content)
         {
-            if (SiteServices.TryReadSiteInfo(site, out SiteInfo? info))
+            return new Post
             {
-                client = new WordPressClient(info.Host);
-                client.UserName = info.Username;
-                client.SetApplicationPassword(info.Password);
-                return true;
-            }
-            client = null;
-            return false;
+                Date = DateTime.Now,
+                DateGmt = DateTime.UtcNow,
+                Status = Status.Draft,
+                Title = new Title
+                {
+                    Raw = HttpUtility.UrlEncode(Path.GetFileName(html)),
+                },
+                Content = new Content
+                {
+                    Raw = content,
+                }
+            };
         }
     }
 }

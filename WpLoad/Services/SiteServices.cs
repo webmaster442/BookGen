@@ -20,22 +20,19 @@ namespace WpLoad.Services
         {
             var defaultConfig = new SiteInfo
             {
-                Host = "Host name. lilke: https://example.com",
+                ApiEndPoint = "API endpoint like https://localhost/wordpress/wp-json/wp/v2/",
                 Username = "Authentication user name",
                 Password = "Auth password",
             };
             XmlSerializer xs = new(typeof(SiteInfo));
 
-            using (var writer = new StringWriter())
+            using (var f = File.CreateText(newTempFile))
             {
-                writer.WriteLine("<!--");
-                writer.WriteLine("Edit profile & save it. Close editor, when you are done");
-                writer.WriteLine("-->");
-                using (var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings { Indent = true }))
+                using (var xmlWriter = XmlWriter.Create(f, new XmlWriterSettings { Indent = true }))
                 {
                     xs.Serialize(xmlWriter, defaultConfig);
                 }
-                File.WriteAllText(newTempFile, writer.ToString());
+                f.Flush();
             }
         }
 
