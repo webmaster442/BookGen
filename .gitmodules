@@ -1,3 +1,6 @@
 [submodule "BookGen.wiki"]
 	path = BookGen.wiki
 	url = https://github.com/webmaster442/BookGen.wiki.git
+[submodule "HttpServerFramework"]
+	path = HttpServerFramework
+	url = git@github.com:webmaster442/HttpServerFramework.git
