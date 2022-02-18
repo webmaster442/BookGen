@@ -16,7 +16,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141-F5F9-44DD-A4D1-57ED6647993F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		.vsconfig = .vsconfig
 		Changelog.md = Changelog.md
 		Scripts\publish.ps1 = Scripts\publish.ps1
 		README.md = README.md
