@@ -1,4 +1,15 @@
-# 2021.
+# 2022.
+* New: Quick editor in launcher
+* New: WpLoad tool to interact with wordpress backend sites
+* Fix: Stat module not working with GUI
+* Fix: Stat module better calculation for page size
+* Fix: Printable HTML generation, when using footnotes and file doesn't have new line as end.
+* Updated prism.js
+* Updated dependencies
+* System test project reworked
+* Pipeline build system
+
+# 2021.11.18
 * New: Wiki command - Opens the BookGen wiki page
 * New: Stocksearch command - Search for free stock images online
 * New: Launcher has more modern Message boxes
