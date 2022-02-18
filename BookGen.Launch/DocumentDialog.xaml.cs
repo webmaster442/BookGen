@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ namespace BookGen.Launch
             Width = parent.ActualWidth * 0.9;
             Height = parent.ActualHeight * 0.9;
             Title = title;
-            Browser.NavigateToString(documentContent);
+            Browser.HtmlText = documentContent;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)

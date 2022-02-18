@@ -58,7 +58,7 @@
                     IsDirty="{Binding IsDirty, Mode=TwoWay}" />
             </TabItem>
             <TabItem Header="Preview">
-                <controls:Preview
+                <controls:HtmlView
                     HtmlText="{Binding PreviewHtml}"/>
             </TabItem>
         </TabControl>

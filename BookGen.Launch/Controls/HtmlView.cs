@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace BookGen.Launch.Controls
 {
-    internal class Preview : WebView2
+    internal class HtmlView : WebView2
     {
         public string HtmlText
         {
@@ -18,18 +18,18 @@ namespace BookGen.Launch.Controls
         }
 
         public static readonly DependencyProperty HtmlTextProperty =
-            DependencyProperty.Register("HtmlText", typeof(string), typeof(Preview), new PropertyMetadata(string.Empty, OnHtmlChange));
+            DependencyProperty.Register("HtmlText", typeof(string), typeof(HtmlView), new PropertyMetadata(string.Empty, OnHtmlChange));
 
         private static async void OnHtmlChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Preview preview &&
+            if (d is HtmlView preview &&
                await InializeIfNeeded(preview))
             {
                 preview.CoreWebView2.NavigateToString(preview.HtmlText);
             }
         }
 
-        private static async Task<bool> InializeIfNeeded(Preview preview)
+        private static async Task<bool> InializeIfNeeded(HtmlView preview)
         {
             if (preview.CoreWebView2 == null)
             {
