@@ -11,4 +11,10 @@
 		"HashSha256": "3BD56B4A98FED88CC854423E3BE43CDF8779DC6847F4B417CC80CEFAE826A6F4",
 		"IsPreview": false
 	},
+	{
+		"Version": "2022.03.02",
+		"ZipPackageUrl": "https://github.com/webmaster442/BookGen/releases/download/2022-03-02/bookgen.2022-03-02.Zip",
+		"HashSha256": "28FA54AF2DDCD5B29EE1F09DE6CFD191077A3DBD8321FFD1A7EB43D557F56F68",
+		"IsPreview": false
+	}
 ]

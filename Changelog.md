@@ -1,4 +1,4 @@
-# 2022.
+# 2022.03.02
 * New: Quick editor in launcher
 * New: WpLoad tool to interact with wordpress backend sites
 * Fix: Stat module not working with GUI
