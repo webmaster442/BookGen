@@ -18,9 +18,13 @@ namespace WpLoad.Commands
 
         public async Task<ExitCode> Execute(ILog log, IReadOnlyList<string> arguments)
         {
-            if (arguments.TryGetArgument(0, out string? site)
-                && arguments.TryGetArgument(1, out string? folder))
+            if (arguments.TryGetArgument(0, out string? site))
             {
+                if (!arguments.TryGetArgument(1, out string? folder))
+                {
+                    folder = Environment.CurrentDirectory;
+                }
+
                 if (!Directory.Exists(folder))
                 {
                     log.Error($"{folder} doesn't exist");
