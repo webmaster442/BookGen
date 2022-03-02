@@ -36,7 +36,7 @@ namespace BookGen.Modules
 
             CurrentState.Log.LogLevel = args.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
-            FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
+            CheckLockFileExistsAndExitWhenNeeded(args.Directory);
 
             using (var l = new FolderLock(args.Directory))
             {

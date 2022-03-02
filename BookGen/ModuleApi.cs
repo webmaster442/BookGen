@@ -18,7 +18,7 @@ namespace BookGen
 
         public void ExecuteModule(string module, string[] arguments)
         {
-            Program.RunModule(module, arguments);
+            Program.RunModule(module, arguments, skipLockCheck: true);
         }
     }
 }

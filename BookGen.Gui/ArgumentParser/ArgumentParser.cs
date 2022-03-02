@@ -7,6 +7,7 @@ using BookGen.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -104,7 +105,7 @@ namespace BookGen.Gui.ArgumentParser
             targetClass.Files = _files.ToArray();
         }
 
-        private static bool TryGetNullableType(Type input, out Type? result)
+        private static bool TryGetNullableType(Type input, [NotNullWhen(true)] out Type? result)
         {
             result = Nullable.GetUnderlyingType(input);
             return result != null;
@@ -123,7 +124,7 @@ namespace BookGen.Gui.ArgumentParser
 
                 if (TryGetNullableType(currenttype, out Type? nullable))
                 {
-                    currenttype = nullable!;
+                    currenttype = nullable;
                 }
 
                 if (currenttype.IsEnum &&

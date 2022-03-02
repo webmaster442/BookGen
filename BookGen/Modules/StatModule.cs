@@ -39,7 +39,7 @@ namespace BookGen.Modules
             {
                 if (TryComputeStat(args.Input, ref stat))
                 {
-                    stat.Pages = (double)stat.Chars / Constants.CharsPerA4Page;
+                    CurrentState.Log.PrintLine("");
                     CurrentState.Log.PrintLine(stat);
                     return ModuleRunResult.Succes;
                 }
@@ -47,7 +47,7 @@ namespace BookGen.Modules
             }
             else
             {
-                FolderLock.ExitIfFolderIsLocked(args.Directory, CurrentState.Log);
+                CheckLockFileExistsAndExitWhenNeeded(args.Directory);
 
                 using (var l = new FolderLock(args.Directory))
                 {
@@ -68,7 +68,7 @@ namespace BookGen.Modules
 
                     if (result)
                     {
-                        stat.Pages = (double)stat.Chars / Constants.CharsPerA4Page;
+                        CurrentState.Log.PrintLine("");
                         CurrentState.Log.PrintLine(stat);
                     }
 
@@ -85,15 +85,16 @@ namespace BookGen.Modules
                 string? line = null;
                 using (var reader = File.OpenText(input))
                 {
-                    stat.Bytes = reader.BaseStream.Length;
+                    stat.Bytes += reader.BaseStream.Length;
                     do
                     {
                         line = reader.ReadLine();
                         if (line != null)
                         {
                             stat.Chars += line.Length;
-                            ++stat.Lines;
+                            ++stat.ParagraphLines;
                             stat.Words += line.GetWordCount();
+                            stat.PageCountLines += ComputeParagraphLine(line.Length);
                         }
                     }
                     while (line != null);
@@ -107,6 +108,13 @@ namespace BookGen.Modules
                 CurrentState.Log.Detail(ex.Message);
                 return false;
             }
+        }
+
+        private static long ComputeParagraphLine(int length)
+        {
+            if (length < 80)
+                return 1;
+            return (length / 80);
         }
     }
 }

@@ -1,0 +1,193 @@
+﻿<Window
+    x:Class="BookGen.Launch.EditorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:BookGen.Launch.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="EditorWindow"
+    Width="800"
+    Height="450"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False"
+    UseLayoutRounding="True"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid
+            x:Name="Chrome"
+            Grid.ColumnSpan="2"
+            Background="{StaticResource HeaderBackground}"
+            MouseDown="Chrome_MouseDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="5,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="Markdown Editor" />
+            <Button
+                x:Name="BtnClose"
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Click="BtnClose_Click"
+                Content="{StaticResource IconClose}"
+                Style="{StaticResource ChromeCloseButton}"
+                ToolTip="Close" />
+        </Grid>
+        <TabControl
+            Grid.Row="1"
+            SelectedIndex="{Binding TabIndex}"
+            Grid.ColumnSpan="2">
+            <TabItem Header="Editor">
+                <controls:MarkdownEditor
+                    x:Name="Editor"
+                    IsDirty="{Binding IsDirty, Mode=TwoWay}" />
+            </TabItem>
+            <TabItem Header="Preview">
+                <controls:HtmlView
+                    HtmlText="{Binding PreviewHtml}"/>
+            </TabItem>
+        </TabControl>
+        <Border
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Height="32"
+            Margin="0,2,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal">
+                <Menu
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Background="Transparent">
+                    <MenuItem Header="File">
+                        <MenuItem
+                            Command="{Binding Open}"
+                            Header="Open ..." />
+                        <Separator />
+                        <MenuItem
+                            Command="{Binding Save}"
+                            Header="Save" />
+                        <MenuItem
+                            Command="{Binding SaveAs}"
+                            Header="Save as ..." />
+                        <Separator />
+                        <MenuItem
+                            Click="BtnClose_Click"
+                            Header="Close" />
+                    </MenuItem>
+                    <MenuItem Header="Export">
+                        <MenuItem Header="Options">
+                            <MenuItem
+                                Header="Raw html"
+                                IsCheckable="True"
+                                IsChecked="{Binding ExportRaw}" />
+                            <MenuItem
+                                Header="Syntax highlight"
+                                IsCheckable="True"
+                                IsChecked="{Binding ExportSyntaxHighlight}" />
+                        </MenuItem>
+                        <MenuItem
+                            Command="{Binding ExportFile}"
+                            Header="Export to file ..." />
+                        <MenuItem
+                            Command="{Binding ExportClipboard}"
+                            Header="Export to clipboard" />
+                    </MenuItem>
+                </Menu>
+                <Rectangle Width="20" />
+                <Button
+                    Command="{Binding ElementName=Editor, Path=WrapOnBothSidesCommand}"
+                    CommandParameter="#"
+                    Content="{StaticResource IconHeader}"
+                    Style="{StaticResource Toolbar}"
+                    ToolTip="Add header text" />
+                <Button
+                    Command="{Binding ElementName=Editor, Path=WrapOnBothSidesCommand}"
+                    CommandParameter="**"
+                    Content="{StaticResource IconBold}"
+                    Style="{StaticResource Toolbar}"
+                    ToolTip="Add bold text" />
+                <Button
+                    Command="{Binding ElementName=Editor, Path=WrapOnBothSidesCommand}"
+                    CommandParameter="*"
+                    Content="{StaticResource IconItalic}"
+                    Style="{StaticResource Toolbar}"
+                    ToolTip="Add italic text" />
+                <Button
+                    Command="{Binding ElementName=Editor, Path=WrapOnLeftCommand}"
+                    CommandParameter="&gt;"
+                    Content="{StaticResource IconQuote}"
+                    Style="{StaticResource Toolbar}"
+                    ToolTip="Insert a quote" />
+                <Button
+                    Command="{Binding ElementName=Editor, Path=WrapOnBothSidesCommand}"
+                    CommandParameter="```"
+                    Content="{StaticResource IconCode}"
+                    Style="{StaticResource Toolbar}"
+                    ToolTip="Insert code" />
+                <Button
+                    Command="{Binding ElementName=Editor, Path=InsertTextCommand}"
+                    CommandParameter="[text](link)"
+                    Content="{StaticResource IconLink}"
+                    Style="{StaticResource Toolbar}"
+                    ToolTip="Add a link" />
+                <Rectangle Width="5" />
+                <Button
+                    Command="{Binding ElementName=Editor, Path=WrapOnLeftCommand}"
+                    CommandParameter="- "
+                    Content="{StaticResource IconListBullets}"
+                    Style="{StaticResource Toolbar}"
+                    ToolTip="Add a buleted list" />
+                <Button
+                    Command="{Binding ElementName=Editor, Path=WrapOnLeftNumbersCommand}"
+                    Content="{StaticResource IconListNumbers}"
+                    Style="{StaticResource Toolbar}"
+                    ToolTip="Add a numbered list" />
+                <Rectangle Width="15" />
+                <Button
+                    Command="{Binding ElementName=Editor, Path=UndoCommand}"
+                    Content="{StaticResource IconUndo}"
+                    Style="{StaticResource Toolbar}"
+                    ToolTip="Undo" />
+                <Button
+                    Command="{Binding ElementName=Editor, Path=RedoCommand}"
+                    Content="{StaticResource IconRedo}"
+                    Style="{StaticResource Toolbar}"
+                    ToolTip="Redo" />
+                <Rectangle Width="5" />
+            </StackPanel>
+        </Border>
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <Button
+                Command="{Binding ElementName=Editor, Path=FontDecrease}"
+                Style="{StaticResource EditorStatusbar}"
+                Content="-" />
+            <Button
+                Command="{Binding ElementName=Editor, Path=FontIncrease}"
+                Style="{StaticResource EditorStatusbar}"
+                Content="+" />
+            <TextBlock
+                Margin="5,0"
+                VerticalAlignment="Center"
+                Text="{Binding FontSize, ElementName=Editor, StringFormat=Text Size: 0}" />
+        </StackPanel>
+    </Grid>
+</Window>

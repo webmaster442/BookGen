@@ -390,12 +390,12 @@ namespace BookGen.Core
 
                 Uri pathUri = new Uri(filespec);
 
-                if (folder?.EndsWith(Path.DirectorySeparatorChar.ToString()) == false)
+                if (folder.EndsWith(Path.DirectorySeparatorChar.ToString()) == false)
                 {
                     folder += Path.DirectorySeparatorChar;
                 }
 
-                Uri folderUri = new Uri(folder!);
+                Uri folderUri = new Uri(folder);
 
                 var relatvie = folderUri.MakeRelativeUri(pathUri).ToString();
 

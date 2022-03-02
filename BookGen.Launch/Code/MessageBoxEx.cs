@@ -30,6 +30,24 @@ namespace BookGen.Launch.Code
             return dialog.ClickedButton;
         }
 
+        public static void ShowQuickEdit()
+        {
+            if (Application.Current.MainWindow is not MainWindow main)
+            {
+                return;
+            }
+            var dialog = new EditorWindow
+            {
+                Owner = Application.Current.MainWindow,
+                Width = Application.Current.MainWindow.ActualWidth * 0.96,
+                Height = Application.Current.MainWindow.ActualHeight * 0.96,
+            };
+            dialog.DataContext = new EditorViewModel(dialog);
+            main.Blocker.Visibility = Visibility.Visible;
+            dialog.ShowDialog();
+            main.Blocker.Visibility = Visibility.Collapsed;
+        }
+
         public static void ShowDocument(string title, string fileName)
         {
             if (Application.Current.MainWindow is not MainWindow main)

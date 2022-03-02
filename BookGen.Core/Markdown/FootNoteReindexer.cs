@@ -70,7 +70,9 @@ namespace BookGen.Core.Markdown
                 var footnote = new StringBuilder(document.Substring(definitionStart.Index));
                 DoReindexing(currentDocLimit, regular, footnote);
                 _regulartext.Append(regular);
+                _regulartext.AppendLine();
                 _footnotes.Append(footnote);
+                _footnotes.AppendLine();
                 _counter += currentDocLimit;
             }
         }

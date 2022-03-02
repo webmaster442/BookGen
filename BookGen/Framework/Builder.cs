@@ -69,12 +69,14 @@ namespace BookGen.Framework
             Stopwatch sw = new Stopwatch();
             ConsoleProgressbar progressbar = new(0, _steps.Count);
             sw.Start();
+            string stepName = string.Empty;
             try
             {
                 progressbar.SwitchBuffers();
                 int stepCounter = 1;
                 foreach (var step in _steps)
                 {
+                    stepName = step.GetType().Name;
                     switch (step)
                     {
                         case ITemplatedStep templated:
@@ -97,15 +99,8 @@ namespace BookGen.Framework
             catch (Exception ex)
             {
                 progressbar.SwitchBuffers();
+                _log.Critical("Critical exception while running: {0}", stepName);
                 _log.Critical(ex);
-
-#if TESTBUILD
-                if (Program.IsTesting)
-                {
-                    Program.ErrorHappened = true;
-                    Program.ErrorText = ex.Message;
-                }
-#endif
 #if DEBUG
                 Debugger.Break();
 #endif

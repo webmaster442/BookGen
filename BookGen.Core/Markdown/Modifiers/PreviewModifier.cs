@@ -90,7 +90,7 @@ namespace BookGen.Core.Markdown.Modifiers
             }
             else
             {
-                inlinePath = new FsPath(url).GetAbsolutePathRelativeTo(Path!);
+                inlinePath = new FsPath(url).GetAbsolutePathRelativeTo(Path);
             }
 
             if (!inlinePath.IsExisting)

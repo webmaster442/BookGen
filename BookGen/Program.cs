@@ -1,8 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2021 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Framework;
@@ -26,20 +27,10 @@ namespace BookGen
         internal static ProgramState CurrentState
         {
             get;
-#if TESTBUILD
-            set;
-#else
             private set;
-#endif
         }
 #pragma warning restore CS8618
         internal static AppSetting AppSetting { get; private set; } = new AppSetting();
-
-#if TESTBUILD
-        internal static bool IsTesting { get; set; }
-        internal static string ErrorText { get; set; } = "";
-        internal static bool ErrorHappened { get; set; } = false;
-#endif
 
         public static void ShowMessageBox(string text, params object[] args)
         {
@@ -52,19 +43,7 @@ namespace BookGen
 
         public static void Exit(ExitCode exitCode)
         {
-#if TESTBUILD
-            if (IsTesting && exitCode != ExitCode.Succes)
-            {
-                ErrorText = exitCode.ToString();
-                ErrorHappened = true;
-            }
-            else
-            {
-#endif
             Environment.Exit((int)exitCode);
-#if TESTBUILD
-        }
-#endif
         }
         #endregion
 
@@ -115,7 +94,9 @@ namespace BookGen
                 return SupportedOs.None;
         }
 
-        internal static void RunModule(string moduleName, IReadOnlyList<string> parameters)
+        internal static void RunModule(string moduleName,
+                                       IReadOnlyList<string> parameters,
+                                       bool skipLockCheck = false)
         {
             ModuleBase? moduleToRun = null;
             try
@@ -131,6 +112,12 @@ namespace BookGen
                 }
 
                 ExitCode exitCode = ExitCode.Succes;
+
+                if (moduleToRun is ModuleWithState moduleWithState)
+                {
+                    moduleWithState.ShouldSkipLockCheck = skipLockCheck;
+                    moduleToRun = moduleWithState;
+                }
 
                 if (!moduleToRun.SupportedOs.HasFlag(GetCurrentOs()))
                 {
@@ -162,20 +149,7 @@ namespace BookGen
             }
             catch (Exception ex)
             {
-#if TESTBUILD
-                if (IsTesting)
-                {
-                    ErrorHappened = true;
-                    ErrorText = ex.Message;
-                    return;
-                }
-                else
-                {
-#endif
                 HandleUncaughtException(moduleToRun, ex);
-#if TESTBUILD
-                }
-#endif
             }
         }
 
@@ -241,10 +215,13 @@ namespace BookGen
                 stateModule.Abort();
 
             CurrentState.Log.Critical(ex);
+                
             ShowMessageBox("Unhandled exception\r\n{0}", ex.Message);
 #if DEBUG
             System.Diagnostics.Debugger.Break();
 #endif
+
+            CurrentState.Log.Flush();
             Exit(ExitCode.Exception);
         }
 

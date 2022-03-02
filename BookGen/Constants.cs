@@ -21,7 +21,7 @@ namespace BookGen
 
         public const string ProgramName = "BookGen";
 
-        //Google How many chars is one page
-        public const int CharsPerA4Page = 3000;
+        //A4 page 12 font size, default margins
+        public const long LinesPerPage = 52;
     }
 }

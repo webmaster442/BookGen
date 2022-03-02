@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <SonarQubeTestProject>True</SonarQubeTestProject>
     <IsPackable>false</IsPackable>
-    <OutputPath>..\bin\TESTBUILD\$(Configuration)</OutputPath>
+    <OutputPath>..\bin\Tests\UT\$(Configuration)</OutputPath>
     <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
@@ -14,20 +14,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Moq" Version="4.16.1" />
-    <PackageReference Include="nunit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Moq" Version="4.17.1" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
     <ProjectReference Include="..\BookGen.Gui\BookGen.Gui.csproj" />
     <ProjectReference Include="..\BookGen.ShellHelper\BookGen.ShellHelper.csproj" />
-    <ProjectReference Include="..\BookGen\BookGen.SystemTest.csproj" />
+    <ProjectReference Include="..\BookGen\BookGen.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,18 +43,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Environment\SimpleNodeJs.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Environment\SystemTest\Img\Test.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Environment\SystemTest\Index.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Environment\SystemTest\Summary.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Environment\SystemTest\Testpage.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Environment\Test.css">

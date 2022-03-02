@@ -17,6 +17,8 @@ namespace BookGen.Utilities
         private const string DebuggerLong = "--wait-debugger";
         private const string JsonLogShort = "-js";
         private const string JsonLogLong = "--json-log";
+        private const string LogFileShort = "-lf";
+        private const string LogFileLong = "--log-file";
 
         public static IEnumerable<string> GeneralArguments
         {
@@ -86,7 +88,8 @@ namespace BookGen.Utilities
             }
             else
             {
-                var log = new ConsoleLog();
+                bool logFile = GetSwitch(arguments, LogFileShort, LogFileLong);
+                var log = new ConsoleLog(logFile);
                 return new ProgramState(new ModuleApi(), log, log);
             }
         }
