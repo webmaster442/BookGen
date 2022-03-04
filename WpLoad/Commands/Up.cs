@@ -12,32 +12,19 @@ using WpLoad.Services;
 
 namespace WpLoad.Commands
 {
-    internal class Up : IAsyncCommand
+    internal class Up : LoadCommandBase
     {
-        public string CommandName => nameof(Up);
+        public override string CommandName => nameof(Up);
 
-        public async Task<ExitCode> Execute(ILog log, IReadOnlyList<string> arguments)
+        public override async Task<ExitCode> Execute(ILog log, IReadOnlyList<string> arguments)
         {
             if (arguments.TryGetArgument(0, out string? site))
             {
-                if (!arguments.TryGetArgument(1, out string? folder))
+                if (!ConfigureFolder(log, arguments, out string folder)
+                    || !ConfigureClient(log, site, out WordPressClient? client))
                 {
-                    folder = Environment.CurrentDirectory;
-                }
-
-                if (!Directory.Exists(folder))
-                {
-                    log.Error($"{folder} doesn't exist");
                     return ExitCode.Fail;
                 }
-
-                log.Info("Configuring connection...");
-                if (!ClientService.TryConfifgureConnection(site, out WordPressClient? client))
-                {
-                    log.Error($"{site} profile doesn't exist");
-                    return ExitCode.Fail;
-                }
-
 
                 var mediaFiles = FileServices.GetSupportedFilesInDirectory(folder);
 

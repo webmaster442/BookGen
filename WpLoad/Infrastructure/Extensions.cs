@@ -9,8 +9,6 @@ namespace WpLoad.Infrastructure
 {
     internal static class Extensions
     {
-        const string XmlCommentPropertyPostfix = "XmlComment";
-
         public static bool TryGetArgument<T>(this IReadOnlyList<string> args, int index, [NotNullWhen(true)] out T? parsed) where T : IConvertible
         {
             if (index > args.Count || index < 0)
