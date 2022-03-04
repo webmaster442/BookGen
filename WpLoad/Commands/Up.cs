@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Gui.ArgumentParser;
 using System.Web;
 using WordPressPCL;
 using WordPressPCL.Models;
@@ -18,16 +19,12 @@ namespace WpLoad.Commands
 
         public override async Task<ExitCode> Execute(ILog log, IReadOnlyList<string> arguments)
         {
-            if (arguments.TryGetArgument(0, out string? site))
+            UpArguments args = new();
+            ArgumentParser.ParseArguments(arguments, args);
+
+            if (TryConfigureFolderAndClient(log, args, out var client))
             {
-                if (!ConfigureFolder(log, arguments, out string folder)
-                    || !ConfigureClient(log, site, out WordPressClient? client))
-                {
-                    return ExitCode.Fail;
-                }
-
-                var mediaFiles = FileServices.GetSupportedFilesInDirectory(folder);
-
+                var mediaFiles = FileServices.GetSupportedFilesInDirectory(args.Path);
                 try
                 {
                     await UploadMedia(log, client, mediaFiles.mediaFiles);
@@ -40,7 +37,6 @@ namespace WpLoad.Commands
                     log.Error(ex);
                     return ExitCode.Fail;
                 }
-
             }
             return ExitCode.BadParameters;
         }

@@ -1,6 +1,7 @@
 ﻿WpLoad - Wordpress Command line upload util usage:
 
-WpLoad up [sitename] [path]
+WpLoad up -s [sitename] -p [path]
+WpLoad up --site [sitename] --path [path]
  
   Upload supported filetypes to a specific site. Parameters:
   [sitename]: name of site profile. Has to be configured before use

@@ -15,37 +15,24 @@ namespace WpLoad.Infrastructure
         public abstract string CommandName { get; }
         public abstract Task<ExitCode> Execute(ILog log, IReadOnlyList<string> arguments);
 
-
-        protected bool ConfigureFolder(ILog log, IReadOnlyList<string> arguments, out string folder)
+        protected static bool TryConfigureFolderAndClient(ILog log,
+                                                          UpArguments arguments,
+                                                          [NotNullWhen(true)] out WordPressClient? client)
         {
-            if (arguments.TryGetArgument(1, out string? argument))
+            if (!Directory.Exists(arguments.Path))
             {
-                folder = argument;
-            }
-            else
-            {
-                folder = Environment.CurrentDirectory;
-            }
-
-            if (!Directory.Exists(folder))
-            {
-                log.Error($"{folder} doesn't exist");
+                log.Error($"{arguments.Path} doesn't exist");
+                client = null;
                 return false;
             }
-            return true;
-        }
 
-
-        protected bool ConfigureClient(ILog log, string site, [NotNullWhen(true)] out WordPressClient? client)
-        {
             log.Info("Configuring connection...");
-            if (!ClientService.TryConfifgureConnection(site, out client))
+            if (!ClientService.TryConfifgureConnection(arguments.Site, out client))
             {
-                log.Error($"{site} profile doesn't exist");
+                log.Error($"{arguments.Site} profile doesn't exist");
                 return false;
             }
             return true;
         }
-
     }
 }
