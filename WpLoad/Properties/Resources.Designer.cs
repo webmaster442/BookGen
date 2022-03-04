@@ -61,7 +61,20 @@ namespace WpLoad.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Help will go here.
+        ///   Looks up a localized string similar to WpLoad - Wordpress Command line upload util usage:
+        ///
+        ///WpLoad up [sitename] [path]
+        /// 
+        ///  Upload supported filetypes to a specific site. Parameters:
+        ///  [sitename]: name of site profile. Has to be configured before use
+        ///  [path]: specifies the folder contatining the files to be uploaded
+        ///
+        ///  Supported fileTypes for upload: jpg, jpeg, png, webp, html, htm
+        ///
+        ///WpLoad add [sitename]
+        ///
+        ///  Create a site profile. Profile has to contain url, username and password
+        ///  When done, profile is encrypted on the disk with cur [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Help {
             get {

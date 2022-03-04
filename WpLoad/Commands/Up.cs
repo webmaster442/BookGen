@@ -62,14 +62,14 @@ namespace WpLoad.Commands
         {
             ProgressReporter reporter = new ProgressReporter(log);
             reporter.Start();
-            foreach (var html in htmls)
+            await Parallel.ForEachAsync(htmls, async (html, ct) =>
             {
                 string content = await File.ReadAllTextAsync(html);
                 log.Info($"Uploading {Path.GetFileName(html)}...");
                 await client.Posts.Create(CreatePost(html, content));
                 reporter.Report(html);
 
-            }
+            });
             reporter.Stop();
         }
 
@@ -77,14 +77,14 @@ namespace WpLoad.Commands
         {
             ProgressReporter reporter = new ProgressReporter(log);
             reporter.Start();
-            foreach (var media in mediaFiles)
+            await Parallel.ForEachAsync(mediaFiles, async (media, ct) =>
             {
                 log.Info($"Uploading {Path.GetFileName(media)}...");
                 await client.Media.Create(media,
-                                          HttpUtility.UrlEncode(Path.GetFileName(media)),
-                                          FileServices.GetMimeType(media));
+                          HttpUtility.UrlEncode(Path.GetFileName(media)),
+                          FileServices.GetMimeType(media));
                 reporter.Report(media);
-            }
+            });
             reporter.Stop();
         }
 
