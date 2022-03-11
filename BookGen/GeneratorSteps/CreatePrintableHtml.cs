@@ -48,7 +48,7 @@ namespace BookGen.GeneratorSteps
                     log.Detail("Processing file for print output: {0}", file);
                     var input = settings.SourceDirectory.Combine(file);
 
-                    var inputContent = input.ReadFile(log);
+                    var inputContent = input.ReadFile(log, true);
                     reindexer.AddMarkdown(inputContent);
                 }
             }
