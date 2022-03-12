@@ -94,9 +94,11 @@ namespace BookGen.Gui
 
         public void ExitApp()
         {
+            if (Application.Current != null)
+            {
+                Application.Current.Running = false;
+            }
             SuspendUi();
-            Dispose();
-            Environment.Exit(0);
         }
 
         public void UpdateBindingsToModel()

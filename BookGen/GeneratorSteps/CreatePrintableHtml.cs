@@ -53,9 +53,6 @@ namespace BookGen.GeneratorSteps
                 }
             }
 
-            //FsPath? debug = settings.OutputDirectory.Combine("debug.md");
-            //debug.WriteFile(log, reindexer.ToString());
-
             Content.Content = pipeline.RenderMarkdown(reindexer.ToString());
 
             target.WriteFile(log, Template.Render());

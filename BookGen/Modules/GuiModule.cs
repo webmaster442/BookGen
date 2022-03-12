@@ -19,6 +19,7 @@ namespace BookGen.Modules
     {
         private Gui.ConsoleUi? uiRunner;
         private GeneratorRunner? _runner;
+        private FolderLock? _folderLock;
 
         public const string MainView = "BookGen.ConsoleUi.MainView.xml";
         public const string HelpView = "BookGen.ConsoleUi.HelpView.xml";
@@ -58,17 +59,17 @@ namespace BookGen.Modules
 
             CheckLockFileExistsAndExitWhenNeeded(args.Directory);
 
-            using (var l = new FolderLock(args.Directory))
-            {
-                if (uiRunner != null)
-                {
+            _folderLock = new FolderLock(args.Directory);
 
-                    uiRunner.OnNavigaton += UiRunner_OnNavigaton;
-                    var (view, model) = UiRunner_OnNavigaton(MainView);
-                    uiRunner.Run(view, model);
-                    return ModuleRunResult.Succes;
-                }
+            if (uiRunner != null)
+            {
+
+                uiRunner.OnNavigaton += UiRunner_OnNavigaton;
+                var (view, model) = UiRunner_OnNavigaton(MainView);
+                uiRunner.Run(view, model);
+                return ModuleRunResult.Succes;
             }
+
             return ModuleRunResult.GeneralError;
         }
 
@@ -109,6 +110,11 @@ namespace BookGen.Modules
             {
                 uiRunner.Dispose();
                 uiRunner = null;
+            }
+            if (_folderLock != null)
+            {
+                _folderLock.Dispose();
+                _folderLock = null;
             }
 
         }
