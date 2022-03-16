@@ -43,6 +43,7 @@ namespace BookGen.GeneratorSteps
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 log.Info("Processing: {0}...", chapter);
+                reindexer.AddMarkdown($"# {chapter}\r\n");
                 foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing file for print output: {0}", file);
