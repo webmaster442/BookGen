@@ -32,6 +32,9 @@
 		<Compile Remove="DefaultTemplate\**" />
 		<EmbeddedResource Remove="DefaultTemplate\**" />
 		<None Remove="DefaultTemplate\**" />
+		<None Include="..\BookGenShell.ps1" Link="BookGenShell.ps1">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Include="..\LICENCE">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
@@ -124,6 +127,9 @@
 		</AssemblyAttribute>
 	</ItemGroup>
 	<ItemGroup>
+	  <Content Include="..\bookgen-icon.png" Link="bookgen-icon.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	  <Content Include="..\icon.ico" Link="icon.ico">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
