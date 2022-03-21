@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.ShellHelper.Code;
+using BookGen.ShellHelper;
 using System.IO;
 using System.Windows;
 

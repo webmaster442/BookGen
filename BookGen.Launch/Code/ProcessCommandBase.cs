@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Launch.Properties;
-using BookGen.ShellHelper.Code;
+using BookGen.ShellHelper;
 using BookGen.ShellHelper.Domain;
 using System;
 using System.ComponentModel;

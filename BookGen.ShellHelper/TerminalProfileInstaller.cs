@@ -6,20 +6,12 @@
 using BookGen.ShellHelper.Domain;
 using System;
 using System.IO;
+using System.Text.Json;
 
 namespace BookGen.ShellHelper
 {
     public static class TerminalProfileInstaller
     {
-        public static void Install()
-        {
-            string title = "BookGen Shell";
-#if DEBUG
-            title = "BookGen Shell (Dev version)";
-#endif
-            var profile = CreateProfile(title);
-        }
-
         private static WindowsTerminalProfile CreateProfile(string title)
         {
             return new WindowsTerminalProfile
@@ -37,6 +29,49 @@ namespace BookGen.ShellHelper
         {
             string shellScript = Path.Combine(AppContext.BaseDirectory, "BookGenShell.ps1");
             return $"powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"";
+        }
+
+        private static bool Write(WindowsTerminalProfile profile, string fileName)
+        {
+            try
+            {
+                string? json = JsonSerializer.Serialize(profile, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+                if (string.IsNullOrEmpty(json))
+                    return false;
+
+                string fragmentPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Windows Terminal\Fragments\BookGen");
+                if (!Directory.Exists(fragmentPath))
+                {
+                    Directory.CreateDirectory(fragmentPath);
+                }
+
+                File.WriteAllText(Path.Combine(fragmentPath, fileName), json);
+                return true;
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+        }
+
+        public static bool? TryInstall()
+        {
+            var installStatus = InstallDetector.GetInstallStatus();
+            if (!installStatus.IsWindowsTerminalInstalled)
+                return null;
+
+            string title = "BookGen Shell";
+            string fileName = "bookgen.json";
+#if DEBUG
+            title = "BookGen Shell (Dev version)";
+            fileName = "bookgen.dev.json";
+#endif
+            var profile = CreateProfile(title);
+
+            return Write(profile, fileName);
         }
     }
 }

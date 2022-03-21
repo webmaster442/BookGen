@@ -7,7 +7,7 @@ using BookGen.ShellHelper.Domain;
 using System;
 using System.IO;
 
-namespace BookGen.ShellHelper.Code
+namespace BookGen.ShellHelper
 {
     public static class InstallDetector
     {
