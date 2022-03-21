@@ -1,9 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Launch.Properties;
+using BookGen.ShellHelper.Code;
+using BookGen.ShellHelper.Domain;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -16,35 +18,13 @@ namespace BookGen.Launch.Code
     internal abstract class ProcessCommandBase : ICommand
     {
         public event EventHandler? CanExecuteChanged;
+        protected InstallStatus InstallStatus; 
 
-        protected readonly bool isWindowsTerminalInstalled;
-        protected readonly bool isVSCodeInstalled;
-        protected readonly bool isPsCoreInstalled;
-
-        protected const string WindowsTerminalExe = "wt.exe";
         protected const string PowershellExe = "powershell.exe";
-        protected const string PowershellCoreExe = "ps.exe";
-        protected const string VsCodeExe = "code.cmd";
 
         protected ProcessCommandBase()
         {
-            string[] pathDirs = Environment.GetEnvironmentVariable("path")?.Split(';') ?? Array.Empty<string>();
-            foreach (var dir in pathDirs)
-            {
-                if (string.IsNullOrEmpty(dir)) continue;
-
-                string? terminalExecutable = Path.Combine(dir, WindowsTerminalExe);
-                string? vsCodeExecutable = Path.Combine(dir, VsCodeExe);
-                string? psCoreExecutable = Path.Combine(dir, PowershellCoreExe);
-                if (File.Exists(terminalExecutable))
-                    isWindowsTerminalInstalled = true;
-
-                if (File.Exists(vsCodeExecutable))
-                    isVSCodeInstalled = true;
-
-                if (File.Exists(psCoreExecutable))
-                    isPsCoreInstalled = true;
-            }
+            InstallStatus = InstallDetector.GetInstallStatus();
         }
 
         public bool CanExecute(object? parameter)

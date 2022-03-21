@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.ShellHelper.Code;
 using System;
 using System.IO;
 using System.Windows;
@@ -13,10 +14,10 @@ namespace BookGen.Launch.Code
     {
         private bool Launch(string shellScript)
         {
-            if (isWindowsTerminalInstalled && Properties.Settings.Default.UseWindowsTerminal)
-                return RunProgram(WindowsTerminalExe, $"new-tab -p \"Powershell\" --title \"BookGen shell\" --colorScheme \"Campbell Powershell\" powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
-            else if (isPsCoreInstalled)
-                return RunProgram(PowershellCoreExe, $"-NoExit -File \"{shellScript}\"");
+            if (InstallStatus.IsWindowsTerminalInstalled && Properties.Settings.Default.UseWindowsTerminal)
+                return RunProgram(InstallDetector.WindowsTerminalExe, $"new-tab -p \"Powershell\" --title \"BookGen shell\" --colorScheme \"Campbell Powershell\" powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+            else if (InstallStatus.IsPsCoreInstalled)
+                return RunProgram(InstallDetector.PowershellCoreExe, $"-NoExit -File \"{shellScript}\"");
             else
                 return RunProgram(PowershellExe, $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
         }
