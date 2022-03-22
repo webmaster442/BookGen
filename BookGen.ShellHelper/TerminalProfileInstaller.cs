@@ -31,11 +31,11 @@ namespace BookGen.ShellHelper
             return $"powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"";
         }
 
-        private static bool Write(WindowsTerminalProfile profile, string fileName)
+        private static bool Write(TerminalFragment fragment, string fileName)
         {
             try
             {
-                string? json = JsonSerializer.Serialize(profile, new JsonSerializerOptions
+                string? json = JsonSerializer.Serialize(fragment, new JsonSerializerOptions
                 {
                     WriteIndented = true
                 });
@@ -69,9 +69,10 @@ namespace BookGen.ShellHelper
             title = "BookGen Shell (Dev version)";
             fileName = "bookgen.dev.json";
 #endif
-            var profile = CreateProfile(title);
+            var fragment = new TerminalFragment();
+            fragment.Profiles.Add(CreateProfile(title));
 
-            return Write(profile, fileName);
+            return Write(fragment, fileName);
         }
     }
 }
