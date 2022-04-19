@@ -40,18 +40,14 @@ namespace WpLoad.Services
                 BaseAddress = new Uri(info.ApiEndPoint)
             };
             var client = new WordPressClient(httpClient, string.Empty);
-            client.AuthMethod = WordPressPCL.Models.AuthMethod.ApplicationPassword;
-            client.UserName = info.Username;
-            client.SetApplicationPassword(info.Password);
+            client.Auth.UseBasicAuth(info.Username, info.Password);
             return client;
         }
 
         private static WordPressClient CreateValidatedClient(SiteInfo info)
         {
             var client = new WordPressClient(info.ApiEndPoint, string.Empty);
-            client.AuthMethod = WordPressPCL.Models.AuthMethod.ApplicationPassword;
-            client.UserName = info.Username;
-            client.SetApplicationPassword(info.Password);
+            client.Auth.UseBasicAuth(info.Username, info.Password);
             return client;
         }
     }

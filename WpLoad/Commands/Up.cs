@@ -49,7 +49,7 @@ namespace WpLoad.Commands
             {
                 string content = await File.ReadAllTextAsync(html);
                 log.Info($"Uploading {Path.GetFileName(html)}...");
-                await client.Posts.Create(CreatePost(html, content));
+                await client.Posts.CreateAsync(CreatePost(html, content));
                 reporter.Report(html);
 
             });
@@ -63,7 +63,7 @@ namespace WpLoad.Commands
             await Parallel.ForEachAsync(mediaFiles, async (media, ct) =>
             {
                 log.Info($"Uploading {Path.GetFileName(media)}...");
-                await client.Media.Create(media,
+                await client.Media.CreateAsync(media,
                           HttpUtility.UrlEncode(Path.GetFileName(media)),
                           FileServices.GetMimeType(media));
                 reporter.Report(media);

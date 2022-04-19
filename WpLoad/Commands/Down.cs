@@ -61,7 +61,7 @@ namespace WpLoad.Commands
         private async Task DownloadMedia(ILog log, WordPressClient client, string path)
         {
             log.Info("Searching media items...");
-            var mediaItems = await client.Media.GetAll();
+            var mediaItems = await client.Media.GetAllAsync();
 
             using (var HttpClient = new HttpClient())
             {
@@ -78,7 +78,7 @@ namespace WpLoad.Commands
         private async Task DownloadPosts(ILog log, WordPressClient client, string path)
         {
             log.Info("Searching posts...");
-            var posts = await client.Posts.GetAll();
+            var posts = await client.Posts.GetAllAsync();
             foreach (var post in posts)
             {
                 string fleName = post.Slug + ".html";
