@@ -35,10 +35,6 @@ namespace BookGen.Api.Configuration
         /// </summary>
         string ScriptsDirectory { get; }
         /// <summary>
-        /// File containing list of stopwords to ignore, when generating chapter summary.
-        /// </summary>
-        string StopwordsFile { get; }
-        /// <summary>
         /// Build configuration for epubs
         /// </summary>
         IReadOnlyBuildConfig TargetEpub { get; }

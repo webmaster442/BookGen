@@ -66,7 +66,6 @@ namespace BookGen
                 new AssemblyDocumentModule(CurrentState),
                 new SettingsModule(CurrentState, AppSetting),
                 new InitModule(CurrentState),
-                new PagegenModule(CurrentState),
                 new Md2HtmlModule(CurrentState),
                 new ChaptersModule(CurrentState),
                 new StatModule(CurrentState),

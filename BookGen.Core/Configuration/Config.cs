@@ -120,9 +120,6 @@ namespace BookGen.Core.Configuration
         [JsonIgnore]
         IReadOnlyTranslations IReadOnlyConfig.Translations => Translations;
 
-        [Doc("File containing list of stopwords to ignore, when generating chapter summary.")]
-        public string StopwordsFile { get; set; }
-
         public Config()
         {
             TargetWeb = BuildConfig.CreateDefault("output/web", 64 * 1024);
@@ -136,7 +133,6 @@ namespace BookGen.Core.Configuration
             TOCFile = string.Empty;
             HostName = string.Empty;
             ScriptsDirectory = string.Empty;
-            StopwordsFile = string.Empty;
         }
 
         public static Config CreateDefault(int version = 100)
