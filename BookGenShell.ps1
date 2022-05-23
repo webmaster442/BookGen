@@ -4,6 +4,18 @@
 # Last modified: 2022-03-19
 # -----------------------------------------------------------------------------
 
+#cdg command
+
+function cdg()
+{
+    [void] [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
+    $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog
+	$FolderBrowserDialog.ShowNewFolderButton = $true
+    [void] $FolderBrowserDialog.ShowDialog()
+    Push-Location $FolderBrowserDialog.SelectedPath
+	$FolderBrowserDialog.Dispose()
+}
+
 # register scripts folder to the path
 $env:Path += ";$PSScriptRoot"
 
@@ -45,3 +57,4 @@ if ($args.Count -eq 1) {
 # welcome message
 Write-Host "To get info on using bookgen type: Bookgen Help"
 Write-Host "To get list of commands type: Bookgen SubCommands"
+Write-Host "To graphicaly select working directory type: cdg"
