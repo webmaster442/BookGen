@@ -49,6 +49,7 @@
 		<None Remove="Resources\Help.ChaptersModule.txt" />
 		<None Remove="Resources\Help.ConfigHelpModule.txt" />
 		<None Remove="Resources\Help.EditModule.txt" />
+		<None Remove="Resources\Help.ExternalLinksModule.txt" />
 		<None Remove="Resources\Help.General.txt" />
 		<None Remove="Resources\Help.GuiModule.txt" />
 		<None Remove="Resources\Help.ImgConvertModule.txt" />
@@ -56,7 +57,6 @@
 		<None Remove="Resources\Help.InstallPSAutocompleteModule.txt" />
 		<None Remove="Resources\Help.Md2HtmlModule.txt" />
 		<None Remove="Resources\Help.MdTableModule.txt" />
-		<None Remove="Resources\Help.PagegenModule.txt" />
 		<None Remove="Resources\Help.PreviewModule.txt" />
 		<None Remove="Resources\Help.ProjectConvertModule.txt" />
 		<None Remove="Resources\Help.ServeModule.txt" />
@@ -95,7 +95,7 @@
 		<EmbeddedResource Include="Resources\Help.InitModule.txt" />
 		<EmbeddedResource Include="Resources\Help.Md2HtmlModule.txt" />
 		<EmbeddedResource Include="Resources\Help.MdTableModule.txt" />
-		<EmbeddedResource Include="Resources\Help.PagegenModule.txt" />
+		<EmbeddedResource Include="Resources\Help.ExternalLinksModule.txt" />
 		<EmbeddedResource Include="Resources\Help.PreviewModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ProjectConvertModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ServeModule.txt" />

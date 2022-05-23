@@ -73,6 +73,7 @@ namespace BookGen
                 new ImgConvertModule(CurrentState),
                 new StockSearchModule(CurrentState),
                 new MdTableModule(CurrentState),
+                new ExternalLinksModule(CurrentState),
             };
         }
 
