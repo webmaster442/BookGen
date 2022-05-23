@@ -4,18 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Utilities;
-using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace BookGen.Modules
 {
@@ -59,7 +54,7 @@ namespace BookGen.Modules
                     string content = ExtractLinksToMdFile(settings, CurrentState.Log);
 
                     args.OutputFile.WriteFile(CurrentState.Log, content);
-                    
+
                     stopwatch.Stop();
                     CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 

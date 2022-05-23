@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.AssemblyDocumenter;
-using BookGen.Core;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;

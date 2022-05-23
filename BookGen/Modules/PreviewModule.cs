@@ -9,7 +9,6 @@ using BookGen.Framework;
 using BookGen.Framework.Server;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Utilities;
-using System;
 
 namespace BookGen.Modules
 {

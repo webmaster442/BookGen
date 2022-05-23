@@ -7,7 +7,6 @@ using BookGen.Contracts;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Utilities;
-using System;
 using System.Diagnostics;
 
 namespace BookGen.Modules

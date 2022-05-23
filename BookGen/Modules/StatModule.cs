@@ -10,7 +10,6 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Utilities;
-using System;
 using System.IO;
 
 namespace BookGen.Modules

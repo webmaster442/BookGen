@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
 using BookGen.Core.Configuration;
 
 namespace BookGen.Framework

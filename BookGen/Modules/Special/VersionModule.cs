@@ -7,7 +7,6 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
-using System;
 
 namespace BookGen.Modules.Special
 {

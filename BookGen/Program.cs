@@ -11,9 +11,6 @@ using BookGen.Gui.ArgumentParser;
 using BookGen.Modules;
 using BookGen.Modules.Special;
 using BookGen.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace BookGen
@@ -214,7 +211,7 @@ namespace BookGen
                 stateModule.Abort();
 
             CurrentState.Log.Critical(ex);
-                
+
             ShowMessageBox("Unhandled exception\r\n{0}", ex.Message);
 #if DEBUG
             System.Diagnostics.Debugger.Break();

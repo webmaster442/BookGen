@@ -1,23 +1,18 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
 using BookGen.Contracts;
-using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Domain.Wordpress;
 using BookGen.Framework;
 using BookGen.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace BookGen.GeneratorSteps.Wordpress
 {

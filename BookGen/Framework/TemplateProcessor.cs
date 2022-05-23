@@ -7,8 +7,6 @@ using BookGen.Contracts;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework.Shortcodes;
-using System;
-using System.Collections.Generic;
 
 namespace BookGen.Framework
 {

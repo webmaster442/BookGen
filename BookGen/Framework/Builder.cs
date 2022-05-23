@@ -5,12 +5,9 @@
 
 using BookGen.Api;
 using BookGen.Contracts;
-using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Framework.Scripts;
 using BookGen.Gui;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace BookGen.Framework
