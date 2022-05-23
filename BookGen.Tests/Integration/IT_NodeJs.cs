@@ -9,6 +9,7 @@ using System.Collections.Generic;
 namespace BookGen.Tests
 {
     [TestFixture, SingleThreaded]
+    [Ignore("Run locally, with installed nodejs")]
     public class IT_NodeJs
     {
         private NodeJs _sut;
