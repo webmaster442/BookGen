@@ -1,3 +1,12 @@
+# 2022.05.23
+* New: Better, simplistic icon
+* New: Wpload implements download feature
+* New: Installs as windows termninal fragment, if Windows terminal is installed
+* New: cdg command in shell, to graphically change workdir.
+* Fix: printable html generation
+* Fix: exiting gui properly deletes the folderlock
+* Updated dependencies
+
 # 2022.03.02
 * New: Quick editor in launcher
 * New: WpLoad tool to interact with wordpress backend sites

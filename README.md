@@ -36,6 +36,3 @@ git submodule update
 ## Documentation
 
 https://github.com/webmaster442/BookGen/wiki
-
----
-Icon source: https://icons8.com/

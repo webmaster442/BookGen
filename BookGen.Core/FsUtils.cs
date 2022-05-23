@@ -183,12 +183,19 @@ namespace BookGen.Core
             }
         }
 
-        public static string ReadFile(this FsPath path, ILog log)
+        public static string ReadFile(this FsPath path, ILog log, bool appendExtraLine = false)
         {
             try
             {
                 using (var reader = File.OpenText(path.ToString()))
                 {
+                    if (appendExtraLine)
+                    {
+                        StringBuilder buffer = new StringBuilder(reader.ReadToEnd());
+                        buffer.AppendLine();
+                        return buffer.ToString();
+                    }
+
                     return reader.ReadToEnd();
                 }
             }

@@ -149,5 +149,14 @@ namespace BookGen.Launch.Properties {
                 return ResourceManager.GetString("ShellScriptWriteFail", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Terminal profile installation failed .
+        /// </summary>
+        internal static string TerminalProfileInstallFail {
+            get {
+                return ResourceManager.GetString("TerminalProfileInstallFail", resourceCulture);
+            }
+        }
     }
 }

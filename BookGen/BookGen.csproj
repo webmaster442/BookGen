@@ -18,8 +18,6 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 	<PropertyGroup>
-		<ApplicationIcon>..\Icon.ico</ApplicationIcon>
-		<SonarQubeTestProject>False</SonarQubeTestProject>
 		<PackageLicenseExpression></PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
@@ -34,6 +32,9 @@
 		<Compile Remove="DefaultTemplate\**" />
 		<EmbeddedResource Remove="DefaultTemplate\**" />
 		<None Remove="DefaultTemplate\**" />
+		<None Include="..\BookGenShell.ps1" Link="BookGenShell.ps1">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Include="..\LICENCE">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
@@ -68,8 +69,8 @@
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.30.2" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
-		<PackageReference Include="SkiaSharp" Version="2.80.3" />
-		<PackageReference Include="Svg.Skia" Version="0.5.10" />
+		<PackageReference Include="SkiaSharp" Version="2.88.0" />
+		<PackageReference Include="Svg.Skia" Version="0.5.13" />
 		<PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
 		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
@@ -124,6 +125,14 @@
 		<AssemblyAttribute Include="BookGen.AssemblyBuildDateAttribute">
 			<_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
 		</AssemblyAttribute>
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="..\bookgen-icon.png" Link="bookgen-icon.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="..\icon.ico" Link="icon.ico">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 	<ItemGroup>
 	  <Resource Include="Resources\Help.InstallPSAutocompleteModule.txt" />

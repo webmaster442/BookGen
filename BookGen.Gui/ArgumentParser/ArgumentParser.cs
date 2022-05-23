@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2021 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ namespace BookGen.Gui.ArgumentParser
         private static int _filled = 0;
         private static int _required = 0;
 
-        public static bool ParseArguments<T>(string[] args, T targetClass) where T : ArgumentsBase
+        public static bool ParseArguments<T>(IReadOnlyList<string> args, T targetClass) where T : ArgumentsBase
         {
             _properties.Clear();
             _filled = 0;
@@ -71,14 +71,14 @@ namespace BookGen.Gui.ArgumentParser
                 return current;
         }
 
-        private static void WalkArgsAndFillClass<T>(string[] args, ref T targetClass) where T : ArgumentsBase
+        private static void WalkArgsAndFillClass<T>(IReadOnlyList<string> args, ref T targetClass) where T : ArgumentsBase
         {
             int i = 0;
             bool nextIsswitch, currentIsSwitch;
-            while (i < args.Length)
+            while (i < args.Count)
             {
                 string current = args[i].ToLower();
-                string next = (i + 1) < args.Length ? args[i + 1].ToLower() : string.Empty;
+                string next = (i + 1) < args.Count ? args[i + 1].ToLower() : string.Empty;
                 nextIsswitch = next.StartsWith("-");
                 currentIsSwitch = current.StartsWith("-");
 
