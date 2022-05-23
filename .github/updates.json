@@ -16,5 +16,11 @@
 		"ZipPackageUrl": "https://github.com/webmaster442/BookGen/releases/download/2022-03-02/bookgen.2022-03-02.Zip",
 		"HashSha256": "28FA54AF2DDCD5B29EE1F09DE6CFD191077A3DBD8321FFD1A7EB43D557F56F68",
 		"IsPreview": false
+	},
+	{
+		"Version": "2022.05.23",
+		"ZipPackageUrl": "https://github.com/webmaster442/BookGen/releases/download/2022-05-23/bookgen.2022-05-23.Zip",
+		"HashSha256": "9C30BF944D46C7F466F2101DEBDFE1C871FFD129A62E3B95278481CC719EC6EF",
+		"IsPreview": false
 	}
 ]
