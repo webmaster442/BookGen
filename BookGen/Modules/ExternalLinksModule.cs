@@ -41,9 +41,6 @@ namespace BookGen.Modules
             {
                 ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
 
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-
                 return loader.TryLoadProjectAndExecuteOperation((config, toc) =>
                 {
                     Stopwatch stopwatch = new Stopwatch();

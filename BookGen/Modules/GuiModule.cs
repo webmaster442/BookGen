@@ -70,7 +70,7 @@ namespace BookGen.Modules
             return ModuleRunResult.GeneralError;
         }
 
-        private System.IO.Stream GetView(string name)
+        private static System.IO.Stream GetView(string name)
         {
             System.IO.Stream? result = typeof(GuiModule).Assembly.GetManifestResourceStream(name);
             if (result != null)

@@ -73,11 +73,11 @@ namespace BookGen.Utilities
                 while ((line = reader.ReadLine()) != null)
                 {
                     if (line.StartsWith("# "))
-                        return line.Substring(2);
+                        return line[2..];
                     else if (line.StartsWith("## "))
-                        return line.Substring(3);
+                        return line[3..];
                     else if (line.StartsWith("### "))
-                        return line.Substring(4);
+                        return line[4..];
                 }
             }
             return string.Empty;
