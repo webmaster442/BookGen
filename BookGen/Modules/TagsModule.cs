@@ -40,7 +40,13 @@ namespace BookGen.Modules
                     Stopwatch stopwatch = new Stopwatch();
                     stopwatch.Start();
 
-
+                    FsPath tags = new FsPath(args.Directory, "tags.json");
+                    
+                    if (loader.TryGetTags(out TagUtils tagUtils))
+                    {
+                        tagUtils.DeleteNoLongerExisting(toc);
+                        tagUtils.CreateNotYetExisting(toc);
+                    }
 
                     CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
@@ -49,5 +55,7 @@ namespace BookGen.Modules
                 }).ToSuccesOrError();
             }
         }
+
+
     }
 }

@@ -23,6 +23,7 @@ namespace BookGen
         private readonly ILog _log;
         private readonly FsPath _configJson;
         private readonly FsPath _configYaml;
+        private readonly FsPath _tags;
         private readonly string _workdir;
 
         public ProjectLoader(ILog log, string workdir)
@@ -31,7 +32,7 @@ namespace BookGen
             _workdir = workdir;
             _configJson = new FsPath(workdir, "bookgen.json");
             _configYaml = new FsPath(workdir, "bookgen.yml");
-
+            _tags = new FsPath(workdir, "tags.json");
         }
 
         private ConfigMode GetConfigMode()
@@ -149,6 +150,31 @@ namespace BookGen
 
             _log.Info("Config file and TOC contain no errors");
             return true;
+        }
+
+        public bool TryGetTags(out TagUtils tagUtils)
+        {
+            if (_tags.IsExisting)
+            {
+                var deserialized = _tags.DeserializeJson<Dictionary<string, string[]>>(_log);
+                if (deserialized != null)
+                {
+                    tagUtils = new TagUtils(deserialized, _log);
+                    return true;
+                }
+                else
+                {
+                    _log.Critical("Invalid tags.json file");
+                    tagUtils = new TagUtils(new(), _log);
+                    return false;
+                }
+            }
+            else
+            {
+                _log.Warning("tags.json not found, continuing with empty collection");
+                tagUtils = new TagUtils(new(), _log);
+                return true;
+            }
         }
 
         public RuntimeSettings CreateRuntimeSettings(Config config, ToC toc, BuildConfig current)

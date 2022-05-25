@@ -1,20 +1,57 @@
-﻿namespace BookGen.Utilities
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Api;
+using BookGen.Domain;
+
+namespace BookGen.Utilities
 {
     internal class TagUtils
     {
-        private readonly IDictionary<string, string[]> _tags;
+        private readonly Dictionary<string, string[]> _loadedTags;
+        private readonly ILog _log;
 
-        public TagUtils(IDictionary<string, string[]> tags)
+        public IReadOnlyDictionary<string, string[]> TagCollection => _loadedTags;
+
+        public TagUtils(Dictionary<string, string[]> loadedTags, ILog log)
         {
-            _tags = tags;
+            _loadedTags = loadedTags;
+            _log = log;
         }
 
-        public string[] GetTags()
+        public void DeleteNoLongerExisting(ToC toc)
         {
-            return _tags
-                .SelectMany(x => x.Value)
-                .Distinct()
-                .ToArray();
+            _log.Info("Scanning no longer existing entries...");
+            var tocItems = toc.Files.ToHashSet();
+            Stack<string> toDelete = new();
+            foreach (var file in _loadedTags.Keys)
+            {
+                if (!tocItems.Contains(file))
+                    toDelete.Push(file);
+            }
+
+            _log.Info("Found {0} items to remove...", toDelete.Count);
+            while (toDelete.Count > 0)
+            {
+                _loadedTags.Remove(toDelete.Pop());
+            }
+        }
+
+        public void CreateNotYetExisting(ToC toc)
+        {
+            _log.Info("Scanning not yet existing entries...");
+            int count = 0;
+            foreach (var file in toc.Files)
+            {
+                if (!_loadedTags.ContainsKey(file))
+                {
+                    _loadedTags.Add(file, Array.Empty<string>());
+                    ++count;
+                }
+            }
+            _log.Info("Created {0} new tag entries. Please fill them.", count);
         }
     }
 }
