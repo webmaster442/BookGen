@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
@@ -34,7 +35,6 @@ namespace BookGen.Modules
             using (var l = new FolderLock(args.Directory))
             {
                 ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
-
                 return loader.TryLoadProjectAndExecuteOperation((config, toc) =>
                 {
                     Stopwatch stopwatch = new Stopwatch();
@@ -42,20 +42,27 @@ namespace BookGen.Modules
 
                     FsPath tags = new FsPath(args.Directory, "tags.json");
                     
-                    if (loader.TryGetTags(out TagUtils tagUtils))
+                    if (!loader.TryGetTags(out TagUtils tagUtils))
                     {
-                        tagUtils.DeleteNoLongerExisting(toc);
-                        tagUtils.CreateNotYetExisting(toc);
+                        return false;
                     }
 
-                    CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
+                    tagUtils.DeleteNoLongerExisting(toc);
+                    tagUtils.CreateNotYetExisting(toc);
 
+                    SerializeTagCollection(args.Directory, CurrentState.Log, tagUtils.TagCollection);
+
+                    CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
                     return true;
 
                 }).ToSuccesOrError();
             }
         }
 
-
+        private static void SerializeTagCollection(string directory, ILog log, Dictionary<string, string[]> tagCollection)
+        {
+            FsPath tags = new FsPath(directory, "tags.json");
+            tags.SerializeJson(tagCollection, log, true);
+        }
     }
 }

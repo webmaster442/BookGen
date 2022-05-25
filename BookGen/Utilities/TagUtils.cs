@@ -13,7 +13,7 @@ namespace BookGen.Utilities
         private readonly Dictionary<string, string[]> _loadedTags;
         private readonly ILog _log;
 
-        public IReadOnlyDictionary<string, string[]> TagCollection => _loadedTags;
+        public Dictionary<string, string[]> TagCollection => _loadedTags;
 
         public TagUtils(Dictionary<string, string[]> loadedTags, ILog log)
         {

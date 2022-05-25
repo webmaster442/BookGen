@@ -10,15 +10,25 @@ namespace BookGen.Core
 {
     public static class JsonInliner
     {
+        private static string GetJsonString<T>(T obj) where T : class
+        {
+            return JsonSerializer.Serialize<T>(obj, new JsonSerializerOptions
+            {
+                Converters =
+                {
+                    new CultureInfoConverter(),
+                }
+            });
+        }
+
         public static string InlineJs<T>(string variableName, T obj) where T : class
         {
-            var json = JsonSerializer.Serialize<T>(obj);
-            return $"const {variableName} = JSON.parse('{json}');";
+            return $"const {variableName} = JSON.parse('{GetJsonString(obj)}');";
         }
 
         public static string InlinePhp<T>(string variableName, T obj) where T : class
         {
-            var json = JsonSerializer.Serialize<T>(obj);
+            var json = GetJsonString(obj);
             var phpbuilder = new StringBuilder(4096);
             phpbuilder.AppendLine("<?php");
             phpbuilder.AppendFormat("${0} = json_decode(\"{1}\", false);", variableName, json);
@@ -29,7 +39,7 @@ namespace BookGen.Core
 
         public static string InlinePython<T>(string variableName, T obj) where T : class
         {
-            var json = JsonSerializer.Serialize<T>(obj);
+            var json = GetJsonString(obj);
             var pythonBuilder = new StringBuilder(4096);
             pythonBuilder.AppendLine("import json");
             pythonBuilder.AppendLine("class Deserialize(object):");
