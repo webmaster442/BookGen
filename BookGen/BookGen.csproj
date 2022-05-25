@@ -9,8 +9,8 @@
 		<Product>BookGen</Product>
 		<Description>A static Markdown book generator</Description>
 		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-		<AssemblyVersion>1.0.11.0</AssemblyVersion>
-		<FileVersion>1.0.11.0</FileVersion>
+		<AssemblyVersion>1.0.12.0</AssemblyVersion>
+		<FileVersion>1.0.12.0</FileVersion>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>BookGen</ToolCommandName>
@@ -23,7 +23,6 @@
 		<RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
 		<PackageTags>Book; Markdown; Static website</PackageTags>
 		<Authors>Ruzsinszki Gábor</Authors>
-		<Version>2020.05.26</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseFile>LICENCE</PackageLicenseFile>
     <RootNamespace>BookGen</RootNamespace>

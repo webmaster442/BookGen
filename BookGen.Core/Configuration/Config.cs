@@ -5,6 +5,7 @@
 
 using BookGen.Api.Configuration;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json.Serialization;
 
 namespace BookGen.Core.Configuration
@@ -102,6 +103,9 @@ namespace BookGen.Core.Configuration
             set;
         }
 
+        [Doc("Language of book represented in standard ISO 639-1 language code")]
+        public CultureInfo BookLanguage { get; set; }
+
         [JsonIgnore]
         IReadOnlyMetadata IReadOnlyConfig.Metadata => Metadata;
 
@@ -133,6 +137,7 @@ namespace BookGen.Core.Configuration
             TOCFile = string.Empty;
             HostName = string.Empty;
             ScriptsDirectory = string.Empty;
+            BookLanguage = new CultureInfo("en-US");
         }
 
         public static Config CreateDefault(int version = 100)
