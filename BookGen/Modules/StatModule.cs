@@ -53,7 +53,7 @@ namespace BookGen.Modules
                     ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
                     bool result = loader.TryLoadProjectAndExecuteOperation((config, toc) =>
                     {
-                        var settings = loader.CreateRuntimeSettings(config, toc, new BuildConfig());
+                        var settings = loader.CreateRuntimeSettings(config, toc, new TagUtils(), new BuildConfig());
 
                         foreach (var link in settings.TocContents.Files)
                         {

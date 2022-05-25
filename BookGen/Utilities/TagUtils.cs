@@ -4,16 +4,22 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Core.Contracts;
 using BookGen.Domain;
 
 namespace BookGen.Utilities
 {
-    internal class TagUtils
+    internal class TagUtils : ITagUtils
     {
         private readonly Dictionary<string, string[]> _loadedTags;
-        private readonly ILog _log;
+        private readonly ILog? _log;
 
         public Dictionary<string, string[]> TagCollection => _loadedTags;
+
+        public TagUtils()
+        {
+            _loadedTags = new();
+        }
 
         public TagUtils(Dictionary<string, string[]> loadedTags, ILog log)
         {
@@ -23,7 +29,7 @@ namespace BookGen.Utilities
 
         public void DeleteNoLongerExisting(ToC toc)
         {
-            _log.Info("Scanning no longer existing entries...");
+            _log?.Info("Scanning no longer existing entries...");
             var tocItems = toc.Files.ToHashSet();
             Stack<string> toDelete = new();
             foreach (var file in _loadedTags.Keys)
@@ -32,7 +38,7 @@ namespace BookGen.Utilities
                     toDelete.Push(file);
             }
 
-            _log.Info("Found {0} items to remove...", toDelete.Count);
+            _log?.Info("Found {0} items to remove...", toDelete.Count);
             while (toDelete.Count > 0)
             {
                 _loadedTags.Remove(toDelete.Pop());
@@ -41,7 +47,7 @@ namespace BookGen.Utilities
 
         public void CreateNotYetExisting(ToC toc)
         {
-            _log.Info("Scanning not yet existing entries...");
+            _log?.Info("Scanning not yet existing entries...");
             int count = 0;
             foreach (var file in toc.Files)
             {
@@ -51,7 +57,7 @@ namespace BookGen.Utilities
                     ++count;
                 }
             }
-            _log.Info("Created {0} new tag entries. Please fill them.", count);
+            _log?.Info("Created {0} new tag entries. Please fill them.", count);
         }
     }
 }

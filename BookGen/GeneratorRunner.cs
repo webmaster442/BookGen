@@ -10,6 +10,7 @@ using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
 using BookGen.Utilities;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Webmaster442.HttpServerFramework;
 
@@ -24,6 +25,7 @@ namespace BookGen
 
         private Config? _configuration;
         private ToC? _toc;
+        private TagUtils? _tags;
 
         public FsPath ConfigFile { get; private set; }
 
@@ -46,6 +48,7 @@ namespace BookGen
             ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
             _configuration = new Config();
             _toc = new ToC();
+            _tags = new TagUtils(new(), log);
         }
 
         public void RunHelp()
@@ -54,6 +57,20 @@ namespace BookGen
         }
 
         #region Helpers
+
+        [MemberNotNull(nameof(_configuration), nameof(_toc), nameof(_tags))]
+        private void ThrowIfInvalidState()
+        {
+            if (_configuration == null)
+                throw new InvalidOperationException("Configuration is null");
+
+            if (_toc == null)
+                throw new InvalidOperationException("Table of contents is null");
+
+            if (_tags == null)
+                throw new InvalidOperationException("Tags is null");
+
+        }
 
         public void InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
         {
@@ -78,7 +95,9 @@ namespace BookGen
 
 
             bool ret = _projectLoader.TryLoadAndValidateConfig(out _configuration)
-                && _projectLoader.TryLoadAndValidateToc(_configuration, out _toc);
+                && _projectLoader.TryLoadAndValidateToc(_configuration, out _toc)
+                && _projectLoader.TryGetTags(out _tags);
+
 
             if (compileScripts)
                 ret = ret && LoadAndCompileScripts();
@@ -130,13 +149,9 @@ namespace BookGen
 
         public void DoBuild()
         {
-            if (_configuration == null)
-                throw new InvalidOperationException("Configuration is null");
+            ThrowIfInvalidState();
 
-            if (_toc == null)
-                throw new InvalidOperationException("Table of contents is null");
-
-            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetWeb);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetWeb);
 
             Log.Info("Building deploy configuration...");
 
@@ -145,13 +160,9 @@ namespace BookGen
 
         public void DoPrint()
         {
-            if (_configuration == null)
-                throw new InvalidOperationException("Configuration is null");
+            ThrowIfInvalidState();
 
-            if (_toc == null)
-                throw new InvalidOperationException("Table of contents is null");
-
-            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetPrint);
+            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetPrint);
 
             Log.Info("Building print configuration...");
 
@@ -160,13 +171,9 @@ namespace BookGen
 
         public void DoEpub()
         {
-            if (_configuration == null)
-                throw new InvalidOperationException("Configuration is null");
+            ThrowIfInvalidState();
 
-            if (_toc == null)
-                throw new InvalidOperationException("Table of contents is null");
-
-            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetEpub);
+            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetEpub);
 
             Log.Info("Building epub configuration...");
 
@@ -175,13 +182,9 @@ namespace BookGen
 
         public void DoWordpress()
         {
-            if (_configuration == null)
-                throw new InvalidOperationException("Configuration is null");
+            ThrowIfInvalidState();
 
-            if (_toc == null)
-                throw new InvalidOperationException("Table of contents is null");
-
-            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetWordpress);
+            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetWordpress);
 
             Log.Info("Building Wordpress configuration...");
 
@@ -190,16 +193,12 @@ namespace BookGen
 
         public void DoTest()
         {
-            if (_configuration == null)
-                throw new InvalidOperationException("Configuration is null");
-
-            if (_toc == null)
-                throw new InvalidOperationException("Table of contents is null");
+            ThrowIfInvalidState();
 
             Log.Info("Building test configuration...");
             _configuration.HostName = "http://localhost:8080/";
 
-            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _configuration.TargetWeb);
+            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetWeb);
 
 
             using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))

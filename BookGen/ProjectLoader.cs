@@ -177,7 +177,7 @@ namespace BookGen
             }
         }
 
-        public RuntimeSettings CreateRuntimeSettings(Config config, ToC toc, BuildConfig current)
+        public RuntimeSettings CreateRuntimeSettings(Config config, ToC toc, TagUtils tags, BuildConfig current)
         {
             var settings = new RuntimeSettings
             {
@@ -187,6 +187,7 @@ namespace BookGen
                 MetataCache = new Dictionary<string, string>(100),
                 InlineImgCache = new ConcurrentDictionary<string, string>(),
                 CurrentBuildConfig = current,
+                Tags = tags,
             };
 
             if (string.IsNullOrEmpty(config.ImageDir))

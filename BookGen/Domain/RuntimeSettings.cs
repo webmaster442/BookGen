@@ -7,19 +7,20 @@ using BookGen.Api;
 using BookGen.Api.Configuration;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
+using BookGen.Utilities;
 
 namespace BookGen.Domain
 {
     public class RuntimeSettings : IReadonlyRuntimeSettings
     {
         public FsPath OutputDirectory { get; set; }
-        public FsPath SourceDirectory { get; set; }
+        public FsPath SourceDirectory { get; init; }
         public FsPath ImageDirectory { get; set; }
-        public ITableOfContents TocContents { get; set; }
-        public Config Configuration { get; set; }
-        public Dictionary<string, string> MetataCache { get; set; }
-        public ConcurrentDictionary<string, string> InlineImgCache { get; set; }
-        public BuildConfig CurrentBuildConfig { get; set; }
+        public ITableOfContents TocContents { get; init; }
+        public Config Configuration { get; init; }
+        public Dictionary<string, string> MetataCache { get; init; }
+        public ConcurrentDictionary<string, string> InlineImgCache { get; init; }
+        public BuildConfig CurrentBuildConfig { get; init; }
 
         IReadOnlyConfig IReadonlyRuntimeSettings.Configuration => Configuration;
 
@@ -28,6 +29,8 @@ namespace BookGen.Domain
         IReadOnlyDictionary<string, string> IReadonlyRuntimeSettings.InlineImgCache => InlineImgCache;
 
         IReadOnlyBuildConfig IReadonlyRuntimeSettings.CurrentBuildConfig => CurrentBuildConfig;
+
+        public ITagUtils? Tags { get; init; }
 
         public RuntimeSettings()
         {

@@ -46,7 +46,7 @@ namespace BookGen.Modules
                     Stopwatch stopwatch = new Stopwatch();
                     stopwatch.Start();
 
-                    var settings = loader.CreateRuntimeSettings(config, toc, new BuildConfig());
+                    var settings = loader.CreateRuntimeSettings(config, toc, new TagUtils(), new BuildConfig());
 
                     string content = ExtractLinksToMdFile(settings, CurrentState.Log);
 
