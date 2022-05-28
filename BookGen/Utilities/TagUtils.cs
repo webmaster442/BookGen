@@ -6,6 +6,7 @@
 using BookGen.Api;
 using BookGen.Core.Contracts;
 using BookGen.Domain;
+using System.Globalization;
 
 namespace BookGen.Utilities
 {
@@ -58,6 +59,33 @@ namespace BookGen.Utilities
                 }
             }
             _log?.Info("Created {0} new tag entries. Please fill them.", count);
+        }
+
+        public ISet<string> TagsForFile(string file)
+        {
+            if (_loadedTags.ContainsKey(file))
+            {
+                HashSet<string> tags = new HashSet<string>(_loadedTags[file].Select(x => x.ToTitleCase(CultureInfo.InvariantCulture)));
+                return tags;
+            }
+            return new HashSet<string>();
+        }
+
+        public ISet<string> TagsForFiles(IEnumerable<string> files)
+        {
+            HashSet<string> tags = new HashSet<string>();
+            foreach (var file in files)
+            {
+                if (_loadedTags.ContainsKey(file))
+                {
+                    var fileTags = _loadedTags[file].Select(x => x.ToTitleCase(CultureInfo.InvariantCulture));
+                    foreach (var tag in fileTags)
+                    {
+                        tags.Add(tag);
+                    }
+                }
+            }
+            return tags;
         }
     }
 }
