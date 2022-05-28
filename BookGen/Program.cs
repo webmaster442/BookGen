@@ -74,6 +74,7 @@ namespace BookGen
                 new StockSearchModule(CurrentState),
                 new MdTableModule(CurrentState),
                 new ExternalLinksModule(CurrentState),
+                new TagsModule(CurrentState),
             };
         }
 
