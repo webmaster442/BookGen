@@ -5,10 +5,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Xml.Linq;
-
 namespace BookGen.AssemblyDocumenter.Units
 {
     /// <summary>

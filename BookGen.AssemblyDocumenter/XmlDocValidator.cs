@@ -5,11 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Core;
-using System;
 using System.Reflection;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Schema;
 
 namespace BookGen.AssemblyDocumenter
 {

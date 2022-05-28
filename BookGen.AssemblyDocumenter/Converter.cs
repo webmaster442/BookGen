@@ -6,9 +6,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.AssemblyDocumenter.Units;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 
 namespace BookGen.AssemblyDocumenter
 {
