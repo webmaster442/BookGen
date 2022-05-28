@@ -1,5 +1,4 @@
 ﻿using BookGen.Utilities;
-using NUnit.Framework;
 
 namespace BookGen.Tests
 {

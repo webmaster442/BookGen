@@ -5,11 +5,8 @@
 
 using BookGen.Api;
 using BookGen.Contracts;
-using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
-using Moq;
-using System;
 using System.IO;
 
 namespace BookGen.Tests.Environment

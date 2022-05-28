@@ -5,9 +5,6 @@
 
 using BookGen.Core.Configuration;
 using BookGen.Domain;
-using BookGen.Framework.Shortcodes;
-using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace BookGen.Tests
 {

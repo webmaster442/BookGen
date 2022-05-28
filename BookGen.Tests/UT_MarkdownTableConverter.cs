@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Markdown;
-using NUnit.Framework;
 
 namespace BookGen.Tests
 {

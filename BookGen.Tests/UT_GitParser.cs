@@ -1,6 +1,5 @@
 ﻿using BookGen.ShellHelper.Code;
 using BookGen.ShellHelper.Domain;
-using NUnit.Framework;
 
 namespace BookGen.Tests
 {

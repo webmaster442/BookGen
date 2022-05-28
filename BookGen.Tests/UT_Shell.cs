@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Modules.Special;
-using NUnit.Framework;
-using System.Linq;
 
 namespace BookGen.Tests
 {
