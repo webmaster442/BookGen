@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
 		<Product>BookGen</Product>
 		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
 		<Authors>Ruzsinszki Gábor</Authors>
