@@ -3,13 +3,18 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using System.Collections.Generic;
 
 namespace BookGen.Core.Contracts
 {
     public interface ITagUtils
     {
-        ISet<string> TagsForFile(string file);
-        ISet<string> TagsForFiles(IEnumerable<string> files);
+        ISet<string> TagsForFile(Link file);
+        ISet<string> TagsForFiles(IEnumerable<Link> files);
+
+        int UniqueTagCount { get; }
+        int TotalTagCount { get; }
+        int FilesWithOutTags { get; }
     }
 }

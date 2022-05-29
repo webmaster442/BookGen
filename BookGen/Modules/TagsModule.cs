@@ -50,6 +50,9 @@ namespace BookGen.Modules
                     tagUtils.DeleteNoLongerExisting(toc);
                     tagUtils.CreateNotYetExisting(toc);
 
+                    PrintStats(CurrentState.Log, tagUtils);
+
+
                     SerializeTagCollection(args.Directory, CurrentState.Log, tagUtils.TagCollection);
 
                     CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
@@ -57,6 +60,13 @@ namespace BookGen.Modules
 
                 }).ToSuccesOrError();
             }
+        }
+
+        private static void PrintStats(ILog log, TagUtils tagUtils)
+        {
+            log.Info("Total tags: {0}", tagUtils.TotalTagCount);
+            log.Info("Total unique tags: {0}", tagUtils.UniqueTagCount);
+            log.Info("Files without tags: {0}", tagUtils.FilesWithOutTags);
         }
 
         private static void SerializeTagCollection(string directory, ILog log, Dictionary<string, string[]> tagCollection)

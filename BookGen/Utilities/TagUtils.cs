@@ -17,6 +17,15 @@ namespace BookGen.Utilities
 
         public Dictionary<string, string[]> TagCollection => _loadedTags;
 
+        public int UniqueTagCount
+            => _loadedTags.SelectMany(x => x.Value).Distinct().Count();
+
+        public int TotalTagCount
+            => _loadedTags.SelectMany(x => x.Value).Count();
+
+        public int FilesWithOutTags
+            => _loadedTags.Where(x => x.Value == null || x.Value.Length < 1).Count();
+
         public TagUtils()
         {
             _loadedTags = new();
@@ -61,24 +70,24 @@ namespace BookGen.Utilities
             _log?.Info("Created {0} new tag entries. Please fill them.", count);
         }
 
-        public ISet<string> TagsForFile(string file)
+        public ISet<string> TagsForFile(Link file)
         {
-            if (_loadedTags.ContainsKey(file))
+            if (_loadedTags.ContainsKey(file.Url))
             {
-                HashSet<string> tags = new HashSet<string>(_loadedTags[file].Select(x => x.ToTitleCase(CultureInfo.InvariantCulture)));
+                HashSet<string> tags = new HashSet<string>(_loadedTags[file.Url].Select(x => x.ToTitleCase(CultureInfo.InvariantCulture)));
                 return tags;
             }
             return new HashSet<string>();
         }
 
-        public ISet<string> TagsForFiles(IEnumerable<string> files)
+        public ISet<string> TagsForFiles(IEnumerable<Link> files)
         {
             HashSet<string> tags = new HashSet<string>();
             foreach (var file in files)
             {
-                if (_loadedTags.ContainsKey(file))
+                if (_loadedTags.ContainsKey(file.Url))
                 {
-                    var fileTags = _loadedTags[file].Select(x => x.ToTitleCase(CultureInfo.InvariantCulture));
+                    var fileTags = _loadedTags[file.Url].Select(x => x.ToTitleCase(CultureInfo.InvariantCulture));
                     foreach (var tag in fileTags)
                     {
                         tags.Add(tag);
