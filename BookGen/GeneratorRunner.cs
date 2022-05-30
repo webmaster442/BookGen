@@ -141,9 +141,11 @@ namespace BookGen
         {
             using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
             {
-                TBuilder instance = builderCreator(loader);
-                var runTime = instance.Run();
-                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+                using (TBuilder instance = builderCreator(loader))
+                {
+                    var runTime = instance.Run();
+                    Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+                }
             }
         }
 

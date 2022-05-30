@@ -1,14 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace BookGen.Gui
 {
-    public class ConsoleProgressbar : IProgress<int>
+    public class ConsoleProgressbar : IProgress<int>, IProgress<IEnumerable<string>>
     {
         public int Maximum { get; }
         public int Minimum { get; }
@@ -59,6 +60,14 @@ namespace BookGen.Gui
             Console.Write(buffer.ToString());
             Console.Write(buffer.ToString());
             Console.WriteLine("  " + message, args);
+        }
+
+        public void Report(IEnumerable<string> value)
+        {
+            foreach (var item in value)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }
