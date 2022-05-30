@@ -45,7 +45,7 @@ namespace BookGen.GeneratorSteps
 
                 var inputContent = input.ReadFile(log);
 
-                result.title = MarkdownUtils.GetTitle(inputContent);
+                result.title = MarkdownUtils.GetDocumentTitle(inputContent, log);
 
                 if (string.IsNullOrEmpty(result.title))
                 {

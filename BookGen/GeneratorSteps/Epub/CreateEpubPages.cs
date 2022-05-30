@@ -52,7 +52,7 @@ namespace BookGen.GeneratorSteps.Epub
 
                 var inputContent = input.ReadFile(log);
 
-                Content.Title = MarkdownUtils.GetTitle(inputContent);
+                Content.Title = MarkdownUtils.GetDocumentTitle(inputContent, log);
                 Content.Content = pipeline.RenderMarkdown(inputContent);
 
                 var html = XhtmlNormalizer.NormalizeToXHTML(Template.Render());

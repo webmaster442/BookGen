@@ -86,7 +86,7 @@ namespace BookGen.Utilities
                 {
                     FsPath path = new FsPath(workDir, file);
                     string content = path.ReadFile(log);
-                    string subtitle = MarkdownUtils.GetTitle(content);
+                    string subtitle = MarkdownUtils.GetDocumentTitle(content, log);
                     buffer.AppendFormat("* [{0}]({1})", subtitle, file);
                 }
                 buffer.AppendLine();

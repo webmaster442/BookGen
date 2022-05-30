@@ -63,23 +63,48 @@ namespace BookGen.Utilities
         /// <summary>
         /// Get title from markdown content
         /// </summary>
-        /// <param name="md">markdown content</param>
+        /// <param name="markDownContent">markdown content</param>
         /// <returns>Title of page</returns>
-        public static string GetTitle(string md)
+        public static string GetDocumentTitle(string markDownContent, ILog log)
         {
-            using (var reader = new StringReader(md))
+            using (var reader = new StringReader(markDownContent))
             {
                 string? line;
                 while ((line = reader.ReadLine()) != null)
                 {
                     if (line.StartsWith("# "))
+                    {
                         return line[2..];
+                    }
                     else if (line.StartsWith("## "))
+                    {
+                        log.Warning("Found 2nd level title as the document title: {0}", line);
                         return line[3..];
+                    }
                     else if (line.StartsWith("### "))
+                    {
+                        log.Warning("Found 3rd level title as the document title: {0}", line);
                         return line[4..];
+                    }
+                    else if (line.StartsWith("#### "))
+                    {
+                        log.Warning("Found 4th level title as the document title: {0}", line);
+                        return line[5..];
+                    }
+                    else if (line.StartsWith("##### "))
+                    {
+                        log.Warning("Found 5th level title as the document title: {0}", line);
+                        return line[6..];
+                    }
+                    else if (line.StartsWith("###### "))
+                    {
+                        log.Warning("Found 6th level title as the document title: {0}", line);
+                        return line[7..];
+                    }
                 }
             }
+
+            log.Warning("Found no document title :(");
             return string.Empty;
         }
     }

@@ -158,7 +158,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                     var raw = input.ReadFile(log);
                     Content.Content = pipeline.RenderMarkdown(raw);
 
-                    var title = MarkdownUtils.GetTitle(raw);
+                    var title = MarkdownUtils.GetDocumentTitle(raw, log);
 
                     string subpath = $"{host}{Encode(chapter)}/{Encode(title)}";
                     var result = CreateItem(uid, parent_uid, suborder, Template.Render(), title, subpath, settings.CurrentBuildConfig.TemplateOptions);
