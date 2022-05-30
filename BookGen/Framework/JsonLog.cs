@@ -15,6 +15,8 @@ namespace BookGen.Framework
         private readonly List<LogEntry> _entries;
         private readonly JsonSerializerOptions _options;
 
+        public event EventHandler<LogEventArgs>? OnLogWritten;
+
         public JsonLog()
         {
             _entries = new List<LogEntry>(20);
@@ -41,6 +43,7 @@ namespace BookGen.Framework
                 LogLevel = logLevel,
                 TimeStamp = DateTime.UtcNow,
             });
+            OnLogWritten?.Invoke(this, new LogEventArgs(logLevel, string.Format(format, args)));
         }
 
         public void PrintLine(string str)

@@ -14,6 +14,8 @@ namespace BookGen.Framework
     {
         private readonly TextWriter? _logFile;
 
+        public event EventHandler<LogEventArgs>? OnLogWritten;
+
         public ConsoleLog(bool logFile, LogLevel level = LogLevel.Info)
         {
             LogLevel = level;
@@ -68,6 +70,8 @@ namespace BookGen.Framework
                 _logFile?.WriteLine(line);
             }
 #endif
+
+            OnLogWritten?.Invoke(this, new LogEventArgs(logLevel, line));
         }
 
         public void Flush()
