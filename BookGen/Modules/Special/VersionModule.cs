@@ -37,13 +37,13 @@ namespace BookGen.Modules.Special
 
             if (args.IsDefault)
             {
-                Console.WriteLine("BookGen Build date: {0:yyyy.MM.dd}", Program.CurrentState.BuildDate.Date);
-                Console.WriteLine("Build timestamp: {0:HH:mm:ss}", Program.CurrentState.BuildDate);
+                Console.WriteLine("BookGen Build date (UTC): {0:yyyy.MM.dd}", Program.CurrentState.BuildDateUtc.Date);
+                Console.WriteLine("Build timestamp (UTC): {0:HH:mm:ss}", Program.CurrentState.BuildDateUtc);
                 Console.WriteLine("Config API version: {0}", Program.CurrentState.ProgramVersion);
             }
             if (args.BuildDate)
             {
-                Console.WriteLine("{0:yyyy.MM.dd}", Program.CurrentState.BuildDate.Date);
+                Console.WriteLine("{0:yyyy.MM.dd}", Program.CurrentState.BuildDateUtc.Date);
             }
             if (args.ApiVersion)
             {

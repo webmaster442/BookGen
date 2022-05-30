@@ -27,6 +27,7 @@ namespace BookGen.Gui
             XWindow? deserialized = DeserializeXmlView(view);
             if (deserialized != null)
             {
+                Application.Init();
                 _window = new UiPage(deserialized, _binder);
                 model.InjectView(this);
                 ResumeUi();

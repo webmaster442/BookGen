@@ -15,7 +15,7 @@ namespace BookGen
         public bool Gui { get; set; }
         public bool NoWaitForExit { get; set; }
         public Version ProgramVersion { get; }
-        public DateTime BuildDate { get; }
+        public DateTime BuildDateUtc { get; }
         public string ProgramDirectory { get; }
         public int ConfigVersion { get; }
         public IMoudleApi Api { get; }
@@ -30,7 +30,7 @@ namespace BookGen
                 var attribute = current.GetCustomAttribute<AssemblyBuildDateAttribute>();
                 if (attribute != null)
                 {
-                    return attribute.BuildDate;
+                    return attribute.BuildDateUtc;
                 }
             }
             return new DateTime();
@@ -44,7 +44,7 @@ namespace BookGen
             var asm = Assembly.GetAssembly(typeof(ProgramState));
             ProgramVersion = asm?.GetName()?.Version ?? new Version(1, 0);
             ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
-            BuildDate = GetProgramDate();
+            BuildDateUtc = GetProgramDate();
             ProgramDirectory = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
         }
 
