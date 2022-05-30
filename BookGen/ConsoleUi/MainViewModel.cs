@@ -39,19 +39,19 @@ namespace BookGen.ConsoleUi
             _runner = runner;
             _api = api;
             WorkDirectory = _runner.WorkDirectory;
-            ValidateConfigCommand = new DelegateCommand(this, () => _runner.Initialize());
-            CleanOutDirCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoClean()));
-            BuildTestCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoTest()));
-            BuildReleaseCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoBuild()));
-            BuildPrintCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoPrint()));
-            BuildEpubCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoEpub()));
-            BuildWordpressCommand = new DelegateCommand(this, () => _runner.InitializeAndExecute(x => x.DoWordpress()));
-            HelpCommand = new DelegateCommand(this, () => View?.SwitchToView(GuiModule.HelpView));
-            ExitCommand = new DelegateCommand(() => View?.ExitApp());
-            ServeCommand = new DelegateCommand(this, () => StartModuleInWorkdir("serve"));
-            StatCommand = new DelegateCommand(this, () => StartModuleInWorkdir("stat"));
-            PreviewCommand = new DelegateCommand(this, () => StartModuleInWorkdir("preview"));
-            UpdateCommand = new DelegateCommand(this, () =>
+            ValidateConfigCommand = new DelegateCommand(() => _runner.Initialize());
+            CleanOutDirCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoClean()));
+            BuildTestCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoTest()));
+            BuildReleaseCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoBuild()));
+            BuildPrintCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoPrint()));
+            BuildEpubCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoEpub()));
+            BuildWordpressCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoWordpress()));
+            HelpCommand = new DelegateCommand(() => View?.SwitchToView(GuiModule.HelpView));
+            ExitCommand = new DelegateCommand(() => View?.ExitApp(), false);
+            ServeCommand = new DelegateCommand(() => StartModuleInWorkdir("serve"));
+            StatCommand = new DelegateCommand(() => StartModuleInWorkdir("stat"));
+            PreviewCommand = new DelegateCommand(() => StartModuleInWorkdir("preview"));
+            UpdateCommand = new DelegateCommand(() =>
             {
                 _api.ExecuteModule("update", Array.Empty<string>());
             });

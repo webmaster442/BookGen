@@ -6,6 +6,7 @@
 using BookGen.Gui.Mvvm;
 using BookGen.Gui.XmlEntities;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 using Terminal.Gui;
@@ -74,7 +75,9 @@ namespace BookGen.Gui
 
         public void ResumeUi()
         {
-            Application.Init();
+            if (Application.Top == null)
+                Application.Init();
+
             if (_window != null)
             {
                 _window.ColorScheme = new ColorScheme
@@ -84,22 +87,29 @@ namespace BookGen.Gui
                     HotNormal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
                     Normal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
                 };
-                if (Application.Top.Subviews.Count < 1)
+
+                if (Application.Top?.Subviews.Count < 1)
                 {
                     Application.Top.Add(_window);
                 }
             }
-            Application.Run();
-            _running = false;
+
+            try
+            {
+                Application.Run();
+            }
+            catch (NullReferenceException)
+            {
+                //Workaround for bug in Terminal.GUI
+                Debug.WriteLine("Null ref encountered in Application");
+            }
+            _running = true;
         }
 
         public void ExitApp()
         {
-            if (Application.Current != null)
-            {
-                Application.Current.Running = false;
-            }
-            SuspendUi();
+            Application.Driver.End();
+            Application.Current.RequestStop();
         }
 
         public void UpdateBindingsToModel()

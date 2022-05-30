@@ -32,7 +32,7 @@ namespace BookGen.ConsoleUi
             _workDir = WorkDir;
             ConfigFormat = 0;
             ExecuteCommand = new DelegateCommand(OnExecute);
-            CancelCommand = new DelegateCommand(() => View?.ExitApp());
+            CancelCommand = new DelegateCommand(() => View?.ExitApp(), false);
 
             CreateConfig = true;
             CreateMdFiles = true;
@@ -72,6 +72,9 @@ namespace BookGen.ConsoleUi
                 _log.Info("Creating VS Code Tasks");
                 InitializerMethods.DoCreateTasks(_log, _workDir);
             }
+
+
+
             View?.ExitApp();
         }
     }

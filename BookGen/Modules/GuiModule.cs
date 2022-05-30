@@ -63,6 +63,7 @@ namespace BookGen.Modules
 
                 uiRunner.OnNavigaton += UiRunner_OnNavigaton;
                 var (view, model) = UiRunner_OnNavigaton(MainView);
+                
                 uiRunner.Run(view, model);
                 return ModuleRunResult.Succes;
             }

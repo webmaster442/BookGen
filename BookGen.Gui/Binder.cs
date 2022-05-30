@@ -16,13 +16,13 @@ namespace BookGen.Gui
 {
     internal class Binder
     {
-        private readonly object _model;
+        private readonly ViewModelBase _model;
         private static readonly Regex _propertyRegex = new Regex("\\{[a-zA-Z0-9]+\\}", RegexOptions.Compiled);
         private readonly Type _modelType;
 
         private readonly List<(XView xmlEntity, View rendered, Type type)> _table;
 
-        public Binder(object model)
+        public Binder(ViewModelBase model)
         {
             _model = model;
             _modelType = model.GetType();
@@ -66,6 +66,18 @@ namespace BookGen.Gui
             var actionName = GetPropertyName(bindingExpression);
             var prop = _modelType.GetProperty(actionName);
             DelegateCommand? cmd = prop?.GetValue(_model) as DelegateCommand;
+            if (cmd != null && cmd.SuspendsUI)
+            {
+                return () =>
+                {
+                    _model.View?.SuspendUi();
+                    cmd.Action.Invoke();
+                    Console.WriteLine("Press a key to continue...");
+                    Console.ReadKey();
+                    _model.View?.ResumeUi();
+                };
+            }
+
             return cmd?.Action;
         }
 
