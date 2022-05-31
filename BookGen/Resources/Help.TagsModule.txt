@@ -1,0 +1,12 @@
+﻿Create or update the tags database and display various stats
+-------------------------------------------------------------------------------
+
+    BookGen Build {-v} {-d [directory]}
+    BookGen Build {--verbose} {--dir [directory]}
+
+  Arguments:
+    -d, --dir:
+        Optional argument. Specifies work directory. If not specified, then
+        the current directory will be used as working directory.
+    -v, --verbose: 
+        Optional argument, turns on detailed logging. Usefull for locating issues
