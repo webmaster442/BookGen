@@ -28,7 +28,9 @@ namespace BookGen.Gui
             XWindow? deserialized = DeserializeXmlView(view);
             if (deserialized != null)
             {
-                Application.Init();
+                if (Application.Top == null)
+                    Application.Init();
+
                 _window = new UiPage(deserialized, _binder);
                 model.InjectView(this);
                 ResumeUi();
@@ -54,6 +56,7 @@ namespace BookGen.Gui
                 }
                 if (result != null)
                 {
+                    SuspendUi();
                     Run(result.Value.view, result.Value.model);
                 }
 
@@ -65,6 +68,7 @@ namespace BookGen.Gui
         {
             if (Application.Top?.Running == true)
             {
+                Application.RequestStop();
                 Application.Top.Remove(_window);
                 Application.Shutdown();
                 Console.BackgroundColor = ConsoleColor.Black;
@@ -93,17 +97,14 @@ namespace BookGen.Gui
                     Application.Top.Add(_window);
                 }
             }
-
-            try
-            {
-                Application.Run();
-            }
-            catch (NullReferenceException)
-            {
-                //Workaround for bug in Terminal.GUI
-                Debug.WriteLine("Null ref encountered in Application");
-            }
+            Application.Run(OnError);
             _running = true;
+        }
+
+        private bool OnError(Exception arg)
+        {
+            Debug.WriteLine(arg.Message);
+            return false;
         }
 
         public void ExitApp()
