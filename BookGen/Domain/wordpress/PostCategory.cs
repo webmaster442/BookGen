@@ -17,6 +17,6 @@ namespace BookGen.Domain.Wordpress
         public string? Nicename { get; set; }
 
         [XmlText]
-        public string? Value { get; set; }
+        public CData? Value { get; set; }
     }
 }

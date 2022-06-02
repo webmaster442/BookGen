@@ -6,6 +6,7 @@
 using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Core.Configuration;
+using BookGen.Core.Contracts;
 using BookGen.Core.Markdown;
 using BookGen.Domain;
 using BookGen.Domain.Wordpress;
@@ -34,7 +35,13 @@ namespace BookGen.GeneratorSteps.Wordpress
         public TemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
-        private Item CreateItem(int uid, int parent, int order, string content, string title, string path, TemplateOptions TemplateOptions)
+        private Item CreateItem(int uid,
+                                int parent,
+                                int order,
+                                string content,
+                                string title,
+                                string path,
+                                TemplateOptions TemplateOptions)
         {
 #if DEBUG
             if (_usedids.Contains(uid))
@@ -62,7 +69,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                         },
                 Post_password = "",
                 Status = "publish",
-                Post_name = Encode(title),
+                Post_name = EncodeTitle(title),
                 Post_id = uid,
                 Post_parent = parent,
                 Post_type = TemplateOptions[TemplateOptions.WordpressItemType],
@@ -73,12 +80,26 @@ namespace BookGen.GeneratorSteps.Wordpress
                 {
                     IsPermaLink = false,
                     Text = $"{TemplateOptions[TemplateOptions.WordpressTargetHost]}?page_id={uid}",
-                }
+                },
             };
             return result;
         }
 
-        private string Encode(string title)
+        private static void CreateTagsForItem(Item result, ITagUtils tags, string file)
+        {
+            var fileTags = tags.GetTagsForFile(file);
+            result.Category = new List<PostCategory>(fileTags.Count);
+            foreach (var tag in fileTags)
+            {
+                result.Category.Add(new PostCategory
+                {
+                    Domain = "doc_tag", //post_tag
+                    Value = tag
+                });
+            }
+        }
+
+        private static string EncodeTitle(string title)
         {
             var normalizedString = title.Trim().Normalize(NormalizationForm.FormD);
             var stringBuilder = new StringBuilder();
@@ -94,7 +115,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
         }
 
-        private string CreateFillerPage(IEnumerable<Link> links)
+        private static string CreateFillerPage(IEnumerable<Link> links)
         {
             var builder = new StringBuilder();
             builder.Append("<ul>\n");
@@ -130,7 +151,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             {
                 string fillerPage = createfillers ? CreateFillerPage(settings.TocContents.GetLinksForChapter()) : "";
                 string title = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpresCreateParentTitle];
-                string path = $"{host}{Encode(title)}";
+                string path = $"{host}{EncodeTitle(title)}";
                 Item parent = CreateItem(uid, 0, mainorder, fillerPage, title, path, settings.CurrentBuildConfig.TemplateOptions);
                 _session.CurrentChannel.Item.Add(parent);
                 globalparent = uid;
@@ -143,7 +164,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             foreach (var chapter in settings.TocContents.Chapters)
             {
                 string fillerPage = createfillers ? CreateFillerPage(settings.TocContents.GetLinksForChapter(chapter)) : "";
-                string path = $"{host}{Encode(chapter)}";
+                string path = $"{host}{EncodeTitle(chapter)}";
                 int parent_uid = uid;
 
                 Item parent = CreateItem(uid, globalparent, mainorder, fillerPage, chapter, path, settings.CurrentBuildConfig.TemplateOptions);
@@ -160,8 +181,17 @@ namespace BookGen.GeneratorSteps.Wordpress
 
                     var title = MarkdownUtils.GetDocumentTitle(raw, log);
 
-                    string subpath = $"{host}{Encode(chapter)}/{Encode(title)}";
-                    var result = CreateItem(uid, parent_uid, suborder, Template.Render(), title, subpath, settings.CurrentBuildConfig.TemplateOptions);
+                    string subpath = $"{host}{EncodeTitle(chapter)}/{EncodeTitle(title)}";
+
+                    var result = CreateItem(uid,
+                                            parent_uid,
+                                            suborder,
+                                            Template.Render(),
+                                            title,
+                                            subpath,
+                                            settings.CurrentBuildConfig.TemplateOptions);
+
+                    CreateTagsForItem(result, settings.Tags, file);
 
                     _session.CurrentChannel.Item.Add(result);
                     ++suborder;
