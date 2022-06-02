@@ -85,7 +85,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             return result;
         }
 
-        private static void CreateTagsForItem(Item result, ITagUtils tags, string file)
+        private static void CreateTagsForItem(Item result, ITagUtils tags, string file, string tagCategory)
         {
             var fileTags = tags.GetTagsForFile(file);
             result.Category = new List<PostCategory>(fileTags.Count);
@@ -93,8 +93,9 @@ namespace BookGen.GeneratorSteps.Wordpress
             {
                 result.Category.Add(new PostCategory
                 {
-                    Domain = "doc_tag", //post_tag
-                    Value = tag
+                    Domain = tagCategory,
+                    Value = tag,
+                    Nicename = tag, //TODO: NICE NAME!
                 });
             }
         }
@@ -191,7 +192,9 @@ namespace BookGen.GeneratorSteps.Wordpress
                                             subpath,
                                             settings.CurrentBuildConfig.TemplateOptions);
 
-                    CreateTagsForItem(result, settings.Tags, file);
+                    string tagCategory = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTagCategory];
+
+                    CreateTagsForItem(result, settings.Tags, file, tagCategory);
 
                     _session.CurrentChannel.Item.Add(result);
                     ++suborder;

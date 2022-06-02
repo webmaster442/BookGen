@@ -27,6 +27,7 @@ namespace BookGen.Core.Configuration
         public const string WordpressCreateFillerPages = nameof(WordpressCreateFillerPages);
         public const string WordpressCommentStatus = nameof(WordpressCommentStatus);
         public const string WordpressSkipPageTitle = nameof(WordpressSkipPageTitle);
+        public const string WordpressTagCategory = nameof(WordpressTagCategory);
 
         public TemplateOptions() : base()
         {
