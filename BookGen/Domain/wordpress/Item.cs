@@ -50,5 +50,8 @@ namespace BookGen.Domain.Wordpress
         public string? Is_sticky { get; set; }
         [XmlElement(ElementName = "postmeta", Namespace = "http://wordpress.org/export/1.2/")]
         public List<Postmeta>? Postmeta { get; set; }
+
+        [XmlElement(ElementName = "category")]
+        public List<PostCategory>? Category { get; set; }
     }
 }
