@@ -10,8 +10,8 @@ namespace BookGen.Core.Contracts
 {
     public interface ITagUtils
     {
-        ISet<string> TagsForFile(Link file);
-        ISet<string> TagsForFiles(IEnumerable<Link> files);
+        ISet<string> GetTagsForFile(string file);
+        ISet<string> GetTagsForFiles(IEnumerable<string> files);
 
         int UniqueTagCount { get; }
         int TotalTagCount { get; }

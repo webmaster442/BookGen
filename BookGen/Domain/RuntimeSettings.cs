@@ -30,9 +30,9 @@ namespace BookGen.Domain
 
         IReadOnlyBuildConfig IReadonlyRuntimeSettings.CurrentBuildConfig => CurrentBuildConfig;
 
-        public ITagUtils? Tags { get; init; }
+        public ITagUtils Tags { get;}
 
-        public RuntimeSettings()
+        public RuntimeSettings(ITagUtils tags)
         {
             OutputDirectory = FsPath.Empty;
             SourceDirectory = FsPath.Empty;
@@ -42,6 +42,7 @@ namespace BookGen.Domain
             MetataCache = new Dictionary<string, string>();
             InlineImgCache = new ConcurrentDictionary<string, string>();
             CurrentBuildConfig = new BuildConfig();
+            Tags = tags;
         }
     }
 }

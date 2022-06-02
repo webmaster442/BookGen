@@ -7,6 +7,8 @@ using BookGen.Api;
 using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Utilities;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace BookGen
 {
@@ -47,7 +49,7 @@ namespace BookGen
                 return ConfigMode.NotFound;
         }
 
-        public bool TryLoadAndValidateConfig(out Config? config)
+        public bool TryLoadAndValidateConfig([NotNullWhen(true)] out Config? config)
         {
             config = null;
 
@@ -122,7 +124,7 @@ namespace BookGen
             }
         }
 
-        public bool TryLoadAndValidateToc(Config? config, out ToC? toc)
+        public bool TryLoadAndValidateToc(Config config, [NotNullWhen(true)] out ToC? toc)
         {
             toc = null;
 
@@ -152,34 +154,34 @@ namespace BookGen
             return true;
         }
 
-        public bool TryGetTags(out TagUtils tagUtils)
+        public bool TryGetTags(CultureInfo culture, out TagUtils tagUtils)
         {
             if (_tags.IsExisting)
             {
                 var deserialized = _tags.DeserializeJson<Dictionary<string, string[]>>(_log);
                 if (deserialized != null)
                 {
-                    tagUtils = new TagUtils(deserialized, _log);
+                    tagUtils = new TagUtils(deserialized, culture, _log);
                     return true;
                 }
                 else
                 {
-                    _log.Critical("Invalid tags.json file");
-                    tagUtils = new TagUtils(new(), _log);
+                    _log.Critical("Invalid tags.json file. Continuing with empty collection");
+                    tagUtils = new TagUtils(new(), culture, _log);
                     return false;
                 }
             }
             else
             {
                 _log.Warning("tags.json not found, continuing with empty collection");
-                tagUtils = new TagUtils(new(), _log);
+                tagUtils = new TagUtils(new(), culture, _log);
                 return true;
             }
         }
 
         public RuntimeSettings CreateRuntimeSettings(Config config, ToC toc, TagUtils tags, BuildConfig current)
         {
-            var settings = new RuntimeSettings
+            var settings = new RuntimeSettings(tags)
             {
                 SourceDirectory = new FsPath(_workdir),
                 Configuration = config,
@@ -187,7 +189,6 @@ namespace BookGen
                 MetataCache = new Dictionary<string, string>(100),
                 InlineImgCache = new ConcurrentDictionary<string, string>(),
                 CurrentBuildConfig = current,
-                Tags = tags,
             };
 
             if (string.IsNullOrEmpty(config.ImageDir))
@@ -201,9 +202,7 @@ namespace BookGen
         public bool TryLoadProjectAndExecuteOperation(Func<Config, ToC, bool> operationToDo)
         {
             if (TryLoadAndValidateConfig(out Config? config)
-                && TryLoadAndValidateToc(config, out ToC? toc)
-                && config != null
-                && toc != null)
+                && TryLoadAndValidateToc(config, out ToC? toc))
             {
                 return operationToDo(config, toc);
             }

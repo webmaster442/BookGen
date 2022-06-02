@@ -48,7 +48,7 @@ namespace BookGen
             ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
             _configuration = new Config();
             _toc = new ToC();
-            _tags = new TagUtils(new(), log);
+            _tags = new TagUtils();
         }
 
         public void RunHelp()
@@ -96,7 +96,7 @@ namespace BookGen
 
             bool ret = _projectLoader.TryLoadAndValidateConfig(out _configuration)
                 && _projectLoader.TryLoadAndValidateToc(_configuration, out _toc)
-                && _projectLoader.TryGetTags(out _tags);
+                && _projectLoader.TryGetTags(_configuration.BookLanguage, out _tags);
 
 
             if (compileScripts)

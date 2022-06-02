@@ -42,7 +42,7 @@ namespace BookGen.Modules
 
                     FsPath tags = new FsPath(args.Directory, "tags.json");
                     
-                    if (!loader.TryGetTags(out TagUtils tagUtils))
+                    if (!loader.TryGetTags(config.BookLanguage, out TagUtils tagUtils))
                     {
                         return false;
                     }
