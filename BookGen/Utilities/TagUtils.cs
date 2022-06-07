@@ -99,5 +99,25 @@ namespace BookGen.Utilities
             }
             return tags;
         }
+
+        public string GetUrlNiceName(string tag)
+        {
+            string text = Regex.Replace(tag, @"~[^\\pL\d]+~u", "-");
+            text = AsciiEncode(text);
+            text = Regex.Replace(text, @"~[^-\w]+~", text).Trim();
+            text = Regex.Replace(text, "~-+~", "-");
+            if (string.IsNullOrEmpty(text))
+                return "n-a";
+            else
+                return text.ToLower();
+        }
+
+        private static string AsciiEncode(string text)
+        {
+            ASCIIEncoding ascii = new ASCIIEncoding();
+            byte[] byteArray = Encoding.UTF8.GetBytes(text);
+            byte[] asciiArray = Encoding.Convert(Encoding.UTF8, Encoding.ASCII, byteArray);
+            return ascii.GetString(asciiArray);
+        }
     }
 }

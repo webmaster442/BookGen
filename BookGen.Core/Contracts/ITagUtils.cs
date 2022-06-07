@@ -13,6 +13,8 @@ namespace BookGen.Core.Contracts
         ISet<string> GetTagsForFile(string file);
         ISet<string> GetTagsForFiles(IEnumerable<string> files);
 
+        string GetUrlNiceName(string tag);
+
         int UniqueTagCount { get; }
         int TotalTagCount { get; }
         int FilesWithOutTags { get; }

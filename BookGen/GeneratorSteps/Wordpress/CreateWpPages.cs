@@ -95,7 +95,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 {
                     Domain = tagCategory,
                     Value = tag,
-                    Nicename = tag, //TODO: NICE NAME!
+                    Nicename = tags.GetUrlNiceName(tag)
                 });
             }
         }
