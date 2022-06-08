@@ -15,6 +15,25 @@ namespace BookGen.Utilities
         private readonly Dictionary<string, string[]> _loadedTags;
         private readonly ILog? _log;
         private readonly CultureInfo _culture;
+        private readonly Dictionary<char, string> _symbolNames = new()
+        {
+            { '#', "sharp" },
+            { '|', "pipe" },
+            { '@', "at" },
+            { '&', "ampersand" },
+            { '~', "tide" },
+            { '%', "percent" },
+            { '+', "plus" },
+            { '-', "minus" },
+            { '?', "question" },
+            { ':', "colon" },
+            { ';', "semicolon" },
+            { ',', "comma" },
+            { '`', "backtick" },
+            { '\'', "apoostrophe" },
+            { '"', "quotationmark" },
+            { '$', "dollar" },
+        };
 
         public Dictionary<string, string[]> TagCollection => _loadedTags;
 
@@ -102,22 +121,36 @@ namespace BookGen.Utilities
 
         public string GetUrlNiceName(string tag)
         {
-            string text = Regex.Replace(tag, @"~[^\\pL\d]+~u", "-");
-            text = AsciiEncode(text);
-            text = Regex.Replace(text, @"~[^-\w]+~", text).Trim();
-            text = Regex.Replace(text, "~-+~", "-");
-            if (string.IsNullOrEmpty(text))
+            string ascii = AsciiEncodeLowerCase(tag);
+            string replaced = ReplaceNotAllowedChars(ascii);
+            if (string.IsNullOrEmpty(replaced))
                 return "n-a";
             else
-                return text.ToLower();
+                return replaced;
         }
 
-        private static string AsciiEncode(string text)
+        private string ReplaceNotAllowedChars(string input)
+        {
+            HashSet<char> allowed = new HashSet<char>("abcdefghijklmnopqrstuvwxyz0123456789-_");
+            StringBuilder final = new StringBuilder(input.Length);
+            foreach (char c in input)
+            {
+                if (allowed.Contains(c))
+                    final.Append(c);
+                else if (_symbolNames.ContainsKey(c))
+                    final.Append(_symbolNames[c]);
+                else
+                    final.Append("-");
+            }
+            return final.ToString().Trim();
+        }
+
+        private static string AsciiEncodeLowerCase(string text)
         {
             ASCIIEncoding ascii = new ASCIIEncoding();
-            byte[] byteArray = Encoding.UTF8.GetBytes(text);
+            byte[] byteArray = Encoding.UTF8.GetBytes(text.Normalize(NormalizationForm.FormKD));
             byte[] asciiArray = Encoding.Convert(Encoding.UTF8, Encoding.ASCII, byteArray);
-            return ascii.GetString(asciiArray);
+            return ascii.GetString(asciiArray).Replace("?", "").ToLower();
         }
     }
 }
