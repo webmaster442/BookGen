@@ -3,20 +3,23 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace BookGen.Domain.Wordpress
 {
-    [Serializable]
-    public class PostCategory
+    [XmlRoot(ElementName = "category")]
+    public class PostCategory : CData
     {
-        [XmlAttribute("domain")]
         public string? Domain { get; set; }
 
-        [XmlAttribute("nicename")]
         public string? Nicename { get; set; }
 
-        [XmlText]
-        public CData? Value { get; set; }
+        public override void WriteXml(XmlWriter writer)
+        {
+            writer.WriteAttributeString("domain", Domain);
+            writer.WriteAttributeString("nicename", Nicename);
+            base.WriteXml(writer);
+        }
     }
 }
