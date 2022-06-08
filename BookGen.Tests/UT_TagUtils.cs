@@ -17,6 +17,7 @@ namespace BookGen.Tests
         [TestCase("test", "test")]
         [TestCase("", "n-a")]
         [TestCase("c#", "csharp")]
+        [TestCase("??", "questionquestion")]
         [TestCase("Árvíztűrő tükörfúrógép", "arvizturo-tukorfurogep")]
         public void EnshureThat_TagUtils(string input, string expected)
         {

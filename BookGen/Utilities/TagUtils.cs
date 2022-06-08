@@ -25,7 +25,6 @@ namespace BookGen.Utilities
             { '%', "percent" },
             { '+', "plus" },
             { '-', "minus" },
-            { '?', "question" },
             { ':', "colon" },
             { ';', "semicolon" },
             { ',', "comma" },
@@ -33,6 +32,10 @@ namespace BookGen.Utilities
             { '\'', "apoostrophe" },
             { '"', "quotationmark" },
             { '$', "dollar" },
+            { '.', "dot" },
+            { '!', "exclamation" },
+            { '*', "star" },
+            { '/', "slash" },
         };
 
         public Dictionary<string, string[]> TagCollection => _loadedTags;
@@ -147,8 +150,9 @@ namespace BookGen.Utilities
 
         private static string AsciiEncodeLowerCase(string text)
         {
+            text = text.Replace("?", "question");
             ASCIIEncoding ascii = new ASCIIEncoding();
-            byte[] byteArray = Encoding.UTF8.GetBytes(text.Normalize(NormalizationForm.FormKD));
+            byte[] byteArray = Encoding.UTF8.GetBytes(text.Normalize(NormalizationForm.FormD));
             byte[] asciiArray = Encoding.Convert(Encoding.UTF8, Encoding.ASCII, byteArray);
             return ascii.GetString(asciiArray).Replace("?", "").ToLower();
         }
