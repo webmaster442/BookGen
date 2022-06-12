@@ -1,17 +1,17 @@
-﻿namespace BookGen.ShellHelper.Domain
+﻿namespace BookGen.ShellHelper.Domain;
+
+internal record GitStatus
 {
-    internal record GitStatus
+    public int OutGoingCommits { get; init; }
+    public int IncommingCommits { get; init; }
+    public string BranchName { get; init; }
+    public string LastCommitId { get; init; }
+    public int NotCommitedChanges { get; init; }
+
+    public GitStatus()
     {
-        public int OutGoingCommits { get; set; }
-        public int IncommingCommits { get; set; }
-        public string BranchName { get; set; }
-        public string LastCommitId { get; set; }
-
-        public GitStatus()
-        {
-            BranchName = string.Empty;
-            LastCommitId = string.Empty;
-        }
-
+        BranchName = string.Empty;
+        LastCommitId = string.Empty;
     }
+
 }
