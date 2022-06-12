@@ -36,7 +36,11 @@ namespace BookGen.ShellHelper
                 if (exitcode == 0)
                 {
                     var status = GitParser.ParseStatus(output);
-                    Console.WriteLine("({0}) ↓: {1} ↑:{2} ~: {3}", status.BranchName, status.IncommingCommits, status.OutGoingCommits, status.NotCommitedChanges);
+                    Console.WriteLine("({0}) ↓: {1} ↑: {2} M: {3}",
+                                      status.BranchName,
+                                      status.IncommingCommits,
+                                      status.OutGoingCommits,
+                                      status.NotCommitedChanges);
                 }
             }
         }

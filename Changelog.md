@@ -1,3 +1,16 @@
+# 2022.
+* New: ExternalLinks command
+* New: Tags command
+* New: Wordpress output generates tags based on output of tags command
+* New: Shell on init prints version
+* New: Shell extended with graphical cd command called cdg
+* New: Shell prints not commited file count
+* New: Math2Svg command
+* Change: Markdown Title finder now warns, if title is not 1st level
+* Change: PageGen module removed
+* Change: Progress reporting improved
+* Fix: Console Gui memory leaks
+
 # 2022.05.23
 * New: Better, simplistic icon
 * New: Wpload implements download feature
