@@ -15,23 +15,11 @@ namespace BookGen.Gui
     internal class UiPage : Window
     {
         private readonly Binder _binder;
-        private readonly List<(Button button, Action handler)> _listeners;
 
         public UiPage(XWindow window, Binder binder)
         {
-            _listeners = new List<(Button button, Action handler)>();
             _binder = binder;
             Render(window);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            foreach (var listener in _listeners)
-            {
-                listener.button.Clicked -= listener.handler;
-            }
-            _listeners.Clear();
         }
 
         public static void SetWidth(View view, XView xView)
@@ -119,16 +107,12 @@ namespace BookGen.Gui
             {
                 X = Pos.Left(this) + button.Left,
                 Y = Pos.Top(this) + button.Top,
+                Data = _binder.BindCommand(button.Command)
             };
-            if (button.Command != null)
+            result.Clicked += () =>
             {
-                var act = _binder.BindCommand(button.Command);
-                if (act != null)
-                {
-                    result.Clicked += act;
-                    _listeners.Add((result, act));
-                }
-            }
+                _binder.TryInvokeCommand(result.Data as string);
+            };
             SetWidth(result, button);
             Add(result);
         }

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ namespace BookGen.Gui
 {
     internal class Binder
     {
-        private readonly ViewModelBase _model;
+        private readonly WeakReference<ViewModelBase> _reference;
         private static readonly Regex _propertyRegex = new Regex("\\{[a-zA-Z0-9]+\\}", RegexOptions.Compiled);
         private readonly Type _modelType;
 
@@ -24,7 +24,7 @@ namespace BookGen.Gui
 
         public Binder(ViewModelBase model)
         {
-            _model = model;
+            _reference = new WeakReference<ViewModelBase>(model);
             _modelType = model.GetType();
             _table = new List<(XView xmlEntity, View rendered, Type type)>();
         }
@@ -42,7 +42,10 @@ namespace BookGen.Gui
 
             var reflected = _modelType.GetProperty(property);
 
-            return reflected?.GetValue(_model)?.ToString() ?? "";
+            if (!_reference.TryGetTarget(out ViewModelBase? model))
+                return string.Empty;
+
+            return reflected?.GetValue(model)?.ToString() ?? "";
 
         }
 
@@ -54,31 +57,47 @@ namespace BookGen.Gui
 
             var reflected = _modelType.GetProperty(property);
 
-            return reflected?.GetValue(_model) as T;
+            if (!_reference.TryGetTarget(out ViewModelBase? model))
+                return default;
+
+            return reflected?.GetValue(model) as T;
 
         }
 
-        public Action? BindCommand(string bindingExpression)
+        public string? BindCommand(string bindingExpression)
         {
             if (!_propertyRegex.IsMatch(bindingExpression))
                 return null;
 
             var actionName = GetPropertyName(bindingExpression);
-            var prop = _modelType.GetProperty(actionName);
-            DelegateCommand? cmd = prop?.GetValue(_model) as DelegateCommand;
+
+            return actionName;
+        }
+
+        internal void TryInvokeCommand(string? command)
+        {
+            if (string.IsNullOrEmpty(command))
+                return;
+
+            var prop = _modelType.GetProperty(command);
+
+            if (prop == null || !_reference.TryGetTarget(out ViewModelBase? model))
+                return;
+
+            DelegateCommand? cmd = prop?.GetValue(model) as DelegateCommand;
+
             if (cmd != null && cmd.SuspendsUI)
             {
-                return () =>
-                {
-                    _model.View?.SuspendUi();
-                    cmd.Action.Invoke();
-                    Console.WriteLine("Press a key to continue...");
-                    Console.ReadKey();
-                    _model.View?.ResumeUi();
-                };
+                model.View?.SuspendUi();
+                cmd.Action.Invoke();
+                Console.WriteLine("Press a key to continue...");
+                Console.ReadKey();
+                model.View?.ResumeUi();
             }
-
-            return cmd?.Action;
+            else
+            {
+                cmd?.Action.Invoke();
+            }
         }
 
         public static bool IsBindable(string expression)
@@ -142,6 +161,9 @@ namespace BookGen.Gui
 
         public void UpdateToModel()
         {
+            if (!_reference.TryGetTarget(out ViewModelBase? model))
+                return;
+
             foreach (var (xmlEntity, rendered, type) in _table)
             {
                 switch (xmlEntity)
@@ -152,7 +174,7 @@ namespace BookGen.Gui
                         {
                             var value = checkBoxRender.Checked;
                             var property = GetPropertyName(checkBox.IsChecked);
-                            _modelType.GetProperty(property)?.SetValue(_model, value);
+                            _modelType.GetProperty(property)?.SetValue(model, value);
 
                         }
                         break;
@@ -162,7 +184,7 @@ namespace BookGen.Gui
                         {
                             var value = listView.SelectedItem;
                             var property = GetPropertyName(listBox.SelectedIndex);
-                            _modelType.GetProperty(property)?.SetValue(_model, value);
+                            _modelType.GetProperty(property)?.SetValue(model, value);
                         }
                         break;
                     case XRadioGroup radioGroup:
@@ -171,7 +193,7 @@ namespace BookGen.Gui
                         {
                             var value = radio.SelectedItem;
                             var property = GetPropertyName(radioGroup.SelectedIndex);
-                            _modelType.GetProperty(property)?.SetValue(_model, value);
+                            _modelType.GetProperty(property)?.SetValue(model, value);
                         }
                         break;
                 }
