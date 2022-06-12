@@ -207,6 +207,34 @@ namespace BookGen.Core
             }
         }
 
+        public static IList<string> ReadFileLines(this FsPath path, ILog log)
+        {
+            try
+            {
+                List<string> lines = new List<string>(100);
+                using (var reader = File.OpenText(path.ToString()))
+                {
+                    string? line;
+                    do
+                    {
+                        line = reader.ReadLine();
+                        if (line != null)
+                        {
+                            lines.Add(line);
+                        }
+                    }
+                    while (line != null);
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                log.Warning("ReadFile failed: {0}", path);
+                log.Detail(ex.Message);
+                return Array.Empty<string>();
+            }
+        }
+
         public static void ProtectDirectory(this FsPath directory, ILog log)
         {
             var outp = directory.Combine("index.html");

@@ -1,0 +1,12 @@
+﻿Renders a single markdown file containing Tex formulas to svg files
+-------------------------------------------------------------------------------
+
+    BookGen Md2HTML -i [input.md] -o [output dir]
+    BookGen Md2HTML --input [input.md] --output [output dir]
+
+    Arguments:
+    -i, --input: 
+        Input markdown file path
+
+    -o, --output: 
+        Output directory path
