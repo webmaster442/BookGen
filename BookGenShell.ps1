@@ -9,9 +9,12 @@
 function cdg()
 {
     [void] [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
-    $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog
-	$FolderBrowserDialog.ShowNewFolderButton = $true
-    [void] $FolderBrowserDialog.ShowDialog()
+    $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog -Property @{
+        ShowNewFolderButton = $false
+		SelectedPath = $(Get-Location).Path
+        Description = "Select Folder"
+    }
+    [void] $FolderBrowserDialog.ShowDialog(((New-Object System.Windows.Forms.Form -Property @{TopMost = $true })))
     Push-Location $FolderBrowserDialog.SelectedPath
 	$FolderBrowserDialog.Dispose()
 }
