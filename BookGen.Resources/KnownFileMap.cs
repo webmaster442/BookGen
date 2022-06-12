@@ -22,6 +22,7 @@ namespace BookGen.Resources
             { KnownFile.TurbolinksJs, "/JsCss/turbolinks.js" },
             { KnownFile.PreviewCss, "/JsCss/preview.css" },
             { KnownFile.SinglePageCss, "/JsCss/SinglePage.css"  },
+            { KnownFile.MathJax, "/JsCss/tex-mml-svg.js" },
 
             //html files
             { KnownFile.CookieWarningHtml, "/Html/CookieWarning.html" },
