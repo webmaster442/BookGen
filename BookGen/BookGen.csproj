@@ -78,7 +78,7 @@
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-		<PackageReference Include="System.Text.Json" Version="6.0.4" />
+		<PackageReference Include="System.Text.Json" Version="6.0.5" />
 		<PackageReference Include="XmlDocMarkdown.Core" Version="2.8.0" />
 	</ItemGroup>
 	<ItemGroup>
