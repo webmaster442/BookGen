@@ -5,7 +5,7 @@
 
 using BookGen.Api.Configuration;
 
-namespace BookGen.Core.Configuration
+namespace BookGen.Domain.Configuration
 {
     public sealed class Asset : IReadOnlyAsset
     {

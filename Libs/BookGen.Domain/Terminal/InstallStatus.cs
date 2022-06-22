@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.ShellHelper.Domain;
+namespace BookGen.Domain.Terminal;
 
 public sealed record class InstallStatus
 {

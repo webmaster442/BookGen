@@ -38,7 +38,7 @@ namespace BookGen.Api
         /// <returns>A link on host</returns>
         public string ConvertToLinkOnHost(string host)
         {
-            var file = System.IO.Path.ChangeExtension(this.Url, ".html");
+            string? file = System.IO.Path.ChangeExtension(this.Url, ".html");
             return $"{host}{file}";
         }
     }

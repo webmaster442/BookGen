@@ -1,4 +1,4 @@
-﻿namespace BookGen.ShellHelper.Domain;
+﻿namespace BookGen.Domain.Terminal;
 
 internal record GitStatus
 {

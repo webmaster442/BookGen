@@ -27,7 +27,7 @@ namespace BookGen.Domain
             get
             {
                 int skip = index - 1 < 0 ? 0 : index - 1;
-                var key = _storage.Keys.Skip(skip).Take(1).First();
+                string? key = _storage.Keys.Skip(skip).Take(1).First();
                 return _storage[key];
             }
         }
@@ -49,7 +49,7 @@ namespace BookGen.Domain
 
         public T GetArgumentOrFallback<T>(string argument, T fallback) where T : IConvertible
         {
-            var key = _storage.Keys.FirstOrDefault(k => string.Compare(k, argument, true) == 0);
+            string? key = _storage.Keys.FirstOrDefault(k => string.Compare(k, argument, true) == 0);
 
             if (key == null)
                 return fallback;
@@ -59,7 +59,7 @@ namespace BookGen.Domain
 
         public T GetArgumentOrThrow<T>(string argument) where T : IConvertible
         {
-            var key = _storage.Keys.FirstOrDefault(k => string.Compare(k, argument, true) == 0);
+            string? key = _storage.Keys.FirstOrDefault(k => string.Compare(k, argument, true) == 0);
 
             if (key == null)
                 throw new ArgumentException($"{argument} was not found");

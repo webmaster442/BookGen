@@ -24,7 +24,7 @@ namespace BookGen.Interfaces
             if (pathParts.Length < 1)
                 throw new ArgumentException($"{nameof(pathParts)} must contain at least one element");
 
-            var combined = Path.Combine(pathParts);
+            string? combined = Path.Combine(pathParts);
 
             if (combined.Contains('/') && combined.Contains('\\'))
             {

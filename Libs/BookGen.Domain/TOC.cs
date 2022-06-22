@@ -21,14 +21,13 @@ namespace BookGen.Domain
             get
             {
                 int count = 0;
-                foreach (var chapter in _tocContents.Keys)
+                foreach (string? chapter in _tocContents.Keys)
                 {
                     count += _tocContents[chapter].Count;
                 }
                 return count;
             }
         }
-
 
         public ToC()
         {
@@ -49,24 +48,26 @@ namespace BookGen.Domain
         {
             if (string.IsNullOrEmpty(chapter))
             {
-                List<Link> merged = new List<Link>();
-                foreach (var v in _tocContents.Values)
+                var merged = new List<Link>();
+                foreach (List<Link>? v in _tocContents.Values)
                 {
                     merged.AddRange(v);
                 }
                 return merged;
             }
             else
+            {
                 return _tocContents[chapter];
+            }
         }
 
         public IEnumerable<string> Files
         {
             get
             {
-                foreach (var chapter in _tocContents.Keys)
+                foreach (string? chapter in _tocContents.Keys)
                 {
-                    foreach (var file in _tocContents[chapter])
+                    foreach (Link? file in _tocContents[chapter])
                     {
                         yield return file.Url;
                     }

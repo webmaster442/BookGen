@@ -5,7 +5,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace BookGen.ShellHelper.Domain;
+namespace BookGen.Domain.Terminal;
 
 public class TerminalFragment
 {

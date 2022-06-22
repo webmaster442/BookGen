@@ -5,7 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Api.Configuration;
-using BookGen.Core.Configuration;
+using BookGen.Domain.Configuration;
 using BookGen.Interfaces;
 using System.Collections.Concurrent;
 
@@ -30,7 +30,7 @@ namespace BookGen.Domain
 
         IReadOnlyBuildConfig IReadonlyRuntimeSettings.CurrentBuildConfig => CurrentBuildConfig;
 
-        public ITagUtils Tags { get;}
+        public ITagUtils Tags { get; }
 
         public RuntimeSettings(ITagUtils tags)
         {

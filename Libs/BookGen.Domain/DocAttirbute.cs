@@ -3,9 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-
-namespace BookGen.Core
+namespace BookGen.Domain
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class DocAttribute : Attribute

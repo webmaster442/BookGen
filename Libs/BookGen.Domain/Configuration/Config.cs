@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api.Configuration;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json.Serialization;
 
-namespace BookGen.Core.Configuration
+namespace BookGen.Domain.Configuration
 {
     public sealed class Config : IReadOnlyConfig
     {

@@ -19,7 +19,7 @@ namespace BookGen.Domain
                  + $"Total bytes: {Bytes:n0}\r\n"
                  + $"Words:       {Words:n0}\r\n"
                  + $"Paragraphs:  {ParagraphLines:n0}\r\n"
-                 + $"Pages:       {(PageCountLines / Constants.LinesPerPage):n0}";
+                 + $"Pages:       {PageCountLines / Constants.LinesPerPage:n0}";
         }
     }
 }

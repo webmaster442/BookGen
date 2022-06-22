@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Core.Configuration
+namespace BookGen.Domain.Configuration
 {
     public static class ConfigurationFactories
     {

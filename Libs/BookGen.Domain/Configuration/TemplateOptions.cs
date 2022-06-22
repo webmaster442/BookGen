@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace BookGen.Core.Configuration
+namespace BookGen.Domain.Configuration
 {
     [Serializable]
     public sealed class TemplateOptions : Dictionary<string, string>, IReadOnlyTemplateOptions

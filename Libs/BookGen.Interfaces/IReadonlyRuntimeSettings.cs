@@ -5,7 +5,6 @@
 
 using BookGen.Api;
 using BookGen.Api.Configuration;
-using System.Collections.Generic;
 
 namespace BookGen.Interfaces
 {
