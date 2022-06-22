@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 using System.Reflection;
 
 namespace BookGen.AssemblyDocumenter
@@ -16,13 +17,13 @@ namespace BookGen.AssemblyDocumenter
             int errors = 0;
             try
             {
-                XmlSchemaSet schema = new XmlSchemaSet();
+                var schema = new XmlSchemaSet();
                 schema.Add(LoadXsd());
-                using (var stream = xml.OpenStream())
+                using (System.IO.FileStream? stream = xml.OpenStream())
                 {
-                    using (XmlReader rd = XmlReader.Create(stream))
+                    using (var rd = XmlReader.Create(stream))
                     {
-                        XDocument doc = XDocument.Load(rd);
+                        var doc = XDocument.Load(rd);
                         doc.Validate(schema, (s, e) =>
                         {
                             if (e.Severity == XmlSeverityType.Error)
@@ -45,7 +46,7 @@ namespace BookGen.AssemblyDocumenter
         private static XmlSchema LoadXsd()
         {
             Assembly current = typeof(XmlDocValidator).Assembly;
-            using (var stream = current.GetManifestResourceStream("BookGen.AssemblyDocumenter.DocComment.xsd"))
+            using (System.IO.Stream? stream = current.GetManifestResourceStream("BookGen.AssemblyDocumenter.DocComment.xsd"))
             {
                 if (stream != null)
                 {

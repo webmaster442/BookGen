@@ -6,7 +6,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.AssemblyDocumenter.Units;
-using BookGen.Core;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 
 namespace BookGen.AssemblyDocumenter
 {
@@ -21,7 +22,7 @@ namespace BookGen.AssemblyDocumenter
         /// <param name="document">The XML document.</param>
         public XmlDocumenter(FsPath sourceFile)
         {
-            using (var stream = sourceFile.OpenStream())
+            using (FileStream? stream = sourceFile.OpenStream())
             {
                 _document = XDocument.Load(stream);
             }
@@ -44,7 +45,7 @@ namespace BookGen.AssemblyDocumenter
         private static IEnumerable<IUnit> ToUnits(XElement docElement)
         {
             // member units
-            var memberUnits = docElement
+            IEnumerable<MemberUnit>? memberUnits = docElement
                 ?.Element(XmlElements.Members)
                 ?.Elements(XmlElements.Member)
                 .Select(element => new MemberUnit(element))
@@ -59,7 +60,7 @@ namespace BookGen.AssemblyDocumenter
 
             var result = new List<IUnit>();
 
-            var asm = docElement?.Element(XmlElements.Assembly);
+            XElement? asm = docElement?.Element(XmlElements.Assembly);
             if (asm != null)
             {
                 result.Add(new AssemblyUnit(asm));

@@ -45,11 +45,11 @@ namespace BookGen.AssemblyDocumenter.Units
                 return Enumerable.Empty<string>();
             }
 
-            var markdowns = elements
+            IEnumerable<string>? markdowns = elements
                 .Select(element => new TypeparamUnit(element))
                 .SelectMany(unit => unit.ToMarkdown());
 
-            var table = new[]
+            IEnumerable<string>? table = new[]
             {
                 "| Name | Description |",
                 "| ---- | ----------- |",

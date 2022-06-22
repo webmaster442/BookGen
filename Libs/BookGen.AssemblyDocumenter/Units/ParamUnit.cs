@@ -69,11 +69,11 @@ namespace BookGen.AssemblyDocumenter.Units
                 }
             }
 
-            var markdowns = elements
+            IEnumerable<string>? markdowns = elements
                 .Zip(paramTypes, (element, type) => new ParamUnit(element, type))
                 .SelectMany(unit => unit.ToMarkdown());
 
-            var table = new[]
+            IEnumerable<string>? table = new[]
             {
                 "| Name | Type | Description |",
                 "| ---- | ---- | ----------- |",

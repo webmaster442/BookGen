@@ -41,7 +41,7 @@ namespace BookGen.AssemblyDocumenter.Units
                 return Enumerable.Empty<string>();
             }
 
-            var markdowns = elements
+            IEnumerable<string>? markdowns = elements
                 .Select(element => new SeealsoUnit(element))
                 .SelectMany(unit => unit.ToMarkdown());
 

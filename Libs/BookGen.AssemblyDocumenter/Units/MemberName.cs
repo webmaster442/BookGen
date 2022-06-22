@@ -142,7 +142,7 @@ namespace BookGen.AssemblyDocumenter.Units
             .Replace(')', '-');
 
         private string StrippedName =>
-            _name.Substring(2);
+            _name[2..];
 
         internal string LongName =>
             StrippedName.Split('(').First();
@@ -178,15 +178,15 @@ namespace BookGen.AssemblyDocumenter.Units
         /// </example>
         internal IEnumerable<string> GetParamTypes()
         {
-            var paramString = _name.Split('(').Last().Trim(')');
+            string? paramString = _name.Split('(').Last().Trim(')');
 
-            var delta = 0;
+            int delta = 0;
             var list = new List<StringBuilder>()
             {
                 new StringBuilder("T:"),
             };
 
-            foreach (var character in paramString)
+            foreach (char character in paramString)
             {
                 if (character == '{')
                 {

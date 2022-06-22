@@ -99,13 +99,13 @@ namespace BookGen.AssemblyDocumenter.Units
 
         private static string ParseBrackets(string str)
         {
-            Dictionary<string, string> bracketsToReplace = new Dictionary<string, string>
+            var bracketsToReplace = new Dictionary<string, string>
             {
                 { "&lt;", "<" },
                 { "&gt;", ">" },
             };
 
-            foreach (var (originalSymbol, newSymbol) in bracketsToReplace)
+            foreach ((string originalSymbol, string newSymbol) in bracketsToReplace)
             {
                 while (str.Contains(originalSymbol, StringComparison.InvariantCulture))
                 {
@@ -180,15 +180,15 @@ namespace BookGen.AssemblyDocumenter.Units
                         return $"{child.Value.AsCode()}{child.NextNode?.AsSpanMargin()}";
                     case "code":
                         {
-                            var lang = child.Attribute(XmlAttributes.Lang)?.Value ?? string.Empty;
+                            string? lang = child.Attribute(XmlAttributes.Lang)?.Value ?? string.Empty;
 
                             string value = child.Nodes().First().ToString().Replace("\t", "    ", StringComparison.InvariantCulture);
-                            var indexOf = FindIndexOf(value);
+                            int indexOf = FindIndexOf(value);
 
-                            var codeblockLines = value.Split(Environment.NewLine.ToCharArray())
+                            IEnumerable<string>? codeblockLines = value.Split(Environment.NewLine.ToCharArray())
                                 .Where(t => t.Length > indexOf)
-                                .Select(t => t.Substring(indexOf));
-                            var codeblock = string.Join("\n", codeblockLines);
+                                .Select(t => t[indexOf..]);
+                            string? codeblock = string.Join("\n", codeblockLines);
 
                             return $"\n\n```{lang}\n{codeblock}\n```\n\n";
                         }
@@ -205,9 +205,9 @@ namespace BookGen.AssemblyDocumenter.Units
 
         private static int FindIndexOf(string node)
         {
-            List<int> result = new List<int>();
+            var result = new List<int>();
 
-            foreach (var item in node.Split(Environment.NewLine.ToCharArray()).Where(t => t.Length > 0))
+            foreach (string? item in node.Split(Environment.NewLine.ToCharArray()).Where(t => t.Length > 0))
             {
                 result.Add(0);
 
@@ -218,7 +218,7 @@ namespace BookGen.AssemblyDocumenter.Units
                         break;
                     }
 
-                    result[result.Count - 1] += 1;
+                    result[^1] += 1;
                 }
             }
 
