@@ -6,8 +6,8 @@
 using BookGen.Api;
 using BookGen.Api.Configuration;
 using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
-using BookGen.Utilities;
+using BookGen.Interfaces;
+using System.Collections.Concurrent;
 
 namespace BookGen.Domain
 {

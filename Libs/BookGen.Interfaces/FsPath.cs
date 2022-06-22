@@ -26,7 +26,7 @@ namespace BookGen.Interfaces
 
             var combined = Path.Combine(pathParts);
 
-            if (combined.Contains("/") && combined.Contains("\\"))
+            if (combined.Contains('/') && combined.Contains('\\'))
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
                     || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -77,6 +77,8 @@ namespace BookGen.Interfaces
         {
             get => _path == "con" || _path == @"\\.\con";
         }
+
+        public bool IsWildCard => _path.Contains('*');
 
         public static bool IsEmptyPath(FsPath path)
         {

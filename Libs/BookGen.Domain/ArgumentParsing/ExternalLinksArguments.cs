@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Gui.ArgumentParser;
+using BookGen.Interfaces;
 
 namespace BookGen.Domain.ArgumentParsing
 {

@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Authors>Ruzsinszki Gábor</Authors>
     <Nullable>enable</Nullable>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
     <RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -16,10 +16,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="DocComment.xsd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
   </ItemGroup>
 
 </Project>

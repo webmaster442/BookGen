@@ -3,10 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-
-namespace BookGen.Gui.ArgumentParser
+namespace BookGen.Domain
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public sealed class SwitchAttribute : Attribute, IEquatable<SwitchAttribute?>

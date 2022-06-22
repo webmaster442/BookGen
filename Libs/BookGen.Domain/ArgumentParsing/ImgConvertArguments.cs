@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Gui.ArgumentParser;
+using BookGen.Interfaces;
 
 namespace BookGen.Domain.ArgumentParsing
 {
@@ -37,7 +37,7 @@ namespace BookGen.Domain.ArgumentParsing
 
         public override bool Validate()
         {
-            if (Input.IsWildCard())
+            if (Input.IsWildCard)
             {
 
                 return Output.IsDirectory

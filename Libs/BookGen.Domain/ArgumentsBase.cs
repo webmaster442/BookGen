@@ -3,15 +3,15 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Gui.ArgumentParser
+namespace BookGen.Domain
 {
     public abstract class ArgumentsBase
     {
         public string[] Files { get; internal set; }
 
-        public ArgumentsBase()
+        protected ArgumentsBase()
         {
-            Files = new string[0];
+            Files = Array.Empty<string>();
         }
 
         public virtual bool Validate()
