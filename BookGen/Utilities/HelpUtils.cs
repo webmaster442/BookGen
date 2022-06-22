@@ -1,16 +1,13 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Core.Configuration;
 using BookGen.Framework;
 using BookGen.Resources;
-using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace BookGen.Utilities
 {

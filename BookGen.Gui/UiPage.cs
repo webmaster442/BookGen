@@ -6,6 +6,8 @@
 using BookGen.Gui.XmlEntities;
 using NStack;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Terminal.Gui;
 
 namespace BookGen.Gui
@@ -105,12 +107,12 @@ namespace BookGen.Gui
             {
                 X = Pos.Left(this) + button.Left,
                 Y = Pos.Top(this) + button.Top,
+                Data = _binder.BindCommand(button.Command)
             };
-            if (button.Command != null)
+            result.Clicked += () =>
             {
-                var act = _binder.BindCommand(button.Command);
-                result.Clicked += act;
-            }
+                _binder.TryInvokeCommand(result.Data as string);
+            };
             SetWidth(result, button);
             Add(result);
         }

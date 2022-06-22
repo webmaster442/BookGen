@@ -9,9 +9,6 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BookGen.Modules
 {
@@ -66,6 +63,7 @@ namespace BookGen.Modules
 
                 uiRunner.OnNavigaton += UiRunner_OnNavigaton;
                 var (view, model) = UiRunner_OnNavigaton(MainView);
+                
                 uiRunner.Run(view, model);
                 return ModuleRunResult.Succes;
             }
@@ -73,7 +71,7 @@ namespace BookGen.Modules
             return ModuleRunResult.GeneralError;
         }
 
-        private System.IO.Stream GetView(string name)
+        private static System.IO.Stream GetView(string name)
         {
             System.IO.Stream? result = typeof(GuiModule).Assembly.GetManifestResourceStream(name);
             if (result != null)

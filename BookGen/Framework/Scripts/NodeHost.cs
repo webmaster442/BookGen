@@ -1,14 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
 using BookGen.Contracts;
-using System;
 using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookGen.Framework.Scripts
 {

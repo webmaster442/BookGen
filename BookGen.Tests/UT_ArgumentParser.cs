@@ -3,10 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain.ArgumentParsing;
-using BookGen.Gui.ArgumentParser;
-using NUnit.Framework;
-
 namespace BookGen.Tests
 {
     [TestFixture]

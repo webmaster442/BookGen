@@ -1,11 +1,12 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Resources;
 using Microsoft.ClearScript.V8;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BookGen.Core
 {
@@ -13,27 +14,50 @@ namespace BookGen.Core
     {
         private V8ScriptEngine? _engine;
         private bool _prismLoaded;
+        private bool _mathJaxLoaded;
 
         public JavaScriptInterop()
         {
             _engine = new V8ScriptEngine();
             _prismLoaded = false;
+            _mathJaxLoaded = false;
         }
 
-        public string SyntaxHighlight(string code, string language)
+        [MemberNotNull(nameof(_engine))]
+        private void InitWithScript(ref bool flag, KnownFile scriptFile)
         {
             if (_engine == null)
                 throw new InvalidOperationException("After Dispose no operation is possible");
 
-            if (!_prismLoaded)
+            if (!flag)
             {
-                _engine.Execute(ResourceHandler.GetFile(KnownFile.PrismJs));
-                _prismLoaded = true;
+                _engine.Execute(ResourceHandler.GetFile(scriptFile));
+                flag = true;
             }
+        }
 
-            _engine.Script.code = code;
-            object? result = _engine.Evaluate($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
+        [MemberNotNull(nameof(_engine))]
+        private string ExecuteAndGetResult(string code)
+        {
+            if (_engine == null)
+                throw new InvalidOperationException("After Dispose no operation is possible");
+
+            object? result = _engine.Evaluate(code);
             return result as string ?? string.Empty;
+        }
+
+        public string SyntaxHighlight(string code, string language)
+        {
+            InitWithScript(ref _prismLoaded, KnownFile.PrismJs);
+            _engine.Script.code = code;
+            return ExecuteAndGetResult($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
+        }
+
+        public string MathToSvg(string math)
+        {
+            InitWithScript(ref _mathJaxLoaded, KnownFile.MathJax);
+            _engine.Script.math = math;
+            return ExecuteAndGetResult("MathJax.tex2svg(math).innerHTML;");
         }
 
         public void Dispose()

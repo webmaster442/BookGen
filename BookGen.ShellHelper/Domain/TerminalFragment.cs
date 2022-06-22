@@ -3,14 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace BookGen.ShellHelper.Domain
+namespace BookGen.ShellHelper.Domain;
+
+public class TerminalFragment
 {
-    public class TerminalFragment
-    {
-        [JsonPropertyName("profiles")]
-        public List<WindowsTerminalProfile> Profiles { get; set; } = new();
-    }
+    [JsonPropertyName("profiles")]
+    public List<WindowsTerminalProfile> Profiles { get; set; } = new();
 }

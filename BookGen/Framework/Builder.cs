@@ -5,34 +5,35 @@
 
 using BookGen.Api;
 using BookGen.Contracts;
-using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Framework.Scripts;
 using BookGen.Gui;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace BookGen.Framework
 {
-    internal abstract class Builder
+    internal abstract class Builder : IDisposable
     {
         private readonly List<IGeneratorStep> _steps;
+        private readonly CsharpScriptHandler _scriptHandler;
+        private readonly StaticTemplateContent _staticContent;
+        private readonly List<string> _redirectedLogMessages;
+        private bool _logListen;
 
         protected readonly ILog _log;
 
         protected RuntimeSettings Settings { get; }
 
         protected readonly ShortCodeLoader _loader;
-        private readonly CsharpScriptHandler _scriptHandler;
-        private readonly StaticTemplateContent _staticContent;
+
+
         protected Builder(RuntimeSettings settings,
                           ILog log,
                           ShortCodeLoader shortCodeLoader,
                           CsharpScriptHandler scriptHandler)
         {
             Settings = settings;
-
+            _redirectedLogMessages = new List<string>();
             _staticContent = new StaticTemplateContent();
             _loader = shortCodeLoader;
             _loader.LoadAll();
@@ -42,6 +43,21 @@ namespace BookGen.Framework
 
             _steps = new List<IGeneratorStep>();
             _log = log;
+            _log.OnLogWritten += OnLogWritten;
+        }
+
+        private void OnLogWritten(object? sender, LogEventArgs e)
+        {
+            if (!_logListen)
+                return;
+
+            switch(e.LogLevel)
+            {
+                case LogLevel.Warning:
+                case LogLevel.Critical:
+                    _redirectedLogMessages.Add(e.Message);
+                    break;
+            }
         }
 
         private TemplateProcessor CreateTemplateProcessor()
@@ -73,6 +89,7 @@ namespace BookGen.Framework
             try
             {
                 progressbar.SwitchBuffers();
+                _logListen = true;
                 int stepCounter = 1;
                 foreach (var step in _steps)
                 {
@@ -95,9 +112,13 @@ namespace BookGen.Framework
                     ++stepCounter;
                 }
                 progressbar.SwitchBuffers();
+                _logListen = false;
+                progressbar.Report(_redirectedLogMessages);
+                _redirectedLogMessages.Clear();
             }
             catch (Exception ex)
             {
+                _logListen = false;
                 progressbar.SwitchBuffers();
                 _log.Critical("Critical exception while running: {0}", stepName);
                 _log.Critical(ex);
@@ -110,6 +131,17 @@ namespace BookGen.Framework
                 sw.Stop();
             }
             return sw.Elapsed;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            _log.OnLogWritten -= OnLogWritten;
+            _logListen = false;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }

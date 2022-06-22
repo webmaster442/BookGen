@@ -1,16 +1,14 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2021 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Utilities;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace BookGen
 {
@@ -27,6 +25,7 @@ namespace BookGen
         private readonly ILog _log;
         private readonly FsPath _configJson;
         private readonly FsPath _configYaml;
+        private readonly FsPath _tags;
         private readonly string _workdir;
 
         public ProjectLoader(ILog log, string workdir)
@@ -35,7 +34,7 @@ namespace BookGen
             _workdir = workdir;
             _configJson = new FsPath(workdir, "bookgen.json");
             _configYaml = new FsPath(workdir, "bookgen.yml");
-
+            _tags = new FsPath(workdir, "tags.json");
         }
 
         private ConfigMode GetConfigMode()
@@ -50,7 +49,7 @@ namespace BookGen
                 return ConfigMode.NotFound;
         }
 
-        public bool TryLoadAndValidateConfig(out Config? config)
+        public bool TryLoadAndValidateConfig([NotNullWhen(true)] out Config? config)
         {
             config = null;
 
@@ -125,7 +124,7 @@ namespace BookGen
             }
         }
 
-        public bool TryLoadAndValidateToc(Config? config, out ToC? toc)
+        public bool TryLoadAndValidateToc(Config config, [NotNullWhen(true)] out ToC? toc)
         {
             toc = null;
 
@@ -155,9 +154,34 @@ namespace BookGen
             return true;
         }
 
-        public RuntimeSettings CreateRuntimeSettings(Config config, ToC toc, BuildConfig current)
+        public bool TryGetTags(CultureInfo culture, out TagUtils tagUtils)
         {
-            var settings = new RuntimeSettings
+            if (_tags.IsExisting)
+            {
+                var deserialized = _tags.DeserializeJson<Dictionary<string, string[]>>(_log);
+                if (deserialized != null)
+                {
+                    tagUtils = new TagUtils(deserialized, culture, _log);
+                    return true;
+                }
+                else
+                {
+                    _log.Critical("Invalid tags.json file. Continuing with empty collection");
+                    tagUtils = new TagUtils(new(), culture, _log);
+                    return false;
+                }
+            }
+            else
+            {
+                _log.Warning("tags.json not found, continuing with empty collection");
+                tagUtils = new TagUtils(new(), culture, _log);
+                return true;
+            }
+        }
+
+        public RuntimeSettings CreateRuntimeSettings(Config config, ToC toc, TagUtils tags, BuildConfig current)
+        {
+            var settings = new RuntimeSettings(tags)
             {
                 SourceDirectory = new FsPath(_workdir),
                 Configuration = config,
@@ -178,9 +202,7 @@ namespace BookGen
         public bool TryLoadProjectAndExecuteOperation(Func<Config, ToC, bool> operationToDo)
         {
             if (TryLoadAndValidateConfig(out Config? config)
-                && TryLoadAndValidateToc(config, out ToC? toc)
-                && config != null
-                && toc != null)
+                && TryLoadAndValidateToc(config, out ToC? toc))
             {
                 return operationToDo(config, toc);
             }

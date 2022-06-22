@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
 		<Product>BookGen</Product>
 		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
 		<Authors>Ruzsinszki Gábor</Authors>
@@ -11,14 +12,14 @@
 		<PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<AssemblyVersion>1.0.6.0</AssemblyVersion>
-		<FileVersion>1.0.6.0</FileVersion>
+		<AssemblyVersion>18.0</AssemblyVersion>
+		<FileVersion>18.0</FileVersion>
 		<Description>C# scripting API references for BookGen scripting</Description>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageTags>static site,api,cshap,scripting,bookgen</PackageTags>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseFile>LICENCE</PackageLicenseFile>
-		<Version>1.0.6</Version>
+		<Version>18.0</Version>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DocumentationFile>..\bin\$(Configuration)\BookGen.Api.xml</DocumentationFile>
 	</PropertyGroup>

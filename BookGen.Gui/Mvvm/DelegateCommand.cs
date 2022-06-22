@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,29 +10,12 @@ namespace BookGen.Gui.Mvvm
     public sealed class DelegateCommand
     {
         public Action Action { get; }
+        public bool SuspendsUI { get; }
 
-        public DelegateCommand(Action action)
+        public DelegateCommand(Action action, bool suspendsUi = true)
         {
             Action = action;
-        }
-
-        public DelegateCommand(ViewModelBase model, Action action, bool suspendsUi = true)
-        {
-            if (suspendsUi)
-            {
-                Action = () =>
-                {
-                    model?.View?.SuspendUi();
-                    action?.Invoke();
-                    Console.WriteLine("Press a key to continue...");
-                    Console.ReadKey();
-                    model?.View?.ResumeUi();
-                };
-            }
-            else
-            {
-                Action = action;
-            }
+            SuspendsUI = suspendsUi;
         }
     }
 }

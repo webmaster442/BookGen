@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 2.1
-# Last modified: 2022-05-23
+# Version 2.2
+# Last modified: 2022-06-12
 # -----------------------------------------------------------------------------
 
 #cdg command
@@ -9,9 +9,12 @@
 function cdg()
 {
     [void] [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
-    $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog
-	$FolderBrowserDialog.ShowNewFolderButton = $true
-    [void] $FolderBrowserDialog.ShowDialog()
+    $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog -Property @{
+        ShowNewFolderButton = $false
+		SelectedPath = $(Get-Location).Path
+        Description = "Select Folder"
+    }
+    [void] $FolderBrowserDialog.ShowDialog(((New-Object System.Windows.Forms.Form -Property @{TopMost = $true })))
     Push-Location $FolderBrowserDialog.SelectedPath
 	$FolderBrowserDialog.Dispose()
 }
@@ -58,3 +61,6 @@ if ($args.Count -eq 1) {
 Write-Host "To get info on using bookgen type: Bookgen Help"
 Write-Host "To get list of commands type: Bookgen SubCommands"
 Write-Host "To graphicaly select working directory type: cdg"
+Write-Host ""
+bookgen version
+Write-Host ""

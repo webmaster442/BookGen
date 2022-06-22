@@ -11,9 +11,6 @@ using BookGen.Gui.ArgumentParser;
 using BookGen.Modules;
 using BookGen.Modules.Special;
 using BookGen.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace BookGen
@@ -66,7 +63,6 @@ namespace BookGen
                 new AssemblyDocumentModule(CurrentState),
                 new SettingsModule(CurrentState, AppSetting),
                 new InitModule(CurrentState),
-                new PagegenModule(CurrentState),
                 new Md2HtmlModule(CurrentState),
                 new ChaptersModule(CurrentState),
                 new StatModule(CurrentState),
@@ -77,6 +73,8 @@ namespace BookGen
                 new ImgConvertModule(CurrentState),
                 new StockSearchModule(CurrentState),
                 new MdTableModule(CurrentState),
+                new ExternalLinksModule(CurrentState),
+                new TagsModule(CurrentState),
             };
         }
 
@@ -215,7 +213,7 @@ namespace BookGen
                 stateModule.Abort();
 
             CurrentState.Log.Critical(ex);
-                
+
             ShowMessageBox("Unhandled exception\r\n{0}", ex.Message);
 #if DEBUG
             System.Diagnostics.Debugger.Break();

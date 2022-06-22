@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BookGen.Domain.ArgumentParsing.BookGenArgumentBase">
+    <Position X="9.25" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\ArgumentParsing\BookGenArgumentBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.Domain.ArgumentParsing.BuildArguments">
+    <Position X="9.25" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Domain\ArgumentParsing\BuildArguments.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.Domain.ArgumentParsing.ExternalLinksArguments">
+    <Position X="7" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\ArgumentParsing\ExternalLinksArguments.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.Domain.ArgumentParsing.InputOutputArguments">
+    <Position X="11.75" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Domain\ArgumentParsing\InputOutputArguments.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.Domain.ArgumentParsing.Md2HtmlArguments">
+    <Position X="11.75" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAACAAAAAAAAAAAAAAIAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\ArgumentParsing\Md2HtmlArguments.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BookGen.Gui.ArgumentParser.ArgumentsBase">
+    <Position X="9.25" Y="0.75" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="BookGen.Contracts.IContent">
+    <Position X="5.75" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAgAAAECAAAAACAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Contracts\IContent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Contracts.IGeneratorContentFillStep">
+    <Position X="3.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\IGeneratorContentFillStep.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Contracts.IGeneratorStep">
+    <Position X="3.5" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Contracts\IGeneratorStep.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BookGen.Contracts.ITemplatedStep">
+    <Position X="3.5" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\ITemplatedStep.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

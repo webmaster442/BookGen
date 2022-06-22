@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -9,7 +9,6 @@ using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Domain.Wordpress;
 using BookGen.Utilities;
-using System;
 
 namespace BookGen.GeneratorSteps.Wordpress
 {

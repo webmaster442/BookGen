@@ -3,10 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace BookGen.Framework
 {
     internal static class ShortCodeArgumentTokenizer

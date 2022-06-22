@@ -207,6 +207,34 @@ namespace BookGen.Core
             }
         }
 
+        public static IList<string> ReadFileLines(this FsPath path, ILog log)
+        {
+            try
+            {
+                List<string> lines = new List<string>(100);
+                using (var reader = File.OpenText(path.ToString()))
+                {
+                    string? line;
+                    do
+                    {
+                        line = reader.ReadLine();
+                        if (line != null)
+                        {
+                            lines.Add(line);
+                        }
+                    }
+                    while (line != null);
+                }
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                log.Warning("ReadFile failed: {0}", path);
+                log.Detail(ex.Message);
+                return Array.Empty<string>();
+            }
+        }
+
         public static void ProtectDirectory(this FsPath directory, ILog log)
         {
             var outp = directory.Combine("index.html");
@@ -276,8 +304,12 @@ namespace BookGen.Core
 
                 byte[] serialized = JsonSerializer.SerializeToUtf8Bytes<T>(obj, new JsonSerializerOptions
                 {
-                    WriteIndented = indent
-                });
+                    WriteIndented = indent,
+                    Converters =
+                    {
+                        new CultureInfoConverter()
+                    }
+                }); 
 
                 File.WriteAllBytes(path.ToString(), serialized);
 
@@ -298,7 +330,13 @@ namespace BookGen.Core
                 using (var reader = File.OpenText(path.ToString()))
                 {
                     string text = reader.ReadToEnd();
-                    return JsonSerializer.Deserialize<T>(text);
+                    return JsonSerializer.Deserialize<T>(text, new JsonSerializerOptions
+                    {
+                        Converters =
+                        {
+                            new CultureInfoConverter()
+                        }
+                    });
                 }
             }
             catch (Exception ex)
@@ -321,6 +359,7 @@ namespace BookGen.Core
 
                 var serializer = new SerializerBuilder()
                     .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                    .WithTypeConverter(new CultureInfoConverter())
                     .Build();
 
                 var yaml = serializer.Serialize(obj);
@@ -347,6 +386,7 @@ namespace BookGen.Core
 
                     var deserializer = new DeserializerBuilder()
                         .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                        .WithTypeConverter(new CultureInfoConverter())
                         .Build();
 
                     return deserializer.Deserialize<T>(text);

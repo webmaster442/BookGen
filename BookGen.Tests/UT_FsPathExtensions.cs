@@ -3,11 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
-using BookGen.Tests.Environment;
-using NUnit.Framework;
 using System.IO;
-using System.Linq;
 
 namespace BookGen.Tests
 {
@@ -159,7 +155,7 @@ namespace BookGen.Tests
 
         [TestCase("", "", "")]
         [TestCase(@"c:\test", @"c:\", "test")]
-        [TestCase(@"c:\foo\asd.png", @"c:\foo\bar", @"..\asd.png" )]
+        [TestCase(@"c:\foo\asd.png", @"c:\foo\bar", @"..\asd.png")]
         [TestCase(@"c:\asd.png", @"c:\foo\bar", @"..\..\asd.png")]
         public void EnsureThat_FsUtils_GetRelativePathRelativeTo_Works(string absolute, string relative, string expected)
         {

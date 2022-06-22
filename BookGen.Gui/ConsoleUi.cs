@@ -6,6 +6,7 @@
 using BookGen.Gui.Mvvm;
 using BookGen.Gui.XmlEntities;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 using Terminal.Gui;
@@ -27,6 +28,9 @@ namespace BookGen.Gui
             XWindow? deserialized = DeserializeXmlView(view);
             if (deserialized != null)
             {
+                if (Application.Top == null)
+                    Application.Init();
+
                 _window = new UiPage(deserialized, _binder);
                 model.InjectView(this);
                 ResumeUi();
@@ -52,6 +56,7 @@ namespace BookGen.Gui
                 }
                 if (result != null)
                 {
+                    SuspendUi();
                     Run(result.Value.view, result.Value.model);
                 }
 
@@ -63,6 +68,7 @@ namespace BookGen.Gui
         {
             if (Application.Top?.Running == true)
             {
+                Application.RequestStop();
                 Application.Top.Remove(_window);
                 Application.Shutdown();
                 Console.BackgroundColor = ConsoleColor.Black;
@@ -73,7 +79,9 @@ namespace BookGen.Gui
 
         public void ResumeUi()
         {
-            Application.Init();
+            if (Application.Top == null)
+                Application.Init();
+
             if (_window != null)
             {
                 _window.ColorScheme = new ColorScheme
@@ -83,22 +91,26 @@ namespace BookGen.Gui
                     HotNormal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
                     Normal = Terminal.Gui.Attribute.Make(Color.Gray, Color.Black),
                 };
-                if (Application.Top.Subviews.Count < 1)
+
+                if (Application.Top?.Subviews.Count < 1)
                 {
                     Application.Top.Add(_window);
                 }
             }
-            Application.Run();
-            _running = false;
+            Application.Run(OnError);
+            _running = true;
+        }
+
+        private bool OnError(Exception arg)
+        {
+            Debug.WriteLine(arg.Message);
+            return false;
         }
 
         public void ExitApp()
         {
-            if (Application.Current != null)
-            {
-                Application.Current.Running = false;
-            }
-            SuspendUi();
+            Application.Driver.End();
+            Application.Current.RequestStop();
         }
 
         public void UpdateBindingsToModel()

@@ -1,9 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace BookGen.Domain.Wordpress
@@ -51,5 +50,8 @@ namespace BookGen.Domain.Wordpress
         public string? Is_sticky { get; set; }
         [XmlElement(ElementName = "postmeta", Namespace = "http://wordpress.org/export/1.2/")]
         public List<Postmeta>? Postmeta { get; set; }
+
+        [XmlElement(ElementName = "category")]
+        public List<PostCategory>? Category { get; set; }
     }
 }

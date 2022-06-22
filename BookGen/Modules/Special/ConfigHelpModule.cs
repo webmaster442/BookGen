@@ -5,7 +5,6 @@
 
 using BookGen.Framework;
 using BookGen.Utilities;
-using System;
 
 namespace BookGen.Modules.Special
 {

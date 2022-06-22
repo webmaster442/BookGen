@@ -23,8 +23,8 @@ namespace BookGen.Resources
             { "figcaption", "p" }
         };
 
-        private static Regex scriptMatcher = new Regex(@"(<script[^>]*>)([\s\S]*?)(</script>)");
-        private static Regex styleMatcher = new Regex(@"(<style[^>]*>)([\s\S]*?)(</style>)");
+        private static readonly Regex scriptMatcher = new(@"(<script[^>]*>)([\s\S]*?)(</script>)");
+        private static readonly Regex styleMatcher = new(@"(<style[^>]*>)([\s\S]*?)(</style>)");
 
         public static string NormalizeToXHTML(string input)
         {

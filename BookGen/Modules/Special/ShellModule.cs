@@ -6,9 +6,6 @@
 using BookGen.Contracts;
 using BookGen.Framework;
 using BookGen.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BookGen.Modules.Special
 {

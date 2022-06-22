@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BookGen.Tests
 {

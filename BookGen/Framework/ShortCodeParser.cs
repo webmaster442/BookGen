@@ -9,10 +9,6 @@ using BookGen.Core.Contracts;
 using BookGen.Domain;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Shortcodes;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace BookGen.Framework
 {

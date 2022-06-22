@@ -4,10 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
-using BookGen.Framework.Shortcodes;
-using BookGen.Tests.Environment;
-using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace BookGen.Tests
 {

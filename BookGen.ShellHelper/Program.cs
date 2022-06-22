@@ -5,7 +5,6 @@
 
 using BookGen.Core;
 using BookGen.ShellHelper.Code;
-using System;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("BookGen.Tests")]
@@ -33,11 +32,15 @@ namespace BookGen.ShellHelper
             if (!string.IsNullOrEmpty(workDir)
                 && TestIfGitDir(workDir))
             {
-                var (exitcode, output) = ProcessRunner.RunProcess("git", "status -b -s --porcelain=2 --ignored MADRU", TimeOut);
+                var (exitcode, output) = ProcessRunner.RunProcess("git", "status -b -s --porcelain=2", TimeOut);
                 if (exitcode == 0)
                 {
                     var status = GitParser.ParseStatus(output);
-                    Console.WriteLine("({0}) ↓: {1} ↑:{2}", status.BranchName, status.IncommingCommits, status.OutGoingCommits);
+                    Console.WriteLine("({0}) ↓: {1} ↑: {2} M: {3}",
+                                      status.BranchName,
+                                      status.IncommingCommits,
+                                      status.OutGoingCommits,
+                                      status.NotCommitedChanges);
                 }
             }
         }

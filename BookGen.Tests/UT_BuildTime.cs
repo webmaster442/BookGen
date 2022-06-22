@@ -3,10 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Framework.Shortcodes;
-using NUnit.Framework;
-using System;
-
 namespace BookGen.Tests
 {
     [TestFixture]

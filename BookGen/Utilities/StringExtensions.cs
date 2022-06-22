@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Globalization;
+
 namespace BookGen.Utilities
 {
     internal static class StringExtensions
@@ -33,6 +35,11 @@ namespace BookGen.Utilities
             }
 
             return count;
+        }
+
+        public static string ToTitleCase(this string str, CultureInfo culture)
+        {
+            return culture.TextInfo.ToTitleCase(str);
         }
 
     }

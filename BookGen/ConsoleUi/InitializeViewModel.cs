@@ -1,10 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
 using BookGen.Gui.Mvvm;
 
 namespace BookGen.ConsoleUi
@@ -33,7 +32,7 @@ namespace BookGen.ConsoleUi
             _workDir = WorkDir;
             ConfigFormat = 0;
             ExecuteCommand = new DelegateCommand(OnExecute);
-            CancelCommand = new DelegateCommand(() => View?.ExitApp());
+            CancelCommand = new DelegateCommand(() => View?.ExitApp(), false);
 
             CreateConfig = true;
             CreateMdFiles = true;
@@ -73,6 +72,9 @@ namespace BookGen.ConsoleUi
                 _log.Info("Creating VS Code Tasks");
                 InitializerMethods.DoCreateTasks(_log, _workDir);
             }
+
+
+
             View?.ExitApp();
         }
     }

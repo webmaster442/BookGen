@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BookGen.Api
+﻿namespace BookGen.Api
 {
     /// <summary>
     /// Represents Arguments and values that are passed to the Script.

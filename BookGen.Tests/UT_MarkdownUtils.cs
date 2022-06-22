@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Utilities;
-using NUnit.Framework;
 
 namespace BookGen.Tests
 {
@@ -16,7 +15,7 @@ namespace BookGen.Tests
         [TestCase("### C# Test", "C# Test")]
         public void EnsureThat_MarkdownUtils_GetTitleWorksCorrectly(string input, string expected)
         {
-            var result = MarkdownUtils.GetTitle(input);
+            var result = MarkdownUtils.GetDocumentTitle(input, TestEnvironment.GetMockedLog());
             Assert.AreEqual(expected, result);
         }
 

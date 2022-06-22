@@ -1,9 +1,7 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2021 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
-
-using System;
 
 namespace BookGen.Api
 {
@@ -25,6 +23,11 @@ namespace BookGen.Api
         /// Current log level
         /// </summary>
         LogLevel LogLevel { get; set; }
+
+        /// <summary>
+        /// Raised when the log is written
+        /// </summary>
+        event EventHandler<LogEventArgs>? OnLogWritten;
 
         /// <summary>
         /// Log a message

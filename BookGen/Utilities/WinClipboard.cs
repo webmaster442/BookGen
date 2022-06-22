@@ -1,13 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 // Based on code from the TextCopy project - https://github.com/CopyText/TextCopy
 //-----------------------------------------------------------------------------
 
-using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 
 namespace BookGen.Utilities

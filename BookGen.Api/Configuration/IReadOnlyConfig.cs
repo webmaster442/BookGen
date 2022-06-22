@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Globalization;
+
 namespace BookGen.Api.Configuration
 {
     /// <summary>
@@ -14,6 +16,7 @@ namespace BookGen.Api.Configuration
         /// Host name
         /// </summary>
         string HostName { get; }
+
         /// <summary>
         /// Images directory
         /// </summary>
@@ -22,6 +25,12 @@ namespace BookGen.Api.Configuration
         /// Index file
         /// </summary>
         string Index { get; }
+
+        /// <summary>
+        /// Book Language
+        /// </summary>
+        CultureInfo BookLanguage { get; }
+
         /// <summary>
         /// Links that do not target the HostName open in new tabs
         /// </summary>
@@ -34,10 +43,6 @@ namespace BookGen.Api.Configuration
         /// Scripts folder
         /// </summary>
         string ScriptsDirectory { get; }
-        /// <summary>
-        /// File containing list of stopwords to ignore, when generating chapter summary.
-        /// </summary>
-        string StopwordsFile { get; }
         /// <summary>
         /// Build configuration for epubs
         /// </summary>

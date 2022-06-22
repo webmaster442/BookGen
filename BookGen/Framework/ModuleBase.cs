@@ -3,12 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Domain;
 using BookGen.Domain.Shell;
 using BookGen.Utilities;
-using System;
-using System.IO;
 
 namespace BookGen.Framework
 {

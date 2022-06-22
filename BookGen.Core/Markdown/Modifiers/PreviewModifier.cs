@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2021 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -9,8 +9,9 @@ using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
+using SkiaSharp;
+using Svg.Skia;
 using System;
-using System.IO;
 
 namespace BookGen.Core.Markdown.Modifiers
 {
@@ -77,14 +78,14 @@ namespace BookGen.Core.Markdown.Modifiers
             }
         }
 
-        private string Base64EncodeIfLocal(string url)
+       private string Base64EncodeIfLocal(string url)
         {
             if (url.StartsWith("https://") || url.StartsWith("http://"))
                 return url;
 
             FsPath inlinePath;
 
-            if (object.ReferenceEquals(Path, null))
+            if (Path is null)
             {
                 inlinePath = new FsPath(url);
             }
@@ -98,27 +99,49 @@ namespace BookGen.Core.Markdown.Modifiers
                 return string.Empty;
             }
 
-            byte[] contents = File.ReadAllBytes(inlinePath.ToString());
+            byte[] data = CompressWebp(inlinePath);
 
-            string mime = "application/octet-stream";
+            return $"data:image/webp;base64,{Convert.ToBase64String(data)}";
 
-            switch (System.IO.Path.GetExtension(inlinePath.ToString()))
+        }
+
+        private static byte[] CompressWebp(FsPath inlinePath)
+        {
+            if (inlinePath.Extension == ".svg")
             {
-                case ".jpg":
-                case ".jpeg":
-                    mime = "image/jpeg";
-                    break;
-                case ".png":
-                    mime = "image/png";
-                    break;
-                case ".gif":
-                    mime = "image/gif";
-                    break;
-                case ".webp":
-                    mime = "image/webp";
-                    break;
+                using (SKBitmap renderedSvg = RenderSvg(inlinePath))
+                {
+                    using var data = renderedSvg.Encode(SKEncodedImageFormat.Webp, 80);
+                    return data.ToArray();
+                }
+                
             }
-            return $"data:{mime};base64,{Convert.ToBase64String(contents)}";
+            using (SKBitmap bmp = SKBitmap.Decode(inlinePath.Filename))
+            {
+                using var data = bmp.Encode(SKEncodedImageFormat.Webp, 80);
+                return data.ToArray();
+            }
+        }
+
+        private static SKBitmap RenderSvg(FsPath inlinePath)
+        {
+            var svg = new SKSvg();
+            svg.Load(inlinePath.ToString());
+
+            if (svg.Picture == null)
+                return new SKBitmap(1, 1, false);
+
+            SKRect svgSize = svg.Picture.CullRect;
+
+            SKBitmap result = new SKBitmap((int)svgSize.Width, (int)svgSize.Height, false);
+
+            using (SKCanvas canvas = new SKCanvas(result))
+            {
+                canvas.DrawPicture(svg.Picture);
+                canvas.Flush();
+            }
+
+            return result;
         }
     }
 }

@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using System;
-using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Webmaster442.HttpServerFramework;
@@ -16,6 +14,8 @@ namespace BookGen.Framework
     {
         private readonly List<LogEntry> _entries;
         private readonly JsonSerializerOptions _options;
+
+        public event EventHandler<LogEventArgs>? OnLogWritten;
 
         public JsonLog()
         {
@@ -43,6 +43,7 @@ namespace BookGen.Framework
                 LogLevel = logLevel,
                 TimeStamp = DateTime.UtcNow,
             });
+            OnLogWritten?.Invoke(this, new LogEventArgs(logLevel, string.Format(format, args)));
         }
 
         public void PrintLine(string str)

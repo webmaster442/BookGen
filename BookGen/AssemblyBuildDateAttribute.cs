@@ -1,9 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
 using System.Globalization;
 
 namespace BookGen
@@ -11,11 +10,11 @@ namespace BookGen
     [AttributeUsage(AttributeTargets.Assembly)]
     internal class AssemblyBuildDateAttribute : Attribute
     {
-        public DateTime BuildDate { get; }
+        public DateTime BuildDateUtc { get; }
 
         public AssemblyBuildDateAttribute(string datestamp)
         {
-            BuildDate = DateTime.ParseExact(datestamp,
+            BuildDateUtc = DateTime.ParseExact(datestamp,
                                             "yyyyMMddHHmmss",
                                             CultureInfo.InvariantCulture,
                                             DateTimeStyles.AssumeLocal);

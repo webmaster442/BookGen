@@ -4,13 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
 using BookGen.Core.Contracts;
 using BookGen.Domain;
 using BookGen.Framework.Scripts;
-using BookGen.Tests.Environment;
-using Moq;
-using NUnit.Framework;
 
 namespace BookGen.Tests.Integration
 {

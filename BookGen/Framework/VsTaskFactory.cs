@@ -5,19 +5,16 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.VsTasks;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
 
 namespace BookGen.Framework
 {
     internal static class VsTaskFactory
     {
-        private static Task CreateTask(string arguments, string winArgs, string Description)
+        private static Domain.VsTasks.Task CreateTask(string arguments, string winArgs, string Description)
         {
-            return new Task
+            return new Domain.VsTasks.Task
             {
                 type = "shell",
                 command = "BookGen",
@@ -81,7 +78,7 @@ namespace BookGen.Framework
             };
         }
 
-        private static IEnumerable<Task> CreateTaskItems()
+        private static IEnumerable<Domain.VsTasks.Task> CreateTaskItems()
         {
             var tasks = Enum.GetNames(typeof(BuildAction));
             foreach (var task in tasks)

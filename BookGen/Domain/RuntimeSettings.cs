@@ -1,28 +1,26 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
 using BookGen.Api.Configuration;
-using BookGen.Core;
 using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+using BookGen.Utilities;
 
 namespace BookGen.Domain
 {
     public class RuntimeSettings : IReadonlyRuntimeSettings
     {
         public FsPath OutputDirectory { get; set; }
-        public FsPath SourceDirectory { get; set; }
+        public FsPath SourceDirectory { get; init; }
         public FsPath ImageDirectory { get; set; }
-        public ITableOfContents TocContents { get; set; }
-        public Config Configuration { get; set; }
-        public Dictionary<string, string> MetataCache { get; set; }
-        public ConcurrentDictionary<string, string> InlineImgCache { get; set; }
-        public BuildConfig CurrentBuildConfig { get; set; }
+        public ITableOfContents TocContents { get; init; }
+        public Config Configuration { get; init; }
+        public Dictionary<string, string> MetataCache { get; init; }
+        public ConcurrentDictionary<string, string> InlineImgCache { get; init; }
+        public BuildConfig CurrentBuildConfig { get; init; }
 
         IReadOnlyConfig IReadonlyRuntimeSettings.Configuration => Configuration;
 
@@ -32,7 +30,9 @@ namespace BookGen.Domain
 
         IReadOnlyBuildConfig IReadonlyRuntimeSettings.CurrentBuildConfig => CurrentBuildConfig;
 
-        public RuntimeSettings()
+        public ITagUtils Tags { get;}
+
+        public RuntimeSettings(ITagUtils tags)
         {
             OutputDirectory = FsPath.Empty;
             SourceDirectory = FsPath.Empty;
@@ -42,6 +42,7 @@ namespace BookGen.Domain
             MetataCache = new Dictionary<string, string>();
             InlineImgCache = new ConcurrentDictionary<string, string>();
             CurrentBuildConfig = new BuildConfig();
+            Tags = tags;
         }
     }
 }

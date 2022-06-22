@@ -5,10 +5,6 @@
 
 using BookGen.Api;
 using BookGen.AssemblyDocumenter;
-using BookGen.Core;
-using BookGen.Tests.Environment;
-using Moq;
-using NUnit.Framework;
 
 namespace BookGen.Tests.Integration
 {

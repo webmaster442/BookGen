@@ -25,6 +25,8 @@
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
     <PackageReference Include="Markdig" Version="0.30.2" />
     <PackageReference Include="System.Text.Json" Version="6.0.5" />
+    <PackageReference Include="SkiaSharp" Version="2.88.0" />
+    <PackageReference Include="Svg.Skia" Version="0.5.14" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />

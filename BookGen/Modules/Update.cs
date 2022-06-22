@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
 using BookGen.Domain;
 using BookGen.Framework;
 
@@ -22,12 +21,12 @@ namespace BookGen.Modules
         public override ModuleRunResult Execute(string[] arguments)
         {
             var updater = new Updater(CurrentState.Log,
-                                      CurrentState.BuildDate,
+                                      CurrentState.BuildDateUtc,
                                       CurrentState.ProgramDirectory);
 
             var release = updater.GetLatestRelease();
 
-            CurrentState.Log.Info("Current version: {0}", CurrentState.BuildDate);
+            CurrentState.Log.Info("Current version: {0}", CurrentState.BuildDateUtc);
             CurrentState.Log.Info("Update version: {0}", release?.Version ?? "unknown");
 
             if (release != null

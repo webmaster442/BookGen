@@ -6,9 +6,6 @@
 using BookGen.Domain;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace BookGen.Modules

@@ -35,6 +35,13 @@ namespace BookGen.Domain.Wordpress
             return cdata._value;
         }
 
+        [XmlIgnore]
+        public string Value
+        {
+            get => _value;
+            set => _value = value;
+        }
+
         public CData() : this(string.Empty)
         {
         }
@@ -54,12 +61,12 @@ namespace BookGen.Domain.Wordpress
             return null;
         }
 
-        public void ReadXml(XmlReader reader)
+        public virtual void ReadXml(XmlReader reader)
         {
             _value = reader.ReadElementString();
         }
 
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public virtual void WriteXml(System.Xml.XmlWriter writer)
         {
             writer.WriteCData(_value);
         }

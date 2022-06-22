@@ -5,8 +5,6 @@
 
 using BookGen.Api;
 using BookGen.Framework.Scripts;
-using Moq;
-using NUnit.Framework;
 
 namespace BookGen.Tests
 {

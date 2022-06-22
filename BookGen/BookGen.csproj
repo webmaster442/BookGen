@@ -9,8 +9,8 @@
 		<Product>BookGen</Product>
 		<Description>A static Markdown book generator</Description>
 		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-		<AssemblyVersion>1.0.11.0</AssemblyVersion>
-		<FileVersion>1.0.11.0</FileVersion>
+		<AssemblyVersion>1.0.12.0</AssemblyVersion>
+		<FileVersion>1.0.12.0</FileVersion>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>BookGen</ToolCommandName>
@@ -23,7 +23,6 @@
 		<RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
 		<PackageTags>Book; Markdown; Static website</PackageTags>
 		<Authors>Ruzsinszki Gábor</Authors>
-		<Version>2020.05.26</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseFile>LICENCE</PackageLicenseFile>
     <RootNamespace>BookGen</RootNamespace>
@@ -49,20 +48,22 @@
 		<None Remove="Resources\Help.ChaptersModule.txt" />
 		<None Remove="Resources\Help.ConfigHelpModule.txt" />
 		<None Remove="Resources\Help.EditModule.txt" />
+		<None Remove="Resources\Help.ExternalLinksModule.txt" />
 		<None Remove="Resources\Help.General.txt" />
 		<None Remove="Resources\Help.GuiModule.txt" />
 		<None Remove="Resources\Help.ImgConvertModule.txt" />
 		<None Remove="Resources\Help.InitModule.txt" />
 		<None Remove="Resources\Help.InstallPSAutocompleteModule.txt" />
+		<None Remove="Resources\Help.Math2SvgModule.txt" />
 		<None Remove="Resources\Help.Md2HtmlModule.txt" />
 		<None Remove="Resources\Help.MdTableModule.txt" />
-		<None Remove="Resources\Help.PagegenModule.txt" />
 		<None Remove="Resources\Help.PreviewModule.txt" />
 		<None Remove="Resources\Help.ProjectConvertModule.txt" />
 		<None Remove="Resources\Help.ServeModule.txt" />
 		<None Remove="Resources\Help.SettingsModule.txt" />
 		<None Remove="Resources\Help.StatModule.txt" />
 		<None Remove="Resources\Help.StockSearchModule.txt" />
+		<None Remove="Resources\Help.TagsModule.txt" />
 		<None Remove="Resources\Help.VersionModule.txt" />
 		<None Remove="Resources\HelpEditModule.txt" />
 	</ItemGroup>
@@ -93,15 +94,17 @@
 		<EmbeddedResource Include="Resources\Help.GuiModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ImgConvertModule.txt" />
 		<EmbeddedResource Include="Resources\Help.InitModule.txt" />
+		<EmbeddedResource Include="Resources\Help.Math2SvgModule.txt" />
 		<EmbeddedResource Include="Resources\Help.Md2HtmlModule.txt" />
 		<EmbeddedResource Include="Resources\Help.MdTableModule.txt" />
-		<EmbeddedResource Include="Resources\Help.PagegenModule.txt" />
+		<EmbeddedResource Include="Resources\Help.ExternalLinksModule.txt" />
 		<EmbeddedResource Include="Resources\Help.PreviewModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ProjectConvertModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ServeModule.txt" />
 		<EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
 		<EmbeddedResource Include="Resources\Help.StatModule.txt" />
 		<EmbeddedResource Include="Resources\Help.StockSearchModule.txt" />
+		<EmbeddedResource Include="Resources\Help.TagsModule.txt" />
 		<EmbeddedResource Include="Resources\Help.VersionModule.txt" />
     <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
 	</ItemGroup>

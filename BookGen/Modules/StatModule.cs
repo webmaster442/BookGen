@@ -10,7 +10,6 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Utilities;
-using System;
 using System.IO;
 
 namespace BookGen.Modules
@@ -54,7 +53,7 @@ namespace BookGen.Modules
                     ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
                     bool result = loader.TryLoadProjectAndExecuteOperation((config, toc) =>
                     {
-                        var settings = loader.CreateRuntimeSettings(config, toc, new BuildConfig());
+                        var settings = loader.CreateRuntimeSettings(config, toc, new TagUtils(), new BuildConfig());
 
                         foreach (var link in settings.TocContents.Files)
                         {

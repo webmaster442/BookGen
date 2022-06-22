@@ -5,7 +5,6 @@
 
 using BookGen.Api;
 using BookGen.Core.Contracts;
-using System.Linq;
 
 namespace BookGen.Tests.Stubs
 {

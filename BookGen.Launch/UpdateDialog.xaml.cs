@@ -21,6 +21,8 @@ namespace BookGen.Launch
         #region ILog implementation
         public LogLevel LogLevel { get; set; }
 
+        public event EventHandler<LogEventArgs>? OnLogWritten;
+
         public void Log(LogLevel logLevel, string format, params object[] args)
         {
             Dispatcher.Invoke(() =>
@@ -28,7 +30,9 @@ namespace BookGen.Launch
                 string text = string.Format(format, args);
                 string line = string.Format("{0} | {1} | {2}", DateTime.Now.ToShortTimeString(), logLevel, text);
                 LogEntries.Add(line);
+                OnLogWritten?.Invoke(this, new LogEventArgs(logLevel, line));
             });
+
         }
 
         public void PrintLine(string str)

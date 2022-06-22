@@ -4,37 +4,36 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.ShellHelper.Domain;
-using System;
 
-namespace BookGen.ShellHelper.Code
+namespace BookGen.ShellHelper.Code;
+
+internal static class GitParser
 {
-    internal static class GitParser
+    public static GitStatus ParseStatus(string status)
     {
-        public static GitStatus ParseStatus(string status)
+        string[] lines = status.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+        if (lines.Length < 4)
+            return new GitStatus();
+
+        string[] inout = Extract(lines[3], "# branch.ab ").Split(' ');
+
+        return new GitStatus
         {
-            string[] lines = status.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            LastCommitId = Extract(lines[0], "# branch.oid "),
+            BranchName = Extract(lines[1], "# branch.head "),
+            IncommingCommits = int.Parse(inout[1]) * -1,
+            OutGoingCommits = int.Parse(inout[0]),
+            NotCommitedChanges = lines.Length - 4,
+        };
+    }
 
-            if (lines.Length < 4)
-                return new GitStatus();
-
-            string[] inout = Extract(lines[3], "# branch.ab ").Split(' ');
-
-            return new GitStatus
-            {
-                LastCommitId = Extract(lines[0], "# branch.oid "),
-                BranchName = Extract(lines[1], "# branch.head "),
-                IncommingCommits = int.Parse(inout[1]) * -1,
-                OutGoingCommits = int.Parse(inout[0]),
-            };
-        }
-
-        private static string Extract(string line, string begining)
+    private static string Extract(string line, string begining)
+    {
+        if (line.StartsWith(begining))
         {
-            if (line.StartsWith(begining))
-            {
-                return line[begining.Length..].Trim();
-            }
-            return string.Empty;
+            return line[begining.Length..].Trim();
         }
+        return string.Empty;
     }
 }

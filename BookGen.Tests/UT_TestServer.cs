@@ -3,12 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Tests.Environment;
-using Moq;
-using NUnit.Framework;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Webmaster442.HttpServerFramework;
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Handlers;

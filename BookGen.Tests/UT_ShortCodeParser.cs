@@ -8,9 +8,6 @@ using BookGen.Core.Configuration;
 using BookGen.Core.Contracts;
 using BookGen.Framework;
 using BookGen.Framework.Scripts;
-using Moq;
-using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace BookGen.Tests
 {

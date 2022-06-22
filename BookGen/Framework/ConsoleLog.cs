@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using System;
 using System.Diagnostics;
 using System.IO;
 using Webmaster442.HttpServerFramework;
@@ -14,6 +13,8 @@ namespace BookGen.Framework
     public sealed class ConsoleLog : ILog, IServerLog
     {
         private readonly TextWriter? _logFile;
+
+        public event EventHandler<LogEventArgs>? OnLogWritten;
 
         public ConsoleLog(bool logFile, LogLevel level = LogLevel.Info)
         {
@@ -69,6 +70,8 @@ namespace BookGen.Framework
                 _logFile?.WriteLine(line);
             }
 #endif
+
+            OnLogWritten?.Invoke(this, new LogEventArgs(logLevel, line));
         }
 
         public void Flush()

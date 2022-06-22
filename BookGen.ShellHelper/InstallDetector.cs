@@ -4,48 +4,45 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.ShellHelper.Domain;
-using System;
-using System.IO;
 
-namespace BookGen.ShellHelper
+namespace BookGen.ShellHelper;
+
+public static class InstallDetector
 {
-    public static class InstallDetector
+    public const string WindowsTerminalExe = "wt.exe";
+    public const string PowershellCoreExe = "ps.exe";
+    public const string VsCodeExe = "code.cmd";
+
+    public static InstallStatus GetInstallStatus()
     {
-        public const string WindowsTerminalExe = "wt.exe";
-        public const string PowershellCoreExe = "ps.exe";
-        public const string VsCodeExe = "code.cmd";
+        bool isWindowsTerminalInstalled = false;
+        bool isVSCodeInstalled = false;
+        bool isPsCoreInstalled = false;
 
-        public static InstallStatus GetInstallStatus()
+        string[] pathDirs = Environment.GetEnvironmentVariable("path")?.Split(';') ?? Array.Empty<string>();
+        foreach (var dir in pathDirs)
         {
-            bool isWindowsTerminalInstalled = false;
-            bool isVSCodeInstalled = false;
-            bool isPsCoreInstalled = false;
+            if (string.IsNullOrEmpty(dir)) continue;
 
-            string[] pathDirs = Environment.GetEnvironmentVariable("path")?.Split(';') ?? Array.Empty<string>();
-            foreach (var dir in pathDirs)
-            {
-                if (string.IsNullOrEmpty(dir)) continue;
+            string? terminalExecutable = Path.Combine(dir, WindowsTerminalExe);
+            string? vsCodeExecutable = Path.Combine(dir, VsCodeExe);
+            string? psCoreExecutable = Path.Combine(dir, PowershellCoreExe);
 
-                string? terminalExecutable = Path.Combine(dir, WindowsTerminalExe);
-                string? vsCodeExecutable = Path.Combine(dir, VsCodeExe);
-                string? psCoreExecutable = Path.Combine(dir, PowershellCoreExe);
+            if (File.Exists(terminalExecutable))
+                isWindowsTerminalInstalled = true;
 
-                if (File.Exists(terminalExecutable))
-                    isWindowsTerminalInstalled = true;
+            if (File.Exists(vsCodeExecutable))
+                isVSCodeInstalled = true;
 
-                if (File.Exists(vsCodeExecutable))
-                    isVSCodeInstalled = true;
-
-                if (File.Exists(psCoreExecutable))
-                    isPsCoreInstalled = true;
-            }
-
-            return new InstallStatus
-            {
-                IsPsCoreInstalled = isPsCoreInstalled,
-                IsWindowsTerminalInstalled = isWindowsTerminalInstalled,
-                IsVSCodeInstalled = isVSCodeInstalled
-            };
+            if (File.Exists(psCoreExecutable))
+                isPsCoreInstalled = true;
         }
+
+        return new InstallStatus
+        {
+            IsPsCoreInstalled = isPsCoreInstalled,
+            IsWindowsTerminalInstalled = isWindowsTerminalInstalled,
+            IsVSCodeInstalled = isVSCodeInstalled
+        };
     }
 }

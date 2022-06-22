@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework.Scripts;
-using NUnit.Framework;
 
 namespace BookGen.Tests
 {

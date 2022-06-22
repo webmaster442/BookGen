@@ -4,11 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Framework.Shortcodes;
-using BookGen.Tests.Environment;
-using Moq;
-using NUnit.Framework;
-using System.Linq;
 
 namespace BookGen.Tests
 {

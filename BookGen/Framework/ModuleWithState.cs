@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using System;
 using System.IO;
 
 namespace BookGen.Framework

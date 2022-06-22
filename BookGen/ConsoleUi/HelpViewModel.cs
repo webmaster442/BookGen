@@ -1,12 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Gui.Mvvm;
 using BookGen.Modules;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BookGen.ConsoleUi
 {
