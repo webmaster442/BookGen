@@ -1,20 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<Authors>Ruzsinszki Gábor</Authors>
-		<Company>Ruzsinszki Gábor</Company>
 		<Product>BookGen</Product>
-		<OutputPath>..\bin\$(Configuration)\</OutputPath>
-		<Description>BookGen default template files &amp; template processor</Description>
-		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-		<PackageLicenseExpression></PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
-		<AssemblyVersion>1.0.0.0</AssemblyVersion>
-		<FileVersion>1.0.0.0</FileVersion>
+		<OutputPath>..\..\bin\$(Configuration)\</OutputPath>
 		<Nullable>enable</Nullable>
-		<PackageLicenseFile>LICENCE</PackageLicenseFile>
+    <ImplicitUsings>enable</ImplicitUsings>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
@@ -47,10 +38,6 @@
 		<None Remove="JsCss\tex-mml-svg.js" />
 		<None Remove="JsCss\turbolinks.js" />
 		<None Remove="Powershell\updater.ps1" />
-		<None Include="..\LICENCE">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -80,7 +67,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+	  <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
 	</ItemGroup>
+
 
 </Project>
