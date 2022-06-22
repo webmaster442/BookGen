@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Gui.XmlEntities;
-using System;
 using Terminal.Gui;
 
 namespace BookGen.Gui
@@ -25,7 +24,7 @@ namespace BookGen.Gui
 
         private void Render(XSPlitView xSPlitView)
         {
-            foreach (var child in xSPlitView.Children)
+            foreach (XView? child in xSPlitView.Children)
             {
                 switch (child)
                 {

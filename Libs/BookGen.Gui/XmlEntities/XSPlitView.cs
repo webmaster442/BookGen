@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace BookGen.Gui.XmlEntities

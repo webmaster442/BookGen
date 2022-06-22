@@ -7,7 +7,7 @@ namespace BookGen.Domain
 {
     public abstract class ArgumentsBase
     {
-        public string[] Files { get; internal set; }
+        public string[] Files { get; set; }
 
         protected ArgumentsBase()
         {

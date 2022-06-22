@@ -5,9 +5,7 @@
 
 using BookGen.Gui.Mvvm;
 using BookGen.Gui.XmlEntities;
-using System;
 using System.Diagnostics;
-using System.IO;
 using System.Xml.Serialization;
 using Terminal.Gui;
 
@@ -125,7 +123,7 @@ namespace BookGen.Gui
 
         private XWindow? DeserializeXmlView(Stream view)
         {
-            XmlSerializer xs = new XmlSerializer(typeof(XWindow));
+            var xs = new XmlSerializer(typeof(XWindow));
             return xs.Deserialize(view) as XWindow;
         }
 

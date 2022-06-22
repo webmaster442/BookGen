@@ -5,9 +5,6 @@
 
 using BookGen.Gui.XmlEntities;
 using NStack;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Terminal.Gui;
 
 namespace BookGen.Gui
@@ -49,7 +46,7 @@ namespace BookGen.Gui
             Height = Dim.Fill();
             Title = window.Title;
 
-            foreach (var child in window.Children)
+            foreach (XView? child in window.Children)
             {
                 switch (child)
                 {
@@ -136,10 +133,10 @@ namespace BookGen.Gui
 
         private void RenderTextBlock(XTextBlock textBlock)
         {
-            var lines = textBlock.Text?.ToString().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[]? lines = textBlock.Text?.ToString().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
             if (lines == null) return;
             int row = textBlock.Top;
-            foreach (var line in lines)
+            foreach (string? line in lines)
             {
                 var label = new Label(line)
                 {

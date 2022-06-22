@@ -1,16 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<Product>BookGen</Product>
-		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-		<OutputPath>..\bin\$(Configuration)\</OutputPath>
-		<Authors>Ruzsinszki Gábor</Authors>
-		<PackageLicenseExpression></PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/webmaster442/BookGen</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/webmaster442/BookGen</RepositoryUrl>
-		<PackageLicenseFile>LICENCE</PackageLicenseFile>
+		<OutputPath>..\..\bin\$(Configuration)\</OutputPath>
+    <ImplicitUsings>enable</ImplicitUsings>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
@@ -20,14 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\LICENCE">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
+	  <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />
 	</ItemGroup>
 
 </Project>

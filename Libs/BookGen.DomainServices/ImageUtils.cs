@@ -116,7 +116,6 @@ namespace BookGen.DomainServices
 
             (int renderWidth, int renderHeight, float scale) = CalcNewSize(new SKRect(0, 0, input.Width, input.Height), w, h);
 
-
             return input.Resize(new SKImageInfo(renderWidth, renderHeight), SKFilterQuality.High);
         }
 

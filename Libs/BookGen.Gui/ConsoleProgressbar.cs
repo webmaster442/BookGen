@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace BookGen.Gui
@@ -39,9 +37,9 @@ namespace BookGen.Gui
 
         public void Report(int value, string message, params object[] args)
         {
-            int range = (Maximum - Minimum);
+            int range = Maximum - Minimum;
             int maxChars = Console.WindowWidth - "   ││   ".Length;
-            int charcount = (value * maxChars) / range;
+            int charcount = value * maxChars / range;
             var buffer = new StringBuilder();
 
             buffer.Append("   │");
@@ -54,7 +52,7 @@ namespace BookGen.Gui
             }
             buffer.Append("│   ");
 
-            var height = (Console.WindowHeight - 3) / 2;
+            int height = (Console.WindowHeight - 3) / 2;
 
             Console.SetCursorPosition(0, height);
             Console.Write(buffer.ToString());
@@ -64,7 +62,7 @@ namespace BookGen.Gui
 
         public void Report(IEnumerable<string> value)
         {
-            foreach (var item in value)
+            foreach (string? item in value)
             {
                 Console.WriteLine(item);
             }

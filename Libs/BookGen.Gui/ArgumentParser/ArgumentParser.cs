@@ -3,21 +3,20 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
-using System;
-using System.Collections.Generic;
+using BookGen.Domain;
+using BookGen.Interfaces;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
+using SwitchAttribute = BookGen.Domain.SwitchAttribute;
 
 namespace BookGen.Gui.ArgumentParser
 {
     public static class ArgumentParser
     {
-        private static readonly Dictionary<SwitchAttribute, PropertyInfo> _properties = new Dictionary<SwitchAttribute, PropertyInfo>();
-        private static readonly List<string> _files = new List<string>();
+        private static readonly Dictionary<SwitchAttribute, PropertyInfo> _properties = new();
+        private static readonly List<string> _files = new();
         private static int _filled = 0;
         private static int _required = 0;
 
@@ -28,7 +27,6 @@ namespace BookGen.Gui.ArgumentParser
             _required = 0;
             Type tType = typeof(T);
 
-
             Inialize(tType);
             WalkArgsAndFillClass(args, ref targetClass);
 
@@ -37,7 +35,7 @@ namespace BookGen.Gui.ArgumentParser
                 && targetClass.Validate();
         }
 
-        private static SwitchAttribute? GetSwitchAttrubute(PropertyInfo property)
+        private static Domain.SwitchAttribute? GetSwitchAttrubute(PropertyInfo property)
         {
             return property
                 .GetCustomAttributes()
@@ -47,9 +45,9 @@ namespace BookGen.Gui.ArgumentParser
         private static void Inialize(Type tType)
         {
             PropertyInfo[]? props = tType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var property in props)
+            foreach (PropertyInfo? property in props)
             {
-                SwitchAttribute? sw = GetSwitchAttrubute(property);
+                Domain.SwitchAttribute? sw = GetSwitchAttrubute(property);
                 if (sw != null)
                 {
                     if (!sw.NamingGood)
@@ -64,9 +62,9 @@ namespace BookGen.Gui.ArgumentParser
         private static string ParseSwitch(string current)
         {
             if (current.StartsWith("--"))
-                return current.Substring(2);
+                return current[2..];
             else if (current.StartsWith("-"))
-                return current.Substring(1);
+                return current[1..];
             else
                 return current;
         }
@@ -135,7 +133,7 @@ namespace BookGen.Gui.ArgumentParser
                 }
                 else if (currenttype == typeof(FsPath))
                 {
-                    FsPath path = new FsPath(System.IO.Path.GetFullPath(value));
+                    var path = new FsPath(System.IO.Path.GetFullPath(value));
 
                     prop.SetValue(targetClass, path);
                     ++_filled;
@@ -160,7 +158,6 @@ namespace BookGen.Gui.ArgumentParser
 #endif
                     }
                 }
-
             }
             else
             {

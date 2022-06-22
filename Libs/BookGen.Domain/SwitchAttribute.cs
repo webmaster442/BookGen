@@ -20,7 +20,7 @@ namespace BookGen.Domain
             Required = required;
         }
 
-        internal bool NamingGood => !ShortName.StartsWith("-") && !LongName.StartsWith("--");
+        public bool NamingGood => !ShortName.StartsWith("-") && !LongName.StartsWith("--");
 
         public override bool Equals(object? obj)
         {

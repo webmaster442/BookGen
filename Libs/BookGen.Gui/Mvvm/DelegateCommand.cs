@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-
 namespace BookGen.Gui.Mvvm
 {
     public sealed class DelegateCommand
