@@ -3,11 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Configuration;
 using BookGen.Domain;
+using BookGen.Domain.Configuration;
+using System.Text;
 using System.Web;
 
-namespace BookGen.Utilities
+namespace BookGen.DomainServices
 {
     public static class MetaExtensions
     {

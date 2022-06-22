@@ -3,12 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Contracts;
-using BookGen.Core.Markdown.Modifiers;
+using BookGen.DomainServices.Markdown.Modifiers;
+using BookGen.Interfaces;
 using Markdig;
-using System;
 
-namespace BookGen.Core.Markdown
+namespace BookGen.DomainServices.Markdown
 {
     public sealed class BookGenPipeline : IDisposable
     {
@@ -53,7 +52,7 @@ namespace BookGen.Core.Markdown
         {
             if (MarkdownPipeline == null) return;
 
-            foreach (var extension in MarkdownPipeline.Extensions)
+            foreach (IMarkdownExtension? extension in MarkdownPipeline.Extensions)
             {
                 if (extension is IMarkdownExtensionWithRuntimeConfig configurable)
                 {
@@ -66,7 +65,7 @@ namespace BookGen.Core.Markdown
         {
             if (MarkdownPipeline == null) return;
 
-            foreach (var extension in MarkdownPipeline.Extensions)
+            foreach (IMarkdownExtension? extension in MarkdownPipeline.Extensions)
             {
                 if (extension is IMarkdownExtensionWithPath hasPath)
                 {
@@ -79,7 +78,7 @@ namespace BookGen.Core.Markdown
         {
             if (MarkdownPipeline == null) return;
 
-            foreach (var extension in MarkdownPipeline.Extensions)
+            foreach (IMarkdownExtension? extension in MarkdownPipeline.Extensions)
             {
                 if (extension is IMarkdownExtensionWithSyntaxToggle toggle)
                 {
@@ -102,7 +101,7 @@ namespace BookGen.Core.Markdown
         {
             if (MarkdownPipeline == null) return;
 
-            foreach (var extension in MarkdownPipeline.Extensions)
+            foreach (IMarkdownExtension? extension in MarkdownPipeline.Extensions)
             {
                 if (extension is IDisposable disposable)
                 {

@@ -3,12 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BookGen.Core.Markdown
+namespace BookGen.DomainServices.Markdown
 {
     public class TableReformatter
     {
@@ -41,27 +39,27 @@ namespace BookGen.Core.Markdown
 
         private string ReformatTable(string input)
         {
-            var rows = input.Split('\n');
+            string[]? rows = input.Split('\n');
 
-            List<string[]> table = new List<string[]>(rows.Length);
-            List<int[]> cellwidths = new List<int[]>();
+            var table = new List<string[]>(rows.Length);
+            var cellwidths = new List<int[]>();
             PaddingMode paddingMode = PaddingMode.Left;
 
             int colcount = 0;
-            foreach (var row in rows)
+            foreach (string? row in rows)
             {
-                var columns = from column in row.Trim().Split('|')
-                              where column.Trim().Length > 0
-                              select column.Trim();
+                IEnumerable<string>? columns = from column in row.Trim().Split('|')
+                                               where column.Trim().Length > 0
+                                               select column.Trim();
 
-                var columnLengths = from column in columns
-                                    where column.Length > 0
-                                    select column.Length;
+                IEnumerable<int>? columnLengths = from column in columns
+                                                  where column.Length > 0
+                                                  select column.Length;
 
                 if (!ContainsDividerRow(columns))
                 {
-                    var cols = columns.ToArray();
-                    var lengths = columnLengths.ToArray();
+                    string[]? cols = columns.ToArray();
+                    int[]? lengths = columnLengths.ToArray();
                     table.Add(cols);
                     cellwidths.Add(lengths);
 
@@ -81,11 +79,11 @@ namespace BookGen.Core.Markdown
 
         private static List<int> CalculatePaddingSizes(List<string[]> table, int colcount)
         {
-            List<int> padsizes = new List<int>(colcount);
+            var padsizes = new List<int>(colcount);
             for (int i = 0; i < colcount; i++)
             {
                 int padsize = 0;
-                foreach (var row in table)
+                foreach (string[]? row in table)
                 {
                     if (row == null || row.Length < 1) continue;
 
@@ -100,7 +98,7 @@ namespace BookGen.Core.Markdown
 
         private string CreateResultMarkdownTable(List<string[]> table, PaddingMode paddingMode, List<int> padsizes)
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
 
             int insetedRow = 0;
             for (int i = 0; i < table.Count; ++i)

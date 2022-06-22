@@ -5,7 +5,7 @@
 
 namespace BookGen.Domain
 {
-    internal static class Constants
+    public static class Constants
     {
         public const string WikiUrl = "https://github.com/webmaster442/BookGen/wiki";
 

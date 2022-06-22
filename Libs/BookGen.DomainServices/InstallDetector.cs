@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.ShellHelper.Domain;
+using BookGen.Domain.Terminal;
 
-namespace BookGen.ShellHelper;
+namespace BookGen.DomainServices;
 
 public static class InstallDetector
 {
@@ -20,7 +20,7 @@ public static class InstallDetector
         bool isPsCoreInstalled = false;
 
         string[] pathDirs = Environment.GetEnvironmentVariable("path")?.Split(';') ?? Array.Empty<string>();
-        foreach (var dir in pathDirs)
+        foreach (string? dir in pathDirs)
         {
             if (string.IsNullOrEmpty(dir)) continue;
 

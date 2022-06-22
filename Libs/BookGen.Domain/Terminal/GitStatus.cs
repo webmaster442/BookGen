@@ -1,6 +1,6 @@
 ﻿namespace BookGen.Domain.Terminal;
 
-internal record GitStatus
+public record GitStatus
 {
     public int OutGoingCommits { get; init; }
     public int IncommingCommits { get; init; }
@@ -13,5 +13,4 @@ internal record GitStatus
         BranchName = string.Empty;
         LastCommitId = string.Empty;
     }
-
 }

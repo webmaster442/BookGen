@@ -5,7 +5,7 @@
 
 using System.Globalization;
 
-namespace BookGen.Utilities
+namespace BookGen.DomainServices
 {
     internal static class StringExtensions
     {

@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.ShellHelper.Domain;
+using BookGen.Domain.Terminal;
 
-namespace BookGen.ShellHelper.Code;
+namespace BookGen.DomainServices;
 
 internal static class GitParser
 {

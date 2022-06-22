@@ -4,16 +4,14 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using System;
-using System.Collections.Generic;
-using System.IO;
+using BookGen.Interfaces;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Serialization;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace BookGen.Core
+namespace BookGen.DomainServices
 {
     public static class FsUtils
     {
@@ -55,10 +53,10 @@ namespace BookGen.Core
                 foreach (string newPath in Directory.GetFiles(sourceDirectory.ToString(), "*.*",
                     SearchOption.AllDirectories))
                 {
-                    var targetfile = newPath.Replace(sourceDirectory.ToString(), TargetDir.ToString());
+                    string? targetfile = newPath.Replace(sourceDirectory.ToString(), TargetDir.ToString());
                     log.Detail("Copy file: {0} to {1}", newPath, targetfile);
 
-                    var targetDir = Path.GetDirectoryName(targetfile);
+                    string? targetDir = Path.GetDirectoryName(targetfile);
                     if (targetDir != null && !Directory.Exists(targetDir))
                     {
                         log.Detail("Creating directory: {0}", targetDir);
@@ -87,7 +85,7 @@ namespace BookGen.Core
                     return false;
                 }
 
-                var dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
+                string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
                 if (!Directory.Exists(dir))
                 {
                     log.Detail("Creating directory: {0}", dir);
@@ -108,7 +106,7 @@ namespace BookGen.Core
 
         public static FileStream CreateStream(this FsPath target, ILog log)
         {
-            var dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
+            string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
             if (!Directory.Exists(dir))
             {
                 log.Detail("Creating directory: {0}", dir);
@@ -160,14 +158,14 @@ namespace BookGen.Core
         {
             try
             {
-                FileInfo fileInfo = new FileInfo(target.ToString());
+                var fileInfo = new FileInfo(target.ToString());
 
                 if (!fileInfo.Exists && fileInfo.Directory != null)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
 
-                using (var writer = File.CreateText(target.ToString()))
+                using (StreamWriter? writer = File.CreateText(target.ToString()))
                 {
-                    foreach (var content in contents)
+                    foreach (string? content in contents)
                     {
                         writer.Write(content);
                     }
@@ -187,11 +185,11 @@ namespace BookGen.Core
         {
             try
             {
-                using (var reader = File.OpenText(path.ToString()))
+                using (StreamReader? reader = File.OpenText(path.ToString()))
                 {
                     if (appendExtraLine)
                     {
-                        StringBuilder buffer = new StringBuilder(reader.ReadToEnd());
+                        var buffer = new StringBuilder(reader.ReadToEnd());
                         buffer.AppendLine();
                         return buffer.ToString();
                     }
@@ -211,8 +209,8 @@ namespace BookGen.Core
         {
             try
             {
-                List<string> lines = new List<string>(100);
-                using (var reader = File.OpenText(path.ToString()))
+                var lines = new List<string>(100);
+                using (StreamReader? reader = File.OpenText(path.ToString()))
                 {
                     string? line;
                     do
@@ -237,8 +235,8 @@ namespace BookGen.Core
 
         public static void ProtectDirectory(this FsPath directory, ILog log)
         {
-            var outp = directory.Combine("index.html");
-            StringBuilder sb = new StringBuilder(4096);
+            FsPath? outp = directory.Combine("index.html");
+            var sb = new StringBuilder(4096);
             for (int i = 0; i < 256; i++)
             {
                 sb.Append("                ");
@@ -249,7 +247,7 @@ namespace BookGen.Core
         public static IEnumerable<FsPath> GetAllFiles(this FsPath directory, bool recursive = true, string mask = "*.*")
         {
             SearchOption searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-            foreach (var file in Directory.GetFiles(directory.ToString(), mask, searchOption))
+            foreach (string? file in Directory.GetFiles(directory.ToString(), mask, searchOption))
             {
                 yield return new FsPath(file);
             }
@@ -259,7 +257,7 @@ namespace BookGen.Core
         {
             try
             {
-                FileInfo fileInfo = new FileInfo(path.ToString());
+                var fileInfo = new FileInfo(path.ToString());
 
                 if (!fileInfo.Exists && fileInfo.Directory != null)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
@@ -268,14 +266,14 @@ namespace BookGen.Core
                 if (nslist != null)
                 {
                     xnames = new XmlSerializerNamespaces();
-                    foreach (var ns in nslist)
+                    foreach ((string prefix, string namespac) in nslist)
                     {
-                        xnames.Add(ns.prefix, ns.namespac);
+                        xnames.Add(prefix, namespac);
                     }
                 }
 
-                XmlSerializer xs = new XmlSerializer(typeof(T));
-                using (var writer = File.Create(path.ToString()))
+                var xs = new XmlSerializer(typeof(T));
+                using (FileStream? writer = File.Create(path.ToString()))
                 {
                     if (xnames == null)
                         xs.Serialize(writer, obj);
@@ -297,19 +295,19 @@ namespace BookGen.Core
         {
             try
             {
-                FileInfo fileInfo = new FileInfo(path.ToString());
+                var fileInfo = new FileInfo(path.ToString());
 
                 if (!fileInfo.Exists && fileInfo.Directory != null)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
 
-                byte[] serialized = JsonSerializer.SerializeToUtf8Bytes<T>(obj, new JsonSerializerOptions
+                byte[] serialized = JsonSerializer.SerializeToUtf8Bytes(obj, new JsonSerializerOptions
                 {
                     WriteIndented = indent,
                     Converters =
                     {
                         new CultureInfoConverter()
                     }
-                }); 
+                });
 
                 File.WriteAllBytes(path.ToString(), serialized);
 
@@ -327,7 +325,7 @@ namespace BookGen.Core
         {
             try
             {
-                using (var reader = File.OpenText(path.ToString()))
+                using (StreamReader? reader = File.OpenText(path.ToString()))
                 {
                     string text = reader.ReadToEnd();
                     return JsonSerializer.Deserialize<T>(text, new JsonSerializerOptions
@@ -351,18 +349,18 @@ namespace BookGen.Core
         {
             try
             {
-                FileInfo fileInfo = new FileInfo(path.ToString());
+                var fileInfo = new FileInfo(path.ToString());
 
                 if (!fileInfo.Exists && fileInfo.Directory != null)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
 
 
-                var serializer = new SerializerBuilder()
+                ISerializer? serializer = new SerializerBuilder()
                     .WithNamingConvention(CamelCaseNamingConvention.Instance)
                     .WithTypeConverter(new CultureInfoConverter())
                     .Build();
 
-                var yaml = serializer.Serialize(obj);
+                string? yaml = serializer.Serialize(obj);
 
                 File.WriteAllText(path.ToString(), yaml);
 
@@ -380,11 +378,11 @@ namespace BookGen.Core
         {
             try
             {
-                using (var reader = File.OpenText(path.ToString()))
+                using (StreamReader? reader = File.OpenText(path.ToString()))
                 {
                     string text = reader.ReadToEnd();
 
-                    var deserializer = new DeserializerBuilder()
+                    IDeserializer? deserializer = new DeserializerBuilder()
                         .WithNamingConvention(CamelCaseNamingConvention.Instance)
                         .WithTypeConverter(new CultureInfoConverter())
                         .Build();
@@ -406,7 +404,7 @@ namespace BookGen.Core
             {
                 if (path.ToString().StartsWith("../"))
                 {
-                    path = new FsPath(path.ToString().Substring(3));
+                    path = new FsPath(path.ToString()[3..]);
                 }
 
                 string filespec = path.ToString();
@@ -435,18 +433,18 @@ namespace BookGen.Core
                 if (file.Extension == null)
                     folder = Path.GetDirectoryName(file.ToString()) ?? string.Empty;
 
-                Uri pathUri = new Uri(filespec);
+                var pathUri = new Uri(filespec);
 
                 if (folder.EndsWith(Path.DirectorySeparatorChar.ToString()) == false)
                 {
                     folder += Path.DirectorySeparatorChar;
                 }
 
-                Uri folderUri = new Uri(folder);
+                var folderUri = new Uri(folder);
 
-                var relatvie = folderUri.MakeRelativeUri(pathUri).ToString();
+                string? relatvie = folderUri.MakeRelativeUri(pathUri).ToString();
 
-                var ret = Uri.UnescapeDataString(relatvie.Replace('/', Path.DirectorySeparatorChar));
+                string? ret = Uri.UnescapeDataString(relatvie.Replace('/', Path.DirectorySeparatorChar));
                 return new FsPath(ret);
             }
             catch (UriFormatException)
@@ -457,7 +455,7 @@ namespace BookGen.Core
 
         public static FsPath GetDirectory(this FsPath path)
         {
-            var fullpath = Path.GetFullPath(path.ToString());
+            string? fullpath = Path.GetFullPath(path.ToString());
             return new FsPath(Path.GetDirectoryName(fullpath) ?? string.Empty);
         }
 
@@ -468,7 +466,7 @@ namespace BookGen.Core
 
         public static FsPath ChangeExtension(this FsPath path, string extension)
         {
-            var x = Path.ChangeExtension(path.ToString(), extension);
+            string? x = Path.ChangeExtension(path.ToString(), extension);
             return new FsPath(x);
         }
 

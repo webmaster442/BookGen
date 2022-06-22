@@ -9,9 +9,8 @@ using Markdig;
 using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using System.IO;
 
-namespace BookGen.Utilities
+namespace BookGen.DomainServices
 {
     internal static class MarkdownUtils
     {
@@ -22,12 +21,12 @@ namespace BookGen.Utilities
         /// <returns>List of files</returns>
         public static ToC ParseToc(string content)
         {
-            ToC parsed = new ToC();
-            var pipeline = new MarkdownPipelineBuilder().UseAutoIdentifiers(AutoIdentifierOptions.GitHub).Build();
-            var doc = Markdown.Parse(content, pipeline);
+            var parsed = new ToC();
+            MarkdownPipeline? pipeline = new MarkdownPipelineBuilder().UseAutoIdentifiers(AutoIdentifierOptions.GitHub).Build();
+            var doc = Markdig.Markdown.Parse(content, pipeline);
 
             string? chapterTitle = string.Empty;
-            List<Link>? chapterLinks = new List<Link>();
+            var chapterLinks = new List<Link>();
             foreach (MarkdownObject item in doc.Descendants())
             {
                 if (item is HeadingBlock heading)

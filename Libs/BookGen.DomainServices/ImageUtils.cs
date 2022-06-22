@@ -4,50 +4,33 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Interfaces;
 using SkiaSharp;
 using Svg.Skia;
 
-namespace BookGen.Utilities
+namespace BookGen.DomainServices
 {
     internal static class ImageUtils
     {
         public static bool IsImage(FsPath file)
         {
-            switch (file.Extension)
+            return file.Extension switch
             {
-                case ".png":
-                case ".jpg":
-                case ".jpeg":
-                case ".svg":
-                case ".gif":
-                case ".webp":
-                    return true;
-                default:
-                    return false;
-            }
+                ".png" or ".jpg" or ".jpeg" or ".svg" or ".gif" or ".webp" => true,
+                _ => false,
+            };
         }
 
         public static SKEncodedImageFormat GetSkiaImageFormat(string extension)
         {
-            switch (extension.ToLower())
+            return extension.ToLower() switch
             {
-                case ".png":
-                case "png":
-                    return SKEncodedImageFormat.Png;
-                case ".jpg":
-                case "jpg":
-                case ".jpeg":
-                case "jpeg":
-                    return SKEncodedImageFormat.Jpeg;
-                case ".gif":
-                case "gif":
-                    return SKEncodedImageFormat.Gif;
-                case ".webp":
-                case "webp":
-                    return SKEncodedImageFormat.Webp;
-                default:
-                    throw new InvalidOperationException("Unknown file type");
-            }
+                ".png" or "png" => SKEncodedImageFormat.Png,
+                ".jpg" or "jpg" or ".jpeg" or "jpeg" => SKEncodedImageFormat.Jpeg,
+                ".gif" or "gif" => SKEncodedImageFormat.Gif,
+                ".webp" or "webp" => SKEncodedImageFormat.Webp,
+                _ => throw new InvalidOperationException("Unknown file type"),
+            };
         }
 
         public static SKEncodedImageFormat GetSkiaImageFormat(FsPath file)
@@ -84,7 +67,6 @@ namespace BookGen.Utilities
             return (renderWidth: (int)(size.Width * scale),
                     renderHeight: (int)(size.Height * scale),
                     scale);
-
         }
 
         public static SKData EncodeSvg(FsPath svgFile, int maxWidht, int maxHeight, SKEncodedImageFormat format = SKEncodedImageFormat.Png)
@@ -97,19 +79,19 @@ namespace BookGen.Utilities
 
             SKRect svgSize = svg.Picture.CullRect;
 
-            (int renderWidth, int renderHeight, float scale) sizeData = CalcNewSize(svgSize, maxWidht, maxHeight);
+            (int renderWidth, int renderHeight, float scale) = CalcNewSize(svgSize, maxWidht, maxHeight);
 
-            var matrix = SKMatrix.CreateScale(sizeData.scale, sizeData.scale);
+            var matrix = SKMatrix.CreateScale(scale, scale);
 
-            using (SKBitmap bitmap = new SKBitmap(sizeData.renderWidth, sizeData.renderHeight))
+            using (var bitmap = new SKBitmap(renderWidth, renderHeight))
             {
-                using (SKCanvas canvas = new SKCanvas(bitmap))
+                using (var canvas = new SKCanvas(bitmap))
                 {
                     canvas.DrawPicture(svg.Picture, ref matrix);
                     canvas.Flush();
                 }
 
-                using (SKImage image = SKImage.FromBitmap(bitmap))
+                using (var image = SKImage.FromBitmap(bitmap))
                 {
                     return image.Encode(format, 100);
                 }
@@ -132,15 +114,15 @@ namespace BookGen.Utilities
             if (input.Width < w && input.Height < h)
                 return input;
 
-            (int renderWidth, int renderHeight, float scale) sizeData = CalcNewSize(new SKRect(0, 0, input.Width, input.Height), w, h);
+            (int renderWidth, int renderHeight, float scale) = CalcNewSize(new SKRect(0, 0, input.Width, input.Height), w, h);
 
 
-            return input.Resize(new SKImageInfo(sizeData.renderWidth, sizeData.renderHeight), SKFilterQuality.High);
+            return input.Resize(new SKImageInfo(renderWidth, renderHeight), SKFilterQuality.High);
         }
 
         public static SKData EncodeToFormat(SKBitmap bitmap, SKEncodedImageFormat format, int quality = 100)
         {
-            using (SKImage image = SKImage.FromBitmap(bitmap))
+            using (var image = SKImage.FromBitmap(bitmap))
             {
                 return image.Encode(format, quality);
             }
@@ -162,7 +144,7 @@ namespace BookGen.Utilities
                 using (SKBitmap resized = ResizeIfBigger(image, width, height))
                 {
                     using SKData encoded = EncodeToFormat(resized, targetFormat, quality);
-                    using (var stream = output.CreateStream(log))
+                    using (FileStream? stream = output.CreateStream(log))
                     {
                         try
                         {

@@ -3,9 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
-namespace BookGen.Core
+namespace BookGen.DomainServices
 {
     public abstract class Validator
     {

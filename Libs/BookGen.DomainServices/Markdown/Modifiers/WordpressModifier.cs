@@ -3,14 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
+using BookGen.Domain.Configuration;
+using BookGen.Interfaces;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
-using System;
 
-namespace BookGen.Core.Markdown.Modifiers
+namespace BookGen.DomainServices.Markdown.Modifiers
 {
     public sealed class WordpressModifier : IMarkdownExtensionWithRuntimeConfig, IDisposable
     {

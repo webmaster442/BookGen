@@ -5,10 +5,9 @@
 
 using BookGen.Resources;
 using Microsoft.ClearScript.V8;
-using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace BookGen.Core
+namespace BookGen.DomainServices
 {
     public sealed class JavaScriptInterop : IDisposable
     {

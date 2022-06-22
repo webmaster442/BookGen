@@ -3,11 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Text;
 
-namespace BookGen.Core.Markdown
+namespace BookGen.DomainServices.Markdown
 {
     public static class MarkdownTableConverter
     {
@@ -15,7 +13,7 @@ namespace BookGen.Core.Markdown
         {
             List<string[]> table = ParseTable(input, delimiter);
 
-            StringBuilder md = new StringBuilder();
+            var md = new StringBuilder();
             for (int i = 0; i < table.Count; i++)
             {
                 WriteRow(md, table[i]);
@@ -43,7 +41,7 @@ namespace BookGen.Core.Markdown
 
         private static void WriteRow(StringBuilder md, string[] columns)
         {
-            foreach (var column in columns)
+            foreach (string? column in columns)
             {
                 md.Append("| ");
                 md.Append(column);
@@ -54,11 +52,11 @@ namespace BookGen.Core.Markdown
 
         private static List<string[]> ParseTable(string input, char delimiter)
         {
-            var lines = input.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-            List<string[]> table = new List<string[]>(lines.Length);
-            foreach (var line in lines)
+            string[]? lines = input.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            var table = new List<string[]>(lines.Length);
+            foreach (string? line in lines)
             {
-                var columns = line.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
+                string[]? columns = line.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
                 table.Add(columns);
             }
             return table;

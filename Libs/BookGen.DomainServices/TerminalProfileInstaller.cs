@@ -3,10 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.ShellHelper.Domain;
+using BookGen.Domain.Terminal;
 using System.Text.Json;
 
-namespace BookGen.ShellHelper;
+namespace BookGen.DomainServices;
 
 public static class TerminalProfileInstaller
 {
@@ -57,7 +57,7 @@ public static class TerminalProfileInstaller
 
     public static bool? TryInstall()
     {
-        var installStatus = InstallDetector.GetInstallStatus();
+        InstallStatus? installStatus = InstallDetector.GetInstallStatus();
         if (!installStatus.IsWindowsTerminalInstalled)
             return null;
 

@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Configuration;
+using BookGen.Domain.Configuration;
 
-namespace BookGen.Core
+namespace BookGen.DomainServices
 {
     public static class ConfigExtensions
     {
@@ -25,7 +25,7 @@ namespace BookGen.Core
         private static void UpgradeTranslations(Translations translations)
         {
             var defaults = Translations.CreateDefault();
-            foreach (var item in defaults)
+            foreach (KeyValuePair<string, string> item in defaults)
             {
                 if (!translations.ContainsKey(item.Key))
                 {

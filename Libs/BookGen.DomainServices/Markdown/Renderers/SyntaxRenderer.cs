@@ -9,7 +9,7 @@ using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using System.Text;
 
-namespace BookGen.Core.Markdown.Renderers
+namespace BookGen.DomainServices.Markdown.Renderers
 {
     internal class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>
     {
@@ -28,13 +28,13 @@ namespace BookGen.Core.Markdown.Renderers
         {
             var code = new StringBuilder();
             firstLine = null;
-            foreach (var line in obj.Lines.Lines)
+            foreach (Markdig.Helpers.StringLine line in obj.Lines.Lines)
             {
-                var slice = line.Slice;
+                Markdig.Helpers.StringSlice slice = line.Slice;
                 if (slice.Text == null)
                     continue;
 
-                var lineText = slice.Text.Substring(slice.Start, slice.Length);
+                string? lineText = slice.Text.Substring(slice.Start, slice.Length);
 
                 if (firstLine == null)
                     firstLine = lineText;
@@ -62,23 +62,23 @@ namespace BookGen.Core.Markdown.Renderers
                 _underlyingRenderer.Write(renderer, obj);
                 return;
             }
-            var languageMoniker = fencedCodeBlock.Info.Replace(parser.InfoPrefix, string.Empty);
+            string? languageMoniker = fencedCodeBlock.Info.Replace(parser.InfoPrefix, string.Empty);
             if (string.IsNullOrEmpty(languageMoniker))
             {
                 _underlyingRenderer.Write(renderer, obj);
                 return;
             }
 
-            var code = GetCode(obj, out _);
+            string? code = GetCode(obj, out _);
 
-            var rendered = Render(code, languageMoniker);
+            string? rendered = Render(code, languageMoniker);
 
             renderer.Write(rendered);
         }
 
         private string Render(string code, string languageMoniker)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.AppendFormat("<pre><code class=\"language-{0}\">\r\n", languageMoniker);
             sb.AppendLine(_interop.SyntaxHighlight(code, languageMoniker));
             sb.AppendLine("</code></pre>");

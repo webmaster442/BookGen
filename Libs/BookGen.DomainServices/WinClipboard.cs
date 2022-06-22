@@ -6,9 +6,9 @@
 
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Threading;
+using System.Text;
 
-namespace BookGen.Utilities
+namespace BookGen.DomainServices
 {
     internal static class WinClipboard
     {
@@ -32,7 +32,7 @@ namespace BookGen.Utilities
 
         private static void TryOpenClipboard()
         {
-            var num = 10;
+            int num = 10;
             while (true)
             {
                 if (OpenClipboard(default))
@@ -53,13 +53,13 @@ namespace BookGen.Utilities
             IntPtr hGlobal = default;
             try
             {
-                var bytes = (text.Length + 1) * 2;
+                int bytes = (text.Length + 1) * 2;
                 hGlobal = Marshal.AllocHGlobal(bytes);
 
                 if (hGlobal == default)
                     throw new Win32Exception(Marshal.GetLastWin32Error());
 
-                var target = GlobalLock(hGlobal);
+                IntPtr target = GlobalLock(hGlobal);
 
                 if (target == default)
                     throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -101,8 +101,8 @@ namespace BookGen.Utilities
                 if (pointer == default)
                     return null;
 
-                var size = GlobalSize(handle);
-                var buff = new byte[size];
+                int size = GlobalSize(handle);
+                byte[]? buff = new byte[size];
                 Marshal.Copy(pointer, buff, 0, size);
                 return Encoding.Unicode.GetString(buff).TrimEnd('\0');
             }

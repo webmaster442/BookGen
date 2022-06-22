@@ -4,20 +4,21 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Configuration;
 using BookGen.Domain;
-using System.IO;
+using BookGen.Domain.Configuration;
+using BookGen.Interfaces;
+using System.Text;
 
-namespace BookGen.Utilities
+namespace BookGen.DomainServices
 {
     internal static class ChapterProcessingUtils
     {
         public static void ScanMarkdownFiles(string workDir, Config configuration, ILog log)
         {
             log.Info("Scanning markdown files...");
-            FsPath destination = new FsPath(workDir, ".chapters");
+            var destination = new FsPath(workDir, ".chapters");
 
-            List<Chapter> chapters = new List<Chapter>(10);
+            var chapters = new List<Chapter>(10);
 
             string[] dirs = Directory.GetDirectories(workDir);
             string[] root = Directory.GetFiles(workDir, "*.md");
@@ -28,7 +29,7 @@ namespace BookGen.Utilities
                 Files = SetFiles(root, workDir, configuration.TOCFile)
             });
 
-            foreach (var dir in dirs)
+            foreach (string? dir in dirs)
             {
                 string[] files = Directory.GetFiles(dir, "*.md", SearchOption.AllDirectories);
                 chapters.Add(new Chapter
@@ -45,14 +46,14 @@ namespace BookGen.Utilities
 
         public static bool GenerateSummaryFile(string workDir, Config configuration, ILog log)
         {
-            FsPath source = new FsPath(workDir, ".chapters");
+            var source = new FsPath(workDir, ".chapters");
             if (source.IsExisting)
             {
                 log.Info(".chapters file doesn't exist.");
                 return false;
             }
 
-            StringBuilder buffer = new StringBuilder();
+            var buffer = new StringBuilder();
 
             List<Chapter>? chapters = source.DeserializeYaml<List<Chapter>>(log);
 
@@ -64,7 +65,7 @@ namespace BookGen.Utilities
 
             ConvertChaptersToMarkdown(workDir, log, buffer, chapters);
 
-            FsPath destination = new FsPath(workDir, configuration.TOCFile);
+            var destination = new FsPath(workDir, configuration.TOCFile);
             if (destination.IsExisting)
             {
                 destination.CreateBackup(log);
@@ -79,12 +80,12 @@ namespace BookGen.Utilities
             if (chapters == null)
                 return;
 
-            foreach (var chapter in chapters)
+            foreach (Chapter? chapter in chapters)
             {
                 buffer.AppendFormat("## {0}\r\n", chapter.Title);
-                foreach (var file in chapter.Files)
+                foreach (string? file in chapter.Files)
                 {
-                    FsPath path = new FsPath(workDir, file);
+                    var path = new FsPath(workDir, file);
                     string content = path.ReadFile(log);
                     string subtitle = MarkdownUtils.GetDocumentTitle(content, log);
                     buffer.AppendFormat("* [{0}]({1})", subtitle, file);
@@ -95,8 +96,8 @@ namespace BookGen.Utilities
 
         private static List<string> SetFiles(string[] files, string dir, string tOCFile)
         {
-            List<string> result = new List<string>(files.Length);
-            foreach (var file in files)
+            var result = new List<string>(files.Length);
+            foreach (string? file in files)
             {
                 if (!file.Contains(tOCFile))
                     result.Add(file.Replace(dir, ""));

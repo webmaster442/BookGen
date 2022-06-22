@@ -6,7 +6,7 @@
 
 using System.Diagnostics;
 
-namespace BookGen.Core
+namespace BookGen.DomainServices
 {
     public static class ProcessRunner
     {

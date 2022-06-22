@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Contracts;
 using BookGen.Domain;
+using BookGen.Interfaces;
 using System.Globalization;
+using System.Text;
 
-namespace BookGen.Utilities
+namespace BookGen.DomainServices
 {
     internal class TagUtils : ITagUtils
     {
@@ -67,7 +68,7 @@ namespace BookGen.Utilities
             _log?.Info("Scanning no longer existing entries...");
             var tocItems = toc.Files.ToHashSet();
             Stack<string> toDelete = new();
-            foreach (var file in _loadedTags.Keys)
+            foreach (string? file in _loadedTags.Keys)
             {
                 if (!tocItems.Contains(file))
                     toDelete.Push(file);
@@ -84,7 +85,7 @@ namespace BookGen.Utilities
         {
             _log?.Info("Scanning not yet existing entries...");
             int count = 0;
-            foreach (var file in toc.Files)
+            foreach (string? file in toc.Files)
             {
                 if (!_loadedTags.ContainsKey(file))
                 {
@@ -99,7 +100,7 @@ namespace BookGen.Utilities
         {
             if (_loadedTags.ContainsKey(file))
             {
-                HashSet<string> tags = new HashSet<string>(_loadedTags[file].Select(x => x.ToTitleCase(_culture)));
+                var tags = new HashSet<string>(_loadedTags[file].Select(x => x.ToTitleCase(_culture)));
                 return tags;
             }
             return new HashSet<string>();
@@ -107,13 +108,13 @@ namespace BookGen.Utilities
 
         public ISet<string> GetTagsForFiles(IEnumerable<string> files)
         {
-            HashSet<string> tags = new HashSet<string>();
-            foreach (var file in files)
+            var tags = new HashSet<string>();
+            foreach (string? file in files)
             {
                 if (_loadedTags.ContainsKey(file))
                 {
-                    var fileTags = _loadedTags[file].Select(x => x.ToTitleCase(_culture));
-                    foreach (var tag in fileTags)
+                    IEnumerable<string>? fileTags = _loadedTags[file].Select(x => x.ToTitleCase(_culture));
+                    foreach (string? tag in fileTags)
                     {
                         tags.Add(tag);
                     }
@@ -134,8 +135,8 @@ namespace BookGen.Utilities
 
         private string ReplaceNotAllowedChars(string input)
         {
-            HashSet<char> allowed = new HashSet<char>("abcdefghijklmnopqrstuvwxyz0123456789-_");
-            StringBuilder final = new StringBuilder(input.Length);
+            var allowed = new HashSet<char>("abcdefghijklmnopqrstuvwxyz0123456789-_");
+            var final = new StringBuilder(input.Length);
             foreach (char c in input)
             {
                 if (allowed.Contains(c))
@@ -151,7 +152,7 @@ namespace BookGen.Utilities
         private static string AsciiEncodeLowerCase(string text)
         {
             text = text.Replace("?", "question");
-            ASCIIEncoding ascii = new ASCIIEncoding();
+            var ascii = new ASCIIEncoding();
             byte[] byteArray = Encoding.UTF8.GetBytes(text.Normalize(NormalizationForm.FormD));
             byte[] asciiArray = Encoding.Convert(Encoding.UTF8, Encoding.ASCII, byteArray);
             return ascii.GetString(asciiArray).Replace("?", "").ToLower();

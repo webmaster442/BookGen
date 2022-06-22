@@ -4,23 +4,21 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api.Configuration;
-using BookGen.Core.Contracts;
-using BookGen.Core.Markdown.Renderers;
+using BookGen.Interfaces;
 using Markdig.Parsers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using System;
 using System.Text;
 
-namespace BookGen.Core.Markdown
+namespace BookGen.DomainServices.Markdown
 {
     internal static class PipelineHelpers
     {
         public static void AppendPrismCss(MarkdownDocument document)
         {
-            StringBuilder content = new StringBuilder();
+            var content = new StringBuilder();
             content.Append("<style type=\"text/css\">\r\n");
             content.Append(Resources.ResourceHandler.GetFile(Resources.KnownFile.PrismCss));
             content.Append("</style>\r\n");
@@ -34,26 +32,26 @@ namespace BookGen.Core.Markdown
             if (renderer == null)
                 throw new ArgumentNullException(nameof(renderer));
 
-            if (!(renderer is TextRendererBase<HtmlRenderer> htmlRenderer)) return;
+            if (renderer is not TextRendererBase<HtmlRenderer> htmlRenderer) return;
 
-            var originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
+            CodeBlockRenderer? originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
             if (originalCodeBlockRenderer != null)
             {
                 htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
-                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(originalCodeBlockRenderer, interop));
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new Renderers.SyntaxRenderer(originalCodeBlockRenderer, interop));
             }
         }
 
         public static string ToImgCacheKey(string url, FsPath outputDir)
         {
-            FsPath requested = new FsPath(url);
+            var requested = new FsPath(url);
             return requested.GetAbsolutePathRelativeTo(outputDir).ToString();
         }
 
         internal static void DeleteFirstH1(MarkdownDocument document)
         {
             HeadingBlock? title = null;
-            foreach (var node in document.Descendants())
+            foreach (MarkdownObject? node in document.Descendants())
             {
                 if (node is HeadingBlock heading && heading.Level == 1)
                 {
@@ -75,15 +73,14 @@ namespace BookGen.Core.Markdown
         public static void RenderImages(IReadonlyRuntimeSettings RuntimeConfig,
                                         MarkdownDocument document)
         {
-
-            foreach (var node in document.Descendants())
+            foreach (MarkdownObject? node in document.Descendants())
             {
                 if (node is LinkInline link && link.IsImage)
                 {
                     link.Url = FixExtension(link.Url, RuntimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
                     if (RuntimeConfig.InlineImgCache?.Count > 0)
                     {
-                        var inlinekey = PipelineHelpers.ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
+                        string? inlinekey = ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
                         if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
                         {
                             link.Url = RuntimeConfig.InlineImgCache[inlinekey];
@@ -98,14 +95,14 @@ namespace BookGen.Core.Markdown
             if (string.IsNullOrEmpty(url))
                 return string.Empty;
 
-            string extension = System.IO.Path.GetExtension(url);
+            string extension = Path.GetExtension(url);
             if (extension == ".svg")
             {
-                return System.IO.Path.ChangeExtension(url, ".png");
+                return Path.ChangeExtension(url, ".png");
             }
             else if ((extension == ".jpg" || extension == ".jpeg") && jpegtoWebp)
             {
-                return System.IO.Path.ChangeExtension(url, ".webp");
+                return Path.ChangeExtension(url, ".webp");
             }
 
             return url;
@@ -117,7 +114,7 @@ namespace BookGen.Core.Markdown
             if (config == null)
                 throw new InvalidOperationException("Settings not configured");
 
-            foreach (var node in document.Descendants())
+            foreach (MarkdownObject? node in document.Descendants())
             {
                 if (node is HeadingBlock heading)
                 {

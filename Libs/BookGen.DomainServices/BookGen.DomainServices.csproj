@@ -4,6 +4,21 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ClearScript" Version="7.3.0" />
+    <PackageReference Include="SkiaSharp" Version="2.88.0" />
+    <PackageReference Include="Svg.Skia" Version="0.5.14" />
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+    <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />
+    <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
+  </ItemGroup>
 
 </Project>

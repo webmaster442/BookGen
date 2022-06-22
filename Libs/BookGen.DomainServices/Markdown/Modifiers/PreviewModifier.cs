@@ -3,17 +3,16 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Contracts;
-using BookGen.Core.Markdown.Renderers;
+using BookGen.DomainServices.Markdown.Renderers;
+using BookGen.Interfaces;
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using SkiaSharp;
 using Svg.Skia;
-using System;
 
-namespace BookGen.Core.Markdown.Modifiers
+namespace BookGen.DomainServices.Markdown.Modifiers
 {
     internal sealed class PreviewModifier : IMarkdownExtensionWithPath, IMarkdownExtensionWithSyntaxToggle, IDisposable
     {
@@ -67,7 +66,7 @@ namespace BookGen.Core.Markdown.Modifiers
             if (SyntaxEnabled)
                 PipelineHelpers.AppendPrismCss(document);
 
-            foreach (var node in document.Descendants())
+            foreach (MarkdownObject? node in document.Descendants())
             {
                 if (node is LinkInline link
                     && link.IsImage
@@ -78,7 +77,7 @@ namespace BookGen.Core.Markdown.Modifiers
             }
         }
 
-       private string Base64EncodeIfLocal(string url)
+        private string Base64EncodeIfLocal(string url)
         {
             if (url.StartsWith("https://") || url.StartsWith("http://"))
                 return url;
@@ -111,14 +110,14 @@ namespace BookGen.Core.Markdown.Modifiers
             {
                 using (SKBitmap renderedSvg = RenderSvg(inlinePath))
                 {
-                    using var data = renderedSvg.Encode(SKEncodedImageFormat.Webp, 80);
+                    using SKData? data = renderedSvg.Encode(SKEncodedImageFormat.Webp, 80);
                     return data.ToArray();
                 }
-                
+
             }
-            using (SKBitmap bmp = SKBitmap.Decode(inlinePath.Filename))
+            using (var bmp = SKBitmap.Decode(inlinePath.Filename))
             {
-                using var data = bmp.Encode(SKEncodedImageFormat.Webp, 80);
+                using SKData? data = bmp.Encode(SKEncodedImageFormat.Webp, 80);
                 return data.ToArray();
             }
         }
@@ -133,9 +132,9 @@ namespace BookGen.Core.Markdown.Modifiers
 
             SKRect svgSize = svg.Picture.CullRect;
 
-            SKBitmap result = new SKBitmap((int)svgSize.Width, (int)svgSize.Height, false);
+            var result = new SKBitmap((int)svgSize.Width, (int)svgSize.Height, false);
 
-            using (SKCanvas canvas = new SKCanvas(result))
+            using (var canvas = new SKCanvas(result))
             {
                 canvas.DrawPicture(svg.Picture);
                 canvas.Flush();

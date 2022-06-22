@@ -3,14 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
-namespace BookGen.Core
+namespace BookGen.DomainServices
 {
     internal class CultureInfoConverter : JsonConverter<CultureInfo>, IYamlTypeConverter
     {

@@ -4,15 +4,12 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Domain;
+using BookGen.Interfaces;
 using BookGen.Resources;
-using System;
-using System.Linq;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace BookGen.Core
+namespace BookGen.DomainServices
 {
     public class Updater
     {
@@ -31,13 +28,13 @@ namespace BookGen.Core
 
         private static string? Download(string url)
         {
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
-                using (var response = client.GetAsync(url).GetAwaiter().GetResult())
+                using (HttpResponseMessage? response = client.GetAsync(url).GetAwaiter().GetResult())
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        var content = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                        string? content = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                         return content;
                     }
                 }
@@ -53,7 +50,7 @@ namespace BookGen.Core
                 _log.Warning("JSON Result download failed");
                 return Array.Empty<Release>();
             }
-            var result = JsonSerializer.Deserialize<Release[]>(json);
+            Release[]? result = JsonSerializer.Deserialize<Release[]>(json);
             if (result == null)
             {
                 _log.Warning("JSON Result parse failed");
@@ -81,9 +78,9 @@ namespace BookGen.Core
 
         public void LaunchUpdateScript(Release release)
         {
-            var updater = ResourceHandler.GetResourceFile<KnownFile>("Powershell/updater.ps1");
+            string? updater = ResourceHandler.GetResourceFile<KnownFile>("Powershell/updater.ps1");
 
-            FsPath script = new FsPath(_appDir, "updater.ps1");
+            var script = new FsPath(_appDir, "updater.ps1");
             if (script.WriteFile(_log, updater))
             {
                 using (var process = new System.Diagnostics.Process())

@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BookGen.Core.Markdown
+namespace BookGen.DomainServices.Markdown
 {
     public class FootNoteReindexer
     {
@@ -40,8 +39,8 @@ namespace BookGen.Core.Markdown
         public void AddMarkdown(string document)
         {
             int currentDocLimit = 0;
-            var referenceMatches = footnoteRef.Matches(document);
-            var lastDefinition = footnoteRef.Matches(document).LastOrDefault();
+            MatchCollection? referenceMatches = footnoteRef.Matches(document);
+            Match? lastDefinition = footnoteRef.Matches(document).LastOrDefault();
 
             if (referenceMatches.Count == 0 && lastDefinition == null)
             {
@@ -53,7 +52,7 @@ namespace BookGen.Core.Markdown
             if (lastDefinition != null
                 && lastDefinition.Length > 3)
             {
-                var numberString = lastDefinition.Value[3..^1];
+                string? numberString = lastDefinition.Value[3..^1];
                 currentDocLimit = int.Parse(numberString);
 
                 if (currentDocLimit != referenceMatches.Count)
@@ -63,11 +62,11 @@ namespace BookGen.Core.Markdown
                 }
             }
 
-            var definitionStart = footnoteDef.Matches(document).FirstOrDefault();
+            Match? definitionStart = footnoteDef.Matches(document).FirstOrDefault();
             if (definitionStart != null)
             {
-                var regular = new StringBuilder(document.Substring(0, definitionStart.Index));
-                var footnote = new StringBuilder(document.Substring(definitionStart.Index));
+                var regular = new StringBuilder(document[..definitionStart.Index]);
+                var footnote = new StringBuilder(document[definitionStart.Index..]);
                 DoReindexing(currentDocLimit, regular, footnote);
                 _regulartext.Append(regular);
                 _regulartext.AppendLine();

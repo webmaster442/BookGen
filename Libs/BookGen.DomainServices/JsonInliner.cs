@@ -6,13 +6,13 @@
 using System.Text;
 using System.Text.Json;
 
-namespace BookGen.Core
+namespace BookGen.DomainServices
 {
     public static class JsonInliner
     {
         private static string GetJsonString<T>(T obj) where T : class
         {
-            return JsonSerializer.Serialize<T>(obj, new JsonSerializerOptions
+            return JsonSerializer.Serialize(obj, new JsonSerializerOptions
             {
                 Converters =
                 {
@@ -28,7 +28,7 @@ namespace BookGen.Core
 
         public static string InlinePhp<T>(string variableName, T obj) where T : class
         {
-            var json = GetJsonString(obj);
+            string? json = GetJsonString(obj);
             var phpbuilder = new StringBuilder(4096);
             phpbuilder.AppendLine("<?php");
             phpbuilder.AppendFormat("${0} = json_decode(\"{1}\", false);", variableName, json);
@@ -39,7 +39,7 @@ namespace BookGen.Core
 
         public static string InlinePython<T>(string variableName, T obj) where T : class
         {
-            var json = GetJsonString(obj);
+            string? json = GetJsonString(obj);
             var pythonBuilder = new StringBuilder(4096);
             pythonBuilder.AppendLine("import json");
             pythonBuilder.AppendLine("class Deserialize(object):");

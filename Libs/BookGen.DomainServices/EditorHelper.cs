@@ -3,13 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.IO;
+using BookGen.Domain;
 
-namespace BookGen.Utilities
+namespace BookGen.DomainServices
 {
     internal static class EditorHelper
     {
-        private static readonly HashSet<string> supportedFileTypes = new HashSet<string>
+        private static readonly HashSet<string> supportedFileTypes = new()
         {
             ".txt",
             ".md",
@@ -30,7 +30,7 @@ namespace BookGen.Utilities
 
         public static bool IsSupportedFile(string file)
         {
-            var ext = Path.GetExtension(file).ToLower();
+            string? ext = Path.GetExtension(file).ToLower();
             return supportedFileTypes.Contains(ext);
         }
 

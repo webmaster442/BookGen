@@ -3,12 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.IO;
+using BookGen.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BookGen.Core
+namespace BookGen.DomainServices
 {
     public static class CryptoUitils
     {
@@ -26,7 +25,7 @@ namespace BookGen.Core
 
         public static string GetSRI(FsPath path)
         {
-            using (var fs = File.OpenRead(path.ToString()))
+            using (FileStream? fs = File.OpenRead(path.ToString()))
             {
                 using (var hashAlgorithm = SHA384.Create())
                 {
