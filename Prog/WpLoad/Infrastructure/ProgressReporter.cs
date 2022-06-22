@@ -5,7 +5,7 @@ namespace WpLoad.Infrastructure
     internal class ProgressReporter
     {
         private readonly ILog _log;
-        private Stopwatch _watch;
+        private readonly Stopwatch _watch;
         private long _total;
 
         public ProgressReporter(ILog log)
@@ -19,7 +19,7 @@ namespace WpLoad.Infrastructure
 
         public void Report(string path)
         {
-            FileInfo file = new FileInfo(path);
+            var file = new FileInfo(path);
             _total += file.Length;
 
             _log.Info($"\tAvg speed: {CalculateSpeed():0.00} KiB/s");

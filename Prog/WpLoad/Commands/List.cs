@@ -23,7 +23,7 @@ namespace WpLoad.Commands
             }
 
             log.Info("Available profiles:\n");
-            foreach (var profile in profiles)
+            foreach (string? profile in profiles)
             {
                 log.Info($"  {profile}");
             }

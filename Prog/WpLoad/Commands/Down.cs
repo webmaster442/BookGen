@@ -19,7 +19,7 @@ namespace WpLoad.Commands
             DownArguments args = new();
             ArgumentParser.ParseArguments(arguments, args);
 
-            if (TryConfigureFolderAndClient(log, args, out var client))
+            if (TryConfigureFolderAndClient(log, args, out WordPressClient? client))
             {
                 if (args.Pages)
                 {
@@ -42,7 +42,7 @@ namespace WpLoad.Commands
 
         private bool ConfigureFolder(string baseFolder, string additionalName)
         {
-            var path = Path.Combine(baseFolder, additionalName);
+            string? path = Path.Combine(baseFolder, additionalName);
             if (!Directory.Exists(path))
             {
                 try
@@ -50,7 +50,7 @@ namespace WpLoad.Commands
                     Directory.CreateDirectory(path);
                     return true;
                 }
-                catch (IOException) 
+                catch (IOException)
                 {
                     return false;
                 }
@@ -61,15 +61,15 @@ namespace WpLoad.Commands
         private async Task DownloadMedia(ILog log, WordPressClient client, string path)
         {
             log.Info("Searching media items...");
-            var mediaItems = await client.Media.GetAllAsync();
+            IEnumerable<WordPressPCL.Models.MediaItem>? mediaItems = await client.Media.GetAllAsync();
 
             using (var HttpClient = new HttpClient())
             {
-                foreach (var mediaItem in mediaItems)
+                foreach (WordPressPCL.Models.MediaItem? mediaItem in mediaItems)
                 {
                     log.Info($"Downloading: {Path.GetFileName(mediaItem.SourceUrl)}...");
-                    using var sourceStream = await HttpClient.GetStreamAsync(mediaItem.SourceUrl);
-                    using var targetStream = File.Create(Path.Combine(path, Path.GetFileName(mediaItem.SourceUrl)));
+                    using Stream? sourceStream = await HttpClient.GetStreamAsync(mediaItem.SourceUrl);
+                    using FileStream? targetStream = File.Create(Path.Combine(path, Path.GetFileName(mediaItem.SourceUrl)));
                     await sourceStream.CopyToAsync(targetStream);
                 }
             }
@@ -78,12 +78,12 @@ namespace WpLoad.Commands
         private async Task DownloadPosts(ILog log, WordPressClient client, string path)
         {
             log.Info("Searching posts...");
-            var posts = await client.Posts.GetAllAsync();
-            foreach (var post in posts)
+            IEnumerable<WordPressPCL.Models.Post>? posts = await client.Posts.GetAllAsync();
+            foreach (WordPressPCL.Models.Post? post in posts)
             {
                 string fleName = post.Slug + ".html";
                 log.Info($"Writing {fleName}...");
-                var targetFile = Path.Combine(path, fleName);
+                string? targetFile = Path.Combine(path, fleName);
                 File.WriteAllText(targetFile, post.Content.Raw);
             }
         }

@@ -18,14 +18,14 @@ namespace WpLoad
             var log = new ConsoleLog();
             try
             {
-                var commandTypes = Assembly
+                IEnumerable<Type>? commandTypes = Assembly
                     .GetAssembly(typeof(ICommandBase))
                     ?.GetTypes()
                     .Where(x => x.IsAssignableTo(typeof(ICommandBase))
                     && !x.IsInterface)
                     ?? Enumerable.Empty<Type>();
 
-                var commands = commandTypes.Select(x => Activator.CreateInstance(x) as ICommandBase);
+                IEnumerable<ICommandBase?>? commands = commandTypes.Select(x => Activator.CreateInstance(x) as ICommandBase);
 
                 if (arguments.Length > 0
                     && TryParseSubCommand(arguments, commands, out ICommandBase? cmd, out string[] parameters))
@@ -40,9 +40,9 @@ namespace WpLoad
                         ExitCode code = command.Execute(log, parameters);
                         return PrintHelpIfNeededAndExit(log, code);
                     }
-                    else 
+                    else
                         throw new InvalidOperationException($"Don't know what to do with: {cmd.GetType()}");
-                    
+
                 }
                 else
                 {

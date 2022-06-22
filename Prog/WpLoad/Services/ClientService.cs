@@ -5,6 +5,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using WordPressPCL;
+using WpLoad.Domain;
 
 namespace WpLoad.Services
 {

@@ -9,7 +9,7 @@ namespace WpLoad.Infrastructure
     {
         private static void Log(string msg, ConsoleColor color)
         {
-            var current = Console.ForegroundColor;
+            ConsoleColor current = Console.ForegroundColor;
             Console.ForegroundColor = color;
             Console.WriteLine(msg);
             Console.ForegroundColor = current;
@@ -19,7 +19,7 @@ namespace WpLoad.Infrastructure
 
         public void Error(Exception exception)
         {
-            var current = Console.ForegroundColor;
+            ConsoleColor current = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(exception.Message);
 #if DEBUG

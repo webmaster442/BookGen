@@ -22,9 +22,9 @@ namespace WpLoad.Commands
             UpArguments args = new();
             ArgumentParser.ParseArguments(arguments, args);
 
-            if (TryConfigureFolderAndClient(log, args, out var client))
+            if (TryConfigureFolderAndClient(log, args, out WordPressClient? client))
             {
-                var mediaFiles = FileServices.GetSupportedFilesInDirectory(args.Path);
+                (IReadOnlyList<string> htmls, IReadOnlyList<string> mediaFiles) mediaFiles = FileServices.GetSupportedFilesInDirectory(args.Path);
                 try
                 {
                     await UploadMedia(log, client, mediaFiles.mediaFiles);
@@ -43,7 +43,7 @@ namespace WpLoad.Commands
 
         private static async Task UploadHtml(ILog log, WordPressClient client, IReadOnlyList<string> htmls)
         {
-            ProgressReporter reporter = new ProgressReporter(log);
+            var reporter = new ProgressReporter(log);
             reporter.Start();
             await Parallel.ForEachAsync(htmls, async (html, ct) =>
             {
@@ -58,7 +58,7 @@ namespace WpLoad.Commands
 
         private static async Task UploadMedia(ILog log, WordPressClient client, IReadOnlyList<string> mediaFiles)
         {
-            ProgressReporter reporter = new ProgressReporter(log);
+            var reporter = new ProgressReporter(log);
             reporter.Start();
             await Parallel.ForEachAsync(mediaFiles, async (media, ct) =>
             {

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.Xml.Serialization;
+using WpLoad.Domain;
 
 namespace WpLoad.Services
 {
@@ -23,7 +24,7 @@ namespace WpLoad.Services
             if (!Directory.Exists(Profiles))
                 Directory.CreateDirectory(Profiles);
 
-            var sourceFile = Path.Combine(Profiles, profileName + ".xml");
+            string? sourceFile = Path.Combine(Profiles, profileName + ".xml");
 
             var defaultConfig = new SiteInfo
             {
@@ -33,7 +34,7 @@ namespace WpLoad.Services
             };
             XmlSerializer xs = new(typeof(SiteInfo));
 
-            using (var f = File.CreateText(sourceFile))
+            using (StreamWriter? f = File.CreateText(sourceFile))
             {
                 using (var xmlWriter = XmlWriter.Create(f, new XmlWriterSettings { Indent = true }))
                 {
@@ -46,14 +47,14 @@ namespace WpLoad.Services
         internal static bool TryReadSiteInfo(string profileName, [NotNullWhen(true)] out SiteInfo? siteInfo)
         {
             siteInfo = null;
-            var sourceFile = Path.Combine(Profiles, profileName + ".xml");
+            string? sourceFile = Path.Combine(Profiles, profileName + ".xml");
             if (!File.Exists(sourceFile))
             {
                 return false;
             }
-            using (var reader = File.OpenRead(sourceFile))
+            using (FileStream? reader = File.OpenRead(sourceFile))
             {
-                XmlSerializer xs = new XmlSerializer(typeof(SiteInfo));
+                var xs = new XmlSerializer(typeof(SiteInfo));
                 if (xs.Deserialize(reader) is SiteInfo info)
                 {
                     siteInfo = info;
@@ -67,7 +68,7 @@ namespace WpLoad.Services
             if (!Directory.Exists(Profiles))
                 return Array.Empty<string>();
 
-            var files = Directory.GetFiles(Profiles);
+            string[]? files = Directory.GetFiles(Profiles);
             return files
                 .Select(x => Path.GetFileNameWithoutExtension(x))
                 .ToArray();
@@ -86,7 +87,7 @@ namespace WpLoad.Services
 
         internal static async Task<int> OpenEditorAndWaitClose(string profileName)
         {
-            var sourceFile = Path.Combine(Profiles, profileName + ".xml");
+            string? sourceFile = Path.Combine(Profiles, profileName + ".xml");
 
             using (var process = new Process())
             {

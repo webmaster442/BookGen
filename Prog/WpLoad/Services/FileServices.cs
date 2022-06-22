@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
 namespace WpLoad.Services
 {
     internal static class FileServices
@@ -24,7 +22,7 @@ namespace WpLoad.Services
 
         public static string GetMimeType(string path)
         {
-            var extension = Path.GetExtension(path).ToLower();
+            string? extension = Path.GetExtension(path).ToLower();
             if (_mimeTypes.ContainsKey(extension))
                 return _mimeTypes[extension];
             else
@@ -34,14 +32,14 @@ namespace WpLoad.Services
         public static (IReadOnlyList<string> htmls, IReadOnlyList<string> mediaFiles) GetSupportedFilesInDirectory(string path)
         {
             var dir = new DirectoryInfo(path);
-            var files = dir.GetFiles();
+            FileInfo[]? files = dir.GetFiles();
             List<string> htmls = new(files.Length / 2);
             List<string> mediaFiles = new(files.Length);
-            foreach (var file in files)
+            foreach (FileInfo? file in files)
             {
                 if (file.Exists)
                 {
-                    var extension = file.Extension.ToLower();
+                    string? extension = file.Extension.ToLower();
                     if (_mimeTypes.ContainsKey(extension))
                     {
                         mediaFiles.Add(file.FullName);

@@ -14,7 +14,7 @@ namespace WpLoad.Commands
 
         public ExitCode Execute(ILog log, IReadOnlyList<string> arguments)
         {
-            var helpText = Properties.Resources.Help;
+            string? helpText = Properties.Resources.Help;
             log.Info(helpText);
             return ExitCode.Success;
         }

@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookGen.Gui\BookGen.Gui.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.Gui\BookGen.Gui.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,7 +5,7 @@
 
 using System.Xml.Serialization;
 
-namespace WpLoad
+namespace WpLoad.Domain
 {
     /// <summary>
     /// Represents an authentication info for wordpress site
