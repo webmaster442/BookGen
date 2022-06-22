@@ -3,8 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core;
-using BookGen.ShellHelper.Code;
+using BookGen.DomainServices;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("BookGen.Tests")]
@@ -24,7 +23,6 @@ namespace BookGen.ShellHelper
             {
                 DoPrompt(arguments[1]);
             }
-
         }
 
         private static void DoPrompt(string workDir)
@@ -47,7 +45,7 @@ namespace BookGen.ShellHelper
 
         private static bool TestIfGitDir(string workDir)
         {
-            var (exitcode, _) = ProcessRunner.RunProcess("git", "status 2", TimeOut);
+            var (exitcode, _) = ProcessRunner.RunProcess("git", "status 2", TimeOut, workDir);
             return exitcode == 0;
         }
     }

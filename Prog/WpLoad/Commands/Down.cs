@@ -58,7 +58,7 @@ namespace WpLoad.Commands
             return true;
         }
 
-        private async Task DownloadMedia(ILog log, WordPressClient client, string path)
+        private static async Task DownloadMedia(ILog log, WordPressClient client, string path)
         {
             log.Info("Searching media items...");
             IEnumerable<WordPressPCL.Models.MediaItem>? mediaItems = await client.Media.GetAllAsync();

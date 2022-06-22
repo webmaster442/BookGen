@@ -7,7 +7,7 @@ using BookGen.Domain.Terminal;
 
 namespace BookGen.DomainServices;
 
-internal static class GitParser
+public static class GitParser
 {
     public static GitStatus ParseStatus(string status)
     {
