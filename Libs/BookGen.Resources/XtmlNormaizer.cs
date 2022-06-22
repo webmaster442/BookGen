@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -11,7 +10,7 @@ namespace BookGen.Resources
 {
     public static class XhtmlNormalizer
     {
-        private static Dictionary<string, string> replacements = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> replacements = new Dictionary<string, string>
         {
             { "figure", "div" },
             { "article", "div" },
@@ -28,10 +27,10 @@ namespace BookGen.Resources
 
         public static string NormalizeToXHTML(string input)
         {
-            StringBuilder buffer = new StringBuilder(input);
+            var buffer = new StringBuilder(input);
 
 
-            foreach (var elementToReplace in replacements)
+            foreach (KeyValuePair<string, string> elementToReplace in replacements)
             {
                 //starting bracket
                 buffer.Replace($"<{elementToReplace.Key}>", $"<{elementToReplace.Value}>");
@@ -39,8 +38,8 @@ namespace BookGen.Resources
                 buffer.Replace($"</{elementToReplace.Key}>", $"</{elementToReplace.Value}>");
             }
 
-            var candidate = buffer.ToString();
-            var c2 = scriptMatcher.Replace(candidate, "$1<![CDATA[$2]]>$3");
+            string? candidate = buffer.ToString();
+            string? c2 = scriptMatcher.Replace(candidate, "$1<![CDATA[$2]]>$3");
             return styleMatcher.Replace(c2, "$1<![CDATA[$2]]>$3");
         }
     }

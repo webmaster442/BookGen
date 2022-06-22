@@ -4,9 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using System;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace BookGen.Resources
@@ -20,11 +17,11 @@ namespace BookGen.Resources
 
         public static Stream? GetResourceStream<T>(string resource)
         {
-            var assembly = typeof(T).GetTypeInfo().Assembly;
+            Assembly? assembly = typeof(T).GetTypeInfo().Assembly;
 
-            var resources = assembly.GetManifestResourceNames();
+            string[]? resources = assembly.GetManifestResourceNames();
 
-            var resourceName = resources.First(s => s.EndsWith(TranslateResourcePath(resource), StringComparison.CurrentCultureIgnoreCase));
+            string? resourceName = resources.First(s => s.EndsWith(TranslateResourcePath(resource), StringComparison.CurrentCultureIgnoreCase));
 
             return assembly.GetManifestResourceStream(resourceName);
 
@@ -32,7 +29,7 @@ namespace BookGen.Resources
 
         public static string GetResourceFile<T>(string file)
         {
-            using (var stream = GetResourceStream<T>(file))
+            using (Stream? stream = GetResourceStream<T>(file))
             {
                 if (stream == null)
                 {
@@ -47,7 +44,7 @@ namespace BookGen.Resources
 
         public static string GetResourceFile(string file)
         {
-            using (var stream = GetResourceStream<KnownFile>(file))
+            using (Stream? stream = GetResourceStream<KnownFile>(file))
             {
                 if (stream == null)
                 {
@@ -62,34 +59,34 @@ namespace BookGen.Resources
 
         public static string GetFile(KnownFile file)
         {
-            var location = KnownFileMap.Map[file];
+            string? location = KnownFileMap.Map[file];
             return GetResourceFile(location);
         }
 
         public static void ExtractKnownFile(KnownFile file, string targetDir, ILog log)
         {
-            var location = KnownFileMap.Map[file];
-            var filename = Path.GetFileName(KnownFileMap.Map[file]);
+            string? location = KnownFileMap.Map[file];
+            string? filename = Path.GetFileName(KnownFileMap.Map[file]);
 
             try
             {
-                using (var stream = GetResourceStream<KnownFile>(location))
+                using (Stream? stream = GetResourceStream<KnownFile>(location))
                 {
                     if (stream == null)
                     {
                         throw new InvalidOperationException($"Resource not found for: {file}");
                     }
 
-                    var targetName = Path.Combine(targetDir, filename);
+                    string? targetName = Path.Combine(targetDir, filename);
 
                     if (!Directory.Exists(targetDir))
                     {
                         Directory.CreateDirectory(targetDir);
                     }
 
-                    log.Detail("Extracting {0} to {1}", location,  targetName);
+                    log.Detail("Extracting {0} to {1}", location, targetName);
 
-                    using (var target = File.Create(targetName))
+                    using (FileStream? target = File.Create(targetName))
                     {
                         stream.CopyTo(target);
                     }
