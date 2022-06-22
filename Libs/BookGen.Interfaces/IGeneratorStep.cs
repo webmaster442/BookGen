@@ -4,12 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Domain;
 
-namespace BookGen.Contracts
+namespace BookGen.Interfaces
 {
     internal interface IGeneratorStep
     {
-        void RunStep(RuntimeSettings settings, ILog log);
+        void RunStep(IReadonlyRuntimeSettings settings, ILog log);
     }
 }

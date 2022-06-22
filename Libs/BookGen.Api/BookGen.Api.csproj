@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<OutputPath>..\bin\$(Configuration)\</OutputPath>
+		<OutputPath>..\..\bin\$(Configuration)\</OutputPath>
 		<Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 		<Product>BookGen</Product>
@@ -21,11 +21,11 @@
 		<PackageLicenseFile>LICENCE</PackageLicenseFile>
 		<Version>18.0</Version>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <DocumentationFile>..\bin\$(Configuration)\BookGen.Api.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\$(Configuration)\BookGen.Api.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\LICENCE">
+		<None Include="..\..\LICENCE">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>

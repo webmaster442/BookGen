@@ -5,7 +5,7 @@
 
 using Markdig;
 
-namespace BookGen.Core.Contracts
+namespace BookGen.Interfaces
 {
     public interface IMarkdownExtensionWithPath : IMarkdownExtension
     {

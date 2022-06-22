@@ -5,7 +5,7 @@
 
 using BookGen.Api;
 
-namespace BookGen.Core.Contracts
+namespace BookGen.Interfaces
 {
     public interface ITemplateShortCode
     {

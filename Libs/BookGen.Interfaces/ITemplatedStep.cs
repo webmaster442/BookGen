@@ -3,12 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Framework;
-
-namespace BookGen.Contracts
+namespace BookGen.Interfaces
 {
     internal interface ITemplatedStep : IGeneratorContentFillStep
     {
-        TemplateProcessor? Template { get; set; }
+        ITemplateProcessor? Template { get; set; }
     }
 }

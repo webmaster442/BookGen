@@ -6,7 +6,7 @@
 using BookGen.Api;
 using System.Collections.Generic;
 
-namespace BookGen.Core.Contracts
+namespace BookGen.Interfaces
 {
     public interface ITagUtils
     {

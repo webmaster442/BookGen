@@ -7,7 +7,7 @@ using BookGen.Api;
 using BookGen.Api.Configuration;
 using System.Collections.Generic;
 
-namespace BookGen.Core.Contracts
+namespace BookGen.Interfaces
 {
     /// <summary>
     /// Current Workflows Runtime settings
