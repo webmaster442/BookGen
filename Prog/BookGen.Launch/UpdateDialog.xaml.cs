@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core;
+using BookGen.Domain;
+using BookGen.DomainServices;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -32,7 +33,6 @@ namespace BookGen.Launch
                 LogEntries.Add(line);
                 OnLogWritten?.Invoke(this, new LogEventArgs(logLevel, line));
             });
-
         }
 
         public void PrintLine(string str)
@@ -47,8 +47,8 @@ namespace BookGen.Launch
         #endregion
 
         public ObservableCollection<string> LogEntries { get; }
-        private CancellationTokenSource _tokenSource;
-        private Updater _updater;
+        private readonly CancellationTokenSource _tokenSource;
+        private readonly Updater _updater;
         private bool _searching;
         private Release? _latest;
 

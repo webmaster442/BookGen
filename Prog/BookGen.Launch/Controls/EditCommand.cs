@@ -39,11 +39,11 @@ namespace BookGen.Launch.Controls
 
             if (_wrapLeft && TryGetSelectedText(out string selected))
             {
-                var newText = $"{symbols} {selected}";
+                string? newText = $"{symbols} {selected}";
 
                 if (_wrapRight)
                     newText = $"{symbols} {selected} {symbols}";
-                   
+
                 ReplaceSelectedText(newText);
             }
             else

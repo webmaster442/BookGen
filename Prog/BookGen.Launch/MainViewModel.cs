@@ -66,7 +66,7 @@ namespace BookGen.Launch
         {
             if (obj is string fileName)
             {
-                var fileWithPath = System.IO.Path.Combine(AppContext.BaseDirectory, fileName);
+                string? fileWithPath = System.IO.Path.Combine(AppContext.BaseDirectory, fileName);
                 MessageBoxEx.ShowDocument(fileName, fileWithPath);
             }
         }
@@ -74,7 +74,7 @@ namespace BookGen.Launch
         private void ProcessArguments()
         {
             var args = Environment.GetCommandLineArgs().ToList();
-            var launchIndex = args.IndexOf("launch");
+            int launchIndex = args.IndexOf("launch");
             if (launchIndex > -1 &&
                 (launchIndex + 1) < args.Count)
             {
@@ -101,7 +101,7 @@ namespace BookGen.Launch
 
         private string GetVersion()
         {
-            var name = typeof(App).Assembly.GetName();
+            System.Reflection.AssemblyName? name = typeof(App).Assembly.GetName();
             return name?.Version?.ToString() ?? "Couldn't get version";
         }
 

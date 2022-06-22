@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.ShellHelper;
+using BookGen.DomainServices;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Navigation;
 using System.Windows.Shell;
 
 namespace BookGen.Launch
@@ -21,10 +20,10 @@ namespace BookGen.Launch
 
         public static void UpdateJumplist(IEnumerable<string> items)
         {
-            JumpList list = new JumpList();
-            foreach (var item in items)
+            var list = new JumpList();
+            foreach (string? item in items)
             {
-                JumpTask task = new JumpTask()
+                var task = new JumpTask()
                 {
                     Title = item,
                     CustomCategory = Launch.Properties.Resources.RecentFolders,
@@ -42,7 +41,7 @@ namespace BookGen.Launch
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var rerminalInstall = TerminalProfileInstaller.TryInstall();
+            bool? rerminalInstall = TerminalProfileInstaller.TryInstall();
             if (rerminalInstall == false)
             {
                 MessageBox.Show(Launch.Properties.Resources.TerminalProfileInstallFail);

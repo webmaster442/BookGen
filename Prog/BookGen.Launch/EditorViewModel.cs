@@ -82,7 +82,7 @@ namespace BookGen.Launch
         {
             try
             {
-                var fn = Path.GetTempFileName();
+                string? fn = Path.GetTempFileName();
                 File.WriteAllText(fn, text);
                 StringBuilder sb = new();
                 sb.Append($"md2html -i \"{fn}\" -o con");
@@ -91,9 +91,9 @@ namespace BookGen.Launch
                 if (!syntaxhighlight)
                     sb.Append(" -ns");
 
-                var arguments = sb.ToString();
+                string? arguments = sb.ToString();
 
-                Process process = new Process();
+                using var process = new Process();
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.WorkingDirectory = AppContext.BaseDirectory;
@@ -120,7 +120,7 @@ namespace BookGen.Launch
 
         private void RefreshPreviewIfNeeded()
         {
-            if (TabIndex == 1 
+            if (TabIndex == 1
                 && TryExport(View.Document.Text, false, true, out string html))
             {
                 PreviewHtml = html;
@@ -160,8 +160,8 @@ namespace BookGen.Launch
             {
                 try
                 {
-                        File.WriteAllText(FileName, View.Document.Text);
-                        IsDirty = false;
+                    File.WriteAllText(FileName, View.Document.Text);
+                    IsDirty = false;
                 }
                 catch (Exception ex)
                 {
@@ -203,7 +203,7 @@ namespace BookGen.Launch
 
         private void OnExportFile(object? obj)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            var saveFileDialog = new SaveFileDialog()
             {
                 Filter = "Markdown (*.md)|*.md",
                 Title = "Save file..."

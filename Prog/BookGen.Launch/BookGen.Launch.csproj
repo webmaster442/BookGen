@@ -4,8 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>..\Icon.ico</ApplicationIcon>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>
+    <ApplicationIcon>..\..\Icon.ico</ApplicationIcon>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Nullable>enable</Nullable>
     <Version>$([System.DateTime]::UtcNow.ToString("yyyy")).$([System.DateTime]::UtcNow.ToString("MM")).$([System.DateTime]::UtcNow.ToString("dd")).0</Version>
@@ -20,11 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
-    <ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
-    <ProjectReference Include="..\BookGen.Gui\BookGen.Gui.csproj" />
-    <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
-    <ProjectReference Include="..\BookGen.ShellHelper\BookGen.ShellHelper.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.DomainServices\BookGen.DomainServices.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.Gui\BookGen.Gui.csproj" />
   </ItemGroup>
 
   <ItemGroup>

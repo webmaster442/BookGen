@@ -28,7 +28,7 @@ namespace BookGen.Launch.Code
             View = new BindingList<ItemViewModel>();
             _filter = string.Empty;
 
-            var json = ReadFile();
+            string? json = ReadFile();
 
             if (!string.IsNullOrEmpty(json))
             {
@@ -84,7 +84,7 @@ namespace BookGen.Launch.Code
 
         public void SaveFolders()
         {
-            var text = JsonSerializer.Serialize(_elements);
+            string? text = JsonSerializer.Serialize(_elements);
             WriteFile(text);
             App.UpdateJumplist(_elements);
         }
@@ -100,7 +100,7 @@ namespace BookGen.Launch.Code
         {
             if (!string.IsNullOrEmpty(Filter))
             {
-                var subset = _elements.Where(x => x.Contains(Filter));
+                IEnumerable<string>? subset = _elements.Where(x => x.Contains(Filter));
                 CreateItems(subset);
             }
             else
@@ -115,7 +115,7 @@ namespace BookGen.Launch.Code
         {
             View.RaiseListChangedEvents = false;
             View.Clear();
-            foreach (var item in subset)
+            foreach (string? item in subset)
             {
                 View.Add(new ItemViewModel
                 {

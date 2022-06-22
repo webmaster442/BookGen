@@ -67,7 +67,7 @@ namespace BookGen.Launch.Controls
             if (increase)
             {
                 int newIndex = _selectedFontIndex + 1;
-                if (newIndex < _fontSizeTable.Count -1)
+                if (newIndex < _fontSizeTable.Count - 1)
                 {
                     _selectedFontIndex = newIndex;
                     FontSize = _fontSizeTable[newIndex];

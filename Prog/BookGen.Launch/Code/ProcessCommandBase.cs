@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain.Terminal;
+using BookGen.DomainServices;
 using BookGen.Launch.Properties;
-using BookGen.ShellHelper;
-using BookGen.ShellHelper.Domain;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -18,7 +18,7 @@ namespace BookGen.Launch.Code
     internal abstract class ProcessCommandBase : ICommand
     {
         public event EventHandler? CanExecuteChanged;
-        protected InstallStatus InstallStatus; 
+        protected InstallStatus InstallStatus;
 
         protected const string PowershellExe = "powershell.exe";
 
@@ -61,7 +61,7 @@ namespace BookGen.Launch.Code
         {
             try
             {
-                Process process = new Process();
+                using var process = new Process();
                 process.StartInfo.UseShellExecute = false;
                 if (program.EndsWith(".cmd"))
                 {

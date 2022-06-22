@@ -20,7 +20,7 @@ namespace BookGen.Launch.Code
 
         public UpdateCommand()
         {
-            var name = typeof(App).Assembly.GetName();
+            System.Reflection.AssemblyName? name = typeof(App).Assembly.GetName();
             _version = ConvertVersion(name?.Version);
             _appdir = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
         }
