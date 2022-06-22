@@ -5,7 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Api.Configuration;
-using BookGen.Core.Contracts;
+using BookGen.Interfaces;
 
 namespace BookGen.Framework.Scripts
 {

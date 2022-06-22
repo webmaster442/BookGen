@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Configuration;
+using BookGen.Domain.Configuration;
 using BookGen.Domain.CsProj;
+using BookGen.DomainServices;
 using BookGen.Framework;
+using BookGen.Interfaces;
 using BookGen.Resources;
 using System.IO;
 

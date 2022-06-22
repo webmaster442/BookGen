@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
+using BookGen.Interfaces;
 using System.Diagnostics;
 
 namespace BookGen.Framework.Scripts

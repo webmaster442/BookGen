@@ -11,7 +11,7 @@
 		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
 		<AssemblyVersion>1.0.12.0</AssemblyVersion>
 		<FileVersion>1.0.12.0</FileVersion>
-		<OutputPath>..\bin\$(Configuration)\</OutputPath>
+		<OutputPath>..\..\bin\$(Configuration)\</OutputPath>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>BookGen</ToolCommandName>
 		<PackageOutputPath>..\bin\nupkg</PackageOutputPath>
@@ -31,10 +31,10 @@
 		<Compile Remove="DefaultTemplate\**" />
 		<EmbeddedResource Remove="DefaultTemplate\**" />
 		<None Remove="DefaultTemplate\**" />
-		<None Include="..\BookGenShell.ps1" Link="BookGenShell.ps1">
+		<None Include="..\..\BookGenShell.ps1" Link="BookGenShell.ps1">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="..\LICENCE">
+		<None Include="..\..\LICENCE">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
@@ -109,14 +109,6 @@
     <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
-		<ProjectReference Include="..\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
-		<ProjectReference Include="..\BookGen.Core\BookGen.Core.csproj" />
-		<ProjectReference Include="..\BookGen.Gui\BookGen.Gui.csproj" />
-		<ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
-		<ProjectReference Include="..\HttpServerFramework\Source\Webmaster442.HttpServerFramework.csproj" />
-	</ItemGroup>
-	<ItemGroup>
 		<None Update="BookGen">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -130,12 +122,18 @@
 		</AssemblyAttribute>
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Include="..\bookgen-icon.png" Link="bookgen-icon.png">
+	  <Content Include="..\..\bookgen-icon.png" Link="bookgen-icon.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="..\icon.ico" Link="icon.ico">
+	  <Content Include="..\..\icon.ico" Link="icon.ico">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Libs\BookGen.DomainServices\BookGen.DomainServices.csproj" />
+	  <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
+	  <ProjectReference Include="..\..\Libs\BookGen.Gui\BookGen.Gui.csproj" />
+	  <ProjectReference Include="..\..\Libs\BookGen.Resources\BookGen.Resources.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Resource Include="Resources\Help.InstallPSAutocompleteModule.txt" />

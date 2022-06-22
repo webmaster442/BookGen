@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Configuration;
+using BookGen.Domain.Configuration;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 
 namespace BookGen.Framework
 {

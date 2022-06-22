@@ -5,6 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Gui.Mvvm;
+using BookGen.Interfaces;
 
 namespace BookGen.ConsoleUi
 {

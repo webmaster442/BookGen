@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
@@ -74,7 +76,7 @@ namespace BookGen.Framework.Scripts
             }
         }
 
-        public IEnumerable<SyntaxTree> ParseToSyntaxTree(string source)
+        public static IEnumerable<SyntaxTree> ParseToSyntaxTree(string source)
         {
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest));
             yield return tree;
