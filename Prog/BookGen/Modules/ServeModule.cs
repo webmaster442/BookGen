@@ -29,7 +29,7 @@ namespace BookGen.Modules
 
         public override ModuleRunResult Execute(string[] arguments)
         {
-            BookGenArgumentBase args = new BookGenArgumentBase();
+            var args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return ModuleRunResult.ArgumentsError;
@@ -41,7 +41,7 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(args.Directory))
             {
-                using (var server = HttpServerFactory.CreateServerForServModule(CurrentState.ServerLog, args.Directory))
+                using (Webmaster442.HttpServerFramework.HttpServer? server = HttpServerFactory.CreateServerForServModule(CurrentState.ServerLog, args.Directory))
                 {
                     server.Start();
                     Console.WriteLine("Serving: {0}", args.Directory);

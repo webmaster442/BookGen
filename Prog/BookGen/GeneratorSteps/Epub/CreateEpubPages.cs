@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
@@ -39,7 +37,7 @@ namespace BookGen.GeneratorSteps.Epub
             using var pipeline = new BookGenPipeline(BookGenPipeline.Epub);
             pipeline.InjectRuntimeConfig(settings);
 
-            foreach (var file in settings.TocContents.Files)
+            foreach (string? file in settings.TocContents.Files)
             {
                 _session.GeneratedFiles.Add($"page_{index:D3}");
 
@@ -47,14 +45,14 @@ namespace BookGen.GeneratorSteps.Epub
 
 
                 log.Detail("Processing file for epub output: {0}", file);
-                var input = settings.SourceDirectory.Combine(file);
+                FsPath? input = settings.SourceDirectory.Combine(file);
 
-                var inputContent = input.ReadFile(log);
+                string? inputContent = input.ReadFile(log);
 
                 Content.Title = MarkdownUtils.GetDocumentTitle(inputContent, log);
                 Content.Content = pipeline.RenderMarkdown(inputContent);
 
-                var html = XhtmlNormalizer.NormalizeToXHTML(Template.Render());
+                string? html = XhtmlNormalizer.NormalizeToXHTML(Template.Render());
 
                 target.WriteFile(log, html);
                 ++index;

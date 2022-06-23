@@ -5,7 +5,6 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 
@@ -50,10 +49,10 @@ namespace BookGen.Modules
 
             if (args.Input.IsDirectory)
             {
-                var files = args.Input.GetAllFiles(false).Where(x => ImageUtils.IsImage(x));
+                IEnumerable<Interfaces.FsPath>? files = args.Input.GetAllFiles(false).Where(x => ImageUtils.IsImage(x));
                 Parallel.ForEach(files, file =>
                 {
-                    var output = args.Output.Combine(file.Filename);
+                    Interfaces.FsPath? output = args.Output.Combine(file.Filename);
                     ImageUtils.ConvertImageFile(CurrentState.Log, file, output, args.Quality, args.Width, args.Height, args.Format);
                 });
 

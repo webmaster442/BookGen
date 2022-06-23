@@ -3,9 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Domain.Epub;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Epub
@@ -97,7 +95,7 @@ namespace BookGen.GeneratorSteps.Epub
                 Href = "toc.ncx"
             });
 
-            foreach (var file in _session.GeneratedFiles)
+            foreach (string? file in _session.GeneratedFiles)
             {
                 manifest.Item.Add(new Item
                 {
@@ -123,7 +121,7 @@ namespace BookGen.GeneratorSteps.Epub
                 Idref = "nav"
             });
 
-            foreach (var file in _session.GeneratedFiles)
+            foreach (string? file in _session.GeneratedFiles)
             {
                 spine.Itemref.Add(new Itemref
                 {

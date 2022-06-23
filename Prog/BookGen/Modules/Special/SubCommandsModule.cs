@@ -21,7 +21,7 @@ namespace BookGen.Modules.Special
 
 
             Console.WriteLine("Available sub commands: \r\n");
-            foreach (var module in Modules)
+            foreach (ModuleBase? module in Modules)
             {
                 Console.WriteLine(module.ModuleCommand);
             }

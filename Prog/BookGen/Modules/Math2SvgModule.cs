@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.ArgumentParsing;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Interfaces;
@@ -21,13 +20,13 @@ namespace BookGen.Modules
 
         public override ModuleRunResult Execute(string[] arguments)
         {
-            InputOutputArguments args = new InputOutputArguments();
+            var args = new InputOutputArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return ModuleRunResult.ArgumentsError;
             }
 
-            CurrentState.Log.LogLevel =  Api.LogLevel.Info;
+            CurrentState.Log.LogLevel = Api.LogLevel.Info;
 
             IList<string>? input = args.InputFile.ReadFileLines(CurrentState.Log);
 
@@ -38,9 +37,9 @@ namespace BookGen.Modules
 
         private void Process(IList<string> input, string filename, FsPath outDirectory)
         {
-            JavaScriptInterop interop = new JavaScriptInterop();
+            var interop = new JavaScriptInterop();
             int counter = 0;
-            foreach (var line in input)
+            foreach (string? line in input)
             {
                 if (!line.StartsWith("$"))
                 {

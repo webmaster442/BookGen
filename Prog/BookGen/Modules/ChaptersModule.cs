@@ -3,13 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Configuration;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
-using BookGen.Domain;
-using BookGen.Domain.ArgumentParsing;
-using BookGen.DomainServices;
 
 namespace BookGen.Modules
 {
@@ -75,7 +73,7 @@ namespace BookGen.Modules
 
         public override string GetHelp()
         {
-            StringBuilder result = new StringBuilder(4096);
+            var result = new StringBuilder(4096);
             result.Append(HelpUtils.GetHelpForModule(nameof(ChaptersModule)));
             HelpUtils.DocumentActions<ChaptersAction>(result);
             return result.ToString();

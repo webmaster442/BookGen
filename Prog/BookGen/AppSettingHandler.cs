@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain;
 using System.IO;
 using System.Text.Json;
 
@@ -13,7 +12,7 @@ namespace BookGen
     {
         private static string GetConfigFile()
         {
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string? path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             return Path.Combine(path, "BookGen.app.json");
         }
 
@@ -22,7 +21,7 @@ namespace BookGen
             string file = GetConfigFile();
             if (File.Exists(file))
             {
-                var contents = File.ReadAllText(file);
+                string? contents = File.ReadAllText(file);
                 return JsonSerializer.Deserialize<AppSetting>(contents);
             }
             else
@@ -48,12 +47,12 @@ namespace BookGen
         {
             string file = GetConfigFile() + ".new";
 
-            var contents = JsonSerializer.Serialize<AppSetting>(appSetting, new JsonSerializerOptions
+            string? contents = JsonSerializer.Serialize<AppSetting>(appSetting, new JsonSerializerOptions
             {
                 WriteIndented = true
             });
 
-            using (var stream = File.CreateText(file))
+            using (StreamWriter? stream = File.CreateText(file))
             {
                 stream.Write(contents);
             }

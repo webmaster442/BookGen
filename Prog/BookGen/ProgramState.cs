@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Infrastructure;
 using System.Reflection;
 using Webmaster442.HttpServerFramework;
@@ -24,10 +23,10 @@ namespace BookGen
 
         private static DateTime GetProgramDate()
         {
-            Assembly? current = Assembly.GetAssembly(typeof(ProgramState));
+            var current = Assembly.GetAssembly(typeof(ProgramState));
             if (current != null)
             {
-                var attribute = current.GetCustomAttribute<AssemblyBuildDateAttribute>();
+                AssemblyBuildDateAttribute? attribute = current.GetCustomAttribute<AssemblyBuildDateAttribute>();
                 if (attribute != null)
                 {
                     return attribute.BuildDateUtc;

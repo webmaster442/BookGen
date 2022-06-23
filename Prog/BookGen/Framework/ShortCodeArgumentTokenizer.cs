@@ -29,21 +29,21 @@ namespace BookGen.Framework
             {
                 if (controller(str[c]))
                 {
-                    yield return str.Substring(nextPiece, c - nextPiece);
+                    yield return str[nextPiece..c];
                     nextPiece = c + 1;
                 }
             }
 
-            yield return str.Substring(nextPiece);
+            yield return str[nextPiece..];
         }
 
         private static string TrimMatchingQuotes(this string input, char quote)
         {
             if ((input.Length >= 2)
                 && (input[0] == quote)
-                && (input[input.Length - 1] == quote))
+                && (input[^1] == quote))
             {
-                return input.Substring(1, input.Length - 2);
+                return input[1..^1];
             }
 
             return input;

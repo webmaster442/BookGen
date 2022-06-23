@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 using System.IO;
 using System.IO.Compression;
@@ -25,7 +23,7 @@ namespace BookGen.GeneratorSteps.Epub
 
             int removeLength = input.ToString().Length + 1;
 
-            using (var fs = File.Create(output.ToString()))
+            using (FileStream? fs = File.Create(output.ToString()))
             {
                 using (var zip = new ZipArchive(fs, ZipArchiveMode.Create))
                 {
@@ -41,7 +39,7 @@ namespace BookGen.GeneratorSteps.Epub
 
         private string GetEntryName(string fileName, int rootFolderstringLength)
         {
-            return fileName.Substring(rootFolderstringLength).Replace("\\", "/");
+            return fileName[rootFolderstringLength..].Replace("\\", "/");
         }
     }
 }

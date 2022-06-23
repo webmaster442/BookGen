@@ -3,10 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Domain.Configuration;
 using BookGen.Domain.CsProj;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Interfaces;
 using BookGen.Resources;
@@ -32,12 +30,12 @@ namespace BookGen
 
             if (configInYaml)
             {
-                var file = workDir.Combine("bookgen.yml");
+                FsPath? file = workDir.Combine("bookgen.yml");
                 file.SerializeYaml(createdConfig, log);
             }
             else
             {
-                var file = workDir.Combine("bookgen.json");
+                FsPath? file = workDir.Combine("bookgen.json");
                 file.SerializeJson(createdConfig, log, true);
             }
 
@@ -45,7 +43,7 @@ namespace BookGen
 
         private static Config MakeConfigStructure(bool createdmdFiles, bool extractedTemplate, bool createdScript)
         {
-            Config configuration = Config.CreateDefault(Program.CurrentState.ConfigVersion);
+            var configuration = Config.CreateDefault(Program.CurrentState.ConfigVersion);
 
             if (createdmdFiles)
             {
@@ -93,7 +91,7 @@ namespace BookGen
         public static void CreateScriptProject(ILog log, FsPath workdir, string ApiReferencePath)
         {
             log.Info("Creating scripts project...");
-            Project p = new Project
+            var p = new Project
             {
                 Sdk = "Microsoft.NET.Sdk",
                 PropertyGroup = new PropertyGroup
@@ -125,8 +123,8 @@ namespace BookGen
 
         public static void ExtractTemplates(ILog log, FsPath workdir)
         {
-            var templatedir = workdir.Combine("Templates").ToString();
-            var assetsdir = workdir.Combine("Templates\\Assets").ToString();
+            string? templatedir = workdir.Combine("Templates").ToString();
+            string? assetsdir = workdir.Combine("Templates\\Assets").ToString();
 
             ResourceHandler.ExtractKnownFile(KnownFile.TemplateEpubHtml, templatedir, log);
             ResourceHandler.ExtractKnownFile(KnownFile.TemplatePrintHtml, templatedir, log);

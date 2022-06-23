@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain;
 using BookGen.Framework.Scripts;
 using BookGen.Gui;
 using BookGen.Interfaces;
@@ -51,7 +49,7 @@ namespace BookGen.Framework
             if (!_logListen)
                 return;
 
-            switch(e.LogLevel)
+            switch (e.LogLevel)
             {
                 case LogLevel.Warning:
                 case LogLevel.Critical:
@@ -82,7 +80,7 @@ namespace BookGen.Framework
         public TimeSpan Run()
         {
             Settings.OutputDirectory = ConfigureOutputDirectory(Settings.SourceDirectory);
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             ConsoleProgressbar progressbar = new(0, _steps.Count);
             sw.Start();
             string stepName = string.Empty;
@@ -91,13 +89,13 @@ namespace BookGen.Framework
                 progressbar.SwitchBuffers();
                 _logListen = true;
                 int stepCounter = 1;
-                foreach (var step in _steps)
+                foreach (IGeneratorStep? step in _steps)
                 {
                     stepName = step.GetType().Name;
                     switch (step)
                     {
                         case ITemplatedStep templated:
-                            var instance = CreateTemplateProcessor();
+                            TemplateProcessor? instance = CreateTemplateProcessor();
                             templated.Content = instance;
                             templated.Template = instance;
                             templated.Template.TemplateContent = ConfigureTemplateContent();

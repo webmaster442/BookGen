@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using Webmaster442.HttpServerFramework;
 using Webmaster442.HttpServerFramework.Handlers;
 

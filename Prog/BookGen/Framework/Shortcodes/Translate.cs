@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Api.Configuration;
 using BookGen.Interfaces;
 using System.ComponentModel.Composition;

@@ -43,7 +43,7 @@ namespace BookGen.Modules
 
         public override ModuleRunResult Execute(string[] arguments)
         {
-            BuildArguments args = new BuildArguments();
+            var args = new BuildArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return ModuleRunResult.ArgumentsError;
@@ -54,7 +54,7 @@ namespace BookGen.Modules
             using (var l = new FolderLock(args.Directory))
             {
 
-                var runner = CurrentState.Api.CreateRunner(args.Verbose, args.Directory);
+                GeneratorRunner? runner = CurrentState.Api.CreateRunner(args.Verbose, args.Directory);
                 runner.NoWait = args.NoWaitForExit;
 
                 switch (args.Action)
@@ -88,7 +88,7 @@ namespace BookGen.Modules
 
         public override string GetHelp()
         {
-            StringBuilder result = new StringBuilder(4096);
+            var result = new StringBuilder(4096);
             result.Append(HelpUtils.GetHelpForModule(nameof(BuildModule)));
             HelpUtils.DocumentActions<BuildAction>(result);
             return result.ToString();

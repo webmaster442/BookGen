@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 using System.IO;
 
@@ -28,19 +26,19 @@ namespace BookGen.GeneratorSteps
 
         public static void CleanDirectory(FsPath outputDirectory, ILog log)
         {
-            DirectoryInfo di = new DirectoryInfo(outputDirectory.ToString());
+            var di = new DirectoryInfo(outputDirectory.ToString());
             if (!di.Exists)
             {
                 log.Warning("Directory doesn't exist: {0}", outputDirectory);
                 return;
             }
-            foreach (var file in di.GetFiles())
+            foreach (FileInfo? file in di.GetFiles())
             {
                 log.Detail("Deleting: {0}", file);
                 file.Delete();
             }
 
-            foreach (var dir in di.GetDirectories())
+            foreach (DirectoryInfo? dir in di.GetDirectories())
             {
                 log.Detail("Deleting: {0}", dir);
                 dir.Delete(true);

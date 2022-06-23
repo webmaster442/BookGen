@@ -43,7 +43,7 @@ namespace BookGen.Framework
 
             IEnumerable<PropertyInfo> properties = inputType.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => p.CanRead && p.CanWrite);
 
-            foreach (var property in properties)
+            foreach (PropertyInfo? property in properties)
             {
                 string name = property.Name;
                 Type type = property.PropertyType;
@@ -96,7 +96,7 @@ namespace BookGen.Framework
         {
             var result = new StringBuilder(1024);
 
-            foreach (var item in CustomTypeDocs)
+            foreach (KeyValuePair<Type, string> item in CustomTypeDocs)
             {
                 result.AppendLine($"Properties of type: {item.Key.Name}");
                 result.AppendLine("----------------------------------------");

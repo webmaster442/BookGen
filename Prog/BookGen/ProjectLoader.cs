@@ -3,10 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain;
 using BookGen.Domain.Configuration;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Interfaces;
 using System.Diagnostics.CodeAnalysis;
@@ -55,7 +52,7 @@ namespace BookGen
         {
             config = null;
 
-            var mode = GetConfigMode();
+            ConfigMode mode = GetConfigMode();
 
             switch (mode)
             {
@@ -87,13 +84,13 @@ namespace BookGen
                 return false;
             }
 
-            ConfigValidator validator = new ConfigValidator(config, _workdir);
+            var validator = new ConfigValidator(config, _workdir);
             validator.Validate();
 
             if (!validator.IsValid)
             {
                 _log.Warning("Errors found in configuration: ");
-                foreach (var error in validator.Errors)
+                foreach (string? error in validator.Errors)
                 {
                     _log.Warning(error);
                 }
@@ -133,19 +130,19 @@ namespace BookGen
             if (config == null)
                 return false;
 
-            var tocFile = new FsPath(_workdir).Combine(config.TOCFile);
+            FsPath? tocFile = new FsPath(_workdir).Combine(config.TOCFile);
             _log.Info("Parsing TOC file...");
 
             toc = MarkdownUtils.ParseToc(tocFile.ReadFile(_log));
 
             _log.Info("Found {0} chapters and {1} files", toc.ChapterCount, toc.FilesCount);
-            TocValidator tocValidator = new TocValidator(toc, _workdir);
+            var tocValidator = new TocValidator(toc, _workdir);
             tocValidator.Validate();
 
             if (!tocValidator.IsValid)
             {
                 _log.Warning("Errors found in TOC file: ");
-                foreach (var error in tocValidator.Errors)
+                foreach (string? error in tocValidator.Errors)
                 {
                     _log.Warning(error);
                 }
@@ -160,7 +157,7 @@ namespace BookGen
         {
             if (_tags.IsExisting)
             {
-                var deserialized = _tags.DeserializeJson<Dictionary<string, string[]>>(_log);
+                Dictionary<string, string[]>? deserialized = _tags.DeserializeJson<Dictionary<string, string[]>>(_log);
                 if (deserialized != null)
                 {
                     tagUtils = new TagUtils(deserialized, culture, _log);

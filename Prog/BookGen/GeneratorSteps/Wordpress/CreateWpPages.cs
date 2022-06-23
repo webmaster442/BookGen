@@ -3,11 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Api.Configuration;
 using BookGen.Domain.Configuration;
 using BookGen.Domain.Wordpress;
-using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
@@ -86,9 +84,9 @@ namespace BookGen.GeneratorSteps.Wordpress
 
         private static void CreateTagsForItem(Item result, ITagUtils tags, string file, string tagCategory)
         {
-            var fileTags = tags.GetTagsForFile(file);
+            ISet<string>? fileTags = tags.GetTagsForFile(file);
             result.Category = new List<PostCategory>(fileTags.Count);
-            foreach (var tag in fileTags)
+            foreach (string? tag in fileTags)
             {
                 result.Category.Add(new PostCategory
                 {
@@ -101,12 +99,12 @@ namespace BookGen.GeneratorSteps.Wordpress
 
         private static string EncodeTitle(string title)
         {
-            var normalizedString = title.Trim().Normalize(NormalizationForm.FormD);
+            string? normalizedString = title.Trim().Normalize(NormalizationForm.FormD);
             var stringBuilder = new StringBuilder();
 
-            foreach (var c in normalizedString)
+            foreach (char c in normalizedString)
             {
-                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                UnicodeCategory unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
                 if (unicodeCategory != UnicodeCategory.NonSpacingMark)
                 {
                     stringBuilder.Append(c);
@@ -119,7 +117,7 @@ namespace BookGen.GeneratorSteps.Wordpress
         {
             var builder = new StringBuilder();
             builder.Append("<ul>\n");
-            foreach (var link in links)
+            foreach (Link? link in links)
             {
                 builder.AppendFormat("<li>{0}</li>\n", link.Text);
             }
@@ -138,7 +136,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             log.Info("Generating Wordpress export content...");
             _session.CurrentChannel.Item = new List<Item>();
 
-            var host = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost];
+            string? host = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost];
 
             bool parentpageCreate = settings.CurrentBuildConfig.TemplateOptions.TryGetOption(TemplateOptions.WordpressCreateParent, out bool createparent) && createparent;
             bool createfillers = settings.CurrentBuildConfig.TemplateOptions.TryGetOption(TemplateOptions.WordpressCreateFillerPages, out bool filler) && filler;
@@ -161,7 +159,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             using var pipeline = new BookGenPipeline(BookGenPipeline.Wordpress);
             pipeline.InjectRuntimeConfig(settings);
 
-            foreach (var chapter in settings.TocContents.Chapters)
+            foreach (string? chapter in settings.TocContents.Chapters)
             {
                 string fillerPage = createfillers ? CreateFillerPage(settings.TocContents.GetLinksForChapter(chapter)) : "";
                 string path = $"{host}{EncodeTitle(chapter)}";
@@ -172,18 +170,18 @@ namespace BookGen.GeneratorSteps.Wordpress
                 int suborder = 0;
                 uid++;
 
-                foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
+                foreach (string? file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing {0}...", file);
-                    var input = settings.SourceDirectory.Combine(file);
-                    var raw = input.ReadFile(log);
+                    FsPath? input = settings.SourceDirectory.Combine(file);
+                    string? raw = input.ReadFile(log);
                     Content.Content = pipeline.RenderMarkdown(raw);
 
-                    var title = MarkdownUtils.GetDocumentTitle(raw, log);
+                    string? title = MarkdownUtils.GetDocumentTitle(raw, log);
 
                     string subpath = $"{host}{EncodeTitle(chapter)}/{EncodeTitle(title)}";
 
-                    var result = CreateItem(uid,
+                    Item? result = CreateItem(uid,
                                             parent_uid,
                                             suborder,
                                             Template.Render(),

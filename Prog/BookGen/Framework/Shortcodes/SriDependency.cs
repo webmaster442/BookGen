@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 using System.ComponentModel.Composition;
 
@@ -36,13 +34,13 @@ namespace BookGen.Framework.Shortcodes
 
         public string Generate(IArguments arguments)
         {
-            var file = arguments.GetArgumentOrThrow<string>("file");
+            string? file = arguments.GetArgumentOrThrow<string>("file");
 
-            var path = _settings.OutputDirectory.Combine(file);
+            FsPath? path = _settings.OutputDirectory.Combine(file);
 
             file = _settings.Configuration.HostName + file;
 
-            var sri = ComputeSRI(path);
+            string? sri = ComputeSRI(path);
 
             if (path.Extension == ".js")
             {

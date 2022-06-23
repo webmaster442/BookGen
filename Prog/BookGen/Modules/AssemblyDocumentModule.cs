@@ -6,7 +6,6 @@
 using BookGen.AssemblyDocumenter;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using System.Collections.ObjectModel;
@@ -51,18 +50,18 @@ namespace BookGen.Modules
             {
                 if (parameters.SinglePage)
                 {
-                    var filename = parameters.OutputDirectory
+                    Interfaces.FsPath? filename = parameters.OutputDirectory
                         .Combine(parameters.AssemblyPath.Filename)
                         .Combine("_doc.md");
 
-                    var xmlfile = parameters.AssemblyPath.ChangeExtension(".xml");
+                    Interfaces.FsPath? xmlfile = parameters.AssemblyPath.ChangeExtension(".xml");
 
                     if (XmlDocValidator.ValidateXml(xmlfile, CurrentState.Log))
                     {
 
                         var documenter = new XmlDocumenter(xmlfile);
 
-                        var result = documenter.ToMarkdown();
+                        string? result = documenter.ToMarkdown();
 
                         filename.WriteFile(CurrentState.Log, result);
                         return ModuleRunResult.Succes;
@@ -71,7 +70,7 @@ namespace BookGen.Modules
                 }
                 else
                 {
-                    var result = XmlDocMarkdownGenerator.Generate(parameters.AssemblyPath.ToString(),
+                    XmlDocMarkdownResult? result = XmlDocMarkdownGenerator.Generate(parameters.AssemblyPath.ToString(),
                                                  parameters.OutputDirectory.ToString(),
                                                  new XmlDocMarkdownSettings
                                                  {
@@ -88,7 +87,7 @@ namespace BookGen.Modules
 
         private void Logdetails(Collection<string> messages)
         {
-            foreach (var msg in messages)
+            foreach (string? msg in messages)
             {
                 CurrentState.Log.Detail(msg);
             }

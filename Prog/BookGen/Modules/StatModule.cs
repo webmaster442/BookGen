@@ -3,11 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Configuration;
 using BookGen.Domain.Shell;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using System.IO;
@@ -50,12 +48,12 @@ namespace BookGen.Modules
 
                 using (var l = new FolderLock(args.Directory))
                 {
-                    ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
+                    var loader = new ProjectLoader(CurrentState.Log, args.Directory);
                     bool result = loader.TryLoadProjectAndExecuteOperation((config, toc) =>
                     {
-                        var settings = loader.CreateRuntimeSettings(config, toc, new TagUtils(), new BuildConfig());
+                        RuntimeSettings? settings = loader.CreateRuntimeSettings(config, toc, new TagUtils(), new BuildConfig());
 
-                        foreach (var link in settings.TocContents.Files)
+                        foreach (string? link in settings.TocContents.Files)
                         {
                             if (!TryComputeStat(link, ref stat))
                             {
@@ -82,7 +80,7 @@ namespace BookGen.Modules
             try
             {
                 string? line = null;
-                using (var reader = File.OpenText(input))
+                using (StreamReader? reader = File.OpenText(input))
                 {
                     stat.Bytes += reader.BaseStream.Length;
                     do
@@ -113,7 +111,7 @@ namespace BookGen.Modules
         {
             if (length < 80)
                 return 1;
-            return (length / 80);
+            return length / 80;
         }
     }
 }

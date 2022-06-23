@@ -3,11 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Api.Configuration;
-using BookGen.Domain;
 using BookGen.Domain.Configuration;
-using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
@@ -48,13 +45,13 @@ namespace BookGen.GeneratorSteps
             Content.Title = settings.Configuration.Translations[Translations.SearchPageTitle];
             Content.Content = _buffer.ToString();
 
-            var html = Template.Render();
+            string? html = Template.Render();
             target.WriteFile(log, html);
         }
 
         private string FillMeta(IReadOnlyConfig configruation)
         {
-            var meta = new MetaTag().FillWithConfigDefaults(configruation);
+            MetaTag? meta = new MetaTag().FillWithConfigDefaults(configruation);
             meta.Title = $"{configruation.Metadata.Title} - {configruation.Translations[Translations.SearchPageTitle]}";
             meta.Description = configruation.Translations[Translations.SearchPageTitle];
             meta.Url = $"{configruation.HostName}search.html";
@@ -67,17 +64,17 @@ namespace BookGen.GeneratorSteps
 
             using var pipeline = new BookGenPipeline(BookGenPipeline.Plain);
 
-            foreach (var chapter in settings.TocContents.Chapters)
+            foreach (string? chapter in settings.TocContents.Chapters)
             {
-                foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
+                foreach (Link? link in settings.TocContents.GetLinksForChapter(chapter))
                 {
                     log.Detail("Processing file for search index: {0}", link.Url);
-                    var fileContent = settings.SourceDirectory.Combine(link.Url).ReadFile(log);
+                    string? fileContent = settings.SourceDirectory.Combine(link.Url).ReadFile(log);
 
-                    var rendered = pipeline.RenderMarkdown(fileContent);
+                    string? rendered = pipeline.RenderMarkdown(fileContent);
 
-                    var file = Path.ChangeExtension(link.Url, ".html");
-                    var fullpath = $"{settings.Configuration.HostName}{file}";
+                    string? file = Path.ChangeExtension(link.Url, ".html");
+                    string? fullpath = $"{settings.Configuration.HostName}{file}";
 
                     _buffer.AppendFormat("<div title=\"{0}\" data-link=\"{1}\">", link.Text, fullpath);
                     _buffer.Append(_spaces.Replace(rendered, " "));

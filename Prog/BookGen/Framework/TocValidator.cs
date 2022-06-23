@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Interfaces;
 
 namespace BookGen.Framework
@@ -21,7 +20,7 @@ namespace BookGen.Framework
 
         private static bool IsValidFileName(string name)
         {
-            foreach (var chr in name)
+            foreach (char chr in name)
             {
                 if (!char.IsLetterOrDigit(chr)
                     && chr != '-'
@@ -40,9 +39,9 @@ namespace BookGen.Framework
             if (!_toc.Chapters.Any())
                 AddError(Properties.Resources.TOCNoChapters);
 
-            foreach (var file in _toc.Files)
+            foreach (string? file in _toc.Files)
             {
-                var source = _workdir.Combine(file);
+                FsPath? source = _workdir.Combine(file);
                 if (!source.IsExisting)
                     AddError(Properties.Resources.TOCFileNotExists, file);
 

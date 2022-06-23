@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using System.Reflection;
@@ -71,7 +70,7 @@ namespace BookGen.Modules
             Console.WriteLine("Available settings:");
             Console.WriteLine("{0,-20} - {1}", "Name", "Type");
             Console.WriteLine("-------------------");
-            foreach (var item in _knownsettings)
+            foreach (KeyValuePair<string, Type> item in _knownsettings)
             {
                 Console.WriteLine("{0,-20} - {1}", item.Key, item.Value.Name);
             }
@@ -96,7 +95,7 @@ namespace BookGen.Modules
             PropertyInfo? prop = GetProperty(setting);
             if (prop != null)
             {
-                var value = prop.GetValue(_settings)?.ToString() ?? "<null>";
+                string? value = prop.GetValue(_settings)?.ToString() ?? "<null>";
                 Console.WriteLine(value);
             }
         }
@@ -108,7 +107,7 @@ namespace BookGen.Modules
             {
                 try
                 {
-                    var changed = Convert.ChangeType(value, prop.PropertyType);
+                    object? changed = Convert.ChangeType(value, prop.PropertyType);
                     prop.SetValue(_settings, changed);
                 }
                 catch (Exception)

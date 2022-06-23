@@ -5,7 +5,6 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
-using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
@@ -67,7 +66,7 @@ namespace BookGen.Modules
             pipeline.InjectPath(args.InputFile.GetDirectory());
             pipeline.SetSyntaxHighlightTo(!args.NoSyntax);
 
-            var mdcontent = pipeline.RenderMarkdown(md);
+            string? mdcontent = pipeline.RenderMarkdown(md);
 
             string rendered;
             if (args.RawHtml)

@@ -3,10 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Domain.Configuration;
 using BookGen.Domain.Wordpress;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Wordpress

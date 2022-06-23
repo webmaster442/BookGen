@@ -26,11 +26,11 @@ namespace BookGen.Framework
         {
             Type actionType = typeof(T);
 
-            foreach (var action in Enum.GetNames(actionType).OrderBy(o => o))
+            foreach (string? action in Enum.GetNames(actionType).OrderBy(o => o))
             {
                 result.Append("    ").AppendLine(action);
-                var memberInfo = actionType.GetMember(action).FirstOrDefault();
-                var desc = memberInfo?.GetCustomAttribute<DescriptionAttribute>();
+                MemberInfo? memberInfo = actionType.GetMember(action).FirstOrDefault();
+                DescriptionAttribute? desc = memberInfo?.GetCustomAttribute<DescriptionAttribute>();
                 if (desc != null)
                 {
                     result.Append("        ").AppendLine(desc.Description);
@@ -41,7 +41,7 @@ namespace BookGen.Framework
 
         public static string DocumentConfiguration()
         {
-            StringBuilder result = new StringBuilder(4096);
+            var result = new StringBuilder(4096);
             result.AppendLine("Configuration properties for current version:");
             result.AppendLine();
             result.AppendLine();

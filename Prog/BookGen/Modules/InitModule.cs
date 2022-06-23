@@ -27,7 +27,7 @@ namespace BookGen.Modules
 
         public override ModuleRunResult Execute(string[] arguments)
         {
-            BookGenArgumentBase args = new BookGenArgumentBase();
+            var args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return ModuleRunResult.ArgumentsError;

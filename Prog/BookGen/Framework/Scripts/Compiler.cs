@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -43,18 +41,18 @@ namespace BookGen.Framework.Scripts
             if (!(AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") is string trusted))
                 throw new DependencyException("Can't locate Trusted platform assemblies");
 
-            var trustedAssembliesPaths = trusted.Split(Path.PathSeparator);
+            string[]? trustedAssembliesPaths = trusted.Split(Path.PathSeparator);
 
-            var neededAssemblies = new[]
+            string[]? neededAssemblies = new[]
             {
                 "System.Runtime",
                 "netstandard",
             };
-            var references = trustedAssembliesPaths
+            IEnumerable<PortableExecutableReference>? references = trustedAssembliesPaths
                 .Where(p => neededAssemblies.Contains(Path.GetFileNameWithoutExtension(p)))
                 .Select(p => MetadataReference.CreateFromFile(p));
 
-            foreach (var reference in references)
+            foreach (PortableExecutableReference? reference in references)
             {
                 _references.Add(reference);
             }
@@ -68,7 +66,7 @@ namespace BookGen.Framework.Scripts
 
         public IEnumerable<SyntaxTree> ParseToSyntaxTree(IEnumerable<FsPath> files)
         {
-            foreach (var file in files)
+            foreach (FsPath? file in files)
             {
                 string content = file.ReadFile(_log);
                 SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(content, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest));
@@ -84,7 +82,7 @@ namespace BookGen.Framework.Scripts
 
         public Assembly? CompileToAssembly(IEnumerable<SyntaxTree> syntaxTrees)
         {
-            var timestamp = $"{DateTime.Now.Hour}{DateTime.Now.Minute}{DateTime.Now.Second}{DateTime.Now.Millisecond}";
+            string? timestamp = $"{DateTime.Now.Hour}{DateTime.Now.Minute}{DateTime.Now.Second}{DateTime.Now.Millisecond}";
             CSharpCompilation compiler = CSharpCompilation.Create($"scripts_{timestamp}.dll")
                 .WithOptions(_compilerOptions)
                 .AddReferences(_references.ToArray())
@@ -101,7 +99,7 @@ namespace BookGen.Framework.Scripts
                 else
                 {
                     _log.Warning("Error Compiling scripts. Use verbose log to see details");
-                    var details = string.Join('\n', emitResult.Diagnostics);
+                    string? details = string.Join('\n', emitResult.Diagnostics);
                     _log.Detail(details);
                 }
             }

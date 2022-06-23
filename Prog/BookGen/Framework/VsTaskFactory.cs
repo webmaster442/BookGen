@@ -60,7 +60,7 @@ namespace BookGen.Framework
             if (fi == null)
                 return string.Empty;
 
-            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(
+            var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(
                 typeof(DescriptionAttribute), false);
 
             if (attributes?.Length > 0)
@@ -80,10 +80,10 @@ namespace BookGen.Framework
 
         private static IEnumerable<Domain.VsTasks.Task> CreateTaskItems()
         {
-            var tasks = Enum.GetNames(typeof(BuildAction));
-            foreach (var task in tasks)
+            string[]? tasks = Enum.GetNames(typeof(BuildAction));
+            foreach (string? task in tasks)
             {
-                BuildAction value = (BuildAction)Enum.Parse(typeof(BuildAction), task);
+                var value = (BuildAction)Enum.Parse(typeof(BuildAction), task);
                 yield return CreateTask($"Build -a {value} -d $PWD",
                                          $"Build -a {value} -d %cd%",
                                          value.DescriptionAttr());

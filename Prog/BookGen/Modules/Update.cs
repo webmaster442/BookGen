@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain;
-using BookGen.DomainServices;
 using BookGen.Framework;
 
 namespace BookGen.Modules
@@ -25,7 +23,7 @@ namespace BookGen.Modules
                                       CurrentState.BuildDateUtc,
                                       CurrentState.ProgramDirectory);
 
-            var release = updater.GetLatestRelease();
+            Release? release = updater.GetLatestRelease();
 
             CurrentState.Log.Info("Current version: {0}", CurrentState.BuildDateUtc);
             CurrentState.Log.Info("Update version: {0}", release?.Version ?? "unknown");

@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 using System.ComponentModel.Composition;
 
@@ -29,7 +27,7 @@ namespace BookGen.Framework.Scripts
 
         public string Generate(IArguments arguments)
         {
-            var file = arguments.GetArgumentOrThrow<string>("file");
+            string? file = arguments.GetArgumentOrThrow<string>("file");
             _log.Info("Trying to execute NoseJs script: {0} ...", file);
 
             return ExecuteScriptProcess("node", _appSetting.NodeJsPath, file, _appSetting.NodeJsTimeout);
@@ -37,8 +35,8 @@ namespace BookGen.Framework.Scripts
 
         protected override void SerializeHostInfo(string scriptPath)
         {
-            FsPath hostinfo = new FsPath(scriptPath, "hostinfo.js");
-            ScriptHost host = new ScriptHost(_settings, _log);
+            var hostinfo = new FsPath(scriptPath, "hostinfo.js");
+            var host = new ScriptHost(_settings, _log);
             string content = JsonInliner.InlineJs(nameof(host), host);
             hostinfo.WriteFile(_log, content);
         }

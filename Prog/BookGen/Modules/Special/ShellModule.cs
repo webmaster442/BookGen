@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Infrastructure;
 
@@ -17,7 +16,7 @@ namespace BookGen.Modules.Special
 
         public override ModuleRunResult Execute(string[] arguments)
         {
-            foreach (var item in DoComplete(arguments))
+            foreach (string? item in DoComplete(arguments))
             {
                 Console.WriteLine(item);
             }
@@ -33,7 +32,7 @@ namespace BookGen.Modules.Special
 
             if (request.StartsWith(Constants.ProgramName, StringComparison.OrdinalIgnoreCase))
             {
-                request = request.Substring(Constants.ProgramName.Length);
+                request = request[Constants.ProgramName.Length..];
             }
             string[] words = request.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -44,7 +43,7 @@ namespace BookGen.Modules.Special
                 {
                     if (words.Length > 1)
                     {
-                        var candidate = command.AutoCompleteInfo.ArgumentList.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
+                        IEnumerable<string>? candidate = command.AutoCompleteInfo.ArgumentList.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
                         if (candidate.Any())
                             return candidate;
                         else

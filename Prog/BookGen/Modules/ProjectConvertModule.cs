@@ -3,12 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Configuration;
 using BookGen.Domain.Shell;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Interfaces;
@@ -37,7 +34,7 @@ namespace BookGen.Modules
 
         public override ModuleRunResult Execute(string[] arguments)
         {
-            ProjectConvertArguments args = new ProjectConvertArguments();
+            var args = new ProjectConvertArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return ModuleRunResult.ArgumentsError;
@@ -66,7 +63,7 @@ namespace BookGen.Modules
 
         private bool ConvertYmlToJson(FsPath yml, FsPath json, ILog log, bool backup)
         {
-            var config = yml.DeserializeYaml<Config>(log);
+            Config? config = yml.DeserializeYaml<Config>(log);
             if (config == null)
             {
                 return false;
@@ -81,7 +78,7 @@ namespace BookGen.Modules
 
         private bool ConvertToYml(FsPath json, FsPath yml, ILog log, bool backup)
         {
-            var config = json.DeserializeJson<Config>(log);
+            Config? config = json.DeserializeJson<Config>(log);
             if (config == null)
             {
                 return false;

@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 using SkiaSharp;
 using System.IO;
@@ -22,7 +20,7 @@ namespace BookGen.GeneratorSteps
                 return;
             }
 
-            var targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.Filename);
+            FsPath? targetdir = settings.OutputDirectory.Combine(settings.ImageDirectory.Filename);
 
             Parallel.ForEach(settings.ImageDirectory.GetAllFiles(), file =>
             {
@@ -33,7 +31,7 @@ namespace BookGen.GeneratorSteps
 
         private void ProcessImage(FsPath file, IReadonlyRuntimeSettings settings, FsPath targetdir, ILog log)
         {
-            var options = settings.CurrentBuildConfig.ImageOptions;
+            Api.Configuration.IReadonlyImageOptions? options = settings.CurrentBuildConfig.ImageOptions;
 
             if (!ImageUtils.IsImage(file))
             {
@@ -49,7 +47,7 @@ namespace BookGen.GeneratorSteps
                 if (options.EncodeSvgAsWebp)
                     format = SKEncodedImageFormat.Webp;
 
-                using (var data = ImageUtils.EncodeSvg(file, options.MaxWidth, options.MaxHeight, format))
+                using (SKData? data = ImageUtils.EncodeSvg(file, options.MaxWidth, options.MaxHeight, format))
                 {
                     InlineOrSave(file, targetdir, log, settings, data, ".png");
                     return;
@@ -59,7 +57,7 @@ namespace BookGen.GeneratorSteps
             log.Detail("Processing image: {0}", file);
             using (SKBitmap image = ImageUtils.LoadImage(file))
             {
-                var format = ImageUtils.GetSkiaImageFormat(file);
+                SKEncodedImageFormat format = ImageUtils.GetSkiaImageFormat(file);
                 using (SKBitmap resized = ImageUtils.ResizeIfBigger(image, options.MaxWidth, options.MaxHeight))
                 {
                     if ((format == SKEncodedImageFormat.Jpeg && options.RecodeJpegToWebp)
@@ -119,10 +117,10 @@ namespace BookGen.GeneratorSteps
             FsPath target = targetdir.Combine(file.Filename);
             if (extensionOverride != null)
             {
-                var newname = Path.ChangeExtension(file.Filename, extensionOverride);
+                string? newname = Path.ChangeExtension(file.Filename, extensionOverride);
                 target = targetdir.Combine(newname);
             }
-            using (var stream = target.CreateStream(log))
+            using (FileStream? stream = target.CreateStream(log))
             {
                 log.Detail("Saving image: {0}", target);
                 data.SaveTo(stream);

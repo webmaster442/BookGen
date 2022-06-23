@@ -3,9 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Domain.Wordpress;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Wordpress
@@ -35,7 +33,7 @@ namespace BookGen.GeneratorSteps.Wordpress
 
             };
 
-            Rss output = new Rss()
+            var output = new Rss()
             {
                 Version = "2.0",
                 Channel = _session.CurrentChannel

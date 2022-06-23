@@ -3,9 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Domain.ArgumentParsing;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Interfaces;
@@ -35,13 +33,13 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(args.Directory))
             {
-                ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
+                var loader = new ProjectLoader(CurrentState.Log, args.Directory);
                 return loader.TryLoadProjectAndExecuteOperation((config, toc) =>
                 {
-                    Stopwatch stopwatch = new Stopwatch();
+                    var stopwatch = new Stopwatch();
                     stopwatch.Start();
 
-                    FsPath tags = new FsPath(args.Directory, "tags.json");
+                    var tags = new FsPath(args.Directory, "tags.json");
 
                     if (!loader.TryGetTags(config.BookLanguage, out TagUtils tagUtils))
                     {
@@ -72,7 +70,7 @@ namespace BookGen.Modules
 
         private static void SerializeTagCollection(string directory, ILog log, Dictionary<string, string[]> tagCollection)
         {
-            FsPath tags = new FsPath(directory, "tags.json");
+            var tags = new FsPath(directory, "tags.json");
             tags.SerializeJson(tagCollection, log, true);
         }
     }

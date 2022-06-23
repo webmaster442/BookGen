@@ -37,7 +37,7 @@ namespace BookGen.Modules
                 return ModuleRunResult.ArgumentsError;
             }
 
-            var file = System.IO.Path.GetFullPath(arguments[0]);
+            string? file = System.IO.Path.GetFullPath(arguments[0]);
 
             if (!EditorHelper.IsSupportedFile(file))
             {
@@ -47,7 +47,7 @@ namespace BookGen.Modules
 
             try
             {
-                using Process p = new Process();
+                using var p = new Process();
                 p.StartInfo.FileName = _settings.EditorPath;
                 p.StartInfo.Arguments = $"\"{file}\"";
                 p.StartInfo.UseShellExecute = false;

@@ -34,7 +34,7 @@ namespace BookGen.Framework.Server
             if (CanServe(request.Url))
             {
                 log?.Info("Serving: {0}...", request.Url);
-                var file = ResourceHandler.GetFile(_table[request.Url]);
+                string? file = ResourceHandler.GetFile(_table[request.Url]);
                 response.ContentType = MimeTypes.GetMimeTypeForFile(request.Url);
                 await response.Write(file);
                 return true;

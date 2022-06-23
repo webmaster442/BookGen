@@ -3,11 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Configuration;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using System.Diagnostics;
@@ -39,14 +36,14 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(args.Directory))
             {
-                ProjectLoader loader = new ProjectLoader(CurrentState.Log, args.Directory);
+                var loader = new ProjectLoader(CurrentState.Log, args.Directory);
 
                 return loader.TryLoadProjectAndExecuteOperation((config, toc) =>
                 {
-                    Stopwatch stopwatch = new Stopwatch();
+                    var stopwatch = new Stopwatch();
                     stopwatch.Start();
 
-                    var settings = loader.CreateRuntimeSettings(config, toc, new TagUtils(), new BuildConfig());
+                    RuntimeSettings? settings = loader.CreateRuntimeSettings(config, toc, new TagUtils(), new BuildConfig());
 
                     string content = ExtractLinksToMdFile(settings, CurrentState.Log);
 
@@ -74,9 +71,9 @@ namespace BookGen.Modules
 
                 Parallel.ForEach(settings.TocContents.GetLinksForChapter(chapter), link =>
                 {
-                    var input = settings.SourceDirectory.Combine(link.Url);
+                    Interfaces.FsPath? input = settings.SourceDirectory.Combine(link.Url);
 
-                    var contents = input.ReadFile(log);
+                    string? contents = input.ReadFile(log);
 
                     foreach (Match? match in _link.Matches(contents))
                     {

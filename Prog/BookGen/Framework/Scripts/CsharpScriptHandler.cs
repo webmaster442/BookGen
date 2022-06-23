@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 using System.Reflection;
 
@@ -37,7 +35,7 @@ namespace BookGen.Framework.Scripts
         {
             try
             {
-                var files = scriptsDir.GetAllFiles(true, "*.cs");
+                IEnumerable<FsPath>? files = scriptsDir.GetAllFiles(true, "*.cs");
                 IEnumerable<Microsoft.CodeAnalysis.SyntaxTree> trees = _compiler.ParseToSyntaxTree(files);
 
                 Assembly? assembly = _compiler.CompileToAssembly(trees);
@@ -92,9 +90,9 @@ namespace BookGen.Framework.Scripts
 
         private int SearchAndAddTypes(Assembly assembly)
         {
-            var iscript = typeof(IScript);
+            Type? iscript = typeof(IScript);
             int loaded = 0;
-            foreach (var IScriptType in assembly.GetTypes().Where(x => iscript.IsAssignableFrom(x)))
+            foreach (Type? IScriptType in assembly.GetTypes().Where(x => iscript.IsAssignableFrom(x)))
             {
                 try
                 {

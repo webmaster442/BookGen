@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
@@ -31,21 +29,21 @@ namespace BookGen.GeneratorSteps
             using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
             pipeline.InjectRuntimeConfig(settings);
 
-            foreach (var file in settings.TocContents.Files)
+            foreach (string? file in settings.TocContents.Files)
             {
-                var dir = Path.GetDirectoryName(file);
+                string? dir = Path.GetDirectoryName(file);
 
                 if (dir == null) continue;
 
                 FsPath? target = settings.OutputDirectory.Combine(dir).Combine("index.html");
                 if (!target.IsExisting)
                 {
-                    var mdcontent = CreateContentLinks(settings, dir);
+                    string? mdcontent = CreateContentLinks(settings, dir);
 
                     Content.Title = dir;
                     Content.Content = pipeline.RenderMarkdown(mdcontent);
                     Content.Metadata = "";
-                    var html = Template.Render();
+                    string? html = Template.Render();
 
                     log.Detail("Creating file: {0}", target);
                     target.WriteFile(log, html);
@@ -58,15 +56,15 @@ namespace BookGen.GeneratorSteps
             if (Chapters == null)
                 Chapters = settings.TocContents.GetLinksForChapter().ToList();
 
-            var links = from link in Chapters
-                        where link.Url.Contains(dir)
-                        select link;
+            IEnumerable<Link>? links = from link in Chapters
+                                       where link.Url.Contains(dir)
+                                       select link;
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            foreach (var link in links)
+            foreach (Link? link in links)
             {
-                var flink = link.Url.Replace(".md", ".html").Replace(dir, ".");
+                string? flink = link.Url.Replace(".md", ".html").Replace(dir, ".");
                 sb.AppendFormat("## [{0}]({1})\r\n", link.Text, flink);
             }
 

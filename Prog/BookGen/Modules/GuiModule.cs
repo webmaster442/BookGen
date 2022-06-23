@@ -45,7 +45,7 @@ namespace BookGen.Modules
         public override ModuleRunResult Execute(string[] arguments)
         {
 
-            BookGenArgumentBase args = new BookGenArgumentBase();
+            var args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return ModuleRunResult.ArgumentsError;
@@ -62,8 +62,8 @@ namespace BookGen.Modules
             {
 
                 uiRunner.OnNavigaton += UiRunner_OnNavigaton;
-                var (view, model) = UiRunner_OnNavigaton(MainView);
-                
+                (System.IO.Stream view, Gui.Mvvm.ViewModelBase model) = UiRunner_OnNavigaton(MainView);
+
                 uiRunner.Run(view, model);
                 return ModuleRunResult.Succes;
             }

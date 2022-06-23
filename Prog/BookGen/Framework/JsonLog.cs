@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Webmaster442.HttpServerFramework;
@@ -29,7 +28,7 @@ namespace BookGen.Framework
 
         public void Flush()
         {
-            var result = JsonSerializer.Serialize(_entries, _options);
+            string? result = JsonSerializer.Serialize(_entries, _options);
             Console.WriteLine(result);
         }
 

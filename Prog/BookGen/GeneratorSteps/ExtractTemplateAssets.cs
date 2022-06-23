@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Interfaces;
 using BookGen.Resources;
 
@@ -26,9 +25,9 @@ namespace BookGen.GeneratorSteps
                 return;
             }
 
-            foreach (var (file, targetPath) in Assets)
+            foreach ((KnownFile file, string targetPath) in Assets)
             {
-                var target = settings.OutputDirectory.Combine(targetPath).ToString();
+                string? target = settings.OutputDirectory.Combine(targetPath).ToString();
 
                 ResourceHandler.ExtractKnownFile(file, target, log);
             }

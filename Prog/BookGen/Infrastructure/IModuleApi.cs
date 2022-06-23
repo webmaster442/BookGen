@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-
 namespace BookGen.Infrastructure
 {
     internal interface IModuleApi
@@ -14,7 +12,7 @@ namespace BookGen.Infrastructure
             Program.CurrentState.Log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
             return new GeneratorRunner(Program.CurrentState.Log, Program.CurrentState.ServerLog, workDir);
         }
-        
+
         void ExecuteModule(string module, string[] arguments)
         {
             Program.RunModule(module, arguments, skipLockCheck: true);

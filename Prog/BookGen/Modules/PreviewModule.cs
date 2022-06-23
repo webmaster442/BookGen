@@ -5,7 +5,6 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Framework.Server;
 using BookGen.Gui.ArgumentParser;
@@ -30,13 +29,13 @@ namespace BookGen.Modules
         {
             const string url = "http://localhost:8082/";
 
-            BookGenArgumentBase args = new BookGenArgumentBase();
+            var args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return ModuleRunResult.ArgumentsError;
             }
 
-            using (var server = HttpServerFactory.CreateServerForPreview(CurrentState.Log, CurrentState.ServerLog, args.Directory))
+            using (Webmaster442.HttpServerFramework.HttpServer? server = HttpServerFactory.CreateServerForPreview(CurrentState.Log, CurrentState.ServerLog, args.Directory))
             {
                 server.Start();
                 CurrentState.Log.Info("-------------------------------------------------");

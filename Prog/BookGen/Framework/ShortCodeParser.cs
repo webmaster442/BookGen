@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain;
 using BookGen.Domain.Configuration;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Shortcodes;
@@ -41,7 +39,7 @@ namespace BookGen.Framework
 
         public void AddShortcodesToLookupIndex(IList<ITemplateShortCode> shortCodes)
         {
-            foreach (var code in shortCodes)
+            foreach (ITemplateShortCode? code in shortCodes)
             {
                 if (!_shortCodesIndex.ContainsKey(code.Tag))
                 {
@@ -65,7 +63,7 @@ namespace BookGen.Framework
             }
             else
             {
-                return parts[0].Substring(shortCodeStart.Length).Trim();
+                return parts[0][shortCodeStart.Length..].Trim();
             }
         }
 
@@ -76,14 +74,14 @@ namespace BookGen.Framework
             if (matches.Count == 0)
                 return input;
 
-            StringBuilder cache = new StringBuilder(input);
+            var cache = new StringBuilder(input);
 
             foreach (Match? match in matches)
             {
                 if (match == null) continue;
-                var key = match.Value.Replace($"{shortCodeStart}? ", "").Replace(shortCodeEnd, "");
+                string? key = match.Value.Replace($"{shortCodeStart}? ", "").Replace(shortCodeEnd, "");
 
-                var text = Translate.DoTranslateForKey(_translations, key);
+                string? text = Translate.DoTranslateForKey(_translations, key);
 
                 cache.Replace(match.Value, text);
             }
@@ -93,9 +91,9 @@ namespace BookGen.Framework
 
         private ShortCodeArguments GetArguments(string value)
         {
-            Dictionary<string, string> results = new Dictionary<string, string>();
+            var results = new Dictionary<string, string>();
 
-            var firstpass = ShortCodeArgumentTokenizer.Split(value).Skip(1).ToArray();
+            string[]? firstpass = ShortCodeArgumentTokenizer.Split(value).Skip(1).ToArray();
 
             //no space means no additional arguments
             if (firstpass.Length < 1)
@@ -104,9 +102,9 @@ namespace BookGen.Framework
             }
             else
             {
-                foreach (var token in firstpass)
+                foreach (string? token in firstpass)
                 {
-                    var pair = ShortCodeArgumentTokenizer.Split(token.Replace("=\"", " \"")).ToArray();
+                    string[]? pair = ShortCodeArgumentTokenizer.Split(token.Replace("=\"", " \"")).ToArray();
                     if (pair.Length == 2)
                     {
                         results.TryAdd(pair[0], RemoveStartingSpaceAndEndTags(pair[1]));
@@ -133,13 +131,13 @@ namespace BookGen.Framework
 
         public string Parse(string content)
         {
-            StringBuilder result = new StringBuilder(content);
+            var result = new StringBuilder(content);
             MatchCollection matches = CodeRegex.Matches(content);
             foreach (Match? match in matches)
             {
                 if (match != null)
                 {
-                    var tagKey = GetTagKey(match.Value);
+                    string? tagKey = GetTagKey(match.Value);
                     if (_codeResultCache.ContainsKey(match.Value))
                     {
                         //Cache has it stored, so simply lookup and replace
@@ -148,8 +146,8 @@ namespace BookGen.Framework
                     else if (_shortCodesIndex.ContainsKey(tagKey))
                     {
                         //It is a known shortcode, so run it
-                        var shortcode = _shortCodesIndex[tagKey];
-                        var generated = shortcode.Generate(GetArguments(match.Value));
+                        ITemplateShortCode? shortcode = _shortCodesIndex[tagKey];
+                        string? generated = shortcode.Generate(GetArguments(match.Value));
                         result.Replace(match.Value, generated);
                         //For next iteration of it's occurance cache it if it's cacheable
                         if (shortcode.CanCacheResult)
@@ -159,7 +157,7 @@ namespace BookGen.Framework
                     }
                     else if (_scriptHandler.IsKnownScript(tagKey))
                     {
-                        var scriptResult = _scriptHandler.ExecuteScript(tagKey, GetArguments(match.Value));
+                        string? scriptResult = _scriptHandler.ExecuteScript(tagKey, GetArguments(match.Value));
                         result.Replace(match.Value, scriptResult);
                     }
                     else

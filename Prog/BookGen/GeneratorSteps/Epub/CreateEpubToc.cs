@@ -3,10 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain;
 using BookGen.Domain.Epub.Ncx;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Interfaces;
 
@@ -20,8 +17,8 @@ namespace BookGen.GeneratorSteps.Epub
         private void GenerateTocNcx(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Creating epub toc.ncx...");
-            var output = settings.OutputDirectory.Combine("epubtemp\\OPS\\toc.ncx");
-            Ncx toc = new Ncx
+            FsPath? output = settings.OutputDirectory.Combine("epubtemp\\OPS\\toc.ncx");
+            var toc = new Ncx
             {
                 Version = "2005-1",
                 Xmlns = "http://www.daisy.org/z3986/2005/ncx/",
@@ -72,7 +69,7 @@ namespace BookGen.GeneratorSteps.Epub
         {
             var navPoint = new List<NavPoint>();
             int filecounter = 1;
-            foreach (var link in settings.TocContents.GetLinksForChapter())
+            foreach (Link? link in settings.TocContents.GetLinksForChapter())
             {
                 navPoint.Add(new NavPoint
                 {
@@ -96,16 +93,16 @@ namespace BookGen.GeneratorSteps.Epub
         {
             log.Info("Generating epub TOC...");
 
-            StringBuilder buffer = new StringBuilder(4096);
+            var buffer = new StringBuilder(4096);
 
             buffer.Append("<nav epub:type=\"toc\" id=\"toc\">\n");
 
             int index = 1;
-            foreach (var chapter in settings.TocContents.Chapters)
+            foreach (string? chapter in settings.TocContents.Chapters)
             {
                 buffer.AppendFormat("<h1>{0}</h1>\n", chapter);
                 buffer.Append("<ol>\n");
-                foreach (var link in settings.TocContents.GetLinksForChapter(chapter))
+                foreach (Link? link in settings.TocContents.GetLinksForChapter(chapter))
                 {
                     buffer.AppendFormat("<li><a href=\"page_{0:D3}.xhtml\">{1}</a></li>\n", index, link.Text);
                     ++index;
@@ -120,7 +117,7 @@ namespace BookGen.GeneratorSteps.Epub
             Template.Content = buffer.ToString();
             Template.Title = "";
 
-            var html = Template.Render();
+            string? html = Template.Render();
             target.WriteFile(log, html);
         }
 

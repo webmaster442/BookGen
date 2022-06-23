@@ -3,10 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain;
 using BookGen.Domain.Configuration;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
@@ -24,7 +21,7 @@ namespace BookGen.GeneratorSteps
         {
             log.Info("Processing assets...");
 
-            foreach (var asset in _target.TemplateAssets)
+            foreach (Asset? asset in _target.TemplateAssets)
             {
                 if (string.IsNullOrEmpty(asset.Source) || string.IsNullOrEmpty(asset.Target))
                 {

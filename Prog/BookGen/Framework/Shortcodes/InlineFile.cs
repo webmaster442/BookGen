@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 using System.ComponentModel.Composition;
 
@@ -27,9 +25,9 @@ namespace BookGen.Framework.Shortcodes
 
         public string Generate(IArguments arguments)
         {
-            var name = arguments.GetArgumentOrThrow<string>("file");
+            string? name = arguments.GetArgumentOrThrow<string>("file");
 
-            FsPath file = new FsPath(name);
+            var file = new FsPath(name);
 
             _log.Detail("Inlineing {0}...", file);
 

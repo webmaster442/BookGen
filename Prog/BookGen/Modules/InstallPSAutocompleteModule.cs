@@ -5,7 +5,6 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
-using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Interfaces;
@@ -32,17 +31,17 @@ namespace BookGen.Modules
             }
 
 
-            FsPath target = new FsPath(args.Files[0]);
+            var target = new FsPath(args.Files[0]);
 
-            StringBuilder contents = new StringBuilder(4096);
+            var contents = new StringBuilder(4096);
 
             if (args.Dotnet)
             {
-                var dnc = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.dn.ps1");
+                string? dnc = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.dn.ps1");
                 contents.Append(dnc);
             }
 
-            var completer = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.ps1");
+            string? completer = ResourceHandler.GetResourceFile<KnownFile>("Powershell/completer.ps1");
             contents.Append(completer);
 
             target.WriteFile(CurrentState.Log, contents.ToString());

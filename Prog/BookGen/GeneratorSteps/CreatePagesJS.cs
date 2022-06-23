@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 using System.IO;
 
@@ -15,8 +13,8 @@ namespace BookGen.GeneratorSteps
         public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Generating pages.js...");
-            List<string> pages = new List<string>();
-            foreach (var file in settings.TocContents.Files)
+            var pages = new List<string>();
+            foreach (string? file in settings.TocContents.Files)
             {
                 pages.Add(settings.Configuration.HostName + Path.ChangeExtension(file, ".html"));
             }

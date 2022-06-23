@@ -34,8 +34,8 @@ namespace BookGen.Framework
 
         private IList<ITemplateShortCode> CreateInternalsList()
         {
-            List<ITemplateShortCode> internals = new List<ITemplateShortCode>(_table.Count);
-            foreach (var item in _table)
+            var internals = new List<ITemplateShortCode>(_table.Count);
+            foreach (KeyValuePair<string, string> item in _table)
             {
                 internals.Add(new DelegateShortCode(item.Key, (_) =>
                 {

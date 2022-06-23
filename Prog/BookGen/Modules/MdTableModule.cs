@@ -3,10 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
-using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
@@ -33,7 +31,7 @@ namespace BookGen.Modules
                 return ModuleRunResult.ArgumentsError;
             }
 
-            var content = WinClipboard.GetText();
+            string? content = WinClipboard.GetText();
             if (string.IsNullOrEmpty(content))
             {
                 CurrentState.Log.Warning("Clipboard doesn't contain string data");

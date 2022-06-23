@@ -50,9 +50,9 @@ namespace BookGen.Framework
             }
             else
             {
-                foreach (var asset in target.TemplateAssets)
+                foreach (Asset? asset in target.TemplateAssets)
                 {
-                    var source = WorkDirectory.Combine(asset.Source);
+                    FsPath? source = WorkDirectory.Combine(asset.Source);
 
                     if (!source.IsExisting)
                         AddError(Properties.Resources.MissingAsset, source.ToString());

@@ -142,7 +142,7 @@ namespace BookGen
             {
                 using (TBuilder instance = builderCreator(loader))
                 {
-                    var runTime = instance.Run();
+                    TimeSpan runTime = instance.Run();
                     Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
                 }
             }
@@ -163,7 +163,7 @@ namespace BookGen
         {
             ThrowIfInvalidState();
 
-            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetPrint);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetPrint);
 
             Log.Info("Building print configuration...");
 
@@ -174,7 +174,7 @@ namespace BookGen
         {
             ThrowIfInvalidState();
 
-            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetEpub);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetEpub);
 
             Log.Info("Building epub configuration...");
 
@@ -185,7 +185,7 @@ namespace BookGen
         {
             ThrowIfInvalidState();
 
-            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetWordpress);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetWordpress);
 
             Log.Info("Building Wordpress configuration...");
 
@@ -199,15 +199,15 @@ namespace BookGen
             Log.Info("Building test configuration...");
             _configuration.HostName = "http://localhost:8080/";
 
-            var settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetWeb);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetWeb);
 
 
             using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
             {
-                WebsiteBuilder builder = new WebsiteBuilder(settings, Log, loader, _scriptHandler);
-                var runTime = builder.Run();
+                var builder = new WebsiteBuilder(settings, Log, loader, _scriptHandler);
+                TimeSpan runTime = builder.Run();
 
-                using (var server = HttpServerFactory.CreateServerForTest(ServerLog, Path.Combine(WorkDirectory, _configuration.TargetWeb.OutPutDirectory)))
+                using (HttpServer? server = HttpServerFactory.CreateServerForTest(ServerLog, Path.Combine(WorkDirectory, _configuration.TargetWeb.OutPutDirectory)))
                 {
                     server.Start();
                     Log.Info("-------------------------------------------------");

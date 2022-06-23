@@ -17,7 +17,7 @@ namespace BookGen.Framework
             _lockfile = Path.Combine(folder, lockName);
             if (!File.Exists(_lockfile))
             {
-                using var f = File.CreateText(_lockfile);
+                using StreamWriter? f = File.CreateText(_lockfile);
             }
         }
 

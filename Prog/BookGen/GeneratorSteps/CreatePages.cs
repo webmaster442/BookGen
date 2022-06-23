@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
@@ -37,12 +35,12 @@ namespace BookGen.GeneratorSteps
 
                 (string source, FsPath target, string title, string content) result;
 
-                var input = settings.SourceDirectory.Combine(file);
+                FsPath? input = settings.SourceDirectory.Combine(file);
                 result.target = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
 
                 log.Detail("Processing file: {0}", input);
 
-                var inputContent = input.ReadFile(log);
+                string? inputContent = input.ReadFile(log);
 
                 result.title = MarkdownUtils.GetDocumentTitle(inputContent, log);
 
@@ -60,12 +58,12 @@ namespace BookGen.GeneratorSteps
             });
 
             log.Info("Writing files to disk...");
-            foreach (var item in bag)
+            foreach ((string source, FsPath target, string title, string content) in bag)
             {
-                Content.Title = item.title;
-                Content.Metadata = settings.MetataCache[item.source];
-                Content.Content = item.content;
-                item.target.WriteFile(log, Template.Render());
+                Content.Title = title;
+                Content.Metadata = settings.MetataCache[source];
+                Content.Content = content;
+                target.WriteFile(log, Template.Render());
             }
         }
     }

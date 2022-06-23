@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using System.IO;
 
 namespace BookGen.Framework.Scripts
@@ -36,7 +34,7 @@ namespace BookGen.Framework.Scripts
 
             try
             {
-                var (exitcode, output) = ProcessRunner.RunProcess(programPath, fileToExecute, timeout);
+                (int exitcode, string output) = ProcessRunner.RunProcess(programPath, fileToExecute, timeout);
 
                 if (exitcode != 0)
                 {

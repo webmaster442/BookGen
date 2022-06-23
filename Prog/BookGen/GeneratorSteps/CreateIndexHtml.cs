@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
@@ -25,7 +23,7 @@ namespace BookGen.GeneratorSteps
                 throw new DependencyException(nameof(Template));
 
             log.Info("Generating Index file...");
-            var input = settings.SourceDirectory.Combine(settings.Configuration.Index);
+            FsPath? input = settings.SourceDirectory.Combine(settings.Configuration.Index);
             FsPath? target = settings.OutputDirectory.Combine("index.html");
 
             using (var pipeline = new BookGenPipeline(BookGenPipeline.Web))
@@ -35,7 +33,7 @@ namespace BookGen.GeneratorSteps
                 Content.Content = pipeline.RenderMarkdown(input.ReadFile(log));
             }
 
-            var html = Template.Render();
+            string? html = Template.Render();
 
             target.WriteFile(log, html);
         }

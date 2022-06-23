@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Infrastructure;
@@ -123,7 +121,7 @@ namespace BookGen
                 }
                 else
                 {
-                    var result = moduleToRun.Execute(parameters.ToArray());
+                    ModuleRunResult result = moduleToRun.Execute(parameters.ToArray());
                     switch (result)
                     {
                         case ModuleRunResult.ArgumentsError:
@@ -153,7 +151,7 @@ namespace BookGen
 
         public static void Main(string[] args)
         {
-            var loaded = AppSettingHandler.LoadAppSettings();
+            AppSetting? loaded = AppSettingHandler.LoadAppSettings();
             var argumentsToParse = args.ToList();
 
             if (loaded != null)
@@ -184,7 +182,7 @@ namespace BookGen
         private static void ConfiugreStatelessModules(IEnumerable<ModuleWithState> modulesWithState)
         {
             IEnumerable<ModuleBase>? allmodules = StatelessModules.Concat(modulesWithState);
-            foreach (var module in allmodules)
+            foreach (ModuleBase? module in allmodules)
             {
                 if (module is IModuleCollection moduleCollection)
                     moduleCollection.Modules = allmodules;

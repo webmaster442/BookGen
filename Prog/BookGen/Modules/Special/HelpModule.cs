@@ -21,7 +21,7 @@ namespace BookGen.Modules.Special
 
             string? helpScope = arguments.Length > 0 ? arguments[0] : string.Empty;
 
-            var foundMoudle = Modules.FirstOrDefault(m => string.Compare(m.ModuleCommand, helpScope, true) == 0);
+            ModuleBase? foundMoudle = Modules.FirstOrDefault(m => string.Compare(m.ModuleCommand, helpScope, true) == 0);
 
             if (foundMoudle == null)
             {

@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 using BookGen.Resources;
 using System.ComponentModel.Composition;
@@ -20,14 +18,14 @@ namespace BookGen.Framework.Shortcodes
 
         public string Generate(IArguments arguments)
         {
-            var contentsDiv = arguments.GetArgumentOrThrow<string>("ContentsDiv");
-            var targetDiv = arguments.GetArgumentOrThrow<string>("TargetDiv");
+            string? contentsDiv = arguments.GetArgumentOrThrow<string>("ContentsDiv");
+            string? targetDiv = arguments.GetArgumentOrThrow<string>("TargetDiv");
 
-            StringBuilder writer = new StringBuilder();
+            var writer = new StringBuilder();
 
-            var pagetoc = ResourceHandler.GetFile(KnownFile.PageTocJs);
+            string? pagetoc = ResourceHandler.GetFile(KnownFile.PageTocJs);
 
-            var code = pagetoc.Replace("{{contents}}", contentsDiv).Replace("{{target}}", targetDiv);
+            string? code = pagetoc.Replace("{{contents}}", contentsDiv).Replace("{{target}}", targetDiv);
 
             return writer.WriteJavaScript(code).ToString();
         }

@@ -3,9 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Domain.Epub;
-using BookGen.DomainServices;
 using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Epub
@@ -15,7 +13,7 @@ namespace BookGen.GeneratorSteps.Epub
         private static void CreateMimeTypeFile(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Detail("Creating mimetype file...");
-            var mime = settings.OutputDirectory.Combine("epubtemp\\mimetype");
+            FsPath? mime = settings.OutputDirectory.Combine("epubtemp\\mimetype");
             mime.WriteFile(log, "application/epub+zip");
         }
 
@@ -23,7 +21,7 @@ namespace BookGen.GeneratorSteps.Epub
         {
             string[] directories = { "epubtemp\\META-INF", "epubtemp\\OPS" };
 
-            foreach (var directory in directories)
+            foreach (string? directory in directories)
             {
                 FsPath path = settings.OutputDirectory.Combine(directory);
                 path.CreateDir(log);

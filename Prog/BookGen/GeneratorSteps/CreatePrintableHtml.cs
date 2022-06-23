@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
@@ -38,16 +36,16 @@ namespace BookGen.GeneratorSteps
 
             FootNoteReindexer reindexer = new(log, appendLineBreakbeforeDefs: true);
 
-            foreach (var chapter in settings.TocContents.Chapters)
+            foreach (string? chapter in settings.TocContents.Chapters)
             {
                 log.Info("Processing: {0}...", chapter);
                 reindexer.AddMarkdown($"# {chapter}\r\n");
-                foreach (var file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
+                foreach (string? file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing file for print output: {0}", file);
-                    var input = settings.SourceDirectory.Combine(file);
+                    FsPath? input = settings.SourceDirectory.Combine(file);
 
-                    var inputContent = input.ReadFile(log, true);
+                    string? inputContent = input.ReadFile(log, true);
                     reindexer.AddMarkdown(inputContent);
                 }
             }

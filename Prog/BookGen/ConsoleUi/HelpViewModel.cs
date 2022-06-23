@@ -60,7 +60,7 @@ namespace BookGen.ConsoleUi
 
         private string ReformatText(string moduleName)
         {
-            var text = _modules
+            string? text = _modules
                 .Find(module => module.ModuleCommand == moduleName)
                 ?.GetHelp() ?? string.Empty;
 

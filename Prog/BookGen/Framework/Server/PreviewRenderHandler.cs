@@ -3,9 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Domain.Configuration;
-using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Interfaces;
 using BookGen.Resources;
@@ -73,11 +71,11 @@ namespace BookGen.Framework.Server
 
         public string WriteIndex()
         {
-            StringBuilder html = new StringBuilder();
+            var html = new StringBuilder();
             html.WriteHeader(1, "Index of: {0}", _directory);
             html.WriteElement(HtmlElement.Table);
             html.WriteTableHeader("File name", "Actions");
-            foreach (var file in Directory.GetFiles(_directory, "*.md"))
+            foreach (string? file in Directory.GetFiles(_directory, "*.md"))
             {
                 html.WriteTableRow(Path.GetFileName(file), GetLink(file));
             }
@@ -106,7 +104,7 @@ namespace BookGen.Framework.Server
                      && log is ILog bookGenLog)
             {
                 _processor.Title = $"Preview of {request.Url}";
-                FsPath path = new FsPath(found);
+                var path = new FsPath(found);
                 _processor.Content = _mdpipeline?.RenderMarkdown(path.ReadFile(bookGenLog)) ?? string.Empty;
                 await response.Write(_processor.Render());
                 return true;

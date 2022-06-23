@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using System.IO;
 
 namespace BookGen.Framework
@@ -31,7 +30,7 @@ namespace BookGen.Framework
             if (FolderLock.TryCheckLockExistance(folder, out string lockfile))
             {
 #if DEBUG
-                var running = System.Diagnostics.Process.GetProcessesByName(nameof(BookGen));
+                System.Diagnostics.Process[]? running = System.Diagnostics.Process.GetProcessesByName(nameof(BookGen));
                 if (running.Length == 1) //only this current instance is running
                 {
                     CurrentState.Log.Warning("Lockfile was found, but no other bookgen is running. Removing lock...");
