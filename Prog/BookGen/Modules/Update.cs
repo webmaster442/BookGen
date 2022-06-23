@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
+using BookGen.DomainServices;
 using BookGen.Framework;
 
 namespace BookGen.Modules

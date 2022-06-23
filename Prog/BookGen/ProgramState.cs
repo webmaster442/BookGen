@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
+using BookGen.Infrastructure;
 using System.Reflection;
 using Webmaster442.HttpServerFramework;
 
@@ -18,7 +18,7 @@ namespace BookGen
         public DateTime BuildDateUtc { get; }
         public string ProgramDirectory { get; }
         public int ConfigVersion { get; }
-        public IMoudleApi Api { get; }
+        public IModuleApi Api { get; }
         public ILog Log { get; }
         public IServerLog ServerLog { get; }
 
@@ -36,7 +36,7 @@ namespace BookGen
             return new DateTime();
         }
 
-        public ProgramState(IMoudleApi apiImplementation, ILog log, IServerLog serverLog)
+        public ProgramState(IModuleApi apiImplementation, ILog log, IServerLog serverLog)
         {
             Log = log;
             ServerLog = serverLog;

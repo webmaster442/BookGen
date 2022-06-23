@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Contracts;
+using BookGen.Domain;
 using BookGen.Framework;
-using BookGen.Utilities;
+using BookGen.Infrastructure;
 
 namespace BookGen.Modules.Special
 {

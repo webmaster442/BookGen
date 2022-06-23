@@ -4,8 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Interfaces;
 

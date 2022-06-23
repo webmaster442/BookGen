@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
-using BookGen.Utilities;
 using System.Threading;
 
 namespace BookGen.Modules

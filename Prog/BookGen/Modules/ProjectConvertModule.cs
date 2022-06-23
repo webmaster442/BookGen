@@ -4,12 +4,14 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Configuration;
+using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Configuration;
 using BookGen.Domain.Shell;
+using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
-using BookGen.Utilities;
+using BookGen.Interfaces;
 
 namespace BookGen.Modules
 {
@@ -50,11 +52,15 @@ namespace BookGen.Modules
             }
             else if (json.IsFile)
             {
-                return ConvertToYml(json, yml, CurrentState.Log, args.Backup).ToSuccesOrError();
+                return ConvertToYml(json, yml, CurrentState.Log, args.Backup)
+                    ? ModuleRunResult.Succes
+                    : ModuleRunResult.GeneralError;
             }
             else
             {
-                return ConvertYmlToJson(yml, json, CurrentState.Log, args.Backup).ToSuccesOrError();
+                return ConvertYmlToJson(yml, json, CurrentState.Log, args.Backup)
+                    ? ModuleRunResult.Succes
+                    : ModuleRunResult.GeneralError;
             }
         }
 

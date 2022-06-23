@@ -130,6 +130,7 @@
 	  </Content>
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\..\Libs\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.DomainServices\BookGen.DomainServices.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Gui\BookGen.Gui.csproj" />

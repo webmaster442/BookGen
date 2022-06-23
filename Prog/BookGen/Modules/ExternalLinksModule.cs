@@ -4,12 +4,12 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Configuration;
+using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
-using BookGen.Utilities;
 using System.Diagnostics;
 
 namespace BookGen.Modules
@@ -56,7 +56,7 @@ namespace BookGen.Modules
                     CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
                     return true;
-                }).ToSuccesOrError();
+                }) ? ModuleRunResult.Succes : ModuleRunResult.GeneralError;
             }
 
         }

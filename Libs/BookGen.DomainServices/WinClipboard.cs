@@ -10,7 +10,7 @@ using System.Text;
 
 namespace BookGen.DomainServices
 {
-    internal static class WinClipboard
+    public static class WinClipboard
     {
         private const uint cfUnicodeText = 13;
 

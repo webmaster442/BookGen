@@ -5,10 +5,10 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Framework.Server;
 using BookGen.Gui.ArgumentParser;
-using BookGen.Utilities;
 
 namespace BookGen.Modules
 {

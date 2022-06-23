@@ -5,7 +5,7 @@
 
 namespace BookGen.Domain
 {
-    internal class StatisticsData
+    public class StatisticsData
     {
         public long Chars { get; set; }
         public long Bytes { get; set; }

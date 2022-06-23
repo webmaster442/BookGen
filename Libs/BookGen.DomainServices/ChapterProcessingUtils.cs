@@ -11,7 +11,7 @@ using System.Text;
 
 namespace BookGen.DomainServices
 {
-    internal static class ChapterProcessingUtils
+    public static class ChapterProcessingUtils
     {
         public static void ScanMarkdownFiles(string workDir, Config configuration, ILog log)
         {

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework;
-using BookGen.Utilities;
 
 namespace BookGen.Modules.Special
 {

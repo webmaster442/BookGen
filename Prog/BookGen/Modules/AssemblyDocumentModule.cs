@@ -6,6 +6,7 @@
 using BookGen.AssemblyDocumenter;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using System.Collections.ObjectModel;

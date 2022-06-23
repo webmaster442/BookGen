@@ -7,7 +7,7 @@ using BookGen.Domain;
 
 namespace BookGen.DomainServices
 {
-    internal static class EditorHelper
+    public static class EditorHelper
     {
         private static readonly HashSet<string> supportedFileTypes = new()
         {

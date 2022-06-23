@@ -3,10 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain;
 using BookGen.Domain.Configuration;
-using BookGen.DomainServices;
+using BookGen.Framework;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;

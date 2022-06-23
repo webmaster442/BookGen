@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.ArgumentParsing;
+using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Interfaces;
 
 namespace BookGen.Modules
 {

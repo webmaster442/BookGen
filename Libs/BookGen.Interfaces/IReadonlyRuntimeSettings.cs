@@ -36,11 +36,11 @@ namespace BookGen.Interfaces
         /// <summary>
         /// Current Metadata
         /// </summary>
-        IReadOnlyDictionary<string, string> MetataCache { get; }
+        IDictionary<string, string> MetataCache { get; }
         /// <summary>
         /// Inline Image cache. Key is Image path, value is Image as Base64 encoded
         /// </summary>
-        IReadOnlyDictionary<string, string> InlineImgCache { get; }
+        IDictionary<string, string> InlineImgCache { get; }
         /// <summary>
         /// Currently used/active build config
         /// </summary>

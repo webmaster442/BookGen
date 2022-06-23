@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.ConsoleUi;
-using BookGen.Contracts;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Infrastructure;
 
 namespace BookGen.Modules
 {

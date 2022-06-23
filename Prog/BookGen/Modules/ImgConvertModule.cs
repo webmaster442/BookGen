@@ -5,9 +5,9 @@
 
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
-using BookGen.Utilities;
 
 namespace BookGen.Modules
 {
@@ -60,7 +60,14 @@ namespace BookGen.Modules
                 return ModuleRunResult.Succes;
             }
 
-            return ImageUtils.ConvertImageFile(CurrentState.Log, args.Input, args.Output, args.Quality, args.Width, args.Height).ToSuccesOrError();
+            return ImageUtils.ConvertImageFile(CurrentState.Log,
+                                               args.Input,
+                                               args.Output,
+                                               args.Quality,
+                                               args.Width,
+                                               args.Height)
+                ? ModuleRunResult.Succes
+                : ModuleRunResult.GeneralError;
         }
     }
 }

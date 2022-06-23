@@ -5,9 +5,10 @@
 
 using BookGen.Api;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
-using BookGen.Utilities;
+using BookGen.Interfaces;
 using System.Diagnostics;
 
 namespace BookGen.Modules
@@ -41,7 +42,7 @@ namespace BookGen.Modules
                     stopwatch.Start();
 
                     FsPath tags = new FsPath(args.Directory, "tags.json");
-                    
+
                     if (!loader.TryGetTags(config.BookLanguage, out TagUtils tagUtils))
                     {
                         return false;
@@ -58,7 +59,7 @@ namespace BookGen.Modules
                     CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
                     return true;
 
-                }).ToSuccesOrError();
+                }) ? ModuleRunResult.Succes : ModuleRunResult.GeneralError;
             }
         }
 

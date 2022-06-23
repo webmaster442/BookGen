@@ -20,4 +20,6 @@ namespace BookGen.Infrastructure
             Program.RunModule(module, arguments, skipLockCheck: true);
         }
     }
+
+    internal class ModuleApi : IModuleApi { }
 }

@@ -3,13 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Configuration;
 using BookGen.Domain;
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Configuration;
 using BookGen.Domain.Shell;
+using BookGen.DomainServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
-using BookGen.Utilities;
 using System.IO;
 
 namespace BookGen.Modules
@@ -71,7 +71,7 @@ namespace BookGen.Modules
                         CurrentState.Log.PrintLine(stat);
                     }
 
-                    return result.ToSuccesOrError();
+                    return result ? ModuleRunResult.Succes : ModuleRunResult.GeneralError;
                 }
             }
 

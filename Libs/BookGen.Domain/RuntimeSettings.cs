@@ -24,9 +24,9 @@ namespace BookGen.Domain
 
         IReadOnlyConfig IReadonlyRuntimeSettings.Configuration => Configuration;
 
-        IReadOnlyDictionary<string, string> IReadonlyRuntimeSettings.MetataCache => MetataCache;
+        IDictionary<string, string> IReadonlyRuntimeSettings.MetataCache => MetataCache;
 
-        IReadOnlyDictionary<string, string> IReadonlyRuntimeSettings.InlineImgCache => InlineImgCache;
+        IDictionary<string, string> IReadonlyRuntimeSettings.InlineImgCache => InlineImgCache;
 
         IReadOnlyBuildConfig IReadonlyRuntimeSettings.CurrentBuildConfig => CurrentBuildConfig;
 

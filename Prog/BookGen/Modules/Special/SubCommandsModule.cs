@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Contracts;
 using BookGen.Framework;
+using BookGen.Infrastructure;
 
 namespace BookGen.Modules.Special
 {

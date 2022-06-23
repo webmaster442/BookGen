@@ -8,6 +8,8 @@ using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Domain;
+using BookGen.Domain.ArgumentParsing;
+using BookGen.DomainServices;
 
 namespace BookGen.Modules
 {
@@ -60,7 +62,8 @@ namespace BookGen.Modules
                         return ChapterProcessingUtils.GenerateSummaryFile(args.WorkDir,
                                                                           configuration,
                                                                           CurrentState.Log)
-                                                      .ToSuccesOrError();
+                                                      ? ModuleRunResult.Succes
+                                                      : ModuleRunResult.GeneralError;
                     case ChaptersAction.Scan:
                         ChapterProcessingUtils.ScanMarkdownFiles(args.WorkDir, configuration, CurrentState.Log);
                         break;

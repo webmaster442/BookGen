@@ -3,11 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Markdown;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
+using BookGen.DomainServices;
+using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Interfaces;
 using BookGen.Resources;
 
 namespace BookGen.Modules
@@ -92,7 +94,7 @@ namespace BookGen.Modules
 
         private static void WriteToStdout(string rendered)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
             Console.WriteLine(rendered);
         }
     }

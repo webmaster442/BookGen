@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace BookGen.DomainServices
 {
-    internal static class StringExtensions
+    public static class StringExtensions
     {
         public static int GetWordCount(this string input)
         {
