@@ -9,22 +9,22 @@ namespace BookGen.TestsSystem
         {
         }
 
-        [Test]
+        [Test, Timeout(3000)]
         public void Test_NoSyntax_Raw()
         {
             EnsureRunWithoutException(ExitCode.Succes, "md2html -i Testpage.md -ns -r -o nsr.html");
             Environment.AssertFileExistsAndHasContents("nsr.html");
-            var contents = Environment.ReadFileContents("nsr.html");
+            string? contents = Environment.ReadFileContents("nsr.html");
             Assert.IsFalse(contents.StartsWith("<html>"));
             Assert.IsFalse(contents.EndsWith("</html>"));
         }
 
-        [Test]
+        [Test, Timeout(3000)]
         public void Test_Syntax_Raw()
         {
             EnsureRunWithoutException(ExitCode.Succes, "md2html -i Testpage.md -r -o r.html");
             Environment.AssertFileExistsAndHasContents("r.html");
-            var contents = Environment.ReadFileContents("r.html");
+            string? contents = Environment.ReadFileContents("r.html");
 
             Assert.IsTrue(contents.Contains("<span class=\"token keyword\">"));
             Assert.IsTrue(contents.Contains("<style"));
@@ -34,13 +34,13 @@ namespace BookGen.TestsSystem
             Assert.IsFalse(contents.EndsWith("</html>"));
         }
 
-        [Test]
+        [Test, Timeout(3000)]
         public void Test_Full()
         {
             EnsureRunWithoutException(ExitCode.Succes, "md2html -i Testpage.md -o full.html");
 
             Environment.AssertFileExistsAndHasContents("full.html");
-            var contents = Environment.ReadFileContents("full.html");
+            string? contents = Environment.ReadFileContents("full.html");
 
             Assert.IsTrue(contents.Contains("<span class=\"token keyword\">"));
             Assert.IsTrue(contents.Contains("<style"));

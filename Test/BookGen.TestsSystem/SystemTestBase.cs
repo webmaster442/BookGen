@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BookGen.TestsSystem
 {
@@ -32,11 +33,11 @@ namespace BookGen.TestsSystem
 
         public void EnsureRunWithoutException(ExitCode expectedExitCode, string commandLine)
         {
-            Process process = new Process();
+            var process = new Process();
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.FileName =  GetFileName();
-            process.StartInfo.Arguments = $"{commandLine} -js";
+            process.StartInfo.FileName = GetFileName();
+            process.StartInfo.Arguments = $"{commandLine} -js -nw";
             process.StartInfo.WorkingDirectory = _workDir;
             process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
             process.Start();
@@ -45,7 +46,7 @@ namespace BookGen.TestsSystem
             LastLog = GetLog(st);
             if ((int)expectedExitCode != process.ExitCode)
             {
-                var logmsg = GetLastLogMsg();
+                string? logmsg = GetLastLogMsg();
                 Assert.Fail(logmsg);
             }
         }
@@ -54,7 +55,13 @@ namespace BookGen.TestsSystem
         {
             try
             {
-                var list = JsonSerializer.Deserialize<List<LogEntry>>(output);
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                };
+                options.Converters.Add(new JsonStringEnumConverter());
+
+                List<LogEntry>? list = JsonSerializer.Deserialize<List<LogEntry>>(output, options);
                 return list ?? new List<LogEntry>();
             }
             catch (Exception)
@@ -65,11 +72,11 @@ namespace BookGen.TestsSystem
 
         private string GetLastLogMsg()
         {
-            if (LastLog == null 
+            if (LastLog == null
                 || !LastLog.Any())
                 return "No log can be shown. Log was empty";
 
-            var entry = LastLog.OrderByDescending(l => l.TimeStamp).First();
+            LogEntry? entry = LastLog.OrderByDescending(l => l.TimeStamp).First();
             return entry.Message;
         }
 

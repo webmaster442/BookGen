@@ -210,13 +210,10 @@ namespace BookGen
                 stateModule.Abort();
 
             CurrentState.Log.Critical(ex);
-
-            ShowMessageBox("Unhandled exception\r\n{0}", ex.Message);
+            CurrentState.Log.Flush();
 #if DEBUG
             System.Diagnostics.Debugger.Break();
 #endif
-
-            CurrentState.Log.Flush();
             Exit(ExitCode.Exception);
         }
 

@@ -115,7 +115,7 @@ namespace BookGen.DomainServices.Markdown.Modifiers
                 }
 
             }
-            using (var bmp = SKBitmap.Decode(inlinePath.Filename))
+            using (var bmp = SKBitmap.Decode(inlinePath.ToString()))
             {
                 using SKData? data = bmp.Encode(SKEncodedImageFormat.Webp, 80);
                 return data.ToArray();

@@ -12,9 +12,9 @@ namespace BookGen.TestsSystem
     {
         private readonly string _workDir;
 
-        public void AssertFileExistsAndHasContents(string  file)
+        public void AssertFileExistsAndHasContents(string file)
         {
-            FileInfo f = new FileInfo(Path.Combine(_workDir, file));
+            var f = new FileInfo(Path.Combine(_workDir, file));
             Assert.IsTrue(f.Exists);
             Assert.IsTrue(f.Length > 0);
         }

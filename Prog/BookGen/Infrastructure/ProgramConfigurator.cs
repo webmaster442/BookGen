@@ -18,6 +18,7 @@ namespace BookGen.Infrastructure
         private const string JsonLogLong = "--json-log";
         private const string LogFileShort = "-lf";
         private const string LogFileLong = "--log-file";
+        private const string NoWait = "-nw";
 
         public static IEnumerable<string> GeneralArguments
         {
@@ -80,17 +81,21 @@ namespace BookGen.Infrastructure
 
         internal static ProgramState ConfigureState(List<string> arguments)
         {
+            ProgramState state;
+
             if (GetSwitch(arguments, JsonLogShort, JsonLogLong))
             {
                 var log = new JsonLog();
-                return new ProgramState(new ModuleApi(), log, log);
+                state = new ProgramState(new ModuleApi(), log, log);
             }
             else
             {
                 bool logFile = GetSwitch(arguments, LogFileShort, LogFileLong);
                 var log = new ConsoleLog(logFile);
-                return new ProgramState(new ModuleApi(), log, log);
+                state = new ProgramState(new ModuleApi(), log, log);
             }
+            state.NoWaitForExit = GetSwitch(arguments, NoWait, NoWait);
+            return state;
         }
     }
 }

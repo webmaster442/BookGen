@@ -6,7 +6,10 @@
     <IsPackable>false</IsPackable>
     <IsPublishable>false</IsPublishable>
     <SonarQubeTestProject>True</SonarQubeTestProject>
-    <OutputPath>..\bin\Tests\ST\$(Configuration)</OutputPath>
+    <OutputPath>..\..\bin\Tests\ST\$(Configuration)</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <IsPublishable>false</IsPublishable>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
-    <ProjectReference Include="..\BookGen\BookGen.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.Api\BookGen.Api.csproj" />
+    <ProjectReference Include="..\..\Prog\BookGen\BookGen.csproj" />
   </ItemGroup>
 
   <ItemGroup>
