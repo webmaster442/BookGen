@@ -18,5 +18,12 @@ namespace BookGen.Api.Configuration
         /// <param name="value">Casted setting value</param>
         /// <returns>true, if setting found and casted succesfully to target type, otherwise false</returns>
         bool TryGetOption<T>(string setting, out T value) where T : struct;
+
+        /// <summary>
+        /// Get a key value
+        /// </summary>
+        /// <param name="key">key to get</param>
+        /// <returns>value of given key</returns>
+        string this[string key] { get; }
     }
 }

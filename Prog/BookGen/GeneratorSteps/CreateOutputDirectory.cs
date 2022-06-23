@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Domain;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
     internal class CreateOutputDirectory : IGeneratorStep
     {
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             if (settings.OutputDirectory.IsExisting)
             {

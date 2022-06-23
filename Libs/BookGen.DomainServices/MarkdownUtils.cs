@@ -12,7 +12,7 @@ using Markdig.Syntax.Inlines;
 
 namespace BookGen.DomainServices
 {
-    internal static class MarkdownUtils
+    public static class MarkdownUtils
     {
         /// <summary>
         /// List files to process

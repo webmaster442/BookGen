@@ -7,6 +7,7 @@ using BookGen.Api;
 using BookGen.Domain;
 using BookGen.Framework;
 using BookGen.Framework.Scripts;
+using BookGen.Interfaces;
 
 namespace BookGen
 {

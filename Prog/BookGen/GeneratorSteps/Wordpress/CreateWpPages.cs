@@ -4,14 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
-using BookGen.Core.Markdown;
-using BookGen.Domain;
+using BookGen.Api.Configuration;
+using BookGen.Domain.Configuration;
 using BookGen.Domain.Wordpress;
+using BookGen.DomainServices;
+using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
-using BookGen.Utilities;
+using BookGen.Interfaces;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -32,7 +31,7 @@ namespace BookGen.GeneratorSteps.Wordpress
 #endif
         }
 
-        public TemplateProcessor? Template { get; set; }
+        public ITemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
         private Item CreateItem(int uid,
@@ -41,7 +40,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                                 string content,
                                 string title,
                                 string path,
-                                TemplateOptions TemplateOptions)
+                                IReadOnlyTemplateOptions templateOptions)
         {
 #if DEBUG
             if (_usedids.Contains(uid))
@@ -61,7 +60,7 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Post_date_gmt = DateTime.UtcNow.ToWpPostDate(),
                 Menu_order = order,
                 Ping_status = "closed",
-                Comment_status = TemplateOptions[TemplateOptions.WordpressCommentStatus],
+                Comment_status = templateOptions[TemplateOptions.WordpressCommentStatus],
                 Is_sticky = "0",
                 Postmeta = new List<Postmeta>
                         {
@@ -72,14 +71,14 @@ namespace BookGen.GeneratorSteps.Wordpress
                 Post_name = EncodeTitle(title),
                 Post_id = uid,
                 Post_parent = parent,
-                Post_type = TemplateOptions[TemplateOptions.WordpressItemType],
+                Post_type = templateOptions[TemplateOptions.WordpressItemType],
                 Link = path,
-                Creator = TemplateOptions[TemplateOptions.WordpressAuthorLogin],
+                Creator = templateOptions[TemplateOptions.WordpressAuthorLogin],
                 Description = "",
                 Guid = new Domain.Wordpress.Guid
                 {
                     IsPermaLink = false,
-                    Text = $"{TemplateOptions[TemplateOptions.WordpressTargetHost]}?page_id={uid}",
+                    Text = $"{templateOptions[TemplateOptions.WordpressTargetHost]}?page_id={uid}",
                 },
             };
             return result;
@@ -128,7 +127,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             return builder.ToString();
         }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             if (Content == null)
                 throw new DependencyException(nameof(Content));

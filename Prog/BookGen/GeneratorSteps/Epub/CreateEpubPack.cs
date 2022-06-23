@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Domain;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 using System.IO;
 using System.IO.Compression;
 
@@ -13,7 +13,7 @@ namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubPack : IGeneratorStep
     {
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Creating epub file from contents...");
             FsPath output = settings.OutputDirectory.Combine("book.epub");

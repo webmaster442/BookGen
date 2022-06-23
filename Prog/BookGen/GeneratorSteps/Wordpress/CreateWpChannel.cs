@@ -4,11 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Core.Configuration;
-using BookGen.Domain;
+using BookGen.Domain.Configuration;
 using BookGen.Domain.Wordpress;
-using BookGen.Utilities;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Wordpress
 {
@@ -21,7 +20,7 @@ namespace BookGen.GeneratorSteps.Wordpress
             _session = session;
         }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             _session.CurrentChannel = new Channel
             {

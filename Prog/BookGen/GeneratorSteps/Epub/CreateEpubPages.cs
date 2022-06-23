@@ -4,12 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Core.Markdown;
-using BookGen.Domain;
+using BookGen.DomainServices;
+using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
+using BookGen.Interfaces;
 using BookGen.Resources;
-using BookGen.Utilities;
 
 namespace BookGen.GeneratorSteps.Epub
 {
@@ -22,10 +21,10 @@ namespace BookGen.GeneratorSteps.Epub
             _session = session;
         }
 
-        public TemplateProcessor? Template { get; set; }
+        public ITemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             if (Content == null)
                 throw new DependencyException(nameof(Content));

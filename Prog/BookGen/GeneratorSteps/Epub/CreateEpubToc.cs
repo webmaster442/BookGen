@@ -4,19 +4,20 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Domain.Epub.Ncx;
+using BookGen.DomainServices;
 using BookGen.Framework;
+using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubToc : ITemplatedStep
     {
-        public TemplateProcessor? Template { get; set; }
+        public ITemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
-        private void GenerateTocNcx(RuntimeSettings settings, ILog log)
+        private void GenerateTocNcx(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Creating epub toc.ncx...");
             var output = settings.OutputDirectory.Combine("epubtemp\\OPS\\toc.ncx");
@@ -67,7 +68,7 @@ namespace BookGen.GeneratorSteps.Epub
             output.SerializeXml(toc, log, namespaces);
         }
 
-        private List<NavPoint> FillNavPoints(RuntimeSettings settings)
+        private List<NavPoint> FillNavPoints(IReadonlyRuntimeSettings settings)
         {
             var navPoint = new List<NavPoint>();
             int filecounter = 1;
@@ -91,7 +92,7 @@ namespace BookGen.GeneratorSteps.Epub
             return navPoint;
         }
 
-        private void GenerateHtmlToc(RuntimeSettings settings, ILog log)
+        private void GenerateHtmlToc(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Generating epub TOC...");
 
@@ -116,14 +117,14 @@ namespace BookGen.GeneratorSteps.Epub
 
             FsPath? target = settings.OutputDirectory.Combine($"epubtemp\\OPS\\nav.xhtml");
 
-            Template!.Content = buffer.ToString();
+            Template.Content = buffer.ToString();
             Template.Title = "";
 
             var html = Template.Render();
             target.WriteFile(log, html);
         }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             if (Content == null)
                 throw new DependencyException(nameof(Content));

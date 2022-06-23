@@ -1,22 +1,21 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
 
-namespace BookGen
+namespace BookGen.Infrastructure
 {
-    internal class ModuleApi : IMoudleApi
+    internal interface IModuleApi
     {
-        public GeneratorRunner CreateRunner(bool verbose, string workDir)
+        GeneratorRunner CreateRunner(bool verbose, string workDir)
         {
             Program.CurrentState.Log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
             return new GeneratorRunner(Program.CurrentState.Log, Program.CurrentState.ServerLog, workDir);
         }
-
-        public void ExecuteModule(string module, string[] arguments)
+        
+        void ExecuteModule(string module, string[] arguments)
         {
             Program.RunModule(module, arguments, skipLockCheck: true);
         }

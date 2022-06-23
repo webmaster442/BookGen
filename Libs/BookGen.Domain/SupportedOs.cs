@@ -6,7 +6,7 @@
 namespace BookGen.Domain
 {
     [Flags]
-    internal enum SupportedOs
+    public enum SupportedOs
     {
         None = 0,
         Windows = 1,

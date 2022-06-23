@@ -10,7 +10,7 @@ using Svg.Skia;
 
 namespace BookGen.DomainServices
 {
-    internal static class ImageUtils
+    public static class ImageUtils
     {
         public static bool IsImage(FsPath file)
         {

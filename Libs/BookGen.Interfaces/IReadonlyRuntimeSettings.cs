@@ -45,5 +45,10 @@ namespace BookGen.Interfaces
         /// Currently used/active build config
         /// </summary>
         IReadOnlyBuildConfig CurrentBuildConfig { get; }
+
+        /// <summary>
+        /// Tags
+        /// </summary>
+        ITagUtils Tags { get; }
     }
 }

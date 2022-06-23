@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Framework.Scripts;
 using BookGen.Gui;
+using BookGen.Interfaces;
 using System.Diagnostics;
 
 namespace BookGen.Framework

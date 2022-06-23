@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Domain;
-using BookGen.Utilities;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 using SkiaSharp;
 using System.IO;
 
@@ -14,7 +13,7 @@ namespace BookGen.GeneratorSteps
 {
     internal class ImageProcessor : IGeneratorStep
     {
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Processing images...");
             if (FsPath.IsEmptyPath(settings.ImageDirectory))
@@ -32,7 +31,7 @@ namespace BookGen.GeneratorSteps
 
         }
 
-        private void ProcessImage(FsPath file, RuntimeSettings settings, FsPath targetdir, ILog log)
+        private void ProcessImage(FsPath file, IReadonlyRuntimeSettings settings, FsPath targetdir, ILog log)
         {
             var options = settings.CurrentBuildConfig.ImageOptions;
 
@@ -86,7 +85,7 @@ namespace BookGen.GeneratorSteps
             }
         }
 
-        private void InlineOrSave(FsPath file, FsPath targetdir, ILog log, RuntimeSettings settings, SKData data, string? extensionOverride = null)
+        private void InlineOrSave(FsPath file, FsPath targetdir, ILog log, IReadonlyRuntimeSettings settings, SKData data, string? extensionOverride = null)
         {
             if (data.Size < settings.CurrentBuildConfig.ImageOptions.InlineImageSizeLimit)
             {
@@ -99,7 +98,7 @@ namespace BookGen.GeneratorSteps
             }
         }
 
-        private void InlineImage(FsPath file, RuntimeSettings settings, SKData data, string? extensionOverride)
+        private void InlineImage(FsPath file, IReadonlyRuntimeSettings settings, SKData data, string? extensionOverride)
         {
             string base64 = Convert.ToBase64String(data.ToArray());
             string mime = Webmaster442.HttpServerFramework.MimeTypes.GetMimeForExtension(file.Extension);

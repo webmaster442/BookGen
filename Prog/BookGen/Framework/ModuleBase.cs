@@ -5,7 +5,7 @@
 
 using BookGen.Domain;
 using BookGen.Domain.Shell;
-using BookGen.Utilities;
+using BookGen.Resources;
 
 namespace BookGen.Framework
 {
@@ -16,7 +16,7 @@ namespace BookGen.Framework
 
         public virtual string GetHelp()
         {
-            return HelpUtils.GetHelpForModule(GetType().Name);
+            return ResourceHandler.GetResourceFile<GeneratorRunner>($"Resources/Help.{GetType().Name}.txt");
         }
 
         public virtual SupportedOs SupportedOs

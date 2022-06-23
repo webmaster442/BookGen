@@ -3,14 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Contracts;
-using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
+using BookGen.Domain.Configuration;
 using BookGen.Framework.Shortcodes;
+using BookGen.Interfaces;
 
 namespace BookGen.Framework
 {
-    internal class TemplateProcessor : IContent
+    internal class TemplateProcessor : ITemplateProcessor
     {
         private readonly Dictionary<string, string> _table;
         private readonly ShortCodeParser _parser;

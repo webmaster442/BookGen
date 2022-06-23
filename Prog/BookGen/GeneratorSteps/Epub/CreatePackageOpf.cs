@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Domain;
 using BookGen.Domain.Epub;
-using BookGen.Utilities;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Epub
 {
@@ -20,7 +19,7 @@ namespace BookGen.GeneratorSteps.Epub
             _session = session;
         }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Creating OPS/package.opf...");
 

@@ -8,16 +8,16 @@ using System.Collections;
 
 namespace BookGen.Domain
 {
-    internal class Arguments : IArguments
+    public class ShortCodeArguments : IArguments
     {
         private readonly Dictionary<string, string> _storage;
 
-        public Arguments()
+        public ShortCodeArguments()
         {
             _storage = new Dictionary<string, string>();
         }
 
-        public Arguments(Dictionary<string, string> results)
+        public ShortCodeArguments(Dictionary<string, string> results)
         {
             _storage = results;
         }

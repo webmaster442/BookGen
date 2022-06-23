@@ -5,7 +5,7 @@
 
 namespace BookGen.Domain.Shell
 {
-    internal class AutoCompleteItem
+    public class AutoCompleteItem
     {
         public string ModuleName { get; }
         public List<string> ArgumentList { get; }

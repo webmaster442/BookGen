@@ -5,7 +5,7 @@
 
 namespace BookGen.Interfaces
 {
-    internal interface IGeneratorContentFillStep : IGeneratorStep
+    public interface IGeneratorContentFillStep : IGeneratorStep
     {
         IContent? Content { get; set; }
     }

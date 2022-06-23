@@ -4,22 +4,22 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Domain;
 using BookGen.Domain.Epub;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Epub
 {
     internal class CreateEpubStructure : IGeneratorStep
     {
-        private void CreateMimeTypeFile(RuntimeSettings settings, ILog log)
+        private static void CreateMimeTypeFile(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Detail("Creating mimetype file...");
             var mime = settings.OutputDirectory.Combine("epubtemp\\mimetype");
             mime.WriteFile(log, "application/epub+zip");
         }
 
-        private void CreateFolderStructure(RuntimeSettings settings, ILog log)
+        private static void CreateFolderStructure(IReadonlyRuntimeSettings settings, ILog log)
         {
             string[] directories = { "epubtemp\\META-INF", "epubtemp\\OPS" };
 
@@ -30,7 +30,7 @@ namespace BookGen.GeneratorSteps.Epub
             }
         }
 
-        private void CreateContainerXML(RuntimeSettings settings, ILog log)
+        private static void CreateContainerXML(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Creating META-INF/container.xml");
 
@@ -59,7 +59,7 @@ namespace BookGen.GeneratorSteps.Epub
         }
 
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Creating epub structure...");
 

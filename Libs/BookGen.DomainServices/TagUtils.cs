@@ -11,7 +11,7 @@ using System.Text;
 
 namespace BookGen.DomainServices
 {
-    internal class TagUtils : ITagUtils
+    public class TagUtils : ITagUtils
     {
         private readonly Dictionary<string, string[]> _loadedTags;
         private readonly ILog? _log;

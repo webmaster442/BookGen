@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Contracts;
 using BookGen.Gui.Mvvm;
+using BookGen.Infrastructure;
 using BookGen.Modules;
 
 namespace BookGen.ConsoleUi
@@ -12,7 +12,7 @@ namespace BookGen.ConsoleUi
     internal class MainViewModel : ViewModelBase
     {
         private readonly GeneratorRunner _runner;
-        private readonly IMoudleApi _api;
+        private readonly IModuleApi _api;
 
         public DelegateCommand ValidateConfigCommand { get; }
         public DelegateCommand CleanOutDirCommand { get; }
@@ -34,7 +34,7 @@ namespace BookGen.ConsoleUi
             get;
         }
 
-        public MainViewModel(GeneratorRunner runner, IMoudleApi api)
+        public MainViewModel(GeneratorRunner runner, IModuleApi api)
         {
             _runner = runner;
             _api = api;

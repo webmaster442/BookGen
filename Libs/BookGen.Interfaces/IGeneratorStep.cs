@@ -7,7 +7,7 @@ using BookGen.Api;
 
 namespace BookGen.Interfaces
 {
-    internal interface IGeneratorStep
+    public interface IGeneratorStep
     {
         void RunStep(IReadonlyRuntimeSettings settings, ILog log);
     }

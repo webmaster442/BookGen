@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Domain;
 using BookGen.Domain.Wordpress;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Wordpress
 {
@@ -20,7 +20,7 @@ namespace BookGen.GeneratorSteps.Wordpress
         }
 
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Writing wordpressExport.xml file...");
             FsPath outFile = settings.OutputDirectory.Combine("wordpressExport.xml");

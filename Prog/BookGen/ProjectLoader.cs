@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Configuration;
 using BookGen.Domain;
-using BookGen.Utilities;
+using BookGen.Domain.Configuration;
+using BookGen.DomainServices;
+using BookGen.Framework;
+using BookGen.Interfaces;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 

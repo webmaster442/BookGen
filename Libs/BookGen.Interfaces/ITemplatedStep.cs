@@ -5,7 +5,7 @@
 
 namespace BookGen.Interfaces
 {
-    internal interface ITemplatedStep : IGeneratorContentFillStep
+    public interface ITemplatedStep : IGeneratorContentFillStep
     {
         ITemplateProcessor? Template { get; set; }
     }

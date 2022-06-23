@@ -4,11 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
 using BookGen.Domain;
+using BookGen.Domain.Configuration;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Shortcodes;
+using BookGen.Interfaces;
 
 namespace BookGen.Framework
 {
@@ -23,8 +23,8 @@ namespace BookGen.Framework
         private const string shortCodeStart = "<!--{";
         private const string shortCodeEnd = "}-->";
 
-        private readonly Regex TranslateRegex = new Regex("(<!--\\{\\? [A-Za-z_0-9]+\\}-->)", RegexOptions.Compiled);
-        private readonly Regex CodeRegex = new Regex(@"(<!--\{.+?\}-->)", RegexOptions.Compiled);
+        private readonly Regex TranslateRegex = new("(<!--\\{\\? [A-Za-z_0-9]+\\}-->)", RegexOptions.Compiled);
+        private readonly Regex CodeRegex = new(@"(<!--\{.+?\}-->)", RegexOptions.Compiled);
 
         public ShortCodeParser(IList<ITemplateShortCode> shortCodes,
                                CsharpScriptHandler scriptHandler,
@@ -91,7 +91,7 @@ namespace BookGen.Framework
             return cache.ToString();
         }
 
-        private Arguments GetArguments(string value)
+        private ShortCodeArguments GetArguments(string value)
         {
             Dictionary<string, string> results = new Dictionary<string, string>();
 
@@ -100,7 +100,7 @@ namespace BookGen.Framework
             //no space means no additional arguments
             if (firstpass.Length < 1)
             {
-                return new Arguments();
+                return new ShortCodeArguments();
             }
             else
             {
@@ -117,10 +117,10 @@ namespace BookGen.Framework
                     }
                 }
             }
-            return new Arguments(results);
+            return new ShortCodeArguments(results);
         }
 
-        private string RemoveStartingSpaceAndEndTags(string input)
+        private static string RemoveStartingSpaceAndEndTags(string input)
         {
             //input string will be in following format: "Assets/bootstrap.min.css"}-->
             if (input.StartsWith("\"") && input.EndsWith("\"}-->"))

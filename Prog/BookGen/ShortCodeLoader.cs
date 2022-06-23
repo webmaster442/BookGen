@@ -5,8 +5,7 @@
 
 using BookGen.Api;
 using BookGen.Api.Configuration;
-using BookGen.Contracts;
-using BookGen.Core.Contracts;
+using BookGen.Interfaces;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 

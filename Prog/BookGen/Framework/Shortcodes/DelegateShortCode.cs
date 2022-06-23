@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Contracts;
+using BookGen.Interfaces;
 
 namespace BookGen.Framework.Shortcodes
 {
