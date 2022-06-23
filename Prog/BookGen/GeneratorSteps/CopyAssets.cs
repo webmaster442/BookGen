@@ -4,9 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Core.Configuration;
 using BookGen.Domain;
+using BookGen.Domain.Configuration;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
 {
@@ -19,7 +20,7 @@ namespace BookGen.GeneratorSteps
             _target = target;
         }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Processing assets...");
 

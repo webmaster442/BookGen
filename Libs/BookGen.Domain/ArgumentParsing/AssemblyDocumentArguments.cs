@@ -7,7 +7,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal sealed class AssemblyDocumentArguments : ArgumentsBase
+    public sealed class AssemblyDocumentArguments : ArgumentsBase
     {
         [Switch("a", "assembly", true)]
         public FsPath AssemblyPath { get; set; }

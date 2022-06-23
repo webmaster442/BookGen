@@ -7,7 +7,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class ImgConvertArguments : ArgumentsBase
+    public sealed class ImgConvertArguments : ArgumentsBase
     {
         [Switch("i", "input", true)]
         public FsPath Input { get; set; }

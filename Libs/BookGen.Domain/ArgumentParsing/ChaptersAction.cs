@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal enum ChaptersAction
+    public enum ChaptersAction
     {
         [Description("Scan *.md files and create chapters document")]
         Scan,

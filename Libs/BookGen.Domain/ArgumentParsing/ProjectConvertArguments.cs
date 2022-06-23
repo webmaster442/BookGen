@@ -7,7 +7,7 @@
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class ProjectConvertArguments : ArgumentsBase
+    public sealed class ProjectConvertArguments : ArgumentsBase
     {
         [Switch("b", "backup")]
         public bool Backup { get; set; }

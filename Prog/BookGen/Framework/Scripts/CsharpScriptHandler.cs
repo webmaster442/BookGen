@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Contracts;
 using BookGen.DomainServices;
 using BookGen.Interfaces;
 using System.Reflection;

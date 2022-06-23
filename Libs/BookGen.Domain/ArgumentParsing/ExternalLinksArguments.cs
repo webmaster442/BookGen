@@ -7,7 +7,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class ExternalLinksArguments : BookGenArgumentBase
+    public sealed class ExternalLinksArguments : BookGenArgumentBase
     {
         [Switch("o", "output", true)]
         public FsPath OutputFile { get; set; }

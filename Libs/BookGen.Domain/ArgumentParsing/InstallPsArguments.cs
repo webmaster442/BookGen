@@ -7,7 +7,7 @@
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class InstallPsArguments : ArgumentsBase
+    public sealed class InstallPsArguments : ArgumentsBase
     {
         [Switch("dn", "dotnet")]
         public bool Dotnet { get; set; }

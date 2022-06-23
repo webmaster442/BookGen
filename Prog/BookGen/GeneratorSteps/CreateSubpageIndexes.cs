@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Core.Markdown;
-using BookGen.Domain;
+using BookGen.DomainServices;
+using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
+using BookGen.Interfaces;
 using System.IO;
 
 namespace BookGen.GeneratorSteps
@@ -15,10 +15,10 @@ namespace BookGen.GeneratorSteps
     internal class CreateSubpageIndexes : ITemplatedStep
     {
         public IContent? Content { get; set; }
-        public TemplateProcessor? Template { get; set; }
+        public ITemplateProcessor? Template { get; set; }
         public List<Link>? Chapters { get; private set; }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             if (Content == null)
                 throw new DependencyException(nameof(Content));
@@ -53,7 +53,7 @@ namespace BookGen.GeneratorSteps
             }
         }
 
-        private string CreateContentLinks(RuntimeSettings settings, string dir)
+        private string CreateContentLinks(IReadonlyRuntimeSettings settings, string dir)
         {
             if (Chapters == null)
                 Chapters = settings.TocContents.GetLinksForChapter().ToList();

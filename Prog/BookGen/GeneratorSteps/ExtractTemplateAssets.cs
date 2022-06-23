@@ -4,8 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Domain;
+using BookGen.Interfaces;
 using BookGen.Resources;
 
 namespace BookGen.GeneratorSteps
@@ -19,7 +18,7 @@ namespace BookGen.GeneratorSteps
             Assets = new (KnownFile file, string targetPath)[0];
         }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             if (Assets.Length < 1)
             {

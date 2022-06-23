@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
+using BookGen.Domain.Configuration;
+using BookGen.Interfaces;
 using BookGen.Resources;
 using System.ComponentModel.Composition;
 

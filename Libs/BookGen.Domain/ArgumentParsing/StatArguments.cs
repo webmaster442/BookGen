@@ -6,7 +6,7 @@
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class StatArguments : ArgumentsBase
+    public sealed class StatArguments : ArgumentsBase
     {
         [Switch("d", "dir")]
         public string Directory { get; set; }

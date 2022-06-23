@@ -6,7 +6,7 @@
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class StockSearchArguments : ArgumentsBase
+    public sealed class StockSearchArguments : ArgumentsBase
     {
         [Switch("pe", "pexels", false)]
         public bool? Pexels { get; set; }

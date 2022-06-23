@@ -5,7 +5,7 @@
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class BookGenArgumentBase : ArgumentsBase
+    public class BookGenArgumentBase : ArgumentsBase
     {
         [Switch("v", "verbose")]
         public bool Verbose { get; set; }

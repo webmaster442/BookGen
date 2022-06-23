@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Contracts;
-using BookGen.Core.Markdown;
+using BookGen.Domain.Configuration;
+using BookGen.DomainServices;
+using BookGen.DomainServices.Markdown;
+using BookGen.Interfaces;
 using BookGen.Resources;
 using System.IO;
 using Webmaster442.HttpServerFramework;
@@ -27,10 +29,10 @@ namespace BookGen.Framework.Server
             _directory = directory;
             _log = log;
 
-            _processor = new TemplateProcessor(new Core.Configuration.Config(),
+            _processor = new TemplateProcessor(new Config(),
                              new ShortCodeParser(new List<ITemplateShortCode>(),
                                                  new Scripts.CsharpScriptHandler(_log),
-                                                 new Core.Configuration.Translations(),
+                                                 new Translations(),
                                                  _log),
                              new StaticTemplateContent());
 

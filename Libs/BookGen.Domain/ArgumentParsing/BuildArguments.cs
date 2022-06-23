@@ -6,7 +6,7 @@
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class BuildArguments : BookGenArgumentBase
+    public sealed class BuildArguments : BookGenArgumentBase
     {
         [Switch("a", "action", true)]
         public BuildAction? Action { get; set; }

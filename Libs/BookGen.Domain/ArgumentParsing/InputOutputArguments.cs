@@ -7,7 +7,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class InputOutputArguments : ArgumentsBase
+    public class InputOutputArguments : ArgumentsBase
     {
         [Switch("i", "input", true)]
         public FsPath InputFile { get; set; }

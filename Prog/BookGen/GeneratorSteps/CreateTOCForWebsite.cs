@@ -7,6 +7,7 @@ using BookGen.Api;
 using BookGen.Contracts;
 using BookGen.Domain;
 using BookGen.Framework;
+using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
 {
@@ -14,7 +15,7 @@ namespace BookGen.GeneratorSteps
     {
         public IContent? Content { get; set; }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             if (Content == null)
                 throw new DependencyException(nameof(Content));

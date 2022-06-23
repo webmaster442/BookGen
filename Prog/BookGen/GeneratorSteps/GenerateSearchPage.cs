@@ -4,20 +4,21 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Core.Configuration;
-using BookGen.Core.Markdown;
+using BookGen.Api.Configuration;
 using BookGen.Domain;
+using BookGen.Domain.Configuration;
+using BookGen.DomainServices;
+using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
+using BookGen.Interfaces;
 using BookGen.Resources;
-using BookGen.Utilities;
 using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
     internal class GenerateSearchPage : ITemplatedStep
     {
-        public TemplateProcessor? Template { get; set; }
+        public ITemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
         private readonly StringBuilder _buffer;
@@ -29,7 +30,7 @@ namespace BookGen.GeneratorSteps
             _spaces = new Regex(@"\s+", RegexOptions.Compiled);
         }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             if (Content == null)
                 throw new DependencyException(nameof(Content));
@@ -51,7 +52,7 @@ namespace BookGen.GeneratorSteps
             target.WriteFile(log, html);
         }
 
-        private string FillMeta(Config configruation)
+        private string FillMeta(IReadOnlyConfig configruation)
         {
             var meta = new MetaTag().FillWithConfigDefaults(configruation);
             meta.Title = $"{configruation.Metadata.Title} - {configruation.Translations[Translations.SearchPageTitle]}";
@@ -60,7 +61,7 @@ namespace BookGen.GeneratorSteps
             return meta.GetHtmlMeta();
         }
 
-        private void GenerateSearchContents(RuntimeSettings settings, ILog log)
+        private void GenerateSearchContents(IReadonlyRuntimeSettings settings, ILog log)
         {
             _buffer.WriteElement(HtmlElement.Div, "searchcontents", "nodisplay");
 

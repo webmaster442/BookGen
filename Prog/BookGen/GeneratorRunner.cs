@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Core.Configuration;
 using BookGen.Domain;
+using BookGen.Domain.Configuration;
+using BookGen.DomainServices;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
-using BookGen.Utilities;
+using BookGen.Interfaces;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Webmaster442.HttpServerFramework;

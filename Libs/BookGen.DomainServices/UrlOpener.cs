@@ -7,9 +7,9 @@ using System.Web;
 
 namespace BookGen.DomainServices
 {
-    internal static class UrlOpener
+    public static class UrlOpener
     {
-        internal static bool OpenUrl(string url)
+        public static bool OpenUrl(string url)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace BookGen.DomainServices
             }
         }
 
-        internal static bool OpenUrlWithParameters(string url, params string[] parameters)
+        public static bool OpenUrlWithParameters(string url, params string[] parameters)
         {
             string[]? encoded = parameters.Select(x => HttpUtility.UrlEncode(x)).ToArray();
             string full = string.Format(url, encoded);

@@ -5,7 +5,7 @@
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class ChaptersArguments : ArgumentsBase
+    public sealed class ChaptersArguments : ArgumentsBase
     {
         [Switch("a", "action", true)]
         public ChaptersAction? Action { get; set; }

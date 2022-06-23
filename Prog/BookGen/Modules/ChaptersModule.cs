@@ -3,12 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Configuration;
-using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Configuration;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
-using BookGen.Utilities;
+using BookGen.Domain;
 
 namespace BookGen.Modules
 {

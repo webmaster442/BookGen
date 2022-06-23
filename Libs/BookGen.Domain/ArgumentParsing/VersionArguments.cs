@@ -5,7 +5,7 @@
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class VersionArguments : ArgumentsBase
+    public sealed class VersionArguments : ArgumentsBase
     {
         [Switch("bd", "builddate")]
         public bool BuildDate { get; set; }

@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Core.Markdown;
-using BookGen.Domain;
+using BookGen.DomainServices;
+using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
+using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
 {
@@ -15,14 +15,14 @@ namespace BookGen.GeneratorSteps
     {
         private const string NewPage = "<p style=\"page-break-before: always\"></p>\r\n";
 
-        public TemplateProcessor? Template { get; set; }
+        public ITemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
         public CreatePrintableHtml()
         {
         }
 
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             if (Content == null)
                 throw new DependencyException(nameof(Content));

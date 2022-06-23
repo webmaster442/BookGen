@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api.Configuration;
 using BookGen.Domain;
 using BookGen.Domain.Configuration;
 using System.Text;
@@ -12,7 +13,7 @@ namespace BookGen.DomainServices
 {
     public static class MetaExtensions
     {
-        public static MetaTag FillWithConfigDefaults(this MetaTag metaTag, Config config)
+        public static MetaTag FillWithConfigDefaults(this MetaTag metaTag, IReadOnlyConfig config)
         {
             metaTag.Author = config.Metadata.Author;
             metaTag.Title = config.Metadata.Title;

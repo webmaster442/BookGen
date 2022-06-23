@@ -7,7 +7,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class Md2HtmlArguments : InputOutputArguments
+    public sealed class Md2HtmlArguments : InputOutputArguments
     {
         [Switch("c", "css")]
         public FsPath Css { get; set; }

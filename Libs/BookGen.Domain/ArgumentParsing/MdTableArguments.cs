@@ -7,7 +7,7 @@
 
 namespace BookGen.Domain.ArgumentParsing
 {
-    internal class MdTableArguments : ArgumentsBase
+    public sealed class MdTableArguments : ArgumentsBase
     {
         [Switch("d", "delimiter")]
         public char Delimiter { get; set; }

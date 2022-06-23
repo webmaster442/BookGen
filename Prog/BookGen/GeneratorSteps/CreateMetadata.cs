@@ -4,16 +4,16 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Core.Markdown;
 using BookGen.Domain;
-using BookGen.Utilities;
+using BookGen.DomainServices;
+using BookGen.DomainServices.Markdown;
+using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
 {
     internal class CreateMetadata : IGeneratorStep
     {
-        public void RunStep(RuntimeSettings settings, ILog log)
+        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             log.Info("Generating metadata for pages...");
 
@@ -33,7 +33,7 @@ namespace BookGen.GeneratorSteps
             }
         }
 
-        private static MetaTag CreateMetaTag(RuntimeSettings settings, Link link, string title, string description)
+        private static MetaTag CreateMetaTag(IReadonlyRuntimeSettings settings, Link link, string title, string description)
         {
             var meta = new MetaTag().FillWithConfigDefaults(settings.Configuration);
 
