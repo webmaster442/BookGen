@@ -74,7 +74,7 @@ namespace BookGen.Framework.Scripts
             }
         }
 
-        public static IEnumerable<SyntaxTree> ParseToSyntaxTree(string source)
+        public IEnumerable<SyntaxTree> ParseToSyntaxTree(string source)
         {
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest));
             yield return tree;

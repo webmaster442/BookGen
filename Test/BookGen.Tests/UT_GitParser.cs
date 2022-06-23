@@ -1,5 +1,5 @@
-﻿using BookGen.ShellHelper.Code;
-using BookGen.ShellHelper.Domain;
+﻿using BookGen.Domain.Terminal;
+
 
 namespace BookGen.Tests
 {

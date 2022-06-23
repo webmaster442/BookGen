@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Utilities;
-
 namespace BookGen.Tests
 {
     [TestFixture]

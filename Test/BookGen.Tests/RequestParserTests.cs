@@ -7,10 +7,11 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Webmaster442.HttpServerFramework;
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Internal;
 
-namespace Webmaster442.HttpServerFramework.Tests
+namespace BookGen.Tests
 {
     public class RequestParserTests
     {

@@ -1,6 +1,4 @@
-﻿using BookGen.Utilities;
-
-namespace BookGen.Tests
+﻿namespace BookGen.Tests
 {
     [TestFixture]
     internal class UT_TagUtils

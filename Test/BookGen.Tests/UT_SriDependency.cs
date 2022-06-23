@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
+using BookGen.Framework.Shortcodes;
 
 namespace BookGen.Tests
 {
@@ -27,7 +28,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_SriDependency_Generate_WorksForJSFile()
         {
-            var args = new Arguments(new Dictionary<string, string>
+            var args = new ShortCodeArguments(new Dictionary<string, string>
             {
                 { "file", "Test.js" }
             });
@@ -43,7 +44,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_SriDependency_Generate_WorksForCSSFile()
         {
-            var args = new Arguments(new Dictionary<string, string>
+            var args = new ShortCodeArguments(new Dictionary<string, string>
             {
                 { "file", "Test.css" }
             });

@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Core.Configuration;
 using BookGen.Domain;
+using BookGen.Framework.Shortcodes;
 
 namespace BookGen.Tests
 {
@@ -31,7 +31,7 @@ namespace BookGen.Tests
         [TestCase("", "")]
         public void EnsureThat_Translate_ReturnsCorrectValues(string input, string expected)
         {
-            var arg = new Arguments(new Dictionary<string, string>
+            var arg = new ShortCodeArguments(new Dictionary<string, string>
             {
                 { input, "" }
             });
@@ -46,7 +46,7 @@ namespace BookGen.Tests
         [TestCase("foo#")]
         public void EnsureThat_Translate_ReturnsError_WhenKeyFormatInvalid(string input)
         {
-            var arg = new Arguments(new Dictionary<string, string>
+            var arg = new ShortCodeArguments(new Dictionary<string, string>
             {
                 { input, "" }
             });

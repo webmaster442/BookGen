@@ -27,7 +27,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_Generate_RunsSimpleJs()
         {
-            var result = _sut.Generate(new Arguments(new Dictionary<string, string>
+            var result = _sut.Generate(new ShortCodeArguments(new Dictionary<string, string>
             {
                 { "file", TestEnvironment.GetFile("SimpleNodeJs.js") }
             }));
@@ -37,7 +37,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_Generate_RunsComplexJs()
         {
-            var result = _sut.Generate(new Arguments(new Dictionary<string, string>
+            var result = _sut.Generate(new ShortCodeArguments(new Dictionary<string, string>
             {
                 { "file", TestEnvironment.GetFile("LongNodeJs.js") }
             }));

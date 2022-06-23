@@ -7,4 +7,5 @@
 using System.Runtime.CompilerServices;
 
 [assembly:InternalsVisibleTo("Webmaster442.HttpServerFramework.Tests")]
+[assembly: InternalsVisibleTo("BookGen.Tests")]
 #endif

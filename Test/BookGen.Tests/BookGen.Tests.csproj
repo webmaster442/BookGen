@@ -26,17 +26,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
-    <ProjectReference Include="..\BookGen.Gui\BookGen.Gui.csproj" />
-    <ProjectReference Include="..\BookGen.ShellHelper\BookGen.ShellHelper.csproj" />
-    <ProjectReference Include="..\BookGen\BookGen.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Environment\TestScript.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Integration\IT_NodeJs.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.Interfaces\BookGen.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Prog\BookGen\BookGen.csproj" />
   </ItemGroup>
 
   <ItemGroup>

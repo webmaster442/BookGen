@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
+using BookGen.Framework.Shortcodes;
 
 namespace BookGen.Tests
 {
@@ -15,7 +16,7 @@ namespace BookGen.Tests
         public void EnsureThat_InlineFile_ReturnsCorrectString()
         {
             var sut = new InlineFile(TestEnvironment.GetMockedLog());
-            var arguments = new Arguments(new Dictionary<string, string>
+            var arguments = new ShortCodeArguments(new Dictionary<string, string>
             {
                 { "File", TestEnvironment.GetFile("TestFile.txt") }
             });

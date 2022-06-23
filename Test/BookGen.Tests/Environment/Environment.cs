@@ -4,9 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
-using BookGen.Contracts;
-using BookGen.Core.Configuration;
-using BookGen.Core.Contracts;
+using BookGen.Domain.Configuration;
+using BookGen.Interfaces;
 using System.IO;
 
 namespace BookGen.Tests.Environment

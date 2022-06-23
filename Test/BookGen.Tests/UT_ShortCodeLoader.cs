@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Framework.Shortcodes;
 
 namespace BookGen.Tests
 {

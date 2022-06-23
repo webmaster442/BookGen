@@ -3,9 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Core.Contracts;
-
 namespace BookGen.Tests.Stubs
 {
     internal class ArgumentNameYielderShortCode : ITemplateShortCode

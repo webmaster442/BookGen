@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Core.Contracts;
 using BookGen.Domain;
 using BookGen.Framework.Scripts;
 
@@ -54,7 +52,7 @@ namespace BookGen.Tests.Integration
         [Test]
         public void EnsureThat_CallingTestScript_ReturnsCorrectResult()
         {
-            var args = new Arguments();
+            var args = new ShortCodeArguments();
             string result = _sut.ExecuteScript("TestScript", args);
 
             Assert.AreEqual("Hello, from test script!", result);
