@@ -5,7 +5,7 @@
 
 namespace BookGen.Tests.Stubs
 {
-    class ArgumentedShortCode : ITemplateShortCode
+    internal class ArgumentedShortCode : ITemplateShortCode
     {
         public string Tag => "Arguments";
 

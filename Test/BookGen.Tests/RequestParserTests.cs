@@ -3,10 +3,7 @@
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
-using NUnit.Framework;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Webmaster442.HttpServerFramework;
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Internal;
@@ -25,8 +22,8 @@ namespace BookGen.Tests
 
         private static MemoryStream CreateStream(string input)
         {
-            MemoryStream result = new MemoryStream(2048);
-            var data = Encoding.UTF8.GetBytes(input);
+            var result = new MemoryStream(2048);
+            byte[] data = Encoding.UTF8.GetBytes(input);
             result.Write(data);
             result.Seek(0, SeekOrigin.Begin);
             return result;
@@ -58,9 +55,9 @@ namespace BookGen.Tests
         [TestCaseSource(nameof(BasicTestCases))]
         public void TestBasicRequestParsing(string input, HttpRequest expected)
         {
-            using (var stream = CreateStream(input))
+            using (MemoryStream stream = CreateStream(input))
             {
-                var output = _sut.ParseRequest(stream);
+                HttpRequest output = _sut.ParseRequest(stream);
                 Assert.AreEqual(expected.Url, output.Url);
                 Assert.AreEqual(expected.Method, output.Method);
                 Assert.AreEqual(expected.Version, output.Version);
@@ -94,11 +91,11 @@ namespace BookGen.Tests
         [TestCaseSource(nameof(UrlParameterTestCases))]
         public void TestUrlParameterParsing(string input, HttpRequest expected)
         {
-            using (var stream = CreateStream(input))
+            using (MemoryStream stream = CreateStream(input))
             {
-                var output = _sut.ParseRequest(stream);
+                HttpRequest output = _sut.ParseRequest(stream);
                 Assert.AreEqual(expected.Parameters.Count, output.Parameters.Count);
-                foreach (var parameter in output.Parameters)
+                foreach (KeyValuePair<string, string> parameter in output.Parameters)
                 {
                     Assert.AreEqual(expected.Parameters[parameter.Key], parameter.Value);
                 }
@@ -129,11 +126,11 @@ namespace BookGen.Tests
         [TestCaseSource(nameof(HeaderTestCases))]
         public void TestHeaderParsing(string input, HttpRequest expected)
         {
-            using (var stream = CreateStream(input))
+            using (MemoryStream stream = CreateStream(input))
             {
-                var output = _sut.ParseRequest(stream);
+                HttpRequest output = _sut.ParseRequest(stream);
                 Assert.AreEqual(expected.Headers.Count, output.Headers.Count);
-                foreach (var header in output.Headers)
+                foreach (KeyValuePair<string, string> header in output.Headers)
                 {
                     Assert.AreEqual(expected.Headers[header.Key], header.Value);
                 }
@@ -149,9 +146,9 @@ namespace BookGen.Tests
                            + "\n"
                            + "home=Cosby&favorite+flavor=flies";
 
-            using (var stream = CreateStream(content))
+            using (MemoryStream stream = CreateStream(content))
             {
-                var output = _sut.ParseRequest(stream);
+                HttpRequest output = _sut.ParseRequest(stream);
                 Assert.AreEqual(32, output.RequestSize);
                 Assert.AreEqual(32, output.RequestContent.Length);
 

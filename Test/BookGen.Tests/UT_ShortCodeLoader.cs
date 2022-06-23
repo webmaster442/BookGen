@@ -3,9 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Framework.Shortcodes;
-
 namespace BookGen.Tests
 {
     [TestFixture, SingleThreaded]
@@ -38,7 +35,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_ShortCodeLoader_SatisfiesLogImport()
         {
-            var sri = _sut.Imports.FirstOrDefault(s => s.Tag == nameof(SriDependency));
+            ITemplateShortCode sri = _sut.Imports.FirstOrDefault(s => s.Tag == nameof(SriDependency));
             Assert.IsNotNull(sri);
         }
     }

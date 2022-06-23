@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
-using BookGen.Framework.Shortcodes;
 
 namespace BookGen.Tests
 {
@@ -20,7 +19,7 @@ namespace BookGen.Tests
             {
                 { "File", TestEnvironment.GetFile("TestFile.txt") }
             });
-            var result = sut.Generate(arguments);
+            string result = sut.Generate(arguments);
             Assert.AreEqual("Test", result);
         }
 

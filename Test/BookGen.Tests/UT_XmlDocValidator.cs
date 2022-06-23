@@ -3,10 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.AssemblyDocumenter;
 
-namespace BookGen.Tests.Integration
+namespace BookGen.Tests
 {
     [TestFixture]
     public class UT_XmlDocValidator

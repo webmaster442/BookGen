@@ -14,7 +14,7 @@ namespace BookGen.Tests
         [TestCase("explorer", false)]
         public void EnsureThat_ProcessInterop_ResolveProgramFullPath_ReturnsCorrect(string program, bool expected)
         {
-            var result = ProcessInterop.ResolveProgramFullPath(program);
+            string result = ProcessInterop.ResolveProgramFullPath(program);
 
             if (expected)
                 Assert.IsNotNull(result);

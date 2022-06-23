@@ -26,7 +26,7 @@ namespace BookGen.Tests
         [TestCaseSource(nameof(NoSkipTests))]
         public void EnsureThat_ShortCodeArgumentTokenizer_Split_Works(string input, string[] result)
         {
-            var tokens = ShortCodeArgumentTokenizer.Split(input).ToArray();
+            string[] tokens = ShortCodeArgumentTokenizer.Split(input).ToArray();
             Assert.AreEqual(result, tokens);
         }
 

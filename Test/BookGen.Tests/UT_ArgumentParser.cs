@@ -15,7 +15,7 @@ namespace BookGen.Tests
         [TestCase("--verbose")]
         public void EnsureThat_ArgumentParser_Parses_Switch_Correctly(string sw)
         {
-            BookGenArgumentBase args = new BookGenArgumentBase();
+            var args = new BookGenArgumentBase();
             bool result = ArgumentParser.ParseArguments(new string[] { sw }, args);
 
             Assert.IsTrue(args.Verbose);
@@ -27,7 +27,7 @@ namespace BookGen.Tests
         [TestCase("--dir", "d:\\test12")]
         public void EnsureThat_ArgumentParser_Parses_SwitchWithValue_Correctly(string sw, string param)
         {
-            BookGenArgumentBase args = new BookGenArgumentBase();
+            var args = new BookGenArgumentBase();
             bool result = ArgumentParser.ParseArguments(new string[] { sw, param }, args);
 
             Assert.IsTrue(result);

@@ -63,13 +63,13 @@ namespace BookGen.Tests
 
         private string DoRequest(string url)
         {
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
-                using (var response = client.GetAsync(url).GetAwaiter().GetResult())
+                using (HttpResponseMessage response = client.GetAsync(url).GetAwaiter().GetResult())
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        var content = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                        string content = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                         return content;
                     }
                 }
@@ -80,7 +80,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_FileRequest_ReturnsContent()
         {
-            var response = DoRequest("http://localhost:8080/Test.js");
+            string response = DoRequest("http://localhost:8080/Test.js");
 
             Assert.IsNotNull(response);
             Assert.AreEqual("print(\"hello\");", response);
@@ -89,7 +89,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_VirtualRequest_ReturnsContent()
         {
-            var response = DoRequest("http://localhost:8080/testme");
+            string response = DoRequest("http://localhost:8080/testme");
 
             Assert.IsNotNull(response);
             Assert.AreEqual("TestHandler", response);

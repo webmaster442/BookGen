@@ -56,7 +56,7 @@ namespace BookGen.Tests
 
             Assert.IsTrue(file.IsExisting);
 
-            var content = File.ReadAllText(Path.Combine(_testDir, "test.txt"));
+            string content = File.ReadAllText(Path.Combine(_testDir, "test.txt"));
 
             Assert.AreEqual("test", content);
         }
@@ -78,13 +78,13 @@ namespace BookGen.Tests
             var source = new FsPath(TestEnvironment.GetTestFolder());
             var target = new FsPath(_testDir, "copydir");
 
-            var expectedCount = source.GetAllFiles(false).Count();
+            int expectedCount = source.GetAllFiles(false).Count();
 
-            var result = source.CopyDirectory(target, TestEnvironment.GetMockedLog());
+            bool result = source.CopyDirectory(target, TestEnvironment.GetMockedLog());
 
             Assert.IsTrue(result);
 
-            var files = Directory.GetFiles(Path.Combine(_testDir, "copydir"));
+            string[] files = Directory.GetFiles(Path.Combine(_testDir, "copydir"));
 
             Assert.AreEqual(expectedCount, files.Length);
         }
@@ -97,7 +97,7 @@ namespace BookGen.Tests
             var source = new FsPath(d1);
             var target = new FsPath(d2);
 
-            var result = source.CopyDirectory(target, TestEnvironment.GetMockedLog());
+            bool result = source.CopyDirectory(target, TestEnvironment.GetMockedLog());
 
             Assert.IsFalse(result);
         }
@@ -108,7 +108,7 @@ namespace BookGen.Tests
             var source = new FsPath(TestEnvironment.GetFile("TestFile.txt"));
             var target = new FsPath(_testDir, "copyfile");
 
-            var result = source.Copy(target, TestEnvironment.GetMockedLog());
+            bool result = source.Copy(target, TestEnvironment.GetMockedLog());
 
             Assert.IsTrue(result);
             Assert.IsTrue(target.IsExisting);
@@ -122,7 +122,7 @@ namespace BookGen.Tests
             var source = new FsPath(d1);
             var target = new FsPath(d2);
 
-            var result = source.Copy(target, TestEnvironment.GetMockedLog());
+            bool result = source.Copy(target, TestEnvironment.GetMockedLog());
 
             Assert.IsFalse(result);
         }
@@ -148,7 +148,7 @@ namespace BookGen.Tests
             var source = new FsPath(file);
             var relativeTo = new FsPath(relative);
 
-            var result = source.GetAbsolutePathRelativeTo(relativeTo);
+            FsPath result = source.GetAbsolutePathRelativeTo(relativeTo);
 
             Assert.AreEqual(expected, result.ToString());
         }
@@ -162,7 +162,7 @@ namespace BookGen.Tests
             var source = new FsPath(absolute);
             var relativeTo = new FsPath(relative);
 
-            var result = source.GetRelativePathRelativeTo(relativeTo);
+            FsPath result = source.GetRelativePathRelativeTo(relativeTo);
 
             Assert.AreEqual(expected, result.ToString());
         }
@@ -172,7 +172,7 @@ namespace BookGen.Tests
         [TestCase(@"c:\foo.bar", "txt", @"c:\foo.txt")]
         public void EnsureThat_FsUtils_ChangeExtension_Works(string input, string ext, string expected)
         {
-            var result = new FsPath(input).ChangeExtension(ext);
+            FsPath result = new FsPath(input).ChangeExtension(ext);
             Assert.AreEqual(expected, result.ToString());
         }
 
@@ -183,7 +183,7 @@ namespace BookGen.Tests
         [TestCase(@"c:\*.*", true)]
         public void EnsureThat_FsUtils_IsWildCard_Works(string input, bool expected)
         {
-            var result = new FsPath(input).IsWildCard();
+            bool result = new FsPath(input).IsWildCard();
             Assert.AreEqual(expected, result);
         }
     }

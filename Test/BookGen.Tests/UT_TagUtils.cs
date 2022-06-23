@@ -19,7 +19,7 @@
         [TestCase("Árvíztűrő tükörfúrógép", "arvizturo-tukorfurogep")]
         public void EnshureThat_TagUtils(string input, string expected)
         {
-            var actual = _sut.GetUrlNiceName(input);
+            string actual = _sut.GetUrlNiceName(input);
             Assert.AreEqual(expected, actual);
         }
     }

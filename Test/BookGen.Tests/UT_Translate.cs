@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
-using BookGen.Framework.Shortcodes;
 
 namespace BookGen.Tests
 {
@@ -35,7 +34,7 @@ namespace BookGen.Tests
             {
                 { input, "" }
             });
-            var result = _sut.Generate(arg);
+            string result = _sut.Generate(arg);
             Assert.AreEqual(expected, result);
         }
 
@@ -50,7 +49,7 @@ namespace BookGen.Tests
             {
                 { input, "" }
             });
-            var result = _sut.Generate(arg);
+            string result = _sut.Generate(arg);
             Assert.AreEqual($"Invalid tranlation key: {input}", result);
         }
     }

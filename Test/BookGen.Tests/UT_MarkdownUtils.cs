@@ -13,7 +13,7 @@ namespace BookGen.Tests
         [TestCase("### C# Test", "C# Test")]
         public void EnsureThat_MarkdownUtils_GetTitleWorksCorrectly(string input, string expected)
         {
-            var result = MarkdownUtils.GetDocumentTitle(input, TestEnvironment.GetMockedLog());
+            string result = MarkdownUtils.GetDocumentTitle(input, TestEnvironment.GetMockedLog());
             Assert.AreEqual(expected, result);
         }
 

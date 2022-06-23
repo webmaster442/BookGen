@@ -16,7 +16,7 @@ namespace BookGen.Tests
         [TestCase("α", "sha384-EBA5tvntdq0xYImnmBBvQJo3QePIG39H2dB0VqUWhS6DzcEjshHAascSJz3qzaZH")]
         public void EnsureThat_SriGenerator_GetSRI_ReturnsCorrectValue(string input, string expected)
         {
-            var result = CryptoUitils.GetSRI(input);
+            string result = CryptoUitils.GetSRI(input);
             Assert.AreEqual(expected, result);
         }
 

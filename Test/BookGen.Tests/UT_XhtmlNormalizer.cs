@@ -8,7 +8,7 @@ using BookGen.Resources;
 namespace BookGen.Tests
 {
     [TestFixture]
-    class UT_XhtmlNormalizer
+    internal class UT_XhtmlNormalizer
     {
         [TestCase("<figure>foo</figure>", "<div>foo</div>")]
         [TestCase("<article>foo</article>", "<div>foo</div>")]
@@ -23,7 +23,7 @@ namespace BookGen.Tests
         [TestCase("<style>foo;</style>", "<style><![CDATA[foo;]]></style>")]
         public void EnsureThat_XhtmlNormalizer_NormalizeToXHTML_Correct(string input, string expected)
         {
-            var result = XhtmlNormalizer.NormalizeToXHTML(input);
+            string result = XhtmlNormalizer.NormalizeToXHTML(input);
             Assert.AreEqual(expected, result);
         }
     }

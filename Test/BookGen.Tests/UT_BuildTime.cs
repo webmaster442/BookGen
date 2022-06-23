@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Framework.Shortcodes;
-
 namespace BookGen.Tests
 {
     [TestFixture]
@@ -15,9 +13,9 @@ namespace BookGen.Tests
         {
             var sut = new BuildTime();
 
-            var expected = DateTime.Now.ToString("yy-MM-dd hh:mm:ss");
+            string expected = DateTime.Now.ToString("yy-MM-dd hh:mm:ss");
 
-            var result = sut.Generate(null);
+            string result = sut.Generate(null);
 
             Assert.AreEqual(expected, result);
         }

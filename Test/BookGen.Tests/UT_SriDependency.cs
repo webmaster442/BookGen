@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain;
-using BookGen.Framework.Shortcodes;
 
 namespace BookGen.Tests
 {
@@ -35,7 +34,7 @@ namespace BookGen.Tests
 
             const string expected = "<script src=\"http://test.com/Test.js\" integrity=\"sha384-ZIiaaYu+MewKtrhJpP8K5vAKFUJ2wHaxNkltrjfIdh4opRm4o8xc9Tki1F9z2swu\" crossorigin=\"anonymous\"></script>";
 
-            var result = _sut.Generate(args);
+            string result = _sut.Generate(args);
 
             Assert.AreEqual(expected, result);
         }
@@ -51,7 +50,7 @@ namespace BookGen.Tests
 
             const string expected = "<link rel=\"stylesheet\" href=\"http://test.com/Test.css\" integrity=\"sha384-J8/g2z9Vs8+kXGVMf08+mwZ4yYQ9cRJOPruNGnoj6Tn6+L9cjqFwOHsCGk+yUpfa\" crossorigin=\"anonymous\"/>";
 
-            var result = _sut.Generate(args);
+            string result = _sut.Generate(args);
 
             Assert.AreEqual(expected, result);
         }

@@ -3,9 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain.Configuration;
-using BookGen.Interfaces;
 using System.IO;
 
 namespace BookGen.Tests.Environment

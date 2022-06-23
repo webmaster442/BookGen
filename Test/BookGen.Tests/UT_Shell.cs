@@ -22,7 +22,7 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_ShellProgram_DoComplete_WithoutArgs_Outputs_CmdList()
         {
-            var results = _sut.DoComplete(new string[] { });
+            IEnumerable<string> results = _sut.DoComplete(new string[] { });
             Assert.IsTrue(results.Any());
         }
 
@@ -35,7 +35,7 @@ namespace BookGen.Tests
         [TestCase("--assembly", "bookGen AssemblyDocument --ass")]
         public void EnsureThat_ShellProgram_DoComplete_Completes(string expected, params string[] input)
         {
-            var results = _sut.DoComplete(input);
+            IEnumerable<string> results = _sut.DoComplete(input);
             Assert.AreEqual(expected, results.FirstOrDefault());
         }
 
