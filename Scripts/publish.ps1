@@ -29,7 +29,7 @@ Write-Host "Creating hash..."
 Get-FileHash -Path bin\published.zip -Algorithm SHA256 > bin\published.txt
 
 Write-Host "Creating installer..."
-cd BookGen.Setup
+cd Setup
 Write-Output "#define MyAppVersion ""$version""" | Out-File -FilePath "version.iss" -Encoding ASCII
 & 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup.iss
 cd ..
