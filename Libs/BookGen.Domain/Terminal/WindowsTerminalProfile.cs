@@ -27,6 +27,24 @@ public class WindowsTerminalProfile
     [JsonPropertyName("hidden")]
     public bool Hidden { get; init; }
 
+    [JsonPropertyName("colorScheme")]
+    public string ColorScheme { get; init; }
+
+    [JsonPropertyName("useAcrylic")]
+    public bool UseAcrylic { get; init; }
+
+    [JsonPropertyName("backgroundImage")]
+    public string BackgroundImage { get; init; }
+
+    [JsonPropertyName("backgroundImageAlignment")]
+    public TerminalBackgroundImageAlignment BackgroundImageAlignment { get; init; }
+
+    [JsonPropertyName("backgroundImageStretchMode")]
+    public TerminalBackgroundImageStretchMode BackgroundImageStretchMode { get; init; }
+
+    [JsonPropertyName("opacity")]
+    public int Opacity { get; set; }
+
     public WindowsTerminalProfile()
     {
         Name = string.Empty;
@@ -34,5 +52,9 @@ public class WindowsTerminalProfile
         StartingDirectory = string.Empty;
         Icon = string.Empty;
         TabTitle = string.Empty;
+        BackgroundImage = "desktopWallpaper";
+        ColorScheme = string.Empty;
+        BackgroundImageStretchMode = TerminalBackgroundImageStretchMode.UniformToFill;
+        BackgroundImageAlignment = TerminalBackgroundImageAlignment.Center;
     }
 }

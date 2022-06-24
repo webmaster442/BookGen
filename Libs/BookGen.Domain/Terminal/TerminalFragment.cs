@@ -10,5 +10,8 @@ namespace BookGen.Domain.Terminal;
 public class TerminalFragment
 {
     [JsonPropertyName("profiles")]
-    public List<WindowsTerminalProfile> Profiles { get; set; } = new();
+    public List<WindowsTerminalProfile> Profiles { get; } = new();
+
+    [JsonPropertyName("schemes")]
+    public List<WindowsTerminalScheme> Schemes { get; } = new();
 }

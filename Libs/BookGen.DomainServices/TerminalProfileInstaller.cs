@@ -5,6 +5,7 @@
 
 using BookGen.Domain.Terminal;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BookGen.DomainServices;
 
@@ -20,23 +21,42 @@ public static class TerminalProfileInstaller
             Name = title,
             TabTitle = title,
             CommandLine = GetCommandLine(),
+            ColorScheme = WindowsTerminalScheme.DefaultShemeName,
+            BackgroundImage = Path.Combine(AppContext.BaseDirectory, "bookgen-bg.png"),
+            BackgroundImageStretchMode = TerminalBackgroundImageStretchMode.None,
+            BackgroundImageAlignment = TerminalBackgroundImageAlignment.BottomRight,
+            UseAcrylic = true,
+            Opacity = 80,
         };
     }
 
     private static string GetCommandLine()
     {
         string shellScript = Path.Combine(AppContext.BaseDirectory, "BookGenShell.ps1");
-        return $"powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"";
+        if (InstallDetector.GetInstallStatus().IsPsCoreInstalled)
+        {
+            return $"{InstallDetector.PowershellCoreExe} -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"";
+        }
+        else
+        {
+            return $"powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"";
+        }
     }
 
     private static bool Write(TerminalFragment fragment, string fileName)
     {
         try
         {
-            string? json = JsonSerializer.Serialize(fragment, new JsonSerializerOptions
+            var options = new JsonSerializerOptions
             {
-                WriteIndented = true
-            });
+                WriteIndented = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+
+            };
+            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+
+            string? json = JsonSerializer.Serialize(fragment, options);
+            
             if (string.IsNullOrEmpty(json))
                 return false;
 
@@ -69,6 +89,7 @@ public static class TerminalProfileInstaller
 #endif
         var fragment = new TerminalFragment();
         fragment.Profiles.Add(CreateProfile(title));
+        fragment.Schemes.Add(new WindowsTerminalScheme());
 
         return Write(fragment, fileName);
     }

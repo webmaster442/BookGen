@@ -122,6 +122,9 @@
 		</AssemblyAttribute>
 	</ItemGroup>
 	<ItemGroup>
+	  <Content Include="..\..\bookgen-bg.png" Link="bookgen-bg.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	  <Content Include="..\..\bookgen-icon.png" Link="bookgen-icon.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>

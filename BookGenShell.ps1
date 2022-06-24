@@ -19,6 +19,23 @@ function cdg()
 	$FolderBrowserDialog.Dispose()
 }
 
+function intro()
+{
+	clear
+	bookgen version
+	Write-Host " ____________________________________________________ "
+	Write-Host "/ To get info on using bookgen type: Bookgen Help     \"
+	Write-Host "| To get list of commands type: Bookgen SubCommands   |"
+	Write-Host "| To graphicaly select working directory type: cdg    |"
+	Write-Host "\ To redisplay this message type: intro               /"
+	Write-Host " ----------------------------------------------------- "
+	Write-Host "  \"
+	Write-Host "   \   \"
+	Write-Host "        \ /\"
+	Write-Host "        ( )"
+	Write-Host "      .( o )."
+}
+
 # register scripts folder to the path
 $env:Path += ";$PSScriptRoot"
 
@@ -58,9 +75,4 @@ if ($args.Count -eq 1) {
 }
 
 # welcome message
-Write-Host "To get info on using bookgen type: Bookgen Help"
-Write-Host "To get list of commands type: Bookgen SubCommands"
-Write-Host "To graphicaly select working directory type: cdg"
-Write-Host ""
-bookgen version
-Write-Host ""
+intro
