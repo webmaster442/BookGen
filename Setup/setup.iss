@@ -37,9 +37,61 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"
+Filename: "https://www.microsoft.com/store/productId/9N0DX20HK701"; Flags: runasoriginaluser shellexec nowait postinstall skipifsilent; Check: CheckTerminalInstall 
+Filename: "https://www.microsoft.com/store/productId/9MZ1SNWT0N5D"; Flags: runasoriginaluser shellexec nowait postinstall skipifsilent; Check: CheckPsCoreInstall
 
 [Code]
+function StrSplit(Text: String; Separator: String): TArrayOfString;
+var
+  i, p: Integer;
+  Dest: TArrayOfString; 
+begin
+  i := 0;
+  repeat
+    SetArrayLength(Dest, i+1);
+    p := Pos(Separator,Text);
+    if p > 0 then begin
+      Dest[i] := Copy(Text, 1, p-1);
+      Text := Copy(Text, p + Length(Separator), Length(Text));
+      i := i + 1;
+    end else begin
+      Dest[i] := Text;
+      Text := '';
+    end;
+  until Length(Text)=0;
+  Result := Dest
+end;
+
+function IsInstalled(programName: String) : Boolean;
+var 
+  pathArray: array of String;
+  i: integer;
+  directory: string;
+  installed: Boolean;
+begin
+  installed := false;
+  pathArray := StrSplit(ExpandConstant('{%PATH}'), ';');
+  for i:=0 to Length(pathArray)-1 do
+  begin
+    directory := pathArray[i];
+    if FileExists(directory+'\'+programName) then begin
+      installed := true;
+    end;
+  end; 
+  Result := installed;
+end;
+
+function CheckTerminalInstall() : Boolean;
+begin
+  Result := not IsInstalled('wt.exe');
+end;
+
+function CheckPsCoreInstall() : Boolean;
+begin
+  Result := not IsInstalled('pwsh.exe'); 
+end;
+
 function GetUninstallString(): String;
 var
   sUnInstPath: String;
@@ -81,4 +133,4 @@ begin
   begin
     if (GetUninstallString() <> '') then UnInstallOldVersion();
   end;
-end;
+end;                 
