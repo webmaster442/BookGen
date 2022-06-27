@@ -10,7 +10,7 @@ namespace BookGen.DomainServices;
 public static class InstallDetector
 {
     public const string WindowsTerminalExe = "wt.exe";
-    public const string PowershellCoreExe = "ps.exe";
+    public const string PowershellCoreExe = "pwsh.exe";
     public const string VsCodeExe = "code.cmd";
 
     public static InstallStatus GetInstallStatus()
