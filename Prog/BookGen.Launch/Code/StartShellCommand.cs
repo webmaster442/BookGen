@@ -16,11 +16,24 @@ namespace BookGen.Launch.Code
         private bool Launch(string shellScript)
         {
             if (InstallStatus.IsWindowsTerminalInstalled && Properties.Settings.Default.UseWindowsTerminal)
-                return RunProgram(InstallDetector.WindowsTerminalExe, $"new-tab -p \"Powershell\" --title \"BookGen shell\" --colorScheme \"{WindowsTerminalScheme.DefaultShemeName}\" powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+            {
+                string exe = "powershell.exe";
+
+                if (InstallStatus.IsPsCoreInstalled)
+                {
+                    exe = "pwsh.exe";
+                }
+                return RunProgram(InstallDetector.WindowsTerminalExe, $"new-tab -p \"Powershell\" --title \"BookGen shell\" --colorScheme \"{WindowsTerminalScheme.DefaultShemeName}\" {exe} -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+
+            }
             else if (InstallStatus.IsPsCoreInstalled)
+            {
                 return RunProgram(InstallDetector.PowershellCoreExe, $"-NoExit -File \"{shellScript}\"");
+            }
             else
+            {
                 return RunProgram(PowershellExe, $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+            }
         }
 
         public override bool CanExecute(string? folder)
