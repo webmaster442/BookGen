@@ -1,11 +1,10 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 2.2
-# Last modified: 2022-06-12
+# Version 2.4
+# Last modified: 2022-06-27
 # -----------------------------------------------------------------------------
 
-#cdg command
-
+# cdg command
 function cdg()
 {
     [void] [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
@@ -19,6 +18,7 @@ function cdg()
 	$FolderBrowserDialog.Dispose()
 }
 
+# intro message
 function intro()
 {
 	clear
@@ -38,6 +38,13 @@ function intro()
 
 # register scripts folder to the path
 $env:Path += ";$PSScriptRoot"
+
+# set colors
+Set-PSReadLineOption -Colors @{
+  Parameter  = 'Red'
+  String     = 'Cyan'
+  Command    = 'Green'
+}
 
 # PowerShell parameter completion shim for BookGen
 Register-ArgumentCompleter -Native -CommandName BookGen -ScriptBlock {
