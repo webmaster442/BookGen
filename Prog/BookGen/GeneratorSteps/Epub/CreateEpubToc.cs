@@ -114,8 +114,8 @@ namespace BookGen.GeneratorSteps.Epub
 
             FsPath? target = settings.OutputDirectory.Combine($"epubtemp\\OPS\\nav.xhtml");
 
-            Template.Content = buffer.ToString();
-            Template.Title = "";
+            Template!.Content = buffer.ToString();
+            Template!.Title = "";
 
             string? html = Template.Render();
             target.WriteFile(log, html);
