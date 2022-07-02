@@ -44,20 +44,42 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0" />
+            <Menu 
+                Grid.Column="2"
+                Background="Transparent"
+                Margin="0,0,10,0" 
+                VerticalAlignment="Center">
+                <MenuItem Header="Documentation">
+                    <MenuItem 
+                        Command="{Binding ShowDocumentCommand}"
+                        CommandParameter="Commands.html"
+                        Header="Commands..."/>
+                    <Separator/>
+                    <MenuItem
+                        Command="{Binding ShowDocumentCommand}"
+                        CommandParameter="ChangeLog.html"
+                        Header="Changelog..."/>
+                    <MenuItem
+                        Command="{Binding ShowDocumentCommand}"
+                        CommandParameter="RelaseNotes.html"
+                        Header="Relase notes..."/>
+                </MenuItem>
+            </Menu>
             <Button
                 x:Name="WindowChromeMinimize"
-                Grid.Column="2"
+                Grid.Column="3"
                 Click="WindowChromeMinimize_Click"
                 Content="{StaticResource IconMinimize}"
                 Style="{StaticResource ChromeButton}"
                 ToolTip="Minimize" />
             <Button
                 x:Name="WindowChromeClose"
-                Grid.Column="3"
+                Grid.Column="4"
                 Click="WindowChromeClose_Click"
                 Content="{StaticResource IconClose}"
                 Style="{StaticResource ChromeCloseButton}"
@@ -199,16 +221,6 @@
             <Button
                 Command="{Binding OpenWebsiteCommand}"
                 Content="Visit website..."
-                Style="{StaticResource LinkButton}" />
-            <Button
-                Command="{Binding ShowDocumentCommand}"
-                CommandParameter="ChangeLog.html"
-                Content="View changelog..."
-                Style="{StaticResource LinkButton}" />
-            <Button
-                Command="{Binding ShowDocumentCommand}"
-                CommandParameter="RelaseNotes.html"
-                Content="View relase notes..."
                 Style="{StaticResource LinkButton}" />
             <Rectangle
                 Height="1"
