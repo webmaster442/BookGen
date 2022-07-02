@@ -14,20 +14,25 @@ using System.Text.Json;
 
 namespace BookGen.Launch.Code
 {
-    internal class FolderList : ViewModelBase
+    internal class FolderListViewModel : ViewModelBase
     {
-        private readonly List<string> _elements;
+        private List<string> _elements;
         private string _filter;
         private readonly string _fileName;
         public BindingList<ItemViewModel> View { get; }
 
-        public FolderList()
+        public FolderListViewModel()
         {
             _elements = new List<string>();
             _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
             View = new BindingList<ItemViewModel>();
             _filter = string.Empty;
 
+            LoadFolderList();
+        }
+
+        private void LoadFolderList()
+        {
             string? json = ReadFile();
 
             if (!string.IsNullOrEmpty(json))
@@ -37,6 +42,13 @@ namespace BookGen.Launch.Code
                 {
                     _elements = new List<string>(deserialized);
                 }
+            }
+
+            string[] arguments = Environment.GetCommandLineArgs();
+            if (arguments.Length == 2
+                && Directory.Exists(arguments[1]))
+            {
+                _elements.Add(arguments[1]);
             }
 
             App.UpdateJumplist(_elements);

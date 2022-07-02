@@ -29,7 +29,7 @@ namespace BookGen.Launch
         public ICommand QuickEditCommand { get; }
         public DelegateCommand RemoveItemCommand { get; }
 
-        public FolderList FolderList { get; }
+        public FolderListViewModel FolderList { get; }
 
         public string Version { get; }
 
@@ -37,7 +37,7 @@ namespace BookGen.Launch
 
         public MainViewModel()
         {
-            FolderList = new FolderList();
+            FolderList = new FolderListViewModel();
             OpenFolderCommand = new DelegateCommand(OnOpenFolder);
             ClearFoldersCommand = new DelegateCommand(OnClearFolders);
             OpenWebsiteCommand = new DelegateCommand(OnOpenWebsite);

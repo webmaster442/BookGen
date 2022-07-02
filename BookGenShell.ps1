@@ -18,6 +18,12 @@ function cdg()
 	$FolderBrowserDialog.Dispose()
 }
 
+# lancher Command
+function launcher()
+{
+	BookGen.Launch.exe $(Get-Location).Path
+}
+
 # intro message
 function intro()
 {
@@ -27,6 +33,7 @@ function intro()
 	Write-Host "/ To get info on using bookgen type: Bookgen Help     \"
 	Write-Host "| To get list of commands type: Bookgen SubCommands   |"
 	Write-Host "| To graphicaly select working directory type: cdg    |"
+	Write-Host "| To start the bookgen launcher type: launcher        |"
 	Write-Host "\ To redisplay this message type: intro               /"
 	Write-Host " ----------------------------------------------------- "
 	Write-Host "  \"
