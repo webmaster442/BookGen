@@ -41,8 +41,8 @@ namespace BookGen.Launch
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            bool? rerminalInstall = TerminalProfileInstaller.TryInstall();
-            if (rerminalInstall == false)
+            bool? terminalInstall = TerminalProfileInstaller.TryInstall();
+            if (terminalInstall == false)
             {
                 MessageBox.Show(Launch.Properties.Resources.TerminalProfileInstallFail);
             }
