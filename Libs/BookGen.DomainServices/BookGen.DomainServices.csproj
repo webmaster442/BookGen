@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ClearScript" Version="7.3.0" />
+    <PackageReference Include="Microsoft.ClearScript" Version="7.3.1" />
     <PackageReference Include="SkiaSharp" Version="2.88.0" />
     <PackageReference Include="Svg.Skia" Version="0.5.14" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
