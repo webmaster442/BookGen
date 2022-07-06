@@ -20,6 +20,9 @@ OutputDir=..\bin
 OutputBaseFilename=published.exe
 SolidCompression=yes
 InternalCompressLevel=max
+PrivilegesRequired=lowest
+PrivilegesRequiredOverridesAllowed=dialog commandline
+UsePreviousPrivileges=false
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
