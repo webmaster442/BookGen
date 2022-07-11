@@ -1,4 +1,4 @@
-# 2022.
+# 2022.07.11
 * New: ExternalLinks command
 * New: Tags command
 * New: Wordpress output generates tags based on output of tags command
@@ -6,10 +6,17 @@
 * New: Shell extended with graphical cd command called cdg
 * New: Shell prints not commited file count
 * New: Math2Svg command
+* New: Installer offers to install Windows Terminal & Powershell core, if not installed
+* New: Installer can now run without admin rights
 * Change: Markdown Title finder now warns, if title is not 1st level
 * Change: PageGen module removed
 * Change: Progress reporting improved
+* Change: Md2HTML default template handles print better
+* Change: Windows terminal profile has now a distinct theme
+* Change: Windows terminal profile now uses powershell core, if installed
+* Change: Laucnher has now a built in command documentation
 * Fix: Console Gui memory leaks
+* Fix: Updated wiki documentation
 
 # 2022.05.23
 * New: Better, simplistic icon

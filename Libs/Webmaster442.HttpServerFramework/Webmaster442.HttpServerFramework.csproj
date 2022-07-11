@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Configuration)\Webmaster442.HttpServer.xml</DocumentationFile>
+    <WarningsAsErrors>;NU1605;CS1591</WarningsAsErrors>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <Version>6.0.0.0</Version>
+  </PropertyGroup>
+
+</Project>

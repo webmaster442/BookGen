@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Authors>Ruzsinszki Gábor</Authors>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DocComment.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="DocComment.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+    <ProjectReference Include="..\BookGen.DomainServices\BookGen.DomainServices.csproj" />
+    <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
