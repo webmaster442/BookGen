@@ -29,9 +29,6 @@ To Build and develop you will need:
 
 ```bash
 git clone https://github.com/webmaster442/BookGen.git
-cd BookGen
-git submodule init
-git submodule update
 ```
 ## Documentation
 
