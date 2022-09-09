@@ -1,4 +1,4 @@
-﻿using BookGen.Launcher.Interfaces;
+﻿using BookGen.Launcher.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
@@ -7,17 +7,29 @@ namespace BookGen.Launcher
 {
     internal class MainWindowViewModel : ObservableObject
     {
-        private readonly IMainWindow _mainWindow;
         private bool _isPopupOpen;
+        private INotifyPropertyChanged? _popupContent;
+        private INotifyPropertyChanged? _mainContent;
 
-        public MainWindowViewModel(IMainWindow mainWindow)
+        public MainWindowViewModel()
         {
-            _mainWindow = mainWindow;
             ClosePopupCommand = new RelayCommand(OnClosePopup);
             OpenContent(new ViewModels.StartViewModel());
         }
 
         public RelayCommand ClosePopupCommand { get; }
+
+        public INotifyPropertyChanged? PopupContent
+        {
+            get => _popupContent;
+            set => SetProperty(ref _popupContent, value);
+        }
+
+        public INotifyPropertyChanged? MainContent
+        {
+            get => _mainContent;
+            set => SetProperty(ref _mainContent, value);
+        }
 
         public bool IsPopupOpen
         {
@@ -27,19 +39,20 @@ namespace BookGen.Launcher
 
         private void OpenContent(INotifyPropertyChanged viewModel)
         {
-            _mainWindow.LoadIntoMain(viewModel);
+            MainContent = viewModel;
+            PopupContent = NullViewModel.Instance;
             IsPopupOpen = false;
         }
 
         private void OpenPopupContent(INotifyPropertyChanged viewModel)
         {
-            _mainWindow.LoadIntoPopup(viewModel);
+            PopupContent = viewModel;
             IsPopupOpen = true;
         }
 
         private void OnClosePopup()
         {
-            _mainWindow.ClosePopup();
+            PopupContent = NullViewModel.Instance;
             IsPopupOpen = false;
         }
 

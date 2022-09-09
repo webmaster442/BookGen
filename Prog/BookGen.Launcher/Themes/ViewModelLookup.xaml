@@ -4,6 +4,8 @@
     xmlns:viewModels="clr-namespace:BookGen.Launcher.ViewModels"
     xmlns:views="clr-namespace:BookGen.Launcher.Views">
 
+    <DataTemplate DataType="{x:Type viewModels:NullViewModel}" />
+
     <DataTemplate DataType="{x:Type viewModels:StartViewModel}">
         <views:StartView />
     </DataTemplate>

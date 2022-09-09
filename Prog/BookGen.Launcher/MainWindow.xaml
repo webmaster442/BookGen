@@ -40,10 +40,12 @@
         <ContentControl
             x:Name="ContentPopup"
             Panel.ZIndex="1"
+            Content="{Binding PopupContent}"
             Visibility="Collapsed" />
         <ContentControl
             x:Name="ContentMain"
             Panel.ZIndex="0"
+            Content="{Binding MainContent}"
             Visibility="Visible" />
     </Grid>
 </mah:MetroWindow>

@@ -4,17 +4,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:BookGen.Launcher.Views"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid ShowGridLines="True">
+    <Grid ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <Border
             Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Width="Auto"
+            BorderBrush="{StaticResource MahApps.Brushes.Accent}"
             BorderThickness="0,0,0,2">
             <Grid>
                 <TextBlock
@@ -27,6 +37,40 @@
                     Text="{Binding Version}" />
             </Grid>
         </Border>
-        <ItemsControl Grid.Row="1" />
+        <TextBlock
+            Grid.Row="1"
+            Style="{StaticResource SmallHederText}"
+            Text="Folders" />
+        <ItemsControl
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Margin="10,0"
+            ItemsSource="{Binding View}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <mah:Tile
+                        Title="{Binding FolderName}"
+                        Width="280"
+                        Content="Icon"
+                        IsEnabled="{Binding IsEnabled}"
+                        ToolTip="{Binding FullPath}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <StackPanel
+            Grid.Row="3"
+            Margin="10,10"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button Content="Action1" />
+            <Button Content="Action2" />
+            <Button Content="Action1" />
+            <Button Content="Action2" />
+        </StackPanel>
     </Grid>
 </UserControl>

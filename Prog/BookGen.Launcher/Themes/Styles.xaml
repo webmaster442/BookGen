@@ -23,9 +23,8 @@
     <Style
         x:Key="SmallHederText"
         TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Accent}" />
-        <Setter Property="FontSize" Value="22" />
-        <Setter Property="Margin" Value="0,10,0,15" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Margin" Value="20,10" />
     </Style>
 
 </ResourceDictionary>
