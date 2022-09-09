@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:viewModels="clr-namespace:BookGen.Launcher.ViewModels"
+    xmlns:views="clr-namespace:BookGen.Launcher.Views">
+
+    <DataTemplate DataType="{x:Type viewModels:StartViewModel}">
+        <views:StartView />
+    </DataTemplate>
+
+</ResourceDictionary>

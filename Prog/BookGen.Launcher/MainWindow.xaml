@@ -1,0 +1,49 @@
+﻿<mah:MetroWindow
+    x:Class="BookGen.Launcher.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:BookGen.Launcher.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:BookGen.Launcher"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="BookGen Launcher"
+    Width="1280"
+    Height="720"
+    ResizeMode="CanMinimize"
+    SnapsToDevicePixels="True"
+    TitleCharacterCasing="Normal"
+    UseLayoutRounding="True"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <ToggleButton
+                x:Name="MenuToggle"
+                Content="Menu"
+                Visibility="{Binding IsPopupOpen, Converter={controls:BooleanToVisibilityConverter}, ConverterParameter=negate}" />
+            <Button
+                Content="Close this Popup"
+                Visibility="{Binding IsPopupOpen, Converter={controls:BooleanToVisibilityConverter}}" />
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+    <mah:MetroWindow.Flyouts>
+        <mah:FlyoutsControl>
+            <mah:Flyout
+                Width="280"
+                Header="Menu"
+                IsOpen="{Binding ElementName=MenuToggle, Path=IsChecked}"
+                Position="Right" />
+        </mah:FlyoutsControl>
+    </mah:MetroWindow.Flyouts>
+    <Grid>
+        <ContentControl
+            x:Name="ContentPopup"
+            Panel.ZIndex="1"
+            Visibility="Collapsed" />
+        <ContentControl
+            x:Name="ContentMain"
+            Panel.ZIndex="0"
+            Visibility="Visible" />
+    </Grid>
+</mah:MetroWindow>

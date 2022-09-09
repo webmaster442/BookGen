@@ -10,7 +10,8 @@
 
 namespace BookGen.Launcher.Properties {
     using System;
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -18,24 +19,24 @@ namespace BookGen.Launcher.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BookGen.Launcher.Properties.Resources", typeof(Resources).Assembly);
@@ -44,13 +45,13 @@ namespace BookGen.Launcher.Properties {
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -58,262 +59,103 @@ namespace BookGen.Launcher.Properties {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to ts.ItemName.
+        ///   Looks up a localized string similar to Do you want to clear the recent files list?.
         /// </summary>
-        public static string AppDisplayName {
+        internal static string ClearRecentList {
             get {
-                return ResourceManager.GetString("AppDisplayName", resourceCulture);
+                return ResourceManager.GetString("ClearRecentList", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to ShellGoBackButton.
+        ///   Looks up a localized string similar to The Selected folder can&apos;t be located anymore. Probably it was deleted. It will be removed from the recent folders list..
         /// </summary>
-        public static string ShellGoBackButton {
+        internal static string FolderNoLongerExists {
             get {
-                return ResourceManager.GetString("ShellGoBackButton", resourceCulture);
+                return ResourceManager.GetString("FolderNoLongerExists", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to ShellHamburgerButtonName.
+        ///   Looks up a localized string similar to Select a folder to start bookgen shell.
         /// </summary>
-        public static string ShellHamburgerButtonName {
+        internal static string FolderselectDescription {
             get {
-                return ResourceManager.GetString("ShellHamburgerButtonName", resourceCulture);
+                return ResourceManager.GetString("FolderselectDescription", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Main.
+        ///   Looks up a localized string similar to Install tool to the PATH environment variable?.
         /// </summary>
-        public static string MainPageTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("MainPageTitle", resourceCulture);
+        internal static string InstallToPathVar {
+            get {
+                return ResourceManager.GetString("InstallToPathVar", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Main.
+        ///   Looks up a localized string similar to No folder was selected..
         /// </summary>
-        public static string ShellMainPage
-        {
-            get
-            {
-                return ResourceManager.GetString("ShellMainPage", resourceCulture);
+        internal static string NoFolderSelected {
+            get {
+                return ResourceManager.GetString("NoFolderSelected", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to WebViewPageBackButtonTooltip
+        ///   Looks up a localized string similar to Question.
         /// </summary>
-        public static string WebViewPageBackButtonTooltip
-        {
-            get
-            {
-                return ResourceManager.GetString("WebViewPageBackButtonTooltip", resourceCulture);
+        internal static string Question {
+            get {
+                return ResourceManager.GetString("Question", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to WebViewPageForwardButtonTooltip
+        ///   Looks up a localized string similar to Recent Folders.
         /// </summary>
-        public static string WebViewPageForwardButtonTooltip
-        {
-            get
-            {
-                return ResourceManager.GetString("WebViewPageForwardButtonTooltip", resourceCulture);
+        internal static string RecentFolders {
+            get {
+                return ResourceManager.GetString("RecentFolders", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to WebViewPageLoadingText
+        ///   Looks up a localized string similar to Do you want to remove the directory:\r\n {0} ?.
         /// </summary>
-        public static string WebViewPageLoadingText
-        {
-            get
-            {
-                return ResourceManager.GetString("WebViewPageLoadingText", resourceCulture);
+        internal static string RemoveFolder {
+            get {
+                return ResourceManager.GetString("RemoveFolder", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to WebViewPageFaildedMessage
+        ///   Looks up a localized string similar to Failed to start shell. Application will exit..
         /// </summary>
-        public static string WebViewPageFaildedMessage
-        {
-            get
-            {
-                return ResourceManager.GetString("WebViewPageFaildedMessage", resourceCulture);
+        internal static string ShellScriptStartFail {
+            get {
+                return ResourceManager.GetString("ShellScriptStartFail", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to WebViewPageRefreshButtonTooltip
+        ///   Looks up a localized string similar to Failed to write start script. Application will exit..
         /// </summary>
-        public static string WebViewPageRefreshButtonTooltip
-        {
-            get
-            {
-                return ResourceManager.GetString("WebViewPageRefreshButtonTooltip", resourceCulture);
+        internal static string ShellScriptWriteFail {
+            get {
+                return ResourceManager.GetString("ShellScriptWriteFail", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to WebViewPageOpenInBrowserButtonTooltip
+        ///   Looks up a localized string similar to Windows Terminal profile installation failed .
         /// </summary>
-        public static string WebViewPageOpenInBrowserButtonTooltip
-        {
-            get
-            {
-                return ResourceManager.GetString("WebViewPageOpenInBrowserButtonTooltip", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to WebView.
-        /// </summary>
-        public static string ShellWebViewPage
-        {
-            get
-            {
-                return ResourceManager.GetString("ShellWebViewPage", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to FolderView.
-        /// </summary>
-        public static string FolderViewPageTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("FolderViewPageTitle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to FolderView.
-        /// </summary>
-        public static string ShellFolderViewPage
-        {
-            get
-            {
-                return ResourceManager.GetString("ShellFolderViewPage", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Settings page placeholder text.  Your app description goes here..
-        /// </summary>
-        public static string SettingsPageAboutText
-        {
-            get
-            {
-                return ResourceManager.GetString("SettingsPageAboutText", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to About this application.
-        /// </summary>
-        public static string SettingsPageAboutTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("SettingsPageAboutTitle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Choose Theme.
-        /// </summary>
-        public static string SettingsPageChooseThemeText
-        {
-            get
-            {
-                return ResourceManager.GetString("SettingsPageChooseThemeText", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Personalization.
-        /// </summary>
-        public static string SettingsPagePersonalizationTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("SettingsPagePersonalizationTitle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Privacy Statement.
-        /// </summary>
-        public static string SettingsPagePrivacyStatementText
-        {
-            get
-            {
-                return ResourceManager.GetString("SettingsPagePrivacyStatementText", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Dark.
-        /// </summary>
-        public static string SettingsPageRadioButtonDarkTheme
-        {
-            get
-            {
-                return ResourceManager.GetString("SettingsPageRadioButtonDarkTheme", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Light.
-        /// </summary>
-        public static string SettingsPageRadioButtonLightTheme
-        {
-            get
-            {
-                return ResourceManager.GetString("SettingsPageRadioButtonLightTheme", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Default.
-        /// </summary>
-        public static string SettingsPageRadioButtonWindowsDefaultTheme
-        {
-            get
-            {
-                return ResourceManager.GetString("SettingsPageRadioButtonWindowsDefaultTheme", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Settings.
-        /// </summary>
-        public static string SettingsPageTitle
-        {
-            get
-            {
-                return ResourceManager.GetString("SettingsPageTitle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Settings.
-        /// </summary>
-        public static string ShellSettingsPage
-        {
-            get
-            {
-                return ResourceManager.GetString("ShellSettingsPage", resourceCulture);
+        internal static string TerminalProfileInstallFail {
+            get {
+                return ResourceManager.GetString("TerminalProfileInstallFail", resourceCulture);
             }
         }
     }
