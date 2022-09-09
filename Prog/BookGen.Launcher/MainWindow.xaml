@@ -52,5 +52,14 @@
             Panel.ZIndex="0"
             Content="{Binding MainContent}"
             Visibility="{Binding IsPopupOpen, Converter={controls:BooleanToVisibilityConverter}, ConverterParameter=negate}" />
+        <Border
+            x:Name="Blocker"
+            Grid.Row="0"
+            Grid.RowSpan="99"
+            Grid.Column="0"
+            Grid.ColumnSpan="99"
+            Panel.ZIndex="99"
+            Background="#70000000"
+            Visibility="Collapsed" />
     </Grid>
 </mah:MetroWindow>

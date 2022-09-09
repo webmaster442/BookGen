@@ -45,32 +45,37 @@
             Grid.Row="2"
             Grid.ColumnSpan="2"
             Margin="10,0"
-            ItemsSource="{Binding View}">
+            ItemsSource="{Binding View}"
+            Style="{StaticResource StartFolderList}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <mah:Tile
                         Title="{Binding FolderName}"
                         Width="280"
+                        CommandParameter="{Binding FullPath}"
                         Content="Icon"
                         IsEnabled="{Binding IsEnabled}"
                         ToolTip="{Binding FullPath}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <StackPanel
+        <Border
             Grid.Row="3"
             Margin="10,10"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal">
-            <Button Content="Action1" />
-            <Button Content="Action2" />
-            <Button Content="Action1" />
-            <Button Content="Action2" />
-        </StackPanel>
+            BorderBrush="{StaticResource MahApps.Brushes.Accent4}"
+            BorderThickness="0,2,0,0">
+            <StackPanel
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Button
+                    Command="{Binding OpenFolderCommand}"
+                    Content="Add folder..."
+                    Style="{StaticResource AppButton}" />
+                <Button
+                    Command="{Binding ClearFoldersCommand}"
+                    Content="Clear recent folders..."
+                    Style="{StaticResource AppButton}" />
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

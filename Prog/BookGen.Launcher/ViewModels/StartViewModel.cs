@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using BookGen.Launcher.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Windows;
 
 namespace BookGen.Launcher.ViewModels
 {
@@ -19,8 +22,13 @@ namespace BookGen.Launcher.ViewModels
 
         public BindingList<ItemViewModel> View { get; }
 
+        public RelayCommand<string> OpenFolderCommand { get; }
+        public RelayCommand ClearFoldersCommand { get; }
+
         public StartViewModel()
         {
+            OpenFolderCommand = new RelayCommand<string>(OnOpenFolder);
+            ClearFoldersCommand = new RelayCommand(OnClearFolders);
             _elements = new List<string>();
             _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
             View = new BindingList<ItemViewModel>();
@@ -69,28 +77,6 @@ namespace BookGen.Launcher.ViewModels
 
         public bool IsEmpty => View.Count < 1;
         public bool IsNotEmpty => View.Count > 0;
-
-        public void Add(string item)
-        {
-            if (_elements.Contains(item))
-            {
-                _elements.Remove(item);
-                _elements.Insert(0, item);
-            }
-            else
-            {
-                _elements.Insert(0, item);
-            }
-            ApplyFilter();
-            SaveFolders();
-        }
-
-        public void Clear()
-        {
-            _elements.Clear();
-            ApplyFilter();
-            SaveFolders();
-        }
 
         public void SaveFolders()
         {
@@ -167,6 +153,37 @@ namespace BookGen.Launcher.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+            }
+        }
+
+        private void OnOpenFolder(string? obj)
+        {
+            if (Dialog.TryselectFolderDialog(out string selected))
+            {
+                if (_elements.Contains(selected))
+                {
+                    _elements.Remove(selected);
+                    _elements.Insert(0, selected);
+                }
+                else
+                {
+                    _elements.Insert(0, selected);
+                }
+                ApplyFilter();
+                SaveFolders();
+            }
+        }
+
+        private void OnClearFolders()
+        {
+            if (Dialog.ShowMessageBox(Properties.Resources.ClearRecentList,
+                                  Properties.Resources.Question,
+                                  MessageBoxButton.YesNo,
+                                  MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                _elements.Clear();
+                ApplyFilter();
+                SaveFolders();
             }
         }
     }
