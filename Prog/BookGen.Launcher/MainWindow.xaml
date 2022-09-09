@@ -4,9 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:BookGen.Launcher.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:BookGen.Launcher"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:BookGen.Launcher.Views"
+    x:Name="MainWin"
     Title="BookGen Launcher"
     Width="1280"
     Height="720"
@@ -21,8 +22,10 @@
             <ToggleButton
                 x:Name="MenuToggle"
                 Content="Menu"
+                IsChecked="{Binding IsMenuOpen}"
                 Visibility="{Binding IsPopupOpen, Converter={controls:BooleanToVisibilityConverter}, ConverterParameter=negate}" />
             <Button
+                Command="{Binding ClosePopupCommand}"
                 Content="Close this Popup"
                 Visibility="{Binding IsPopupOpen, Converter={controls:BooleanToVisibilityConverter}}" />
         </mah:WindowCommands>
@@ -32,8 +35,10 @@
             <mah:Flyout
                 Width="280"
                 Header="Menu"
-                IsOpen="{Binding ElementName=MenuToggle, Path=IsChecked}"
-                Position="Right" />
+                IsOpen="{Binding IsMenuOpen}"
+                Position="Right">
+                <views:MenuView DataContext="{Binding ElementName=MainWin, Path=DataContext}" />
+            </mah:Flyout>
         </mah:FlyoutsControl>
     </mah:MetroWindow.Flyouts>
     <Grid>
@@ -41,11 +46,11 @@
             x:Name="ContentPopup"
             Panel.ZIndex="1"
             Content="{Binding PopupContent}"
-            Visibility="Collapsed" />
+            Visibility="{Binding IsPopupOpen, Converter={controls:BooleanToVisibilityConverter}}" />
         <ContentControl
             x:Name="ContentMain"
             Panel.ZIndex="0"
             Content="{Binding MainContent}"
-            Visibility="Visible" />
+            Visibility="{Binding IsPopupOpen, Converter={controls:BooleanToVisibilityConverter}, ConverterParameter=negate}" />
     </Grid>
 </mah:MetroWindow>

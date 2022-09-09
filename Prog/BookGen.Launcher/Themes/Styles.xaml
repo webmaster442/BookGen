@@ -27,4 +27,45 @@
         <Setter Property="Margin" Value="20,10" />
     </Style>
 
+    <Style
+        x:Key="LinkButton"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.AccentBase}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock
+                        x:Name="PartText"
+                        Foreground="{TemplateBinding Foreground}"
+                        TextDecorations="None">
+                        <ContentPresenter />
+                    </TextBlock>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PartText" Property="TextDecorations" Value="Underline" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Accent4}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="Disabled"
+        TargetType="Rectangle">
+        <Setter Property="Margin" Value="20,5" />
+        <Setter Property="Fill" Value="{StaticResource MahApps.Brushes.Accent4}" />
+    </Style>
+
+
+
 </ResourceDictionary>
