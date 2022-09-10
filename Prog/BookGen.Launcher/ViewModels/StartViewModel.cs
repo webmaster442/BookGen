@@ -23,12 +23,16 @@ namespace BookGen.Launcher.ViewModels
         public BindingList<ItemViewModel> View { get; }
 
         public RelayCommand<string> OpenFolderCommand { get; }
+
+        public RelayCommand<string> RemoveFolderCommand { get; }
+
         public RelayCommand ClearFoldersCommand { get; }
 
         public StartViewModel()
         {
             OpenFolderCommand = new RelayCommand<string>(OnOpenFolder);
             ClearFoldersCommand = new RelayCommand(OnClearFolders);
+            RemoveFolderCommand = new RelayCommand<string>(OnRemoveFolder);
             _elements = new List<string>();
             _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
             View = new BindingList<ItemViewModel>();
@@ -83,13 +87,6 @@ namespace BookGen.Launcher.ViewModels
             string? text = JsonSerializer.Serialize(_elements);
             WriteFile(text);
             App.UpdateJumplist(_elements);
-        }
-
-        internal void Remove(string folder)
-        {
-            _elements.Remove(folder);
-            ApplyFilter();
-            SaveFolders();
         }
 
         private void ApplyFilter()
@@ -184,6 +181,25 @@ namespace BookGen.Launcher.ViewModels
                 _elements.Clear();
                 ApplyFilter();
                 SaveFolders();
+            }
+        }
+
+        private void OnRemoveFolder(string? obj)
+        {
+            if (obj is string folder)
+            {
+                MessageBoxResult confirm = Dialog.ShowMessageBox(
+                    string.Format(Properties.Resources.RemoveFolder, folder),
+                    Properties.Resources.Question,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (confirm == MessageBoxResult.Yes)
+                {
+                    _elements.Remove(folder);
+                    ApplyFilter();
+                    SaveFolders();
+                }
             }
         }
     }

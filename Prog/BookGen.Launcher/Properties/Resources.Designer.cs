@@ -142,7 +142,8 @@ namespace BookGen.Launcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to remove the directory:\r\n {0} ?.
+        ///   Looks up a localized string similar to Do you want to remove the directory:
+        ///{0} ?.
         /// </summary>
         internal static string RemoveFolder {
             get {

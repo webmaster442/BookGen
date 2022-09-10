@@ -80,10 +80,12 @@
     <Style
         x:Key="StartFolderList"
         TargetType="ItemsControl">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <WrapPanel />
+                    <WrapPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -98,8 +100,8 @@
                             Padding="{TemplateBinding Padding}"
                             CanContentScroll="True"
                             Focusable="False"
-                            HorizontalScrollBarVisibility="Auto"
-                            VerticalScrollBarVisibility="Auto">
+                            HorizontalScrollBarVisibility="Disabled"
+                            VerticalScrollBarVisibility="Visible">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
