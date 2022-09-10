@@ -1,31 +1,14 @@
 ﻿using System;
-using System.Globalization;
-using System.Windows.Data;
-using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace BookGen.Launcher.Controls
 {
-    internal class ColorConverter : MarkupExtension, IValueConverter
+    internal class ColorConverter : ConverterBase<string, SolidColorBrush>
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override SolidColorBrush ConvertToTTo(string tFrom, object parameter)
         {
-            if (value is string str)
-            {
-                int hue = CalculateHueHash(str);
-                return new SolidColorBrush(HSLtoRGB(hue, 0.5, 0.5));
-            }
-            return Binding.DoNothing;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return Binding.DoNothing;
-        }
-
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
+            int hue = CalculateHueHash(tFrom);
+            return new SolidColorBrush(HSLtoRGB(hue, 0.5, 0.5));
         }
 
         private static byte Round(double input)
