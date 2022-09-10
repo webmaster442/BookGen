@@ -78,7 +78,7 @@
     </Canvas>
 
     <Canvas
-        x:Name="icon-svg"
+        x:Key="icon-svg"
         Width="24"
         Height="24">
         <Path
@@ -87,7 +87,7 @@
     </Canvas>
 
     <Canvas
-        x:Name="icon-file"
+        x:Key="icon-file"
         Width="24"
         Height="24">
         <Path

@@ -9,9 +9,11 @@ namespace BookGen.Launcher.ViewModels
         public DateTime ModificationDate { get; init; }
         public long Size { get; init; }
         public string Extension { get; init; }
+        public string Name { get; init; }
 
         public FileBrowserItemViewModel()
         {
+            Name = string.Empty;
             FullPath = string.Empty;
             Extension = string.Empty;
         }
