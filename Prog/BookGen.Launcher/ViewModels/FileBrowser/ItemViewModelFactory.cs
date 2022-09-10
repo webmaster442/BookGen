@@ -7,17 +7,17 @@ namespace BookGen.Launcher.ViewModels.FileBrowser
     {
         public static IEnumerable<FileBrowserItemViewModel> CreateModels(string path)
         {
-            foreach (var subdir in Directory.GetDirectories(path))
+            foreach (string subdir in Directory.GetDirectories(path))
                 yield return CreateDirectoryModel(subdir);
 
-            foreach (var file in Directory.GetFiles(path))
+            foreach (string file in Directory.GetFiles(path))
                 yield return CreateFileModel(file);
 
         }
 
         private static FileBrowserItemViewModel CreateFileModel(string file)
         {
-            FileInfo fi = new FileInfo(file);
+            var fi = new FileInfo(file);
 
             return new FileBrowserItemViewModel
             {

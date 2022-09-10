@@ -1,7 +1,6 @@
 ﻿using BookGen.Launcher.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
 using System.ComponentModel;
 
 namespace BookGen.Launcher

@@ -1,11 +1,4 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace BookGen.Launcher.Controls
 {
@@ -46,14 +39,14 @@ namespace BookGen.Launcher.Controls
                 Image = image,
                 Buttons = buttons
             };
-            
+
             if (main.WindowState == WindowState.Minimized)
                 main.WindowState = WindowState.Normal;
-            
+
             main.Blocker.Visibility = Visibility.Visible;
             dialog.ShowDialog();
             main.Blocker.Visibility = Visibility.Collapsed;
-            
+
             return dialog.ClickedButton;
         }
 

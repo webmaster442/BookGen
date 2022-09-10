@@ -28,14 +28,14 @@ namespace BookGen.Launcher.Controls
             }
             else
             {
-                double q = Luminance < 0.5 ? Luminance * (1.0 + Saturation) : Luminance + Saturation - Luminance * Saturation;
-                double p = 2.0 * Luminance - q;
+                double q = Luminance < 0.5 ? Luminance * (1.0 + Saturation) : Luminance + Saturation - (Luminance * Saturation);
+                double p = (2.0 * Luminance) - q;
 
                 double Hk = Hue / 360.0;
                 double[] T = new double[3];
-                T[0] = Hk + 1.0 / 3.0;    // Tr
+                T[0] = Hk + (1.0 / 3.0);    // Tr
                 T[1] = Hk;              // Tb
-                T[2] = Hk - 1.0 / 3.0;    // Tg
+                T[2] = Hk - (1.0 / 3.0);    // Tg
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -44,7 +44,7 @@ namespace BookGen.Launcher.Controls
 
                     if (T[i] * 6 < 1)
                     {
-                        T[i] = p + (q - p) * 6.0 * T[i];
+                        T[i] = p + ((q - p) * 6.0 * T[i]);
                     }
                     else if (T[i] * 2.0 < 1) //(1.0/6.0)<=T[i] && T[i]<0.5
                     {
@@ -52,7 +52,7 @@ namespace BookGen.Launcher.Controls
                     }
                     else if (T[i] * 3.0 < 2) // 0.5<=T[i] && T[i]<(2.0/3.0)
                     {
-                        T[i] = p + (q - p) * (2.0 / 3.0 - T[i]) * 6.0;
+                        T[i] = p + ((q - p) * ((2.0 / 3.0) - T[i]) * 6.0);
                     }
                     else T[i] = p;
                 }
@@ -67,9 +67,9 @@ namespace BookGen.Launcher.Controls
         private static int CalculateHueHash(string str)
         {
             ulong val = 14695981039346656037L;
-            foreach (var chr in str)
+            foreach (char chr in str)
             {
-                val = val * 1099511628211 ^ chr;
+                val = (val * 1099511628211) ^ chr;
             }
             return (int)(val % 360);
         }

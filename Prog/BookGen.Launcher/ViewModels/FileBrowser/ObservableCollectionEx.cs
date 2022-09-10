@@ -18,7 +18,7 @@ namespace BookGen.Launcher.ViewModels.FileBrowser
 
             CheckReentrancy();
 
-            foreach (var i in collection)
+            foreach (T? i in collection)
             {
                 Items.Add(i);
             }
