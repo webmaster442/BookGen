@@ -2,7 +2,10 @@
 {
     internal sealed class NullViewModel : INotifyPropertyChanged
     {
-        private NullViewModel() { }
+        private NullViewModel() 
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
+        }
 
         public static NullViewModel Instance => new();
 
