@@ -1,10 +1,4 @@
-﻿using BookGen.Launcher.Interfaces;
-using BookGen.Launcher.ViewModels;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System.ComponentModel;
-
-namespace BookGen.Launcher
+﻿namespace BookGen.Launcher
 {
     internal class MainWindowViewModel : ObservableObject, IMainViewModel
     {

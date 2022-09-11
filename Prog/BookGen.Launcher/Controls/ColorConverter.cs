@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Media;
-
-namespace BookGen.Launcher.Controls
+﻿namespace BookGen.Launcher.Controls
 {
     internal class ColorConverter : ConverterBase<string, SolidColorBrush>
     {

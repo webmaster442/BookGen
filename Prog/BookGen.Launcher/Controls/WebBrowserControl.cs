@@ -1,6 +1,5 @@
 ﻿using Microsoft.Web.WebView2.Wpf;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace BookGen.Launcher.Controls
 {

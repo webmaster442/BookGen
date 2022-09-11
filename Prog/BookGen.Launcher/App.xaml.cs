@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Shell;
+﻿using System.Windows.Shell;
 
 namespace BookGen.Launcher
 {

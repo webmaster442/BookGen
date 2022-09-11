@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace BookGen.Launcher.Interfaces
+﻿namespace BookGen.Launcher.Interfaces
 {
     internal interface IMainViewModel
     {

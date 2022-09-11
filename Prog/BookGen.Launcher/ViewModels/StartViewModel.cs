@@ -1,15 +1,5 @@
-﻿using BookGen.Launcher.Controls;
-using BookGen.Launcher.Interfaces;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Text.Json;
-using System.Windows;
 
 namespace BookGen.Launcher.ViewModels
 {
@@ -43,7 +33,7 @@ namespace BookGen.Launcher.ViewModels
 
             View = new BindingList<ItemViewModel>();
             Version = GetVersion();
-            
+
             LoadFolderList();
         }
 

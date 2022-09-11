@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace BookGen.Launcher.ViewModels
+﻿namespace BookGen.Launcher.ViewModels
 {
     internal sealed class NullViewModel : INotifyPropertyChanged
     {

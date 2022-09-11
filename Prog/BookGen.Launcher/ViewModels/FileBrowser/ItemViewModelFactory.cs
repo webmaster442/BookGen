@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-
-namespace BookGen.Launcher.ViewModels.FileBrowser
+﻿namespace BookGen.Launcher.ViewModels.FileBrowser
 {
     internal static class ItemViewModelFactory
     {

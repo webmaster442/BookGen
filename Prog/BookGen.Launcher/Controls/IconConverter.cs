@@ -1,6 +1,4 @@
-﻿using BookGen.Launcher.ViewModels;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace BookGen.Launcher.Controls
 {

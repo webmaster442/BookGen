@@ -1,5 +1,4 @@
 ﻿using BookGen.Launcher.ViewModels.FileBrowser;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BookGen.Launcher.ViewModels
 {

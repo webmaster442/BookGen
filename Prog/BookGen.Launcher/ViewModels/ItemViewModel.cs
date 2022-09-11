@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.IO;
-
 namespace BookGen.Launcher.ViewModels
 {
     internal record ItemViewModel

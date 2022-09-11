@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BookGen.Launcher
+﻿namespace BookGen.Launcher
 {
     internal static class Extensions
     {

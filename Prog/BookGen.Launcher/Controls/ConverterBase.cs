@@ -1,9 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Windows.Data;
-using System.Windows.Markup;
-
-namespace BookGen.Launcher.Controls
+﻿namespace BookGen.Launcher.Controls
 {
     internal abstract class ConverterBase<TFrom, TTo> : MarkupExtension, IValueConverter
     {

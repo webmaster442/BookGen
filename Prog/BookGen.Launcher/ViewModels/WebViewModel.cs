@@ -1,8 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.IO;
-
-namespace BookGen.Launcher.ViewModels
+﻿namespace BookGen.Launcher.ViewModels
 {
     internal class WebViewModel : ObservableObject
     {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
-
-namespace BookGen.Launcher.Controls
+﻿namespace BookGen.Launcher.Controls
 {
     internal class DialogButtonConverter : MarkupExtension, IValueConverter
     {

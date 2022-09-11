@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace BookGen.Launcher.Controls
+﻿namespace BookGen.Launcher.Controls
 {
     internal static class Dialog
     {

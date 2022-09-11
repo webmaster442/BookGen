@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BookGen.Launcher.ViewModels
+﻿namespace BookGen.Launcher.ViewModels
 {
     internal class FileBrowserItemViewModel
     {
