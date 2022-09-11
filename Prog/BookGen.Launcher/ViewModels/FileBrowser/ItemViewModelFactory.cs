@@ -26,6 +26,7 @@ namespace BookGen.Launcher.ViewModels.FileBrowser
                 FullPath = file,
                 IsFolder = false,
                 Size = fi.Length,
+                Name = fi.Name,
             };
         }
 
@@ -33,6 +34,7 @@ namespace BookGen.Launcher.ViewModels.FileBrowser
         {
             return new FileBrowserItemViewModel
             {
+                Name = Path.GetFileName(subdir),
                 IsFolder = true,
                 FullPath = subdir,
                 ModificationDate = Directory.GetLastAccessTime(subdir),

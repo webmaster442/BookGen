@@ -11,11 +11,12 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <DataGrid
             Grid.Row="1"
+            AutoGenerateColumns="False"
             CanUserAddRows="False"
             CanUserDeleteRows="False"
             CanUserSortColumns="True"
@@ -26,22 +27,31 @@
                 <DataGridTemplateColumn Header="Icon">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Viewbox Child="{Binding Extension, Converter={controls:IconConverter}}" />
+                            <Viewbox
+                                Width="96"
+                                Height="96">
+                                <ContentPresenter Content="{Binding Converter={controls:IconConverter}}" />
+                            </Viewbox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn
+                    Width="1*"
                     Binding="{Binding Name}"
-                    Header="Name" />
+                    Header="Name"
+                    IsReadOnly="True" />
                 <DataGridTextColumn
                     Binding="{Binding Extension}"
-                    Header="Extension" />
+                    Header="Extension"
+                    IsReadOnly="True" />
                 <DataGridTextColumn
                     Binding="{Binding Size}"
-                    Header="Size" />
+                    Header="Size"
+                    IsReadOnly="True" />
                 <DataGridTextColumn
                     Binding="{Binding ModificationDate}"
-                    Header="Modified" />
+                    Header="Modified"
+                    IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

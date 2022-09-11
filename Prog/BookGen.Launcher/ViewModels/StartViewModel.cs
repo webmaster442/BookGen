@@ -25,9 +25,8 @@ namespace BookGen.Launcher.ViewModels
         public BindingList<ItemViewModel> View { get; }
 
         public RelayCommand<string> OpenFolderCommand { get; }
-
         public RelayCommand<string> RemoveFolderCommand { get; }
-
+        public RelayCommand<string> FolderSelectCommand { get; }
         public RelayCommand ClearFoldersCommand { get; }
 
         public StartViewModel(IMainViewModel mainViewModel)
@@ -40,7 +39,8 @@ namespace BookGen.Launcher.ViewModels
             OpenFolderCommand = new RelayCommand<string>(OnOpenFolder);
             ClearFoldersCommand = new RelayCommand(OnClearFolders);
             RemoveFolderCommand = new RelayCommand<string>(OnRemoveFolder);
-            
+            FolderSelectCommand = new RelayCommand<string>(OnFolderSelect);
+
             View = new BindingList<ItemViewModel>();
             Version = GetVersion();
             
@@ -204,6 +204,14 @@ namespace BookGen.Launcher.ViewModels
                     ApplyFilter();
                     SaveFolders();
                 }
+            }
+        }
+
+        private void OnFolderSelect(string? obj)
+        {
+            if (!string.IsNullOrEmpty(obj))
+            {
+                _mainViewModel.OpenContent(new ViewModels.FileBrowserViewModel(obj));
             }
         }
     }

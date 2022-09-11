@@ -15,4 +15,8 @@
         <views:StartView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type viewModels:FileBrowserViewModel}">
+        <views:FileBrowserView />
+    </DataTemplate>
+
 </ResourceDictionary>

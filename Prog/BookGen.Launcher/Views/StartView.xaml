@@ -99,6 +99,7 @@
                         Width="300"
                         Margin="4,3"
                         Background="{Binding FullPath, Converter={controls:ColorConverter}}"
+                        Command="{Binding DataContext.FolderSelectCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                         CommandParameter="{Binding FullPath}"
                         IsEnabled="{Binding IsEnabled}"
                         Tag="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
