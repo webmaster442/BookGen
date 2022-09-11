@@ -25,7 +25,7 @@
             Grid.Row="0"
             Grid.ColumnSpan="2"
             Width="Auto"
-            BorderBrush="{StaticResource MahApps.Brushes.Accent}"
+            BorderBrush="{StaticResource MahApps.Brushes.Accent2}"
             BorderThickness="0,0,0,2">
             <Grid>
                 <TextBlock
@@ -42,12 +42,56 @@
             Grid.Row="1"
             Style="{StaticResource SmallHederText}"
             Text="Folders" />
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="0,0,15,0">
+            <TextBox
+                x:Name="SearchBox"
+                Width="180"
+                Height="28"
+                Padding="5,0"
+                VerticalContentAlignment="Center"
+                BorderThickness="1"
+                Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged, Delay=500}" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Foreground="{StaticResource MahApps.Brushes.Accent}"
+                IsHitTestVisible="False"
+                Text="Type here to search">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{controls:SearchBoxWatermarkVisibilityConverter}">
+                        <Binding
+                            ElementName="SearchBox"
+                            Path="Text" />
+                        <Binding
+                            ElementName="SearchBox"
+                            Path="IsKeyboardFocused" />
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+        </Grid>
+
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="18"
+            Foreground="{StaticResource MahApps.Brushes.Accent}"
+            Text="No Folders are available or none matches the search criteria"
+            Visibility="{Binding IsEmpty, Converter={controls:BooleanToVisibilityConverter}}" />
+
         <ItemsControl
             Grid.Row="2"
             Grid.ColumnSpan="2"
             Margin="15,0"
             ItemsSource="{Binding View}"
-            Style="{StaticResource StartFolderList}">
+            Style="{StaticResource StartFolderList}"
+            Visibility="{Binding IsEmpty, Converter={controls:BooleanToVisibilityConverter}, ConverterParameter=negate}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <mah:Tile
@@ -84,8 +128,9 @@
         </ItemsControl>
         <Border
             Grid.Row="3"
+            Grid.ColumnSpan="2"
             Margin="10,10"
-            BorderBrush="{StaticResource MahApps.Brushes.Accent4}"
+            BorderBrush="{StaticResource MahApps.Brushes.Accent2}"
             BorderThickness="0,2,0,0">
             <StackPanel
                 HorizontalAlignment="Right"

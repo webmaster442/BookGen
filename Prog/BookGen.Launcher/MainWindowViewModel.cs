@@ -1,11 +1,12 @@
-﻿using BookGen.Launcher.ViewModels;
+﻿using BookGen.Launcher.Interfaces;
+using BookGen.Launcher.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
 
 namespace BookGen.Launcher
 {
-    internal class MainWindowViewModel : ObservableObject
+    internal class MainWindowViewModel : ObservableObject, IMainViewModel
     {
         private bool _isPopupOpen;
         private bool _isMenuOpen;
@@ -43,7 +44,7 @@ namespace BookGen.Launcher
         {
             ClosePopupCommand = new RelayCommand(OnClosePopup);
             OpenBrowserCommand = new RelayCommand<string>(OnOpenBrowser);
-            OpenContent(new ViewModels.StartViewModel());
+            OpenContent(new ViewModels.StartViewModel(this));
         }
 
         private void OnOpenBrowser(string? obj)
@@ -72,5 +73,19 @@ namespace BookGen.Launcher
             IsPopupOpen = false;
         }
 
+        void IMainViewModel.OpenPopupContent(INotifyPropertyChanged viewModel)
+        {
+            OpenPopupContent(viewModel);
+        }
+
+        void IMainViewModel.OpenContent(INotifyPropertyChanged viewModel)
+        {
+            OpenContent(viewModel);
+        }
+
+        void IMainViewModel.ClosePopup()
+        {
+            OnClosePopup();
+        }
     }
 }

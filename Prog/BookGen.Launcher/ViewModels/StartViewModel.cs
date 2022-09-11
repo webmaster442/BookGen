@@ -1,4 +1,5 @@
 ﻿using BookGen.Launcher.Controls;
+using BookGen.Launcher.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -17,6 +18,7 @@ namespace BookGen.Launcher.ViewModels
         private List<string> _elements;
         private string _filter;
         private readonly string _fileName;
+        private readonly IMainViewModel _mainViewModel;
 
         public string Version { get; }
 
@@ -28,16 +30,20 @@ namespace BookGen.Launcher.ViewModels
 
         public RelayCommand ClearFoldersCommand { get; }
 
-        public StartViewModel()
+        public StartViewModel(IMainViewModel mainViewModel)
         {
+            _mainViewModel = mainViewModel;
+            _filter = string.Empty;
+            _elements = new List<string>();
+            _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
+
             OpenFolderCommand = new RelayCommand<string>(OnOpenFolder);
             ClearFoldersCommand = new RelayCommand(OnClearFolders);
             RemoveFolderCommand = new RelayCommand<string>(OnRemoveFolder);
-            _elements = new List<string>();
-            _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
+            
             View = new BindingList<ItemViewModel>();
-            _filter = string.Empty;
             Version = GetVersion();
+            
             LoadFolderList();
         }
 
@@ -80,7 +86,6 @@ namespace BookGen.Launcher.ViewModels
         }
 
         public bool IsEmpty => View.Count < 1;
-        public bool IsNotEmpty => View.Count > 0;
 
         public void SaveFolders()
         {
@@ -101,7 +106,6 @@ namespace BookGen.Launcher.ViewModels
                 CreateItems(_elements);
             }
             OnPropertyChanged(nameof(IsEmpty));
-            OnPropertyChanged(nameof(IsNotEmpty));
         }
 
         private void CreateItems(IEnumerable<string> subset)
