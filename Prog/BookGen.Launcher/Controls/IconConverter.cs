@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using BookGen.Launcher.ViewModels.FileBrowser;
+using System.Windows.Controls;
 
 namespace BookGen.Launcher.Controls
 {
@@ -11,9 +12,6 @@ namespace BookGen.Launcher.Controls
 
         protected override Canvas ConvertToTTo(FileBrowserItemViewModel tFrom, object parameter)
         {
-            if (tFrom.IsFolder)
-                return GetResource("icon-folder");
-
             return tFrom.Extension switch
             {
                 ".css" => GetResource("icon-css"),

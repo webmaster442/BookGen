@@ -17,18 +17,27 @@ namespace BookGen.Launcher.ViewModels
         }
 
         public ObservableCollectionEx<FileBrowserItemViewModel> Items { get; }
+        public ObservableCollectionEx<FileBrowserTreeViewModel> TreeItems { get; }
 
         public FileBrowserViewModel(string currentDir)
         {
             _currentDir = currentDir;
             Items = new ObservableCollectionEx<FileBrowserItemViewModel>();
+            TreeItems = new ObservableCollectionEx<FileBrowserTreeViewModel>();
+            FillDirectory(currentDir);
             Update();
+        }
+
+        private void FillDirectory(string startDir)
+        {
+            TreeItems.Clear();
+            TreeItems.AddRange(ModelsFactory.CreateTreeModels(startDir));
         }
 
         private void Update()
         {
             Items.Clear();
-            Items.AddRange(ItemViewModelFactory.CreateModels(CurrentDir));
+            Items.AddRange(ModelsFactory.CreateItemModels(CurrentDir));
         }
     }
 }

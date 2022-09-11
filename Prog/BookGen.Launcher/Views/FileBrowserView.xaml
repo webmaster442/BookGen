@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:BookGen.Launcher.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:BookGen.Launcher.Views"
+    xmlns:fileBrowser="clr-namespace:BookGen.Launcher.ViewModels.FileBrowser"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -14,8 +14,40 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TreeView
+            Grid.Row="1"
+            Grid.Column="0"
+            ItemsSource="{Binding TreeItems}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate
+                    DataType="{x:Type fileBrowser:FileBrowserTreeViewModel}"
+                    ItemsSource="{Binding SubItems}">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox
+                            Width="48"
+                            Height="48">
+                            <ContentPresenter Content="{StaticResource icon-folder}" />
+                        </Viewbox>
+                        <TextBlock
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
         <DataGrid
             Grid.Row="1"
+            Grid.Column="1"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             CanUserDeleteRows="False"

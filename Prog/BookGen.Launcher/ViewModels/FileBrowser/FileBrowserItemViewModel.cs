@@ -1,9 +1,8 @@
-﻿namespace BookGen.Launcher.ViewModels
+﻿namespace BookGen.Launcher.ViewModels.FileBrowser
 {
     internal class FileBrowserItemViewModel
     {
         public string FullPath { get; init; }
-        public bool IsFolder { get; init; }
         public DateTime ModificationDate { get; init; }
         public long Size { get; init; }
         public string Extension { get; init; }
