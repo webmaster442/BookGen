@@ -10,6 +10,7 @@
 
         public RelayCommand ClosePopupCommand { get; }
         public RelayCommand OpenSettingsCommand { get; }
+        public RelayCommand StartCommand { get; }
         public RelayCommand<string> OpenBrowserCommand { get; }
 
         public string AppTitle
@@ -54,6 +55,12 @@
             ClosePopupCommand = new RelayCommand(OnClosePopup);
             OpenBrowserCommand = new RelayCommand<string>(OnOpenBrowser);
             OpenSettingsCommand = new RelayCommand(OnOpenSettings);
+            StartCommand = new RelayCommand(OnStart);
+            OnStart();
+        }
+
+        private void OnStart()
+        {
             OpenContent(new ViewModels.StartViewModel(this));
         }
 

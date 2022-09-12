@@ -17,6 +17,11 @@
     UseLayoutRounding="True"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <mah:MetroWindow.InputBindings>
+        <KeyBinding
+            Key="Esc"
+            Command="{Binding ClosePopupCommand}" />
+    </mah:MetroWindow.InputBindings>
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <ToggleButton

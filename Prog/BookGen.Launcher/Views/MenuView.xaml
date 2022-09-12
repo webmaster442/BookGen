@@ -15,13 +15,17 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <Button
-                Command="{Binding OpenBrowserCommand}"
-                CommandParameter="https://github.com/webmaster442/BookGen"
-                Content="Visit website..."
+                Command="{Binding StartCommand}"
+                Content="Start"
                 Style="{StaticResource LinkButton}" />
             <Rectangle
                 Height="4"
                 Style="{StaticResource Disabled}" />
+            <Button
+                Command="{Binding OpenBrowserCommand}"
+                CommandParameter="https://github.com/webmaster442/BookGen"
+                Content="Visit website..."
+                Style="{StaticResource LinkButton}" />
             <Button
                 Command="{Binding OpenBrowserCommand}"
                 CommandParameter="Commands.html"

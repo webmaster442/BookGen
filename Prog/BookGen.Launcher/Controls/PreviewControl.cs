@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace BookGen.Launcher.Controls
 {
@@ -41,7 +42,13 @@ namespace BookGen.Launcher.Controls
                 case ".gitignore":
                 case ".editorconfig":
                 case ".gitmodules":
+                case ".xml":
                     OpenAsText(FileUnderPreview);
+                    break;
+                case ".jpg":
+                case ".jpeg":
+                case ".png":
+                    OpenAsImage(FileUnderPreview);
                     break;
                 default:
                     DisplayError($"{extension} isn't supported by this preview");
@@ -74,6 +81,23 @@ namespace BookGen.Launcher.Controls
             catch (Exception)
             {
                 DisplayError($"Error while loading: {fileUnderPreview}");
+            }
+        }
+
+        private void OpenAsImage(string image)
+        {
+            try
+            {
+                var img = new Image
+                {
+                    Source = new BitmapImage(new Uri(image)),
+                    StretchDirection = StretchDirection.DownOnly,
+                };
+                Content = img;
+            }
+            catch (Exception)
+            {
+                DisplayError($"Error while loading: {image}");
             }
         }
     }

@@ -13,6 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
@@ -58,6 +59,7 @@
         </Grid>
         <controls:TreeViewMVVM
             Grid.Row="1"
+            Grid.RowSpan="2"
             Grid.Column="0"
             ItemSelectedCommand="{Binding TreeItemSelectedCommand}"
             ItemsSource="{Binding TreeItems}">
@@ -80,6 +82,7 @@
             </controls:TreeViewMVVM.ItemTemplate>
         </controls:TreeViewMVVM>
         <controls:DataGridExtended
+            x:Name="DataGrid"
             Grid.Row="1"
             Grid.Column="1"
             AutoGenerateColumns="False"
@@ -122,5 +125,10 @@
                     IsReadOnly="True" />
             </controls:DataGridExtended.Columns>
         </controls:DataGridExtended>
+        <StatusBar
+            Grid.Row="2"
+            Grid.Column="1">
+            <TextBlock Text="To preview a file, double click on selected file" />
+        </StatusBar>
     </Grid>
 </UserControl>
