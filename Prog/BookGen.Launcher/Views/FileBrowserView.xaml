@@ -18,11 +18,44 @@
             <ColumnDefinition Width="250" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TreeView
+        <Grid
+            Grid.Row="0"
+            Grid.ColumnSpan="9"
+            Margin="0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                Margin="10,0"
+                VerticalAlignment="Center"
+                Text="{Binding CurrentDir}" />
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal">
+                <Button
+                    Margin="5"
+                    Command="{Binding RefreshCommand}"
+                    Content="Refresh" />
+                <Button
+                    Margin="5"
+                    Command="{Binding StartShellCommand}"
+                    CommandParameter="{Binding CurrentDir}"
+                    Content="Open folder in Terminal" />
+                <Button
+                    Margin="5"
+                    Command="{Binding RunVsCodeCommand}"
+                    CommandParameter="{Binding CurrentDir}"
+                    Content="Open folder in VS Code" />
+            </StackPanel>
+        </Grid>
+        <controls:TreeViewMVVM
             Grid.Row="1"
             Grid.Column="0"
+            ItemSelectedCommand="{Binding TreeItemSelectedCommand}"
             ItemsSource="{Binding TreeItems}">
-            <TreeView.ItemTemplate>
+            <controls:TreeViewMVVM.ItemTemplate>
                 <HierarchicalDataTemplate
                     DataType="{x:Type fileBrowser:FileBrowserTreeViewModel}"
                     ItemsSource="{Binding SubItems}">
@@ -38,13 +71,13 @@
                             Text="{Binding Name}" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-            <TreeView.ItemContainerStyle>
+            </controls:TreeViewMVVM.ItemTemplate>
+            <controls:TreeViewMVVM.ItemContainerStyle>
                 <Style TargetType="TreeViewItem">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
                 </Style>
-            </TreeView.ItemContainerStyle>
-        </TreeView>
+            </controls:TreeViewMVVM.ItemContainerStyle>
+        </controls:TreeViewMVVM>
         <DataGrid
             Grid.Row="1"
             Grid.Column="1"

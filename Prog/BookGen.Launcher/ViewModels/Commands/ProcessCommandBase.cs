@@ -43,7 +43,7 @@ namespace BookGen.Launcher.ViewModels.Commands
             }
         }
 
-        public void Refresh()
+        public void OnCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
