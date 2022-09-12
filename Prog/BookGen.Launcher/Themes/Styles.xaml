@@ -113,11 +113,12 @@
     <Style
         x:Key="preview-text"
         TargetType="TextBox">
-        <Setter Property="FontFamily" Value="Lucidia Console" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="Consolas" />
+        <Setter Property="FontSize" Value="18" />
         <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="AcceptsReturn" Value="True" />
         <Setter Property="AcceptsTab" Value="True" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
     </Style>
 
     <Style

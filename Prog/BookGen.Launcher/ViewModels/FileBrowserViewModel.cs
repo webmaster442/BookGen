@@ -45,7 +45,7 @@ namespace BookGen.Launcher.ViewModels
         {
             if (obj != null)
             {
-                _mainViewModel.OpenPopupContent(new PreviewViewModel(obj.FullPath));
+                _mainViewModel.OpenPopupContent(new PreviewViewModel(obj.FullPath), obj.FullPath);
             }
         }
 

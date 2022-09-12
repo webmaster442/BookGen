@@ -26,29 +26,35 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock
+            <Border
                 Grid.Column="0"
                 Margin="10,0"
-                VerticalAlignment="Center"
-                Text="{Binding CurrentDir}" />
-            <StackPanel
+                BorderBrush="{StaticResource MahApps.Brushes.Accent2}"
+                BorderThickness="0,0,0,2">
+                <TextBlock
+                    Grid.Column="0"
+                    Margin="10,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding CurrentDir}" />
+            </Border>
+            <Border
                 Grid.Column="1"
-                Orientation="Horizontal">
-                <Button
-                    Margin="5"
-                    Command="{Binding RefreshCommand}"
-                    Content="Refresh" />
-                <Button
-                    Margin="5"
-                    Command="{Binding StartShellCommand}"
-                    CommandParameter="{Binding CurrentDir}"
-                    Content="Open folder in Terminal" />
-                <Button
-                    Margin="5"
-                    Command="{Binding RunVsCodeCommand}"
-                    CommandParameter="{Binding CurrentDir}"
-                    Content="Open folder in VS Code" />
-            </StackPanel>
+                BorderBrush="{StaticResource MahApps.Brushes.Accent2}"
+                BorderThickness="0,0,0,2">
+                <Menu Margin="5">
+                    <MenuItem
+                        Command="{Binding RefreshCommand}"
+                        Header="Refresh" />
+                    <MenuItem
+                        Command="{Binding StartShellCommand}"
+                        CommandParameter="{Binding CurrentDir}"
+                        Header="Open folder in Terminal" />
+                    <MenuItem
+                        Command="{Binding RunVsCodeCommand}"
+                        CommandParameter="{Binding CurrentDir}"
+                        Header="Open folder in VS Code" />
+                </Menu>
+            </Border>
         </Grid>
         <controls:TreeViewMVVM
             Grid.Row="1"
@@ -73,7 +79,7 @@
                 </HierarchicalDataTemplate>
             </controls:TreeViewMVVM.ItemTemplate>
         </controls:TreeViewMVVM>
-        <DataGrid
+        <controls:DataGridExtended
             Grid.Row="1"
             Grid.Column="1"
             AutoGenerateColumns="False"
@@ -81,9 +87,11 @@
             CanUserDeleteRows="False"
             CanUserSortColumns="True"
             ItemsSource="{Binding Items}"
+            MouseDoubleClickCommand="{Binding PreviewCommand}"
             SelectionMode="Single"
-            SelectionUnit="FullRow">
-            <DataGrid.Columns>
+            SelectionUnit="FullRow"
+            Style="{StaticResource {x:Type DataGrid}}">
+            <controls:DataGridExtended.Columns>
                 <DataGridTemplateColumn Header="Icon">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -112,7 +120,7 @@
                     Binding="{Binding ModificationDate}"
                     Header="Modified"
                     IsReadOnly="True" />
-            </DataGrid.Columns>
-        </DataGrid>
+            </controls:DataGridExtended.Columns>
+        </controls:DataGridExtended>
     </Grid>
 </UserControl>

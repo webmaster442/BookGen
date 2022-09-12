@@ -2,7 +2,7 @@
 {
     internal interface IMainViewModel
     {
-        public void OpenPopupContent(INotifyPropertyChanged viewModel);
+        public void OpenPopupContent(INotifyPropertyChanged viewModel, string title);
         public void OpenContent(INotifyPropertyChanged viewModel);
         public void ClosePopup();
     }
