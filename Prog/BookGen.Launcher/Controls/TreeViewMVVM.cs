@@ -25,5 +25,19 @@ namespace BookGen.Launcher.Controls
                 ItemSelectedCommand.Execute(SelectedItem);
             }
         }
+
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        {
+            base.OnItemsSourceChanged(oldValue, newValue);
+
+            if (newValue != null
+                && newValue is IList list
+                && list.Count > 0
+                && ItemContainerGenerator.ContainerFromItem(list[0]) is TreeViewItem item)
+            {
+                item.IsSelected = true;
+                item.IsExpanded = true;
+            }
+        }
     }
 }

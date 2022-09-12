@@ -13,7 +13,6 @@
             yield return new FileBrowserTreeViewModel
             {
                 FullPath = path,
-                IsExpanded = true,
                 Name = Path.GetFileName(path),
                 SubItems = GetSubItems(path),
             };

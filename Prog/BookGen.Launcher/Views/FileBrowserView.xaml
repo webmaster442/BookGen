@@ -72,11 +72,6 @@
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </controls:TreeViewMVVM.ItemTemplate>
-            <controls:TreeViewMVVM.ItemContainerStyle>
-                <Style TargetType="TreeViewItem">
-                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
-                </Style>
-            </controls:TreeViewMVVM.ItemContainerStyle>
         </controls:TreeViewMVVM>
         <DataGrid
             Grid.Row="1"
@@ -110,7 +105,7 @@
                     Header="Extension"
                     IsReadOnly="True" />
                 <DataGridTextColumn
-                    Binding="{Binding Size}"
+                    Binding="{Binding Size, Converter={controls:FileSizeConverter}}"
                     Header="Size"
                     IsReadOnly="True" />
                 <DataGridTextColumn
