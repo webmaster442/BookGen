@@ -20,7 +20,7 @@
                 return;
             }
 
-            if (location.IsUrl())
+            if (location.IsUrl() || location.StartsWith("<!doctype html>"))
             {
                 Content = location;
                 return;

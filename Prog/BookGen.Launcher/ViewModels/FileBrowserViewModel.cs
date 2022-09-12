@@ -41,10 +41,22 @@ namespace BookGen.Launcher.ViewModels
             Update();
         }
 
-        private void OnPreview(FileBrowserItemViewModel? obj)
+        private async void OnPreview(FileBrowserItemViewModel? obj)
         {
             if (obj != null)
             {
+                if (PreviewHelper.IsMarkDown(obj.FullPath))
+                {
+                    (bool result, string output) = await PreviewHelper.BookGenExport(obj.FullPath, false, true);
+                    if (!result
+                        && !string.IsNullOrEmpty(output))
+                    {
+                        Dialog.ShowMessageBox(output, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    _mainViewModel.OpenPopupContent(new WebViewModel(output), obj.FullPath);
+                    return;
+                }
                 _mainViewModel.OpenPopupContent(new PreviewViewModel(obj.FullPath), obj.FullPath);
             }
         }
