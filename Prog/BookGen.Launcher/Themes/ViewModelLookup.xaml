@@ -19,4 +19,8 @@
         <views:FileBrowserView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+        <views:SettingsView />
+    </DataTemplate>
+
 </ResourceDictionary>

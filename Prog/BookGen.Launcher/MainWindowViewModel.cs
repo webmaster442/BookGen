@@ -8,6 +8,7 @@
         private INotifyPropertyChanged? _mainContent;
 
         public RelayCommand ClosePopupCommand { get; }
+        public RelayCommand OpenSettingsCommand { get; }
         public RelayCommand<string> OpenBrowserCommand { get; }
 
         public INotifyPropertyChanged? PopupContent
@@ -38,7 +39,13 @@
         {
             ClosePopupCommand = new RelayCommand(OnClosePopup);
             OpenBrowserCommand = new RelayCommand<string>(OnOpenBrowser);
+            OpenSettingsCommand = new RelayCommand(OnOpenSettings);
             OpenContent(new ViewModels.StartViewModel(this));
+        }
+
+        private void OnOpenSettings()
+        {
+            OpenPopupContent(new ViewModels.SettingsViewModel());
         }
 
         private void OnOpenBrowser(string? obj)
