@@ -1,8 +1,13 @@
-﻿namespace BookGen.Launcher.ViewModels
+﻿//-----------------------------------------------------------------------------
+// (c) 2021-2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Launcher.ViewModels
 {
     internal sealed class NullViewModel : INotifyPropertyChanged
     {
-        private NullViewModel() 
+        private NullViewModel()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
         }

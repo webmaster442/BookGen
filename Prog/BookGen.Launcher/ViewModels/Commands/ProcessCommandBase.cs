@@ -50,7 +50,7 @@ namespace BookGen.Launcher.ViewModels.Commands
 
         protected static void Message(string text, MessageBoxImage icon)
         {
-             Dialog.ShowMessageBox(text, icon.ToString(), MessageBoxButton.OK, icon);
+            Dialog.ShowMessageBox(text, icon.ToString(), MessageBoxButton.OK, icon);
         }
 
         protected static bool RunProgram(string program, string arguments)

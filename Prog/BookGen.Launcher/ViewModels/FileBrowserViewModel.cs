@@ -1,4 +1,9 @@
-﻿using BookGen.Launcher.ViewModels.Commands;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021-2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Launcher.ViewModels.Commands;
 using BookGen.Launcher.ViewModels.FileBrowser;
 
 namespace BookGen.Launcher.ViewModels
@@ -23,7 +28,7 @@ namespace BookGen.Launcher.ViewModels
         public RunVsCodeCommand RunVsCodeCommand { get; }
         public StartShellCommand StartShellCommand { get; }
         public RelayCommand RefreshCommand { get; }
-        public RelayCommand<FileBrowserTreeViewModel> TreeItemSelectedCommand {get; }
+        public RelayCommand<FileBrowserTreeViewModel> TreeItemSelectedCommand { get; }
         public RelayCommand<FileBrowserItemViewModel> PreviewCommand { get; }
 
         public FileBrowserViewModel(IMainViewModel mainViewModel, string currentDir)

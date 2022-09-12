@@ -1,4 +1,9 @@
-﻿namespace BookGen.Launcher.Controls
+﻿//-----------------------------------------------------------------------------
+// (c) 2021-2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Launcher.Controls
 {
     internal class ColorConverter : ConverterBase<string, SolidColorBrush>
     {

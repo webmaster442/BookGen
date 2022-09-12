@@ -1,4 +1,9 @@
-﻿using System.Windows.Controls;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021-2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace BookGen.Launcher.Controls

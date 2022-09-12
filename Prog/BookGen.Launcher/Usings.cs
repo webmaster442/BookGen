@@ -1,4 +1,9 @@
-﻿global using BookGen.Launcher.Controls;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021-2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+global using BookGen.Launcher.Controls;
 global using BookGen.Launcher.Interfaces;
 global using BookGen.Launcher.ViewModels;
 global using CommunityToolkit.Mvvm.ComponentModel;

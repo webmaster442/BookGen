@@ -1,4 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021-2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace BookGen.Launcher.ViewModels.FileBrowser
