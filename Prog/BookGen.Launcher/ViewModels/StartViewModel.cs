@@ -201,7 +201,7 @@ namespace BookGen.Launcher.ViewModels
         {
             if (!string.IsNullOrEmpty(obj))
             {
-                _mainViewModel.OpenContent(new ViewModels.FileBrowserViewModel(obj));
+                _mainViewModel.OpenContent(new ViewModels.FileBrowserViewModel(_mainViewModel, obj));
             }
         }
     }

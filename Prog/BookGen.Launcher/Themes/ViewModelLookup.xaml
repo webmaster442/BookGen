@@ -23,4 +23,8 @@
         <views:SettingsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type viewModels:PreviewViewModel}">
+        <controls:PreviewControl FileUnderPreview="{Binding FilePath}" />
+    </DataTemplate>
+
 </ResourceDictionary>

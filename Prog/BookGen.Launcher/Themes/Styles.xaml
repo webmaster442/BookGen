@@ -110,5 +110,23 @@
         </Setter>
     </Style>
 
+    <Style
+        x:Key="preview-text"
+        TargetType="TextBox">
+        <Setter Property="FontFamily" Value="Lucidia Console" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="AcceptsTab" Value="True" />
+    </Style>
+
+    <Style
+        x:Key="preview-error"
+        TargetType="TextBlock">
+        <Setter Property="Foreground" Value="Red" />
+        <Setter Property="FontSize" Value="48" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
 
 </ResourceDictionary>
