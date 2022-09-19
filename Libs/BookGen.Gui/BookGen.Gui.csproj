@@ -10,7 +10,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1343.22" />
-		<PackageReference Include="Terminal.Gui" Version="1.7.2" />
+		<PackageReference Include="Terminal.Gui" Version="1.8.0" />
 	</ItemGroup>
 
 	<ItemGroup>
