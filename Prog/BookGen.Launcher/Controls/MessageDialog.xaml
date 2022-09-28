@@ -1,0 +1,186 @@
+﻿<mah:MetroWindow
+    x:Class="BookGen.Launcher.Controls.MessageDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:BookGen.Launcher.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="DialogWindow"
+    Title="{Binding ElementName=DialogWindow, Path=Title}"
+    Height="180"
+    Background="{StaticResource MahApps.Brushes.Button.Flat.Background}"
+    BorderBrush="{StaticResource MahApps.Brushes.Button.Border}"
+    BorderThickness="2"
+    IsWindowDraggable="False"
+    ResizeMode="NoResize"
+    ShowCloseButton="False"
+    ShowInTaskbar="False"
+    UseLayoutRounding="True"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Viewbox
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Width="96"
+            Height="96"
+            VerticalAlignment="Top">
+            <ContentControl>
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding ElementName=DialogWindow, Path=Image}"
+                                Value="Information">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Path
+                                            Data="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
+                                            Fill="#1B3FAE" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding ElementName=DialogWindow, Path=Image}"
+                                Value="Asterisk">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Path
+                                            Data="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
+                                            Fill="#1B3FAE" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding ElementName=DialogWindow, Path=Image}"
+                                Value="Warning">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Path
+                                            Data="M13 14H11V9H13M13 18H11V16H13M1 21H23L12 2L1 21Z"
+                                            Fill="#FFF019" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding ElementName=DialogWindow, Path=Image}"
+                                Value="Exclamation">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Path
+                                            Data="M13 14H11V9H13M13 18H11V16H13M1 21H23L12 2L1 21Z"
+                                            Fill="#FFF019" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding ElementName=DialogWindow, Path=Image}"
+                                Value="Question">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Path
+                                            Data="M12 3C6.5 3 2 6.6 2 11C2 13.1 3 15.1 4.8 16.5C4.8 17.1 4.4 18.7 2 21C2 21 5.5 21 8.5 18.5C9.6 18.8 10.8 19 12 19C17.5 19 22 15.4 22 11S17.5 3 12 3M13 15H11V13H13V15M14.8 10C14.5 10.4 14.1 10.6 13.7 10.8C13.4 11 13.3 11.1 13.2 11.3C13 11.5 13 11.7 13 12H11C11 11.5 11.1 11.2 11.3 10.9C11.5 10.7 11.9 10.4 12.4 10.1C12.7 10 12.9 9.8 13 9.6C13.1 9.4 13.2 9.1 13.2 8.9C13.2 8.6 13.1 8.4 12.9 8.2C12.7 8 12.4 7.9 12.1 7.9C11.8 7.9 11.6 8 11.4 8.1C11.2 8.2 11.1 8.4 11.1 8.7H9.1C9.2 8 9.5 7.4 10 7C10.5 6.6 11.2 6.5 12.1 6.5C13 6.5 13.8 6.7 14.3 7.1C14.8 7.5 15.1 8.1 15.1 8.8C15.2 9.2 15.1 9.6 14.8 10Z"
+                                            Fill="#1B3FAE" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding ElementName=DialogWindow, Path=Image}"
+                                Value="Stop">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Path
+                                            Data="M8.27,3L3,8.27V15.73L8.27,21H15.73L21,15.73V8.27L15.73,3M8.41,7L12,10.59L15.59,7L17,8.41L13.41,12L17,15.59L15.59,17L12,13.41L8.41,17L7,15.59L10.59,12L7,8.41"
+                                            Fill="#CB4040" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding ElementName=DialogWindow, Path=Image}"
+                                Value="Hand">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Path
+                                            Data="M8.27,3L3,8.27V15.73L8.27,21H15.73L21,15.73V8.27L15.73,3M8.41,7L12,10.59L15.59,7L17,8.41L13.41,12L17,15.59L15.59,17L12,13.41L8.41,17L7,15.59L10.59,12L7,8.41"
+                                            Fill="#CB4040" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding ElementName=DialogWindow, Path=Image}"
+                                Value="Error">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Path
+                                            Data="M8.27,3L3,8.27V15.73L8.27,21H15.73L21,15.73V8.27L15.73,3M8.41,7L12,10.59L15.59,7L17,8.41L13.41,12L17,15.59L15.59,17L12,13.41L8.41,17L7,15.59L10.59,12L7,8.41"
+                                            Fill="#CB4040" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+        </Viewbox>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="10,0"
+            FontSize="32"
+            FontWeight="Bold"
+            Text="{Binding ElementName=DialogWindow, Path=Title}" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="15,0"
+            FontSize="14"
+            Text="{Binding ElementName=DialogWindow, Path=DialogText}"
+            TextWrapping="Wrap" />
+        <StackPanel
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Name="BtnOk"
+                MinWidth="100"
+                Margin="2"
+                Click="BtnOk_Click"
+                Content="Ok"
+                Visibility="{Binding ElementName=DialogWindow, Path=Buttons, Converter={controls:DialogButtonConverter}, ConverterParameter=BtnOk}" />
+            <Button
+                x:Name="BtnYes"
+                MinWidth="100"
+                Margin="2"
+                Click="BtnYes_Click"
+                Content="Yes"
+                Visibility="{Binding ElementName=DialogWindow, Path=Buttons, Converter={controls:DialogButtonConverter}, ConverterParameter=BtnYes}" />
+            <Button
+                x:Name="BtnNo"
+                MinWidth="100"
+                Margin="2"
+                Click="BtnNo_Click"
+                Content="No"
+                Visibility="{Binding ElementName=DialogWindow, Path=Buttons, Converter={controls:DialogButtonConverter}, ConverterParameter=BtnNo}" />
+            <Button
+                x:Name="BtnCancel"
+                MinWidth="100"
+                Margin="2"
+                Click="BtnCancel_Click"
+                Content="Cancel"
+                Visibility="{Binding ElementName=DialogWindow, Path=Buttons, Converter={controls:DialogButtonConverter}, ConverterParameter=BtnCancel}" />
+        </StackPanel>
+    </Grid>
+</mah:MetroWindow>

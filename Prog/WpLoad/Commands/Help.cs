@@ -8,7 +8,7 @@ using WpLoad.Infrastructure;
 
 namespace WpLoad.Commands
 {
-    internal class Help : ICommand
+    internal sealed class Help : ICommand
     {
         public string CommandName => nameof(Help);
 

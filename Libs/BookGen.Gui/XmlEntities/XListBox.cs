@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace BookGen.Gui.XmlEntities
 {
-    public record XListBox : XView
+    public sealed record XListBox : XView
     {
         [XmlAttribute]
         public string Title { get; set; }

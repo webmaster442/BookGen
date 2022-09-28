@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace BookGen.Gui.XmlEntities
 {
-    public record XButton : XView
+    public sealed record XButton : XView
     {
         [XmlAttribute]
         public string Command { get; set; }

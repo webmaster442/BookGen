@@ -10,7 +10,7 @@ namespace WpLoad.Domain
     /// <summary>
     /// Represents an authentication info for wordpress site
     /// </summary>
-    public record SiteInfo
+    public sealed record SiteInfo
     {
         /// <summary>
         /// Wordpress host name

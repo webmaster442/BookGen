@@ -9,7 +9,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Wordpress
 {
-    internal class CreateWpChannel : IGeneratorStep
+    internal sealed class CreateWpChannel : IGeneratorStep
     {
         private readonly Session _session;
 

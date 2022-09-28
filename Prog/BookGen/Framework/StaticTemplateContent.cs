@@ -7,7 +7,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Framework
 {
-    internal class StaticTemplateContent : IContent
+    internal sealed class StaticTemplateContent : IContent
     {
         public string Content { get; set; }
         public string Title { get; set; }

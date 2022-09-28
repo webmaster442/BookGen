@@ -9,7 +9,7 @@ using WpLoad.Services;
 
 namespace WpLoad.Commands
 {
-    internal class Add : IAsyncCommand
+    internal sealed class Add : IAsyncCommand
     {
         public string CommandName => nameof(Add);
 

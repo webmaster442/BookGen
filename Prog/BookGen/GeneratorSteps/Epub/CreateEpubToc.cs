@@ -9,7 +9,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Epub
 {
-    internal class CreateEpubToc : ITemplatedStep
+    internal sealed class CreateEpubToc : ITemplatedStep
     {
         public ITemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }

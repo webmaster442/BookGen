@@ -9,7 +9,7 @@ using System.ComponentModel.Composition;
 namespace BookGen.Framework.Shortcodes
 {
     [Export(typeof(ITemplateShortCode))]
-    public class BuildTime : ITemplateShortCode
+    public sealed class BuildTime : ITemplateShortCode
     {
         public string Tag => nameof(BuildTime);
 

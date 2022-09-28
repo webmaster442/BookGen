@@ -10,7 +10,7 @@ using BookGen.Resources;
 
 namespace BookGen.GeneratorSteps.Epub
 {
-    internal class CreateEpubPages : ITemplatedStep
+    internal sealed class CreateEpubPages : ITemplatedStep
     {
         private readonly EpubSession _session;
 

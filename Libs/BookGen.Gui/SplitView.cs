@@ -8,7 +8,7 @@ using Terminal.Gui;
 
 namespace BookGen.Gui
 {
-    internal class SplitView : View
+    internal sealed class SplitView : View
     {
         private Pos _left = 0;
         private readonly Binder _binder;

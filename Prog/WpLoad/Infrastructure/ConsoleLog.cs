@@ -5,7 +5,7 @@
 
 namespace WpLoad.Infrastructure
 {
-    internal class ConsoleLog : ILog
+    internal sealed class ConsoleLog : ILog
     {
         private static void Log(string msg, ConsoleColor color)
         {

@@ -9,7 +9,7 @@ using WpLoad.Services;
 
 namespace WpLoad.Commands
 {
-    internal class Remove : ICommand
+    internal sealed class Remove : ICommand
     {
         public string CommandName => nameof(Remove);
 

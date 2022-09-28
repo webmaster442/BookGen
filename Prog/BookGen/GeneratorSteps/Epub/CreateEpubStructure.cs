@@ -8,7 +8,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Epub
 {
-    internal class CreateEpubStructure : IGeneratorStep
+    internal sealed class CreateEpubStructure : IGeneratorStep
     {
         private static void CreateMimeTypeFile(IReadonlyRuntimeSettings settings, ILog log)
         {

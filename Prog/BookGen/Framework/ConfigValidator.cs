@@ -8,7 +8,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Framework
 {
-    public class ConfigValidator : Validator
+    public sealed class ConfigValidator : Validator
     {
         public ValidateFor ValidationLevel { get; set; }
 

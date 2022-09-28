@@ -10,7 +10,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Framework
 {
-    internal class ShortCodeParser
+    internal sealed class ShortCodeParser
     {
         private readonly Dictionary<string, ITemplateShortCode> _shortCodesIndex;
         private readonly Dictionary<string, string> _codeResultCache;

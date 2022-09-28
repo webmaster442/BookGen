@@ -10,7 +10,7 @@ using System.ComponentModel.Composition;
 namespace BookGen.Framework.Shortcodes
 {
     [Export(typeof(ITemplateShortCode))]
-    public class JSPageToc : ITemplateShortCode
+    public sealed class JSPageToc : ITemplateShortCode
     {
         public string Tag => nameof(JSPageToc);
 

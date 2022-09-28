@@ -9,7 +9,7 @@ using Webmaster442.HttpServerFramework;
 
 namespace BookGen.Framework
 {
-    internal class JsonLog : ILog, IServerLog
+    internal sealed class JsonLog : ILog, IServerLog
     {
         private readonly List<LogEntry> _entries;
         private readonly JsonSerializerOptions _options;

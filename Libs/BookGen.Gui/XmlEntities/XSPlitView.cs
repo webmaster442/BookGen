@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace BookGen.Gui.XmlEntities
 {
-    public record XSPlitView : XView
+    public sealed record XSPlitView : XView
     {
         [XmlArray]
         [XmlArrayItem(nameof(XListBox), typeof(XListBox))]

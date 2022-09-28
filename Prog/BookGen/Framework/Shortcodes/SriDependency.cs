@@ -9,7 +9,7 @@ using System.ComponentModel.Composition;
 namespace BookGen.Framework.Shortcodes
 {
     [Export(typeof(ITemplateShortCode))]
-    public class SriDependency : ITemplateShortCode
+    public sealed class SriDependency : ITemplateShortCode
     {
         private readonly ILog _log;
         private readonly IReadonlyRuntimeSettings _settings;

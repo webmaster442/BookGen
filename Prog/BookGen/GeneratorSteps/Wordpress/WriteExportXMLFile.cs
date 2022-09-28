@@ -8,7 +8,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Wordpress
 {
-    internal class WriteExportXmlFile : IGeneratorStep
+    internal sealed class WriteExportXmlFile : IGeneratorStep
     {
         private readonly Session _session;
 

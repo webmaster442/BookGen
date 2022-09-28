@@ -9,7 +9,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreatePrintableHtml : ITemplatedStep
+    internal sealed class CreatePrintableHtml : ITemplatedStep
     {
         private const string NewPage = "<p style=\"page-break-before: always\"></p>\r\n";
 

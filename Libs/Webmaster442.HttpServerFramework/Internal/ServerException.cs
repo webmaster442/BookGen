@@ -11,7 +11,7 @@ namespace Webmaster442.HttpServerFramework
     /// Represents a server exception
     /// </summary>
     [Serializable]
-    internal class ServerException: Exception
+    internal sealed class ServerException: Exception
     {
         public HttpResponseCode ResponseCode { get; }
         public string Url { get; }

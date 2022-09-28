@@ -10,7 +10,7 @@ using WpLoad.Infrastructure;
 
 namespace WpLoad.Commands
 {
-    internal class Down : LoadCommandBase
+    internal sealed class Down : LoadCommandBase
     {
         public override string CommandName => nameof(Down);
 
@@ -40,7 +40,7 @@ namespace WpLoad.Commands
             return ExitCode.BadParameters;
         }
 
-        private bool ConfigureFolder(string baseFolder, string additionalName)
+        private static bool ConfigureFolder(string baseFolder, string additionalName)
         {
             string? path = Path.Combine(baseFolder, additionalName);
             if (!Directory.Exists(path))
@@ -75,7 +75,7 @@ namespace WpLoad.Commands
             }
         }
 
-        private async Task DownloadPosts(ILog log, WordPressClient client, string path)
+        private static async Task DownloadPosts(ILog log, WordPressClient client, string path)
         {
             log.Info("Searching posts...");
             IEnumerable<WordPressPCL.Models.Post>? posts = await client.Posts.GetAllAsync();

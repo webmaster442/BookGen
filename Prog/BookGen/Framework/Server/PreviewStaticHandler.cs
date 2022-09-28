@@ -9,7 +9,7 @@ using Webmaster442.HttpServerFramework.Domain;
 
 namespace BookGen.Framework.Server
 {
-    internal class PreviewStaticHandler : IRequestHandler
+    internal sealed class PreviewStaticHandler : IRequestHandler
     {
         private readonly Dictionary<string, KnownFile> _table;
 

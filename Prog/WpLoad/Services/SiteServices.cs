@@ -11,7 +11,7 @@ using WpLoad.Domain;
 
 namespace WpLoad.Services
 {
-    internal class SiteServices
+    internal static class SiteServices
     {
         private static readonly string Profiles
             = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),

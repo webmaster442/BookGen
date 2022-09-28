@@ -5,7 +5,7 @@
 
 namespace BookGen.Gui.XmlEntities
 {
-    public record XTextBlock : XView
+    public sealed record XTextBlock : XView
     {
         public CData Text { get; set; }
 

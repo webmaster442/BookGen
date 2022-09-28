@@ -8,7 +8,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreateMetadata : IGeneratorStep
+    internal sealed class CreateMetadata : IGeneratorStep
     {
         public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {

@@ -8,7 +8,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Epub
 {
-    internal class CreatePackageOpf : IGeneratorStep
+    internal sealed class CreatePackageOpf : IGeneratorStep
     {
         private readonly EpubSession _session;
 

@@ -9,7 +9,7 @@ using System.ComponentModel.Composition;
 namespace BookGen.Framework.Shortcodes
 {
     [Export(typeof(ITemplateShortCode))]
-    public class InlineFile : ITemplateShortCode
+    public sealed class InlineFile : ITemplateShortCode
     {
         private readonly ILog _log;
 

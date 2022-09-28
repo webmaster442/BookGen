@@ -8,7 +8,7 @@ using BookGen.Resources;
 
 namespace BookGen.GeneratorSteps
 {
-    public class ExtractTemplateAssets : IGeneratorStep
+    public sealed class ExtractTemplateAssets : IGeneratorStep
     {
         public (KnownFile file, string targetPath)[] Assets { get; set; }
 

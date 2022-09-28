@@ -9,7 +9,7 @@ using WpLoad.Services;
 
 namespace WpLoad.Commands
 {
-    internal class List : ICommand
+    internal sealed class List : ICommand
     {
         public string CommandName => nameof(List);
 

@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace BookGen.Gui.XmlEntities
 {
-    public record XVerticalLine : XView
+    public sealed record XVerticalLine : XView
     {
         [XmlAttribute]
         public int Height { get; set; }
