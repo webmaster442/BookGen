@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace BookGen.Launcher.Controls
 {
-    internal class IconConverter : ConverterBase<FileBrowserItemViewModel, Canvas>
+    internal sealed class IconConverter : ConverterBase<FileBrowserItemViewModel, Canvas>
     {
         private static Canvas GetResource(string name)
         {

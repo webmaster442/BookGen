@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher.Controls
 {
-    internal class DialogButtonConverter : MarkupExtension, IValueConverter
+    internal sealed class DialogButtonConverter : MarkupExtension, IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

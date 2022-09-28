@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace BookGen.Launcher.Controls
 {
-    internal class DataGridExtended : DataGrid
+    internal sealed class DataGridExtended : DataGrid
     {
         public ICommand MouseDoubleClickCommand
         {

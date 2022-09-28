@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookGen.Launcher.Controls
 {
-    internal class WebBrowserControl : WebView2
+    internal sealed class WebBrowserControl : WebView2
     {
         public string HtmlText
         {

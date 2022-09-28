@@ -8,7 +8,7 @@ using BookGen.Launcher.ViewModels.FileBrowser;
 
 namespace BookGen.Launcher.ViewModels
 {
-    internal class FileBrowserViewModel : ObservableObject
+    internal sealed class FileBrowserViewModel : ObservableObject
     {
         private readonly IMainViewModel _mainViewModel;
         private string _currentDir;

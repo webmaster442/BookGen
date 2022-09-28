@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher.ViewModels
 {
-    internal class WebViewModel : ObservableObject
+    internal sealed class WebViewModel : ObservableObject
     {
         public string Content { get; }
 

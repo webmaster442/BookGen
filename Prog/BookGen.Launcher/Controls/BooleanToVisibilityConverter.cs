@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher.Controls
 {
-    internal class BooleanToVisibilityConverter : ConverterBase<bool, Visibility>
+    internal sealed class BooleanToVisibilityConverter : ConverterBase<bool, Visibility>
     {
         protected override Visibility ConvertToTTo(bool tFrom, object parameter)
         {

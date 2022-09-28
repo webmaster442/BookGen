@@ -5,7 +5,7 @@ namespace BookGen.Launcher
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public sealed partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {

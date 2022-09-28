@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher.ViewModels
 {
-    internal record ItemViewModel
+    internal sealed record ItemViewModel
     {
         public string FolderName
         {

@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher.Controls
 {
-    internal class SearchBoxWatermarkVisibilityConverter : MarkupExtension, IMultiValueConverter
+    internal sealed class SearchBoxWatermarkVisibilityConverter : MarkupExtension, IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

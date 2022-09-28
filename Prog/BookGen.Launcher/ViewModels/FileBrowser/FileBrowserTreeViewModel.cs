@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher.ViewModels.FileBrowser
 {
-    internal class FileBrowserTreeViewModel
+    internal sealed class FileBrowserTreeViewModel
     {
         public string Name { get; init; }
         public string FullPath { get; init; }

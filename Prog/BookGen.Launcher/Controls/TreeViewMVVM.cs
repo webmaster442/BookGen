@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace BookGen.Launcher.Controls
 {
-    internal class TreeViewMVVM : TreeView
+    internal sealed class TreeViewMVVM : TreeView
     {
         public ICommand ItemSelectedCommand
         {

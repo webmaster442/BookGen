@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher.Controls
 {
-    internal class FileSizeConverter : ConverterBase<long, string>
+    internal sealed class FileSizeConverter : ConverterBase<long, string>
     {
         private const double kiB = 1024.0;
         private const double MiB = 1048576.0;

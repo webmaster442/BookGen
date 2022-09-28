@@ -10,7 +10,7 @@ namespace BookGen.Launcher.Controls
     /// <summary>
     /// Interaction logic for MessageDialog.xaml
     /// </summary>
-    public partial class MessageDialog : MetroWindow
+    public sealed partial class MessageDialog : MetroWindow
     {
         public MessageDialog()
         {

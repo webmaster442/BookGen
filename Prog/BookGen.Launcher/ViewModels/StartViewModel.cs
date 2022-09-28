@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace BookGen.Launcher.ViewModels
 {
-    internal class StartViewModel : ObservableObject
+    internal sealed class StartViewModel : ObservableObject
     {
         private List<string> _elements;
         private string _filter;

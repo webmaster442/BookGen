@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher.ViewModels
 {
-    internal class PreviewViewModel : ObservableObject
+    internal sealed class PreviewViewModel : ObservableObject
     {
         public PreviewViewModel(string filePath)
         {

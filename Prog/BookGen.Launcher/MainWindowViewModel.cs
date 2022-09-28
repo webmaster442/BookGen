@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher
 {
-    internal class MainWindowViewModel : ObservableObject, IMainViewModel
+    internal sealed class MainWindowViewModel : ObservableObject, IMainViewModel
     {
         private bool _isPopupOpen;
         private bool _isMenuOpen;

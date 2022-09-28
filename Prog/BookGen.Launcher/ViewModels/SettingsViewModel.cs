@@ -7,7 +7,7 @@ using BookGen.Launcher.Properties;
 
 namespace BookGen.Launcher.ViewModels
 {
-    internal class SettingsViewModel : ObservableObject
+    internal sealed class SettingsViewModel : ObservableObject
     {
         public bool UseWindowsTerminal
         {

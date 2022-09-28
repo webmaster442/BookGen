@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher.Controls
 {
-    internal class ColorConverter : ConverterBase<string, SolidColorBrush>
+    internal sealed class ColorConverter : ConverterBase<string, SolidColorBrush>
     {
         protected override SolidColorBrush ConvertToTTo(string tFrom, object parameter)
         {

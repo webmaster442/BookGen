@@ -5,7 +5,7 @@
 
 namespace BookGen.Launcher.ViewModels.FileBrowser
 {
-    internal class FileBrowserItemViewModel
+    internal sealed class FileBrowserItemViewModel
     {
         public string FullPath { get; init; }
         public DateTime ModificationDate { get; init; }

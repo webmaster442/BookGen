@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace BookGen.Launcher.Controls
 {
-    internal class PreviewControl : ContentControl
+    internal sealed class PreviewControl : ContentControl
     {
         public PreviewControl()
         {

@@ -8,7 +8,7 @@ using System.Collections.Specialized;
 
 namespace BookGen.Launcher.ViewModels.FileBrowser
 {
-    internal class ObservableCollectionEx<T> : ObservableCollection<T>
+    internal sealed class ObservableCollectionEx<T> : ObservableCollection<T>
     {
         /// <summary> 
         /// Adds the elements of the specified collection to the end of the ObservableCollection(Of T). 
