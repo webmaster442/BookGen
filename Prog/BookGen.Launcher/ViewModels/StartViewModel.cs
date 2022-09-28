@@ -118,7 +118,7 @@ namespace BookGen.Launcher.ViewModels
             View.ResetBindings();
         }
 
-        private string GetVersion()
+        private static string GetVersion()
         {
             System.Reflection.AssemblyName? name = typeof(App).Assembly.GetName();
             return name?.Version?.ToString() ?? "Couldn't get version";
