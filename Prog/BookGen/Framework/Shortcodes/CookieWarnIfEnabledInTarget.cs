@@ -11,7 +11,7 @@ using System.ComponentModel.Composition;
 namespace BookGen.Framework.Shortcodes
 {
     [Export(typeof(ITemplateShortCode))]
-    public class CookieWarnIfEnabledInTarget : ITemplateShortCode
+    public sealed class CookieWarnIfEnabledInTarget : ITemplateShortCode
     {
         private readonly ILog _log;
         private readonly IReadonlyRuntimeSettings _settings;

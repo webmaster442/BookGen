@@ -7,7 +7,7 @@ using BookGen.Domain.Wordpress;
 
 namespace BookGen.GeneratorSteps.Wordpress
 {
-    internal class Session
+    internal sealed class Session
     {
         public Channel CurrentChannel { get; set; }
 

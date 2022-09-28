@@ -8,7 +8,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CopyAssets : IGeneratorStep
+    internal sealed class CopyAssets : IGeneratorStep
     {
         private readonly BuildConfig _target;
 

@@ -9,7 +9,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Framework
 {
-    internal class TemplateProcessor : ITemplateProcessor
+    internal sealed class TemplateProcessor : ITemplateProcessor
     {
         private readonly Dictionary<string, string> _table;
         private readonly ShortCodeParser _parser;

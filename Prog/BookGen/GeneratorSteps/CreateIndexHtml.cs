@@ -9,7 +9,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreateIndexHtml : ITemplatedStep
+    internal sealed class CreateIndexHtml : ITemplatedStep
     {
         public IContent? Content { get; set; }
         public ITemplateProcessor? Template { get; set; }

@@ -10,7 +10,7 @@ using Webmaster442.HttpServerFramework.Domain;
 
 namespace Webmaster442.HttpServerFramework.Internal;
 
-internal class RequestParser
+internal sealed class RequestParser
 {
     private static readonly Regex splitter = new(@"\?|\&");
     private static readonly Regex headerSplitter = new(@":\s");

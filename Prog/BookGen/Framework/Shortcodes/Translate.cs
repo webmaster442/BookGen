@@ -10,7 +10,7 @@ using System.ComponentModel.Composition;
 namespace BookGen.Framework.Shortcodes
 {
     [Export(typeof(ITemplateShortCode))]
-    public class Translate : ITemplateShortCode
+    public sealed class Translate : ITemplateShortCode
     {
         private readonly IReadOnlyTranslations _translations;
         public static readonly Regex TranslateCheck = new Regex("^([A-Za-z_0-9]+)$", RegexOptions.Compiled);

@@ -14,7 +14,7 @@ using System.Globalization;
 
 namespace BookGen.GeneratorSteps.Wordpress
 {
-    internal class CreateWpPages : ITemplatedStep
+    internal sealed class CreateWpPages : ITemplatedStep
     {
         private readonly Session _session;
 #if DEBUG

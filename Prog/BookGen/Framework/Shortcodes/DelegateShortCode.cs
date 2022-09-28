@@ -7,7 +7,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Framework.Shortcodes
 {
-    public class DelegateShortCode : ITemplateShortCode
+    public sealed class DelegateShortCode : ITemplateShortCode
     {
         private readonly Func<IArguments, string> _generator;
 

@@ -13,7 +13,7 @@ using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class GenerateSearchPage : ITemplatedStep
+    internal sealed class GenerateSearchPage : ITemplatedStep
     {
         public ITemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }

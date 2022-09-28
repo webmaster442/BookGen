@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Webmaster442.HttpServerFramework.Internal;
 
-internal class HtmlBuilder
+internal sealed class HtmlBuilder
 {
     private readonly string _title;
     private readonly StringBuilder _content;

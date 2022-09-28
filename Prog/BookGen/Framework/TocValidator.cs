@@ -7,7 +7,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Framework
 {
-    public class TocValidator : Validator
+    public sealed class TocValidator : Validator
     {
         private readonly ITableOfContents _toc;
         private readonly FsPath _workdir;

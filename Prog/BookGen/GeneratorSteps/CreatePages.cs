@@ -10,7 +10,7 @@ using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreatePages : ITemplatedStep
+    internal sealed class CreatePages : ITemplatedStep
     {
         public IContent? Content { get; set; }
         public ITemplateProcessor? Template { get; set; }

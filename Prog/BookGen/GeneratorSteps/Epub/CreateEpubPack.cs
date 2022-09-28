@@ -9,7 +9,7 @@ using System.IO.Compression;
 
 namespace BookGen.GeneratorSteps.Epub
 {
-    internal class CreateEpubPack : IGeneratorStep
+    internal sealed class CreateEpubPack : IGeneratorStep
     {
         public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {

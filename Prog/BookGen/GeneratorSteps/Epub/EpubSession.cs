@@ -5,7 +5,7 @@
 
 namespace BookGen.GeneratorSteps.Epub
 {
-    internal class EpubSession
+    internal sealed class EpubSession
     {
         public List<string> GeneratedFiles { get; }
 

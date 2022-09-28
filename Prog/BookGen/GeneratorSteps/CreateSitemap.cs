@@ -8,7 +8,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreateSitemap : IGeneratorStep
+    internal sealed class CreateSitemap : IGeneratorStep
     {
         public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {

@@ -8,7 +8,7 @@ using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreateOutputDirectory : IGeneratorStep
+    internal sealed class CreateOutputDirectory : IGeneratorStep
     {
         public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {

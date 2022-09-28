@@ -10,7 +10,7 @@ using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreateSubpageIndexes : ITemplatedStep
+    internal sealed class CreateSubpageIndexes : ITemplatedStep
     {
         public IContent? Content { get; set; }
         public ITemplateProcessor? Template { get; set; }

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class ImageProcessor : IGeneratorStep
+    internal sealed class ImageProcessor : IGeneratorStep
     {
         public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {

@@ -8,7 +8,7 @@ using System.IO;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreatePagesJS : IGeneratorStep
+    internal sealed class CreatePagesJS : IGeneratorStep
     {
         public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {

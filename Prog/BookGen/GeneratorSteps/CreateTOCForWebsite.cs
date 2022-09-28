@@ -8,7 +8,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps
 {
-    internal class CreateToCForWebsite : IGeneratorContentFillStep
+    internal sealed class CreateToCForWebsite : IGeneratorContentFillStep
     {
         public IContent? Content { get; set; }
 
