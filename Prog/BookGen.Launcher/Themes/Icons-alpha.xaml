@@ -1,0 +1,335 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Canvas
+        x:Key="icon-dot-a"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,7A2,2 0 0,0 9,9V17H11V13H13V17H15V9A2,2 0 0,0 13,7H11M11,9H13V11H11V9Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-b"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M15,10.5V9A2,2 0 0,0 13,7H9V17H13A2,2 0 0,0 15,15V13.5C15,12.7 14.3,12 13.5,12C14.3,12 15,11.3 15,10.5M13,15H11V13H13V15M13,11H11V9H13V11Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-c"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V14H13V15H11V9H13V10H15V9A2,2 0 0,0 13,7H11Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-d"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M9,7V17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H9M11,9H13V15H11V9Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-e"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M9,7V17H15V15H11V13H15V11H11V9H15V7H9Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-f"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M9,7V17H11V13H14V11H11V9H15V7H9Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-g"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V11H13V15H11V9H15V7H11Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-h"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M9,7V17H11V13H13V17H15V7H13V11H11V7H9Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-i"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M14,7H10V9H11V15H10V17H14V15H13V9H14V7Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-j"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M13,7V15H11V14H9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V7H13Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-k"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M9,7V17H11V13.67L13,17H15L12,12L15,7H13L11,10.33V7H9Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-l"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7V17H15V15H11V7H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-m"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7A2,2 0 0,0 7,9V17H9V9H11V16H13V9H15V17H17V9A2,2 0 0,0 15,7H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-n"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7V17H11V12L13,17H15V7H13V12L11,7H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-o"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-p"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7V17H11V13H13A2,2 0 0,0 15,11V9A2,2 0 0,0 13,7H9M11,9H13V11H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-q"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17V19H13V17A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-r"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7V17H11V13H11.8L13,17H15L13.76,12.85C14.5,12.55 15,11.84 15,11V9A2,2 0 0,0 13,7H9M11,9H13V11H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-s"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M11,7A2,2 0 0,0 9,9V11A2,2 0 0,0 11,13H13V15H9V17H13A2,2 0 0,0 15,15V13A2,2 0 0,0 13,11H11V9H15V7H11M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-t"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7V9H11V17H13V9H15V7H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-u"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V7H13V15H11V7H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-y"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7L11,17H13L15,7H13L12,12L11,7H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-z"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7V9H13L9,15V17H15V15H11L15,9V7H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#f1ac21" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-0"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#ea9d97" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-1"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M10,7V9H12V17H14V7H10M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#ea9d97" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-2"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7V9H13V11H11A2,2 0 0,0 9,13V17H11L15,17V15H11V13H13A2,2 0 0,0 15,11V9A2,2 0 0,0 13,7H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#ea9d97" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-3"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M15,15V13.5A1.5,1.5 0 0,0 13.5,12A1.5,1.5 0 0,0 15,10.5V9C15,7.89 14.1,7 13,7H9V9H13V11H11V13H13V15H9V17H13A2,2 0 0,0 15,15M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#ea9d97" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-4"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7V13H13V17H15V7H13V11H11V7H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#ea9d97" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-5"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M9,7V13H13V15H9V17H13A2,2 0 0,0 15,15V13A2,2 0 0,0 13,11H11V9H15V7H9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#ea9d97" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-6"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V13A2,2 0 0,0 13,11H11V9H15V7H11M11,13H13V15H11V13M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#ea9d97" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-7"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M11,17L15,9V7H9V9H13L9,17H11M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#ea9d97" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-8"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M11,13H13V15H11V13M11,9H13V11H11V9M11,17H13A2,2 0 0,0 15,15V13.5A1.5,1.5 0 0,0 13.5,12A1.5,1.5 0 0,0 15,10.5V9C15,7.89 14.1,7 13,7H11A2,2 0 0,0 9,9V10.5A1.5,1.5 0 0,0 10.5,12A1.5,1.5 0 0,0 9,13.5V15C9,16.11 9.9,17 11,17M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"
+            Fill="#ea9d97" />
+    </Canvas>
+
+    <Canvas
+        x:Key="icon-dot-9"
+        Width="24"
+        Height="24"
+        x:Shared="False">
+        <Path
+            Data="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M13,17A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11A2,2 0 0,0 9,9V11A2,2 0 0,0 11,13H13V15H9V17H13M13,11H11V9H13V11Z"
+            Fill="#ea9d97" />
+    </Canvas>
+
+</ResourceDictionary>

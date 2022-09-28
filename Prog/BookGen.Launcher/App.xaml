@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Mauve.xaml" />
 
                 <ResourceDictionary Source="/Themes/Icons.xaml" />
+                <ResourceDictionary Source="/Themes/Icons-alpha.xaml" />
                 <ResourceDictionary Source="/Themes/Styles.xaml" />
                 <ResourceDictionary Source="/Themes/ViewModelLookup.xaml" />
 

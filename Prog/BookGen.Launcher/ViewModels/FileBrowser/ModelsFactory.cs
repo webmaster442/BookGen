@@ -7,9 +7,23 @@ namespace BookGen.Launcher.ViewModels.FileBrowser
 {
     internal static class ModelsFactory
     {
+        private static string[] GetFilesSafe(string path)
+        {
+            try
+            {
+                return Directory.GetFiles(path);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Array.Empty<string>();
+            }
+        }
+
         public static IEnumerable<FileBrowserItemViewModel> CreateItemModels(string path)
         {
-            foreach (string file in Directory.GetFiles(path))
+            string[] dirs = GetFilesSafe(path);
+
+            foreach (string file in dirs)
                 yield return CreateFileModel(file);
         }
 
@@ -25,14 +39,21 @@ namespace BookGen.Launcher.ViewModels.FileBrowser
 
         private static FileBrowserTreeViewModel[] GetSubItems(string path)
         {
-            return Directory.GetDirectories(path).Select(x =>
-                new FileBrowserTreeViewModel
-                {
-                    FullPath = x,
-                    Name = Path.GetFileName(x),
-                    SubItems = GetSubItems(x)
-                }
-            ).ToArray();
+            try
+            {
+                return Directory.GetDirectories(path).Select(x =>
+                    new FileBrowserTreeViewModel
+                    {
+                        FullPath = x,
+                        Name = Path.GetFileName(x),
+                        SubItems = GetSubItems(x)
+                    }
+                ).ToArray();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Array.Empty<FileBrowserTreeViewModel>();
+            }
         }
 
         private static FileBrowserItemViewModel CreateFileModel(string file)

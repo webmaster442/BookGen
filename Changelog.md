@@ -1,3 +1,7 @@
+# 2022.
+* New: Rewrote launcher, looks a bit better & has built in preview function
+* Change: Removed markdown editor from launcher
+
 # 2022.07.11
 * New: ExternalLinks command
 * New: Tags command
