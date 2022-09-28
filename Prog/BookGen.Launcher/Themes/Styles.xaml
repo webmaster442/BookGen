@@ -130,4 +130,23 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
+    <Style
+        x:Key="preview-button"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="Margin" Value="0,10" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock
+                        Margin="5"
+                        Text="{Binding}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
 </ResourceDictionary>

@@ -56,10 +56,61 @@ namespace BookGen.Launcher.Controls
                     OpenAsImage(FileUnderPreview);
                     break;
                 default:
-                    DisplayError($"{extension} isn't supported by this preview");
+                    OfferOpenShell(FileUnderPreview, extension);
                     break;
             }
 
+        }
+
+        private void OfferOpenShell(string fileUnderPreview, string extension)
+        {
+            var panel = new StackPanel()
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+            var btn = new Button
+            {
+                Content = "Try to open with associated program ...",
+                Tag = fileUnderPreview,
+                Style = (Style)FindResource("preview-button"),
+            };
+            btn.Click += TryOpenShell;
+            panel.Children.Add(new TextBlock
+            {
+                Style = (Style)FindResource("preview-error"),
+                Text = $"'{GetExtensionText(fileUnderPreview, extension)}' isn't supported by this preview"
+            });
+            panel.Children.Add(btn);
+            Content = panel;
+        }
+
+        private static string GetExtensionText(string fileUnderPreview, string extension)
+        {
+            if (string.IsNullOrEmpty(extension))
+                return fileUnderPreview;
+
+            return extension;
+        }
+
+        private void TryOpenShell(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button btn)
+                return;
+
+            using (var process = new System.Diagnostics.Process())
+            {
+                try
+                {
+                    process.StartInfo.FileName = btn.Tag.ToString();
+                    process.StartInfo.UseShellExecute = true;
+                    process.Start();
+                }
+                catch (Exception ex)
+                {
+                    Dialog.ShowMessageBox(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void DisplayError(string message)
