@@ -13,7 +13,7 @@ using WpLoad.Services;
 
 namespace WpLoad.Commands
 {
-    internal class Up : LoadCommandBase
+    internal sealed class Up : LoadCommandBase
     {
         public override string CommandName => nameof(Up);
 

@@ -7,7 +7,7 @@ using BookGen.Domain;
 
 namespace WpLoad.Domain
 {
-    internal class DownArguments : UpArguments
+    internal sealed class DownArguments : UpArguments
     {
         [Switch("p", "posts")]
         public bool Posts { get; set; }

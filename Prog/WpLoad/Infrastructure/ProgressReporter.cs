@@ -2,7 +2,7 @@
 
 namespace WpLoad.Infrastructure
 {
-    internal class ProgressReporter
+    internal sealed class ProgressReporter
     {
         private readonly ILog _log;
         private readonly Stopwatch _watch;

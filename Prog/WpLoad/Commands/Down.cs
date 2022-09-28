@@ -10,7 +10,7 @@ using WpLoad.Infrastructure;
 
 namespace WpLoad.Commands
 {
-    internal class Down : LoadCommandBase
+    internal sealed class Down : LoadCommandBase
     {
         public override string CommandName => nameof(Down);
 
