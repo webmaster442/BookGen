@@ -10,8 +10,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1343.22" />
+		<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="6.0.0" />
 		<PackageReference Include="Terminal.Gui" Version="1.7.2" />
 	</ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="6.0.0" />
+  </ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />

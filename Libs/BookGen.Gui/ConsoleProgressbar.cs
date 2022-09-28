@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BookGen.Gui
 {
-    public class ConsoleProgressbar : IProgress<int>, IProgress<IEnumerable<string>>
+    public sealed class ConsoleProgressbar : IProgress<int>, IProgress<IEnumerable<string>>
     {
         public int Maximum { get; }
         public int Minimum { get; }

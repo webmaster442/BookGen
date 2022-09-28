@@ -9,7 +9,7 @@ using Terminal.Gui;
 
 namespace BookGen.Gui
 {
-    internal class UiPage : Window
+    internal sealed class UiPage : Window
     {
         private readonly Binder _binder;
 

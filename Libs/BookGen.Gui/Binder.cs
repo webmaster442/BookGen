@@ -12,7 +12,7 @@ using Terminal.Gui;
 
 namespace BookGen.Gui
 {
-    internal class Binder
+    internal sealed class Binder
     {
         private readonly WeakReference<ViewModelBase> _reference;
         private static readonly Regex _propertyRegex = new Regex("\\{[a-zA-Z0-9]+\\}", RegexOptions.Compiled);

@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace BookGen.Gui.XmlEntities
 {
-    public record CData : IXmlSerializable
+    public sealed record CData : IXmlSerializable
     {
         private string _value;
 

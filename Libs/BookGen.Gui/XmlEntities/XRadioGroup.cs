@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace BookGen.Gui.XmlEntities
 {
-    public record XRadioGroup : XView
+    public sealed record XRadioGroup : XView
     {
         [XmlArray]
         [XmlArrayItem(ElementName = "Option")]
