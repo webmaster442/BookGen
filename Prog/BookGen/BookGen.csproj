@@ -68,9 +68,9 @@
 		<None Remove="Resources\HelpEditModule.txt" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Markdig" Version="0.30.3" />
+		<PackageReference Include="Markdig" Version="0.30.4" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0" />
-		<PackageReference Include="SkiaSharp" Version="2.88.1" />
+		<PackageReference Include="SkiaSharp" Version="2.88.2" />
 		<PackageReference Include="Svg.Skia" Version="0.5.16" />
 		<PackageReference Include="System.ComponentModel.Composition" Version="6.0.0" />
 		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
@@ -78,7 +78,7 @@
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-		<PackageReference Include="System.Text.Json" Version="6.0.5" />
+		<PackageReference Include="System.Text.Json" Version="6.0.6" />
 		<PackageReference Include="XmlDocMarkdown.Core" Version="2.8.0" />
 	</ItemGroup>
 	<ItemGroup>
