@@ -10,7 +10,7 @@ namespace BookGen.Launcher.ViewModels.Commands
 {
     internal sealed class StartShellCommand : ProcessCommandBase
     {
-        private bool Launch(string shellScript)
+        private bool Launch(string shellScript, string folder)
         {
             if (InstallStatus.IsWindowsTerminalInstalled && Properties.Settings.Default.UseWindowsTerminal)
             {
@@ -20,16 +20,16 @@ namespace BookGen.Launcher.ViewModels.Commands
                 {
                     exe = "pwsh.exe";
                 }
-                return RunProgram(InstallDetector.WindowsTerminalExe, $"new-tab -p \"Powershell\" --title \"BookGen shell\" --colorScheme \"{WindowsTerminalScheme.DefaultShemeName}\" {exe} -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+                return RunProgram(InstallDetector.WindowsTerminalExe, $"new-tab -p \"Powershell\" --title \"BookGen shell\" --colorScheme \"{WindowsTerminalScheme.DefaultShemeName}\" {exe} -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\" \"{folder}\"");
 
             }
             else if (InstallStatus.IsPsCoreInstalled)
             {
-                return RunProgram(InstallDetector.PowershellCoreExe, $"-NoExit -File \"{shellScript}\"");
+                return RunProgram(InstallDetector.PowershellCoreExe, $"-NoExit -File \"{shellScript}\" \"{folder}\"");
             }
             else
             {
-                return RunProgram(PowershellExe, $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+                return RunProgram(PowershellExe, $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\" \"{folder}\"");
             }
         }
 
@@ -55,7 +55,7 @@ namespace BookGen.Launcher.ViewModels.Commands
                 return;
             }
 
-            if (!Launch(shellScript))
+            if (!Launch(shellScript, folder))
             {
                 Message(Properties.Resources.ShellScriptStartFail, MessageBoxImage.Error);
             }
