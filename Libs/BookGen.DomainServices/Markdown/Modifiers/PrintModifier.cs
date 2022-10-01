@@ -88,8 +88,8 @@ namespace BookGen.DomainServices.Markdown.Modifiers
             if (string.IsNullOrEmpty(url))
                 return string.Empty;
 
-            var parts = url.Replace("\\", "/").Split('/').ToList();
-            int imgdirIndex = parts.IndexOf(RuntimeConfig!.Configuration.ImageDir);
+            var parts = url.ToLower().Replace("\\", "/").Split('/').ToList();
+            int imgdirIndex = parts.IndexOf(RuntimeConfig!.Configuration.ImageDir.ToLower());
 
             return string.Join("/", parts.ToArray(), imgdirIndex, parts.Count - imgdirIndex);
         }
