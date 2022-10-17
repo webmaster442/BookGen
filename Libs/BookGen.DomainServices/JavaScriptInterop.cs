@@ -13,13 +13,11 @@ namespace BookGen.DomainServices
     {
         private V8ScriptEngine? _engine;
         private bool _prismLoaded;
-        private bool _mathJaxLoaded;
 
         public JavaScriptInterop()
         {
             _engine = new V8ScriptEngine();
             _prismLoaded = false;
-            _mathJaxLoaded = false;
         }
 
         [MemberNotNull(nameof(_engine))]
@@ -50,13 +48,6 @@ namespace BookGen.DomainServices
             InitWithScript(ref _prismLoaded, KnownFile.PrismJs);
             _engine.Script.code = code;
             return ExecuteAndGetResult($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
-        }
-
-        public string MathToSvg(string math)
-        {
-            InitWithScript(ref _mathJaxLoaded, KnownFile.MathJax);
-            _engine.Script.math = math;
-            return ExecuteAndGetResult("MathJax.tex2svg(math).innerHTML;");
         }
 
         public void Dispose()

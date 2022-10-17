@@ -46,11 +46,11 @@ namespace BookGen.Modules
                     CurrentState.Log.Warning("Not a formula, Skipping line: {0}", line);
                     continue;
                 }
-                string svgContent = interop.MathToSvg(line);
+                
 
-                FsPath output = outDirectory.Combine(filename + $"-{counter}.svg");
+                /*FsPath output = outDirectory.Combine(filename + $"-{counter}.svg");
                 output.WriteFile(CurrentState.Log, svgContent);
-                ++counter;
+                ++counter;*/
             }
         }
     }

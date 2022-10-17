@@ -35,7 +35,6 @@
 		<None Remove="JsCss\simplemde.min.css" />
 		<None Remove="JsCss\simplemde.min.js" />
 		<None Remove="JsCss\SinglePage.css" />
-		<None Remove="JsCss\tex-mml-svg.js" />
 		<None Remove="JsCss\turbolinks.js" />
 		<None Remove="Powershell\updater.ps1" />
 	</ItemGroup>
@@ -61,7 +60,6 @@
 		<EmbeddedResource Include="JsCss\prism.css" />
 		<EmbeddedResource Include="JsCss\prism.js" />
 		<EmbeddedResource Include="JsCss\SinglePage.css" />
-		<EmbeddedResource Include="JsCss\tex-mml-svg.js" />
 		<EmbeddedResource Include="JsCss\turbolinks.js" />
 		<EmbeddedResource Include="Powershell\updater.ps1" />
 	</ItemGroup>
