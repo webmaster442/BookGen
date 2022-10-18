@@ -3,9 +3,9 @@ using System.Diagnostics;
 
 namespace BookGen.Update.Steps;
 
-internal class StopBookGenProcesses : IUpdateStepAsync
+internal sealed class StopBookGenProcesses : IUpdateStepAsync
 {
-    public async Task<bool> Execute(IList<string> issues)
+    public async Task<bool> Execute(GlobalState state)
     {
         Console.WriteLine("Stopping all running BookGen instances...");
         await Task.Delay(3000);

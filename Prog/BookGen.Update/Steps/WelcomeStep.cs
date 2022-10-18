@@ -2,9 +2,9 @@
 
 namespace BookGen.Update.Steps;
 
-internal class WelcomeStep : IUpdateStepSync
+internal sealed class WelcomeStep : IUpdateStepSync
 {
-    public bool Execute(IList<string> issues)
+    public bool Execute(GlobalState state)
     {
         Console.Clear();
         Console.WriteLine(@"  ____              _     _____              _    _           _       _            ");

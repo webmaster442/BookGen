@@ -2,5 +2,5 @@
 
 internal interface IUpdateStepSync : IUpdateStep
 {
-    bool Execute(IList<string> issues);
+    bool Execute(GlobalState state);
 }
