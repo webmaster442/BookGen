@@ -47,12 +47,23 @@ namespace BookGen.Modules
                         CurrentState.Log.Warning("Not a formula (not starting with \\), Skipping line: {0}", line);
                         continue;
                     }
-                    string? svg = client.Download($"https://math.vercel.app/?from={line}");
-                    if (!string.IsNullOrEmpty(svg))
+
+                    CurrentState.Log.Info("Downloading from https://math.vercel.app...");
+
+                    var result = client.TryDownload($"https://math.vercel.app?from={line}",
+                                                     out string? svg);
+
+                    if (!string.IsNullOrEmpty(svg)
+                        && (int)result >= 200 
+                        && (int)result <= 300)
                     {
                         FsPath output = outDirectory.Combine(filename + $"-{counter}.svg");
                         output.WriteFile(CurrentState.Log, svg);
                         ++counter;
+                    }
+                    else
+                    {
+                        CurrentState.Log.Warning("Download failed. Error: {0}", result);
                     }
                 }
             }

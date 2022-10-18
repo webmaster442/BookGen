@@ -1,4 +1,7 @@
-﻿using System.Text.Json;
+﻿using SkiaSharp;
+using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using System.Text.Json;
 using System.Web;
 
 namespace BookGen.DomainServices
@@ -13,22 +16,10 @@ namespace BookGen.DomainServices
             _client = new HttpClient();
         }
 
-        public T? DownloadJson<T>(string url, JsonSerializerOptions? options = null) where T: class
+        public HttpStatusCode TryDownload(string url, [NotNullWhen(true)] out string? result)
         {
-            string? str = Download(url);
-
-            if (str == null)
-                return null;
-
-            return JsonSerializer.Deserialize<T>(str, options);
-        }
-
-        public string? Download(string url)
-        {
-            string encoded = HttpUtility.UrlEncode(url);
-
             using HttpResponseMessage? response = _client
-                .GetAsync(encoded)
+                .GetAsync(url)
                 .GetAwaiter()
                 .GetResult();
 
@@ -40,10 +31,12 @@ namespace BookGen.DomainServices
                     .GetAwaiter()
                     .GetResult();
 
-                return content;
+                result = content;
+                return response.StatusCode;
             }
 
-            return null;
+            result = null;
+            return response.StatusCode;
         }
 
         public void Dispose()
