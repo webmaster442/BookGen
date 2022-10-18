@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Web;
 
 namespace BookGen.DomainServices
 {
@@ -24,8 +25,10 @@ namespace BookGen.DomainServices
 
         public string? Download(string url)
         {
+            string encoded = HttpUtility.UrlEncode(url);
+
             using HttpResponseMessage? response = _client
-                .GetAsync(url)
+                .GetAsync(encoded)
                 .GetAwaiter()
                 .GetResult();
 

@@ -8,6 +8,7 @@ using BookGen.Gui.ArgumentParser;
 using BookGen.Infrastructure;
 using BookGen.Modules;
 using BookGen.Modules.Special;
+using Microsoft.Web.WebView2.Core;
 using System.Runtime.InteropServices;
 
 namespace BookGen
@@ -72,6 +73,7 @@ namespace BookGen
                 new MdTableModule(CurrentState),
                 new ExternalLinksModule(CurrentState),
                 new TagsModule(CurrentState),
+                new Math2SvgModule(CurrentState),
             };
         }
 

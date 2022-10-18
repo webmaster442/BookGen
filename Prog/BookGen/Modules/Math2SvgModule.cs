@@ -37,24 +37,25 @@ namespace BookGen.Modules
 
         private void Process(IList<string> input, string filename, FsPath outDirectory)
         {
-            int counter = 0;
-            foreach (string? line in input)
+            using (var client = new BookGenHttpClient())
             {
-                if (!line.StartsWith("\\"))
+                int counter = 0;
+                foreach (string? line in input)
                 {
-                    CurrentState.Log.Warning("Not a formula (not starting with \\), Skipping line: {0}", line);
-                    continue;
+                    if (!line.StartsWith("\\"))
+                    {
+                        CurrentState.Log.Warning("Not a formula (not starting with \\), Skipping line: {0}", line);
+                        continue;
+                    }
+                    string? svg = client.Download($"https://math.vercel.app/?from={line}");
+                    if (!string.IsNullOrEmpty(svg))
+                    {
+                        FsPath output = outDirectory.Combine(filename + $"-{counter}.svg");
+                        output.WriteFile(CurrentState.Log, svg);
+                        ++counter;
+                    }
                 }
-
-            //https://math.vercel.app/home
-
-
-                /*FsPath output = outDirectory.Combine(filename + $"-{counter}.svg");
-                output.WriteFile(CurrentState.Log, svgContent);
-                ++counter;*/
             }
         }
-
-
     }
 }
