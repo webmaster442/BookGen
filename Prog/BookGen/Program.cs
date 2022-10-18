@@ -8,7 +8,6 @@ using BookGen.Gui.ArgumentParser;
 using BookGen.Infrastructure;
 using BookGen.Modules;
 using BookGen.Modules.Special;
-using Microsoft.Web.WebView2.Core;
 using System.Runtime.InteropServices;
 
 namespace BookGen
@@ -67,7 +66,6 @@ namespace BookGen
                 new EditModule(CurrentState, AppSetting),
                 new PreviewModule(CurrentState),
                 new ServeModule(CurrentState),
-                new UpdateModule(CurrentState),
                 new ImgConvertModule(CurrentState),
                 new StockSearchModule(CurrentState),
                 new MdTableModule(CurrentState),

@@ -10,6 +10,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Powershell\**" />
+	  <EmbeddedResource Remove="Powershell\**" />
+	  <None Remove="Powershell\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Remove="Etc\ScriptTemplate.cs" />
 	</ItemGroup>
 
@@ -36,7 +42,6 @@
 		<None Remove="JsCss\simplemde.min.js" />
 		<None Remove="JsCss\SinglePage.css" />
 		<None Remove="JsCss\turbolinks.js" />
-		<None Remove="Powershell\updater.ps1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -61,7 +66,6 @@
 		<EmbeddedResource Include="JsCss\prism.js" />
 		<EmbeddedResource Include="JsCss\SinglePage.css" />
 		<EmbeddedResource Include="JsCss\turbolinks.js" />
-		<EmbeddedResource Include="Powershell\updater.ps1" />
 	</ItemGroup>
 
 	<ItemGroup>
