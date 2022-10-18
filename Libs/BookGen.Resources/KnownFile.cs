@@ -28,6 +28,5 @@ namespace BookGen.Resources
         PreviewCss,
         PreviewHtml,
         SinglePageCss,
-        MathJax
     }
 }
