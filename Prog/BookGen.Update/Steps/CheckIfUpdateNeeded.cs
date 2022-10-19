@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace BookGen.Update.Steps;
 
-internal class CheckIfUpdateNeeded : IUpdateStepSync
+internal sealed class CheckIfUpdateNeeded : IUpdateStepSync
 {
     private static Release? GetLatestRelease(Release[] releases, bool preview = false)
     {

@@ -1,0 +1,13 @@
+﻿using BookGen.Update.Infrastructure;
+
+namespace BookGen.Update.Steps;
+
+internal sealed class Finish : IUpdateStepSync
+{
+    public bool Execute(GlobalState state)
+    {
+        Console.WriteLine($"Successfully updated to {state.Latest.Version}");
+        state.Cleanup();
+        return true;
+    }
+}
