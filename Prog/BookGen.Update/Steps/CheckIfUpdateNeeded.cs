@@ -23,14 +23,14 @@ internal sealed class CheckIfUpdateNeeded : IUpdateStepSync
 
     public bool Execute(GlobalState state)
     {
-        var latestRelease = GetLatestRelease(state.Releases);
+        Release? latestRelease = GetLatestRelease(state.Releases);
         if (latestRelease == null)
         {
             state.Issues.Add("Couldn't find latest release");
             return false;
         }
 
-        Version latest = Version.Parse(latestRelease.Version);
+        var latest = Version.Parse(latestRelease.Version);
         Version current = GetCurrentVersion();
         if (latest < current)
         {

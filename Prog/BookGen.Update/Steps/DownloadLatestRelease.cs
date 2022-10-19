@@ -44,7 +44,7 @@ internal sealed class DownloadLatestRelease : IUpdateStepAsync
 
     private static void Report(long progress, long length)
     {
-        double percent = Math.Round((progress / (double)length) * 100.0d, 3);
+        double percent = Math.Round(progress / (double)length * 100.0d, 3);
         Console.Write($"Dowloaded {progress} of {length} ({percent} %) ...\r");
     }
 

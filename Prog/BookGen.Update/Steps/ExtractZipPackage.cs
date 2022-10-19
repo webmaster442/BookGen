@@ -13,9 +13,9 @@ namespace BookGen.Update.Steps
                 return false;
             }
 
-            using (var zip = ZipFile.OpenRead(state.TempFile))
+            using (ZipArchive zip = ZipFile.OpenRead(state.TempFile))
             {
-                foreach (var entry in zip.Entries)
+                foreach (ZipArchiveEntry entry in zip.Entries)
                 {
                     ExtractRelativeToDirectory(entry, state.TargetDir, true);
                 }

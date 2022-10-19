@@ -10,10 +10,10 @@ internal sealed class StopBookGenProcesses : IUpdateStepAsync
         Console.WriteLine("Stopping all running BookGen instances...");
         await Task.Delay(3000);
 
-        var processes = Process.GetProcessesByName("BookGen");
+        Process[] processes = Process.GetProcessesByName("BookGen");
         if (processes != null)
         {
-            foreach (var process in processes)
+            foreach (Process process in processes)
             {
                 process.Kill();
             }

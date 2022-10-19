@@ -21,7 +21,7 @@ internal sealed class VerifyHash : IUpdateStepAsync
                 return false;
             }
 
-            using (var file = File.OpenRead(state.TempFile))
+            using (FileStream file = File.OpenRead(state.TempFile))
             {
                 byte[] hashBytes = await hash.ComputeHashAsync(file);
                 string computed = BitConverter.ToString(hashBytes).Replace("-", "");
