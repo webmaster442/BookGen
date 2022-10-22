@@ -5,6 +5,8 @@ namespace BookGen.Update.Steps
 {
     internal sealed class ExtractZipPackage : IUpdateStepSync
     {
+        private const string UpdaterName = "BookGen.Update";
+
         public bool Execute(GlobalState state)
         {
             if (!File.Exists(state.TempFile))
@@ -37,7 +39,15 @@ namespace BookGen.Update.Steps
             if (!destinationDirectoryFullPath.EndsWith(Path.DirectorySeparatorChar))
                 destinationDirectoryFullPath += Path.DirectorySeparatorChar;
 
-            string fileDestinationPath = Path.GetFullPath(Path.Combine(destinationDirectoryFullPath, SanitizeEntryFilePath(source.FullName)));
+            string fileName = SanitizeEntryFilePath(source.FullName);
+
+            if (IsUpdaterFile(fileName))
+            {
+                string extension = Path.GetExtension(fileName);
+                fileName = Path.ChangeExtension(fileName, extension + "_new");
+            }
+
+            string fileDestinationPath = Path.GetFullPath(Path.Combine(destinationDirectoryFullPath, fileName));
 
             if (!fileDestinationPath.StartsWith(destinationDirectoryFullPath, StringComparison.OrdinalIgnoreCase))
                 throw new IOException("Extracting Zip entry would have resulted in a file outside the specified destination directory.");
@@ -58,6 +68,11 @@ namespace BookGen.Update.Steps
                 Directory.CreateDirectory(Path.GetDirectoryName(fileDestinationPath)!);
                 source.ExtractToFile(fileDestinationPath, overwrite: overwrite);
             }
+        }
+
+        private static bool IsUpdaterFile(string fileName)
+        {
+            return fileName.Contains(UpdaterName);
         }
     }
 }

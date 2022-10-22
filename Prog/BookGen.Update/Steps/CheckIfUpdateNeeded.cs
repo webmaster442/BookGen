@@ -34,7 +34,7 @@ internal sealed class CheckIfUpdateNeeded : IUpdateStepSync
         Version current = GetCurrentVersion();
         if (latest < current)
         {
-            state.Issues.Add("Current version is {current} is newer than latest ({latest}) release");
+            state.Issues.Add($"Current version is {current} is newer than latest ({latest}) release");
             state.Issues.Add("No update needed");
             return false;
         }
