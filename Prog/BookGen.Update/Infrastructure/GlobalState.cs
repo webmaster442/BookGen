@@ -1,4 +1,9 @@
-﻿using BookGen.Update.Dto;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Update.Dto;
 
 namespace BookGen.Update.Infrastructure;
 

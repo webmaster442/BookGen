@@ -1,4 +1,9 @@
-﻿using BookGen.Update.Infrastructure;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Update.Infrastructure;
 using System.IO.Compression;
 
 namespace BookGen.Update.Steps
