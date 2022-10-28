@@ -1,7 +1,6 @@
-﻿using BookGen.RakeEngine.Internals;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace BookGen.RakeEngine
+namespace BookGen.RakeEngine.Internals
 {
     internal static class RakeHelpers
     {
@@ -46,7 +45,7 @@ namespace BookGen.RakeEngine
                 if (!wordScore.ContainsKey(item.Key)) wordScore[item.Key] = 0;
 
                 wordScore[item.Key] = wordDegree[item.Key] / (wordFrequency[item.Key] * 1.0f); // orig.
-                                                                                              // word_score[item] = word_frequency[item]/(word_degree[item] * 1.0) #exp.
+                                                                                               // word_score[item] = word_frequency[item]/(word_degree[item] * 1.0) #exp.
             }
 
             return wordScore;

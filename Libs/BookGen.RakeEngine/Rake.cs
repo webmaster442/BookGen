@@ -1,4 +1,7 @@
 ﻿using BookGen.RakeEngine.Internals;
+using Markdig;
+using Markdig.Extensions.AutoIdentifiers;
+using Markdig.Syntax;
 using System.Globalization;
 using System.Text;
 
@@ -22,7 +25,30 @@ namespace BookGen.RakeEngine
             _stopWords = StopwordsLoader.GetStopWords(stopWordCulture).ToHashSet();
         }
 
-        public Dictionary<string, float> Run(string text)
+        public Dictionary<string, float> RunMarkdown(string markdown)
+        {
+            StringBuilder markdownContent = new StringBuilder(markdown.Length);
+            MarkdownPipeline? pipeline = new MarkdownPipelineBuilder().UseAutoIdentifiers(AutoIdentifierOptions.GitHub).Build();
+            var doc = Markdig.Markdown.Parse(markdown, pipeline);
+
+            foreach (MarkdownObject item in doc.Descendants())
+            {
+                if (item is HeadingBlock heading)
+                {
+                    var txt = heading.Inline?.FirstChild?.ToString();
+                    markdownContent.AppendLine(txt);
+                }
+                else if (item is ParagraphBlock paragraph)
+                {
+                    var text = paragraph.Inline?.FirstChild?.ToString();
+                    markdownContent.AppendLine(text);
+                }
+            }
+
+            return Run(markdownContent.ToString());
+        }
+
+        private Dictionary<string, float> Run(string text)
         {
             string[] sentenceList = RakeHelpers.SplitSentences(text.ToLowerInvariant());
 
