@@ -1,4 +1,9 @@
-﻿using System.Globalization;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Globalization;
 using System.Reflection;
 using System.Text.Json;
 
@@ -25,12 +30,12 @@ internal static class StopwordsLoader
             if (stream == null)
                 throw new InvalidOperationException($"No stopword can be found for language: {culture}");
 
-            using (StreamReader reader = new StreamReader(stream))
+            using (var reader = new StreamReader(stream))
             {
                 string json = reader.ReadToEnd();
 
-                var deserialized = JsonSerializer.Deserialize<string[]>(json);
-                
+                string[]? deserialized = JsonSerializer.Deserialize<string[]>(json);
+
                 if (deserialized == null)
                     throw new InvalidOperationException($"No stopword can be found for language: {culture}");
 

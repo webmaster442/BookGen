@@ -1,116 +1,120 @@
-﻿using BookGen.RakeEngine.Internals;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.RakeEngine.Internals;
 using Markdig;
 using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Syntax;
 using System.Globalization;
 using System.Text;
 
-namespace BookGen.RakeEngine
+namespace BookGen.RakeEngine;
+
+public sealed class Rake
 {
-    public sealed class Rake
+    private readonly int _minCharLength;
+    private readonly int _maxWordsLength;
+    private readonly double _minKeywordFrequency;
+    private readonly HashSet<string> _stopWords;
+
+    public Rake(CultureInfo stopWordCulture,
+                int minCharLength = 1,
+                int maxWordsLength = 5,
+                double minKeywordFrequency = 1)
     {
-        private readonly int _minCharLength;
-        private readonly int _maxWordsLength;
-        private readonly double _minKeywordFrequency;
-        private readonly HashSet<string> _stopWords;
+        _minCharLength = minCharLength;
+        _maxWordsLength = maxWordsLength;
+        _minKeywordFrequency = minKeywordFrequency;
+        _stopWords = StopwordsLoader.GetStopWords(stopWordCulture).ToHashSet();
+    }
 
-        public Rake(CultureInfo stopWordCulture,
-                    int minCharLength = 1,
-                    int maxWordsLength = 5,
-                    double minKeywordFrequency = 1)
+    public Dictionary<string, float> RunMarkdown(string markdown)
+    {
+        var markdownContent = new StringBuilder(markdown.Length);
+        MarkdownPipeline? pipeline = new MarkdownPipelineBuilder().UseAutoIdentifiers(AutoIdentifierOptions.GitHub).Build();
+        MarkdownDocument doc = Markdig.Markdown.Parse(markdown, pipeline);
+
+        foreach (MarkdownObject item in doc.Descendants())
         {
-            _minCharLength = minCharLength;
-            _maxWordsLength = maxWordsLength;
-            _minKeywordFrequency = minKeywordFrequency;
-            _stopWords = StopwordsLoader.GetStopWords(stopWordCulture).ToHashSet();
+            if (item is HeadingBlock heading)
+            {
+                string? txt = heading.Inline?.FirstChild?.ToString();
+                markdownContent.AppendLine(txt);
+            }
+            else if (item is ParagraphBlock paragraph)
+            {
+                string? text = paragraph.Inline?.FirstChild?.ToString();
+                markdownContent.AppendLine(text);
+            }
         }
 
-        public Dictionary<string, float> RunMarkdown(string markdown)
-        {
-            StringBuilder markdownContent = new StringBuilder(markdown.Length);
-            MarkdownPipeline? pipeline = new MarkdownPipelineBuilder().UseAutoIdentifiers(AutoIdentifierOptions.GitHub).Build();
-            var doc = Markdig.Markdown.Parse(markdown, pipeline);
+        return Run(markdownContent.ToString());
+    }
 
-            foreach (MarkdownObject item in doc.Descendants())
+    private Dictionary<string, float> Run(string text)
+    {
+        string[] sentenceList = RakeHelpers.SplitSentences(text.ToLowerInvariant());
+
+        List<string> phraseList = GenerateCandidateKeywords(sentenceList, _minCharLength, _maxWordsLength);
+
+        Dictionary<string, float> wordScores = RakeHelpers.CalculateWordScores(phraseList);
+
+        Dictionary<string, float> keywordCandidates = RakeHelpers.GenerateCandidateKeywordScores(phraseList, wordScores, _minKeywordFrequency);
+
+        return keywordCandidates
+            .OrderByDescending(pair => pair.Value)
+            .ToDictionary(pair => pair.Key, pair => pair.Value);
+    }
+
+    private List<string> GenerateCandidateKeywords(string[] sentenceList,
+                                                   int minCharLength,
+                                                   int maxWordsLength)
+    {
+        var phraseList = new List<string>();
+
+        var sb = new StringBuilder();
+
+        foreach (string sentence in sentenceList)
+        {
+            string sLowerCase = sentence.Trim();
+
+            var wordSplitter = new StringSplitter(sLowerCase.AsSpan(), ' ');
+
+            while (wordSplitter.TryGetNext(out ReadOnlySpan<char> wordSpan))
             {
-                if (item is HeadingBlock heading)
+                string word = wordSpan.ToString();
+
+                if (_stopWords.Contains(word))
                 {
-                    var txt = heading.Inline?.FirstChild?.ToString();
-                    markdownContent.AppendLine(txt);
+                    string phrase = sb.ToString().Trim();
+
+                    if (!string.IsNullOrWhiteSpace(phrase)
+                        && RakeHelpers.IsAcceptable(phrase, minCharLength, maxWordsLength))
+                    {
+                        phraseList.Add(phrase);
+                    }
+
+                    sb.Clear();
                 }
-                else if (item is ParagraphBlock paragraph)
+                else
                 {
-                    var text = paragraph.Inline?.FirstChild?.ToString();
-                    markdownContent.AppendLine(text);
+                    sb.Append(word).Append(' ');
                 }
             }
 
-            return Run(markdownContent.ToString());
-        }
+            string p2 = sb.ToString().Trim();
 
-        private Dictionary<string, float> Run(string text)
-        {
-            string[] sentenceList = RakeHelpers.SplitSentences(text.ToLowerInvariant());
-
-            var phraseList = GenerateCandidateKeywords(sentenceList, _minCharLength, _maxWordsLength);
-
-            var wordScores = RakeHelpers.CalculateWordScores(phraseList);
-
-            var keywordCandidates = RakeHelpers.GenerateCandidateKeywordScores(phraseList, wordScores, _minKeywordFrequency);
-
-            return keywordCandidates
-                .OrderByDescending(pair => pair.Value)
-                .ToDictionary(pair => pair.Key, pair => pair.Value);
-        }
-
-        private List<string> GenerateCandidateKeywords(string[] sentenceList,
-                                                       int minCharLength,
-                                                       int maxWordsLength)
-        {
-            var phraseList = new List<string>();
-
-            var sb = new StringBuilder();
-
-            foreach (string sentence in sentenceList)
+            if (!string.IsNullOrWhiteSpace(p2)
+                && RakeHelpers.IsAcceptable(p2, minCharLength, maxWordsLength))
             {
-                string sLowerCase = sentence.Trim();
-
-                var wordSplitter = new StringSplitter(sLowerCase.AsSpan(), ' ');
-
-                while (wordSplitter.TryGetNext(out var wordSpan))
-                {
-                    string word = wordSpan.ToString();
-
-                    if (_stopWords.Contains(word))
-                    {
-                        string phrase = sb.ToString().Trim();
-
-                        if (!string.IsNullOrWhiteSpace(phrase)
-                            && RakeHelpers.IsAcceptable(phrase, minCharLength, maxWordsLength))
-                        {
-                            phraseList.Add(phrase);
-                        }
-
-                        sb.Clear();
-                    }
-                    else
-                    {
-                        sb.Append(word).Append(' ');
-                    }
-                }
-
-                string p2 = sb.ToString().Trim();
-
-                if (!string.IsNullOrWhiteSpace(p2)
-                    && RakeHelpers.IsAcceptable(p2, minCharLength, maxWordsLength))
-                {
-                    phraseList.Add(p2);
-                }
-
-                sb.Clear();
+                phraseList.Add(p2);
             }
 
-            return phraseList;
+            sb.Clear();
         }
+
+        return phraseList;
     }
 }
