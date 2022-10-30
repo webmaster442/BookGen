@@ -64,6 +64,7 @@ public sealed class Rake
         Dictionary<string, float> keywordCandidates = RakeHelpers.GenerateCandidateKeywordScores(phraseList, wordScores, _minKeywordFrequency);
 
         return keywordCandidates
+            .Where(pair => !_stopWords.Contains(pair.Key))
             .OrderByDescending(pair => pair.Value)
             .ToDictionary(pair => pair.Key, pair => pair.Value);
     }

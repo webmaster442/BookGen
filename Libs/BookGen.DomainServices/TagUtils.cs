@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Domain;
 using BookGen.Interfaces;
 using System.Globalization;
 using System.Text;
@@ -13,9 +11,8 @@ namespace BookGen.DomainServices
 {
     public class TagUtils : ITagUtils
     {
-        private readonly Dictionary<string, string[]> _loadedTags;
-        private readonly ILog? _log;
-        private readonly CultureInfo _culture;
+        protected readonly Dictionary<string, string[]> _loadedTags;
+        protected readonly CultureInfo _culture;
         private readonly Dictionary<char, string> _symbolNames = new()
         {
             { '#', "sharp" },
@@ -56,44 +53,10 @@ namespace BookGen.DomainServices
             _culture = CultureInfo.InvariantCulture;
         }
 
-        public TagUtils(Dictionary<string, string[]> loadedTags, CultureInfo culture, ILog log)
+        public TagUtils(Dictionary<string, string[]> loadedTags, CultureInfo culture)
         {
             _loadedTags = loadedTags;
-            _log = log;
             _culture = culture;
-        }
-
-        public void DeleteNoLongerExisting(ToC toc)
-        {
-            _log?.Info("Scanning no longer existing entries...");
-            var tocItems = toc.Files.ToHashSet();
-            Stack<string> toDelete = new();
-            foreach (string? file in _loadedTags.Keys)
-            {
-                if (!tocItems.Contains(file))
-                    toDelete.Push(file);
-            }
-
-            _log?.Info("Found {0} items to remove...", toDelete.Count);
-            while (toDelete.Count > 0)
-            {
-                _loadedTags.Remove(toDelete.Pop());
-            }
-        }
-
-        public void CreateNotYetExisting(ToC toc)
-        {
-            _log?.Info("Scanning not yet existing entries...");
-            int count = 0;
-            foreach (string? file in toc.Files)
-            {
-                if (!_loadedTags.ContainsKey(file))
-                {
-                    _loadedTags.Add(file, Array.Empty<string>());
-                    ++count;
-                }
-            }
-            _log?.Info("Created {0} new tag entries. Please fill them.", count);
         }
 
         public ISet<string> GetTagsForFile(string file)
