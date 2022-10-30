@@ -12,7 +12,7 @@ namespace BookGen.RakeEngine.Internals;
 //https://github.com/6/stopwords-json
 internal static class StopwordsLoader
 {
-    public static string[] GetStopWords(CultureInfo culture)
+    public static HashSet<string> GetStopWords(CultureInfo culture)
     {
         string name = $"{culture.TwoLetterISOLanguageName}.json";
 
@@ -34,7 +34,7 @@ internal static class StopwordsLoader
             {
                 string json = reader.ReadToEnd();
 
-                string[]? deserialized = JsonSerializer.Deserialize<string[]>(json);
+                HashSet<string>? deserialized = JsonSerializer.Deserialize<HashSet<string>>(json);
 
                 if (deserialized == null)
                     throw new InvalidOperationException($"No stopword can be found for language: {culture}");

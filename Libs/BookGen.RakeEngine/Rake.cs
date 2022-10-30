@@ -27,7 +27,7 @@ public sealed class Rake
         _minCharLength = minCharLength;
         _maxWordsLength = maxWordsLength;
         _minKeywordFrequency = minKeywordFrequency;
-        _stopWords = StopwordsLoader.GetStopWords(stopWordCulture).ToHashSet();
+        _stopWords = StopwordsLoader.GetStopWords(stopWordCulture);
     }
 
     public Dictionary<string, float> RunMarkdown(string markdown)
