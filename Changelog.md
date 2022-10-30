@@ -1,6 +1,9 @@
 # 2022.
 * New: Rewrote launcher, looks a bit better & has built in preview function
+* New: Math2SVG module (Requires internet connection to work)
+* Change: Updater now is a seperate program.
 * Change: Removed markdown editor from launcher
+* Change: Json output from now on doesn't encode non ASCII chars specially.
 
 # 2022.07.11
 * New: ExternalLinks command
