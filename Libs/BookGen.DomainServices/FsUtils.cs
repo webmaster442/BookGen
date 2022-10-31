@@ -6,7 +6,9 @@
 using BookGen.Api;
 using BookGen.Interfaces;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 using System.Xml.Serialization;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -302,6 +304,7 @@ namespace BookGen.DomainServices
 
                 byte[] serialized = JsonSerializer.SerializeToUtf8Bytes(obj, new JsonSerializerOptions
                 {
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
                     WriteIndented = indent,
                     Converters =
                     {

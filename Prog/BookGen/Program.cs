@@ -8,7 +8,7 @@ using BookGen.Gui.ArgumentParser;
 using BookGen.Infrastructure;
 using BookGen.Modules;
 using BookGen.Modules.Special;
-using Microsoft.Web.WebView2.Core;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace BookGen
@@ -67,7 +67,6 @@ namespace BookGen
                 new EditModule(CurrentState, AppSetting),
                 new PreviewModule(CurrentState),
                 new ServeModule(CurrentState),
-                new UpdateModule(CurrentState),
                 new ImgConvertModule(CurrentState),
                 new StockSearchModule(CurrentState),
                 new MdTableModule(CurrentState),
@@ -153,6 +152,11 @@ namespace BookGen
 
         public static void Main(string[] args)
         {
+            if (!FinishUpdate())
+            {
+                Console.WriteLine("Update error. Please reinstall program!");
+                return;
+            }
             AppSetting? loaded = AppSettingHandler.LoadAppSettings();
             var argumentsToParse = args.ToList();
 
@@ -171,6 +175,26 @@ namespace BookGen
 
             RunModule(module, argumentsToParse);
             CurrentState.Log.Flush();
+        }
+
+        private static bool FinishUpdate()
+        {
+            try
+            {
+                var newFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.*")
+                     .Where(x => x.EndsWith("_new"));
+
+                foreach (var newFile in newFiles)
+                {
+                    string targetName = newFile.Replace("_new", "");
+                    File.Move(targetName, newFile);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private static void Cleanup(ModuleBase? moduleToRun)
@@ -196,14 +220,11 @@ namespace BookGen
                                                   string command)
         {
             ModuleBase? stateless = statelessModules.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
+            
             if (stateless != null)
                 return stateless;
 
-            ModuleBase? stated = modulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
-            if (stated != null)
-                return stated;
-
-            return null;
+            return modulesWithState.FirstOrDefault(m => string.Compare(m.ModuleCommand, command, true) == 0);
         }
 
         private static void HandleUncaughtException(ModuleBase? currentModule, Exception ex)

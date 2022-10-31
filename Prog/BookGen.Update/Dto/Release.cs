@@ -1,11 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Domain
+namespace BookGen.Update.Dto
 {
-    public record Release
+    public sealed record Release
     {
         public string Version { get; init; }
         public string ZipPackageUrl { get; init; }

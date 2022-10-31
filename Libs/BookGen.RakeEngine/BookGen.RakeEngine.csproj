@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.30.4" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="stopwords\af.json" />
+    <EmbeddedResource Include="stopwords\ar.json" />
+    <EmbeddedResource Include="stopwords\bg.json" />
+    <EmbeddedResource Include="stopwords\bn.json" />
+    <EmbeddedResource Include="stopwords\br.json" />
+    <EmbeddedResource Include="stopwords\ca.json" />
+    <EmbeddedResource Include="stopwords\cs.json" />
+    <EmbeddedResource Include="stopwords\da.json" />
+    <EmbeddedResource Include="stopwords\de.json" />
+    <EmbeddedResource Include="stopwords\el.json" />
+    <EmbeddedResource Include="stopwords\en.json" />
+    <EmbeddedResource Include="stopwords\eo.json" />
+    <EmbeddedResource Include="stopwords\es.json" />
+    <EmbeddedResource Include="stopwords\et.json" />
+    <EmbeddedResource Include="stopwords\eu.json" />
+    <EmbeddedResource Include="stopwords\fa.json" />
+    <EmbeddedResource Include="stopwords\fi.json" />
+    <EmbeddedResource Include="stopwords\fr.json" />
+    <EmbeddedResource Include="stopwords\ga.json" />
+    <EmbeddedResource Include="stopwords\gl.json" />
+    <EmbeddedResource Include="stopwords\ha.json" />
+    <EmbeddedResource Include="stopwords\he.json" />
+    <EmbeddedResource Include="stopwords\hi.json" />
+    <EmbeddedResource Include="stopwords\hr.json" />
+    <EmbeddedResource Include="stopwords\hu.json" />
+    <EmbeddedResource Include="stopwords\hy.json" />
+    <EmbeddedResource Include="stopwords\id.json" />
+    <EmbeddedResource Include="stopwords\it.json" />
+    <EmbeddedResource Include="stopwords\ja.json" />
+    <EmbeddedResource Include="stopwords\ko.json" />
+    <EmbeddedResource Include="stopwords\la.json" />
+    <EmbeddedResource Include="stopwords\lv.json" />
+    <EmbeddedResource Include="stopwords\mr.json" />
+    <EmbeddedResource Include="stopwords\nl.json" />
+    <EmbeddedResource Include="stopwords\no.json" />
+    <EmbeddedResource Include="stopwords\pl.json" />
+    <EmbeddedResource Include="stopwords\pt.json" />
+    <EmbeddedResource Include="stopwords\ro.json" />
+    <EmbeddedResource Include="stopwords\ru.json" />
+    <EmbeddedResource Include="stopwords\sk.json" />
+    <EmbeddedResource Include="stopwords\sl.json" />
+    <EmbeddedResource Include="stopwords\so.json" />
+    <EmbeddedResource Include="stopwords\st.json" />
+    <EmbeddedResource Include="stopwords\sv.json" />
+    <EmbeddedResource Include="stopwords\sw.json" />
+    <EmbeddedResource Include="stopwords\th.json" />
+    <EmbeddedResource Include="stopwords\tr.json" />
+    <EmbeddedResource Include="stopwords\yo.json" />
+    <EmbeddedResource Include="stopwords\zh.json" />
+    <EmbeddedResource Include="stopwords\zu.json" />
+  </ItemGroup>
+
+</Project>

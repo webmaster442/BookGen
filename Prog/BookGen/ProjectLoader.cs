@@ -160,22 +160,32 @@ namespace BookGen
                 Dictionary<string, string[]>? deserialized = _tags.DeserializeJson<Dictionary<string, string[]>>(_log);
                 if (deserialized != null)
                 {
-                    tagUtils = new TagUtils(deserialized, culture, _log);
+                    tagUtils = new TagUtils(deserialized, culture);
                     return true;
                 }
                 else
                 {
                     _log.Critical("Invalid tags.json file. Continuing with empty collection");
-                    tagUtils = new TagUtils(new(), culture, _log);
+                    tagUtils = new TagUtils(new(), culture);
                     return false;
                 }
             }
             else
             {
                 _log.Warning("tags.json not found, continuing with empty collection");
-                tagUtils = new TagUtils(new(), culture, _log);
+                tagUtils = new TagUtils(new(), culture);
                 return true;
             }
+        }
+
+        public WritableTagUtils GetWritableTagutils(CultureInfo culture)
+        {
+            if (_tags.IsExisting)
+            {
+                Dictionary<string, string[]>? deserialized = _tags.DeserializeJson<Dictionary<string, string[]>>(_log);
+                return new WritableTagUtils(deserialized ?? new(), culture, _log);
+            }
+            return new WritableTagUtils(new(), culture, _log);
         }
 
         public RuntimeSettings CreateRuntimeSettings(Config config, ToC toc, TagUtils tags, BuildConfig current)

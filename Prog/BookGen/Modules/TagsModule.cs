@@ -21,7 +21,7 @@ namespace BookGen.Modules
 
         public override ModuleRunResult Execute(string[] arguments)
         {
-            BookGenArgumentBase args = new();
+            TagsArguments args = new();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return ModuleRunResult.ArgumentsError;
@@ -41,13 +41,13 @@ namespace BookGen.Modules
 
                     var tags = new FsPath(args.Directory, "tags.json");
 
-                    if (!loader.TryGetTags(config.BookLanguage, out TagUtils tagUtils))
-                    {
-                        return false;
-                    }
+                    var tagUtils = loader.GetWritableTagutils(config.BookLanguage);
 
                     tagUtils.DeleteNoLongerExisting(toc);
                     tagUtils.CreateNotYetExisting(toc);
+                    
+                    if (args.AutoGenerateTags)
+                        tagUtils.AutoGenerate(toc, args.AutoKeyWordCount);
 
                     PrintStats(CurrentState.Log, tagUtils);
 
