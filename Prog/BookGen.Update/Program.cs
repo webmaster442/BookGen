@@ -25,7 +25,7 @@ static void WriteException(Exception ex)
     Console.ForegroundColor = current;
 }
 
-IUpdateStep[] steps = new IUpdateStep[]
+var steps = new IUpdateStep[]
 {
     new WelcomeStep(),
     new DownloadReleaseInfo(),

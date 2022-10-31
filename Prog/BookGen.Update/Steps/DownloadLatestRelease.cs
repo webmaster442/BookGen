@@ -22,7 +22,7 @@ internal sealed class DownloadLatestRelease : IUpdateStepAsync
         using var client = new HttpClient();
         client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
         using HttpResponseMessage? response = await client.GetAsync(state.Latest.ZipPackageUrl);
-        
+
         if (response.IsSuccessStatusCode)
         {
             using Stream stream = await response.Content.ReadAsStreamAsync();
