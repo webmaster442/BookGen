@@ -9,6 +9,8 @@ namespace BookGen.Update.Steps;
 
 internal sealed class WelcomeStep : IUpdateStepSync
 {
+    public string StatusMessage => string.Empty;
+
     public bool Execute(GlobalState state)
     {
         Console.Clear();

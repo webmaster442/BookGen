@@ -11,6 +11,8 @@ namespace BookGen.Update.Steps;
 
 internal sealed class CheckIfUpdateNeeded : IUpdateStepSync
 {
+    public string StatusMessage => "Checking version...";
+
     private static Release? GetLatestRelease(Release[] releases, bool preview = false)
     {
         return releases
@@ -37,12 +39,12 @@ internal sealed class CheckIfUpdateNeeded : IUpdateStepSync
 
         var latest = Version.Parse(latestRelease.Version);
         Version current = GetCurrentVersion();
-        if (latest < current)
+        /*if (latest < current)
         {
             state.Issues.Add($"Current version is {current} is newer than latest ({latest}) release");
             state.Issues.Add("No update needed");
             return false;
-        }
+        }*/
 
         state.Latest = latestRelease;
         return true;

@@ -7,4 +7,5 @@ namespace BookGen.Update.Infrastructure;
 
 internal interface IUpdateStep
 {
+    string StatusMessage { get; }
 }

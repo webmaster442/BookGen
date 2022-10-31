@@ -46,6 +46,11 @@ foreach (var step in steps)
 {
     try
     {
+        if (!string.IsNullOrEmpty(step.StatusMessage))
+        {
+            Console.WriteLine(step.StatusMessage);
+        }
+
         if (step is IUpdateStepAsync asyncStep)
             canContinue = await asyncStep.Execute(state);
         else if (step is IUpdateStepSync syncStep)
@@ -63,4 +68,3 @@ foreach (var step in steps)
         WriteException(ex);
     }
 }
-

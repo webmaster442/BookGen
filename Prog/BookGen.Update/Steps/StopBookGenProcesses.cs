@@ -10,6 +10,8 @@ namespace BookGen.Update.Steps;
 
 internal sealed class StopBookGenProcesses : IUpdateStepAsync
 {
+    public string StatusMessage => "Shuting down running BookGen instances...";
+
     public async Task<bool> Execute(GlobalState state)
     {
         Console.WriteLine("Stopping all running BookGen instances...");

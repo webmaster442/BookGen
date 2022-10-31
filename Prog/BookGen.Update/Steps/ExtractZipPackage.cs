@@ -12,6 +12,8 @@ namespace BookGen.Update.Steps
     {
         private const string UpdaterName = "BookGen.Update";
 
+        public string StatusMessage => "Extracting update...";
+
         public bool Execute(GlobalState state)
         {
             if (!File.Exists(state.TempFile))

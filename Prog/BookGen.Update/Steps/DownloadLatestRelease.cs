@@ -9,6 +9,8 @@ namespace BookGen.Update.Steps;
 
 internal sealed class DownloadLatestRelease : IUpdateStepAsync
 {
+    public string StatusMessage => "Downloading update...";
+
     public async Task<bool> Execute(GlobalState state)
     {
         if (string.IsNullOrEmpty(state.Latest.ZipPackageUrl))
@@ -18,7 +20,9 @@ internal sealed class DownloadLatestRelease : IUpdateStepAsync
         }
 
         using var client = new HttpClient();
+        client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
         using HttpResponseMessage? response = await client.GetAsync(state.Latest.ZipPackageUrl);
+        
         if (response.IsSuccessStatusCode)
         {
             using Stream stream = await response.Content.ReadAsStreamAsync();
@@ -26,6 +30,7 @@ internal sealed class DownloadLatestRelease : IUpdateStepAsync
             long? length = response.Content.Headers.ContentLength;
             using FileStream target = File.Create(state.TempFile);
             await CopyWithProgressAsync(stream, target, length);
+            return true;
         }
 
         state.Issues.Add($"Ar error occured during downloading update package: {response}");

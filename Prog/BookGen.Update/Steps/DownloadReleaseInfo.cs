@@ -13,10 +13,13 @@ internal sealed class DownloadReleaseInfo : IUpdateStepAsync
 {
     private const string UpdateUrl = "https://raw.githubusercontent.com/webmaster442/BookGen/master/.github/updates.json";
 
+    public string StatusMessage => "Downloading release info...";
+
     public async Task<bool> Execute(GlobalState state)
     {
         using (var client = new HttpClient())
         {
+            client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
             using (HttpResponseMessage? response = await client.GetAsync(UpdateUrl))
             {
                 if (response.IsSuccessStatusCode)

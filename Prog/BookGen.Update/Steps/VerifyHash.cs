@@ -10,6 +10,8 @@ namespace BookGen.Update.Steps;
 
 internal sealed class VerifyHash : IUpdateStepAsync
 {
+    public string StatusMessage => "Verifying update...";
+
     public async Task<bool> Execute(GlobalState state)
     {
         if (!File.Exists(state.TempFile))
