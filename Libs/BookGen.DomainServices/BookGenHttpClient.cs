@@ -1,8 +1,6 @@
-﻿using SkiaSharp;
-using System.Diagnostics.CodeAnalysis;
+﻿using BookGen.Api;
+using BookGen.Interfaces;
 using System.Net;
-using System.Text.Json;
-using System.Web;
 
 namespace BookGen.DomainServices
 {
@@ -16,27 +14,37 @@ namespace BookGen.DomainServices
             _client = new HttpClient();
         }
 
-        public HttpStatusCode TryDownload(string url, [NotNullWhen(true)] out string? result)
+        public async Task<(HttpStatusCode code, string result)> TryDownload(Uri url)
         {
-            using HttpResponseMessage? response = _client
-                .GetAsync(url)
-                .GetAwaiter()
-                .GetResult();
+            using HttpResponseMessage? response = await _client.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
-                string? content = response
-                    .Content
-                    .ReadAsStringAsync()
-                    .GetAwaiter()
-                    .GetResult();
-
-                result = content;
-                return response.StatusCode;
+                string content = await response.Content.ReadAsStringAsync();
+                return (response.StatusCode, content);
             }
+            else
+            {
+                return (response.StatusCode, string.Empty);
+            }
+        }
 
-            result = null;
+        public async Task<HttpStatusCode> DownloadToFile(Uri url, FsPath output, ILog log)
+        {
+            using HttpResponseMessage? response = await _client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                using var stream = await response.Content.ReadAsStreamAsync();
+                using var outStream = output.CreateStream(log);
+                await stream.CopyToAsync(outStream);
+            }
             return response.StatusCode;
+        }
+
+        public static bool IsSuccessfullRequest(HttpStatusCode code)
+        {
+            int c = (int)code;
+            return c >= 200 && c <= 300;
         }
 
         public void Dispose()

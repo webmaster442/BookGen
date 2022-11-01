@@ -15,16 +15,23 @@ namespace BookGen.Domain.ArgumentParsing
         [Switch("s", "size")]
         public int Size { get; set; }
 
+        [Switch("d", "data")]
+        public string Data { get; set; }
+
         public QrCodeArguments()
         {
             Output = FsPath.Empty;
             Size = 200;
+            Data = string.Empty;
         }
 
         public override bool Validate()
         {
             return
-                !FsPath.IsEmptyPath(Output)
+                !string.IsNullOrEmpty(Data)
+                && Data.Length > 1
+                && Data.Length < 900
+                && !FsPath.IsEmptyPath(Output)
                 && Size > 10
                 && Size < 1000
                 && (Output.Extension == ".png" || Output.Extension == ".svg");
