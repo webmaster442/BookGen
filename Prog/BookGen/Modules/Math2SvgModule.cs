@@ -4,13 +4,17 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.ArgumentParsing;
+using BookGen.Domain.Shell;
+using BookGen.DomainServices.WebServices;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Infrastructure;
 using BookGen.Interfaces;
+using System.Net;
 
 namespace BookGen.Modules
 {
-    internal class Math2SvgModule : ModuleWithState
+    internal class Math2SvgModule : ModuleWithState, IAsyncModule
     {
         public Math2SvgModule(ProgramState currentState) : base(currentState)
         {
@@ -18,7 +22,24 @@ namespace BookGen.Modules
 
         public override string ModuleCommand => "Math2Svg";
 
+        public override AutoCompleteItem AutoCompleteInfo
+        {
+            get
+            {
+                return new AutoCompleteItem(ModuleCommand,
+                                            "-i",
+                                            "--input",
+                                            "-o",
+                                            "--output");
+            }
+        }
+
         public override ModuleRunResult Execute(string[] arguments)
+        {
+            return ModuleRunResult.AsyncModuleCalledInSyncMode;
+        }
+
+        public async Task<ModuleRunResult> ExecuteAsync(string[] arguments)
         {
             var args = new InputOutputArguments();
             if (!ArgumentParser.ParseArguments(arguments, args))
@@ -27,46 +48,38 @@ namespace BookGen.Modules
             }
 
             CurrentState.Log.LogLevel = Api.LogLevel.Info;
-
             IList<string>? input = args.InputFile.ReadFileLines(CurrentState.Log);
 
-            Process(input, args.InputFile.Filename, args.OutputFile);
-
-            return ModuleRunResult.Succes;
-        }
-
-        private void Process(IList<string> input, string filename, FsPath outDirectory)
-        {
+            UrlParameterBuilder builder = new(MathVercelParams.ApiUrl);
             using (var client = new BookGenHttpClient())
             {
-                int counter = 0;
-                foreach (string? line in input)
+                for (int i=0; i<input.Count; i++)
                 {
-                    if (!line.StartsWith("\\"))
+                    if (!input[i].StartsWith("\\"))
                     {
-                        CurrentState.Log.Warning("Not a formula (not starting with \\), Skipping line: {0}", line);
+                        CurrentState.Log.Warning("Not a formula (not starting with \\), Skipping line: {0}", input[i]);
                         continue;
                     }
+                    CurrentState.Log.Info("Downloading from {0}...", MathVercelParams.ApiUrl);
 
-                    CurrentState.Log.Info("Downloading from https://math.vercel.app...");
+                    builder.AddParameter(MathVercelParams.FromPram, input[i]);
+                    Uri uri = builder.Build();
 
-                    var result = client.TryDownload($"https://math.vercel.app?from={line}",
-                                                     out string? svg);
+                    (HttpStatusCode code, string resultString) = await client.TryDownload(uri);
 
-                    if (!string.IsNullOrEmpty(svg)
-                        && (int)result >= 200 
-                        && (int)result <= 300)
+                    if (BookGenHttpClient.IsSuccessfullRequest(code))
                     {
-                        FsPath output = outDirectory.Combine(filename + $"-{counter}.svg");
-                        output.WriteFile(CurrentState.Log, svg);
-                        ++counter;
+                        FsPath output = args.OutputFile.Combine(args.InputFile.Filename + $"-{i}.svg");
+                        output.WriteFile(CurrentState.Log, resultString);
                     }
                     else
                     {
-                        CurrentState.Log.Warning("Download failed. Error: {0}", result);
+                        CurrentState.Log.Warning("Download failed. Error: {0}", code);
+                        return ModuleRunResult.GeneralError;
                     }
                 }
             }
+            return ModuleRunResult.Succes;
         }
     }
 }

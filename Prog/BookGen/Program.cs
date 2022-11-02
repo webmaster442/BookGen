@@ -73,6 +73,7 @@ namespace BookGen
                 new ExternalLinksModule(CurrentState),
                 new TagsModule(CurrentState),
                 new Math2SvgModule(CurrentState),
+                new QrCodeModule(CurrentState),
             };
         }
 
@@ -90,9 +91,9 @@ namespace BookGen
                 return SupportedOs.None;
         }
 
-        internal static void RunModule(string moduleName,
-                                       IReadOnlyList<string> parameters,
-                                       bool skipLockCheck = false)
+        internal static async Task RunModule(string moduleName,
+                                             IReadOnlyList<string> parameters,
+                                             bool skipLockCheck = false)
         {
             ModuleBase? moduleToRun = null;
             try
@@ -122,7 +123,15 @@ namespace BookGen
                 }
                 else
                 {
-                    ModuleRunResult result = moduleToRun.Execute(parameters.ToArray());
+                    ModuleRunResult result = ModuleRunResult.GeneralError;
+                    if (moduleToRun is IAsyncModule asyncModue)
+                    {
+                        result = await asyncModue.ExecuteAsync(parameters.ToArray());
+                    }
+                    else
+                    {
+                        result = moduleToRun.Execute(parameters.ToArray());
+                    }
                     switch (result)
                     {
                         case ModuleRunResult.ArgumentsError:
@@ -150,7 +159,7 @@ namespace BookGen
         }
 
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             if (!FinishUpdate())
             {
@@ -173,7 +182,7 @@ namespace BookGen
             ConfiugreStatelessModules(ModulesWithState);
 
 
-            RunModule(module, argumentsToParse);
+            await RunModule(module, argumentsToParse);
             CurrentState.Log.Flush();
         }
 

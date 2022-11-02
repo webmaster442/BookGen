@@ -12,4 +12,10 @@ namespace BookGen.DomainServices.WebServices
         public const string SizeParam = "size";
         public const string FormatParam = "format";
     }
+
+    public static class MathVercelParams
+    {
+        public const string ApiUrl = "https://math.vercel.app";
+        public const string FromPram = "from";
+    }
 }

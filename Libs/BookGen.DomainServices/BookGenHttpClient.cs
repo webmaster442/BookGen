@@ -14,7 +14,7 @@ namespace BookGen.DomainServices
             _client = new HttpClient();
         }
 
-        public async Task<(HttpStatusCode code, string result)> TryDownload(Uri url)
+        public async Task<(HttpStatusCode code, string resultString)> TryDownload(Uri url)
         {
             using HttpResponseMessage? response = await _client.GetAsync(url);
 
