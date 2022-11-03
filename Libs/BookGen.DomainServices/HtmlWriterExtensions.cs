@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -20,6 +20,7 @@ namespace BookGen.DomainServices
         Table,
         Details,
         Summary,
+        Textarea
     }
 
     public static class HtmlWriterExtensions

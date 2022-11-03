@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021-2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
 using System.IO;
 
 namespace BookGen.Framework.Server
