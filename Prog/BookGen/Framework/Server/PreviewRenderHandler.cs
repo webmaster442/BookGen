@@ -19,6 +19,7 @@ namespace BookGen.Framework.Server
         private readonly string _directory;
         private readonly ILog _log;
         private readonly TemplateProcessor _processor;
+        private readonly PreviewIndexBuilder _indexBuilder;
         private BookGenPipeline? _mdpipeline;
 
 
@@ -26,6 +27,7 @@ namespace BookGen.Framework.Server
         {
             _directory = directory;
             _log = log;
+            _indexBuilder = new(directory);
 
             _processor = new TemplateProcessor(new Config(),
                              new ShortCodeParser(new List<ITemplateShortCode>(),
@@ -49,14 +51,14 @@ namespace BookGen.Framework.Server
 
         private bool CanServeFromDir(string absoluteUri, out string foundUri)
         {
-            string proble = absoluteUri;
-            if (absoluteUri.StartsWith("/"))
-            {
-                proble = absoluteUri[1..];
-            }
+            if (absoluteUri.StartsWith('/'))
+                absoluteUri = absoluteUri.Substring(1);
 
-            foundUri = Directory.GetFiles(_directory, "*.md").FirstOrDefault(x => x.EndsWith(proble)) ?? string.Empty;
-            return !string.IsNullOrEmpty(foundUri);
+            //string filePath = absoluteUri.Replace("/", "\\");
+            string checkPath = Path.Combine(_directory, absoluteUri);
+
+            foundUri = checkPath;
+            return File.Exists(checkPath);
         }
 
         public void Dispose()
@@ -68,26 +70,6 @@ namespace BookGen.Framework.Server
             }
         }
 
-
-        public string WriteIndex()
-        {
-            var html = new StringBuilder();
-            html.WriteHeader(1, "Index of: {0}", _directory);
-            html.WriteElement(HtmlElement.Table);
-            html.WriteTableHeader("File name", "Actions");
-            foreach (string? file in Directory.GetFiles(_directory, "*.md"))
-            {
-                html.WriteTableRow(Path.GetFileName(file), GetLink(file));
-            }
-            html.CloseElement(HtmlElement.Table);
-            return html.ToString();
-        }
-
-        private static string GetLink(string file)
-        {
-            return $"<a target=\"_blank\" href=\"{Path.GetFileName(file)}\">Preview</a>";
-        }
-
         public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
         {
             response.AdditionalHeaders.Add("Cache-Control", "no-store");
@@ -95,7 +77,7 @@ namespace BookGen.Framework.Server
             if (request.Url == "/")
             {
                 _log.Info("Serving index...");
-                _processor.Content = WriteIndex();
+                _processor.Content = _indexBuilder.RenderIndex();
                 _processor.Title = "Preview";
                 await response.Write(_processor.Render());
                 return true;

@@ -20,6 +20,11 @@ nav {
     position: fixed;
 }
 
+details summary {
+    font-weight: bold;
+    font-size: 22px;
+}
+
 nav button {
     margin: 2px auto;
 }
