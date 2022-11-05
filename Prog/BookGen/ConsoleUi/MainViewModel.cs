@@ -6,6 +6,7 @@
 using BookGen.Gui.Mvvm;
 using BookGen.Infrastructure;
 using BookGen.Modules;
+using System.Diagnostics;
 
 namespace BookGen.ConsoleUi
 {
@@ -53,7 +54,12 @@ namespace BookGen.ConsoleUi
             PreviewCommand = new DelegateCommand(() => StartModuleInWorkdir("preview"));
             UpdateCommand = new DelegateCommand(() =>
             {
-                _api.ExecuteModule("update", Array.Empty<string>());
+                using (var p = new Process())
+                {
+                    p.StartInfo.WorkingDirectory = AppContext.BaseDirectory;
+                    p.StartInfo.FileName = "BookGen.Update.exe";
+                    p.Start();
+                }
             });
         }
 
