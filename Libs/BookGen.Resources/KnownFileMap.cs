@@ -20,6 +20,7 @@ namespace BookGen.Resources
             { KnownFile.TurbolinksJs, "/JsCss/turbolinks.js" },
             { KnownFile.PreviewCss, "/JsCss/preview.css" },
             { KnownFile.SinglePageCss, "/JsCss/SinglePage.css"  },
+            { KnownFile.EditCss, "/JsCss/edit.css" },
 
             //html files
             { KnownFile.CookieWarningHtml, "/Html/CookieWarning.html" },
@@ -30,6 +31,7 @@ namespace BookGen.Resources
             { KnownFile.TemplateWebHtml, "/Html/TemplateWeb.html" },
             { KnownFile.TemplateSinglePageHtml, "/Html/TemplateSinglePage.html" },
             { KnownFile.PreviewHtml, "/Html/TemplatePreview.html" },
+            { KnownFile.TemplateEditHtml, "/Html/TemplateEdit.html" },
 
             //etc
             { KnownFile.IndexMd, "/Etc/index.md" },

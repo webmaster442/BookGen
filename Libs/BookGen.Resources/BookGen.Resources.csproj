@@ -25,6 +25,7 @@
 		<None Remove="Html\CookieWarning.html" />
 		<None Remove="Html\Index.html" />
 		<None Remove="Html\Searchform.html" />
+		<None Remove="Html\TemplateEdit.html" />
 		<None Remove="Html\TemplateEpub.html" />
 		<None Remove="Html\TemplatePreview.html" />
 		<None Remove="Html\TemplatePrint.html" />
@@ -32,6 +33,7 @@
 		<None Remove="Html\TemplateWeb.html" />
 		<None Remove="JsCss\bootstrap.min.css" />
 		<None Remove="JsCss\bootstrap.min.js" />
+		<None Remove="JsCss\edit.css" />
 		<None Remove="JsCss\jquery.min.js" />
 		<None Remove="JsCss\PageToc.js" />
 		<None Remove="JsCss\popper.min.js" />
@@ -42,6 +44,10 @@
 		<None Remove="JsCss\simplemde.min.js" />
 		<None Remove="JsCss\SinglePage.css" />
 		<None Remove="JsCss\turbolinks.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Html\TemplateEdit.html" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -58,6 +64,7 @@
 		<EmbeddedResource Include="Html\TemplateWeb.html" />
 		<EmbeddedResource Include="JsCss\bootstrap.min.css" />
 		<EmbeddedResource Include="JsCss\bootstrap.min.js" />
+		<EmbeddedResource Include="JsCss\edit.css" />
 		<EmbeddedResource Include="JsCss\jquery.min.js" />
 		<EmbeddedResource Include="JsCss\PageToc.js" />
 		<EmbeddedResource Include="JsCss\popper.min.js" />
