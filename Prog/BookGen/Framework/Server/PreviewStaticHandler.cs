@@ -20,6 +20,7 @@ namespace BookGen.Framework.Server
                 { "/prism.js", KnownFile.PrismJs },
                 { "/prism.css", KnownFile.PrismCss },
                 { "/preview.css", KnownFile.PreviewCss },
+                { "/edit.css", KnownFile.EditCss },
             };
         }
 

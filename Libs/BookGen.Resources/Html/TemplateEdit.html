@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <title>Document</title>
-  <link rel="stylesheet" href="/edit.css" />
+    <meta charset="UTF-8" />
+    <title><!--{title}--></title>
+    <link rel="stylesheet" href="/edit.css" />
+    <script type="text/javascript">
+        function send() {
+            var question = confirm("Do you want to save changes?");
+            if (question === true) {
+                document.getElementById("editform").submit();
+            }
+        }
+    </script>
 </head>
 
 <body>
-  <main>
-    <textarea id="editor"></textarea>
-  </main>
-  <footer>
-    <input type="button" value="Save">
-  </footer>
+    <main>
+        <form id="editform" method="post" target="/">
+            <textarea id="editor" name="editor">
+<!--{content}-->
+            </textarea>
+            <input type="hidden" name="edited" value="true" />
+        </form>
+    </main>
+    <footer>
+        <input type="button" id="saveButton" value="Save" onclick="send()">
+    </footer>
 </body>
 
 </html>

@@ -28,7 +28,7 @@ namespace BookGen.Framework.Server
             }
         }
 
-        private string GetLink(string file)
+        private IEnumerable<string> GetLink(string file)
         {
             var path = Path.GetFileName(file);
             var directory = Path.GetDirectoryName(file);
@@ -36,7 +36,8 @@ namespace BookGen.Framework.Server
             {
                  path = file.Replace(_directory, "");
             }
-            return $"<a target=\"_blank\" href=\"{path}\">Preview</a>";
+            yield return $"<a target=\"_blank\" href=\"{path}\">Preview...</a>";
+            yield return $"<a target=\"_blank\" href=\"{path}?edit=true\">Edit...</a>";
         }
 
         public string RenderIndex()
@@ -54,7 +55,7 @@ namespace BookGen.Framework.Server
                 html.WriteTableHeader("File name", "Actions");
                 foreach (var file in entry.Value)
                 {
-                    html.WriteTableRow(Path.GetFileName(file), GetLink(file));
+                    html.WriteTableRow(Path.GetFileName(file), string.Join(' ', GetLink(file)));
                 }
                 html.CloseElement(HtmlElement.Table);
                 html.CloseElement(HtmlElement.Details);

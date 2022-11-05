@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Configuration;
+using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Interfaces;
 using BookGen.Resources;
@@ -77,17 +78,30 @@ namespace BookGen.Framework.Server
             if (request.Url == "/")
             {
                 _log.Info("Serving index...");
+                _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.PreviewHtml);
                 _processor.Content = _indexBuilder.RenderIndex();
                 _processor.Title = "Preview";
                 await response.Write(_processor.Render());
                 return true;
             }
-            else if (CanServeFromDir(request.Url, out string found)
-                     && log is ILog bookGenLog)
+            else if (CanServeFromDir(request.Url, out string found))
             {
-                _processor.Title = $"Preview of {request.Url}";
-                var path = new FsPath(found);
-                _processor.Content = _mdpipeline?.RenderMarkdown(path.ReadFile(bookGenLog)) ?? string.Empty;
+
+                var fileContents = new FsPath(found).ReadFile(_log);
+
+                if (request.Parameters.ContainsKey("edit")
+                    && request.Parameters["edit"] == "true")
+                {
+                    _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.EditHtml);
+                    _processor.Title = $"Editing {request.Url}";
+                    _processor.Content = fileContents;
+                }
+                else
+                {
+                    _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.PreviewHtml);
+                    _processor.Title = $"Preview of {request.Url}";
+                    _processor.Content = _mdpipeline?.RenderMarkdown(fileContents) ?? string.Empty;
+                }
                 await response.Write(_processor.Render());
                 return true;
             }

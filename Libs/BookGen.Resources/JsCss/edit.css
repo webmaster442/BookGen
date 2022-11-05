@@ -1,35 +1,44 @@
 html,
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-size: 18px;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-size: 18px;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  background-color: #fefefe;
+    display: flex;
+    flex-direction: column;
+    background-color: #fefefe;
 }
 
 main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  outline: 1px solid black;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    outline: 1px solid black;
 }
 
 footer {
-  background-color: #282a35;
-  padding: 10px;
+    background-color: #282a35;
+    padding: 10px;
 }
 
 #editor {
-  width: 80%;
-  height: 100%;
-  font-size: 22px;
-  resize: none;
-  background-color: #efefef;
+    width: 80%;
+    height: 100%;
+    font-size: 22px;
+    resize: none;
+    background-color: #f9f9f9;
 }
+
+#saveButton {
+    margin: 5px;
+    width: 120px;
+    height: 30px;
+    background: #d0081b;
+    color: white;
+}
+

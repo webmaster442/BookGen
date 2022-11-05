@@ -31,7 +31,7 @@ namespace BookGen.Resources
             { KnownFile.TemplateWebHtml, "/Html/TemplateWeb.html" },
             { KnownFile.TemplateSinglePageHtml, "/Html/TemplateSinglePage.html" },
             { KnownFile.PreviewHtml, "/Html/TemplatePreview.html" },
-            { KnownFile.TemplateEditHtml, "/Html/TemplateEdit.html" },
+            { KnownFile.EditHtml, "/Html/TemplateEdit.html" },
 
             //etc
             { KnownFile.IndexMd, "/Etc/index.md" },

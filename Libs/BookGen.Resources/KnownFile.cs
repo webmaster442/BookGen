@@ -16,7 +16,6 @@ namespace BookGen.Resources
         TemplatePrintHtml,
         TemplateEpubHtml,
         TemplateSinglePageHtml,
-        TemplateEditHtml,
         IndexHtml,
         PageTocJs,
         PrismJs,
@@ -29,6 +28,7 @@ namespace BookGen.Resources
         PreviewCss,
         PreviewHtml,
         SinglePageCss,
+        EditHtml,
         EditCss,
     }
 }
