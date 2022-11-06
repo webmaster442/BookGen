@@ -15,16 +15,15 @@
 </head>
 
 <body>
-    <main>
-        <form id="editform" method="post" target="/">
+    <form id="editform" method="post" target="/">
             <textarea id="editor" name="editor">
 <!--{content}-->
             </textarea>
             <input type="hidden" name="edited" value="true" />
-        </form>
-    </main>
+    </form>
     <footer>
         <input type="button" id="saveButton" value="Save" onclick="send()">
+        <span>FileName:</span> <span id="fileName"><!--{filename}--></span>
     </footer>
 </body>
 

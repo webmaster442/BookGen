@@ -92,6 +92,7 @@ namespace BookGen.Framework.Server
                 if (request.Parameters.ContainsKey("edit")
                     && request.Parameters["edit"] == "true")
                 {
+                    _processor.AddContent("filename", found);
                     _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.EditHtml);
                     _processor.Title = $"Editing {request.Url}";
                     _processor.Content = fileContents;

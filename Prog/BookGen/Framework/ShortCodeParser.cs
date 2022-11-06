@@ -7,6 +7,7 @@ using BookGen.Domain.Configuration;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Shortcodes;
 using BookGen.Interfaces;
+using static Microsoft.ClearScript.V8.V8CpuProfile;
 
 namespace BookGen.Framework
 {
@@ -37,22 +38,27 @@ namespace BookGen.Framework
             AddShortcodesToLookupIndex(shortCodes);
         }
 
-        public void AddShortcodesToLookupIndex(IList<ITemplateShortCode> shortCodes)
+        public void AddShortcodeToLookupIndex(ITemplateShortCode shortCode)
         {
-            foreach (ITemplateShortCode? code in shortCodes)
+            if (!_shortCodesIndex.ContainsKey(shortCode.Tag))
             {
-                if (!_shortCodesIndex.ContainsKey(code.Tag))
-                {
-                    _shortCodesIndex.Add(code.Tag, code);
-                }
-                else
-                {
-                    _log.Warning("Shortcode has allready been registered: {0}. Duplicate entries cause unexpected behaviour.", code.Tag);
-                }
+                _shortCodesIndex.Add(shortCode.Tag, shortCode);
+            }
+            else
+            {
+                _log.Warning("Shortcode has allready been registered: {0}. Duplicate entries cause unexpected behaviour.", shortCode.Tag);
             }
         }
 
-        private string GetTagKey(string value)
+        public void AddShortcodesToLookupIndex(IList<ITemplateShortCode> shortCodes)
+        {
+            foreach (ITemplateShortCode code in shortCodes)
+            {
+                AddShortcodeToLookupIndex(code);
+            }
+        }
+
+        private static string GetTagKey(string value)
         {
             string[] parts = value.Split(' ');
             if (parts.Length == 1)
@@ -89,7 +95,7 @@ namespace BookGen.Framework
             return cache.ToString();
         }
 
-        private ShortCodeArguments GetArguments(string value)
+        private static ShortCodeArguments GetArguments(string value)
         {
             var results = new Dictionary<string, string>();
 
