@@ -15,7 +15,10 @@ namespace BookGen.Infrastructure
 
         void ExecuteModule(string module, string[] arguments)
         {
-            Program.RunModule(module, arguments, skipLockCheck: true);
+            Program
+                .RunModule(module, arguments, skipLockCheck: true)
+                .GetAwaiter()
+                .GetResult();
         }
     }
 
