@@ -9,6 +9,7 @@ using BookGen.DomainServices.Markdown;
 using BookGen.Interfaces;
 using BookGen.Resources;
 using System.IO;
+using System.Web;
 using Webmaster442.HttpServerFramework;
 using Webmaster442.HttpServerFramework.Domain;
 
@@ -96,6 +97,11 @@ namespace BookGen.Framework.Server
                     _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.EditHtml);
                     _processor.Title = $"Editing {request.Url}";
                     _processor.Content = fileContents;
+
+                    if (request.Method == RequestMethod.Post)
+                    {
+                        HandleSave(request.RequestContent, new FsPath(found), fileContents);
+                    }
                 }
                 else
                 {
@@ -107,6 +113,26 @@ namespace BookGen.Framework.Server
                 return true;
             }
             return false;
+        }
+
+        private void HandleSave(byte[] requestContent, FsPath fileToSave, string fileContents)
+        {
+            const string fieldCheck = "editor=";
+            string content = HttpUtility.UrlDecode(requestContent, Encoding.UTF8);
+            if (!content.StartsWith(fieldCheck))
+            {
+                _log.Warning("Failed to save file: {0}", fileToSave);
+                return;
+            }
+
+            string data = content[fieldCheck.Length..];
+            if (data != fileContents)
+            {
+                fileToSave.WriteFile(_log, data);
+                return;
+            }
+
+            _log.Info("Requested file save, but content hasn't been changed for: {0}", fileToSave);
         }
     }
 }
