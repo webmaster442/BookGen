@@ -7,11 +7,10 @@ using BookGen.Domain.Configuration;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Shortcodes;
 using BookGen.Interfaces;
-using static Microsoft.ClearScript.V8.V8CpuProfile;
 
 namespace BookGen.Framework
 {
-    internal sealed class ShortCodeParser
+    internal sealed partial class ShortCodeParser
     {
         private readonly Dictionary<string, ITemplateShortCode> _shortCodesIndex;
         private readonly Dictionary<string, string> _codeResultCache;
@@ -22,8 +21,11 @@ namespace BookGen.Framework
         private const string shortCodeStart = "<!--{";
         private const string shortCodeEnd = "}-->";
 
-        private readonly Regex TranslateRegex = new("(<!--\\{\\? [A-Za-z_0-9]+\\}-->)", RegexOptions.Compiled);
-        private readonly Regex CodeRegex = new(@"(<!--\{.+?\}-->)", RegexOptions.Compiled);
+        [GeneratedRegex("(<!--\\{\\? [A-Za-z_0-9]+\\}-->)")]
+        private partial Regex TranslateRegex();
+
+        [GeneratedRegex(@"(<!--\{.+?\}-->)")]
+        private partial Regex CodeRegex();
 
         public ShortCodeParser(IList<ITemplateShortCode> shortCodes,
                                CsharpScriptHandler scriptHandler,
@@ -75,7 +77,7 @@ namespace BookGen.Framework
 
         private string AdditionalTranslate(string input)
         {
-            MatchCollection matches = TranslateRegex.Matches(input);
+            MatchCollection matches = TranslateRegex().Matches(input);
 
             if (matches.Count == 0)
                 return input;
@@ -138,7 +140,7 @@ namespace BookGen.Framework
         public string Parse(string content)
         {
             var result = new StringBuilder(content);
-            MatchCollection matches = CodeRegex.Matches(content);
+            MatchCollection matches = CodeRegex().Matches(content);
             foreach (Match? match in matches)
             {
                 if (match != null)
