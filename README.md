@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/wiki/webmaster442/BookGen/img/logo.png)
+![logo](https://raw.githubusercontent.com/webmaster442/BookGen/next/Branding/bookgen-splash.svg)
 
 # BookGen - A C# documentation generator
 

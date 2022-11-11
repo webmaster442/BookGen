@@ -10,3 +10,5 @@
 
     -o, --output: 
         Output directory path
+
+Note: This module to work requires internet connection.

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<OutputType>Exe</OutputType>
 		<AssemblyTitle>BookGen</AssemblyTitle>
@@ -61,6 +61,7 @@
 		<None Remove="Resources\Help.MdTableModule.txt" />
 		<None Remove="Resources\Help.PreviewModule.txt" />
 		<None Remove="Resources\Help.ProjectConvertModule.txt" />
+		<None Remove="Resources\Help.QrCodeModule.txt" />
 		<None Remove="Resources\Help.ServeModule.txt" />
 		<None Remove="Resources\Help.SettingsModule.txt" />
 		<None Remove="Resources\Help.StatModule.txt" />
@@ -108,6 +109,7 @@
 		<EmbeddedResource Include="Resources\Help.ExternalLinksModule.txt" />
 		<EmbeddedResource Include="Resources\Help.PreviewModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ProjectConvertModule.txt" />
+		<EmbeddedResource Include="Resources\Help.QrCodeModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ServeModule.txt" />
 		<EmbeddedResource Include="Resources\Help.SettingsModule.txt" />
 		<EmbeddedResource Include="Resources\Help.StatModule.txt" />

@@ -20,7 +20,7 @@ internal sealed class VerifyHash : IUpdateStepAsync
             return false;
         }
 
-        using (var hash = HashAlgorithm.Create(HashAlgorithmName.SHA256.ToString()))
+        using (var hash = SHA256.Create())
         {
             if (hash == null)
             {

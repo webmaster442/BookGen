@@ -10,7 +10,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.Framework
 {
-    internal sealed class ShortCodeParser
+    internal sealed partial class ShortCodeParser
     {
         private readonly Dictionary<string, ITemplateShortCode> _shortCodesIndex;
         private readonly Dictionary<string, string> _codeResultCache;
@@ -21,8 +21,11 @@ namespace BookGen.Framework
         private const string shortCodeStart = "<!--{";
         private const string shortCodeEnd = "}-->";
 
-        private readonly Regex TranslateRegex = new("(<!--\\{\\? [A-Za-z_0-9]+\\}-->)", RegexOptions.Compiled);
-        private readonly Regex CodeRegex = new(@"(<!--\{.+?\}-->)", RegexOptions.Compiled);
+        [GeneratedRegex("(<!--\\{\\? [A-Za-z_0-9]+\\}-->)")]
+        private partial Regex TranslateRegex();
+
+        [GeneratedRegex(@"(<!--\{.+?\}-->)")]
+        private partial Regex CodeRegex();
 
         public ShortCodeParser(IList<ITemplateShortCode> shortCodes,
                                CsharpScriptHandler scriptHandler,
@@ -37,22 +40,27 @@ namespace BookGen.Framework
             AddShortcodesToLookupIndex(shortCodes);
         }
 
-        public void AddShortcodesToLookupIndex(IList<ITemplateShortCode> shortCodes)
+        public void AddShortcodeToLookupIndex(ITemplateShortCode shortCode)
         {
-            foreach (ITemplateShortCode? code in shortCodes)
+            if (!_shortCodesIndex.ContainsKey(shortCode.Tag))
             {
-                if (!_shortCodesIndex.ContainsKey(code.Tag))
-                {
-                    _shortCodesIndex.Add(code.Tag, code);
-                }
-                else
-                {
-                    _log.Warning("Shortcode has allready been registered: {0}. Duplicate entries cause unexpected behaviour.", code.Tag);
-                }
+                _shortCodesIndex.Add(shortCode.Tag, shortCode);
+            }
+            else
+            {
+                _log.Warning("Shortcode has allready been registered: {0}. Duplicate entries cause unexpected behaviour.", shortCode.Tag);
             }
         }
 
-        private string GetTagKey(string value)
+        public void AddShortcodesToLookupIndex(IList<ITemplateShortCode> shortCodes)
+        {
+            foreach (ITemplateShortCode code in shortCodes)
+            {
+                AddShortcodeToLookupIndex(code);
+            }
+        }
+
+        private static string GetTagKey(string value)
         {
             string[] parts = value.Split(' ');
             if (parts.Length == 1)
@@ -69,7 +77,7 @@ namespace BookGen.Framework
 
         private string AdditionalTranslate(string input)
         {
-            MatchCollection matches = TranslateRegex.Matches(input);
+            MatchCollection matches = TranslateRegex().Matches(input);
 
             if (matches.Count == 0)
                 return input;
@@ -89,7 +97,7 @@ namespace BookGen.Framework
             return cache.ToString();
         }
 
-        private ShortCodeArguments GetArguments(string value)
+        private static ShortCodeArguments GetArguments(string value)
         {
             var results = new Dictionary<string, string>();
 
@@ -132,7 +140,7 @@ namespace BookGen.Framework
         public string Parse(string content)
         {
             var result = new StringBuilder(content);
-            MatchCollection matches = CodeRegex.Matches(content);
+            MatchCollection matches = CodeRegex().Matches(content);
             foreach (Match? match in matches)
             {
                 if (match != null)

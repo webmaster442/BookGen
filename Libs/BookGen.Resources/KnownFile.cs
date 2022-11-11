@@ -28,5 +28,7 @@ namespace BookGen.Resources
         PreviewCss,
         PreviewHtml,
         SinglePageCss,
+        EditHtml,
+        EditCss,
     }
 }

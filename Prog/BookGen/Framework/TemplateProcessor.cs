@@ -16,6 +16,11 @@ namespace BookGen.Framework
 
         public string TemplateContent { get; set; }
 
+        private static HashSet<string> _protectedNames = new()
+        {
+            "toc", "title", "content", "host", "metadata", "precompiledheader",
+        };
+
         public TemplateProcessor(Config cfg, ShortCodeParser shortCodeParser, StaticTemplateContent? staticContent = null)
         {
             _table = new Dictionary<string, string>
@@ -32,20 +37,27 @@ namespace BookGen.Framework
             _parser.AddShortcodesToLookupIndex(CreateInternalsList());
         }
 
+
+
         private IList<ITemplateShortCode> CreateInternalsList()
         {
             var internals = new List<ITemplateShortCode>(_table.Count);
             foreach (KeyValuePair<string, string> item in _table)
             {
-                internals.Add(new DelegateShortCode(item.Key, (_) =>
-                {
-                    if (item.Key == "content")
-                        return _parser.Parse(_table[item.Key]);
-                    else
-                        return _table[item.Key];
-                }));
+                internals.Add(CreateTagFromTableEntry(item));
             }
             return internals;
+        }
+
+        private DelegateShortCode CreateTagFromTableEntry(KeyValuePair<string, string> item)
+        {
+            return new DelegateShortCode(item.Key, (_) =>
+            {
+                if (item.Key == "content")
+                    return _parser.Parse(_table[item.Key]);
+                else
+                    return _table[item.Key];
+            });
         }
 
         public string Content
@@ -89,6 +101,23 @@ namespace BookGen.Framework
                 throw new InvalidOperationException("Can't generate while TemplateContent is null");
 
             return _parser.Parse(TemplateContent);
+        }
+
+        public void AddContent(string key, string value)
+        {
+            string keyToAdd = key.ToLower();
+            if (_protectedNames.Contains(keyToAdd))
+                throw new InvalidOperationException($"{keyToAdd} can't be set. Use designated property for this");
+            
+            if (_table.ContainsKey(keyToAdd))
+            {
+                _table[keyToAdd] = value;
+            }
+            else
+            {
+                _table.Add(keyToAdd, value);
+                _parser.AddShortcodeToLookupIndex(CreateTagFromTableEntry(_table.First(x => x.Key == keyToAdd)));
+            }
         }
     }
 }

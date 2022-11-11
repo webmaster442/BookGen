@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -18,10 +18,27 @@ namespace BookGen.DomainServices
         Li,
         Div,
         Table,
+        Details,
+        Summary,
+        Textarea
     }
 
     public static class HtmlWriterExtensions
     {
+        public static StringBuilder WriteElement(this StringBuilder stringBuilder, HtmlElement element, IEnumerable<string> attributes)
+        {
+            stringBuilder.AppendFormat("<{0}", element.ToString().ToLower());
+            string attributesToWrite = string.Join(' ', attributes);
+            if (!string.IsNullOrWhiteSpace(attributesToWrite))
+            {
+                stringBuilder.Append(' ');
+                stringBuilder.Append(attributesToWrite);
+            }
+            stringBuilder.Append('>');
+
+            return stringBuilder;
+        }
+
         public static StringBuilder WriteElement(this StringBuilder stringBuilder, HtmlElement element, string id, params string[] cssclasses)
         {
             string? css = string.Join(' ', cssclasses);
@@ -30,7 +47,7 @@ namespace BookGen.DomainServices
                 stringBuilder.AppendFormat(" id=\"{0}\"", id);
             if (!string.IsNullOrEmpty(css))
                 stringBuilder.AppendFormat(" class=\"{0}\"", css);
-            stringBuilder.Append(">");
+            stringBuilder.Append('>');
 
             return stringBuilder;
         }

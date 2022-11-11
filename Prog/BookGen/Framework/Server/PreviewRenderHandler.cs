@@ -4,10 +4,12 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Configuration;
+using BookGen.DomainServices;
 using BookGen.DomainServices.Markdown;
 using BookGen.Interfaces;
 using BookGen.Resources;
 using System.IO;
+using System.Web;
 using Webmaster442.HttpServerFramework;
 using Webmaster442.HttpServerFramework.Domain;
 
@@ -19,6 +21,7 @@ namespace BookGen.Framework.Server
         private readonly string _directory;
         private readonly ILog _log;
         private readonly TemplateProcessor _processor;
+        private readonly PreviewIndexBuilder _indexBuilder;
         private BookGenPipeline? _mdpipeline;
 
 
@@ -26,6 +29,7 @@ namespace BookGen.Framework.Server
         {
             _directory = directory;
             _log = log;
+            _indexBuilder = new(directory);
 
             _processor = new TemplateProcessor(new Config(),
                              new ShortCodeParser(new List<ITemplateShortCode>(),
@@ -49,14 +53,14 @@ namespace BookGen.Framework.Server
 
         private bool CanServeFromDir(string absoluteUri, out string foundUri)
         {
-            string proble = absoluteUri;
-            if (absoluteUri.StartsWith("/"))
-            {
-                proble = absoluteUri[1..];
-            }
+            if (absoluteUri.StartsWith('/'))
+                absoluteUri = absoluteUri.Substring(1);
 
-            foundUri = Directory.GetFiles(_directory, "*.md").FirstOrDefault(x => x.EndsWith(proble)) ?? string.Empty;
-            return !string.IsNullOrEmpty(foundUri);
+            //string filePath = absoluteUri.Replace("/", "\\");
+            string checkPath = Path.Combine(_directory, absoluteUri);
+
+            foundUri = checkPath;
+            return File.Exists(checkPath);
         }
 
         public void Dispose()
@@ -68,26 +72,6 @@ namespace BookGen.Framework.Server
             }
         }
 
-
-        public string WriteIndex()
-        {
-            var html = new StringBuilder();
-            html.WriteHeader(1, "Index of: {0}", _directory);
-            html.WriteElement(HtmlElement.Table);
-            html.WriteTableHeader("File name", "Actions");
-            foreach (string? file in Directory.GetFiles(_directory, "*.md"))
-            {
-                html.WriteTableRow(Path.GetFileName(file), GetLink(file));
-            }
-            html.CloseElement(HtmlElement.Table);
-            return html.ToString();
-        }
-
-        private static string GetLink(string file)
-        {
-            return $"<a target=\"_blank\" href=\"{Path.GetFileName(file)}\">Preview</a>";
-        }
-
         public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
         {
             response.AdditionalHeaders.Add("Cache-Control", "no-store");
@@ -95,21 +79,60 @@ namespace BookGen.Framework.Server
             if (request.Url == "/")
             {
                 _log.Info("Serving index...");
-                _processor.Content = WriteIndex();
+                _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.PreviewHtml);
+                _processor.Content = _indexBuilder.RenderIndex();
                 _processor.Title = "Preview";
                 await response.Write(_processor.Render());
                 return true;
             }
-            else if (CanServeFromDir(request.Url, out string found)
-                     && log is ILog bookGenLog)
+            else if (CanServeFromDir(request.Url, out string found))
             {
-                _processor.Title = $"Preview of {request.Url}";
-                var path = new FsPath(found);
-                _processor.Content = _mdpipeline?.RenderMarkdown(path.ReadFile(bookGenLog)) ?? string.Empty;
+
+                var fileContents = new FsPath(found).ReadFile(_log);
+
+                if (request.Parameters.ContainsKey("edit")
+                    && request.Parameters["edit"] == "true")
+                {
+                    _processor.AddContent("filename", found);
+                    _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.EditHtml);
+                    _processor.Title = $"Editing {request.Url}";
+                    _processor.Content = fileContents;
+
+                    if (request.Method == RequestMethod.Post)
+                    {
+                        HandleSave(request.RequestContent, new FsPath(found), fileContents);
+                    }
+                }
+                else
+                {
+                    _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.PreviewHtml);
+                    _processor.Title = $"Preview of {request.Url}";
+                    _processor.Content = _mdpipeline?.RenderMarkdown(fileContents) ?? string.Empty;
+                }
                 await response.Write(_processor.Render());
                 return true;
             }
             return false;
+        }
+
+        private void HandleSave(byte[] requestContent, FsPath fileToSave, string fileContents)
+        {
+            const string fieldCheck = "editor=";
+            string content = HttpUtility.UrlDecode(requestContent, Encoding.UTF8);
+            if (!content.StartsWith(fieldCheck))
+            {
+                _log.Warning("Failed to save file: {0}", fileToSave);
+                return;
+            }
+
+            string data = content[fieldCheck.Length..];
+            if (data != fileContents)
+            {
+                fileToSave.WriteFile(_log, data);
+                return;
+            }
+
+            _log.Info("Requested file save, but content hasn't been changed for: {0}", fileToSave);
         }
     }
 }

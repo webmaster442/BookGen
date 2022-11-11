@@ -7,11 +7,14 @@ using System.Text.RegularExpressions;
 
 namespace BookGen.RakeEngine.Internals;
 
-internal static class RakeHelpers
+internal static partial class RakeHelpers
 {
 
-    private static readonly Regex splitter = new Regex(@"[^a-zA-Z0-9_\+\-/]", RegexOptions.Compiled);
-    private static readonly Regex sentenceDelimiters = new(@"[\[\]\n.!?,;:\t\-\""”“\(\)\\\'\u2019\u2013]", RegexOptions.Compiled);
+    [GeneratedRegex(@"[^a-zA-Z0-9_\+\-/]")]
+    private static partial Regex Splitter();
+
+    [GeneratedRegex(@"[\[\]\n.!?,;:\t\-\""”“\(\)\\\'\u2019\u2013]")]
+    private static partial Regex SentenceDelimiters();
 
     internal static Dictionary<string, float> CalculateWordScores(IEnumerable<string> lowerCasedPhraseList)
     {
@@ -121,7 +124,7 @@ internal static class RakeHelpers
 
     internal static IEnumerable<string> SeparateWords(string phrase, int minWordReturnSize)
     {
-        foreach (string singleWord in splitter.Split(phrase))
+        foreach (string singleWord in Splitter().Split(phrase))
         {
             string currentWord = singleWord.Trim();
             // leave numbers in phrase, but don't count as words, since they tend to invalidate scores of their phrases
@@ -137,7 +140,7 @@ internal static class RakeHelpers
 
     internal static string[] SplitSentences(string text)
     {
-        string[] sentences = sentenceDelimiters.Split(text);
+        string[] sentences = SentenceDelimiters().Split(text);
         return sentences;
     }
 }

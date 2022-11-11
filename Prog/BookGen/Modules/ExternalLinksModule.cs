@@ -11,13 +11,13 @@ using System.Diagnostics;
 
 namespace BookGen.Modules
 {
-    internal class ExternalLinksModule : ModuleWithState
+    internal sealed partial class ExternalLinksModule : ModuleWithState
     {
-        private readonly Regex _link;
+        [GeneratedRegex(@"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?")]
+        private partial Regex Links();
 
         public ExternalLinksModule(ProgramState currentState) : base(currentState)
         {
-            _link = new Regex(@"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?", RegexOptions.Compiled);
         }
 
         public override string ModuleCommand => "ExternalLinks";
@@ -75,7 +75,7 @@ namespace BookGen.Modules
 
                     string? contents = input.ReadFile(log);
 
-                    foreach (Match? match in _link.Matches(contents))
+                    foreach (Match? match in Links().Matches(contents))
                     {
                         if (match != null)
                             links.Add(match.Value);

@@ -1,0 +1,18 @@
+﻿Renders an url into a QRCode image
+-------------------------------------------------------------------------------
+
+    BookGen QrCode -d [url] -s [size] -o [output]
+    BookGen QrCode --data [url] --size [size] --output [output]
+
+    Arguments:
+    -d, --data: 
+        Url data to encode. Minimum 1 byte, Maximum 900 bytes
+
+    -s, --size: 
+        Image size in pixels. Output image is square. 
+        Minimum 10 , maximum 1000
+
+    -o, --output
+        Output file. Must have .png or .svg extension
+
+Note: This module to work requires internet connection.

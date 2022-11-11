@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title><!--{title}--></title>
+    <link rel="stylesheet" href="/edit.css" />
+    <script type="text/javascript">
+        function send() {
+            var question = confirm("Do you want to save changes?");
+            if (question === true) {
+                document.getElementById("editform").submit();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <form id="editform" method="post" enctype="application/x-www-form-urlencoded">
+            <textarea id="editor" name="editor">
+<!--{content}-->
+            </textarea>
+    </form>
+    <footer>
+        <input type="button" id="saveButton" value="Save" onclick="send()">
+        <span>FileName:</span> <span id="fileName"><!--{filename}--></span>
+    </footer>
+</body>
+
+</html>
