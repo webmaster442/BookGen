@@ -9,6 +9,7 @@ using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorSteps;
 using BookGen.Interfaces;
+using BookGen.ProjectHandling;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Webmaster442.HttpServerFramework;

@@ -9,7 +9,7 @@ using BookGen.Interfaces;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace BookGen
+namespace BookGen.ProjectHandling
 {
     internal class ProjectLoader
     {
