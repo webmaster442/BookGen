@@ -7,6 +7,7 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Configuration;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
+using BookGen.ProjectHandling;
 using System.Diagnostics;
 
 namespace BookGen.Modules
@@ -36,14 +37,14 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(args.Directory))
             {
-                var loader = new ProjectLoader(CurrentState.Log, args.Directory);
+                var loader = new ProjectLoader(args.Directory, CurrentState.Log);
 
-                return loader.TryLoadProjectAndExecuteOperation((config, toc) =>
+                if (loader.LoadProject())
                 {
                     var stopwatch = new Stopwatch();
                     stopwatch.Start();
 
-                    RuntimeSettings? settings = loader.CreateRuntimeSettings(config, toc, new TagUtils(), new BuildConfig());
+                    RuntimeSettings settings = loader.CreateRuntimeSettings(new BuildConfig());
 
                     string content = ExtractLinksToMdFile(settings, CurrentState.Log);
 
@@ -52,8 +53,10 @@ namespace BookGen.Modules
                     stopwatch.Stop();
                     CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
-                    return true;
-                }) ? ModuleRunResult.Succes : ModuleRunResult.GeneralError;
+                    return ModuleRunResult.Succes;
+                }
+
+                return ModuleRunResult.GeneralError;
             }
 
         }

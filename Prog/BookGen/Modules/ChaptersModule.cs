@@ -1,13 +1,13 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2021 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.ArgumentParsing;
-using BookGen.Domain.Configuration;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
+using BookGen.ProjectHandling;
 
 namespace BookGen.Modules
 {
@@ -46,10 +46,9 @@ namespace BookGen.Modules
             using (var l = new FolderLock(args.WorkDir))
             {
 
-                var loader = new ProjectLoader(CurrentState.Log, args.WorkDir);
+                var loader = new ProjectLoader(args.WorkDir, CurrentState.Log);
 
-                if (!loader.TryLoadAndValidateConfig(out Config? configuration)
-                    || configuration == null)
+                if (!loader.LoadProject())
                 {
                     return ModuleRunResult.GeneralError;
                 }
@@ -58,12 +57,12 @@ namespace BookGen.Modules
                 {
                     case ChaptersAction.GenSummary:
                         return ChapterProcessingUtils.GenerateSummaryFile(args.WorkDir,
-                                                                          configuration,
+                                                                          loader.Configuration,
                                                                           CurrentState.Log)
                                                       ? ModuleRunResult.Succes
                                                       : ModuleRunResult.GeneralError;
                     case ChaptersAction.Scan:
-                        ChapterProcessingUtils.ScanMarkdownFiles(args.WorkDir, configuration, CurrentState.Log);
+                        ChapterProcessingUtils.ScanMarkdownFiles(args.WorkDir, loader.Configuration, CurrentState.Log);
                         break;
                 }
             }
