@@ -1,15 +1,8 @@
-﻿using BookGen.Api;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookGen.ProjectHandling.Steps
+﻿namespace BookGen.ProjectHandling.Steps
 {
-    internal class LoadTags : LoadStep
+    internal class TagsLoad : LoadStep
     {
-        public LoadTags(LoadState state, ILog log) : base(state, log)
+        public TagsLoad(LoadState state, ILog log) : base(state, log)
         {
         }
 

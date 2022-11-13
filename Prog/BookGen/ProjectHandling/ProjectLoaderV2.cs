@@ -1,4 +1,9 @@
-﻿using BookGen.Domain.Configuration;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Domain.Configuration;
 using BookGen.Interfaces;
 using BookGen.ProjectHandling.Steps;
 
