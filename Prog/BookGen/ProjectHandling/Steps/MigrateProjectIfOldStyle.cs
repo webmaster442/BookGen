@@ -4,43 +4,37 @@ namespace BookGen.ProjectHandling.Steps
 {
     internal sealed class MigrateProjectIfOldStyle : LoadStep
     {
-        private readonly FsPath _configJson;
-        private readonly FsPath _configYaml;
-        private readonly FsPath _tags;
-        private readonly FsPath _newConfigJson;
-        private readonly FsPath _newConfigYaml;
-        private readonly FsPath _newTags;
+        private readonly FsPath _OldconfigJson;
+        private readonly FsPath _OldconfigYaml;
+        private readonly FsPath _Oldtags;
 
         public MigrateProjectIfOldStyle(LoadState state, ILog log) : base(state, log)
         {
-            _configJson = state.WorkDir.Combine("bookgen.json");
-            _configYaml = state.WorkDir.Combine("bookgen.yml");
-            _tags = state.WorkDir.Combine("tags.json");
-            _newConfigJson = state.WorkDir.Combine(".bookgen/bookgen.json");
-            _newConfigYaml = state.WorkDir.Combine(".bookgen/bookgen.yml");
-            _newTags = state.WorkDir.Combine(".bookgen/tags.json");
+            _OldconfigJson = state.WorkDir.Combine("bookgen.json");
+            _OldconfigYaml = state.WorkDir.Combine("bookgen.yml");
+            _Oldtags = state.WorkDir.Combine("tags.json");
         }
 
         public override bool CanExecute()
         {
             return
-                (_configJson.IsExisting && !_newConfigJson.IsExisting)
-                || (_configYaml.IsExisting && !_newConfigYaml.IsExisting)
-                || (_tags.IsExisting && !_newTags.IsExisting);
+                (_OldconfigJson.IsExisting && !_configJson.IsExisting)
+                || (_OldconfigYaml.IsExisting && !_configYaml.IsExisting)
+                || (_Oldtags.IsExisting && !_tagsJson.IsExisting);
         }
 
         public override bool Execute()
         {
             bool retval = true;
 
-            if (_configJson.IsExisting && !_newConfigJson.IsExisting)
-                retval = _configJson.Move(_newConfigJson, Log);
+            if (_OldconfigJson.IsExisting && !_configJson.IsExisting)
+                retval = _OldconfigJson.Move(_configJson, Log);
 
-            if (_configYaml.IsExisting && !_newConfigYaml.IsExisting)
-                retval = _configYaml.Move(_newConfigYaml, Log);
+            if (_OldconfigYaml.IsExisting && !_configYaml.IsExisting)
+                retval = _OldconfigYaml.Move(_configYaml, Log);
 
-            if (_tags.IsExisting && !_newTags.IsExisting)
-                retval = _tags.Move(_newTags, Log);
+            if (_Oldtags.IsExisting && !_tagsJson.IsExisting)
+                retval = _Oldtags.Move(_tagsJson, Log);
 
             return retval;
         }

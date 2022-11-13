@@ -6,7 +6,7 @@
 using BookGen.Domain.Configuration;
 using BookGen.Interfaces;
 
-namespace BookGen.Framework
+namespace BookGen.ProjectHandling
 {
     public sealed class ConfigValidator : Validator
     {

@@ -166,7 +166,4 @@
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="ProjectHandling\Steps\" />
-	</ItemGroup>
 </Project>
