@@ -178,16 +178,6 @@ namespace BookGen.ProjectHandling
             }
         }
 
-        public WritableTagUtils GetWritableTagutils(CultureInfo culture)
-        {
-            if (_tags.IsExisting)
-            {
-                Dictionary<string, string[]>? deserialized = _tags.DeserializeJson<Dictionary<string, string[]>>(_log);
-                return new WritableTagUtils(deserialized ?? new(), culture, _log);
-            }
-            return new WritableTagUtils(new(), culture, _log);
-        }
-
         public RuntimeSettings CreateRuntimeSettings(Config config, ToC toc, TagUtils tags, BuildConfig current)
         {
             var settings = new RuntimeSettings(tags)

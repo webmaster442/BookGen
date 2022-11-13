@@ -106,6 +106,35 @@ namespace BookGen.DomainServices
             }
         }
 
+        public static bool Move(this FsPath source, FsPath target, ILog log)
+        {
+            try
+            {
+                if (!source.IsExisting)
+                {
+                    log.Warning("Source doesn't exist, skipping: {0}");
+                    return false;
+                }
+
+                string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
+                if (!Directory.Exists(dir))
+                {
+                    log.Detail("Creating directory: {0}", dir);
+                    Directory.CreateDirectory(dir);
+                }
+
+                File.Move(source.ToString(), target.ToString());
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Warning("Move failed: {0} to {1}", source, target);
+                log.Detail(ex.Message);
+                return false;
+            }
+        }
+
         public static FileStream CreateStream(this FsPath target, ILog log)
         {
             string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
