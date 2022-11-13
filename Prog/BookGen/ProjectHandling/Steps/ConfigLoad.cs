@@ -3,15 +3,10 @@ using BookGen.Interfaces;
 
 namespace BookGen.ProjectHandling.Steps
 {
-    internal sealed class LoadConfig : LoadStep
+    internal sealed class ConfigLoad : LoadStep
     {
-        private readonly FsPath _configJson;
-        private readonly FsPath _configYaml;
-
-        public LoadConfig(LoadState state, ILog log) : base(state, log)
+        public ConfigLoad(LoadState state, ILog log) : base(state, log)
         {
-            _configJson = state.WorkDir.Combine(".bookgen/bookgen.json");
-            _configYaml = state.WorkDir.Combine(".bookgen/bookgen.yml");
         }
 
         public override bool Execute()
@@ -23,10 +18,16 @@ namespace BookGen.ProjectHandling.Steps
             }
 
             if (_configYaml.IsExisting)
+            {
                 State.Config = _configYaml.DeserializeYaml<Config>(Log);
+                State.ConfigFormat = ConfigFormat.Yaml;
+            }
 
             if (_configJson.IsExisting)
+            {
                 State.Config = _configJson.DeserializeJson<Config>(Log);
+                State.ConfigFormat = ConfigFormat.Json;
+            }
 
             if (State.Config == null)
             {
