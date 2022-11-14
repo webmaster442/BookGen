@@ -21,9 +21,9 @@ namespace BookGen.ProjectHandling
         }
 
         private readonly Config _config;
-        private readonly string _workdir;
+        private readonly FsPath _workdir;
 
-        public ConfigValidator(Config config, string workdir)
+        public ConfigValidator(Config config, FsPath workdir)
         {
             ValidationLevel = ValidateFor.All;
             _config = config;
@@ -85,30 +85,28 @@ namespace BookGen.ProjectHandling
             if (Errors.Count > 0)
                 Errors.Clear();
 
-            var WorkDirectory = new FsPath(_workdir);
-
             switch (ValidationLevel)
             {
                 case ValidateFor.Epub:
-                    ValidateBuildConfig(WorkDirectory, _config.TargetEpub);
+                    ValidateBuildConfig(_workdir, _config.TargetEpub);
                     break;
                 case ValidateFor.Print:
-                    ValidateBuildConfig(WorkDirectory, _config.TargetPrint);
+                    ValidateBuildConfig(_workdir, _config.TargetPrint);
                     break;
                 case ValidateFor.Web:
-                    ValidateBuildConfig(WorkDirectory, _config.TargetWeb);
+                    ValidateBuildConfig(_workdir, _config.TargetWeb);
                     break;
                 case ValidateFor.All:
-                    ValidateBuildConfig(WorkDirectory, _config.TargetEpub);
-                    ValidateBuildConfig(WorkDirectory, _config.TargetPrint);
-                    ValidateBuildConfig(WorkDirectory, _config.TargetWeb);
+                    ValidateBuildConfig(_workdir, _config.TargetEpub);
+                    ValidateBuildConfig(_workdir, _config.TargetPrint);
+                    ValidateBuildConfig(_workdir, _config.TargetWeb);
                     break;
             }
 
-            if (!string.IsNullOrEmpty(_config.ImageDir) && !WorkDirectory.Combine(_config.ImageDir).IsExisting)
+            if (!string.IsNullOrEmpty(_config.ImageDir) && !_workdir.Combine(_config.ImageDir).IsExisting)
                 AddError(Properties.Resources.MissingImageDir, _config.ImageDir);
 
-            if (!WorkDirectory.Combine(_config.TOCFile).IsExisting)
+            if (!_workdir.Combine(_config.TOCFile).IsExisting)
                 AddError(Properties.Resources.MissingTocFile, _config.TOCFile);
 
             if (string.IsNullOrEmpty(_config.HostName))

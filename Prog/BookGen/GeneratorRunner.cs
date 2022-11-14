@@ -42,7 +42,7 @@ namespace BookGen
         {
             ServerLog = serverLog;
             Log = log;
-            _projectLoader = new ProjectLoader(log, workDir);
+            _projectLoader = new ProjectLoader(workDir, log);
             _scriptHandler = new CsharpScriptHandler(Log);
             WorkDirectory = workDir;
             ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
@@ -94,10 +94,7 @@ namespace BookGen
             Log.Info("---------------------------------------------------------");
 
 
-            bool ret = _projectLoader.TryLoadAndValidateConfig(out _configuration)
-                && _projectLoader.TryLoadAndValidateToc(_configuration, out _toc)
-                && _projectLoader.TryGetTags(_configuration.BookLanguage, out _tags);
-
+            bool ret = _projectLoader.LoadProject();
 
             if (compileScripts)
                 ret = ret && LoadAndCompileScripts();
@@ -153,7 +150,7 @@ namespace BookGen
         {
             ThrowIfInvalidState();
 
-            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetWeb);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetWeb);
 
             Log.Info("Building deploy configuration...");
 
@@ -164,7 +161,7 @@ namespace BookGen
         {
             ThrowIfInvalidState();
 
-            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetPrint);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetPrint);
 
             Log.Info("Building print configuration...");
 
@@ -175,7 +172,7 @@ namespace BookGen
         {
             ThrowIfInvalidState();
 
-            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetEpub);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetEpub);
 
             Log.Info("Building epub configuration...");
 
@@ -186,7 +183,7 @@ namespace BookGen
         {
             ThrowIfInvalidState();
 
-            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetWordpress);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetWordpress);
 
             Log.Info("Building Wordpress configuration...");
 
@@ -200,7 +197,7 @@ namespace BookGen
             Log.Info("Building test configuration...");
             _configuration.HostName = "http://localhost:8080/";
 
-            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration, _toc, _tags, _configuration.TargetWeb);
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetWeb);
 
 
             using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))

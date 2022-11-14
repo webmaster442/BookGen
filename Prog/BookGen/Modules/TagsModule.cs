@@ -7,6 +7,7 @@ using BookGen.Domain.ArgumentParsing;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
 using BookGen.Interfaces;
+using BookGen.ProjectHandling;
 using System.Diagnostics;
 
 namespace BookGen.Modules
@@ -33,31 +34,36 @@ namespace BookGen.Modules
 
             using (var l = new FolderLock(args.Directory))
             {
-                var loader = new ProjectLoader(CurrentState.Log, args.Directory);
-                return loader.TryLoadProjectAndExecuteOperation((config, toc) =>
+                var loader = new ProjectLoader(args.Directory, CurrentState.Log);
+
+                bool result = loader.LoadProject();
+
+                if (result)
                 {
                     var stopwatch = new Stopwatch();
                     stopwatch.Start();
-
                     var tags = new FsPath(args.Directory, "tags.json");
 
-                    var tagUtils = loader.GetWritableTagutils(config.BookLanguage);
+                    var tagUtils = new WritableTagUtils(loader.Tags,
+                                                        loader.Configuration.BookLanguage,
+                                                        CurrentState.Log);
 
-                    tagUtils.DeleteNoLongerExisting(toc);
-                    tagUtils.CreateNotYetExisting(toc);
-                    
+                    tagUtils.DeleteNoLongerExisting(loader.Toc);
+                    tagUtils.CreateNotYetExisting(loader.Toc);
+
                     if (args.AutoGenerateTags)
-                        tagUtils.AutoGenerate(toc, args.AutoKeyWordCount);
+                        tagUtils.AutoGenerate(loader.Toc, args.AutoKeyWordCount);
 
                     PrintStats(CurrentState.Log, tagUtils);
-
 
                     SerializeTagCollection(args.Directory, CurrentState.Log, tagUtils.TagCollection);
 
                     CurrentState.Log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
-                    return true;
 
-                }) ? ModuleRunResult.Succes : ModuleRunResult.GeneralError;
+                    return ModuleRunResult.Succes;
+                }
+
+                return ModuleRunResult.GeneralError;
             }
         }
 
@@ -70,7 +76,7 @@ namespace BookGen.Modules
 
         private static void SerializeTagCollection(string directory, ILog log, Dictionary<string, string[]> tagCollection)
         {
-            var tags = new FsPath(directory, "tags.json");
+            var tags = new FsPath(directory, ".bookgen/tags.json");
             tags.SerializeJson(tagCollection, log, true);
         }
     }

@@ -43,13 +43,17 @@ namespace BookGen.ProjectHandling
 
         public ToC Toc
         {
-            get 
+            get
             {
                 EnsureThatLoaded();
-                return _state.Toc;
+                return _state.Toc!;
             }
         }
 
+        public Dictionary<string, string[]> Tags
+        {
+            get => _state.Tags;
+        }
 
         public bool LoadProject()
         {
@@ -70,18 +74,18 @@ namespace BookGen.ProjectHandling
             _loaded = true;
             return true;
         }
- 
+
         public RuntimeSettings CreateRuntimeSettings(BuildConfig current)
         {
             EnsureThatLoaded();
 
-            var tagUtils = new TagUtils(_state.Tags, _state.Config.BookLanguage);
+            var tagUtils = new TagUtils(_state.Tags, _state.Config!.BookLanguage);
 
             var settings = new RuntimeSettings(tagUtils)
             {
                 SourceDirectory = _state.WorkDir,
                 Configuration = _state.Config,
-                TocContents = _state.Toc,
+                TocContents = _state.Toc!,
                 MetataCache = new Dictionary<string, string>(100),
                 InlineImgCache = new ConcurrentDictionary<string, string>(),
                 CurrentBuildConfig = current,

@@ -11,10 +11,9 @@ namespace BookGen.ProjectHandling.Steps
         {
         }
 
-
         public override bool Execute()
         {
-            var validator = new ConfigValidator(State.Config, State.WorkDir);
+            var validator = new ConfigValidator(State.Config!, State.WorkDir);
 
             validator.Validate();
 
@@ -31,6 +30,5 @@ namespace BookGen.ProjectHandling.Steps
             Log.Info("Config file doesn't contain any errors");
             return true;
         }
-
     }
 }

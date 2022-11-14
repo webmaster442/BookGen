@@ -12,10 +12,10 @@ namespace BookGen.ProjectHandling
         private readonly ITableOfContents _toc;
         private readonly FsPath _workdir;
 
-        public TocValidator(ITableOfContents toc, string workdir)
+        public TocValidator(ITableOfContents toc, FsPath workdir)
         {
             _toc = toc;
-            _workdir = new FsPath(workdir);
+            _workdir = workdir;
         }
 
         private static bool IsValidFileName(string name)

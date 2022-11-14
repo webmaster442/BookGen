@@ -8,6 +8,7 @@ using BookGen.Domain.Configuration;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
+using BookGen.ProjectHandling;
 using System.IO;
 
 namespace BookGen.Modules
@@ -48,21 +49,22 @@ namespace BookGen.Modules
 
                 using (var l = new FolderLock(args.Directory))
                 {
-                    var loader = new ProjectLoader(CurrentState.Log, args.Directory);
-                    bool result = loader.TryLoadProjectAndExecuteOperation((config, toc) =>
-                    {
-                        RuntimeSettings? settings = loader.CreateRuntimeSettings(config, toc, new TagUtils(), new BuildConfig());
+                    var loader = new ProjectLoader(args.Directory, CurrentState.Log);
+                    bool result = loader.LoadProject();
 
+                    if (result)
+                    {
+                        RuntimeSettings settings = loader.CreateRuntimeSettings(new BuildConfig());
                         foreach (string? link in settings.TocContents.Files)
                         {
                             if (!TryComputeStat(link, ref stat))
                             {
-                                return false;
+                                result = false;
+                                break;
                             }
                         }
-                        return true;
-                    });
-
+                    }
+                    
                     if (result)
                     {
                         CurrentState.Log.PrintLine("");
