@@ -77,6 +77,9 @@ namespace BookGen.Modules
                     case BuildAction.BuildEpub:
                         runner.InitializeAndExecute(x => x.DoEpub());
                         break;
+                    case BuildAction.BuildPostprocess:
+                        runner.InitializeAndExecute(x => x.DoPostProcess());
+                        break;
                     case BuildAction.ValidateConfig:
                         runner.Initialize();
                         break;

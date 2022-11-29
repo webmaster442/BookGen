@@ -61,10 +61,17 @@ namespace BookGen.GeneratorSteps
             foreach ((string source, FsPath target, string title, string content) in bag)
             {
                 Content.Title = title;
-                Content.Metadata = settings.MetataCache[source];
+                Content.Metadata = GetMetaData(settings, source);
                 Content.Content = content;
                 target.WriteFile(log, Template.Render());
             }
+        }
+
+        private static string GetMetaData(IReadonlyRuntimeSettings settings, string fileName)
+        {
+            if (settings.MetataCache.ContainsKey(fileName))
+                return settings.MetataCache[fileName];
+            return string.Empty;
         }
     }
 }

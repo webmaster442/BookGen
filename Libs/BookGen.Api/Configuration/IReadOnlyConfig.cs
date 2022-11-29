@@ -59,6 +59,11 @@ namespace BookGen.Api.Configuration
         /// Build configuration for Wordpress export
         /// </summary>
         IReadOnlyBuildConfig TargetWordpress { get; }
+
+        /// <summary>
+        /// Build configuration for postprocess export
+        /// </summary>
+        IReadOnlyBuildConfig TargetPostProcess { get; }
         /// <summary>
         /// Table of contents file
         /// </summary>

@@ -7,6 +7,7 @@ using BookGen.Domain.Configuration;
 using BookGen.Framework;
 using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
+using BookGen.GeneratorStepRunners;
 using BookGen.GeneratorSteps;
 using BookGen.Interfaces;
 using BookGen.ProjectHandling;
@@ -188,6 +189,17 @@ namespace BookGen
             Log.Info("Building Wordpress configuration...");
 
             RunSteps((loader) => new WordpressGeneratorStepRunner(settings, Log, loader, _scriptHandler), settings);
+        }
+
+        public void DoPostProcess()
+        {
+            ThrowIfInvalidState();
+
+            RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetPostProcess);
+
+            Log.Info("Building postprocess configuration...");
+
+            RunSteps((loader) => new PostProcessGenreratorStepRunner(settings, Log, loader, _scriptHandler), settings);
         }
 
         public void DoTest()

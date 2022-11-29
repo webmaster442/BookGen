@@ -19,6 +19,8 @@ namespace BookGen.Domain.ArgumentParsing
         BuildEpub,
         [Description("Build Wordpress Export XML file")]
         BuildWordpress,
+        [Description("Build html files for processing with external program(s)")]
+        BuildPostprocess,
         [Description("Clean output folders")]
         Clean,
         [Description("Validates the bookgen.json configuration file")]

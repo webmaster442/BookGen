@@ -22,6 +22,8 @@ namespace BookGen.ConsoleUi
         public DelegateCommand BuildPrintCommand { get; }
         public DelegateCommand BuildEpubCommand { get; }
         public DelegateCommand BuildWordpressCommand { get; }
+        public DelegateCommand BuildPostprocessCommand { get; }
+
         public DelegateCommand HelpCommand { get; }
         public DelegateCommand ExitCommand { get; }
 
@@ -47,6 +49,7 @@ namespace BookGen.ConsoleUi
             BuildPrintCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoPrint()));
             BuildEpubCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoEpub()));
             BuildWordpressCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoWordpress()));
+            BuildPostprocessCommand = new DelegateCommand(() => _runner.InitializeAndExecute(x => x.DoPostProcess()));
             HelpCommand = new DelegateCommand(() => View?.SwitchToView(GuiModule.HelpView));
             ExitCommand = new DelegateCommand(() => View?.ExitApp(), false);
             ServeCommand = new DelegateCommand(() => StartModuleInWorkdir("serve"));

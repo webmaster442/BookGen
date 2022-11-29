@@ -95,6 +95,13 @@ namespace BookGen.Domain.Configuration
             set;
         }
 
+        [Doc("Postprocess html output configuration")]
+        public BuildConfig TargetPostProcess
+        {
+            get;
+            set;
+        }
+
         [Doc("Translateable strings that can be used in the template", TypeAlias = typeof(Dictionary<string, string>))]
         public Translations Translations
         {
@@ -121,6 +128,9 @@ namespace BookGen.Domain.Configuration
         IReadOnlyBuildConfig IReadOnlyConfig.TargetWordpress => TargetWordpress;
 
         [JsonIgnore]
+        IReadOnlyBuildConfig IReadOnlyConfig.TargetPostProcess => TargetPostProcess;
+
+        [JsonIgnore]
         IReadOnlyTranslations IReadOnlyConfig.Translations => Translations;
 
         public Config()
@@ -129,6 +139,7 @@ namespace BookGen.Domain.Configuration
             TargetEpub = BuildConfig.CreateDefault("output/epub", long.MaxValue);
             TargetPrint = BuildConfig.CreateDefault("output/print", 0);
             TargetWordpress = BuildConfig.CreateDefault("output/wordpress", long.MaxValue);
+            TargetPostProcess = BuildConfig.CreateDefault("output/postproc", long.MaxValue);
             Translations = Translations.CreateDefault();
             Metadata = new Metadata();
             ImageDir = string.Empty;
