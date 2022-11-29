@@ -134,7 +134,7 @@ namespace BookGen
 
         #region Argument handlers
 
-        private void RunBuilder<TBuilder>(Func<ShortCodeLoader, TBuilder> builderCreator, RuntimeSettings settings) where TBuilder : BookGen.Framework.Builder
+        private void RunSteps<TBuilder>(Func<ShortCodeLoader, TBuilder> builderCreator, RuntimeSettings settings) where TBuilder : BookGen.Framework.GeneratorStepRunner
         {
             using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
             {
@@ -154,7 +154,7 @@ namespace BookGen
 
             Log.Info("Building deploy configuration...");
 
-            RunBuilder((loader) => new WebsiteBuilder(settings, Log, loader, _scriptHandler), settings);
+            RunSteps((loader) => new WebsiteGeneratorStepRunner(settings, Log, loader, _scriptHandler), settings);
         }
 
         public void DoPrint()
@@ -165,7 +165,7 @@ namespace BookGen
 
             Log.Info("Building print configuration...");
 
-            RunBuilder((loader) => new PrintBuilder(settings, Log, loader, _scriptHandler), settings);
+            RunSteps((loader) => new PrintGeneratorStepRunner(settings, Log, loader, _scriptHandler), settings);
         }
 
         public void DoEpub()
@@ -176,7 +176,7 @@ namespace BookGen
 
             Log.Info("Building epub configuration...");
 
-            RunBuilder((loader) => new EpubBuilder(settings, Log, loader, _scriptHandler), settings);
+            RunSteps((loader) => new EpubGeneratorStepRunner(settings, Log, loader, _scriptHandler), settings);
         }
 
         public void DoWordpress()
@@ -187,7 +187,7 @@ namespace BookGen
 
             Log.Info("Building Wordpress configuration...");
 
-            RunBuilder((loader) => new WordpressBuilder(settings, Log, loader, _scriptHandler), settings);
+            RunSteps((loader) => new WordpressGeneratorStepRunner(settings, Log, loader, _scriptHandler), settings);
         }
 
         public void DoTest()
@@ -202,7 +202,7 @@ namespace BookGen
 
             using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
             {
-                var builder = new WebsiteBuilder(settings, Log, loader, _scriptHandler);
+                var builder = new WebsiteGeneratorStepRunner(settings, Log, loader, _scriptHandler);
                 TimeSpan runTime = builder.Run();
 
                 using (HttpServer? server = HttpServerFactory.CreateServerForTest(ServerLog, Path.Combine(WorkDirectory, _configuration.TargetWeb.OutPutDirectory)))

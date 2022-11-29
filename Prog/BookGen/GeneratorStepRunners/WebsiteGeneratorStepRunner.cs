@@ -10,9 +10,9 @@ using BookGen.Resources;
 
 namespace BookGen
 {
-    internal class WebsiteBuilder : Builder
+    internal class WebsiteGeneratorStepRunner : GeneratorStepRunner
     {
-        public WebsiteBuilder(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
+        public WebsiteGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
             : base(settings, log, loader, scriptHandler)
         {
             AddStep(new GeneratorSteps.CreateOutputDirectory());

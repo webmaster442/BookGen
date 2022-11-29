@@ -10,9 +10,9 @@ using BookGen.Resources;
 
 namespace BookGen
 {
-    internal class EpubBuilder : Builder
-    {
-        public EpubBuilder(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
+    internal class EpubGeneratorStepRunner : GeneratorStepRunner
+    { 
+        public EpubGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
             : base(settings, log, loader, scriptHandler)
         {
             var session = new GeneratorSteps.Epub.EpubSession();

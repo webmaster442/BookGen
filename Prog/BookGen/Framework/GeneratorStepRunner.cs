@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace BookGen.Framework
 {
-    internal abstract class Builder : IDisposable
+    internal abstract class GeneratorStepRunner : IDisposable
     {
         private readonly List<IGeneratorStep> _steps;
         private readonly CsharpScriptHandler _scriptHandler;
@@ -25,7 +25,7 @@ namespace BookGen.Framework
         protected readonly ShortCodeLoader _loader;
 
 
-        protected Builder(RuntimeSettings settings,
+        protected GeneratorStepRunner(RuntimeSettings settings,
                           ILog log,
                           ShortCodeLoader shortCodeLoader,
                           CsharpScriptHandler scriptHandler)

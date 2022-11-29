@@ -9,9 +9,9 @@ using BookGen.Interfaces;
 
 namespace BookGen
 {
-    internal class WordpressBuilder : Builder
+    internal class WordpressGeneratorStepRunner : GeneratorStepRunner
     {
-        public WordpressBuilder(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
+        public WordpressGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
             : base(settings, log, loader, scriptHandler)
         {
             var session = new GeneratorSteps.Wordpress.Session();
