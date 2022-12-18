@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="BookGen.Tests"/>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Markdig" Version="0.30.4" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.3.5" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" />

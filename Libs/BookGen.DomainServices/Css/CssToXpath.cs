@@ -47,7 +47,7 @@ namespace BookGen.DomainServices.Css
             {
                 result = replacement.Key.Replace(result, replacement.Value);
             }
-            return result;
+            return $"//{result}";
         }
     }
 }

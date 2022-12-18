@@ -14,7 +14,7 @@ namespace BookGen.DomainServices.Css
         [GeneratedRegex("\\s*(?<rule>(?<selector>[^{}]+){(?<style>[^{}]+)})", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.IgnorePatternWhitespace)]
         private static partial Regex MathchStyles();
 
-        private List<Match> GetStyleMatches(XElement xhtmlDocument)
+        private static List<Match> GetStyleMatches(XElement xhtmlDocument)
         {
             var styles = new List<Match>();
 
@@ -33,7 +33,7 @@ namespace BookGen.DomainServices.Css
             return XElement.Parse(xhtml);
         }
 
-        public string Inline(string xhtml)
+        public static string Inline(string xhtml)
         {
             var xhtmlDocument = ParseXhtml(xhtml);
             var styles = GetStyleMatches(xhtmlDocument);
