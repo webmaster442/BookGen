@@ -1,4 +1,9 @@
-﻿using BookGen.Api;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Api;
 using BookGen.Interfaces;
 using System.Net;
 
