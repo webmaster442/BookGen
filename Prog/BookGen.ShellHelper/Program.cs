@@ -13,7 +13,7 @@ namespace BookGen.ShellHelper
     public static class Program
     {
         private const string PromptMode = "prompt";
-        private const int TimeOut = 1000;
+        private const int TimeOut = 10;
 
         public static void Main(string[] arguments)
         {
