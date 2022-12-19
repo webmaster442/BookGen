@@ -8,7 +8,6 @@ using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using System.Text;
-using System.Web;
 
 namespace BookGen.DomainServices.Markdown.Renderers
 {
@@ -102,7 +101,7 @@ namespace BookGen.DomainServices.Markdown.Renderers
 
             string code = GetCode(obj);
 
-            string rendered = Render(HttpUtility.HtmlEncode(code), languageMoniker);
+            string rendered = Render(code, languageMoniker);
 
             renderer.Write(rendered);
         }
