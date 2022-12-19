@@ -1,0 +1,2 @@
+tidy.dll filter=lfs diff=lfs merge=lfs -text
+tidy.exe filter=lfs diff=lfs merge=lfs -text
