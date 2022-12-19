@@ -10,13 +10,16 @@ namespace BookGen.DomainServices
 {
     public static class ProcessRunner
     {
-        public static (int exitcode, string output) RunProcess(string command, string arguments, int timeout, string workdir = "")
+        public static (int exitcode, string output) RunProcess(string programPath,
+                                                               string arguments,
+                                                               int timeout,
+                                                               string? workdir = null)
         {
             (int exitcode, string output) result = (-1, string.Empty);
 
             using (var process = new Process())
             {
-                process.StartInfo.FileName = command;
+                process.StartInfo.FileName = programPath;
                 process.StartInfo.Arguments = arguments;
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;

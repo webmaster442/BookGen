@@ -36,6 +36,9 @@
 		<None Include="..\..\BookGenShell.ps1" Link="BookGenShell.ps1">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Include="..\..\Libs\Native\tidy.exe" Link="tidy.exe">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Include="..\..\LICENCE">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
