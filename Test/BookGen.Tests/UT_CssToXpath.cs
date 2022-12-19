@@ -27,7 +27,7 @@ namespace BookGen.Tests
         [TestCase("div#test .note span:first-child", "//div[@id='test']//*[contains(concat(' ',normalize-space(@class),' '),' note ')]//*[1]/self::span")]
         public void TransformTest(string input, string expected)
         {
-            Assert.AreEqual(expected, _sut.Transform(input));
+            Assert.That(_sut.Transform(input), Is.EqualTo(expected));
         }
     }
 }

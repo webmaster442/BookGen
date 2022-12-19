@@ -40,8 +40,7 @@ namespace BookGen.Tests
 
             var result = CssInliner.Inline(html);
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
-
     }
 }

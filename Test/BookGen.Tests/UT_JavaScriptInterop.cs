@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ namespace BookGen.Tests
                 + "int main() { printf(\"Hello World!\n\"); return 0; }";
 
             string result = _sut.SyntaxHighlight(input, "c");
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
     }
 }

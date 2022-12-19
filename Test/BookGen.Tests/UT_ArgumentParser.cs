@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -17,11 +17,12 @@ namespace BookGen.Tests
         {
             var args = new BookGenArgumentBase();
             bool result = ArgumentParser.ParseArguments(new string[] { sw }, args);
-
-            Assert.IsTrue(args.Verbose);
-            Assert.IsTrue(result);
+            Assert.Multiple(() =>
+            {
+                Assert.That(args.Verbose, Is.True);
+                Assert.That(result, Is.True);
+            });
         }
-
 
         [TestCase("-d", "d:\\test")]
         [TestCase("--dir", "d:\\test12")]
@@ -29,10 +30,11 @@ namespace BookGen.Tests
         {
             var args = new BookGenArgumentBase();
             bool result = ArgumentParser.ParseArguments(new string[] { sw, param }, args);
-
-            Assert.IsTrue(result);
-            Assert.AreEqual(param, args.Directory);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(args.Directory, Is.EqualTo(param));
+            });
         }
-
     }
 }

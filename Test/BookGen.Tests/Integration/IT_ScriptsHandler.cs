@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -40,13 +40,13 @@ namespace BookGen.Tests.Integration
         [Test]
         public void EnsureThat_LoadScripts_RetrunedNumberOfLoadedScripts()
         {
-            Assert.AreEqual(1, _loaded);
+            Assert.That(_loaded, Is.EqualTo(1));
         }
 
         [Test]
         public void EnsureThat_TestScriptIsKnownScript()
         {
-            Assert.IsTrue(_sut.IsKnownScript("TestScript"));
+            Assert.That(_sut.IsKnownScript("TestScript"), Is.True);
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace BookGen.Tests.Integration
             var args = new ShortCodeArguments();
             string result = _sut.ExecuteScript("TestScript", args);
 
-            Assert.AreEqual("Hello, from test script!", result);
+            Assert.That(result, Is.EqualTo("Hello, from test script!"));
         }
     }
 }

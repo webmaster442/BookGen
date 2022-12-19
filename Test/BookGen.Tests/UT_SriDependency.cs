@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -36,9 +36,8 @@ namespace BookGen.Tests
 
             string result = _sut.Generate(args);
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
-
 
         [Test]
         public void EnsureThat_SriDependency_Generate_WorksForCSSFile()
@@ -52,7 +51,7 @@ namespace BookGen.Tests
 
             string result = _sut.Generate(args);
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
     }
 }

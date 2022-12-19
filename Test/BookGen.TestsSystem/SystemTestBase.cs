@@ -31,7 +31,7 @@ namespace BookGen.TestsSystem
             LastLog = new List<LogEntry>();
         }
 
-        public void EnsureRunWithoutException(ExitCode expectedExitCode, string commandLine)
+        protected void EnsureRunWithoutException(ExitCode expectedExitCode, string commandLine)
         {
             var process = new Process();
             process.StartInfo.UseShellExecute = false;
@@ -72,15 +72,14 @@ namespace BookGen.TestsSystem
 
         private string GetLastLogMsg()
         {
-            if (LastLog == null
-                || !LastLog.Any())
+            if (LastLog?.Any() != true)
                 return "No log can be shown. Log was empty";
 
             LogEntry? entry = LastLog.OrderByDescending(l => l.TimeStamp).First();
             return entry.Message;
         }
 
-        public abstract void CleanFiles();
+        protected abstract void CleanFiles();
 
         [OneTimeTearDown]
         public void OneTimeTeardown()

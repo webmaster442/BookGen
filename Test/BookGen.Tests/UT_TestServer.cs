@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2021 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ namespace BookGen.Tests
 
         private class TestHandler : IRequestHandler
         {
-            private bool CanServe(string AbsoluteUri)
+            private static bool CanServe(string AbsoluteUri)
             {
                 return AbsoluteUri == "/testme";
             }
@@ -60,8 +60,7 @@ namespace BookGen.Tests
             _log = null;
         }
 
-
-        private string DoRequest(string url)
+        private static string DoRequest(string url)
         {
             using (var client = new HttpClient())
             {
@@ -82,8 +81,8 @@ namespace BookGen.Tests
         {
             string response = DoRequest("http://localhost:8080/Test.js");
 
-            Assert.IsNotNull(response);
-            Assert.AreEqual("print(\"hello\");", response);
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response, Is.EqualTo("print(\"hello\");"));
         }
 
         [Test]
@@ -91,8 +90,8 @@ namespace BookGen.Tests
         {
             string response = DoRequest("http://localhost:8080/testme");
 
-            Assert.IsNotNull(response);
-            Assert.AreEqual("TestHandler", response);
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response, Is.EqualTo("TestHandler"));
         }
     }
 }

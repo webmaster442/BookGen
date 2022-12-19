@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,7 +10,6 @@ namespace BookGen.Tests
     [TestFixture]
     public class UT_InlineFile
     {
-
         [Test]
         public void EnsureThat_InlineFile_ReturnsCorrectString()
         {
@@ -20,7 +19,7 @@ namespace BookGen.Tests
                 { "File", TestEnvironment.GetFile("TestFile.txt") }
             });
             string result = sut.Generate(arguments);
-            Assert.AreEqual("Test", result);
+            Assert.That(result, Is.EqualTo("Test"));
         }
 
         [Test]
@@ -30,7 +29,7 @@ namespace BookGen.Tests
 
             const string expected = nameof(InlineFile);
 
-            Assert.AreEqual(expected, sut.Tag);
+            Assert.That(sut.Tag, Is.EqualTo(expected));
         }
     }
 }

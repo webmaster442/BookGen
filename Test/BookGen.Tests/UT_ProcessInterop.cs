@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -17,9 +17,9 @@ namespace BookGen.Tests
             string result = ProcessInterop.ResolveProgramFullPath(program);
 
             if (expected)
-                Assert.IsNotNull(result);
+                Assert.That(result, Is.Not.Null);
             else
-                Assert.IsNull(result);
+                Assert.That(result, Is.Null);
 
 
         }

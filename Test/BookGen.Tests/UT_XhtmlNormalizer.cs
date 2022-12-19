@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2021 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ namespace BookGen.Tests
         public void EnsureThat_XhtmlNormalizer_NormalizeToXHTML_Correct(string input, string expected)
         {
             string result = XhtmlNormalizer.NormalizeToXHTML(input);
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
     }
 }

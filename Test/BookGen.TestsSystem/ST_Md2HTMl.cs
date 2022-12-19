@@ -1,4 +1,9 @@
-﻿using BookGen.Api;
+﻿//-----------------------------------------------------------------------------
+// (c) 2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Api;
 using NUnit.Framework;
 
 namespace BookGen.TestsSystem
@@ -15,8 +20,11 @@ namespace BookGen.TestsSystem
             EnsureRunWithoutException(ExitCode.Succes, "md2html -i Testpage.md -ns -r -o nsr.html");
             Environment.AssertFileExistsAndHasContents("nsr.html");
             string? contents = Environment.ReadFileContents("nsr.html");
-            Assert.IsFalse(contents.StartsWith("<html>"));
-            Assert.IsFalse(contents.EndsWith("</html>"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(contents, Does.Not.StartWith("<html>"));
+                Assert.That(contents, Does.Not.EndWith("</html>"));
+            });
         }
 
         [Test, Timeout(3000)]
@@ -25,13 +33,15 @@ namespace BookGen.TestsSystem
             EnsureRunWithoutException(ExitCode.Succes, "md2html -i Testpage.md -r -o r.html");
             Environment.AssertFileExistsAndHasContents("r.html");
             string? contents = Environment.ReadFileContents("r.html");
+            Assert.Multiple(() =>
+            {
+                Assert.That(contents, Does.Contain("<span class=\"token keyword\">"));
+                Assert.That(contents, Does.Contain("<style"));
+                Assert.That(contents, Does.Contain("</style>"));
 
-            Assert.IsTrue(contents.Contains("<span class=\"token keyword\">"));
-            Assert.IsTrue(contents.Contains("<style"));
-            Assert.IsTrue(contents.Contains("</style>"));
-
-            Assert.IsFalse(contents.StartsWith("<html>"));
-            Assert.IsFalse(contents.EndsWith("</html>"));
+                Assert.That(contents, Does.Not.StartWith("<html>"));
+                Assert.That(contents, Does.Not.EndWith("</html>"));
+            });
         }
 
         [Test, Timeout(3000)]
@@ -41,16 +51,18 @@ namespace BookGen.TestsSystem
 
             Environment.AssertFileExistsAndHasContents("full.html");
             string? contents = Environment.ReadFileContents("full.html");
+            Assert.Multiple(() =>
+            {
+                Assert.That(contents, Does.Contain("<span class=\"token keyword\">"));
+                Assert.That(contents, Does.Contain("<style"));
+                Assert.That(contents, Does.Contain("</style>"));
 
-            Assert.IsTrue(contents.Contains("<span class=\"token keyword\">"));
-            Assert.IsTrue(contents.Contains("<style"));
-            Assert.IsTrue(contents.Contains("</style>"));
-
-            Assert.IsTrue(contents.Contains("<html>"));
-            Assert.IsTrue(contents.EndsWith("</html>"));
+                Assert.That(contents, Does.Contain("<html>"));
+                Assert.That(contents, Does.EndWith("</html>"));
+            });
         }
 
-        public override void CleanFiles()
+        protected override void CleanFiles()
         {
             Environment.DeleteFile("nsr.html");
             Environment.DeleteFile("full.html");

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ namespace BookGen.Tests
         {
             var sut = new FsPath(TestEnvironment.GetFile(file));
 
-            Assert.AreEqual(expected, sut.IsExisting);
+            Assert.That(sut.IsExisting, Is.EqualTo(expected));
         }
 
         [Test]
@@ -22,9 +22,8 @@ namespace BookGen.Tests
         {
             var sut = new FsPath("");
 
-            Assert.IsFalse(sut.IsExisting);
+            Assert.That(sut.IsExisting, Is.False);
         }
-
 
         [TestCase(".txt", "test.txt")]
         [TestCase(".bar", "foo.bar")]
@@ -33,7 +32,7 @@ namespace BookGen.Tests
         {
             var sut = new FsPath(file);
 
-            Assert.AreEqual(expected, sut.Extension);
+            Assert.That(sut.Extension, Is.EqualTo(expected));
         }
 
         [TestCase("test.txt", @"t:\test.txt")]
@@ -43,7 +42,7 @@ namespace BookGen.Tests
         {
             var sut = new FsPath(file);
 
-            Assert.AreEqual(expected, sut.Filename);
+            Assert.That(sut.Filename, Is.EqualTo(expected));
         }
 
         [TestCase(true, "foo.bar", "foo.bar")]
@@ -53,12 +52,13 @@ namespace BookGen.Tests
         {
             var sut1 = new FsPath(i1);
             var sut2 = new FsPath(i2);
-
-            Assert.IsFalse(object.ReferenceEquals(sut1, sut2));
-            Assert.AreEqual(expected, sut1.Equals(sut2));
-            Assert.AreEqual(expected, sut2.Equals(sut1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(object.ReferenceEquals(sut1, sut2), Is.False);
+                Assert.That(sut1.Equals(sut2), Is.EqualTo(expected));
+                Assert.That(sut2.Equals(sut1), Is.EqualTo(expected));
+            });
         }
-
 
         [TestCase(true, "foo.bar", "foo.bar")]
         [TestCase(true, "", "")]
@@ -67,10 +67,12 @@ namespace BookGen.Tests
         {
             var sut1 = new FsPath(i1);
             var sut2 = new FsPath(i2);
-
-            Assert.IsFalse(object.ReferenceEquals(sut1, sut2));
-            Assert.AreEqual(expected, sut1 == sut2);
-            Assert.AreEqual(expected, sut2 == sut1);
+            Assert.Multiple(() =>
+            {
+                Assert.That(object.ReferenceEquals(sut1, sut2), Is.False);
+                Assert.That(sut1 == sut2, Is.EqualTo(expected));
+                Assert.That(sut2 == sut1, Is.EqualTo(expected));
+            });
         }
     }
 }

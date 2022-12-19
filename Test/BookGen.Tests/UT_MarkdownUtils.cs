@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -14,8 +14,7 @@ namespace BookGen.Tests
         public void EnsureThat_MarkdownUtils_GetTitleWorksCorrectly(string input, string expected)
         {
             string result = MarkdownUtils.GetDocumentTitle(input, TestEnvironment.GetMockedLog());
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
-
     }
 }

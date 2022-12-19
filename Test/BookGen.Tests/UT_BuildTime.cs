@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ namespace BookGen.Tests
 
             string result = sut.Generate(null);
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace BookGen.Tests
 
             const string expected = nameof(BuildTime);
 
-            Assert.AreEqual(expected, sut.Tag);
+            Assert.That(sut.Tag, Is.EqualTo(expected));
         }
     }
 }

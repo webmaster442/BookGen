@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -22,13 +22,11 @@ namespace BookGen.Tests
             }
         }
 
-
         [TestCaseSource(nameof(NoSkipTests))]
         public void EnsureThat_ShortCodeArgumentTokenizer_Split_Works(string input, string[] result)
         {
             string[] tokens = ShortCodeArgumentTokenizer.Split(input).ToArray();
-            Assert.AreEqual(result, tokens);
+            Assert.That(tokens, Is.EqualTo(result));
         }
-
     }
 }

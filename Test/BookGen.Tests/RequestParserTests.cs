@@ -58,9 +58,12 @@ namespace BookGen.Tests
             using (MemoryStream stream = CreateStream(input))
             {
                 HttpRequest output = _sut.ParseRequest(stream);
-                Assert.AreEqual(expected.Url, output.Url);
-                Assert.AreEqual(expected.Method, output.Method);
-                Assert.AreEqual(expected.Version, output.Version);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(output.Url, Is.EqualTo(expected.Url));
+                    Assert.That(output.Method, Is.EqualTo(expected.Method));
+                    Assert.That(output.Version, Is.EqualTo(expected.Version));
+                });
             }
         }
 
@@ -94,11 +97,15 @@ namespace BookGen.Tests
             using (MemoryStream stream = CreateStream(input))
             {
                 HttpRequest output = _sut.ParseRequest(stream);
-                Assert.AreEqual(expected.Parameters.Count, output.Parameters.Count);
-                foreach (KeyValuePair<string, string> parameter in output.Parameters)
+
+                Assert.Multiple(() =>
                 {
-                    Assert.AreEqual(expected.Parameters[parameter.Key], parameter.Value);
-                }
+                    Assert.That(output.Parameters, Has.Count.EqualTo(expected.Parameters.Count));
+                    foreach (KeyValuePair<string, string> parameter in output.Parameters)
+                    {
+                        Assert.That(parameter.Value, Is.EqualTo(expected.Parameters[parameter.Key]));
+                    }
+                });
             }
         }
 
@@ -106,9 +113,7 @@ namespace BookGen.Tests
         {
             get
             {
-                yield return new TestCaseData("GET /hello.htm HTTP/1.1", new HttpRequest
-                {
-                });
+                yield return new TestCaseData("GET /hello.htm HTTP/1.1", new HttpRequest());
                 yield return new TestCaseData("GET /hello.htm?foo=bar HTTP/1.1\n"
                                              + "User-Agent: Mozilla/4.0 (compatible; MSIE5.01; Windows NT)\n"
                                              + "Host: www.test.com",
@@ -129,18 +134,22 @@ namespace BookGen.Tests
             using (MemoryStream stream = CreateStream(input))
             {
                 HttpRequest output = _sut.ParseRequest(stream);
-                Assert.AreEqual(expected.Headers.Count, output.Headers.Count);
-                foreach (KeyValuePair<string, string> header in output.Headers)
+
+                Assert.Multiple(() =>
                 {
-                    Assert.AreEqual(expected.Headers[header.Key], header.Value);
-                }
+                    Assert.That(output.Headers, Has.Count.EqualTo(expected.Headers.Count));
+                    foreach (KeyValuePair<string, string> header in output.Headers)
+                    {
+                        Assert.That(header.Value, Is.EqualTo(expected.Headers[header.Key]));
+                    }
+                });
             }
         }
 
         [Test]
         public void TestPostRequest()
         {
-            string content = "POST /hello.htm HTTP/1.1\n"
+            const string content = "POST /hello.htm HTTP/1.1\n"
                            + "Content-Type: application/x-www-form-urlencoded\n"
                            + "Content-Length: 32\n"
                            + "\n"
@@ -149,10 +158,12 @@ namespace BookGen.Tests
             using (MemoryStream stream = CreateStream(content))
             {
                 HttpRequest output = _sut.ParseRequest(stream);
-                Assert.AreEqual(32, output.RequestSize);
-                Assert.AreEqual(32, output.RequestContent.Length);
-
-                Assert.AreEqual("home=Cosby&favorite+flavor=flies", Encoding.UTF8.GetString(output.RequestContent));
+                Assert.Multiple(() =>
+                {
+                    Assert.That(output.RequestSize, Is.EqualTo(32));
+                    Assert.That(output.RequestContent, Has.Length.EqualTo(32));
+                    Assert.That(Encoding.UTF8.GetString(output.RequestContent), Is.EqualTo("home=Cosby&favorite+flavor=flies"));
+                });
             }
         }
     }
