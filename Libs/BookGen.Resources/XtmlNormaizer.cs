@@ -8,9 +8,9 @@ using System.Text.RegularExpressions;
 
 namespace BookGen.Resources
 {
-    public static class XhtmlNormalizer
+    public static partial class XhtmlNormalizer
     {
-        private static readonly Dictionary<string, string> replacements = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> replacements = new()
         {
             { "figure", "div" },
             { "article", "div" },
@@ -22,8 +22,11 @@ namespace BookGen.Resources
             { "figcaption", "p" }
         };
 
-        private static readonly Regex scriptMatcher = new(@"(<script[^>]*>)([\s\S]*?)(</script>)");
-        private static readonly Regex styleMatcher = new(@"(<style[^>]*>)([\s\S]*?)(</style>)");
+        [GeneratedRegex("(<script[^>]*>)([\\s\\S]*?)(</script>)")]
+        private static partial Regex ScriptMather();
+
+        [GeneratedRegex("(<style[^>]*>)([\\s\\S]*?)(</style>)")]
+        private static partial Regex StyleMatcher();
 
         public static string NormalizeToXHTML(string input)
         {
@@ -39,8 +42,8 @@ namespace BookGen.Resources
             }
 
             string? candidate = buffer.ToString();
-            string? c2 = scriptMatcher.Replace(candidate, "$1<![CDATA[$2]]>$3");
-            return styleMatcher.Replace(c2, "$1<![CDATA[$2]]>$3");
+            string? c2 = ScriptMather().Replace(candidate, "$1<![CDATA[$2]]>$3");
+            return StyleMatcher().Replace(c2, "$1<![CDATA[$2]]>$3");
         }
     }
 }
