@@ -1,8 +1,4 @@
-﻿using BookGen.Api;
-using static SkiaSharp.HarfBuzz.SKShaper;
-using System.Diagnostics;
-using System.Threading;
-using System.Linq.Expressions;
+﻿using System.Diagnostics;
 
 namespace BookGen.DomainServices
 {
