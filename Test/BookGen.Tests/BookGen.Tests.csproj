@@ -45,6 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Environment\full.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Environment\LongNodeJs.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
