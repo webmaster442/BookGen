@@ -33,15 +33,8 @@
 		<Compile Remove="DefaultTemplate\**" />
 		<EmbeddedResource Remove="DefaultTemplate\**" />
 		<None Remove="DefaultTemplate\**" />
-		<None Include="..\..\BookGenShell.ps1" Link="BookGenShell.ps1">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="..\..\Libs\Native\tidy.exe" Link="tidy.exe">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 		<None Include="..\..\LICENCE">
 			<Pack>True</Pack>
-			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
 	<ItemGroup>
@@ -122,31 +115,13 @@
     <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="BookGen">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="BookGen.cmd">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-	<ItemGroup>
 		<AssemblyAttribute Include="BookGen.AssemblyBuildDateAttribute">
 			<_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
 		</AssemblyAttribute>
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Include="..\..\bookgen-bg.png" Link="bookgen-bg.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="..\..\bookgen-icon.png" Link="bookgen-icon.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="..\..\icon.ico" Link="icon.ico">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	</ItemGroup>
-	<ItemGroup>
 	  <ProjectReference Include="..\..\Libs\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
+	  <ProjectReference Include="..\..\Libs\BookGen.Contents\BookGen.Contents.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.DomainServices\BookGen.DomainServices.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Gui\BookGen.Gui.csproj" />
