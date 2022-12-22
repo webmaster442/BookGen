@@ -30,7 +30,9 @@ namespace BookGen.ShellHelper
             if (!string.IsNullOrEmpty(workDir)
                 && TestIfGitDir(workDir))
             {
-                var (exitcode, output) = ProcessRunner.RunProcess("git", "status -b -s --porcelain=2", TimeOut);
+                var arguments = new string[] { "status", "-b", "-s", "--porcelain=2" };
+
+                var (exitcode, output) = ProcessRunner.RunProcess("git", arguments, TimeOut);
                 if (exitcode == 0)
                 {
                     var status = GitParser.ParseStatus(output);
@@ -45,7 +47,9 @@ namespace BookGen.ShellHelper
 
         private static bool TestIfGitDir(string workDir)
         {
-            var (exitcode, _) = ProcessRunner.RunProcess("git", "status 2", TimeOut, workDir);
+            var arguments = new string[] { "status", "2"};
+
+            var (exitcode, _) = ProcessRunner.RunProcess("git", arguments, TimeOut, workDir);
             return exitcode == 0;
         }
     }

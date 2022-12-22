@@ -3,49 +3,36 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-
-using System.Diagnostics;
+using Medallion.Shell;
 
 namespace BookGen.DomainServices
 {
     public static class ProcessRunner
     {
         public static (int exitcode, string output) RunProcess(string programPath,
-                                                               string arguments,
-                                                               int timeout,
+                                                              string argument,
+                                                              int timeOutSeconds,
+                                                              string? workdir = null)
+        {
+            return RunProcess(programPath, new string[] { argument }, timeOutSeconds, workdir);
+        }
+
+        public static (int exitcode, string output) RunProcess(string programPath,
+                                                               string[] arguments,
+                                                               int timeOutSeconds,
                                                                string? workdir = null)
         {
-            (int exitcode, string output) result = (-1, string.Empty);
-
-            using (var process = new Process())
+            using var command = Command.Run(programPath, arguments, (options) =>
             {
-                process.StartInfo.FileName = programPath;
-                process.StartInfo.Arguments = arguments;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
+                options.Timeout(TimeSpan.FromSeconds(timeOutSeconds));
+
                 if (!string.IsNullOrEmpty(workdir))
-                    process.StartInfo.WorkingDirectory = workdir;
-                process.StartInfo.CreateNoWindow = true;
+                    options.WorkingDirectory(workdir);
+            });
 
-                process.Start();
+            command.Wait();
 
-                string output = process.StandardOutput.ReadToEnd();
-                string err = process.StandardError.ReadToEnd();
-
-                if (process.WaitForExit(timeout * 1000))
-                {
-                    result.output = output;
-                    result.exitcode = process.ExitCode;
-                }
-                else
-                {
-                    result.exitcode = -1;
-                    result.output = err;
-                    process.Kill();
-                }
-            }
-            return result;
+            return (command.Result.ExitCode, command.Result.StandardOutput);
         }
     }
 }

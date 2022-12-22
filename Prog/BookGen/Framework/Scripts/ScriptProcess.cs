@@ -46,7 +46,6 @@ namespace BookGen.Framework.Scripts
                 {
                     return output;
                 }
-
             }
             catch (Exception ex)
             {
