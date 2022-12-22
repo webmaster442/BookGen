@@ -3,13 +3,21 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Resources;
+using System.IO;
 
 namespace BookGen.Tests
 {
     [TestFixture]
-    internal class UT_XhtmlNormalizer
+    internal class UT_HtmlTidy
     {
+        private HtmlTidy _sut;
+
+        [SetUp]
+        public void Setup()
+        {
+            _sut= new HtmlTidy();
+        }
+
         [TestCase("<figure>foo</figure>", "<div>foo</div>")]
         [TestCase("<article>foo</article>", "<div>foo</div>")]
         [TestCase("<details>foo</details>", "<div>foo</div>")]
@@ -18,13 +26,23 @@ namespace BookGen.Tests
         [TestCase("<section>foo</section>", "<div>foo</div>")]
         [TestCase("<nav>foo</nav>", "<div>foo</div>")]
         [TestCase("<figcaption>foo</figcaption>", "<p>foo</p>")]
-        [TestCase("<script>foo;</script>", "<script><![CDATA[foo;]]></script>")]
-        [TestCase("<script id=\"asd\">foo;</script>", "<script id=\"asd\"><![CDATA[foo;]]></script>")]
-        [TestCase("<style>foo;</style>", "<style><![CDATA[foo;]]></style>")]
-        public void EnsureThat_XhtmlNormalizer_NormalizeToXHTML_Correct(string input, string expected)
+        public void EnsureThat_HtmlTidy_ConvertHtml5TagsToXhtmlCompatible_Correct(string input, string expected)
         {
-            string result = XhtmlNormalizer.NormalizeToXHTML(input);
+            string result = _sut.ConvertHtml5TagsToXhtmlCompatible(input);
             Assert.That(result, Is.EqualTo(expected));
+        }
+
+        [Test]
+        [Timeout(3000)]
+        public void Tiody()
+        {
+            var file = TestEnvironment.GetFile("full.html");
+            var contents = File.ReadAllText(file);
+
+            var xhtml = _sut.HtmlToXhtml(contents);
+
+            Assert.That(xhtml, Is.Not.Null);
+            Assert.That(xhtml, Is.Not.Empty);
         }
     }
 }

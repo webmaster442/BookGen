@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
+using System.Text;
 
 namespace BookGen.DomainServices
 {
-    internal class HtmlTidy
+    public class HtmlTidy
     {
         private readonly string _tidyPath;
+        private readonly Dictionary<string, string> _tagreplacements;
         private const string TidyName = "tidy.exe";
         private const int TimeOut = 10_000;
 
@@ -13,6 +15,18 @@ namespace BookGen.DomainServices
             _tidyPath = Path.Combine(AppContext.BaseDirectory, TidyName);
             if (!File.Exists(_tidyPath))
                 throw new InvalidOperationException("tidy can't be found");
+
+            _tagreplacements = new Dictionary<string, string>()
+            {
+                { "figure", "div" },
+                { "article", "div" },
+                { "details", "div" },
+                { "footer", "div" },
+                { "header", "div" },
+                { "nav", "div" },
+                { "section", "div" },
+                { "figcaption", "p" }
+            };
         }
 
         private (string output, string error, int exitCode) RunTidy(string stdInput, string arguments)
@@ -27,9 +41,14 @@ namespace BookGen.DomainServices
                 process.StartInfo.RedirectStandardInput = true;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.CreateNoWindow = false;
+                process.StartInfo.StandardInputEncoding = Encoding.UTF8;
+                process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
 
-                process.Start();
+                bool startResult = process.Start();
+
+                process.StandardInput.WriteLine("test");
+                process.StandardInput.Flush();
 
                 string output = process.StandardOutput.ReadToEnd();
                 string err = process.StandardError.ReadToEnd();
@@ -51,9 +70,24 @@ namespace BookGen.DomainServices
             return result;
         }
 
+        public string ConvertHtml5TagsToXhtmlCompatible(string input)
+        {
+            var buffer = new StringBuilder(input);
+
+            foreach (KeyValuePair<string, string> elementToReplace in _tagreplacements)
+            {
+                //starting bracket
+                buffer.Replace($"<{elementToReplace.Key}>", $"<{elementToReplace.Value}>");
+                //end
+                buffer.Replace($"</{elementToReplace.Key}>", $"</{elementToReplace.Value}>");
+            }
+
+            return buffer.ToString();
+        }
+
         public string HtmlToXhtml(string html)
         {
-            var (output, _, exitCode) = RunTidy(html, "-asxhtml -utf16");
+            var (output, _, exitCode) = RunTidy(html, "-asxhtml -utf8");
             if (exitCode == int.MinValue)
             {
                 throw new InvalidOperationException("Timeout");
@@ -63,7 +97,7 @@ namespace BookGen.DomainServices
 
         public string XhtmlToHtml(string xhtml)
         {
-            var (output, _, exitCode) = RunTidy(xhtml, "-ashtml -utf16");
+            var (output, _, exitCode) = RunTidy(xhtml, "-ashtml -utf8");
             if (exitCode == int.MinValue)
             {
                 throw new InvalidOperationException("Timeout");

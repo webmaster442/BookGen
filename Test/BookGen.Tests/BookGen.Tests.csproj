@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Libs\BookGen.Contents\BookGen.Contents.csproj" />
     <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
     <ProjectReference Include="..\..\Libs\BookGen.Interfaces\BookGen.Interfaces.csproj" />
     <ProjectReference Include="..\..\Prog\BookGen\BookGen.csproj" />

@@ -7,6 +7,7 @@ using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
 using BookGen.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookGen.GeneratorSteps.Epub
 {
@@ -37,12 +38,13 @@ namespace BookGen.GeneratorSteps.Epub
             using var pipeline = new BookGenPipeline(BookGenPipeline.Epub);
             pipeline.InjectRuntimeConfig(settings);
 
+            HtmlTidy tidy = new();
+
             foreach (string? file in settings.TocContents.Files)
             {
                 _session.GeneratedFiles.Add($"page_{index:D3}");
 
                 FsPath? target = settings.OutputDirectory.Combine($"epubtemp\\OPS\\page_{index:D3}.xhtml");
-
 
                 log.Detail("Processing file for epub output: {0}", file);
                 FsPath? input = settings.SourceDirectory.Combine(file);
@@ -52,7 +54,9 @@ namespace BookGen.GeneratorSteps.Epub
                 Content.Title = MarkdownUtils.GetDocumentTitle(inputContent, log);
                 Content.Content = pipeline.RenderMarkdown(inputContent);
 
-                string? html = XhtmlNormalizer.NormalizeToXHTML(Template.Render());
+                var replaced = tidy.ConvertHtml5TagsToXhtmlCompatible(Template.Render());
+
+                string? html = tidy.HtmlToXhtml(replaced);
 
                 target.WriteFile(log, html);
                 ++index;
