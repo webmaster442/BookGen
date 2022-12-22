@@ -34,15 +34,18 @@ namespace BookGen.Tests
 
         [Test]
         [Timeout(3000)]
-        public void Tiody()
+        public void EnsureThat_HtmlTidy_HtmlToXhtml_ReturnsText()
         {
             var file = TestEnvironment.GetFile("full.html");
             var contents = File.ReadAllText(file);
 
             var xhtml = _sut.HtmlToXhtml(contents);
 
-            Assert.That(xhtml, Is.Not.Null);
-            Assert.That(xhtml, Is.Not.Empty);
+            Assert.Multiple(() =>
+            {
+                Assert.That(xhtml, Is.Not.Null);
+                Assert.That(xhtml, Is.Not.Empty);
+            });
         }
     }
 }

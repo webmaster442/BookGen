@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using Medallion.Shell;
 using System.Text;
 
 namespace BookGen.DomainServices
@@ -29,45 +29,17 @@ namespace BookGen.DomainServices
             };
         }
 
-        private (string output, string error, int exitCode) RunTidy(string stdInput, string arguments)
+        private string RunTidy(string input, params string[] arguments)
         {
-            (string output, string error, int exitCode) result = (string.Empty, string.Empty, 0);
-
-            using (var process = new Process())
+            using var command = Command.Run(_tidyPath, arguments, (options) =>
             {
-                process.StartInfo.FileName = _tidyPath;
-                process.StartInfo.Arguments = arguments;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardInput = true;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.CreateNoWindow = false;
-                process.StartInfo.StandardInputEncoding = Encoding.UTF8;
-                process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+                options.Encoding(Encoding.UTF8);
+                options.Timeout(TimeSpan.FromMilliseconds(TimeOut));
+            }).RedirectFrom(input);
 
-                bool startResult = process.Start();
+            command.Wait();
 
-                process.StandardInput.WriteLine("test");
-                process.StandardInput.Flush();
-
-                string output = process.StandardOutput.ReadToEnd();
-                string err = process.StandardError.ReadToEnd();
-
-                if (process.WaitForExit(TimeOut))
-                {
-                    result.output = output;
-                    result.error = err;
-                    result.exitCode = process.ExitCode;
-                }
-                else
-                {
-                    result.exitCode = int.MinValue;
-                    result.output = output;
-                    result.error = "timeout";
-                    process.Kill();
-                }
-            }
-            return result;
+            return command.Result.StandardOutput;
         }
 
         public string ConvertHtml5TagsToXhtmlCompatible(string input)
@@ -87,22 +59,12 @@ namespace BookGen.DomainServices
 
         public string HtmlToXhtml(string html)
         {
-            var (output, _, exitCode) = RunTidy(html, "-asxhtml -utf8");
-            if (exitCode == int.MinValue)
-            {
-                throw new InvalidOperationException("Timeout");
-            }
-            return output;
+            return RunTidy(html, "-asxhtml", "-utf8");
         }
 
         public string XhtmlToHtml(string xhtml)
         {
-            var (output, _, exitCode) = RunTidy(xhtml, "-ashtml -utf8");
-            if (exitCode == int.MinValue)
-            {
-                throw new InvalidOperationException("Timeout");
-            }
-            return output;
+            return RunTidy(xhtml, "-ashtml", "-utf8");
         }
     }
 }
