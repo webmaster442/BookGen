@@ -1,9 +1,14 @@
 # 2022.
 * New: Rewrote launcher, looks a bit better & has built in preview function
 * New: Math2SVG module (Requires internet connection to work)
+* New: Output type for post processing (experimental)
+* New: QR code generator module (Requires internet connection to work)
 * Change: Updater now is a seperate program.
 * Change: Removed markdown editor from launcher
 * Change: Json output from now on doesn't encode non ASCII chars specially.
+* Change: Better XHTML output for e-Pub generation with the use of HTMLTidy
+* Change: Updated dependencies
+* Change: configuration files are moved into .bookgen folder for projects
 
 # 2022.07.11
 * New: ExternalLinks command
