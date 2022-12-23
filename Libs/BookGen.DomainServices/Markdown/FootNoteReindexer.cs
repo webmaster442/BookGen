@@ -9,15 +9,20 @@ using System.Text.RegularExpressions;
 
 namespace BookGen.DomainServices.Markdown
 {
-    public class FootNoteReindexer
+    public partial class FootNoteReindexer
     {
         private readonly StringBuilder _footnotes;
         private readonly StringBuilder _regulartext;
-        private readonly static Regex footnoteRef = new Regex(@".\[\^\d+\]");
-        private readonly static Regex footnoteDef = new Regex(@"\[\^\d+\]\:");
         private readonly ILog _log;
         private readonly bool _appendLineBreakbeforeDefs;
         private int _counter;
+
+        [GeneratedRegex(".\\[\\^\\d+\\]")]
+        private static partial Regex FootNoteRef();
+
+
+        [GeneratedRegex("\\[\\^\\d+\\]\\:")]
+        private static partial Regex FootNoteDef();
 
 
         public FootNoteReindexer(ILog log, bool appendLineBreakbeforeDefs = false)
@@ -36,11 +41,16 @@ namespace BookGen.DomainServices.Markdown
             _counter = 0;
         }
 
+        public void AddHtml(string content)
+        {
+            _regulartext.Append(content);
+        }
+
         public void AddMarkdown(string document)
         {
             int currentDocLimit = 0;
-            MatchCollection? referenceMatches = footnoteRef.Matches(document);
-            Match? lastDefinition = footnoteRef.Matches(document).LastOrDefault();
+            MatchCollection? referenceMatches = FootNoteRef().Matches(document);
+            Match? lastDefinition = FootNoteRef().Matches(document).LastOrDefault();
 
             if (referenceMatches.Count == 0 && lastDefinition == null)
             {
@@ -49,8 +59,7 @@ namespace BookGen.DomainServices.Markdown
                 return;
             }
 
-            if (lastDefinition != null
-                && lastDefinition.Length > 3)
+            if (lastDefinition?.Length > 3)
             {
                 string? numberString = lastDefinition.Value[3..^1];
                 currentDocLimit = int.Parse(numberString);
@@ -62,7 +71,7 @@ namespace BookGen.DomainServices.Markdown
                 }
             }
 
-            Match? definitionStart = footnoteDef.Matches(document).FirstOrDefault();
+            Match? definitionStart = FootNoteDef().Matches(document).FirstOrDefault();
             if (definitionStart != null)
             {
                 var regular = new StringBuilder(document[..definitionStart.Index]);

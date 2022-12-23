@@ -16,10 +16,6 @@ namespace BookGen.GeneratorSteps
         public ITemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
 
-        public CreatePrintableHtml()
-        {
-        }
-
         public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
             if (Content == null)
@@ -48,6 +44,7 @@ namespace BookGen.GeneratorSteps
                     string? inputContent = input.ReadFile(log, true);
                     reindexer.AddMarkdown(inputContent);
                 }
+                reindexer.AddHtml(NewPage);
             }
 
             Content.Content = pipeline.RenderMarkdown(reindexer.ToString());
