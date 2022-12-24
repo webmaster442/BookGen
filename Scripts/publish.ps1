@@ -23,12 +23,8 @@ Write-Host "Updating help.md..."
 Remove-Item commands.md
 HelpMd
 
-Write-Host "Restoring packages..."
-dotnet restore
-Write-Host "Build..."
-dotnet build -c Release --no-restore
 Write-Host "Publish..."
-dotnet publish -c Release --no-restore --no-build -o bin\publish\
+dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true --self-contained true -o bin\publish\
 
 Write-Host "Creating html docs..."
 cd bin\Publish\
