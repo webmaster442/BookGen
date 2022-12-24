@@ -18,7 +18,8 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets(settings.Configuration.TargetPrint));
             AddStep(new GeneratorSteps.ImageProcessor());
-            AddStep(new GeneratorSteps.CreatePrintableHtml());
+            AddStep(new GeneratorSteps.Print.CreatePrintableHtml());
+            AddStep(new GeneratorSteps.Print.CreateInlinedXhtml());
         }
 
         protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)

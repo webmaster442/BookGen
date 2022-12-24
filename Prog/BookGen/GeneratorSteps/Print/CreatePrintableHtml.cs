@@ -7,7 +7,7 @@ using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
 
-namespace BookGen.GeneratorSteps
+namespace BookGen.GeneratorSteps.Print
 {
     internal sealed class CreatePrintableHtml : ITemplatedStep
     {
@@ -25,7 +25,7 @@ namespace BookGen.GeneratorSteps
                 throw new DependencyException(nameof(Template));
 
             log.Info("Generating Printable html...");
-            FsPath? target = settings.OutputDirectory.Combine("print.html");
+            FsPath target = settings.OutputDirectory.Combine("print.html");
 
             using var pipeline = new BookGenPipeline(BookGenPipeline.Print);
             pipeline.InjectRuntimeConfig(settings);

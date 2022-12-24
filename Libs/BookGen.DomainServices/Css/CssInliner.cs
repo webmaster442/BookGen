@@ -9,7 +9,7 @@ using System.Xml.XPath;
 
 namespace BookGen.DomainServices.Css
 {
-    public sealed partial class CssInliner
+    public static partial class CssInliner
     {
         [GeneratedRegex("\\s*(?<rule>(?<selector>[^{}]+){(?<style>[^{}]+)})", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.IgnorePatternWhitespace)]
         private static partial Regex MathchStyles();
