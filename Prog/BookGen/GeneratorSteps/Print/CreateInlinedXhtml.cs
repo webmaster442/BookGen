@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.DomainServices.Css;
 using BookGen.Interfaces;
 
 namespace BookGen.GeneratorSteps.Print
@@ -21,11 +20,12 @@ namespace BookGen.GeneratorSteps.Print
             var htmlTidy = new HtmlTidy();
 
             var xhtml = htmlTidy.HtmlToXhtml(content);
-            var result =  CssInliner.Inline(xhtml);
+            
+            var result = PreMailer.Net.PreMailer.MoveCssInline(xhtml);
 
             log.Info("Writing target file...");
             FsPath target = settings.OutputDirectory.Combine("print_xhtml.html");
-            target.WriteFile(log, result);
+            target.WriteFile(log, result.Html);
         }
     }
 }
