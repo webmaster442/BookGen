@@ -21,7 +21,9 @@ namespace BookGen.GeneratorSteps.Print
 
             var xhtml = htmlTidy.HtmlToXhtml(content);
             
-            var result = PreMailer.Net.PreMailer.MoveCssInline(xhtml);
+            var result = PreMailer.Net.PreMailer.MoveCssInline(xhtml, removeStyleElements: true);
+
+
 
             log.Info("Writing target file...");
             FsPath target = settings.OutputDirectory.Combine("print_xhtml.html");

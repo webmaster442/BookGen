@@ -1,8 +1,12 @@
+pre {
+    margin: 0px;
+}
+
 code[class*=language-],
 pre[class*=language-] {
     color: #000;
     background: 0 0;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-family: 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     font-size: 1em;
     text-align: left;
     white-space: pre;
@@ -11,7 +15,7 @@ pre[class*=language-] {
     word-wrap: normal;
     line-height: 1.5;
     tab-size: 4;
-    hyphens: none
+    hyphens: none;
 }
 
 .token.cdata,

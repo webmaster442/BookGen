@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2021 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -64,7 +64,7 @@ namespace BookGen.DomainServices.Markdown.Modifiers
                 return;
 
             if (SyntaxEnabled)
-                PipelineHelpers.AppendPrismCss(document);
+                PipelineHelpers.AppendPrismCss(document, isPrinting: true);
 
             PipelineHelpers.ApplyStyles(RuntimeConfig.Configuration.TargetPrint, document);
             PipelineHelpers.RenderImages(RuntimeConfig, document);
