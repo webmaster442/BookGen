@@ -9,7 +9,7 @@ using BookGen.Interfaces;
 
 namespace BookGen
 {
-    internal class WordpressGeneratorStepRunner : GeneratorStepRunner
+    internal sealed class WordpressGeneratorStepRunner : GeneratorStepRunner
     {
         public WordpressGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
             : base(settings, log, loader, scriptHandler)

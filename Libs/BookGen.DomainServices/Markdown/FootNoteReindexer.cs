@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace BookGen.DomainServices.Markdown
 {
-    public partial class FootNoteReindexer
+    public sealed partial class FootNoteReindexer
     {
         private readonly StringBuilder _footnotes;
         private readonly StringBuilder _regulartext;

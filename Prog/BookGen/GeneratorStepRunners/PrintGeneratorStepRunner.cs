@@ -10,7 +10,7 @@ using BookGen.Resources;
 
 namespace BookGen
 {
-    internal class PrintGeneratorStepRunner : GeneratorStepRunner
+    internal sealed class PrintGeneratorStepRunner : GeneratorStepRunner
     {
         public PrintGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
             : base(settings, log, loader, scriptHandler)

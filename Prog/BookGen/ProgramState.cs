@@ -9,7 +9,7 @@ using Webmaster442.HttpServerFramework;
 
 namespace BookGen
 {
-    internal class ProgramState
+    internal sealed class ProgramState
     {
         public bool Gui { get; set; }
         public bool NoWaitForExit { get; set; }

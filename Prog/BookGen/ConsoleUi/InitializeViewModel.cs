@@ -8,7 +8,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.ConsoleUi
 {
-    internal class InitializeViewModel : ViewModelBase
+    internal sealed class InitializeViewModel : ViewModelBase
     {
         private readonly ILog _log;
         private readonly FsPath _workDir;
@@ -72,8 +72,6 @@ namespace BookGen.ConsoleUi
                 _log.Info("Creating VS Code Tasks");
                 InitializerMethods.DoCreateTasks(_log, _workDir);
             }
-
-
 
             View?.ExitApp();
         }

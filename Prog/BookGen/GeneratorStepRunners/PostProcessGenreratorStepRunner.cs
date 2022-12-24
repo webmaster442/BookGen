@@ -9,7 +9,7 @@ using BookGen.Interfaces;
 
 namespace BookGen.GeneratorStepRunners
 {
-    internal class PostProcessGenreratorStepRunner : GeneratorStepRunner
+    internal sealed class PostProcessGenreratorStepRunner : GeneratorStepRunner
     {
         public PostProcessGenreratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader shortCodeLoader, CsharpScriptHandler scriptHandler) 
             : base(settings, log, shortCodeLoader, scriptHandler)
