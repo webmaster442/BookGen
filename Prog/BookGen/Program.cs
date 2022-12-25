@@ -188,22 +188,9 @@ namespace BookGen
 
         private static bool FinishUpdate()
         {
-            try
-            {
-                var newFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.*")
-                     .Where(x => x.EndsWith("_new"));
-
-                foreach (var newFile in newFiles)
-                {
-                    string targetName = newFile.Replace("_new", "");
-                    File.Move(targetName, newFile);
-                }
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return Directory
+                .GetFiles(AppContext.BaseDirectory, "*.*")
+                .Any(x => x.EndsWith("_new"));
         }
 
         private static void Cleanup(ModuleBase? moduleToRun)
