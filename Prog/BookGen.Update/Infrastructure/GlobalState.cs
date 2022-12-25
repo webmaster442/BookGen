@@ -15,6 +15,8 @@ internal sealed class GlobalState
     public string TempFile { get; set; }
     public string TargetDir { get; }
 
+    public List<(string source, string target)> PostProcessFiles { get; }
+
     public GlobalState()
     {
         Issues = new List<string>();
@@ -22,6 +24,7 @@ internal sealed class GlobalState
         Latest = new Release();
         TempFile = string.Empty;
         TargetDir = AppContext.BaseDirectory;
+        PostProcessFiles = new List<(string source, string target)>();
     }
 
     public void Cleanup()
