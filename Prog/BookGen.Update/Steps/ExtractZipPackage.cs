@@ -26,7 +26,7 @@ namespace BookGen.Update.Steps
             {
                 foreach (ZipArchiveEntry entry in zip.Entries)
                 {
-                    ExtractRelativeToDirectory(entry, state.TargetDir, true);
+                    ExtractRelativeToDirectory(entry, state.TargetDir, state.PostProcessFiles, true);
                 }
             }
 
@@ -35,7 +35,10 @@ namespace BookGen.Update.Steps
 
         internal static string SanitizeEntryFilePath(string entryPath) => entryPath.Replace('\0', '_');
 
-        internal static void ExtractRelativeToDirectory(ZipArchiveEntry source, string destinationDirectoryName, bool overwrite)
+        internal static void ExtractRelativeToDirectory(ZipArchiveEntry source,
+                                                        string destinationDirectoryName,
+                                                        List<(string source, string target)> postProcessFiles,
+                                                        bool overwrite)
         {
             ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(destinationDirectoryName);
@@ -47,12 +50,6 @@ namespace BookGen.Update.Steps
                 destinationDirectoryFullPath += Path.DirectorySeparatorChar;
 
             string fileName = SanitizeEntryFilePath(source.FullName);
-
-            if (IsUpdaterFile(fileName))
-            {
-                string extension = Path.GetExtension(fileName);
-                fileName = Path.ChangeExtension(fileName, extension + "_new");
-            }
 
             string fileDestinationPath = Path.GetFullPath(Path.Combine(destinationDirectoryFullPath, fileName));
 
@@ -73,13 +70,31 @@ namespace BookGen.Update.Steps
                 // If it is a file:
                 // Create containing directory:
                 Directory.CreateDirectory(Path.GetDirectoryName(fileDestinationPath)!);
-                source.ExtractToFile(fileDestinationPath, overwrite: overwrite);
+                if (CanWrite(fileDestinationPath))
+                {
+                    source.ExtractToFile(fileDestinationPath, overwrite: overwrite);
+                }
+                else
+                {
+                    string extension = Path.GetExtension(fileDestinationPath);
+                    string finalFileName = Path.ChangeExtension(fileDestinationPath, extension + "_new");
+                    postProcessFiles.Add((finalFileName, fileDestinationPath));
+                    source.ExtractToFile(finalFileName, overwrite: overwrite);
+                }
             }
         }
 
-        private static bool IsUpdaterFile(string fileName)
+        private static bool CanWrite(string fileDestinationPath)
         {
-            return fileName.Contains(UpdaterName);
+            bool returnValue = true;
+            if (File.Exists(fileDestinationPath))
+            {
+                using (var fs = new FileStream(fileDestinationPath, FileMode.Open))
+                {
+                    returnValue = fs.CanWrite;
+                }
+            }
+            return returnValue;
         }
     }
 }
