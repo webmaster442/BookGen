@@ -16,14 +16,14 @@ internal sealed class Finish : IUpdateStepAsync
 
     public async Task<bool> Execute(GlobalState state)
     {
-        ShellFileGenerator generator = new ShellFileGenerator();
+        var generator = new ShellFileGenerator();
         if (state.PostProcessFiles.Count > 0)
         {
             generator.AddFiles(state.PostProcessFiles);
             generator.Finish(state.Latest.Version);
             state.Cleanup();
 
-            var commands = generator.Generate(state.ShellType);
+            string commands = generator.Generate(state.ShellType);
 
             await File.WriteAllTextAsync(state.UpdateShellFileName, commands);
         }
@@ -31,7 +31,7 @@ internal sealed class Finish : IUpdateStepAsync
         {
             Console.WriteLine($"Updated Bookgen to version: {state.Latest.Version}");
         }
-       
+
         return true;
     }
 }

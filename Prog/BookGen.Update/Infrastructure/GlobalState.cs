@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Update.Dto;
-using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using static BookGen.Update.ShellCommands.ShellFileGenerator;
 

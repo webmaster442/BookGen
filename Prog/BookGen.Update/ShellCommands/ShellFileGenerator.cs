@@ -70,7 +70,7 @@ namespace BookGen.Update.ShellCommands
             {
                 script.Append(BashHeader);
                 script.Append('\n');
-                foreach (var command in _commands)
+                foreach (IShellCommand command in _commands)
                 {
                     script.Append(command.ToBash());
                     script.Append('\n');
@@ -79,7 +79,7 @@ namespace BookGen.Update.ShellCommands
             }
             else if (type == ShellType.Powershell)
             {
-                foreach (var command in _commands)
+                foreach (IShellCommand command in _commands)
                 {
                     script.Append(command.ToPowerShell());
                     script.Append("\r\n");
