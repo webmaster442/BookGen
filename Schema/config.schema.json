@@ -1,0 +1,198 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "TOCFile": {
+      "type": "string"
+    },
+    "ImageDir": {
+      "type": "string"
+    },
+    "ScriptsDirectory": {
+      "type": "string"
+    },
+    "HostName": {
+      "type": "string"
+    },
+    "Index": {
+      "type": "string"
+    },
+    "Version": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "LinksOutSideOfHostOpenNewTab": {
+      "type": "boolean"
+    },
+    "Metadata": {
+      "$ref": "#/definitions/Metadata"
+    },
+    "TargetWeb": {
+      "$ref": "#/definitions/BuildConfig"
+    },
+    "TargetPrint": {
+      "$ref": "#/definitions/BuildConfig"
+    },
+    "TargetEpub": {
+      "$ref": "#/definitions/BuildConfig"
+    },
+    "TargetWordpress": {
+      "$ref": "#/definitions/BuildConfig"
+    },
+    "TargetPostProcess": {
+      "$ref": "#/definitions/BuildConfig"
+    },
+    "Translations": {
+      "$ref": "#/definitions/Translations"
+    },
+    "BookLanguage": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "Metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Author": {
+          "type": "string"
+        },
+        "CoverImage": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        }
+      }
+    },
+    "BuildConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "OutPutDirectory": {
+          "type": "string"
+        },
+        "TemplateFile": {
+          "type": "string"
+        },
+        "TemplateAssets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        },
+        "StyleClasses": {
+          "$ref": "#/definitions/StyleClasses"
+        },
+        "TemplateOptions": {
+          "$ref": "#/definitions/TemplateOptions"
+        },
+        "ImageOptions": {
+          "$ref": "#/definitions/ImageOptions"
+        }
+      }
+    },
+    "Asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Source": {
+          "type": "string"
+        },
+        "Target": {
+          "type": "string"
+        }
+      }
+    },
+    "StyleClasses": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Heading1": {
+          "type": "string"
+        },
+        "Heading2": {
+          "type": "string"
+        },
+        "Heading3": {
+          "type": "string"
+        },
+        "Image": {
+          "type": "string"
+        },
+        "Table": {
+          "type": "string"
+        },
+        "Blockquote": {
+          "type": "string"
+        },
+        "Figure": {
+          "type": "string"
+        },
+        "FigureCaption": {
+          "type": "string"
+        },
+        "Link": {
+          "type": "string"
+        },
+        "OrderedList": {
+          "type": "string"
+        },
+        "UnorederedList": {
+          "type": "string"
+        },
+        "ListItem": {
+          "type": "string"
+        }
+      }
+    },
+    "TemplateOptions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ImageOptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "RecodeJpegToWebp": {
+          "type": "boolean"
+        },
+        "EnableResize": {
+          "type": "boolean"
+        },
+        "MaxWidth": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "MaxHeight": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "InlineImageSizeLimit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ImageQuality": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "RecodePngToWebp": {
+          "type": "boolean"
+        },
+        "EncodeSvgAsWebp": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Translations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}
