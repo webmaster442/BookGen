@@ -1,8 +1,8 @@
 ﻿Create or update the tags database and display various stats
 -------------------------------------------------------------------------------
 
-    BookGen Build {-v} {-d [directory]}
-    BookGen Build {--verbose} {--dir [directory]}
+    BookGen Build {-v} {-d [directory]} {-a}
+    BookGen Build {--verbose} {--dir [directory]} {--auto}
 
   Arguments:
     -d, --dir:
@@ -10,3 +10,6 @@
         the current directory will be used as working directory.
     -v, --verbose: 
         Optional argument, turns on detailed logging. Usefull for locating issues
+    -a, --auto:
+        Auto generate tags from content files. For it to properly work the
+        ˙BookLanguage˙ config has to be set correctly for the language of the book
