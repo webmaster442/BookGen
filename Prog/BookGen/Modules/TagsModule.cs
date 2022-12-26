@@ -42,7 +42,6 @@ namespace BookGen.Modules
                 {
                     var stopwatch = new Stopwatch();
                     stopwatch.Start();
-                    var tags = new FsPath(args.Directory, "tags.json");
 
                     var tagUtils = new WritableTagUtils(loader.Tags,
                                                         loader.Configuration.BookLanguage,
