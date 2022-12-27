@@ -161,7 +161,7 @@ namespace BookGen
 
         public static async Task Main(string[] args)
         {
-            if (!FinishUpdate())
+            if (UnfinishedUpdateDetected())
             {
                 Console.WriteLine("Update error. Please reinstall program!");
                 return;
@@ -186,7 +186,7 @@ namespace BookGen
             CurrentState.Log.Flush();
         }
 
-        private static bool FinishUpdate()
+        private static bool UnfinishedUpdateDetected()
         {
             return Directory
                 .GetFiles(AppContext.BaseDirectory, "*.*")
