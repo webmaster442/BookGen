@@ -55,6 +55,12 @@ namespace BookGen.ProjectHandling
             get => _state.Tags;
         }
 
+        public static bool IsBookGenFolder(FsPath workDir)
+        {
+            var (confgJson, configYaml, _) = ProjectFilesLocator.Locate(workDir);
+            return (confgJson.IsExisting || configYaml.IsExisting);
+        }
+
         public bool LoadProject()
         {
             foreach (var step in _loadSteps)
