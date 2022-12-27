@@ -3,7 +3,7 @@ BookGen - Markdown to Book tool.
 For the tool to work in the work folder there must be a bookgen.json config file.
 This config file can be created with the following command:
 
-BookGen Build -a Initialize {-d [directory]}
+BookGen Init
 
 To get information regarding the configuration file bookgen.json file run:
 Bookgen ConfigHelp
@@ -11,8 +11,6 @@ Bookgen ConfigHelp
 To Get more help about a subcommand type: BookGen Help <module>
 
 To list available subcommands type: BookGen SubCommands
-
-To install powershell atuocomplete type: BookGen InstallPsAutocomplete $profile
 
 General arguments:
 
