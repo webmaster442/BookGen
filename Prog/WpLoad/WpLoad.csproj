@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WordPressPCL" Version="2.0.0" />
+    <PackageReference Include="WordPressPCL" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
