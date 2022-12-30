@@ -1,5 +1,12 @@
 # publish script
 
+if ($Host.version.Major -lt 7)
+{
+	Write-Host "This script requires powershell 7 or newer"
+	Read-Host -Prompt "Press any key to continue"
+	exit
+}
+
 function HelpMd() 
 {
 	$files = @(Get-ChildItem -Name -Path .\Prog\BookGen\Resources\*Module.txt)
@@ -18,6 +25,9 @@ function HelpMd()
 }
 
 cd ..
+
+Write-Host "Updating Getting started doc"
+Show-Markdown getting-started.md > Libs\BookGen.Contents\getting-started.mdr
 
 Write-Host "Updating help.md..."
 Remove-Item commands.md

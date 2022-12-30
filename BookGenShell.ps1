@@ -18,6 +18,12 @@ function cdg()
 	$FolderBrowserDialog.Dispose()
 }
 
+function bookgen-info()
+{
+	Clear-Host
+	Get-Content $env:BookGenPath\getting-started.mdr | Out-Host -Paging
+}
+
 # lancher Command
 function launcher()
 {
@@ -30,8 +36,8 @@ function intro()
 	clear
 	bookgen version
 	Write-Host " ____________________________________________________ "
-	Write-Host "/ To get info on using bookgen type: Bookgen Help     \"
-	Write-Host "| To get list of commands type: Bookgen SubCommands   |"
+	Write-Host "/ To view the getting started doc type: bookgen-info  \"
+	Write-Host "| To get info on using bookgen type: Bookgen Help     |"
 	Write-Host "| To graphicaly select working directory type: cdg    |"
 	Write-Host "| To start the bookgen launcher type: launcher        |"
 	Write-Host "\ To redisplay this message type: intro               /"
@@ -42,6 +48,9 @@ function intro()
 	Write-Host "        ( )"
 	Write-Host "      .( o )."
 }
+
+#Set BookGenRoot variable
+$env:BookGenPath = $PSScriptRoot
 
 # register scripts folder to the path
 $env:Path += ";$PSScriptRoot"
