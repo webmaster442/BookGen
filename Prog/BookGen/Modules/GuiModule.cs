@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2021 Ruzsinszki Gábor
+// (c) 2020-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -50,13 +50,6 @@ namespace BookGen.Modules
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
                 return ModuleRunResult.ArgumentsError;
-            }
-
-            if (!ProjectLoader.IsBookGenFolder(new FsPath(args.Directory)))
-            {
-                CurrentState.Log.Critical("Not a BookGen project folder.\r\n" +
-                                          "Run BookGen init or navigate to a BookGen project folder and try again");
-                return ModuleRunResult.GeneralError;
             }
 
             CurrentState.Gui = true;

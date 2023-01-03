@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ namespace BookGen.GeneratorSteps.Print
             foreach (string? chapter in settings.TocContents.Chapters)
             {
                 log.Info("Processing: {0}...", chapter);
-                reindexer.AddMarkdown($"# {chapter}\r\n");
+                reindexer.AddHtml($"<h1>{chapter}</h1>\r\n\r\n");
                 foreach (string? file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing file for print output: {0}", file);
