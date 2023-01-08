@@ -8,7 +8,7 @@ using BookGen.Modules;
 
 namespace BookGen.ConsoleUi
 {
-    internal class HelpViewModel : ViewModelBase
+    internal sealed class HelpViewModel : ViewModelBase
     {
         private int _selectedIndex;
         private readonly List<Framework.ModuleBase> _modules;

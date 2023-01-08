@@ -4,17 +4,34 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Update.Infrastructure;
+using BookGen.Update.ShellCommands;
 
 namespace BookGen.Update.Steps;
 
-internal sealed class Finish : IUpdateStepSync
+internal sealed class Finish : IUpdateStepAsync
 {
     public string StatusMessage => string.Empty;
 
-    public bool Execute(GlobalState state)
+
+
+    public async Task<bool> Execute(GlobalState state)
     {
-        Console.WriteLine($"Successfully updated to {state.Latest.Version}");
-        state.Cleanup();
+        var generator = new ShellFileGenerator();
+        if (state.PostProcessFiles.Count > 0)
+        {
+            generator.AddFiles(state.PostProcessFiles);
+            generator.Finish(state.Latest.Version);
+            state.Cleanup();
+
+            string commands = generator.Generate(state.ShellType);
+
+            await File.WriteAllTextAsync(state.UpdateShellFileName, commands);
+        }
+        else
+        {
+            Console.WriteLine($"Updated Bookgen to version: {state.Latest.Version}");
+        }
+
         return true;
     }
 }

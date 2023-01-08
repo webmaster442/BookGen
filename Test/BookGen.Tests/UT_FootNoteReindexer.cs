@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -22,21 +22,21 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_FootNoteReindexer_ReindexingWorks()
         {
-            string s1 =
+            const string s1 =
                   "first[^1]\r\n"
                 + "second[^2]\r\n"
                 + "\r\n"
                 + "[^1]: first\r\n"
                 + "[^2]: second\r\n";
 
-            string s2 =
+            const string s2 =
                 "third[^1]\r\n"
                 + "fourth[^2]\r\n"
                 + "\r\n"
                 + "[^1]: third\r\n"
                 + "[^2]: forth\r\n";
 
-            string expected =
+            const string expected =
                 "first[^1]\r\n"
                 + "second[^2]\r\n"
                 + "\r\n"
@@ -56,27 +56,27 @@ namespace BookGen.Tests
 
             string result = _sut.ToString();
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
         public void EnsureThat_FootNoteReindexer_ReindexingWorksComplex1()
         {
-            string s1 =
+            const string s1 =
                 "first[^1]\r\n"
                 + "second[^2]\r\n"
                 + "\r\n"
                 + "[^1]: first\r\n"
                 + "[^2]: second\r\n";
 
-            string s2 =
+            const string s2 =
                 "third[^1]\r\n"
                 + "fourth[^2]\r\n"
                 + "\r\n"
                 + "[^1]: third\r\n"
                 + "[^2]: forth\r\n";
 
-            string expected =
+            const string expected =
                 "first[^1]\r\n"
                 + "second[^2]\r\n"
                 + "\r\n"
@@ -98,20 +98,20 @@ namespace BookGen.Tests
 
             string result = _sut.ToString();
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
         public void EnsureThat_FootNoteReindexer_ReindexingWorksComplex2()
         {
-            string s1 =
+            const string s1 =
                 "first[^1]\r\n"
                 + "second[^2]\r\n"
                 + "\r\n"
                 + "[^1]: first\r\n"
                 + "[^2]: second\r\n";
 
-            string s2 =
+            const string s2 =
                 "third[^1]\r\n"
                 + "fourth[^2]\r\n"
                 + "asd[^3]\r\n"
@@ -122,7 +122,7 @@ namespace BookGen.Tests
                 + "[^3]: foo\r\n"
                 + "[^4]: bar\r\n";
 
-            string expected =
+            const string expected =
                 "first[^1]\r\n"
                 + "second[^2]\r\n"
                 + "\r\n"
@@ -148,8 +148,7 @@ namespace BookGen.Tests
 
             string result = _sut.ToString();
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
-
     }
 }

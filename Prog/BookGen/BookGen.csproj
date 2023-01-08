@@ -9,8 +9,8 @@
 		<Product>BookGen</Product>
 		<Description>A static Markdown book generator</Description>
 		<Copyright>Copyright © Ruzsinzki Gábor  2019</Copyright>
-		<AssemblyVersion>1.0.13.0</AssemblyVersion>
-		<FileVersion>1.0.13.0</FileVersion>
+		<AssemblyVersion>1.0.14.0</AssemblyVersion>
+		<FileVersion>1.0.14.0</FileVersion>
     <ApplicationIcon>..\..\Icon.ico</ApplicationIcon>
 		<OutputPath>..\..\bin\$(Configuration)\</OutputPath>
 		<PackAsTool>true</PackAsTool>
@@ -33,12 +33,8 @@
 		<Compile Remove="DefaultTemplate\**" />
 		<EmbeddedResource Remove="DefaultTemplate\**" />
 		<None Remove="DefaultTemplate\**" />
-		<None Include="..\..\BookGenShell.ps1" Link="BookGenShell.ps1">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 		<None Include="..\..\LICENCE">
 			<Pack>True</Pack>
-			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
 	<ItemGroup>
@@ -73,6 +69,7 @@
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.30.4" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
+		<PackageReference Include="PreMailer.Net" Version="2.4.0" />
 		<PackageReference Include="SkiaSharp" Version="2.88.3" />
 		<PackageReference Include="Svg.Skia" Version="0.5.18" />
 		<PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
@@ -87,7 +84,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="6.0.0" />
+    <DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="7.0.0" />
   </ItemGroup>
   
 	<ItemGroup>
@@ -119,31 +116,13 @@
     <EmbeddedResource Include="Resources\Help.InstallPSAutocompleteModule.txt" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="BookGen">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="BookGen.cmd">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-	<ItemGroup>
 		<AssemblyAttribute Include="BookGen.AssemblyBuildDateAttribute">
 			<_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
 		</AssemblyAttribute>
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Include="..\..\bookgen-bg.png" Link="bookgen-bg.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="..\..\bookgen-icon.png" Link="bookgen-icon.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="..\..\icon.ico" Link="icon.ico">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	</ItemGroup>
-	<ItemGroup>
 	  <ProjectReference Include="..\..\Libs\BookGen.AssemblyDocumenter\BookGen.AssemblyDocumenter.csproj" />
+	  <ProjectReference Include="..\..\Libs\BookGen.Contents\BookGen.Contents.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.DomainServices\BookGen.DomainServices.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Gui\BookGen.Gui.csproj" />

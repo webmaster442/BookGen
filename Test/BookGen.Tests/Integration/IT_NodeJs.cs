@@ -1,4 +1,9 @@
-﻿using BookGen.Domain;
+﻿//-----------------------------------------------------------------------------
+// (c) 2020-2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Domain;
 using BookGen.Framework.Scripts;
 
 namespace BookGen.Tests.Integration
@@ -30,7 +35,7 @@ namespace BookGen.Tests.Integration
             {
                 { "file", TestEnvironment.GetFile("SimpleNodeJs.js") }
             }));
-            Assert.AreEqual("Hello from nodeJS\n", result);
+            Assert.That(result, Is.EqualTo("Hello from nodeJS\n"));
         }
 
         [Test]
@@ -40,7 +45,7 @@ namespace BookGen.Tests.Integration
             {
                 { "file", TestEnvironment.GetFile("LongNodeJs.js") }
             }));
-            Assert.AreEqual("0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n", result);
+            Assert.That(result, Is.EqualTo("0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n"));
         }
     }
 }

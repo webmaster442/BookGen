@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 2022-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -53,6 +53,15 @@ namespace BookGen.ProjectHandling
         public Dictionary<string, string[]> Tags
         {
             get => _state.Tags;
+        }
+
+        public bool IsBookGenFolder
+        {
+            get
+            {
+                var (confgJson, configYaml, _) = ProjectFilesLocator.Locate(_state.WorkDir);
+                return confgJson.IsExisting || configYaml.IsExisting;
+            }
         }
 
         public bool LoadProject()

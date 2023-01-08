@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -24,9 +24,9 @@ namespace BookGen
 
         public const string ExitString = "Press a key to exit...";
 
-        private Config? _configuration;
-        private ToC? _toc;
-        private TagUtils? _tags;
+        private readonly Config? _configuration;
+        private readonly ToC? _toc;
+        private readonly TagUtils? _tags;
 
         public FsPath ConfigFile { get; private set; }
 
@@ -38,6 +38,8 @@ namespace BookGen
         public ILog Log { get; }
         public IServerLog ServerLog { get; }
         public bool NoWait { get; internal set; }
+
+        public bool IsBookGenFolder => _projectLoader.IsBookGenFolder;
 
         public GeneratorRunner(ILog log, IServerLog serverLog, string workDir)
         {

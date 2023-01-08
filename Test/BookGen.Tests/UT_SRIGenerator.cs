@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //----------------------------------------------------------------------------
 
@@ -17,8 +17,7 @@ namespace BookGen.Tests
         public void EnsureThat_SriGenerator_GetSRI_ReturnsCorrectValue(string input, string expected)
         {
             string result = CryptoUitils.GetSRI(input);
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
-
     }
 }

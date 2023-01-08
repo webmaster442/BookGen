@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api.Configuration;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.Json.Serialization;
 
@@ -11,7 +12,11 @@ namespace BookGen.Domain.Configuration
 {
     public sealed class Config : IReadOnlyConfig
     {
+        [JsonPropertyName("$schema")]
+        public string Schema => "https://raw.githubusercontent.com/webmaster442/BookGen/master/Schema/config.schema.json";
+
         [Doc("Table of contents Markdown file")]
+        [Required]
         public string TOCFile
         {
             get;
@@ -110,6 +115,7 @@ namespace BookGen.Domain.Configuration
         }
 
         [Doc("Language of book represented in standard ISO 639-1 language code")]
+        [Required]
         public CultureInfo BookLanguage { get; set; }
 
         [JsonIgnore]

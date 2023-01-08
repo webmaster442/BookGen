@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -15,15 +15,17 @@ namespace BookGen.Tests
         [SetUp]
         public void Setup()
         {
-            _sut = new ShellModule();
-            _sut.Modules = Program.CreateModules();
+            _sut = new ShellModule
+            {
+                Modules = Program.CreateModules()
+            };
         }
 
         [Test]
         public void EnsureThat_ShellProgram_DoComplete_WithoutArgs_Outputs_CmdList()
         {
             IEnumerable<string> results = _sut.DoComplete(new string[] { });
-            Assert.IsTrue(results.Any());
+            Assert.That(results.Any(), Is.True);
         }
 
         [TestCase("BookGen", "bookGen")]
@@ -36,8 +38,7 @@ namespace BookGen.Tests
         public void EnsureThat_ShellProgram_DoComplete_Completes(string expected, params string[] input)
         {
             IEnumerable<string> results = _sut.DoComplete(input);
-            Assert.AreEqual(expected, results.FirstOrDefault());
+            Assert.That(results.FirstOrDefault(), Is.EqualTo(expected));
         }
-
     }
 }

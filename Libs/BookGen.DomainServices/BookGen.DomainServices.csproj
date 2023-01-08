@@ -9,7 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="BookGen.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Markdig" Version="0.30.4" />
+    <PackageReference Include="MedallionShell" Version="1.6.2" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.3.6" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" />
     <PackageReference Include="Svg.Skia" Version="0.5.18" />

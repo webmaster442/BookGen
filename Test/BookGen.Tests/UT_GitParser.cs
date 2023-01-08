@@ -1,5 +1,9 @@
-﻿using BookGen.Domain.Terminal;
+﻿//-----------------------------------------------------------------------------
+// (c) 2021-2022 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
 
+using BookGen.Domain.Terminal;
 
 namespace BookGen.Tests
 {
@@ -24,21 +28,27 @@ namespace BookGen.Tests
         public void TestParseStatus()
         {
             GitStatus result = GitParser.ParseStatus(TestInput);
-            Assert.AreEqual("next", result.BranchName);
-            Assert.AreEqual("6c84b1f529990058bc913b113fb011400ed7d744", result.LastCommitId);
-            Assert.AreEqual(8, result.IncommingCommits);
-            Assert.AreEqual(5, result.OutGoingCommits);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.BranchName, Is.EqualTo("next"));
+                Assert.That(result.LastCommitId, Is.EqualTo("6c84b1f529990058bc913b113fb011400ed7d744"));
+                Assert.That(result.IncommingCommits, Is.EqualTo(8));
+                Assert.That(result.OutGoingCommits, Is.EqualTo(5));
+            });
         }
 
         [Test]
         public void TestParseStatusModified()
         {
             GitStatus result = GitParser.ParseStatus(TestModified);
-            Assert.AreEqual("crypto", result.BranchName);
-            Assert.AreEqual("1dd7c10acf69a077cc13e7045e700ac45451314e", result.LastCommitId);
-            Assert.AreEqual(0, result.IncommingCommits);
-            Assert.AreEqual(0, result.OutGoingCommits);
-            Assert.AreEqual(2, result.NotCommitedChanges);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.BranchName, Is.EqualTo("crypto"));
+                Assert.That(result.LastCommitId, Is.EqualTo("1dd7c10acf69a077cc13e7045e700ac45451314e"));
+                Assert.That(result.IncommingCommits, Is.EqualTo(0));
+                Assert.That(result.OutGoingCommits, Is.EqualTo(0));
+                Assert.That(result.NotCommitedChanges, Is.EqualTo(2));
+            });
         }
     }
 }

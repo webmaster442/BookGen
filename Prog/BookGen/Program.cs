@@ -161,7 +161,7 @@ namespace BookGen
 
         public static async Task Main(string[] args)
         {
-            if (!FinishUpdate())
+            if (UnfinishedUpdateDetected())
             {
                 Console.WriteLine("Update error. Please reinstall program!");
                 return;
@@ -186,24 +186,11 @@ namespace BookGen
             CurrentState.Log.Flush();
         }
 
-        private static bool FinishUpdate()
+        private static bool UnfinishedUpdateDetected()
         {
-            try
-            {
-                var newFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.*")
-                     .Where(x => x.EndsWith("_new"));
-
-                foreach (var newFile in newFiles)
-                {
-                    string targetName = newFile.Replace("_new", "");
-                    File.Move(targetName, newFile);
-                }
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return Directory
+                .GetFiles(AppContext.BaseDirectory, "*.*")
+                .Any(x => x.EndsWith("_new"));
         }
 
         private static void Cleanup(ModuleBase? moduleToRun)

@@ -11,11 +11,11 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1462.37" />
 		<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="7.0.0" />
-		<PackageReference Include="Terminal.Gui" Version="1.8.2" />
+		<PackageReference Include="Terminal.Gui" Version="1.9.0" />
 	</ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="6.0.0" />
+    <DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="7.0.0" />
   </ItemGroup>
 
 	<ItemGroup>

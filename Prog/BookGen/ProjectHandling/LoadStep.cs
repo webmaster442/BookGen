@@ -17,9 +17,12 @@ namespace BookGen.ProjectHandling
         {
             State = state;
             Log = log;
-            _configJson = state.WorkDir.Combine(".bookgen/bookgen.json");
-            _configYaml = state.WorkDir.Combine(".bookgen/bookgen.yml");
-            _tagsJson = state.WorkDir.Combine(".bookgen/tags.json");
+
+            var (confgJson, configYaml, tags) = ProjectFilesLocator.Locate(state.WorkDir);
+
+            _configJson = confgJson;
+            _configYaml = configYaml;
+            _tagsJson = tags;
         }
 
         public LoadState State { get; }

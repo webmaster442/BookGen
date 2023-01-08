@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Update.Dto;
+using System.Runtime.InteropServices;
+using static BookGen.Update.ShellCommands.ShellFileGenerator;
 
 namespace BookGen.Update.Infrastructure;
 
@@ -15,6 +17,12 @@ internal sealed class GlobalState
     public string TempFile { get; set; }
     public string TargetDir { get; }
 
+    public List<(string source, string target)> PostProcessFiles { get; }
+
+    public ShellType ShellType { get; }
+
+    public string UpdateShellFileName { get; }
+
     public GlobalState()
     {
         Issues = new List<string>();
@@ -22,6 +30,15 @@ internal sealed class GlobalState
         Latest = new Release();
         TempFile = string.Empty;
         TargetDir = AppContext.BaseDirectory;
+        PostProcessFiles = new List<(string source, string target)>();
+        ShellType = Detect();
+        UpdateShellFileName = GetFileName();
+    }
+
+    private string GetFileName()
+    {
+        string name = ShellType == ShellType.Bash ? "update.sh" : "update.ps1";
+        return Path.Combine(TargetDir, name);
     }
 
     public void Cleanup()
@@ -29,6 +46,20 @@ internal sealed class GlobalState
         if (File.Exists(TempFile))
         {
             File.Delete(TempFile);
+        }
+    }
+
+    private static ShellType Detect()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+            || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD)
+            || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return ShellType.Bash;
+        }
+        else
+        {
+            return ShellType.Powershell;
         }
     }
 }

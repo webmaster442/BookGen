@@ -10,7 +10,7 @@ using BookGen.Resources;
 
 namespace BookGen
 {
-    internal class PrintGeneratorStepRunner : GeneratorStepRunner
+    internal sealed class PrintGeneratorStepRunner : GeneratorStepRunner
     {
         public PrintGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
             : base(settings, log, loader, scriptHandler)
@@ -18,7 +18,8 @@ namespace BookGen
             AddStep(new GeneratorSteps.CreateOutputDirectory());
             AddStep(new GeneratorSteps.CopyAssets(settings.Configuration.TargetPrint));
             AddStep(new GeneratorSteps.ImageProcessor());
-            AddStep(new GeneratorSteps.CreatePrintableHtml());
+            AddStep(new GeneratorSteps.Print.CreatePrintableHtml());
+            AddStep(new GeneratorSteps.Print.CreateInlinedXhtml());
         }
 
         protected override FsPath ConfigureOutputDirectory(FsPath workingDirectory)

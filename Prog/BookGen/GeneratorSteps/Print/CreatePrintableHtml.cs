@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
 
-namespace BookGen.GeneratorSteps
+namespace BookGen.GeneratorSteps.Print
 {
     internal sealed class CreatePrintableHtml : ITemplatedStep
     {
@@ -15,10 +15,6 @@ namespace BookGen.GeneratorSteps
 
         public ITemplateProcessor? Template { get; set; }
         public IContent? Content { get; set; }
-
-        public CreatePrintableHtml()
-        {
-        }
 
         public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
         {
@@ -29,7 +25,7 @@ namespace BookGen.GeneratorSteps
                 throw new DependencyException(nameof(Template));
 
             log.Info("Generating Printable html...");
-            FsPath? target = settings.OutputDirectory.Combine("print.html");
+            FsPath target = settings.OutputDirectory.Combine("print.html");
 
             using var pipeline = new BookGenPipeline(BookGenPipeline.Print);
             pipeline.InjectRuntimeConfig(settings);
@@ -39,7 +35,7 @@ namespace BookGen.GeneratorSteps
             foreach (string? chapter in settings.TocContents.Chapters)
             {
                 log.Info("Processing: {0}...", chapter);
-                reindexer.AddMarkdown($"# {chapter}\r\n");
+                reindexer.AddHtml($"<h1>{chapter}</h1>\r\n\r\n");
                 foreach (string? file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
                 {
                     log.Detail("Processing file for print output: {0}", file);
@@ -48,6 +44,7 @@ namespace BookGen.GeneratorSteps
                     string? inputContent = input.ReadFile(log, true);
                     reindexer.AddMarkdown(inputContent);
                 }
+                reindexer.AddHtml(NewPage);
             }
 
             Content.Content = pipeline.RenderMarkdown(reindexer.ToString());

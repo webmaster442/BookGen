@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2022 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -32,9 +32,9 @@ namespace BookGen.Tests
         {
             var dir = new FsPath(_testDir, "testDirectory");
 
-            Assert.IsFalse(dir.IsExisting);
+            Assert.That(dir.IsExisting, Is.False);
             dir.CreateDir(TestEnvironment.GetMockedLog());
-            Assert.IsTrue(dir.IsExisting);
+            Assert.That(dir.IsExisting, Is.True);
         }
 
         [Test]
@@ -42,9 +42,9 @@ namespace BookGen.Tests
         {
             var dir = new FsPath("");
 
-            Assert.IsFalse(dir.IsExisting);
+            Assert.That(dir.IsExisting, Is.False);
             dir.CreateDir(TestEnvironment.GetMockedLog());
-            Assert.IsFalse(dir.IsExisting);
+            Assert.That(dir.IsExisting, Is.False);
         }
 
         [Test]
@@ -54,11 +54,11 @@ namespace BookGen.Tests
 
             file.WriteFile(TestEnvironment.GetMockedLog(), "test");
 
-            Assert.IsTrue(file.IsExisting);
+            Assert.That(file.IsExisting, Is.True);
 
             string content = File.ReadAllText(Path.Combine(_testDir, "test.txt"));
 
-            Assert.AreEqual("test", content);
+            Assert.That(content, Is.EqualTo("test"));
         }
 
         [TestCase("")]
@@ -69,7 +69,7 @@ namespace BookGen.Tests
 
             bool result = file.WriteFile(TestEnvironment.GetMockedLog(), "hello");
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -82,11 +82,11 @@ namespace BookGen.Tests
 
             bool result = source.CopyDirectory(target, TestEnvironment.GetMockedLog());
 
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
 
             string[] files = Directory.GetFiles(Path.Combine(_testDir, "copydir"));
 
-            Assert.AreEqual(expectedCount, files.Length);
+            Assert.That(files, Has.Length.EqualTo(expectedCount));
         }
 
         [TestCase("", "")]
@@ -99,7 +99,7 @@ namespace BookGen.Tests
 
             bool result = source.CopyDirectory(target, TestEnvironment.GetMockedLog());
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -109,9 +109,11 @@ namespace BookGen.Tests
             var target = new FsPath(_testDir, "copyfile");
 
             bool result = source.Copy(target, TestEnvironment.GetMockedLog());
-
-            Assert.IsTrue(result);
-            Assert.IsTrue(target.IsExisting);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(target.IsExisting, Is.True);
+            });
         }
 
         [TestCase("", "")]
@@ -124,7 +126,7 @@ namespace BookGen.Tests
 
             bool result = source.Copy(target, TestEnvironment.GetMockedLog());
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [TestCase("TestFile.txt", "Test")]
@@ -136,7 +138,7 @@ namespace BookGen.Tests
 
             string actual = source.ReadFile(TestEnvironment.GetMockedLog());
 
-            Assert.AreEqual(expected, actual);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [TestCase("", "", "")]
@@ -150,7 +152,7 @@ namespace BookGen.Tests
 
             FsPath result = source.GetAbsolutePathRelativeTo(relativeTo);
 
-            Assert.AreEqual(expected, result.ToString());
+            Assert.That(result.ToString(), Is.EqualTo(expected));
         }
 
         [TestCase("", "", "")]
@@ -164,7 +166,7 @@ namespace BookGen.Tests
 
             FsPath result = source.GetRelativePathRelativeTo(relativeTo);
 
-            Assert.AreEqual(expected, result.ToString());
+            Assert.That(result.ToString(), Is.EqualTo(expected));
         }
 
         [TestCase(@"c:\foo.bar", ".txt", @"c:\foo.txt")]
@@ -173,7 +175,7 @@ namespace BookGen.Tests
         public void EnsureThat_FsUtils_ChangeExtension_Works(string input, string ext, string expected)
         {
             FsPath result = new FsPath(input).ChangeExtension(ext);
-            Assert.AreEqual(expected, result.ToString());
+            Assert.That(result.ToString(), Is.EqualTo(expected));
         }
 
         [TestCase("", false)]
@@ -184,7 +186,7 @@ namespace BookGen.Tests
         public void EnsureThat_FsUtils_IsWildCard_Works(string input, bool expected)
         {
             bool result = new FsPath(input).IsWildCard();
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
     }
 }

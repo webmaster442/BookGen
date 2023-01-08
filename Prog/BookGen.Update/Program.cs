@@ -5,12 +5,14 @@
 
 using BookGen.Update.Infrastructure;
 using BookGen.Update.Steps;
+using System.Diagnostics;
+using static BookGen.Update.ShellCommands.ShellFileGenerator;
 
 static void WriteIssues(List<string> issues)
 {
-    var current = Console.ForegroundColor;
+    ConsoleColor current = Console.ForegroundColor;
     Console.ForegroundColor = ConsoleColor.Yellow;
-    foreach (var issue in issues)
+    foreach (string issue in issues)
     {
         Console.WriteLine(issue);
     }
@@ -19,7 +21,7 @@ static void WriteIssues(List<string> issues)
 
 static void WriteException(Exception ex)
 {
-    var current = Console.ForegroundColor;
+    ConsoleColor current = Console.ForegroundColor;
     Console.ForegroundColor = ConsoleColor.Red;
     Console.WriteLine(ex.Message);
     Console.ForegroundColor = current;
@@ -42,7 +44,7 @@ GlobalState state = new();
 
 state.Cleanup();
 
-foreach (var step in steps)
+foreach (IUpdateStep step in steps)
 {
     try
     {
@@ -66,5 +68,20 @@ foreach (var step in steps)
     catch (Exception ex)
     {
         WriteException(ex);
+    }
+}
+
+if (File.Exists(state.UpdateShellFileName))
+{
+    using (var p = new Process())
+    {
+        p.StartInfo.FileName = state.ShellType == ShellType.Bash
+            ? "bash"
+            : "powershell.exe";
+        p.StartInfo.Arguments = state.ShellType == ShellType.Bash
+            ? state.UpdateShellFileName
+            : $"-ExecutionPolicy Bypass -File {state.UpdateShellFileName}";
+
+        p.Start();
     }
 }

@@ -10,7 +10,7 @@ using BookGen.Resources;
 
 namespace BookGen
 {
-    internal class WebsiteGeneratorStepRunner : GeneratorStepRunner
+    internal sealed class WebsiteGeneratorStepRunner : GeneratorStepRunner
     {
         public WebsiteGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
             : base(settings, log, loader, scriptHandler)

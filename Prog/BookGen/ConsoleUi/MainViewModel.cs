@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace BookGen.ConsoleUi
 {
-    internal class MainViewModel : ViewModelBase
+    internal sealed class MainViewModel : ViewModelBase
     {
         private readonly GeneratorRunner _runner;
         private readonly IModuleApi _api;
