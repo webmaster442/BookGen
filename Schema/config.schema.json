@@ -3,9 +3,17 @@
   "title": "Config",
   "type": "object",
   "additionalProperties": false,
+  "required": [
+    "TOCFile",
+    "BookLanguage"
+  ],
   "properties": {
-    "TOCFile": {
+    "Schema": {
       "type": "string"
+    },
+    "TOCFile": {
+      "type": "string",
+      "minLength": 1
     },
     "ImageDir": {
       "type": "string"
