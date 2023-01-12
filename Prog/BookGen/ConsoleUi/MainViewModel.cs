@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+/*
 using BookGen.Gui.Mvvm;
 using BookGen.Infrastructure;
 using BookGen.Modules;
@@ -76,3 +77,4 @@ namespace BookGen.ConsoleUi
         }
     }
 }
+*/

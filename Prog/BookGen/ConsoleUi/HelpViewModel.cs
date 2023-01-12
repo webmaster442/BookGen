@@ -3,68 +3,69 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Gui.Mvvm;
+/*using BookGen.Gui.Mvvm;
 using BookGen.Modules;
 
 namespace BookGen.ConsoleUi
 {
-    internal sealed class HelpViewModel : ViewModelBase
-    {
-        private int _selectedIndex;
-        private readonly List<Framework.ModuleBase> _modules;
-        private const string back = "<-- Back to previous menu";
+  internal sealed class HelpViewModel : ViewModelBase
+   {
+       private int _selectedIndex;
+       private readonly List<Framework.ModuleBase> _modules;
+       private const string back = "<-- Back to previous menu";
 
-        public List<string> AvailableCommands { get; }
+       public List<string> AvailableCommands { get; }
 
-        public int SelectedIndex
-        {
-            get { return _selectedIndex; }
-            set
-            {
-                _selectedIndex = value;
-                UpdateText(value);
-            }
-        }
+       public int SelectedIndex
+       {
+           get { return _selectedIndex; }
+           set
+           {
+               _selectedIndex = value;
+               UpdateText(value);
+           }
+       }
 
-        public string CommandText { get; set; }
+       public string CommandText { get; set; }
 
-        public HelpViewModel(IEnumerable<Framework.ModuleBase> modules)
-        {
+       public HelpViewModel(IEnumerable<Framework.ModuleBase> modules)
+       {
 
-            CommandText = string.Empty;
-            _modules = new List<Framework.ModuleBase>(modules);
+           CommandText = string.Empty;
+           _modules = new List<Framework.ModuleBase>(modules);
 
-            AvailableCommands = modules
-                                    .Select(module => module.ModuleCommand)
-                                    .OrderBy(x => x)
-                                    .ToList();
+           AvailableCommands = modules
+                                   .Select(module => module.ModuleCommand)
+                                   .OrderBy(x => x)
+                                   .ToList();
 
-            AvailableCommands.Add(back);
+           AvailableCommands.Add(back);
 
-            SelectedIndex = 0;
+           SelectedIndex = 0;
 
-        }
+       }
 
-        private void UpdateText(int value)
-        {
-            string moduleName = AvailableCommands[value];
+       private void UpdateText(int value)
+       {
+           string moduleName = AvailableCommands[value];
 
-            if (moduleName == back)
-            {
-                View?.SwitchToView(GuiModule.MainView);
-            }
+           if (moduleName == back)
+           {
+               View?.SwitchToView(GuiModule.MainView);
+           }
 
-            CommandText = ReformatText(moduleName);
-            View?.UpdateViewFromModel();
-        }
+           CommandText = ReformatText(moduleName);
+           View?.UpdateViewFromModel();
+       }
 
-        private string ReformatText(string moduleName)
-        {
-            string? text = _modules
-                .Find(module => module.ModuleCommand == moduleName)
-                ?.GetHelp() ?? string.Empty;
+       private string ReformatText(string moduleName)
+       {
+           string? text = _modules
+               .Find(module => module.ModuleCommand == moduleName)
+               ?.GetHelp() ?? string.Empty;
 
-            return text.Replace("  ", "");
-        }
-    }
+           return text.Replace("  ", "");
+       }
+   }
 }
+*/

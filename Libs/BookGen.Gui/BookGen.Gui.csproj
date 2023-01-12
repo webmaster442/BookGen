@@ -10,8 +10,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1462.37" />
-		<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="7.0.0" />
-		<PackageReference Include="Terminal.Gui" Version="1.9.0" />
+		<PackageReference Include="Spectre.Console" Version="0.46.0" />
+		<PackageReference Include="Spectre.Console.Analyzer" Version="0.46.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
   <ItemGroup>

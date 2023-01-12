@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.ConsoleUi;
+//using BookGen.ConsoleUi;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
@@ -14,11 +14,11 @@ namespace BookGen.Modules
 {
     internal sealed class InitModule : ModuleWithState, IDisposable
     {
-        private Gui.ConsoleUi? uiRunner;
+        //private Gui.ConsoleUi? uiRunner;
 
         public InitModule(ProgramState currentState) : base(currentState)
         {
-            uiRunner = new Gui.ConsoleUi();
+            //uiRunner = new Gui.ConsoleUi();
         }
 
         public override string ModuleCommand => "Init";
@@ -40,30 +40,30 @@ namespace BookGen.Modules
             using (var l = new FolderLock(args.Directory))
             {
 
-                System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
-                var vm = new InitializeViewModel(CurrentState.Log, new FsPath(args.Directory));
+                //System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
+                //var vm = new InitializeViewModel(CurrentState.Log, new FsPath(args.Directory));
 
-                if (Ui != null)
-                {
-                    uiRunner?.Run(Ui, vm);
-                    return ModuleRunResult.Succes;
-                }
+                //if (Ui != null)
+                //{
+                //    uiRunner?.Run(Ui, vm);
+                //    return ModuleRunResult.Succes;
+                //}
             }
             return ModuleRunResult.GeneralError;
         }
 
         public override void Abort()
         {
-            uiRunner?.SuspendUi();
+            //uiRunner?.SuspendUi();
         }
 
         public void Dispose()
         {
-            if (uiRunner != null)
-            {
-                uiRunner.Dispose();
-                uiRunner = null;
-            }
+            //if (uiRunner != null)
+            //{
+            //    uiRunner.Dispose();
+            //    uiRunner = null;
+            //}
         }
     }
 }

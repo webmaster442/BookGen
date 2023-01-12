@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.ConsoleUi;
+//using BookGen.ConsoleUi;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
@@ -16,7 +16,7 @@ namespace BookGen.Modules
 {
     internal sealed class GuiModule : ModuleWithState, IDisposable, IModuleCollection
     {
-        private Gui.ConsoleUi? uiRunner;
+        //private Gui.ConsoleUi? uiRunner;
         private GeneratorRunner? _runner;
         private FolderLock? _folderLock;
 
@@ -25,7 +25,7 @@ namespace BookGen.Modules
 
         public GuiModule(ProgramState currentState) : base(currentState)
         {
-            uiRunner = new Gui.ConsoleUi();
+            //uiRunner = new Gui.ConsoleUi();
         }
 
         public override string ModuleCommand => "Gui";
@@ -59,15 +59,15 @@ namespace BookGen.Modules
 
             _folderLock = new FolderLock(args.Directory);
 
-            if (uiRunner != null)
-            {
+            //if (uiRunner != null)
+            //{
 
-                uiRunner.OnNavigaton += UiRunner_OnNavigaton;
-                (System.IO.Stream view, Gui.Mvvm.ViewModelBase model) = UiRunner_OnNavigaton(MainView);
+            //    uiRunner.OnNavigaton += UiRunner_OnNavigaton;
+            //    (System.IO.Stream view, Gui.Mvvm.ViewModelBase model) = UiRunner_OnNavigaton(MainView);
 
-                uiRunner.Run(view, model);
-                return ModuleRunResult.Succes;
-            }
+            //    uiRunner.Run(view, model);
+            //    return ModuleRunResult.Succes;
+            //}
 
             return ModuleRunResult.GeneralError;
         }
@@ -82,39 +82,39 @@ namespace BookGen.Modules
             throw new InvalidOperationException($"Can't find view: {name}");
         }
 
-        private (System.IO.Stream view, Gui.Mvvm.ViewModelBase model) UiRunner_OnNavigaton(string arg)
-        {
-            if (arg == MainView
-                && _runner != null)
-            {
-                var vm = new MainViewModel(_runner, CurrentState.Api);
-                return (GetView(MainView), vm);
-            }
-            else if (arg == HelpView)
-            {
-                var helpvm = new HelpViewModel(Modules ?? Enumerable.Empty<ModuleBase>());
-                return (GetView(HelpView), helpvm);
-            }
-            throw new InvalidOperationException($"Can't find view: {arg}");
-        }
+        //private (System.IO.Stream view, Gui.Mvvm.ViewModelBase model) UiRunner_OnNavigaton(string arg)
+        //{
+        //    //if (arg == MainView
+        //    //    && _runner != null)
+        //    //{
+        //    //    var vm = new MainViewModel(_runner, CurrentState.Api);
+        //    //    return (GetView(MainView), vm);
+        //    //}
+        //    //else if (arg == HelpView)
+        //    //{
+        //    //    var helpvm = new HelpViewModel(Modules ?? Enumerable.Empty<ModuleBase>());
+        //    //    return (GetView(HelpView), helpvm);
+        //    //}
+        //    //throw new InvalidOperationException($"Can't find view: {arg}");
+        //}
 
         public override void Abort()
         {
-            uiRunner?.SuspendUi();
+            ////uiRunner?.SuspendUi();
         }
 
         public void Dispose()
         {
-            if (uiRunner != null)
-            {
-                uiRunner.Dispose();
-                uiRunner = null;
-            }
-            if (_folderLock != null)
-            {
-                _folderLock.Dispose();
-                _folderLock = null;
-            }
+            //if (uiRunner != null)
+            //{
+            //    uiRunner.Dispose();
+            //    uiRunner = null;
+            //}
+            //if (_folderLock != null)
+            //{
+            //    _folderLock.Dispose();
+            //    _folderLock = null;
+            //}
 
         }
     }
