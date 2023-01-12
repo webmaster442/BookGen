@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 //using BookGen.ConsoleUi;
+using BookGen.ConsoleUi;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
@@ -14,9 +15,9 @@ using BookGen.ProjectHandling;
 
 namespace BookGen.Modules
 {
-    internal sealed class GuiModule : ModuleWithState, IDisposable, IModuleCollection
+    internal sealed class GuiModule : ModuleWithState, IDisposable, IModuleCollection, IAsyncModule
     {
-        //private Gui.ConsoleUi? uiRunner;
+        private MainMenu? _mainMenu;
         private GeneratorRunner? _runner;
         private FolderLock? _folderLock;
 
@@ -25,7 +26,7 @@ namespace BookGen.Modules
 
         public GuiModule(ProgramState currentState) : base(currentState)
         {
-            //uiRunner = new Gui.ConsoleUi();
+            _mainMenu = new MainMenu();
         }
 
         public override string ModuleCommand => "Gui";
@@ -44,7 +45,7 @@ namespace BookGen.Modules
 
         public IEnumerable<ModuleBase>? Modules { get; set; }
 
-        public override ModuleRunResult Execute(string[] arguments)
+        public async Task<ModuleRunResult> ExecuteAsync(string[] arguments)
         {
             var args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
@@ -59,17 +60,18 @@ namespace BookGen.Modules
 
             _folderLock = new FolderLock(args.Directory);
 
-            //if (uiRunner != null)
-            //{
-
-            //    uiRunner.OnNavigaton += UiRunner_OnNavigaton;
-            //    (System.IO.Stream view, Gui.Mvvm.ViewModelBase model) = UiRunner_OnNavigaton(MainView);
-
-            //    uiRunner.Run(view, model);
-            //    return ModuleRunResult.Succes;
-            //}
+            if (_mainMenu != null)
+            {
+                await _mainMenu.Run();
+                return ModuleRunResult.Succes;
+            }
 
             return ModuleRunResult.GeneralError;
+        }
+
+        public override ModuleRunResult Execute(string[] arguments)
+        {
+            return ModuleRunResult.AsyncModuleCalledInSyncMode;
         }
 
         private static System.IO.Stream GetView(string name)
@@ -82,39 +84,23 @@ namespace BookGen.Modules
             throw new InvalidOperationException($"Can't find view: {name}");
         }
 
-        //private (System.IO.Stream view, Gui.Mvvm.ViewModelBase model) UiRunner_OnNavigaton(string arg)
-        //{
-        //    //if (arg == MainView
-        //    //    && _runner != null)
-        //    //{
-        //    //    var vm = new MainViewModel(_runner, CurrentState.Api);
-        //    //    return (GetView(MainView), vm);
-        //    //}
-        //    //else if (arg == HelpView)
-        //    //{
-        //    //    var helpvm = new HelpViewModel(Modules ?? Enumerable.Empty<ModuleBase>());
-        //    //    return (GetView(HelpView), helpvm);
-        //    //}
-        //    //throw new InvalidOperationException($"Can't find view: {arg}");
-        //}
-
         public override void Abort()
         {
-            ////uiRunner?.SuspendUi();
+            _mainMenu?.Cancel();
         }
 
         public void Dispose()
         {
-            //if (uiRunner != null)
-            //{
-            //    uiRunner.Dispose();
-            //    uiRunner = null;
-            //}
-            //if (_folderLock != null)
-            //{
-            //    _folderLock.Dispose();
-            //    _folderLock = null;
-            //}
+            if (_mainMenu != null)
+            {
+                _mainMenu.Dispose();
+                _mainMenu = null;
+            }
+            if (_folderLock != null)
+            {
+                _folderLock.Dispose();
+                _folderLock = null;
+            }
 
         }
     }
