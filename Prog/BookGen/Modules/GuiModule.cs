@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-//using BookGen.ConsoleUi;
 using BookGen.ConsoleUi;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
@@ -26,7 +25,6 @@ namespace BookGen.Modules
 
         public GuiModule(ProgramState currentState) : base(currentState)
         {
-            _mainMenu = new MainMenu();
         }
 
         public override string ModuleCommand => "Gui";
@@ -56,6 +54,8 @@ namespace BookGen.Modules
             CurrentState.Gui = true;
             _runner = CurrentState.Api.CreateRunner(args.Verbose, args.Directory);
 
+            _mainMenu = new MainMenu(_runner, CurrentState.Api);
+
             CheckLockFileExistsAndExitWhenNeeded(args.Directory);
 
             _folderLock = new FolderLock(args.Directory);
@@ -72,16 +72,6 @@ namespace BookGen.Modules
         public override ModuleRunResult Execute(string[] arguments)
         {
             return ModuleRunResult.AsyncModuleCalledInSyncMode;
-        }
-
-        private static System.IO.Stream GetView(string name)
-        {
-            System.IO.Stream? result = typeof(GuiModule).Assembly.GetManifestResourceStream(name);
-            if (result != null)
-            {
-                return result;
-            }
-            throw new InvalidOperationException($"Can't find view: {name}");
         }
 
         public override void Abort()

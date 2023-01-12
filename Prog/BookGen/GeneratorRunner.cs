@@ -75,15 +75,17 @@ namespace BookGen
 
         }
 
-        public void InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
+        public bool InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
         {
             if (Initialize())
             {
                 actionToExecute.Invoke(this);
+                return true;
             }
             else
             {
                 Program.Exit(ExitCode.BadConfiguration);
+                return false;
             }
         }
 
