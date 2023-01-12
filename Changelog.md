@@ -1,4 +1,4 @@
-# 2023.
+# 2023.01.12
 * New: Rewrote launcher, looks a bit better & has built in preview function
 * New: Math2SVG module (Requires internet connection to work)
 * New: Output type for post processing (experimental)
