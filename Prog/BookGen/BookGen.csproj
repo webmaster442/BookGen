@@ -40,7 +40,6 @@
 	<ItemGroup>
 		<None Remove="ConsoleUi\HelpView.xml" />
 		<None Remove="ConsoleUi\InitializeView.xml" />
-		<None Remove="ConsoleUi\MainView.xml" />
 		<None Remove="Resources\Help.AssemblyDocumentModule.txt" />
 		<None Remove="Resources\Help.BuildModule.txt" />
 		<None Remove="Resources\Help.ChaptersModule.txt" />
@@ -90,7 +89,6 @@
 	<ItemGroup>
 		<EmbeddedResource Include="ConsoleUi\HelpView.xml" />
 		<EmbeddedResource Include="ConsoleUi\InitializeView.xml" />
-		<EmbeddedResource Include="ConsoleUi\MainView.xml" />
 		<EmbeddedResource Include="Resources\Help.ChaptersModule.txt" />
 		<EmbeddedResource Include="Resources\Help.ConfigHelpModule.txt" />
 		<EmbeddedResource Include="Resources\Help.AssemblyDocumentModule.txt" />

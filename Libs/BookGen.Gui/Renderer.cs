@@ -49,9 +49,9 @@ public sealed class Renderer
 
     public void Clear() => _console.Clear();
 
-    public void AlternateScreen(Action alternateScreenAction)
+    public void PrintText(string line)
     {
-        _console.AlternateScreen(alternateScreenAction);
+        _console.WriteLine(Localize(line));
     }
 
     public void PrintText(IEnumerable<string> lines)
@@ -77,6 +77,24 @@ public sealed class Renderer
     {
         var rule = new Rule(Localize(text));
         _console.Write(rule);
+    }
+
+    public Task WaitKey()
+    {
+        var confirm = new TextPrompt<string>("Press a key to continue...").AllowEmpty();
+        return confirm.ShowAsync(_console, _token);
+    }
+
+    public async Task<string> SelectionMenu(string title, IEnumerable<string> selectionItems, int pageSize = 12)
+    {
+        var selector = new SelectionPrompt<string>()
+            .Title(title)
+            .PageSize(pageSize)
+            .AddChoices(selectionItems);
+
+        var selected = await selector.ShowAsync(_console, _token);
+
+        return selected;
     }
 
     public async Task<T> SelectionMenu<T>(string title, IDictionary<string, T> selectionItems)
@@ -113,11 +131,16 @@ public sealed class Renderer
         return results.ToHashSet();
     }
 
-    public void BlankLine(int numberOfLines)
+    public void BlankLine(int numberOfLines = 1)
     {
         for (int i=0; i<numberOfLines; i++)
         {
             _console.WriteLine("");
         }
+    }
+
+    public void DisplayPath(string title, string path)
+    {
+        _console.MarkupInterpolated($"{title} [green]{path}[/]\r\n");
     }
 }

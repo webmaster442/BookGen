@@ -1,6 +1,8 @@
-﻿using BookGen.Gui;
+﻿using BookGen.Framework;
+using BookGen.Gui;
 using BookGen.Gui.MenuEnums;
 using BookGen.Infrastructure;
+using System.Data;
 using System.Diagnostics;
 
 namespace BookGen.ConsoleUi;
@@ -9,11 +11,22 @@ internal sealed class MainMenu : MenuBase
 {
     private readonly GeneratorRunner _runner;
     private readonly IModuleApi _api;
+    private readonly Dictionary<string, string> _helpTable;
+    private bool _inHelpMode;
 
-    public MainMenu(GeneratorRunner runner, IModuleApi api)
+    public MainMenu(GeneratorRunner runner, IModuleApi api, IEnumerable<ModuleBase> modules)
     {
         _runner = runner;
         _api = api;
+        _helpTable = modules.ToDictionary(m => m.ModuleCommand,
+                                          m => m.GetHelp() ?? "Module has no help");
+        _helpTable.Add("<-- Back to previous menu", nameof(ToggleHelp));
+    }
+
+    private bool ToggleHelp()
+    {
+        _inHelpMode =!_inHelpMode;
+        return true;
     }
 
     protected override async Task OnRender(Renderer renderer)
@@ -22,11 +35,30 @@ internal sealed class MainMenu : MenuBase
         while (shouldRun)
         {
             renderer.Clear();
-            renderer.FigletText("BookGen Gui", ConsoleColor.Green);
-            renderer.BlankLine(2);
+            if (_inHelpMode)
+            {
+                var selection = await renderer.SelectionMenu("Select a command to display it's usage: ", _helpTable.Keys);
+                var text = _helpTable[selection];
+                if (text == nameof(ToggleHelp))
+                {
+                    ToggleHelp();
+                }
+                else
+                {
+                    renderer.Clear();
+                    renderer.PrintText(text);
+                    await renderer.WaitKey();
+                }
+            }
+            else
+            {
+                renderer.FigletText("BookGen Gui", ConsoleColor.Green);
+                renderer.DisplayPath("Work directory", _runner.WorkDirectory);
+                renderer.BlankLine();
 
-            var selection = await renderer.SelectionMenu("Select acion", GetEnumItems<MainMenuAction>());
-            shouldRun = DoAction(selection, renderer);
+                var selection = await renderer.SelectionMenu("Select acion:", GetEnumItems<MainMenuAction>());
+                shouldRun = DoAction(selection, renderer);
+            }
         }
     }
 
@@ -68,10 +100,9 @@ internal sealed class MainMenu : MenuBase
             MainMenuAction.PreviewServer => StartModuleInWorkdir("preview"),
             MainMenuAction.Stat => StartModuleInWorkdir("stat"),
             MainMenuAction.Update => LaunchUpdater(),
-            MainMenuAction.Help or MainMenuAction.Exit => false,
+            MainMenuAction.Help => ToggleHelp(),
+            MainMenuAction.Exit => false,
             _ => throw new InvalidOperationException("Unknown command"),
-        };
+        } ;
     }
-
-
 }

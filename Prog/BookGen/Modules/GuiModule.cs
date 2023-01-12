@@ -45,6 +45,9 @@ namespace BookGen.Modules
 
         public async Task<ModuleRunResult> ExecuteAsync(string[] arguments)
         {
+            if (Modules == null)
+                throw new DependencyException(nameof(Modules));
+
             var args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
             {
@@ -54,7 +57,7 @@ namespace BookGen.Modules
             CurrentState.Gui = true;
             _runner = CurrentState.Api.CreateRunner(args.Verbose, args.Directory);
 
-            _mainMenu = new MainMenu(_runner, CurrentState.Api);
+            _mainMenu = new MainMenu(_runner, CurrentState.Api, Modules);
 
             CheckLockFileExistsAndExitWhenNeeded(args.Directory);
 
