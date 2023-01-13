@@ -138,6 +138,27 @@
   <data name="ID_ClearOutputDirectory" xml:space="preserve">
     <value>Clean output directory</value>
   </data>
+  <data name="ID_ConfigJson" xml:space="preserve">
+    <value>Config in Json format</value>
+  </data>
+  <data name="ID_ConfigYaml" xml:space="preserve">
+    <value>Config in yaml format</value>
+  </data>
+  <data name="ID_CreateConfig" xml:space="preserve">
+    <value>Create/overwrite configuration file?</value>
+  </data>
+  <data name="ID_CreateMdFiles" xml:space="preserve">
+    <value>Create summary.md/overwrite and index.md files?</value>
+  </data>
+  <data name="ID_CreateScripts" xml:space="preserve">
+    <value>Create/overwrite script file and script project?</value>
+  </data>
+  <data name="ID_CreateTemplates" xml:space="preserve">
+    <value>Extract/overwrite templates for customization?</value>
+  </data>
+  <data name="ID_CreateVsTasks" xml:space="preserve">
+    <value>Create/overwrite VS Tasks json file?</value>
+  </data>
   <data name="ID_Exit" xml:space="preserve">
     <value>Exit program</value>
   </data>

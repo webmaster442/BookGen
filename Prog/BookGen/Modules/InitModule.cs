@@ -1,31 +1,36 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2021 Ruzsinszki Gábor
+// (c) 2020-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-//using BookGen.ConsoleUi;
+using BookGen.ConsoleUi;
 using BookGen.Domain.ArgumentParsing;
 using BookGen.Domain.Shell;
 using BookGen.Framework;
 using BookGen.Gui.ArgumentParser;
+using BookGen.Infrastructure;
 using BookGen.Interfaces;
 
 namespace BookGen.Modules
 {
-    internal sealed class InitModule : ModuleWithState, IDisposable
+    internal sealed class InitModule : ModuleWithState, IDisposable, IAsyncModule
     {
-        //private Gui.ConsoleUi? uiRunner;
+        private InitMenu? _initMenu;
+
 
         public InitModule(ProgramState currentState) : base(currentState)
         {
-            //uiRunner = new Gui.ConsoleUi();
         }
 
         public override string ModuleCommand => "Init";
 
-        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem(ModuleCommand, "-d", "--dir", "-v", "--verbose");
+        public override AutoCompleteItem AutoCompleteInfo => new AutoCompleteItem(ModuleCommand,
+                                                                                  "-d",
+                                                                                  "--dir",
+                                                                                  "-v",
+                                                                                  "--verbose");
 
-        public override ModuleRunResult Execute(string[] arguments)
+        public async Task<ModuleRunResult> ExecuteAsync(string[] arguments)
         {
             var args = new BookGenArgumentBase();
             if (!ArgumentParser.ParseArguments(arguments, args))
@@ -40,30 +45,30 @@ namespace BookGen.Modules
             using (var l = new FolderLock(args.Directory))
             {
 
-                //System.IO.Stream? Ui = typeof(GuiModule).Assembly.GetManifestResourceStream("BookGen.ConsoleUi.InitializeView.xml");
-                //var vm = new InitializeViewModel(CurrentState.Log, new FsPath(args.Directory));
+                _initMenu = new InitMenu(CurrentState.Log, new FsPath(args.Directory));
+                await _initMenu.Run();
+                return ModuleRunResult.Succes;
 
-                //if (Ui != null)
-                //{
-                //    uiRunner?.Run(Ui, vm);
-                //    return ModuleRunResult.Succes;
-                //}
             }
-            return ModuleRunResult.GeneralError;
+        }
+
+        public override ModuleRunResult Execute(string[] arguments)
+        {
+            return ModuleRunResult.AsyncModuleCalledInSyncMode;
         }
 
         public override void Abort()
         {
-            //uiRunner?.SuspendUi();
+            _initMenu?.Cancel();
         }
 
         public void Dispose()
         {
-            //if (uiRunner != null)
-            //{
-            //    uiRunner.Dispose();
-            //    uiRunner = null;
-            //}
+            if (_initMenu != null)
+            {
+                _initMenu.Dispose();
+                _initMenu = null;
+            }
         }
     }
 }

@@ -124,6 +124,69 @@ namespace BookGen.Gui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Config in Json format.
+        /// </summary>
+        internal static string ID_ConfigJson {
+            get {
+                return ResourceManager.GetString("ID_ConfigJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Config in yaml format.
+        /// </summary>
+        internal static string ID_ConfigYaml {
+            get {
+                return ResourceManager.GetString("ID_ConfigYaml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create/overwrite configuration file?.
+        /// </summary>
+        internal static string ID_CreateConfig {
+            get {
+                return ResourceManager.GetString("ID_CreateConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create summary.md/overwrite and index.md files?.
+        /// </summary>
+        internal static string ID_CreateMdFiles {
+            get {
+                return ResourceManager.GetString("ID_CreateMdFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create/overwrite script file and script project?.
+        /// </summary>
+        internal static string ID_CreateScripts {
+            get {
+                return ResourceManager.GetString("ID_CreateScripts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extract/overwrite templates for customization?.
+        /// </summary>
+        internal static string ID_CreateTemplates {
+            get {
+                return ResourceManager.GetString("ID_CreateTemplates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create/overwrite VS Tasks json file?.
+        /// </summary>
+        internal static string ID_CreateVsTasks {
+            get {
+                return ResourceManager.GetString("ID_CreateVsTasks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit program.
         /// </summary>
         internal static string ID_Exit {
