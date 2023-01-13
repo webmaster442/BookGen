@@ -1,9 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework;
+using BookGen.Gui;
 using System.Diagnostics;
 using System.Threading;
 
@@ -91,7 +92,7 @@ namespace BookGen.Infrastructure
             else
             {
                 bool logFile = GetSwitch(arguments, LogFileShort, LogFileLong);
-                var log = new ConsoleLog(logFile);
+                var log = new TerminalLog(logFile);
                 state = new ProgramState(new ModuleApi(), log, log);
             }
             state.NoWaitForExit = GetSwitch(arguments, NoWait, NoWait);

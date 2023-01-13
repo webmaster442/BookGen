@@ -23,6 +23,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />
+	  <ProjectReference Include="..\Webmaster442.HttpServerFramework\Webmaster442.HttpServerFramework.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

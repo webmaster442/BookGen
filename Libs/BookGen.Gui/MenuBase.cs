@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Spectre.Console;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace BookGen.Gui;
@@ -45,7 +46,7 @@ public abstract class MenuBase : IDisposable
         return items;
     }
 
-    public Task Run()
+    public async Task Run()
     {
         if (_tokenSource != null)
             throw new InvalidOperationException("Allready running");
@@ -56,7 +57,25 @@ public abstract class MenuBase : IDisposable
                                     Properties.Resources.ResourceManager,
                                     _tokenSource.Token);
 
-        return OnRender(renderer);
+        try
+        {
+            Console.CancelKeyPress += OnCancel;
+            await OnRender(renderer);
+        }
+        catch (TaskCanceledException) 
+        {
+            Debug.WriteLine("Run() Task cancelled");
+        }
+        finally
+        {
+            Console.CancelKeyPress -= OnCancel;
+        }
+    }
+
+    private void OnCancel(object? sender, ConsoleCancelEventArgs e)
+    {
+        _tokenSource?.Cancel();
+        e.Cancel = true;
     }
 
     public void Cancel()
@@ -76,5 +95,6 @@ public abstract class MenuBase : IDisposable
     public void Dispose()
     {
         Dispose(false);
+        GC.SuppressFinalize(this);
     }
 }
