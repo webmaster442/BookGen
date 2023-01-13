@@ -1,8 +1,12 @@
-﻿using BookGen.Framework;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Framework;
 using BookGen.Gui;
 using BookGen.Gui.MenuEnums;
 using BookGen.Infrastructure;
-using System.Data;
 using System.Diagnostics;
 
 namespace BookGen.ConsoleUi;
@@ -37,6 +41,7 @@ internal sealed class MainMenu : MenuBase
             renderer.Clear();
             if (_inHelpMode)
             {
+                renderer.FigletText("BookGen Help", ConsoleColor.Green);
                 var selection = await renderer.SelectionMenu("Select a command to display it's usage: ", _helpTable.Keys);
                 var text = _helpTable[selection];
                 if (text == nameof(ToggleHelp))
@@ -46,8 +51,8 @@ internal sealed class MainMenu : MenuBase
                 else
                 {
                     renderer.Clear();
-                    renderer.PrintText(text);
-                    await renderer.WaitKey();
+                    renderer.Rule(selection);
+                    await renderer.PrintPagedText(text);
                 }
             }
             else

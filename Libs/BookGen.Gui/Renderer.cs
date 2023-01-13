@@ -54,13 +54,25 @@ public sealed class Renderer
         _console.WriteLine(Localize(line));
     }
 
-    public void PrintText(IEnumerable<string> lines)
+    public async Task PrintPagedText(string text)
     {
+        IReadOnlyList<string> lines = TextHelper.GetLines(text, Console.WindowWidth);
+        int pageLines = Console.WindowHeight - 3;
+        int pageLineCounter = 0;
         foreach (var line in lines)
         {
-            _console.WriteLine(Localize(line));
+            _console.WriteLine(line);
+            pageLineCounter++;
+            if (pageLineCounter >= pageLines)
+            {
+                await WaitKey("Press a key for next page");
+                _console.Clear();
+                pageLineCounter = 0;
+            }
         }
+        await WaitKey();
     }
+
 
     public void FigletText(string text, ConsoleColor color)
     {
@@ -79,7 +91,7 @@ public sealed class Renderer
         _console.Write(rule);
     }
 
-    public Task WaitKey()
+    public Task WaitKey(string message = "Press a key to continue...")
     {
         var confirm = new TextPrompt<string>("Press a key to continue...").AllowEmpty();
         return confirm.ShowAsync(_console, _token);
