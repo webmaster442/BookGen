@@ -92,7 +92,7 @@ public sealed class Renderer
 
     public Task WaitKey(string message = "Press a key to continue...")
     {
-        TextPrompt<string> confirm = new TextPrompt<string>("Press a key to continue...").AllowEmpty();
+        TextPrompt<string> confirm = new TextPrompt<string>(message).AllowEmpty();
         return confirm.ShowAsync(_console, _token);
     }
 
@@ -153,5 +153,13 @@ public sealed class Renderer
     public void DisplayPath(string title, string path)
     {
         _console.MarkupInterpolated($"{title} [green]{path}[/]\r\n");
+    }
+
+    public void DisplayImage(Stream img)
+    {
+        var markup = TextHelper.ImageStreamToMarkup(img,
+                                                    Console.WindowWidth,
+                                                    Console.WindowHeight);
+        _console.Markup(markup);
     }
 }
