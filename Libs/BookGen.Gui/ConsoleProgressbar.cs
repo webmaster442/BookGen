@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Spectre.Console;
 using System.Text;
 
 namespace BookGen.Gui
@@ -17,9 +18,9 @@ namespace BookGen.Gui
         public void SwitchBuffers()
         {
             if (!_alternateBuffer)
-                Console.Write("\x1b[?1049h");
+                AnsiConsole.Write("\x1b[?1049h");
             else
-                Console.Write("\x1b[?1049l");
+                AnsiConsole.Write("\x1b[?1049l");
 
             _alternateBuffer = !_alternateBuffer;
         }
@@ -55,16 +56,16 @@ namespace BookGen.Gui
             int height = (Console.WindowHeight - 3) / 2;
 
             Console.SetCursorPosition(0, height);
-            Console.Write(buffer.ToString());
-            Console.Write(buffer.ToString());
-            Console.WriteLine("  " + message, args);
+            AnsiConsole.Write(buffer.ToString());
+            AnsiConsole.Write(buffer.ToString());
+            AnsiConsole.WriteLine("  " + message, args);
         }
 
         public void Report(IEnumerable<string> value)
         {
             foreach (string? item in value)
             {
-                Console.WriteLine(item);
+                AnsiConsole.WriteLine(item);
             }
         }
     }

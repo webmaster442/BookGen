@@ -34,7 +34,7 @@ public sealed class Renderer
     {
         get
         {
-            var (Left, Top) = Console.GetCursorPosition();
+            (int Left, int Top) = Console.GetCursorPosition();
             return new Position
             {
                 X = Left,
@@ -59,7 +59,7 @@ public sealed class Renderer
         IReadOnlyList<string> lines = TextHelper.GetLines(text, Console.WindowWidth);
         int pageLines = Console.WindowHeight - 3;
         int pageLineCounter = 0;
-        foreach (var line in lines)
+        foreach (string line in lines)
         {
             _console.WriteLine(line);
             pageLineCounter++;
@@ -72,7 +72,6 @@ public sealed class Renderer
         }
         await WaitKey();
     }
-
 
     public void FigletText(string text, ConsoleColor color)
     {
@@ -93,18 +92,18 @@ public sealed class Renderer
 
     public Task WaitKey(string message = "Press a key to continue...")
     {
-        var confirm = new TextPrompt<string>("Press a key to continue...").AllowEmpty();
+        TextPrompt<string> confirm = new TextPrompt<string>("Press a key to continue...").AllowEmpty();
         return confirm.ShowAsync(_console, _token);
     }
 
     public async Task<string> SelectionMenu(string title, IEnumerable<string> selectionItems, int pageSize = 12)
     {
-        var selector = new SelectionPrompt<string>()
+        SelectionPrompt<string> selector = new SelectionPrompt<string>()
             .Title(title)
             .PageSize(pageSize)
             .AddChoices(selectionItems);
 
-        var selected = await selector.ShowAsync(_console, _token);
+        string selected = await selector.ShowAsync(_console, _token);
 
         return selected;
     }
@@ -112,40 +111,40 @@ public sealed class Renderer
     public async Task<T> SelectionMenu<T>(string title, IDictionary<string, T> selectionItems)
         where T : struct, Enum
     {
-        var selector = new SelectionPrompt<string>()
+        SelectionPrompt<string> selector = new SelectionPrompt<string>()
             .Title(title)
             .PageSize(12)
             .AddChoices(selectionItems.Keys.ToArray());
 
-        var selected = await selector.ShowAsync(_console, _token);
+        string selected = await selector.ShowAsync(_console, _token);
 
         return selectionItems[selected];
     }
 
     public async Task<ISet<T>> MultiSelectionMenu<T>(string title,
                                          bool isRequred,
-                                         IDictionary<string, T> selectionItems) 
+                                         IDictionary<string, T> selectionItems)
         where T : struct, Enum
     {
-        var selector = new MultiSelectionPrompt<string>()
+        MultiSelectionPrompt<string> selector = new MultiSelectionPrompt<string>()
             .Title(title)
             .PageSize(12)
             .Required(isRequred)
             .AddChoices(selectionItems.Keys.ToArray());
 
-        var selections = await selector.ShowAsync(_console, _token);
+        List<string> selections = await selector.ShowAsync(_console, _token);
 
-        var results = from selection in selections
-                      from selectionItem in selectionItems
-                      where selectionItem.Key == selection
-                      select selectionItem.Value;
+        IEnumerable<T> results = from selection in selections
+                                 from selectionItem in selectionItems
+                                 where selectionItem.Key == selection
+                                 select selectionItem.Value;
 
         return results.ToHashSet();
     }
 
     public void BlankLine(int numberOfLines = 1)
     {
-        for (int i=0; i<numberOfLines; i++)
+        for (int i = 0; i < numberOfLines; i++)
         {
             _console.WriteLine("");
         }

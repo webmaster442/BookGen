@@ -26,10 +26,10 @@ public abstract class MenuBase : IDisposable
 
     protected static Dictionary<string, T> GetEnumItems<T>() where T : struct, Enum
     {
-        var values = Enum.GetValues<T>();
-        Dictionary<string, T> items = new Dictionary<string, T>(values.Length);
+        T[] values = Enum.GetValues<T>();
+        var items = new Dictionary<string, T>(values.Length);
         Type t = typeof(T);
-        foreach (var value in values)
+        foreach (T value in values)
         {
             FieldInfo? fieldInfo = t.GetField(value.ToString());
             TextAttribute? textAttribute = fieldInfo?.GetCustomAttribute<TextAttribute>();
@@ -62,7 +62,7 @@ public abstract class MenuBase : IDisposable
             Console.CancelKeyPress += OnCancel;
             await OnRender(renderer);
         }
-        catch (TaskCanceledException) 
+        catch (TaskCanceledException)
         {
             Debug.WriteLine("Run() Task cancelled");
         }

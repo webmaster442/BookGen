@@ -148,9 +148,9 @@ namespace BookGen.Gui.ArgumentParser
                     }
                     catch (Exception ex)
                         when (ex is InvalidCastException
-                             || ex is FormatException
-                             || ex is OverflowException
-                             || ex is ArgumentException)
+                             or FormatException
+                             or OverflowException
+                             or ArgumentException)
                     {
                         --_filled;
 #if DEBUG
