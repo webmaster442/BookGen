@@ -211,7 +211,8 @@ namespace BookGen
             ThrowIfInvalidState();
 
             Log.Info("Building test configuration...");
-            _configuration.HostName = "http://localhost:8080/";
+
+            _configuration.HostName = "http://localhost:8090/";
 
             RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetWeb);
 
@@ -226,7 +227,7 @@ namespace BookGen
                     server.Start();
                     Log.Info("-------------------------------------------------");
                     Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
-                    Log.Info("Test server running on: http://localhost:8080/");
+                    Log.Info("Test server running on: http://localhost:8090/");
                     Log.Info("Serving from: {0}", _configuration.TargetWeb.OutPutDirectory);
 
                     if (Program.AppSetting.AutoStartWebserver)

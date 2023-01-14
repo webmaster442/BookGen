@@ -63,6 +63,8 @@ internal sealed class MainMenu : MenuBase
 
                 var selection = await renderer.SelectionMenu("Select acion:", GetEnumItems<MainMenuAction>());
                 shouldRun = DoAction(selection, renderer);
+                if (shouldRun)
+                    await renderer.WaitKey();
             }
         }
     }

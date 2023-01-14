@@ -20,7 +20,7 @@ namespace BookGen.Framework.Server
             var server = new HttpServer(new HttpServerConfiguration
             {
                 DebugMode = debug,
-                Port = 8080,
+                Port = 8090,
             }, log);
 
             server.RegisterHandler(new FileServeHandler(folder, false, "/"));

@@ -17,10 +17,6 @@
 		</PackageReference>
 	</ItemGroup>
 
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="7.0.0" />
-  </ItemGroup>
-
 	<ItemGroup>
 	  <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />
 	  <ProjectReference Include="..\Webmaster442.HttpServerFramework\Webmaster442.HttpServerFramework.csproj" />

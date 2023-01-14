@@ -18,10 +18,15 @@ namespace BookGen.Gui
         public void SwitchBuffers()
         {
             if (!_alternateBuffer)
+            {
+                //entering
                 AnsiConsole.Write("\x1b[?1049h");
+            }
             else
+            {
+                //exiting
                 AnsiConsole.Write("\x1b[?1049l");
-
+            }
             _alternateBuffer = !_alternateBuffer;
         }
 
@@ -38,6 +43,7 @@ namespace BookGen.Gui
 
         public void Report(int value, string message, params object[] args)
         {
+            AnsiConsole.Clear();
             int range = Maximum - Minimum;
             int maxChars = Console.WindowWidth - "   ││   ".Length;
             int charcount = value * maxChars / range;
