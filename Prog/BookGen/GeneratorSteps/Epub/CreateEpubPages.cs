@@ -8,6 +8,7 @@ using BookGen.Framework;
 using BookGen.Interfaces;
 using BookGen.Resources;
 using System.ComponentModel.DataAnnotations;
+using System.Threading;
 
 namespace BookGen.GeneratorSteps.Epub
 {
@@ -40,6 +41,8 @@ namespace BookGen.GeneratorSteps.Epub
 
             HtmlTidy tidy = new();
 
+            Dictionary<FsPath, string> tidyCache = new();
+
             foreach (string? file in settings.TocContents.Files)
             {
                 _session.GeneratedFiles.Add($"page_{index:D3}");
@@ -54,13 +57,21 @@ namespace BookGen.GeneratorSteps.Epub
                 Content.Title = MarkdownUtils.GetDocumentTitle(inputContent, log);
                 Content.Content = pipeline.RenderMarkdown(inputContent);
 
-                var replaced = tidy.ConvertHtml5TagsToXhtmlCompatible(Template.Render());
-
-                string? html = tidy.HtmlToXhtml(replaced);
-
-                target.WriteFile(log, html);
+                tidyCache.Add(target, Template.Render());
                 ++index;
             }
+
+            ParallelOptions options = new ParallelOptions
+            {
+                MaxDegreeOfParallelism = 5,
+            };
+            
+            Parallel.ForEach(tidyCache, options, toTidy =>
+            {
+                string replaced = tidy.ConvertHtml5TagsToXhtmlCompatible(toTidy.Value);
+                string html = tidy.HtmlToXhtml(replaced);
+                toTidy.Key.WriteFile(log, html);
+            });
         }
     }
 }
