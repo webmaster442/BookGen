@@ -1,3 +1,10 @@
+#2023.
+* New: GUI has been reworked. Instead of Terminal.GUI Spectre.Console is used
+* Change: Default console log uses Spectre.Console for ouput. This produces more colorfull output
+* Change: Test server port is now 8090
+* Fix: E-pub build time has been reduced
+* Fix: Fixes a bug, which caused the progressbar messages while building not always readable
+
 # 2023.01.12
 * New: Rewrote launcher, looks a bit better & has built in preview function
 * New: Math2SVG module (Requires internet connection to work)

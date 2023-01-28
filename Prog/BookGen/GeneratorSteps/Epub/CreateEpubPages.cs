@@ -1,14 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.Interfaces;
-using BookGen.Resources;
-using System.ComponentModel.DataAnnotations;
-using System.Threading;
 
 namespace BookGen.GeneratorSteps.Epub
 {
