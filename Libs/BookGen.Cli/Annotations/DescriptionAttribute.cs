@@ -8,6 +8,6 @@
         public DescriptionAttribute(string description)
         {
             Description = description;
-        }   
+        }
     }
 }

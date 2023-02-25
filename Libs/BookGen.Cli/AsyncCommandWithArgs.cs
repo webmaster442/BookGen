@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="TArguments"></typeparam>
     public abstract class AsyncCommand<TArguments> : ICommand
-        where TArguments: ArgumentsBase
+        where TArguments : ArgumentsBase
     {
         public abstract Task<int> Execute(TArguments arguments, string[] context);
 

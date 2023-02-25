@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+    <ProjectReference Include="..\BookGen.Interfaces\BookGen.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 {
     public sealed class ValidationResult
     {
-        private List<string> _issues;
+        private readonly List<string> _issues;
 
         public ValidationResult()
         {
@@ -14,7 +14,7 @@
             _issues.Add(msg);
         }
 
-        public void AddIssue(bool condition, string msg) 
+        public void AddIssue(bool condition, string msg)
         {
             if (condition)
                 _issues.Add(msg);

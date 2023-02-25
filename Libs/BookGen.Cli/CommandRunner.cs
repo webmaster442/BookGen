@@ -1,25 +1,18 @@
 ﻿using BookGen.Api;
 using BookGen.Cli.Annotations;
+using BookGen.Cli.ArgumentParsing;
 using System.Reflection;
 
 namespace BookGen.Cli
 {
-    public class CommandRunnerSettings
-    {
-        public (int code, string message) UnknownCommandCodeAndMessage { get; init; }
-
-        public CommandRunnerSettings()
-        {
-            UnknownCommandCodeAndMessage = (-1, "Unknown command");
-        }
-    }
-
     public class CommandRunner
     {
         private readonly Dictionary<string, Type> _commands;
         private readonly IResolver _resolver;
         private readonly ILog _log;
         private readonly CommandRunnerSettings _settings;
+
+        private class EmptyArgs : ArgumentsBase { }
 
         private static string GetCommandName<TCommand>() where TCommand : ICommand
         {
@@ -33,6 +26,29 @@ namespace BookGen.Cli
             if (arguments.Length > 0) return arguments[0];
             return null;
         }
+        private void DefaultExceptionHandler(Exception obj)
+        {
+            _log.Critical(obj);
+        }
+
+        private ICommand CreateCommand(string commandName)
+        {
+            var constructor = _commands[commandName]
+                .GetConstructors(BindingFlags.Public)
+                .OrderByDescending(c => c.GetParameters().Length)
+                .First();
+
+            List<object> contructorParameters = new();
+            foreach (var param in constructor.GetParameters())
+            {
+                contructorParameters.Add(_resolver.Resolve(param.ParameterType));
+            }
+
+            var instance = Activator.CreateInstance(_commands[commandName], contructorParameters.ToArray())
+                ?? throw new InvalidOperationException();
+
+            return (ICommand)instance;
+        }
 
         public CommandRunner(IResolver resolver, ILog log, CommandRunnerSettings settings)
         {
@@ -40,7 +56,10 @@ namespace BookGen.Cli
             _resolver = resolver;
             _log = log;
             _settings = settings;
+            ExceptionHandlerDelegate = DefaultExceptionHandler;
         }
+
+        public Action<Exception> ExceptionHandlerDelegate { get; set; }
 
         public CommandRunner Add<TCommand>() where TCommand : ICommand
         {
@@ -60,18 +79,24 @@ namespace BookGen.Cli
                 return _settings.UnknownCommandCodeAndMessage.code;
             }
 
-            var ArgumentType = GetArgumentType(_commands[commandName]);
+            var argumentType = GetArgumentType(_commands[commandName]);
             ICommand command = CreateCommand(commandName);
 
-            if (ArgumentType == null)
-                return await command.Execute(null, argsToParse);
+            try
+            {
 
+                if (argumentType == null)
+                    return await command.Execute(new EmptyArgs(), argsToParse);
 
-        }
+                ArgumentParser parser = new(argumentType);
 
-        private ICommand CreateCommand(string commandName)
-        {
-            
+                return await command.Execute(parser.Fill(args), argsToParse);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandlerDelegate.Invoke(ex);
+                return -1;
+            }
         }
     }
 }

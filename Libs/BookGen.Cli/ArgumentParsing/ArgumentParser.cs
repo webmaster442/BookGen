@@ -1,5 +1,4 @@
 ﻿using BookGen.Cli.Annotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace BookGen.Cli.ArgumentParsing
@@ -9,7 +8,7 @@ namespace BookGen.Cli.ArgumentParsing
         private PropertyInfo[] _properities;
         private readonly Type _argumentType;
 
-        public ArgumentParser(Type argumentType) 
+        public ArgumentParser(Type argumentType)
         {
             _properities = argumentType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             _argumentType = argumentType;
@@ -17,7 +16,7 @@ namespace BookGen.Cli.ArgumentParsing
 
         private static string? GetSwitchValue(string[] args, SwitchAttribute @switch)
         {
-            for (int i=0; i<args.Length; i++)
+            for (int i = 0; i < args.Length; i++)
             {
                 if (args[i] == $"-{@switch.ShortName}"
                     || args[i] == $"--{@switch.LongName}")
@@ -40,7 +39,7 @@ namespace BookGen.Cli.ArgumentParsing
 
         public ArgumentsBase Fill(string[] args)
         {
-            var aguments = Activator.CreateInstance(_argumentType) 
+            var aguments = Activator.CreateInstance(_argumentType)
                 ?? throw new InvalidOperationException();
 
             foreach (var property in _properities)
