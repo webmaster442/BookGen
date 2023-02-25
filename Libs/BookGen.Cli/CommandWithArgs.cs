@@ -1,9 +1,11 @@
-﻿namespace BookGen.Cli
+﻿using BookGen.Cli.ArgumentParsing;
+
+namespace BookGen.Cli
 {
     /// <summary>
     /// Base class for a command.
     /// </summary>
-    /// <typeparam name="TArguments"></typeparam>
+    /// <typeparam name="TArguments">Argument type</typeparam>
     public abstract class Command<TArguments> : ICommand
         where TArguments : ArgumentsBase
     {
@@ -15,9 +17,10 @@
         }
 
         public virtual SupportedOs SupportedOs
-        {
-            get { return SupportedOs.Windows | SupportedOs.Linux | SupportedOs.OsX; }
-        }
+            => SupportedOs.Windows | SupportedOs.Linux | SupportedOs.OsX;
+
+        public virtual string[] AutocompleteItems 
+            => Autocomplete.GetInfo<TArguments>().Order().ToArray();
     }
 
 

@@ -1,9 +1,11 @@
-﻿namespace BookGen.Cli
+﻿using BookGen.Cli.ArgumentParsing;
+
+namespace BookGen.Cli
 {
     /// <summary>
     /// Base class for async command
     /// </summary>
-    /// <typeparam name="TArguments"></typeparam>
+    /// <typeparam name="TArguments">Argument type</typeparam>
     public abstract class AsyncCommand<TArguments> : ICommand
         where TArguments : ArgumentsBase
     {
@@ -14,10 +16,11 @@
             return Execute((TArguments)arguments, context);
         }
 
-        public virtual SupportedOs SupportedOs
-        {
-            get { return SupportedOs.Windows | SupportedOs.Linux | SupportedOs.OsX; }
-        }
+        public virtual SupportedOs SupportedOs 
+            => SupportedOs.Windows | SupportedOs.Linux | SupportedOs.OsX;
+
+        public virtual string[] AutocompleteItems
+            => Autocomplete.GetInfo<TArguments>().Order().ToArray();
     }
 
 

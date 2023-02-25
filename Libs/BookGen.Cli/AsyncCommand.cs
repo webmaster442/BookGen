@@ -13,9 +13,9 @@
         }
 
         public virtual SupportedOs SupportedOs
-        {
-            get { return SupportedOs.Windows | SupportedOs.Linux | SupportedOs.OsX; }
-        }
+            => SupportedOs.Windows | SupportedOs.Linux | SupportedOs.OsX;
 
+        public virtual string[] AutocompleteItems
+            => Array.Empty<string>();
     }
 }
