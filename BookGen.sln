@@ -53,6 +53,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.RakeEngine", "Libs\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Contents", "Libs\BookGen.Contents\BookGen.Contents.csproj", "{8166DFAD-9B7A-4CCE-BE8B-577AC52D5066}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Cli", "Libs\BookGen.Cli\BookGen.Cli.csproj", "{859C300C-33B4-4F24-8A6C-F430520774DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,10 @@ Global
 		{8166DFAD-9B7A-4CCE-BE8B-577AC52D5066}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8166DFAD-9B7A-4CCE-BE8B-577AC52D5066}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8166DFAD-9B7A-4CCE-BE8B-577AC52D5066}.Release|Any CPU.Build.0 = Release|Any CPU
+		{859C300C-33B4-4F24-8A6C-F430520774DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{859C300C-33B4-4F24-8A6C-F430520774DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{859C300C-33B4-4F24-8A6C-F430520774DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{859C300C-33B4-4F24-8A6C-F430520774DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +155,7 @@ Global
 		{88ADE930-6480-4375-8BAE-40728258A28E} = {05B69A0E-343B-4E7C-B77B-24E84B57D5D2}
 		{596AE4F8-A8C8-4B0E-8285-605E30498AFA} = {9C47BBFF-ACD8-40D8-9FB1-A3FA524B27C4}
 		{8166DFAD-9B7A-4CCE-BE8B-577AC52D5066} = {9C47BBFF-ACD8-40D8-9FB1-A3FA524B27C4}
+		{859C300C-33B4-4F24-8A6C-F430520774DB} = {9C47BBFF-ACD8-40D8-9FB1-A3FA524B27C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {772515BA-79D4-4C5D-AF16-29DE649EC13E}
