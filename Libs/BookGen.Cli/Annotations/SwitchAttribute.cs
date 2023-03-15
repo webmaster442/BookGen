@@ -1,7 +1,7 @@
 ﻿namespace BookGen.Cli.Annotations
 {
     [AttributeUsage(AttributeTargets.Property)]
-    internal class SwitchAttribute : Attribute
+    public sealed class SwitchAttribute : Attribute
     {
         public string LongName { get; }
         public string ShortName { get; }

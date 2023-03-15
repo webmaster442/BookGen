@@ -14,55 +14,46 @@ namespace BookGen.Cli.ArgumentParsing
             _argumentType = argumentType;
         }
 
-        private static string? GetSwitchValue(string[] args, SwitchAttribute @switch)
-        {
-            for (int i = 0; i < args.Length; i++)
-            {
-                if (args[i] == $"-{@switch.ShortName}"
-                    || args[i] == $"--{@switch.LongName}")
-                {
-                    int nextIndex = i + 1;
-                    if (nextIndex < args.Length)
-                    {
-                        return args[nextIndex];
-                    }
-                }
-            }
-            return null;
-        }
-
-        private static bool GetSwitch(string[] args, SwitchAttribute @switch)
-        {
-            return args.Contains($"-{@switch.ShortName}")
-                || args.Contains($"--{@switch.LongName}");
-        }
-
         public ArgumentsBase Fill(string[] args)
         {
-            var aguments = Activator.CreateInstance(_argumentType)
+            var arguments = Activator.CreateInstance(_argumentType)
                 ?? throw new InvalidOperationException();
+
+            var argBag = new ArgumentBag(args);
 
             foreach (var property in _properities)
             {
                 var switchParams = property.GetCustomAttribute<SwitchAttribute>();
-                if (switchParams == null)
+                var argParams = property.GetCustomAttribute<ArgumentAttribute>();
+
+                if (switchParams != null && argParams != null)
+                    throw new InvalidOperationException($"Invalid annotation found in type {_argumentType.FullName} on propery {property.Name}. Both Switch and Argument attributes are present");
+
+                if (switchParams != null)
+                {
+                    if (property.PropertyType == typeof(bool))
+                    {
+                        property.SetValue(arguments, argBag.GetSwitch(switchParams));
+                    }
+                    else
+                    {
+                        var value = ValueConverter.Convert(argBag.GetSwitchValue(switchParams), property.PropertyType);
+                        property.SetValue(arguments, value);
+                    }
+                }
+                else if (argParams != null)
+                {
+                    var value = ValueConverter.Convert(argBag.GetArgument(argParams), property.PropertyType);
+                    property.SetValue(arguments, value);
+                }
+                else
                 {
                     continue;
                 }
 
-                if (property.PropertyType == typeof(bool))
-                {
-                    property.SetValue(aguments, GetSwitch(args, switchParams));
-                }
-                else
-                {
-                    var value = ValueConverter.Convert(GetSwitchValue(args, switchParams), property.PropertyType);
-                    property.SetValue(aguments, value);
-                }
-
             }
 
-            return (ArgumentsBase)aguments;
+            return (ArgumentsBase)arguments;
         }
     }
 }
