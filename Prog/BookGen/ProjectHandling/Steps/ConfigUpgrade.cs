@@ -15,7 +15,7 @@ namespace BookGen.ProjectHandling.Steps
         {
             return
                 State.Config != null
-                && State.Config.Version < Program.CurrentState.ConfigVersion;
+                && State.Config.Version < State.ConfigVersion;
         }
 
         public override bool Execute()
@@ -32,7 +32,7 @@ namespace BookGen.ProjectHandling.Steps
 
             if (State.Config != null)
             {
-                State.Config.UpgradeTo(Program.CurrentState.ConfigVersion);
+                State.Config.UpgradeTo(State.ConfigVersion);
                 switch (State.ConfigFormat)
                 {
                     case ConfigFormat.Json:

@@ -7,6 +7,9 @@ namespace BookGen.Domain
 {
     public static class Constants
     {
+        public const int Succes = 0;
+        public const int GeneralError = int.MaxValue;
+
         public const string WikiUrl = "https://github.com/webmaster442/BookGen/wiki";
 
         public const string ConfigJson = "config.json";

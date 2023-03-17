@@ -8,11 +8,13 @@ internal sealed class InitMenu : MenuBase
 {
     private readonly ILog _log;
     private readonly FsPath _workDir;
+    private readonly ProgramInfo _programInfo;
 
-    public InitMenu(ILog log, FsPath WorkDir)
+    public InitMenu(ILog log, FsPath WorkDir, ProgramInfo programInfo)
     {
         _log = log;
         _workDir = WorkDir;
+        _programInfo = programInfo;
     }
 
     protected override async Task OnRender(Renderer renderer)
@@ -48,13 +50,20 @@ internal sealed class InitMenu : MenuBase
         if (createScripts)
         {
             renderer.PrintText("Creating Script project...");
-            InitializerMethods.CreateScriptProject(_log, _workDir, Program.CurrentState.ProgramDirectory);
+            InitializerMethods.CreateScriptProject(_log, _workDir, _programInfo.ProgramDirectory);
         }
         if (createConfig)
         {
             renderer.PrintText("Creating and configuring config file...");
             bool configInYaml = configFormat == InitConfigFormat.ConfigYaml;
-            InitializerMethods.CreateConfig(_log, _workDir, configInYaml, createMdFiles, createTemplates, createScripts);
+
+            InitializerMethods.CreateConfig(_log,
+                                            _workDir,
+                                            configInYaml,
+                                            createMdFiles,
+                                            createTemplates,
+                                            createScripts,
+                                            _programInfo.ConfigVersion);
         }
 
         if (options.Contains(InitMenuAction.CreateVsTasks))

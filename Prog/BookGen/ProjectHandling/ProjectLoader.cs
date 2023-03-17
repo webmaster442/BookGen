@@ -16,9 +16,9 @@ namespace BookGen.ProjectHandling
         private readonly ILog _log;
         private bool _loaded;
 
-        public ProjectLoader(string workDir, ILog log)
+        public ProjectLoader(string workDir, ILog log, ProgramInfo programInfo)
         {
-            _state = new LoadState(workDir);
+            _state = new LoadState(workDir, programInfo.ConfigVersion);
             _log = log;
             _loadSteps = new LoadStep[]
             {

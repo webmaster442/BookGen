@@ -7,20 +7,8 @@ namespace BookGen.Infrastructure
 {
     internal interface IModuleApi
     {
-        GeneratorRunner CreateRunner(bool verbose, string workDir)
-        {
-            Program.CurrentState.Log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
-            return new GeneratorRunner(Program.CurrentState.Log, Program.CurrentState.ServerLog, workDir);
-        }
-
-        void ExecuteModule(string module, string[] arguments)
-        {
-            Program
-                .RunModule(module, arguments, skipLockCheck: true)
-                .GetAwaiter()
-                .GetResult();
-        }
+        GeneratorRunner CreateRunner(bool verbose, string workDir);
+        void ExecuteModule(string module, string[] arguments);
+        void Wait(string exitString);
     }
-
-    internal class ModuleApi : IModuleApi { }
 }

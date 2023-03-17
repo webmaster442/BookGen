@@ -7,6 +7,7 @@ namespace BookGen.Interfaces
 {
     public interface IAppSetting
     {
+        bool AutoStartWebserver { get; }
         int NodeJsTimeout { get; }
         string NodeJsPath { get; }
         string PhpPath { get; }

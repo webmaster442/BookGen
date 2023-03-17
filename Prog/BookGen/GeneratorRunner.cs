@@ -9,6 +9,7 @@ using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorStepRunners;
 using BookGen.GeneratorSteps;
+using BookGen.Infrastructure;
 using BookGen.Interfaces;
 using BookGen.ProjectHandling;
 using System.Diagnostics.CodeAnalysis;
@@ -27,6 +28,9 @@ namespace BookGen
         private readonly Config? _configuration;
         private readonly ToC? _toc;
         private readonly TagUtils? _tags;
+        private readonly IModuleApi _moduleApi;
+        private readonly IAppSetting _appSettings;
+        private readonly ProgramInfo _programInfo;
 
         public FsPath ConfigFile { get; private set; }
 
@@ -41,11 +45,19 @@ namespace BookGen
 
         public bool IsBookGenFolder => _projectLoader.IsBookGenFolder;
 
-        public GeneratorRunner(ILog log, IServerLog serverLog, string workDir)
+        public GeneratorRunner(ILog log,
+                               IServerLog serverLog,
+                               IModuleApi moduleApi,
+                               IAppSetting appSettings,
+                               ProgramInfo programInfo,
+                               string workDir)
         {
             ServerLog = serverLog;
+            _moduleApi = moduleApi;
             Log = log;
-            _projectLoader = new ProjectLoader(workDir, log);
+            _appSettings = appSettings;
+            _programInfo = programInfo;
+            _projectLoader = new ProjectLoader(workDir, log, programInfo);
             _scriptHandler = new CsharpScriptHandler(Log);
             WorkDirectory = workDir;
             ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
@@ -84,7 +96,7 @@ namespace BookGen
             }
             else
             {
-                Program.Exit(ExitCode.BadConfiguration);
+                Environment.Exit((int)ExitCode.BadConfiguration);
                 return false;
             }
         }
@@ -92,8 +104,8 @@ namespace BookGen
         public bool Initialize(bool compileScripts = true)
         {
             Log.Info("---------------------------------------------------------");
-            Log.Info("BookGen Build date: {0:yyyy.MM.dd} Starting...", Program.CurrentState.BuildDateUtc.Date);
-            Log.Info("Config API version: {0}", Program.CurrentState.ProgramVersion);
+            Log.Info("BookGen Build date: {0:yyyy.MM.dd} Starting...", _programInfo.BuildDateUtc.Date);
+            Log.Info("Config API version: {0}", _programInfo.ProgramVersion);
             Log.Info("Working directory: {0}", WorkDirectory);
             Log.Info("Os: {0}", Environment.OSVersion.VersionString);
             Log.Info("---------------------------------------------------------");
@@ -105,7 +117,7 @@ namespace BookGen
                 ret = ret && LoadAndCompileScripts();
 
             if (!ret && !NoWait)
-                Program.ShowMessageBox(ExitString);
+                _moduleApi.Wait(ExitString);
 
             return ret;
         }
@@ -141,7 +153,7 @@ namespace BookGen
 
         private void RunSteps<TBuilder>(Func<ShortCodeLoader, TBuilder> builderCreator, RuntimeSettings settings) where TBuilder : BookGen.Framework.GeneratorStepRunner
         {
-            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
+            using (var loader = new ShortCodeLoader(Log, settings, _appSettings))
             {
                 using (TBuilder instance = builderCreator(loader))
                 {
@@ -217,7 +229,7 @@ namespace BookGen
             RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetWeb);
 
 
-            using (var loader = new ShortCodeLoader(Log, settings, Program.AppSetting))
+            using (var loader = new ShortCodeLoader(Log, settings, _appSettings))
             {
                 var builder = new WebsiteGeneratorStepRunner(settings, Log, loader, _scriptHandler);
                 TimeSpan runTime = builder.Run();
@@ -230,7 +242,7 @@ namespace BookGen
                     Log.Info("Test server running on: http://localhost:8090/");
                     Log.Info("Serving from: {0}", _configuration.TargetWeb.OutPutDirectory);
 
-                    if (Program.AppSetting.AutoStartWebserver)
+                    if (_appSettings.AutoStartWebserver)
                     {
                         UrlOpener.OpenUrl(_configuration.HostName);
                     }

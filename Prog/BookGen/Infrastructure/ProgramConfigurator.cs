@@ -80,21 +80,22 @@ namespace BookGen.Infrastructure
             }
         }
 
-        internal static ProgramState ConfigureState(List<string> arguments)
+        internal static ILog ConfigureLog(IList<string> arguments)
         {
-            ProgramState state;
-
             if (GetSwitch(arguments, JsonLogShort, JsonLogLong))
             {
-                var log = new JsonLog();
-                state = new ProgramState(new ModuleApi(), log, log);
+                return new JsonLog();
             }
-            else
-            {
-                bool logFile = GetSwitch(arguments, LogFileShort, LogFileLong);
-                var log = new TerminalLog(logFile);
-                state = new ProgramState(new ModuleApi(), log, log);
-            }
+
+            bool logFile = GetSwitch(arguments, LogFileShort, LogFileLong);
+            var log = new TerminalLog(logFile);
+            return log;
+        }
+
+
+        internal static ProgramInfo ConfigureState(IList<string> arguments)
+        {
+            ProgramInfo state = new();
             state.NoWaitForExit = GetSwitch(arguments, NoWait, NoWait);
             return state;
         }

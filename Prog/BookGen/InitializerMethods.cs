@@ -24,9 +24,10 @@ namespace BookGen
                                           bool configInYaml,
                                           bool createMdFiles,
                                           bool createTemplates,
-                                          bool createScripts)
+                                          bool createScripts,
+                                          int configVersion)
         {
-            Config createdConfig = MakeConfigStructure(createMdFiles, createTemplates, createScripts);
+            Config createdConfig = MakeConfigStructure(createMdFiles, createTemplates, createScripts, configVersion);
 
             if (configInYaml)
             {
@@ -41,9 +42,9 @@ namespace BookGen
 
         }
 
-        private static Config MakeConfigStructure(bool createdmdFiles, bool extractedTemplate, bool createdScript)
+        private static Config MakeConfigStructure(bool createdmdFiles, bool extractedTemplate, bool createdScript, int configVersion)
         {
-            var configuration = Config.CreateDefault(Program.CurrentState.ConfigVersion);
+            var configuration = Config.CreateDefault(configVersion);
 
             if (createdmdFiles)
             {

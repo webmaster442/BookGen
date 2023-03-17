@@ -3,13 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Infrastructure;
 using System.Reflection;
-using Webmaster442.HttpServerFramework;
 
 namespace BookGen
 {
-    internal sealed class ProgramState
+    internal sealed class ProgramInfo
     {
         public bool Gui { get; set; }
         public bool NoWaitForExit { get; set; }
@@ -17,13 +15,10 @@ namespace BookGen
         public DateTime BuildDateUtc { get; }
         public string ProgramDirectory { get; }
         public int ConfigVersion { get; }
-        public IModuleApi Api { get; }
-        public ILog Log { get; }
-        public IServerLog ServerLog { get; }
 
         private static DateTime GetProgramDate()
         {
-            var current = Assembly.GetAssembly(typeof(ProgramState));
+            var current = Assembly.GetAssembly(typeof(ProgramInfo));
             if (current != null)
             {
                 AssemblyBuildDateAttribute? attribute = current.GetCustomAttribute<AssemblyBuildDateAttribute>();
@@ -35,12 +30,9 @@ namespace BookGen
             return new DateTime();
         }
 
-        public ProgramState(IModuleApi apiImplementation, ILog log, IServerLog serverLog)
+        public ProgramInfo()
         {
-            Log = log;
-            ServerLog = serverLog;
-            Api = apiImplementation;
-            var asm = Assembly.GetAssembly(typeof(ProgramState));
+            var asm = Assembly.GetAssembly(typeof(ProgramInfo));
             ProgramVersion = asm?.GetName()?.Version ?? new Version(1, 0);
             ConfigVersion = (ProgramVersion.Major * 1000) + (ProgramVersion.Minor * 100) + ProgramVersion.Build;
             BuildDateUtc = GetProgramDate();

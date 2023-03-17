@@ -68,6 +68,9 @@ namespace BookGen.Cli
             return this;
         }
 
+        public IEnumerable<string> CommandNames
+            => _commands.Keys;
+
         public async Task<int> Run(string[] args)
         {
             var commandName = args[0].ToLower();

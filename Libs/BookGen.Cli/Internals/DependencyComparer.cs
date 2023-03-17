@@ -19,7 +19,7 @@ namespace BookGen.Cli.Internals
                 .FirstOrDefault();
         }
 
-        private IEnumerable<Type> GetConstructorArgumentTypes(Type? type)
+        private static IEnumerable<Type> GetConstructorArgumentTypes(Type? type)
         {
             if (type == null)
                 return Enumerable.Empty<Type>();
