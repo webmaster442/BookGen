@@ -71,6 +71,26 @@ namespace BookGen.Cli
         public IEnumerable<string> CommandNames
             => _commands.Keys;
 
+        public string[] GetAutoCompleteItems(string commandName)
+        {
+            if (_commands.ContainsKey(commandName))
+            {
+                var type =
+                    _commands[commandName]
+                    .GetType();
+
+                var genTypes = type.GetGenericArguments();
+
+                var args = genTypes.Length > 0 ? genTypes[0] : null;
+
+                if (args != null)
+                {
+                    return Autocomplete.GetInfo(args).Order().ToArray();
+                }
+            }
+            return Array.Empty<string>();
+        }
+
         public async Task<int> Run(string[] args)
         {
             var commandName = args[0].ToLower();

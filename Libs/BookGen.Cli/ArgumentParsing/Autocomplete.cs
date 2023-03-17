@@ -5,10 +5,9 @@ namespace BookGen.Cli.ArgumentParsing
 {
     internal static class Autocomplete
     {
-        public static IEnumerable<string> GetInfo<TArguments>() where TArguments : ArgumentsBase
+        public static IEnumerable<string> GetInfo(Type t)
         {
-            var properties = typeof(TArguments)
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var properties = t.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             foreach (var property in properties)
             {

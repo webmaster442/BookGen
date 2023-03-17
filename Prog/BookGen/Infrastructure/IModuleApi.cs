@@ -10,5 +10,7 @@ namespace BookGen.Infrastructure
         GeneratorRunner CreateRunner(bool verbose, string workDir);
         void ExecuteModule(string module, string[] arguments);
         void Wait(string exitString);
+        IEnumerable<string> GetCommandNames();
+        string[] GetAutoCompleteItems(string commandName);
     }
 }

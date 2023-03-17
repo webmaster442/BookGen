@@ -4,6 +4,5 @@
     {
         Task<int> Execute(ArgumentsBase arguments, string[] context);
         SupportedOs SupportedOs { get; }
-        string[] AutocompleteItems { get; }
     }
 }

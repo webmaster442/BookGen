@@ -18,9 +18,6 @@ namespace BookGen.Cli
 
         public virtual SupportedOs SupportedOs
             => SupportedOs.Windows | SupportedOs.Linux | SupportedOs.OsX;
-
-        public virtual string[] AutocompleteItems 
-            => Autocomplete.GetInfo<TArguments>().Order().ToArray();
     }
 
 

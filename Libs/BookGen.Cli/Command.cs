@@ -14,8 +14,5 @@
 
         public virtual SupportedOs SupportedOs
             => SupportedOs.Windows | SupportedOs.Linux | SupportedOs.OsX;
-
-        public virtual string[] AutocompleteItems
-            => Array.Empty<string>();
     }
 }
