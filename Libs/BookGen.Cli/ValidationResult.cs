@@ -31,5 +31,12 @@
         {
             return string.Join('\n', _issues);
         }
+
+        public static ValidationResult Error(string message)
+        {
+            var result = new ValidationResult();
+            result.AddIssue(message);
+            return result;
+        }
     }
 }

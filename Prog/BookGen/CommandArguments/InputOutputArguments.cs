@@ -3,9 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Cli;
 using BookGen.Interfaces;
 
-namespace BookGen.Domain.ArgumentParsing
+namespace BookGen.CommandArguments
 {
     public class InputOutputArguments : ArgumentsBase
     {
@@ -21,9 +22,12 @@ namespace BookGen.Domain.ArgumentParsing
             OutputFile = FsPath.Empty;
         }
 
-        public override bool Validate()
+        public override ValidationResult Validate()
         {
-            return InputFile.IsExisting;
+            if (!InputFile.IsExisting)
+                return ValidationResult.Error("Input file doesn't exist");
+
+            return ValidationResult.Ok();
         }
     }
 }
