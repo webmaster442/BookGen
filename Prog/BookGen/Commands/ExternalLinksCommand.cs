@@ -1,4 +1,5 @@
 ﻿using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.CommandArguments;
 using BookGen.Domain.Configuration;
 using BookGen.Framework;
@@ -8,6 +9,7 @@ using System.Diagnostics;
 
 namespace BookGen.Commands
 {
+    [CommandName("externallinks")]
     internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
     {
         private readonly ILog _log;

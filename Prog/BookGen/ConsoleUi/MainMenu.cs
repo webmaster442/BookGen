@@ -18,13 +18,13 @@ internal sealed class MainMenu : MenuBase
     private readonly Dictionary<string, string> _helpTable;
     private bool _inHelpMode;
 
-    public MainMenu(GeneratorRunner runner, IModuleApi api, IEnumerable<ModuleBase> modules)
+    public MainMenu(GeneratorRunner runner, IModuleApi api)
     {
         _runner = runner;
         _api = api;
-        _helpTable = modules.ToDictionary(m => m.ModuleCommand,
+        /*_helpTable = modules.ToDictionary(m => m.ModuleCommand,
                                           m => m.GetHelp() ?? "Module has no help");
-        _helpTable.Add("<-- Back to previous menu", nameof(ToggleHelp));
+        _helpTable.Add("<-- Back to previous menu", nameof(ToggleHelp));*/
     }
 
     private bool ToggleHelp()

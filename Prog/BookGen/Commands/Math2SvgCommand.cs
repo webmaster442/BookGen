@@ -1,4 +1,5 @@
 ﻿using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.CommandArguments;
 using BookGen.DomainServices.WebServices;
 using BookGen.Interfaces;
@@ -6,6 +7,7 @@ using System.Net;
 
 namespace BookGen.Commands
 {
+    [CommandName("math2svg")]
     internal class Math2SvgCommand : AsyncCommand<InputOutputArguments>
     {
         private readonly ILog _log;

@@ -1,4 +1,5 @@
 ﻿using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.CommandArguments;
 using BookGen.DomainServices.Markdown;
 using BookGen.Interfaces;
@@ -6,6 +7,7 @@ using BookGen.Resources;
 
 namespace BookGen.Commands
 {
+    [CommandName("md2html")]
     internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
     {
         private readonly ILog _log;
