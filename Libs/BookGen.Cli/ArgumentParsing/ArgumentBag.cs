@@ -7,9 +7,9 @@ namespace BookGen.Cli.ArgumentParsing
     {
         private readonly string?[] _arguments;
 
-        public ArgumentBag(string[] args) 
+        public ArgumentBag(IReadOnlyList<string> args) 
         {
-            _arguments = args;
+            _arguments = args.ToArray();
         }
 
         public IEnumerator<string> GetEnumerator()

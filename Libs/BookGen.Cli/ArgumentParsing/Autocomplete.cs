@@ -17,6 +17,15 @@ namespace BookGen.Cli.ArgumentParsing
                     yield return $"-{sw.ShortName}";
                     yield return $"--{sw.LongName}";
                 }
+
+                if (property.PropertyType.IsEnum)
+                {
+                    var names = Enum.GetNames(property.PropertyType); 
+                    foreach (var name in names)
+                    {
+                        yield return name;
+                    }
+                }
             }
 
 

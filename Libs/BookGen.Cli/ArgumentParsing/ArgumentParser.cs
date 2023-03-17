@@ -14,7 +14,7 @@ namespace BookGen.Cli.ArgumentParsing
             _argumentType = argumentType;
         }
 
-        public ArgumentsBase Fill(string[] args)
+        public ArgumentsBase Fill(IReadOnlyList<string> args)
         {
             var arguments = Activator.CreateInstance(_argumentType)
                 ?? throw new InvalidOperationException();

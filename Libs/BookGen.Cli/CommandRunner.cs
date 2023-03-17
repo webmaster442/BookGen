@@ -91,7 +91,7 @@ namespace BookGen.Cli
             return Array.Empty<string>();
         }
 
-        public async Task<int> Run(string[] args)
+        public async Task<int> Run(IReadOnlyList<string> args)
         {
             var commandName = args[0].ToLower();
             var argsToParse = args.Skip(1).ToArray();

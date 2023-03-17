@@ -5,11 +5,11 @@ using BookGen.Infrastructure;
 namespace BookGen.Commands
 {
     [CommandName("shell")]
-    internal class ShellModule : Command
+    internal class ShellCommand : Command
     {
         private readonly IModuleApi _api;
 
-        public ShellModule(IModuleApi api)
+        public ShellCommand(IModuleApi api)
         { 
             _api = api;
         }
