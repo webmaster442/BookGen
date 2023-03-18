@@ -3,6 +3,7 @@ using BookGen.Cli.Annotations;
 using BookGen.CommandArguments;
 using BookGen.Framework.Server;
 using BookGen.Interfaces;
+using Webmaster442.HttpServerFramework;
 
 namespace BookGen.Commands
 {
@@ -10,11 +11,13 @@ namespace BookGen.Commands
     internal class PreviewCommand : Command<BookGenArgumentBase>
     {
         private readonly ILog _log;
+        private readonly IServerLog _serverlog;
         private readonly IAppSetting _appSettings;
 
-        public PreviewCommand(ILog log, IAppSetting appSettings)
+        public PreviewCommand(ILog log, IServerLog serverLog, IAppSetting appSettings)
         {
             _log = log;
+            _serverlog = serverLog;
             _appSettings = appSettings;
         }
 
@@ -22,7 +25,7 @@ namespace BookGen.Commands
         {
             const string url = "http://localhost:8082/";
 
-            using (Webmaster442.HttpServerFramework.HttpServer? server = HttpServerFactory.CreateServerForPreview(CurrentState.Log, CurrentState.ServerLog, args.Directory))
+            using (HttpServer? server = HttpServerFactory.CreateServerForPreview(_log, _serverlog, arguments.Directory))
             {
                 server.Start();
                 _log.Info("-------------------------------------------------");

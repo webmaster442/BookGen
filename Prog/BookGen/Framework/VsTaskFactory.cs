@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain.ArgumentParsing;
+using BookGen.CommandArguments;
 using BookGen.Domain.VsTasks;
 using System.ComponentModel;
 using System.Reflection;

@@ -1,26 +1,27 @@
 ﻿using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Interfaces;
 
 namespace BookGen.CommandArguments
 {
     internal sealed class ImgConvertArguments : ArgumentsBase
     {
-        [Switch("i", "input", true)]
+        [Switch("i", "input")]
         public FsPath Input { get; set; }
 
-        [Switch("o", "output", true)]
+        [Switch("o", "output")]
         public FsPath Output { get; set; }
 
-        [Switch("q", "quality", false)]
+        [Switch("q", "quality")]
         public int Quality { get; set; }
 
-        [Switch("w", "width", false)]
+        [Switch("w", "width")]
         public int? Width { get; set; }
 
-        [Switch("h", "height", false)]
+        [Switch("h", "height")]
         public int? Height { get; set; }
 
-        [Switch("f", "format", false)]
+        [Switch("f", "format")]
         public string Format { get; set; }
 
         public ImgConvertArguments()
@@ -34,6 +35,12 @@ namespace BookGen.CommandArguments
         public override ValidationResult Validate()
         {
             ValidationResult result = new();
+
+            if (FsPath.IsEmptyPath(Input))
+                result.AddIssue("Input must be specified");
+
+            if (FsPath.IsEmptyPath(Output))
+                result.AddIssue("Output must be specified");
 
             if (string.IsNullOrEmpty(Format))
                 result.AddIssue("format must be specified");

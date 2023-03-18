@@ -1,4 +1,5 @@
 ﻿using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Interfaces;
 using System.IO;
 
@@ -6,10 +7,10 @@ namespace BookGen.CommandArguments
 {
     internal sealed class AssemblyDocumentArguments : ArgumentsBase
     {
-        [Switch("a", "assembly", true)]
+        [Switch("a", "assembly")]
         public FsPath AssemblyPath { get; set; }
 
-        [Switch("o", "output", true)]
+        [Switch("o", "output")]
         public FsPath OutputDirectory { get; set; }
 
         [Switch("s", "singlepage")]

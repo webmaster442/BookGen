@@ -4,16 +4,17 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Interfaces;
 
 namespace BookGen.CommandArguments
 {
     public class InputOutputArguments : ArgumentsBase
     {
-        [Switch("i", "input", true)]
+        [Switch("i", "input")]
         public FsPath InputFile { get; set; }
 
-        [Switch("o", "output", true)]
+        [Switch("o", "output")]
         public FsPath OutputFile { get; set; }
 
         public InputOutputArguments()
@@ -24,10 +25,14 @@ namespace BookGen.CommandArguments
 
         public override ValidationResult Validate()
         {
+            ValidationResult result = new();
             if (!InputFile.IsExisting)
-                return ValidationResult.Error("Input file doesn't exist");
+                result.AddIssue("Input file doesn't exist");
 
-            return ValidationResult.Ok();
+            if (!FsPath.IsEmptyPath(OutputFile))
+                result.AddIssue("Output file must be specified");
+
+            return result;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Interfaces;
 
 namespace BookGen.CommandArguments
