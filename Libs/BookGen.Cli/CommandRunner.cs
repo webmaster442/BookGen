@@ -5,12 +5,13 @@ using System.Reflection;
 
 namespace BookGen.Cli
 {
-    public class CommandRunner
+    public sealed class CommandRunner
     {
         private readonly Dictionary<string, Type> _commands;
         private readonly IResolver _resolver;
         private readonly ILog _log;
         private readonly CommandRunnerSettings _settings;
+        private string? _defaultCommandName;
 
         private class EmptyArgs : ArgumentsBase { }
 
@@ -22,9 +23,15 @@ namespace BookGen.Cli
         }
         private static Type? GetArgumentType(Type cmd)
         {
-            var arguments = cmd.GetGenericArguments();
-            if (arguments.Length > 0) return arguments[0];
-            return null;
+            var method = cmd.GetMethod("Execute");
+
+            var parameter = method
+                ?.GetParameters()
+                .Where(p => p.ParameterType.IsAssignableTo(typeof(ArgumentsBase)))
+                .FirstOrDefault()
+                ?.ParameterType;
+
+            return parameter;
         }
         private void DefaultExceptionHandler(Exception obj)
         {
@@ -34,7 +41,7 @@ namespace BookGen.Cli
         private ICommand CreateCommand(string commandName)
         {
             var constructor = _commands[commandName]
-                .GetConstructors(BindingFlags.Public)
+                .GetConstructors(BindingFlags.Public | BindingFlags.Instance)
                 .OrderByDescending(c => c.GetParameters().Length)
                 .First();
 
@@ -50,7 +57,9 @@ namespace BookGen.Cli
             return (ICommand)instance;
         }
 
-        public CommandRunner(IResolver resolver, ILog log, CommandRunnerSettings settings)
+        public CommandRunner(IResolver resolver,
+                             ILog log,
+                             CommandRunnerSettings settings)
         {
             _commands = new Dictionary<string, Type>();
             _resolver = resolver;
@@ -65,6 +74,17 @@ namespace BookGen.Cli
         {
             string name = GetCommandName<TCommand>();
             _commands.Add(name.ToLower(), typeof(TCommand));
+            return this;
+        }
+
+        public CommandRunner AddDefaultCommand<TCommand>() where TCommand : ICommand
+        {
+            string name = GetCommandName<TCommand>();
+            if (!_commands.ContainsKey(name))
+            {
+                Add<TCommand>();
+            }
+            _defaultCommandName = name;
             return this;
         }
 
@@ -93,7 +113,18 @@ namespace BookGen.Cli
 
         public async Task<int> Run(IReadOnlyList<string> args)
         {
-            var commandName = args[0].ToLower();
+            string commandName;
+            if (args.Count > 0)
+            {
+                commandName = args[0].ToLower();
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(_defaultCommandName))
+                    throw new InvalidOperationException("Default command hasn't been setup");
+                commandName = _defaultCommandName;
+            }
+
             var argsToParse = args.Skip(1).ToArray();
 
             if (!_commands.ContainsKey(commandName))
