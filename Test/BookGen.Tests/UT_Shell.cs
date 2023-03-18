@@ -3,22 +3,28 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Modules.Special;
+using BookGen.Commands;
+using BookGen.Infrastructure;
 
 namespace BookGen.Tests
 {
     [TestFixture]
     public class UT_Shell
     {
-        private ShellModule _sut;
+        private ShellCommand _sut;
+        private Mock<IModuleApi> _moduleApiMock;
 
         [SetUp]
         public void Setup()
         {
-            _sut = new ShellModule
-            {
-                Modules = Program.CreateModules()
-            };
+            _moduleApiMock
+                .Setup(x => x.GetCommandNames())
+                .Returns(new[] { "bookgen", "assemblydocument" });
+            _moduleApiMock
+                .Setup(x => x.GetAutoCompleteItems("assemblydocument"))
+                .Returns(new string[] { "--assembly" });
+
+            _sut = new ShellCommand(_moduleApiMock.Object);
         }
 
         [Test]
