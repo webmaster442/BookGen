@@ -1,4 +1,9 @@
-﻿using System.Threading;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Threading;
 
 namespace BookGen.CommandArguments;
 
