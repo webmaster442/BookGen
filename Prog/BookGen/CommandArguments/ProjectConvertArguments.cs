@@ -1,19 +1,15 @@
-﻿using BookGen.Cli;
-using BookGen.Cli.Annotations;
+﻿namespace BookGen.CommandArguments;
 
-namespace BookGen.CommandArguments
+internal sealed class ProjectConvertArguments : ArgumentsBase
 {
-    internal sealed class ProjectConvertArguments : ArgumentsBase
+    [Switch("b", "backup")]
+    public bool Backup { get; set; }
+
+    [Switch("d", "dir")]
+    public string Directory { get; set; }
+
+    public ProjectConvertArguments()
     {
-        [Switch("b", "backup")]
-        public bool Backup { get; set; }
-
-        [Switch("d", "dir")]
-        public string Directory { get; set; }
-
-        public ProjectConvertArguments()
-        {
-            Directory = Environment.CurrentDirectory;
-        }
+        Directory = Environment.CurrentDirectory;
     }
 }

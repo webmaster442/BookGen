@@ -1,19 +1,16 @@
-﻿using BookGen.Cli.Annotations;
+﻿namespace BookGen.CommandArguments;
 
-namespace BookGen.CommandArguments
+public sealed class TagsArguments : BookGenArgumentBase
 {
-    public sealed class TagsArguments : BookGenArgumentBase
+    [Switch("a", "auto")]
+    public bool AutoGenerateTags { get; set; }
+
+    [Switch("k", "keywordcount")]
+    public int AutoKeyWordCount { get; set; }
+
+    public TagsArguments()
     {
-        [Switch("a", "auto")]
-        public bool AutoGenerateTags { get; set; }
-
-        [Switch("k", "keywordcount")]
-        public int AutoKeyWordCount { get; set; }
-
-        public TagsArguments()
-        {
-            AutoGenerateTags = false;
-            AutoKeyWordCount = 10;
-        }
+        AutoGenerateTags = false;
+        AutoKeyWordCount = 10;
     }
 }

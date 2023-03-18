@@ -3,120 +3,118 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Interfaces;
 using System.Diagnostics;
 
-namespace BookGen.Framework.Scripts
+namespace BookGen.Framework.Scripts;
+
+internal class NodeHost
 {
-    internal class NodeHost
+    private readonly ILog _log;
+    private readonly IAppSetting _appSettings;
+
+    public NodeHost(ILog log, IAppSetting appSettings)
     {
-        private readonly ILog _log;
-        private readonly IAppSetting _appSettings;
+        _log = log;
+        _appSettings = appSettings;
+    }
 
-        public NodeHost(ILog log, IAppSetting appSettings)
+    internal static string EncodeForCmdLine(string arg)
+    {
+        var stringBuilder = new StringBuilder(arg.Length);
+        int slashSequenceLength = 0;
+        for (int i = 0; i < arg.Length; i++)
         {
-            _log = log;
-            _appSettings = appSettings;
-        }
+            char currentChar = arg[i];
 
-        internal static string EncodeForCmdLine(string arg)
-        {
-            var stringBuilder = new StringBuilder(arg.Length);
-            int slashSequenceLength = 0;
-            for (int i = 0; i < arg.Length; i++)
+            if (currentChar == '\\')
             {
-                char currentChar = arg[i];
+                slashSequenceLength++;
 
-                if (currentChar == '\\')
+                // If the last character in the argument is \, it must be escaped, together with any \ that immediately preceed it.
+                // This prevents situations like: SomeExecutable.exe "SomeArg\", where the quote meant to demarcate the end of the
+                // argument gets escaped.
+                if (i == arg.Length - 1)
                 {
-                    slashSequenceLength++;
-
-                    // If the last character in the argument is \, it must be escaped, together with any \ that immediately preceed it.
-                    // This prevents situations like: SomeExecutable.exe "SomeArg\", where the quote meant to demarcate the end of the
-                    // argument gets escaped.
-                    if (i == arg.Length - 1)
-                    {
-                        for (int j = 0; j < slashSequenceLength; j++)
-                        {
-                            stringBuilder.
-                                Append('\\').
-                                Append('\\');
-                        }
-                    }
-                }
-                else if (currentChar == '"')
-                {
-                    // Every \ or sequence of \ that preceed a " must be escaped.
                     for (int j = 0; j < slashSequenceLength; j++)
                     {
                         stringBuilder.
                             Append('\\').
                             Append('\\');
                     }
-                    slashSequenceLength = 0;
-
+                }
+            }
+            else if (currentChar == '"')
+            {
+                // Every \ or sequence of \ that preceed a " must be escaped.
+                for (int j = 0; j < slashSequenceLength; j++)
+                {
                     stringBuilder.
                         Append('\\').
-                        Append('"');
+                        Append('\\');
                 }
-                else
-                {
-                    for (int j = 0; j < slashSequenceLength; j++)
-                    {
-                        stringBuilder.Append('\\');
-                    }
-                    slashSequenceLength = 0;
+                slashSequenceLength = 0;
 
-                    stringBuilder.Append(currentChar);
-                }
+                stringBuilder.
+                    Append('\\').
+                    Append('"');
             }
+            else
+            {
+                for (int j = 0; j < slashSequenceLength; j++)
+                {
+                    stringBuilder.Append('\\');
+                }
+                slashSequenceLength = 0;
 
-            return stringBuilder.ToString();
+                stringBuilder.Append(currentChar);
+            }
         }
 
+        return stringBuilder.ToString();
+    }
 
-        public async Task<string> Evaluate(string script)
+
+    public async Task<string> Evaluate(string script)
+    {
+        _log.Detail("Executing Nodejs script...");
+        string program = ProcessInterop.AppendExecutableExtension("node");
+        string? programPath = ProcessInterop.ResolveProgramFullPath(program, _appSettings.NodeJsPath);
+
+        if (programPath == null)
         {
-            _log.Detail("Executing Nodejs script...");
-            string program = ProcessInterop.AppendExecutableExtension("node");
-            string? programPath = ProcessInterop.ResolveProgramFullPath(program, _appSettings.NodeJsPath);
+            _log.Warning("Script run failed. Program not found: {0}", program);
+            return $"{program} not found to execute";
+        }
 
-            if (programPath == null)
+        string output = "";
+
+        try
+        {
+            using (var process = new Process())
             {
-                _log.Warning("Script run failed. Program not found: {0}", program);
-                return $"{program} not found to execute";
-            }
-
-            string output = "";
-
-            try
-            {
-                using (var process = new Process())
+                process.StartInfo = new ProcessStartInfo
                 {
-                    process.StartInfo = new ProcessStartInfo
-                    {
-                        CreateNoWindow = true,
-                        RedirectStandardInput = true,
-                        RedirectStandardOutput = true,
-                        UseShellExecute = false,
-                        RedirectStandardError = true,
-                        FileName = programPath,
-                        Arguments = $"-e \"{EncodeForCmdLine(script)}\""
-                    };
+                    CreateNoWindow = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
+                    FileName = programPath,
+                    Arguments = $"-e \"{EncodeForCmdLine(script)}\""
+                };
 
-                    process.Start();
-                    output = await process.StandardOutput.ReadToEndAsync();
-                    process.WaitForExit(_appSettings.NodeJsTimeout * 1000);
+                process.Start();
+                output = await process.StandardOutput.ReadToEndAsync();
+                process.WaitForExit(_appSettings.NodeJsTimeout * 1000);
 
-                }
-                return output;
             }
-            catch (Exception ex)
-            {
-                _log.Warning("Script run failed with Exception: {0}", ex.Message);
-                _log.Detail("Stack Trace: {0}", ex.StackTrace ?? "");
-                return $"Script run failed with Exception: {ex.Message}";
-            }
+            return output;
+        }
+        catch (Exception ex)
+        {
+            _log.Warning("Script run failed with Exception: {0}", ex.Message);
+            _log.Detail("Stack Trace: {0}", ex.StackTrace ?? "");
+            return $"Script run failed with Exception: {ex.Message}";
         }
     }
 }

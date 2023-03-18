@@ -1,9 +1,6 @@
 ﻿using BookGen;
-using BookGen.Cli;
 using BookGen.Commands;
 using BookGen.Infrastructure;
-using BookGen.Interfaces;
-using System.IO;
 
 if (UnfinishedUpdateDetected())
 {

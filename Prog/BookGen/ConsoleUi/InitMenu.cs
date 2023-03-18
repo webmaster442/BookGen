@@ -1,6 +1,5 @@
 ﻿using BookGen.Gui;
 using BookGen.Gui.MenuEnums;
-using BookGen.Interfaces;
 
 namespace BookGen.ConsoleUi;
 

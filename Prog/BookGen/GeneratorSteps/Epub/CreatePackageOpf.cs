@@ -4,131 +4,129 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Epub;
-using BookGen.Interfaces;
 
-namespace BookGen.GeneratorSteps.Epub
+namespace BookGen.GeneratorSteps.Epub;
+
+internal sealed class CreatePackageOpf : IGeneratorStep
 {
-    internal sealed class CreatePackageOpf : IGeneratorStep
+    private readonly EpubSession _session;
+
+    public CreatePackageOpf(EpubSession session)
     {
-        private readonly EpubSession _session;
+        _session = session;
+    }
 
-        public CreatePackageOpf(EpubSession session)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    {
+        log.Info("Creating OPS/package.opf...");
+
+        var package = new Package
         {
-            _session = session;
-        }
-
-        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
-        {
-            log.Info("Creating OPS/package.opf...");
-
-            var package = new Package
+            Version = "3.0",
+            Uniqueidentifier = "q",
+            Metadata = new Metadata
             {
-                Version = "3.0",
-                Uniqueidentifier = "q",
-                Metadata = new Metadata
+                Meta = new List<Meta>
                 {
-                    Meta = new List<Meta>
+                    new Meta
                     {
-                        new Meta
-                        {
-                            Property = "dcterms:modified",
-                            Text= DateTime.Now.ToW3CZTimeFormat(),
-                        },
+                        Property = "dcterms:modified",
+                        Text= DateTime.Now.ToW3CZTimeFormat(),
                     },
-                    Title = new List<Title>
-                    {
-                        new Title
-                        {
-                            Id = "title",
-                            Text = settings.Configuration.Metadata.Title
-                        },
-                    },
-                    Creator = new List<Creator>
-                    {
-                        new Creator
-                        {
-                            Id = "creator",
-                            Text = settings.Configuration.Metadata.Author
-                        },
-                    },
-                    Language = "en",
-                    Identifier = new Identifier
-                    {
-                        Id = "q",
-                        Text = "book",
-                    },
-                    Date = DateTime.Now.ToW3CTimeFormat(),
                 },
-                Manifest = CreateManifest(),
-                Spine = CreateSpine()
-            };
-
-            FsPath path = settings.OutputDirectory.Combine("epubtemp\\OPS\\package.opf");
-
-            var namespaces = new List<(string prefix, string namespac)>
-            {
-                ("", "http://www.idpf.org/2007/opf"),
-                ("dc", "http://purl.org/dc/elements/1.1/")
-            };
-
-            path.SerializeXml(package, log, namespaces);
-        }
-
-        private Manifest CreateManifest()
-        {
-            var manifest = new Manifest
-            {
-                Item = new List<Item>(_session.GeneratedFiles.Count)
-            };
-
-            manifest.Item.Add(new Item
-            {
-                Id = "nav",
-                Href = "nav.xhtml",
-                Mediatype = "application/xhtml+xml",
-                Properties = "nav",
-            });
-            manifest.Item.Add(new Item
-            {
-                Id = "ncx",
-                Mediatype = "application/x-dtbncx+xml",
-                Href = "toc.ncx"
-            });
-
-            foreach (string? file in _session.GeneratedFiles)
-            {
-                manifest.Item.Add(new Item
+                Title = new List<Title>
                 {
-                    Id = file,
-                    Href = $"{file}.xhtml",
-                    Mediatype = "application/xhtml+xml",
-                    Properties = null,
-                });
-            }
-            return manifest;
-        }
+                    new Title
+                    {
+                        Id = "title",
+                        Text = settings.Configuration.Metadata.Title
+                    },
+                },
+                Creator = new List<Creator>
+                {
+                    new Creator
+                    {
+                        Id = "creator",
+                        Text = settings.Configuration.Metadata.Author
+                    },
+                },
+                Language = "en",
+                Identifier = new Identifier
+                {
+                    Id = "q",
+                    Text = "book",
+                },
+                Date = DateTime.Now.ToW3CTimeFormat(),
+            },
+            Manifest = CreateManifest(),
+            Spine = CreateSpine()
+        };
 
-        private Spine CreateSpine()
+        FsPath path = settings.OutputDirectory.Combine("epubtemp\\OPS\\package.opf");
+
+        var namespaces = new List<(string prefix, string namespac)>
         {
-            var spine = new Spine
-            {
-                Itemref = new List<Itemref>(_session.GeneratedFiles.Count),
-                Toc = "ncx"
-            };
+            ("", "http://www.idpf.org/2007/opf"),
+            ("dc", "http://purl.org/dc/elements/1.1/")
+        };
 
+        path.SerializeXml(package, log, namespaces);
+    }
+
+    private Manifest CreateManifest()
+    {
+        var manifest = new Manifest
+        {
+            Item = new List<Item>(_session.GeneratedFiles.Count)
+        };
+
+        manifest.Item.Add(new Item
+        {
+            Id = "nav",
+            Href = "nav.xhtml",
+            Mediatype = "application/xhtml+xml",
+            Properties = "nav",
+        });
+        manifest.Item.Add(new Item
+        {
+            Id = "ncx",
+            Mediatype = "application/x-dtbncx+xml",
+            Href = "toc.ncx"
+        });
+
+        foreach (string? file in _session.GeneratedFiles)
+        {
+            manifest.Item.Add(new Item
+            {
+                Id = file,
+                Href = $"{file}.xhtml",
+                Mediatype = "application/xhtml+xml",
+                Properties = null,
+            });
+        }
+        return manifest;
+    }
+
+    private Spine CreateSpine()
+    {
+        var spine = new Spine
+        {
+            Itemref = new List<Itemref>(_session.GeneratedFiles.Count),
+            Toc = "ncx"
+        };
+
+        spine.Itemref.Add(new Itemref
+        {
+            Idref = "nav"
+        });
+
+        foreach (string? file in _session.GeneratedFiles)
+        {
             spine.Itemref.Add(new Itemref
             {
-                Idref = "nav"
+                Idref = file
             });
-
-            foreach (string? file in _session.GeneratedFiles)
-            {
-                spine.Itemref.Add(new Itemref
-                {
-                    Idref = file
-                });
-            }
-            return spine;
         }
+        return spine;
     }
 }

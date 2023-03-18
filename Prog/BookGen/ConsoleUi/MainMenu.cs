@@ -3,11 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Framework;
+using System.Diagnostics;
+
 using BookGen.Gui;
 using BookGen.Gui.MenuEnums;
 using BookGen.Infrastructure;
-using System.Diagnostics;
 
 namespace BookGen.ConsoleUi;
 
@@ -29,7 +29,7 @@ internal sealed class MainMenu : MenuBase
 
     private bool ToggleHelp()
     {
-        _inHelpMode =!_inHelpMode;
+        _inHelpMode = !_inHelpMode;
         return true;
     }
 
@@ -110,6 +110,6 @@ internal sealed class MainMenu : MenuBase
             MainMenuAction.Help => ToggleHelp(),
             MainMenuAction.Exit => false,
             _ => throw new InvalidOperationException("Unknown command"),
-        } ;
+        };
     }
 }

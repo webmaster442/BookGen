@@ -3,34 +3,32 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Interfaces;
 using BookGen.Resources;
 
-namespace BookGen.GeneratorSteps
-{
-    public sealed class ExtractTemplateAssets : IGeneratorStep
-    {
-        public (KnownFile file, string targetPath)[] Assets { get; set; }
+namespace BookGen.GeneratorSteps;
 
-        public ExtractTemplateAssets()
+public sealed class ExtractTemplateAssets : IGeneratorStep
+{
+    public (KnownFile file, string targetPath)[] Assets { get; set; }
+
+    public ExtractTemplateAssets()
+    {
+        Assets = new (KnownFile file, string targetPath)[0];
+    }
+
+    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    {
+        if (Assets.Length < 1)
         {
-            Assets = new (KnownFile file, string targetPath)[0];
+            log.Warning("External template used, skipping asset extract");
+            return;
         }
 
-        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+        foreach ((KnownFile file, string targetPath) in Assets)
         {
-            if (Assets.Length < 1)
-            {
-                log.Warning("External template used, skipping asset extract");
-                return;
-            }
+            string? target = settings.OutputDirectory.Combine(targetPath).ToString();
 
-            foreach ((KnownFile file, string targetPath) in Assets)
-            {
-                string? target = settings.OutputDirectory.Combine(targetPath).ToString();
-
-                ResourceHandler.ExtractKnownFile(file, target, log);
-            }
+            ResourceHandler.ExtractKnownFile(file, target, log);
         }
     }
 }

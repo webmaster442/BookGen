@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.ProjectHandling
+namespace BookGen.ProjectHandling;
+
+internal enum ConfigFormat
 {
-    internal enum ConfigFormat
-    {
-        Json,
-        Yaml,
-    }
+    Json,
+    Yaml,
 }

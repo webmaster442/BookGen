@@ -3,14 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Infrastructure
+namespace BookGen.Infrastructure;
+
+internal interface IModuleApi
 {
-    internal interface IModuleApi
-    {
-        GeneratorRunner CreateRunner(bool verbose, string workDir);
-        void ExecuteModule(string module, string[] arguments);
-        void Wait(string exitString);
-        IEnumerable<string> GetCommandNames();
-        string[] GetAutoCompleteItems(string commandName);
-    }
+    GeneratorRunner CreateRunner(bool verbose, string workDir);
+    void ExecuteModule(string module, string[] arguments);
+    void Wait(string exitString);
+    IEnumerable<string> GetCommandNames();
+    string[] GetAutoCompleteItems(string commandName);
 }

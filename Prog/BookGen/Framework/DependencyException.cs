@@ -4,28 +4,27 @@
 //-----------------------------------------------------------------------------
 using System.Runtime.Serialization;
 
-namespace BookGen.Framework
+namespace BookGen.Framework;
+
+/// <summary>
+/// A developer exception indicating bad dependecy setup
+/// </summary>
+[Serializable]
+public class DependencyException : Exception
 {
-    /// <summary>
-    /// A developer exception indicating bad dependecy setup
-    /// </summary>
-    [Serializable]
-    public class DependencyException : Exception
+    public DependencyException()
     {
-        public DependencyException()
-        {
-        }
+    }
 
-        public DependencyException(string? message) : base("Missing dependecy for: " + message)
-        {
-        }
+    public DependencyException(string? message) : base("Missing dependecy for: " + message)
+    {
+    }
 
-        public DependencyException(string? message, Exception? innerException) : base("Missing dependecy for: " + message, innerException)
-        {
-        }
+    public DependencyException(string? message, Exception? innerException) : base("Missing dependecy for: " + message, innerException)
+    {
+    }
 
-        protected DependencyException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected DependencyException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }

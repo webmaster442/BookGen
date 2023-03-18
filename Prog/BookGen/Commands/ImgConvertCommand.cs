@@ -1,51 +1,48 @@
-﻿using BookGen.Cli;
-using BookGen.Cli.Annotations;
-using BookGen.CommandArguments;
+﻿using BookGen.CommandArguments;
 
-namespace BookGen.Commands
+namespace BookGen.Commands;
+
+[CommandName("imgconvert")]
+internal class ImgConvertCommand : Command<ImgConvertArguments>
 {
-    [CommandName("imgconvert")]
-    internal class ImgConvertCommand : Command<ImgConvertArguments>
+    private readonly ILog _log;
+
+    public ImgConvertCommand(ILog log)
     {
-        private readonly ILog _log;
+        _log = log;
+    }
 
-        public ImgConvertCommand(ILog log)
+    public override int Execute(ImgConvertArguments arguments, string[] context)
+    {
+
+        if (arguments.Input.IsDirectory)
         {
-            _log = log;
-        }
+            IEnumerable<Interfaces.FsPath>? files =
+                arguments.Input.GetAllFiles(false).Where(ImageUtils.IsImage);
 
-        public override int Execute(ImgConvertArguments arguments, string[] context)
-        {
-
-            if (arguments.Input.IsDirectory)
+            Parallel.ForEach(files, file =>
             {
-                IEnumerable<Interfaces.FsPath>? files =
-                    arguments.Input.GetAllFiles(false).Where(ImageUtils.IsImage);
-                
-                Parallel.ForEach(files, file =>
-                {
-                    Interfaces.FsPath? output = arguments.Output.Combine(file.Filename);
+                Interfaces.FsPath? output = arguments.Output.Combine(file.Filename);
 
-                    ImageUtils.ConvertImageFile(_log,
-                                                file,
-                                                output,
-                                                arguments.Quality,
-                                                arguments.Width,
-                                                arguments.Height,
-                                                arguments.Format);
-                });
+                ImageUtils.ConvertImageFile(_log,
+                                            file,
+                                            output,
+                                            arguments.Quality,
+                                            arguments.Width,
+                                            arguments.Height,
+                                            arguments.Format);
+            });
 
-                return Constants.Succes;
-            }
-
-            return ImageUtils.ConvertImageFile(_log,
-                                               arguments.Input,
-                                               arguments.Output,
-                                               arguments.Quality,
-                                               arguments.Width,
-                                               arguments.Height)
-                ? Constants.Succes
-                : Constants.GeneralError;
+            return Constants.Succes;
         }
+
+        return ImageUtils.ConvertImageFile(_log,
+                                           arguments.Input,
+                                           arguments.Output,
+                                           arguments.Quality,
+                                           arguments.Width,
+                                           arguments.Height)
+            ? Constants.Succes
+            : Constants.GeneralError;
     }
 }

@@ -3,34 +3,31 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Interfaces;
+namespace BookGen.ProjectHandling;
 
-namespace BookGen.ProjectHandling
+internal abstract class LoadStep
 {
-    internal abstract class LoadStep
+    protected readonly FsPath _configJson;
+    protected readonly FsPath _configYaml;
+    protected readonly FsPath _tagsJson;
+
+    protected LoadStep(LoadState state, ILog log)
     {
-        protected readonly FsPath _configJson;
-        protected readonly FsPath _configYaml;
-        protected readonly FsPath _tagsJson;
+        State = state;
+        Log = log;
 
-        protected LoadStep(LoadState state, ILog log)
-        {
-            State = state;
-            Log = log;
+        var (confgJson, configYaml, tags) = ProjectFilesLocator.Locate(state.WorkDir);
 
-            var (confgJson, configYaml, tags) = ProjectFilesLocator.Locate(state.WorkDir);
-
-            _configJson = confgJson;
-            _configYaml = configYaml;
-            _tagsJson = tags;
-        }
-
-        public LoadState State { get; }
-
-        public ILog Log { get; }
-
-        public virtual bool CanExecute() => true;
-
-        public abstract bool Execute();
+        _configJson = confgJson;
+        _configYaml = configYaml;
+        _tagsJson = tags;
     }
+
+    public LoadState State { get; }
+
+    public ILog Log { get; }
+
+    public virtual bool CanExecute() => true;
+
+    public abstract bool Execute();
 }

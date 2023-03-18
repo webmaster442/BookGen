@@ -1,27 +1,24 @@
-﻿using BookGen.Cli;
-using BookGen.Cli.Annotations;
-using BookGen.Infrastructure;
+﻿using BookGen.Infrastructure;
 
-namespace BookGen.Commands
+namespace BookGen.Commands;
+
+[CommandName("subcommands")]
+internal class SubCommandsCommand : Command
 {
-    [CommandName("subcommands")]
-    internal class SubCommandsCommand : Command
+    private readonly IEnumerable<string> _commands;
+
+    public SubCommandsCommand(IModuleApi api)
     {
-        private readonly IEnumerable<string> _commands;
+        _commands = api.GetCommandNames();
+    }
 
-        public SubCommandsCommand(IModuleApi api)
+    public override int Execute(string[] context)
+    {
+        Console.WriteLine("Available sub commands: \r\n");
+        foreach (var command in _commands)
         {
-            _commands = api.GetCommandNames();
+            Console.WriteLine(command);
         }
-
-        public override int Execute(string[] context)
-        {
-            Console.WriteLine("Available sub commands: \r\n");
-            foreach (var command in _commands)
-            {
-                Console.WriteLine(command);
-            }
-            return Constants.Succes;
-        }
+        return Constants.Succes;
     }
 }

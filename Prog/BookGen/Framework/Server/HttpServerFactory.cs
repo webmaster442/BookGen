@@ -6,64 +6,63 @@
 using Webmaster442.HttpServerFramework;
 using Webmaster442.HttpServerFramework.Handlers;
 
-namespace BookGen.Framework.Server
+namespace BookGen.Framework.Server;
+
+internal static class HttpServerFactory
 {
-    internal static class HttpServerFactory
+    public static HttpServer CreateServerForTest(IServerLog log, string folder)
     {
-        public static HttpServer CreateServerForTest(IServerLog log, string folder)
-        {
-            bool debug = false;
+        bool debug = false;
 #if DEBUG
-            debug = true;
+        debug = true;
 #endif
 
-            var server = new HttpServer(new HttpServerConfiguration
-            {
-                DebugMode = debug,
-                Port = 8090,
-            }, log);
-
-            server.RegisterHandler(new FileServeHandler(folder, false, "/"));
-
-            return server;
-        }
-
-        public static HttpServer CreateServerForServModule(IServerLog log, string folder)
+        var server = new HttpServer(new HttpServerConfiguration
         {
-            bool debug = false;
+            DebugMode = debug,
+            Port = 8090,
+        }, log);
+
+        server.RegisterHandler(new FileServeHandler(folder, false, "/"));
+
+        return server;
+    }
+
+    public static HttpServer CreateServerForServModule(IServerLog log, string folder)
+    {
+        bool debug = false;
 #if DEBUG
-            debug = true;
+        debug = true;
 #endif
 
-            var server = new HttpServer(new HttpServerConfiguration
-            {
-                DebugMode = debug,
-                Port = 8081,
-            }, log);
-
-            server.RegisterHandler(new FileServeHandler(folder, true, "/"));
-
-            return server;
-        }
-
-        public static HttpServer CreateServerForPreview(ILog log, IServerLog serverlog, string directory)
+        var server = new HttpServer(new HttpServerConfiguration
         {
-            bool debug = false;
+            DebugMode = debug,
+            Port = 8081,
+        }, log);
+
+        server.RegisterHandler(new FileServeHandler(folder, true, "/"));
+
+        return server;
+    }
+
+    public static HttpServer CreateServerForPreview(ILog log, IServerLog serverlog, string directory)
+    {
+        bool debug = false;
 #if DEBUG
-            debug = true;
+        debug = true;
 #endif
 
-            var server = new HttpServer(new HttpServerConfiguration
-            {
-                DebugMode = debug,
-                Port = 8082,
-            }, serverlog);
+        var server = new HttpServer(new HttpServerConfiguration
+        {
+            DebugMode = debug,
+            Port = 8082,
+        }, serverlog);
 
 
-            server.RegisterHandler(new PreviewStaticHandler());
-            server.RegisterHandler(new PreviewRenderHandler(directory, log));
+        server.RegisterHandler(new PreviewStaticHandler());
+        server.RegisterHandler(new PreviewRenderHandler(directory, log));
 
-            return server;
-        }
+        return server;
     }
 }

@@ -3,35 +3,33 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Interfaces;
 using System.ComponentModel.Composition;
 
-namespace BookGen.Framework.Shortcodes
+namespace BookGen.Framework.Shortcodes;
+
+[Export(typeof(ITemplateShortCode))]
+public sealed class InlineFile : ITemplateShortCode
 {
-    [Export(typeof(ITemplateShortCode))]
-    public sealed class InlineFile : ITemplateShortCode
+    private readonly ILog _log;
+
+    public string Tag => nameof(InlineFile);
+
+    public bool CanCacheResult => true;
+
+    [ImportingConstructor]
+    public InlineFile(ILog log)
     {
-        private readonly ILog _log;
+        _log = log;
+    }
 
-        public string Tag => nameof(InlineFile);
+    public string Generate(IArguments arguments)
+    {
+        string? name = arguments.GetArgumentOrThrow<string>("file");
 
-        public bool CanCacheResult => true;
+        var file = new FsPath(name);
 
-        [ImportingConstructor]
-        public InlineFile(ILog log)
-        {
-            _log = log;
-        }
+        _log.Detail("Inlineing {0}...", file);
 
-        public string Generate(IArguments arguments)
-        {
-            string? name = arguments.GetArgumentOrThrow<string>("file");
-
-            var file = new FsPath(name);
-
-            _log.Detail("Inlineing {0}...", file);
-
-            return file.ReadFile(_log);
-        }
+        return file.ReadFile(_log);
     }
 }

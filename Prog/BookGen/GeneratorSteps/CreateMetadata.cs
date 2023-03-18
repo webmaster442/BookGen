@@ -4,52 +4,50 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.DomainServices.Markdown;
-using BookGen.Interfaces;
 
-namespace BookGen.GeneratorSteps
+namespace BookGen.GeneratorSteps;
+
+internal sealed class CreateMetadata : IGeneratorStep
 {
-    internal sealed class CreateMetadata : IGeneratorStep
+    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
     {
-        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+        log.Info("Generating metadata for pages...");
+
+        foreach (string? chapter in settings.TocContents.Chapters)
         {
-            log.Info("Generating metadata for pages...");
-
-            foreach (string? chapter in settings.TocContents.Chapters)
+            foreach (Link? link in settings.TocContents.GetLinksForChapter(chapter))
             {
-                foreach (Link? link in settings.TocContents.GetLinksForChapter(chapter))
-                {
-                    string title = $"{settings.Configuration.Metadata.Title} - {link.Text}";
-                    FsPath file = settings.SourceDirectory.Combine(link.Url);
+                string title = $"{settings.Configuration.Metadata.Title} - {link.Text}";
+                FsPath file = settings.SourceDirectory.Combine(link.Url);
 
-                    string description = GetDescription(log, file);
+                string description = GetDescription(log, file);
 
-                    MetaTag meta = CreateMetaTag(settings, link, title, description);
+                MetaTag meta = CreateMetaTag(settings, link, title, description);
 
-                    settings.MetataCache[link.Url] = meta.GetHtmlMeta();
-                }
+                settings.MetataCache[link.Url] = meta.GetHtmlMeta();
             }
         }
+    }
 
-        private static MetaTag CreateMetaTag(IReadonlyRuntimeSettings settings, Link link, string title, string description)
+    private static MetaTag CreateMetaTag(IReadonlyRuntimeSettings settings, Link link, string title, string description)
+    {
+        MetaTag? meta = new MetaTag().FillWithConfigDefaults(settings.Configuration);
+
+        meta.Title = title;
+        meta.Url = link.ConvertToLinkOnHost(settings.Configuration.HostName);
+        meta.Description = description;
+        return meta;
+    }
+
+    private static string GetDescription(ILog log, FsPath file)
+    {
+        using (var pipeline = new BookGenPipeline(BookGenPipeline.Plain))
         {
-            MetaTag? meta = new MetaTag().FillWithConfigDefaults(settings.Configuration);
+            string? content = file.ReadFile(log).Replace('\n', ' ').Trim();
+            string? description = pipeline.RenderMarkdown(content);
 
-            meta.Title = title;
-            meta.Url = link.ConvertToLinkOnHost(settings.Configuration.HostName);
-            meta.Description = description;
-            return meta;
-        }
-
-        private static string GetDescription(ILog log, FsPath file)
-        {
-            using (var pipeline = new BookGenPipeline(BookGenPipeline.Plain))
-            {
-                string? content = file.ReadFile(log).Replace('\n', ' ').Trim();
-                string? description = pipeline.RenderMarkdown(content);
-
-                int limit = description.Length < 190 ? description.Length : 190;
-                return description[..limit] + "...";
-            }
+            int limit = description.Length < 190 ? description.Length : 190;
+            return description[..limit] + "...";
         }
     }
 }

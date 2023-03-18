@@ -4,29 +4,27 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api.Configuration;
-using BookGen.Interfaces;
 
-namespace BookGen.Framework.Scripts
+namespace BookGen.Framework.Scripts;
+
+internal class ScriptHost : IScriptHost
 {
-    internal class ScriptHost : IScriptHost
+    public string SourceDirectory { get; }
+
+    public IReadOnlyConfig Configuration { get; }
+
+    public IReadOnlyBuildConfig CurrentBuildConfig { get; }
+
+    public ILog Log { get; }
+
+    public ITableOfContents TableOfContents { get; }
+
+    public ScriptHost(IReadonlyRuntimeSettings runtimeSettings, ILog log)
     {
-        public string SourceDirectory { get; }
-
-        public IReadOnlyConfig Configuration { get; }
-
-        public IReadOnlyBuildConfig CurrentBuildConfig { get; }
-
-        public ILog Log { get; }
-
-        public ITableOfContents TableOfContents { get; }
-
-        public ScriptHost(IReadonlyRuntimeSettings runtimeSettings, ILog log)
-        {
-            SourceDirectory = runtimeSettings.SourceDirectory.ToString();
-            Configuration = runtimeSettings.Configuration;
-            CurrentBuildConfig = runtimeSettings.CurrentBuildConfig;
-            TableOfContents = runtimeSettings.TocContents;
-            Log = log;
-        }
+        SourceDirectory = runtimeSettings.SourceDirectory.ToString();
+        Configuration = runtimeSettings.Configuration;
+        CurrentBuildConfig = runtimeSettings.CurrentBuildConfig;
+        TableOfContents = runtimeSettings.TocContents;
+        Log = log;
     }
 }

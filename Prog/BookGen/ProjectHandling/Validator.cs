@@ -3,24 +3,23 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.ProjectHandling
+namespace BookGen.ProjectHandling;
+
+public abstract class Validator
 {
-    public abstract class Validator
+    public List<string> Errors { get; }
+
+    protected Validator()
     {
-        public List<string> Errors { get; }
-
-        protected Validator()
-        {
-            Errors = new List<string>();
-        }
-
-        protected void AddError(string format, params object[] values)
-        {
-            Errors.Add(string.Format(format, values));
-        }
-
-        public abstract void Validate();
-
-        public bool IsValid => Errors.Count == 0;
+        Errors = new List<string>();
     }
+
+    protected void AddError(string format, params object[] values)
+    {
+        Errors.Add(string.Format(format, values));
+    }
+
+    public abstract void Validate();
+
+    public bool IsValid => Errors.Count == 0;
 }

@@ -1,16 +1,13 @@
-﻿using BookGen.Cli;
-using BookGen.Cli.Annotations;
-using BookGen.Framework;
+﻿using BookGen.Framework;
 
-namespace BookGen.Commands
+namespace BookGen.Commands;
+
+[CommandName("confighelp")]
+internal class ConfigHelpCommand : Command
 {
-    [CommandName("confighelp")]
-    internal class ConfigHelpCommand : Command
+    public override int Execute(string[] context)
     {
-        public override int Execute(string[] context)
-        {
-            Console.WriteLine(HelpUtils.DocumentConfiguration());
-            return Constants.Succes;
-        }
+        Console.WriteLine(HelpUtils.DocumentConfiguration());
+        return Constants.Succes;
     }
 }

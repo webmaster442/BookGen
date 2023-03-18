@@ -3,92 +3,92 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.CommandArguments;
-using BookGen.Domain.VsTasks;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace BookGen.Framework
+using BookGen.CommandArguments;
+using BookGen.Domain.VsTasks;
+
+namespace BookGen.Framework;
+
+internal static class VsTaskFactory
 {
-    internal static class VsTaskFactory
+    private static Domain.VsTasks.Task CreateTask(string arguments, string winArgs, string Description)
     {
-        private static Domain.VsTasks.Task CreateTask(string arguments, string winArgs, string Description)
+        return new Domain.VsTasks.Task
         {
-            return new Domain.VsTasks.Task
+            type = "shell",
+            command = "BookGen",
+            args = new List<Arg>
             {
-                type = "shell",
+                new Arg
+                {
+                    quoting = Quoting.escape,
+                    value = arguments,
+                },
+            },
+            windows = new Windows
+            {
                 command = "BookGen",
                 args = new List<Arg>
                 {
                     new Arg
                     {
                         quoting = Quoting.escape,
-                        value = arguments,
+                        value = winArgs,
                     },
                 },
-                windows = new Windows
-                {
-                    command = "BookGen",
-                    args = new List<Arg>
-                    {
-                        new Arg
-                        {
-                            quoting = Quoting.escape,
-                            value = winArgs,
-                        },
-                    },
-                },
+            },
+            group = "build",
+            label = Description,
+            presentation = new Presentation
+            {
+                clear = true,
+                echo = true,
+                focus = false,
                 group = "build",
-                label = Description,
-                presentation = new Presentation
-                {
-                    clear = true,
-                    echo = true,
-                    focus = false,
-                    group = "build",
-                    panel = Panel.shared,
-                    reveal = Reveal.always
-                },
-            };
-        }
+                panel = Panel.shared,
+                reveal = Reveal.always
+            },
+        };
+    }
 
-        private static string DescriptionAttr<T>(this T source) where T : struct
+    private static string DescriptionAttr<T>(this T source) where T : struct
+    {
+        string name = source.ToString() ?? "";
+        FieldInfo? fi = source.GetType().GetField(name);
+
+        if (fi == null)
+            return string.Empty;
+
+        var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(
+            typeof(DescriptionAttribute), false);
+
+        if (attributes?.Length > 0)
+            return attributes[0].Description;
+        else
+            return name;
+    }
+
+    internal static VsTaskRoot CreateTasks()
+    {
+        return new VsTaskRoot
         {
-            string name = source.ToString() ?? "";
-            FieldInfo? fi = source.GetType().GetField(name);
+            version = "2.0.0",
+            tasks = CreateTaskItems().ToList()
+        };
+    }
 
-            if (fi == null)
-                return string.Empty;
-
-            var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(
-                typeof(DescriptionAttribute), false);
-
-            if (attributes?.Length > 0)
-                return attributes[0].Description;
-            else
-                return name;
-        }
-
-        internal static VsTaskRoot CreateTasks()
+    private static IEnumerable<Domain.VsTasks.Task> CreateTaskItems()
+    {
+        string[]? tasks = Enum.GetNames(typeof(BuildAction));
+        foreach (string? task in tasks)
         {
-            return new VsTaskRoot
-            {
-                version = "2.0.0",
-                tasks = CreateTaskItems().ToList()
-            };
-        }
+            var value = (BuildAction)Enum.Parse(typeof(BuildAction), task);
+            yield return CreateTask($"Build -a {value} -d $PWD",
+                                     $"Build -a {value} -d %cd%",
+                                     value.DescriptionAttr());
 
-        private static IEnumerable<Domain.VsTasks.Task> CreateTaskItems()
-        {
-            string[]? tasks = Enum.GetNames(typeof(BuildAction));
-            foreach (string? task in tasks)
-            {
-                var value = (BuildAction)Enum.Parse(typeof(BuildAction), task);
-                yield return CreateTask($"Build -a {value} -d $PWD",
-                                         $"Build -a {value} -d %cd%",
-                                         value.DescriptionAttr());
-
-            }
         }
     }
 }

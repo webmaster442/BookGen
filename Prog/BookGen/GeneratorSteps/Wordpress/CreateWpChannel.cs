@@ -5,42 +5,40 @@
 
 using BookGen.Domain.Configuration;
 using BookGen.Domain.Wordpress;
-using BookGen.Interfaces;
 
-namespace BookGen.GeneratorSteps.Wordpress
+namespace BookGen.GeneratorSteps.Wordpress;
+
+internal sealed class CreateWpChannel : IGeneratorStep
 {
-    internal sealed class CreateWpChannel : IGeneratorStep
+    private readonly Session _session;
+
+    public CreateWpChannel(Session session)
     {
-        private readonly Session _session;
+        _session = session;
+    }
 
-        public CreateWpChannel(Session session)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    {
+        _session.CurrentChannel = new Channel
         {
-            _session = session;
-        }
-
-        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
-        {
-            _session.CurrentChannel = new Channel
+            Title = settings.Configuration.Metadata.Title,
+            Link = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],
+            PubDate = DateTime.UtcNow.ToWpTimeFormat(),
+            Language = "hu",
+            Wxr_version = "1.2",
+            Base_site_url = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],
+            Base_blog_url = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],
+            Generator = "BookGen",
+            Description = string.Empty,
+            Author = new Author
             {
-                Title = settings.Configuration.Metadata.Title,
-                Link = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],
-                PubDate = DateTime.UtcNow.ToWpTimeFormat(),
-                Language = "hu",
-                Wxr_version = "1.2",
-                Base_site_url = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],
-                Base_blog_url = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost],
-                Generator = "BookGen",
-                Description = string.Empty,
-                Author = new Author
-                {
-                    Author_display_name = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorDisplayName],
-                    Author_email = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorEmail],
-                    Author_first_name = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorFirstName],
-                    Author_last_name = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorLastName],
-                    Author_id = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorId],
-                    Author_login = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorLogin]
-                }
-            };
-        }
+                Author_display_name = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorDisplayName],
+                Author_email = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorEmail],
+                Author_first_name = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorFirstName],
+                Author_last_name = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorLastName],
+                Author_id = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorId],
+                Author_login = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressAuthorLogin]
+            }
+        };
     }
 }

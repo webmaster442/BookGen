@@ -1,7 +1,4 @@
-﻿using BookGen.Cli;
-using BookGen.Cli.Annotations;
-
-namespace BookGen.Commands;
+﻿namespace BookGen.Commands;
 
 [CommandName("wiki")]
 internal class WikiCommand : Command

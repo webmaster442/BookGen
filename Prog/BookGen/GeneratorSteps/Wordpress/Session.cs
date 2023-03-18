@@ -5,15 +5,14 @@
 
 using BookGen.Domain.Wordpress;
 
-namespace BookGen.GeneratorSteps.Wordpress
-{
-    internal sealed class Session
-    {
-        public Channel CurrentChannel { get; set; }
+namespace BookGen.GeneratorSteps.Wordpress;
 
-        public Session()
-        {
-            CurrentChannel = new Channel();
-        }
+internal sealed class Session
+{
+    public Channel CurrentChannel { get; set; }
+
+    public Session()
+    {
+        CurrentChannel = new Channel();
     }
 }

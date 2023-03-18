@@ -1,77 +1,74 @@
-﻿using BookGen.Cli;
-using BookGen.Cli.Annotations;
+﻿using System.Diagnostics;
+
 using BookGen.CommandArguments;
 using BookGen.Framework;
 using BookGen.Infrastructure;
-using BookGen.Interfaces;
 using BookGen.ProjectHandling;
-using System.Diagnostics;
 
-namespace BookGen.Commands
+namespace BookGen.Commands;
+
+[CommandName("tags")]
+internal class TagsCommand : Command<TagsArguments>
 {
-    [CommandName("tags")]
-    internal class TagsCommand : Command<TagsArguments>
+    private readonly ILog _log;
+    private readonly ProgramInfo _programInfo;
+
+    public TagsCommand(ILog log, ProgramInfo programInfo)
     {
-        private readonly ILog _log;
-        private readonly ProgramInfo _programInfo;
+        _log = log;
+        _programInfo = programInfo;
+    }
 
-        public TagsCommand(ILog log, ProgramInfo programInfo)
+    public override int Execute(TagsArguments arguments, string[] context)
+    {
+        _log.LogLevel = arguments.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
+
+        _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
+
+        using (var l = new FolderLock(arguments.Directory))
         {
-            _log = log;
-            _programInfo = programInfo;
-        }
+            var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
 
-        public override int Execute(TagsArguments arguments, string[] context)
-        {
-            _log.LogLevel = arguments.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
+            bool result = loader.LoadProject();
 
-            _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
-
-            using (var l = new FolderLock(arguments.Directory))
+            if (result)
             {
-                var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
 
-                bool result = loader.LoadProject();
+                var tagUtils = new WritableTagUtils(loader.Tags,
+                                                    loader.Configuration.BookLanguage,
+                                                    _log);
 
-                if (result)
-                {
-                    var stopwatch = new Stopwatch();
-                    stopwatch.Start();
+                tagUtils.DeleteNoLongerExisting(loader.Toc);
+                tagUtils.CreateNotYetExisting(loader.Toc);
 
-                    var tagUtils = new WritableTagUtils(loader.Tags,
-                                                        loader.Configuration.BookLanguage,
-                                                        _log);
+                if (arguments.AutoGenerateTags)
+                    tagUtils.AutoGenerate(loader.Toc, arguments.AutoKeyWordCount);
 
-                    tagUtils.DeleteNoLongerExisting(loader.Toc);
-                    tagUtils.CreateNotYetExisting(loader.Toc);
+                PrintStats(_log, tagUtils);
 
-                    if (arguments.AutoGenerateTags)
-                        tagUtils.AutoGenerate(loader.Toc, arguments.AutoKeyWordCount);
+                SerializeTagCollection(arguments.Directory, _log, tagUtils.TagCollection);
 
-                    PrintStats(_log, tagUtils);
+                _log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
-                    SerializeTagCollection(arguments.Directory, _log, tagUtils.TagCollection);
-
-                    _log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
-
-                    return Constants.Succes;
-                }
-
-                return Constants.GeneralError;
+                return Constants.Succes;
             }
-        }
 
-        private static void PrintStats(ILog log, TagUtils tagUtils)
-        {
-            log.Info("Total tags: {0}", tagUtils.TotalTagCount);
-            log.Info("Total unique tags: {0}", tagUtils.UniqueTagCount);
-            log.Info("Files without tags: {0}", tagUtils.FilesWithOutTags);
+            return Constants.GeneralError;
         }
+    }
 
-        private static void SerializeTagCollection(string directory, ILog log, Dictionary<string, string[]> tagCollection)
-        {
-            var tags = new FsPath(directory, ".bookgen/tags.json");
-            tags.SerializeJson(tagCollection, log, true);
-        }
+    private static void PrintStats(ILog log, TagUtils tagUtils)
+    {
+        log.Info("Total tags: {0}", tagUtils.TotalTagCount);
+        log.Info("Total unique tags: {0}", tagUtils.UniqueTagCount);
+        log.Info("Files without tags: {0}", tagUtils.FilesWithOutTags);
+    }
+
+    private static void SerializeTagCollection(string directory, ILog log, Dictionary<string, string[]> tagCollection)
+    {
+        var tags = new FsPath(directory, ".bookgen/tags.json");
+        tags.SerializeJson(tagCollection, log, true);
     }
 }

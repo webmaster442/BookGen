@@ -3,36 +3,33 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.IO;
+namespace BookGen.Framework;
 
-namespace BookGen.Framework
+internal sealed class FolderLock : IDisposable
 {
-    internal sealed class FolderLock : IDisposable
+    private readonly string _lockfile;
+    private const string lockName = "bookGen.lock";
+
+    public FolderLock(string folder)
     {
-        private readonly string _lockfile;
-        private const string lockName = "bookGen.lock";
-
-        public FolderLock(string folder)
+        _lockfile = Path.Combine(folder, lockName);
+        if (!File.Exists(_lockfile))
         {
-            _lockfile = Path.Combine(folder, lockName);
-            if (!File.Exists(_lockfile))
-            {
-                using StreamWriter? f = File.CreateText(_lockfile);
-            }
+            using StreamWriter? f = File.CreateText(_lockfile);
         }
+    }
 
-        public void Dispose()
+    public void Dispose()
+    {
+        if (File.Exists(_lockfile))
         {
-            if (File.Exists(_lockfile))
-            {
-                File.Delete(_lockfile);
-            }
+            File.Delete(_lockfile);
         }
+    }
 
-        public static bool TryCheckLockExistance(string folder, out string lockFile)
-        {
-            lockFile = Path.Combine(folder, lockName);
-            return File.Exists(lockFile);
-        }
+    public static bool TryCheckLockExistance(string folder, out string lockFile)
+    {
+        lockFile = Path.Combine(folder, lockName);
+        return File.Exists(lockFile);
     }
 }

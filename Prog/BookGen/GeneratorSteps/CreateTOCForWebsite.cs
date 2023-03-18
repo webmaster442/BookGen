@@ -4,34 +4,32 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework;
-using BookGen.Interfaces;
 
-namespace BookGen.GeneratorSteps
+namespace BookGen.GeneratorSteps;
+
+internal sealed class CreateToCForWebsite : IGeneratorContentFillStep
 {
-    internal sealed class CreateToCForWebsite : IGeneratorContentFillStep
+    public IContent? Content { get; set; }
+
+    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
     {
-        public IContent? Content { get; set; }
+        if (Content == null)
+            throw new DependencyException(nameof(Content));
 
-        public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+        log.Info("Generating Table of Contents...");
+        var toc = new StringBuilder();
+        foreach (string? chapter in settings.TocContents.Chapters)
         {
-            if (Content == null)
-                throw new DependencyException(nameof(Content));
-
-            log.Info("Generating Table of Contents...");
-            var toc = new StringBuilder();
-            foreach (string? chapter in settings.TocContents.Chapters)
+            toc.Append("<details open=\"true\">");
+            toc.AppendFormat("<summary>{0}</summary>", chapter);
+            toc.Append("<ul>");
+            foreach (Link? link in settings.TocContents.GetLinksForChapter(chapter))
             {
-                toc.Append("<details open=\"true\">");
-                toc.AppendFormat("<summary>{0}</summary>", chapter);
-                toc.Append("<ul>");
-                foreach (Link? link in settings.TocContents.GetLinksForChapter(chapter))
-                {
-                    toc.AppendFormat("<li><a href=\"{0}\">{1}</a></li>", link.ConvertToLinkOnHost(settings.Configuration.HostName), link.Text);
-                }
-                toc.Append("</ul>");
-                toc.Append("</details>");
+                toc.AppendFormat("<li><a href=\"{0}\">{1}</a></li>", link.ConvertToLinkOnHost(settings.Configuration.HostName), link.Text);
             }
-            Content.TableOfContents = toc.ToString();
+            toc.Append("</ul>");
+            toc.Append("</details>");
         }
+        Content.TableOfContents = toc.ToString();
     }
 }

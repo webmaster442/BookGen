@@ -1,16 +1,12 @@
-﻿using BookGen.Cli;
-using BookGen.Cli.Annotations;
+﻿namespace BookGen.CommandArguments;
 
-namespace BookGen.CommandArguments
+internal sealed class MdTableArguments : ArgumentsBase
 {
-    internal sealed class MdTableArguments : ArgumentsBase
-    {
-        [Switch("d", "delimiter")]
-        public char Delimiter { get; set; }
+    [Switch("d", "delimiter")]
+    public char Delimiter { get; set; }
 
-        public MdTableArguments()
-        {
-            Delimiter = '\t';
-        }
+    public MdTableArguments()
+    {
+        Delimiter = '\t';
     }
 }

@@ -3,35 +3,34 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.ProjectHandling.Steps
-{
-    internal class TagsLoad : LoadStep
-    {
-        public TagsLoad(LoadState state, ILog log) : base(state, log)
-        {
-        }
+namespace BookGen.ProjectHandling.Steps;
 
-        public override bool Execute()
+internal class TagsLoad : LoadStep
+{
+    public TagsLoad(LoadState state, ILog log) : base(state, log)
+    {
+    }
+
+    public override bool Execute()
+    {
+        if (_tagsJson.IsExisting)
         {
-            if(_tagsJson.IsExisting)
+            var loaded = _tagsJson.DeserializeJson<Dictionary<string, string[]>>(Log);
+            if (loaded != null)
             {
-                var loaded = _tagsJson.DeserializeJson<Dictionary<string, string[]>>(Log);
-                if (loaded != null)
-                {
-                    State.Tags = loaded;
-                    return true;
-                }
-                else
-                {
-                    Log.Critical("Invalid tags.json file.");
-                    return false;
-                }
+                State.Tags = loaded;
+                return true;
             }
             else
             {
-                Log.Warning("tags.json not found, continuing with empty collection");
-                return true;
+                Log.Critical("Invalid tags.json file.");
+                return false;
             }
+        }
+        else
+        {
+            Log.Warning("tags.json not found, continuing with empty collection");
+            return true;
         }
     }
 }

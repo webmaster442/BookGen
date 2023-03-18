@@ -1,16 +1,12 @@
-﻿using BookGen.Cli;
-using BookGen.Cli.Annotations;
+﻿namespace BookGen.CommandArguments;
 
-namespace BookGen.CommandArguments
+internal class VersionArguments : ArgumentsBase
 {
-    internal class VersionArguments : ArgumentsBase
-    {
-        [Switch("bd", "builddate")]
-        public bool BuildDate { get; set; }
-        
-        [Switch("api", "apiversion")]
-        public bool ApiVersion { get; set; }
+    [Switch("bd", "builddate")]
+    public bool BuildDate { get; set; }
 
-        public bool IsDefault => !BuildDate && !ApiVersion;
-    }
+    [Switch("api", "apiversion")]
+    public bool ApiVersion { get; set; }
+
+    public bool IsDefault => !BuildDate && !ApiVersion;
 }
