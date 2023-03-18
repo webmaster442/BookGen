@@ -111,7 +111,7 @@ namespace BookGen.Cli
             return Array.Empty<string>();
         }
 
-        public async Task<int> Run(IReadOnlyList<string> args)
+        public Task<int> Run(IReadOnlyList<string> args)
         {
             string commandName;
             if (args.Count > 0)
@@ -127,6 +127,11 @@ namespace BookGen.Cli
 
             var argsToParse = args.Skip(1).ToArray();
 
+            return RunCommand(commandName, argsToParse);
+        }
+
+        public async Task<int> RunCommand(string commandName, string[] argsToParse)
+        {
             if (!_commands.ContainsKey(commandName))
             {
                 _log.Critical(_settings.UnknownCommandCodeAndMessage.message);
@@ -144,7 +149,7 @@ namespace BookGen.Cli
 
                 ArgumentParser parser = new(argumentType);
 
-                return await command.Execute(parser.Fill(args), argsToParse);
+                return await command.Execute(parser.Fill(argsToParse), argsToParse);
             }
             catch (Exception ex)
             {

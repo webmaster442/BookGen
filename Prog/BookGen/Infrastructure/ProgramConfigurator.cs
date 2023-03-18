@@ -9,6 +9,7 @@ using System.Threading;
 using BookGen.Framework;
 using BookGen.Gui;
 
+using Webmaster442.HttpServerFramework;
 
 namespace BookGen.Infrastructure;
 
@@ -81,16 +82,17 @@ internal static class ProgramConfigurator
         }
     }
 
-    internal static ILog ConfigureLog(IList<string> arguments)
+    internal static (ILog, IServerLog) ConfigureLog(IList<string> arguments)
     {
         if (GetSwitch(arguments, JsonLogShort, JsonLogLong))
         {
-            return new JsonLog();
+            var logImplementation = new JsonLog();
+            return (logImplementation, logImplementation);
         }
 
         bool logFile = GetSwitch(arguments, LogFileShort, LogFileLong);
         var log = new TerminalLog(logFile);
-        return log;
+        return (log, log);
     }
 
 

@@ -5,7 +5,7 @@ namespace BookGen.Cli.ArgumentParsing
 {
     internal class ArgumentParser
     {
-        private PropertyInfo[] _properities;
+        private readonly PropertyInfo[] _properities;
         private readonly Type _argumentType;
 
         public ArgumentParser(Type argumentType)
@@ -38,7 +38,9 @@ namespace BookGen.Cli.ArgumentParsing
                     else
                     {
                         var value = ValueConverter.Convert(argBag.GetSwitchValue(switchParams), property.PropertyType);
-                        property.SetValue(arguments, value);
+                        var storedValue = property.GetValue(arguments);
+                        if (storedValue != null && value != null)
+                            property.SetValue(arguments, value);
                     }
                 }
                 else if (argParams != null)
