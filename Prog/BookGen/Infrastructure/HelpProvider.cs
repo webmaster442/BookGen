@@ -1,0 +1,122 @@
+﻿using BookGen.Resources;
+
+namespace BookGen.Infrastructure;
+internal class HelpProvider
+{
+    private readonly ILog _log;
+    private readonly IModuleApi _api;
+    private readonly Dictionary<string, string[]> _helpData;
+    private readonly Dictionary<string, Func<string>> _callbackTable;
+
+    public HelpProvider(ILog log, IModuleApi api)
+    {
+        _log = log;
+        _api = api;
+        _helpData = new Dictionary<string, string[]>();
+        _callbackTable = new Dictionary<string, Func<string>>();
+
+        LoadHelpData();
+    }
+
+    private void LoadHelpData()
+    {
+        var lines = 
+            ResourceHandler.GetResourceFile<HelpProvider>("Resources/Commands.md")
+            .Split('\n');
+
+        List<string> chapterData = new(50);
+        string? currentChapter = null;
+
+        foreach (var line in lines) 
+        {
+            if (line.StartsWith("# "))
+            {
+                currentChapter = line[2..].Trim().ToLower();
+                if (chapterData.Count > 0)
+                {
+                    _helpData.Add(currentChapter, chapterData.ToArray());
+                    chapterData.Clear();
+                }
+                chapterData.Add(currentChapter);
+            }
+            else
+            {
+                chapterData.Add(line);
+            }
+        }
+        if (chapterData.Count > 0 
+            && currentChapter != null
+            && !_helpData.ContainsKey(currentChapter))
+        {
+            _helpData.Add(currentChapter, chapterData.ToArray());
+        }
+
+
+    }
+
+    public void VerifyHelpData()
+    {
+        var names = _api.GetCommandNames();
+        foreach (var name in names) 
+        {
+            if (!_helpData.ContainsKey(name))
+            {
+                _log.Warning("No help was found for command: {0}", name);
+            }
+        }
+    }
+
+    public void RegisterCallback(string commandName, Func<string> callback) 
+    {
+        _callbackTable.Add(commandName, callback);
+    }
+
+    public IEnumerable<string> GetCommandHelp(string cmd)
+    {
+        foreach (var line in _helpData[cmd])
+        {
+            yield return line;
+        }
+        if (_callbackTable.ContainsKey(cmd))
+        {
+            var lines = _callbackTable[cmd].Invoke().Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                yield return line;
+            }
+        }
+    }
+}
+/*
+     public static void DocumentActions<T>(StringBuilder result) where T : Enum
+    {
+        Type actionType = typeof(T);
+
+        foreach (string? action in Enum.GetNames(actionType).OrderBy(o => o))
+        {
+            result.Append("    ").AppendLine(action);
+            MemberInfo? memberInfo = actionType.GetMember(action).FirstOrDefault();
+            DescriptionAttribute? desc = memberInfo?.GetCustomAttribute<DescriptionAttribute>();
+            if (desc != null)
+            {
+                result.Append("        ").AppendLine(desc.Description);
+            }
+            result.AppendLine();
+        }
+    }
+
+    public static string DocumentConfiguration()
+    {
+        var result = new StringBuilder(4096);
+        result.AppendLine("Configuration properties for current version:");
+        result.AppendLine();
+        result.AppendLine();
+        ClassDocumenter.DocumentType<Config>(out string properties, out string types);
+        result.AppendLine(properties);
+        result.AppendLine();
+        result.AppendLine();
+        result.AppendLine(types);
+
+        return result.ToString();
+    }
+ */

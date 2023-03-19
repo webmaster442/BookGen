@@ -41,6 +41,8 @@ api.OnGetAutocompleteItems = runner.GetAutoCompleteItems;
 api.OnGetCommandNames = () => runner.CommandNames;
 api.OnExecuteModule = (cmd, args) => runner.RunCommand(cmd, args).GetAwaiter().GetResult();
 
+HelpProvider helpProvider = new(log, api);
+
 runner
     .Add<VersionCommand>()
     .Add<ShellCommand>()
@@ -48,6 +50,8 @@ runner
     .Add<WikiCommand>()
     .Add<SettingsCommand>()
     .Add<GuiCommand>();
+
+helpProvider.VerifyHelpData();
 
 return await runner.Run(argumentList);
 

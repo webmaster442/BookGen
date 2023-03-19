@@ -66,11 +66,6 @@ internal class GeneratorRunner
         _tags = new TagUtils();
     }
 
-    public void RunHelp()
-    {
-        Console.WriteLine(HelpUtils.GetGeneralHelp());
-    }
-
     #region Helpers
 
     [MemberNotNull(nameof(_configuration), nameof(_toc), nameof(_tags))]

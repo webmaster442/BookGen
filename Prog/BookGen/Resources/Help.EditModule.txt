@@ -1,9 +1,0 @@
-﻿Starts the built in markdwown editor server.
--------------------------------------------------------------------------------
-
-    BookGen Editor {-v} {-d [directory]}
-
-    Arguments:
-    -d, --dir:
-        Optional argument. Specifies work directory. If not specified, then
-        the current directory will be used as working directory.

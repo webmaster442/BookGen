@@ -12,7 +12,8 @@ internal class ConfigHelpCommand : Command
 {
     public override int Execute(string[] context)
     {
-        Console.WriteLine(HelpUtils.DocumentConfiguration());
+        throw new NotImplementedException();
+        //Console.WriteLine(HelpUtils.DocumentConfiguration());
         return Constants.Succes;
     }
 }
