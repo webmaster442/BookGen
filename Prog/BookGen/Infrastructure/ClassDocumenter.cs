@@ -5,7 +5,7 @@
 
 using System.Reflection;
 
-namespace BookGen.Framework;
+namespace BookGen.Infrastructure;
 
 internal static class ClassDocumenter
 {

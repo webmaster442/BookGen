@@ -3,7 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Framework;
+using BookGen.Domain.Configuration;
+using BookGen.Infrastructure;
 
 namespace BookGen.Commands;
 
@@ -12,8 +13,18 @@ internal class ConfigHelpCommand : Command
 {
     public override int Execute(string[] context)
     {
-        throw new NotImplementedException();
-        //Console.WriteLine(HelpUtils.DocumentConfiguration());
+        var result = new StringBuilder(4096);
+        result.AppendLine("Configuration properties for current version:");
+        result.AppendLine();
+        result.AppendLine();
+        ClassDocumenter.DocumentType<Config>(out string properties, out string types);
+        result.AppendLine(properties);
+        result.AppendLine();
+        result.AppendLine();
+        result.AppendLine(types);
+
+        var text = result.ToString();
+        Console.WriteLine(text);
         return Constants.Succes;
     }
 }
