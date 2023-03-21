@@ -68,8 +68,12 @@ internal class HelpProvider : IHelpProvider
             if (!_helpData.ContainsKey(name))
             {
                 _log.Warning("No help was found for command: {0}", name);
+#if DEBUG
+                System.Diagnostics.Debugger.Break();
+#endif
             }
         }
+
     }
 
     public void RegisterCallback(string commandName, Func<string> callback)

@@ -374,3 +374,16 @@ Arguments:
 
 -api, --apiversion:
     Optional argument. Display only API version
+
+# Shell
+
+Autocompleter command, that is used by Powershell
+
+# Subcommands
+
+Listst all available subcommands
+
+# Wiki
+
+Opens the BookGen Wiki page
+

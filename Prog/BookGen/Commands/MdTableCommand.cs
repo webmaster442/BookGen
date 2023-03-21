@@ -8,6 +8,7 @@ using BookGen.DomainServices.Markdown;
 
 namespace BookGen.Commands;
 
+[CommandName("mdtable")]
 internal class MdTableCommand : Command<MdTableArguments>
 {
     private readonly ILog _log;

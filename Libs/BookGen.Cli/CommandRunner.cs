@@ -15,12 +15,13 @@ namespace BookGen.Cli
 
         private class EmptyArgs : ArgumentsBase { }
 
-        private static string GetCommandName<TCommand>() where TCommand : ICommand
+        private static string GetCommandName(Type t)
         {
-            var nameAttribure = typeof(TCommand).GetCustomAttribute<CommandNameAttribute>();
+            var nameAttribure = t.GetCustomAttribute<CommandNameAttribute>();
             return nameAttribure?.Name
-                ?? throw new InvalidOperationException($"Command is missing a {nameof(CommandNameAttribute)}");
+                ?? throw new InvalidOperationException($"Command {t.FullName} is missing a {nameof(CommandNameAttribute)}");
         }
+
         private static Type? GetArgumentType(Type cmd)
         {
             var method = cmd.GetMethod("Execute");
@@ -70,21 +71,39 @@ namespace BookGen.Cli
 
         public Action<Exception> ExceptionHandlerDelegate { get; set; }
 
-        public CommandRunner Add<TCommand>() where TCommand : ICommand
+        public CommandRunner AddCommand<TCommand>() where TCommand : ICommand
         {
-            string name = GetCommandName<TCommand>();
+            string name = GetCommandName(typeof(TCommand));
             _commands.Add(name.ToLower(), typeof(TCommand));
             return this;
         }
 
         public CommandRunner AddDefaultCommand<TCommand>() where TCommand : ICommand
         {
-            string name = GetCommandName<TCommand>();
+            string name = GetCommandName(typeof(TCommand));
             if (!_commands.ContainsKey(name))
             {
-                Add<TCommand>();
+                AddCommand<TCommand>();
             }
             _defaultCommandName = name;
+            return this;
+        }
+
+        public CommandRunner AddCommandsFrom(Assembly assembly)
+        {
+            var commands = assembly
+                .GetTypes()
+                .Where(t => t.IsAssignableTo(typeof(ICommand)));
+
+            foreach (var command in commands)
+            {
+                var name = GetCommandName(command);
+                if (!_commands.ContainsKey(name))
+                {
+                    _commands.Add(name.ToLower(), command);
+                }
+            }
+
             return this;
         }
 

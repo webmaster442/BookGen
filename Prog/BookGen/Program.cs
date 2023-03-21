@@ -45,12 +45,7 @@ HelpProvider helpProvider = new(log, api);
 
 runner
     .AddDefaultCommand<HelpCommand>()
-    .Add<VersionCommand>()
-    .Add<ShellCommand>()
-    .Add<SubCommandsCommand>()
-    .Add<WikiCommand>()
-    .Add<SettingsCommand>()
-    .Add<GuiCommand>();
+    .AddCommandsFrom(typeof(HelpCommand).Assembly);
 
 helpProvider.VerifyHelpData();
 helpProvider.RegisterCallback("build", HelpCallbacks.DocumentBuildActions);
