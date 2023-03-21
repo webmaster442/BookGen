@@ -44,6 +44,7 @@ api.OnExecuteModule = (cmd, args) => runner.RunCommand(cmd, args).GetAwaiter().G
 HelpProvider helpProvider = new(log, api);
 
 runner
+    .AddDefaultCommand<HelpCommand>()
     .Add<VersionCommand>()
     .Add<ShellCommand>()
     .Add<SubCommandsCommand>()
@@ -52,6 +53,7 @@ runner
     .Add<GuiCommand>();
 
 helpProvider.VerifyHelpData();
+ioc.RegisterSingleton<IHelpProvider>(helpProvider);
 
 return await runner.Run(argumentList);
 

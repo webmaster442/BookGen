@@ -1,4 +1,4 @@
-# BookGen
+# Help
 
 BookGen - Markdown to Book tool.
 
@@ -10,7 +10,7 @@ This config file can be created with the following command:
 To get information regarding the configuration file bookgen.json file run:
 Bookgen ConfigHelp
 
-To Get more help about a subcommand type: BookGen Help <module>
+To Get more help about a subcommand type: BookGen Help [module]
 
 To list available subcommands type: BookGen SubCommands
 

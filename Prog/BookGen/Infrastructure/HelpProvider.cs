@@ -1,7 +1,7 @@
 ﻿using BookGen.Resources;
 
 namespace BookGen.Infrastructure;
-internal class HelpProvider
+internal class HelpProvider : IHelpProvider
 {
     private readonly ILog _log;
     private readonly IModuleApi _api;
@@ -20,31 +20,32 @@ internal class HelpProvider
 
     private void LoadHelpData()
     {
-        var lines = 
+        var lines =
             ResourceHandler.GetResourceFile<HelpProvider>("Resources/Commands.md")
             .Split('\n');
 
         List<string> chapterData = new(50);
         string? currentChapter = null;
 
-        foreach (var line in lines) 
+        foreach (var line in lines)
         {
             if (line.StartsWith("# "))
             {
-                currentChapter = line[2..].Trim().ToLower();
-                if (chapterData.Count > 0)
+                if (chapterData.Count > 0
+                    && !string.IsNullOrEmpty(currentChapter))
                 {
                     _helpData.Add(currentChapter, chapterData.ToArray());
                     chapterData.Clear();
                 }
-                chapterData.Add(currentChapter);
+                currentChapter = line[2..].Trim().ToLower();
+                chapterData.Add(line);
             }
             else
             {
                 chapterData.Add(line);
             }
         }
-        if (chapterData.Count > 0 
+        if (chapterData.Count > 0
             && currentChapter != null
             && !_helpData.ContainsKey(currentChapter))
         {
@@ -57,7 +58,7 @@ internal class HelpProvider
     public void VerifyHelpData()
     {
         var names = _api.GetCommandNames();
-        foreach (var name in names) 
+        foreach (var name in names)
         {
             if (!_helpData.ContainsKey(name))
             {
@@ -66,7 +67,7 @@ internal class HelpProvider
         }
     }
 
-    public void RegisterCallback(string commandName, Func<string> callback) 
+    public void RegisterCallback(string commandName, Func<string> callback)
     {
         _callbackTable.Add(commandName, callback);
     }
