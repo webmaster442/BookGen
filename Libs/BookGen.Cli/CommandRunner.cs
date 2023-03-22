@@ -7,9 +7,8 @@ using BookGen.Api;
 using BookGen.Cli.Annotations;
 using BookGen.Cli.ArgumentParsing;
 
-using Microsoft.VisualBasic;
-
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace BookGen.Cli
 {
@@ -19,8 +18,8 @@ namespace BookGen.Cli
         private readonly IResolver _resolver;
         private readonly ILog _log;
         private readonly CommandRunnerSettings _settings;
+        private readonly SupportedOs _currentOs;
         private string? _defaultCommandName;
-
         private class EmptyArgs : ArgumentsBase { }
 
         private static string GetCommandName(Type t)
@@ -28,6 +27,18 @@ namespace BookGen.Cli
             var nameAttribure = t.GetCustomAttribute<CommandNameAttribute>();
             return nameAttribure?.Name
                 ?? throw new InvalidOperationException($"Command {t.FullName} is missing a {nameof(CommandNameAttribute)}");
+        }
+
+        private static SupportedOs GetCurrentOs()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return SupportedOs.Windows;
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                return SupportedOs.Linux;
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                return SupportedOs.OsX;
+            else
+                return SupportedOs.None;
         }
 
         private static Type? GetArgumentType(Type cmd)
@@ -75,6 +86,7 @@ namespace BookGen.Cli
             _log = log;
             _settings = settings;
             ExceptionHandlerDelegate = DefaultExceptionHandler;
+            _currentOs = GetCurrentOs();
         }
 
         public Action<Exception> ExceptionHandlerDelegate { get; set; }
@@ -168,6 +180,12 @@ namespace BookGen.Cli
             var argumentType = GetArgumentType(_commands[commandName]);
             ICommand command = CreateCommand(commandName);
 
+            if (!command.SupportedOs.HasFlag(_currentOs))
+            {
+                Console.WriteLine($"{commandName} is not supported on {_currentOs}");
+                return _settings.PlatformNotSupportedExitCode;
+            }
+
             try
             {
 
@@ -176,12 +194,21 @@ namespace BookGen.Cli
 
                 ArgumentParser parser = new(argumentType);
 
-                return await command.Execute(parser.Fill(argsToParse), argsToParse);
+                var filled = parser.Fill(argsToParse);
+                var validationResult = filled.Validate();
+
+                if (!validationResult.IsOk)
+                {
+                    Console.WriteLine(validationResult);
+                    return _settings.BadParametersExitCode;
+                }
+
+                return await command.Execute(filled, argsToParse);
             }
             catch (Exception ex)
             {
                 ExceptionHandlerDelegate.Invoke(ex);
-                return -1;
+                return _settings.ExcptionExitCode;
             }
         }
     }

@@ -34,7 +34,10 @@ ioc.Build();
 
 CommandRunner runner = new CommandRunner(ioc, log, new CommandRunnerSettings
 {
-    UnknownCommandCodeAndMessage = (-1, "Unknown command")
+    UnknownCommandCodeAndMessage = (-1, "Unknown command"),
+    BadParametersExitCode = 2,
+    ExcptionExitCode = -1,
+    PlatformNotSupportedExitCode = 4,
 });
 
 api.OnGetAutocompleteItems = runner.GetAutoCompleteItems;
