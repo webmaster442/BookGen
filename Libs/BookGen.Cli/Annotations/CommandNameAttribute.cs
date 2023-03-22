@@ -1,4 +1,9 @@
-﻿namespace BookGen.Cli.Annotations
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Cli.Annotations
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public sealed class CommandNameAttribute : Attribute

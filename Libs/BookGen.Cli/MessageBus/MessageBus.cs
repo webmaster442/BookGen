@@ -1,4 +1,9 @@
-﻿namespace BookGen.Cli.MessageBus
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Cli.MessageBus
 {
     public sealed class MessageBus : IMessageBus
     {

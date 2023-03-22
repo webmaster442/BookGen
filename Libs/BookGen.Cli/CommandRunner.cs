@@ -1,6 +1,14 @@
-﻿using BookGen.Api;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Api;
 using BookGen.Cli.Annotations;
 using BookGen.Cli.ArgumentParsing;
+
+using Microsoft.VisualBasic;
+
 using System.Reflection;
 
 namespace BookGen.Cli
