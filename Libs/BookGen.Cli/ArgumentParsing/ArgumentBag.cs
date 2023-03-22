@@ -3,83 +3,83 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Cli.Annotations;
 using System.Collections;
 
-namespace BookGen.Cli.ArgumentParsing
+using BookGen.Cli.Annotations;
+
+namespace BookGen.Cli.ArgumentParsing;
+
+internal sealed class ArgumentBag : IEnumerable<string>
 {
-    internal sealed class ArgumentBag : IEnumerable<string>
+    private readonly string?[] _arguments;
+
+    public ArgumentBag(IReadOnlyList<string> args)
     {
-        private readonly string?[] _arguments;
+        _arguments = args.ToArray();
+    }
 
-        public ArgumentBag(IReadOnlyList<string> args) 
+    public IEnumerator<string> GetEnumerator()
+    {
+        foreach (var argument in _arguments)
         {
-            _arguments = args.ToArray();
+            if (argument != null)
+                yield return argument;
         }
+    }
 
-        public IEnumerator<string> GetEnumerator()
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    public bool GetSwitch(SwitchAttribute @switch)
+    {
+        for (int i = 0; i < _arguments.Length; i++)
         {
-            foreach (var argument in _arguments)
+            if (_arguments[i] == $"-{@switch.ShortName}"
+                || _arguments[i] == $"--{@switch.LongName}")
             {
-                if (argument != null)
-                    yield return argument;
+                _arguments[i] = null;
+                return true;
             }
         }
+        return false;
+    }
 
-        IEnumerator IEnumerable.GetEnumerator()
+    public string? GetSwitchValue(SwitchAttribute @switch)
+    {
+        for (int i = 0; i < _arguments.Length; i++)
         {
-            return GetEnumerator();
-        }
-
-        public bool GetSwitch(SwitchAttribute @switch)
-        {
-            for (int i=0; i<_arguments.Length; i++)
+            if (_arguments[i] == $"-{@switch.ShortName}"
+                || _arguments[i] == $"--{@switch.LongName}")
             {
-                if (_arguments[i] == $"-{@switch.ShortName}" 
-                    || _arguments[i] == $"--{@switch.LongName}")
+                int nextIndex = i + 1;
+                if (nextIndex < _arguments.Length)
                 {
+                    string? returnValue = _arguments[nextIndex];
                     _arguments[i] = null;
-                    return true;
+                    _arguments[nextIndex] = null;
+                    return returnValue;
                 }
             }
-            return false;
         }
+        return null;
+    }
 
-        public string? GetSwitchValue(SwitchAttribute @switch)
+    public string? GetArgument(ArgumentAttribute argument)
+    {
+        int notNullIndex = 0;
+        for (int i = 0; i < _arguments.Length; i++)
         {
-            for (int i = 0; i < _arguments.Length; i++)
+            if (_arguments[i] != null)
             {
-                if (_arguments[i] == $"-{@switch.ShortName}"
-                    || _arguments[i] == $"--{@switch.LongName}")
-                {
-                    int nextIndex = i + 1;
-                    if (nextIndex < _arguments.Length)
-                    {
-                        string? returnValue = _arguments[nextIndex];
-                        _arguments[i] = null;
-                        _arguments[nextIndex] = null;
-                        return returnValue;
-                    }
-                }
+                notNullIndex++;
             }
-            return null;
-        }
-
-        public string? GetArgument(ArgumentAttribute argument)
-        {
-            int notNullIndex = 0;
-            for (int i = 0; i < _arguments.Length; i++)
+            if (notNullIndex == argument.Index)
             {
-                if (_arguments[i] != null)
-                {
-                    notNullIndex++;
-                }
-                if (notNullIndex == argument.Index)
-                {
-                    return _arguments[i];
-                }
+                return _arguments[i];
             }
-            return null;
         }
+        return null;
     }
 }

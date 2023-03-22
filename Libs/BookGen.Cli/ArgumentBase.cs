@@ -3,20 +3,19 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Cli
+namespace BookGen.Cli;
+
+/// <summary>
+/// Base class for command settings.
+/// </summary>
+public abstract class ArgumentsBase
 {
     /// <summary>
-    /// Base class for command settings.
+    /// Performs validation of the settings.
     /// </summary>
-    public abstract class ArgumentsBase
+    /// <returns>The validation result.</returns>
+    public virtual ValidationResult Validate()
     {
-        /// <summary>
-        /// Performs validation of the settings.
-        /// </summary>
-        /// <returns>The validation result.</returns>
-        public virtual ValidationResult Validate()
-        {
-            return ValidationResult.Ok();
-        }
+        return ValidationResult.Ok();
     }
 }

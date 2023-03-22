@@ -3,22 +3,21 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Cli.MessageBus
+namespace BookGen.Cli.MessageBus;
+
+public abstract class MessageBase
 {
-    public abstract class MessageBase
+    public DateTime DispatchTime { get; }
+    public Guid SenderId { get; }
+
+    public MessageBase(Guid sender)
     {
-        public DateTime DispatchTime { get; }
-        public Guid SenderId { get; }
+        DispatchTime = DateTime.Now;
+        SenderId = sender;
+    }
 
-        public MessageBase(Guid sender)
-        {
-            DispatchTime = DateTime.Now;
-            SenderId = sender;
-        }
-
-        public override string ToString()
-        {
-            return $"DispatchTime: {DispatchTime}\r\nSender: {SenderId}";
-        }
+    public override string ToString()
+    {
+        return $"DispatchTime: {DispatchTime}\r\nSender: {SenderId}";
     }
 }

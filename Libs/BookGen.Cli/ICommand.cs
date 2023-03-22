@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Cli
+namespace BookGen.Cli;
+
+public interface ICommand
 {
-    public interface ICommand
-    {
-        Task<int> Execute(ArgumentsBase arguments, string[] context);
-        SupportedOs SupportedOs { get; }
-    }
+    Task<int> Execute(ArgumentsBase arguments, string[] context);
+    SupportedOs SupportedOs { get; }
 }

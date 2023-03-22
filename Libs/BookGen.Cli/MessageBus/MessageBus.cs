@@ -3,55 +3,54 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Cli.MessageBus
+namespace BookGen.Cli.MessageBus;
+
+public sealed class MessageBus : IMessageBus
 {
-    public sealed class MessageBus : IMessageBus
+    private readonly Dictionary<Guid, MessageTarget> _clients;
+    private readonly object _lock;
+
+    public MessageBus()
     {
-        private readonly Dictionary<Guid, MessageTarget> _clients;
-        private readonly object _lock;
+        _lock = new object();
+        _clients = new Dictionary<Guid, MessageTarget>();
+    }
 
-        public MessageBus()
+    private void RemoveDead()
+    {
+        HashSet<Guid> deads = new HashSet<Guid>();
+        foreach (var client in _clients)
         {
-            _lock = new object();
-            _clients = new Dictionary<Guid, MessageTarget>();
+            if (!client.Value.IsAlive)
+                deads.Add(client.Key);
         }
-
-        private void RemoveDead()
+        foreach (var dead in deads)
         {
-            HashSet<Guid> deads = new HashSet<Guid>();
-            foreach (var client in _clients)
-            {
-                if (!client.Value.IsAlive)
-                    deads.Add(client.Key);
-            }
-            foreach (var dead in deads) 
-            {
-                _clients.Remove(dead);
-            }
+            _clients.Remove(dead);
         }
+    }
 
-        public void Broadcast<TMessage>(TMessage message) where TMessage : MessageBase
+    public void Broadcast<TMessage>(TMessage message) where TMessage : MessageBase
+    {
+        RemoveDead();
+        foreach (var client in _clients.Values)
         {
-            RemoveDead();
-            foreach (var client in _clients.Values) 
-            {
-                client.Invoke(message, _lock);
-            }
+            client.Invoke(message, _lock);
         }
+    }
 
-        public void RegisterCleint<TMessage>(IMessageClient<TMessage> client) where TMessage : MessageBase
-        {
-            RemoveDead();
-            _clients.Add(client.ClientId, new MessageTarget(client));
-        }
+    public void RegisterCleint<TMessage>(IMessageClient<TMessage> client) where TMessage : MessageBase
+    {
+        RemoveDead();
+        _clients.Add(client.ClientId, new MessageTarget(client));
+    }
 
-        public void Send<TMessage>(Guid target, TMessage message) where TMessage : MessageBase
+    public void Send<TMessage>(Guid target, TMessage message) where TMessage : MessageBase
+    {
+        RemoveDead();
+        if (_clients.TryGetValue(target, out MessageTarget? messageTarget))
         {
-            RemoveDead();
-            if (_clients.TryGetValue(target, out MessageTarget? messageTarget))
-            {
-                messageTarget.Invoke(message, _lock);
-            }
+            messageTarget.Invoke(message, _lock);
         }
     }
 }

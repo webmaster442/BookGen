@@ -3,64 +3,64 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Cli.Annotations;
 using System.Reflection;
 
-namespace BookGen.Cli.ArgumentParsing
+using BookGen.Cli.Annotations;
+
+namespace BookGen.Cli.ArgumentParsing;
+
+internal class ArgumentParser
 {
-    internal class ArgumentParser
+    private readonly PropertyInfo[] _properities;
+    private readonly Type _argumentType;
+
+    public ArgumentParser(Type argumentType)
     {
-        private readonly PropertyInfo[] _properities;
-        private readonly Type _argumentType;
+        _properities = argumentType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        _argumentType = argumentType;
+    }
 
-        public ArgumentParser(Type argumentType)
+    public ArgumentsBase Fill(IReadOnlyList<string> args)
+    {
+        var arguments = Activator.CreateInstance(_argumentType)
+            ?? throw new InvalidOperationException();
+
+        var argBag = new ArgumentBag(args);
+
+        foreach (var property in _properities)
         {
-            _properities = argumentType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            _argumentType = argumentType;
-        }
+            var switchParams = property.GetCustomAttribute<SwitchAttribute>();
+            var argParams = property.GetCustomAttribute<ArgumentAttribute>();
 
-        public ArgumentsBase Fill(IReadOnlyList<string> args)
-        {
-            var arguments = Activator.CreateInstance(_argumentType)
-                ?? throw new InvalidOperationException();
+            if (switchParams != null && argParams != null)
+                throw new InvalidOperationException($"Invalid annotation found in type {_argumentType.FullName} on propery {property.Name}. Both Switch and Argument attributes are present");
 
-            var argBag = new ArgumentBag(args);
-
-            foreach (var property in _properities)
+            if (switchParams != null)
             {
-                var switchParams = property.GetCustomAttribute<SwitchAttribute>();
-                var argParams = property.GetCustomAttribute<ArgumentAttribute>();
-
-                if (switchParams != null && argParams != null)
-                    throw new InvalidOperationException($"Invalid annotation found in type {_argumentType.FullName} on propery {property.Name}. Both Switch and Argument attributes are present");
-
-                if (switchParams != null)
+                if (property.PropertyType == typeof(bool))
                 {
-                    if (property.PropertyType == typeof(bool))
-                    {
-                        property.SetValue(arguments, argBag.GetSwitch(switchParams));
-                    }
-                    else
-                    {
-                        var value = ValueConverter.Convert(argBag.GetSwitchValue(switchParams), property.PropertyType);
-                        var storedValue = property.GetValue(arguments);
-                        if (storedValue != null && value != null)
-                            property.SetValue(arguments, value);
-                    }
-                }
-                else if (argParams != null)
-                {
-                    var value = ValueConverter.Convert(argBag.GetArgument(argParams), property.PropertyType);
-                    property.SetValue(arguments, value);
+                    property.SetValue(arguments, argBag.GetSwitch(switchParams));
                 }
                 else
                 {
-                    continue;
+                    var value = ValueConverter.Convert(argBag.GetSwitchValue(switchParams), property.PropertyType);
+                    var storedValue = property.GetValue(arguments);
+                    if (storedValue != null && value != null)
+                        property.SetValue(arguments, value);
                 }
-
+            }
+            else if (argParams != null)
+            {
+                var value = ValueConverter.Convert(argBag.GetArgument(argParams), property.PropertyType);
+                property.SetValue(arguments, value);
+            }
+            else
+            {
+                continue;
             }
 
-            return (ArgumentsBase)arguments;
         }
+
+        return (ArgumentsBase)arguments;
     }
 }

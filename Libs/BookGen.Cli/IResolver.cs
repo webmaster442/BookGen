@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Cli
+namespace BookGen.Cli;
+
+public interface IResolver
 {
-    public interface IResolver
-    {
-        bool CanResolve(Type type);
-        public object Resolve(Type type);
-    }
+    bool CanResolve(Type type);
+    public object Resolve(Type type);
 }

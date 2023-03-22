@@ -3,14 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Cli
+namespace BookGen.Cli;
+
+[Flags]
+public enum SupportedOs
 {
-    [Flags]
-    public enum SupportedOs
-    {
-        None = 0,
-        Windows = 1,
-        Linux = 2,
-        OsX = 4,
-    }
+    None = 0,
+    Windows = 1,
+    Linux = 2,
+    OsX = 4,
 }

@@ -3,27 +3,26 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Cli.MessageBus
+namespace BookGen.Cli.MessageBus;
+
+internal class MessageTarget
 {
-    internal class MessageTarget
+    private readonly WeakReference _clientReference;
+
+    public MessageTarget(IMessageClient client)
     {
-        private readonly WeakReference _clientReference;
+        _clientReference = new WeakReference(client);
+    }
 
-        public MessageTarget(IMessageClient client)
+    public bool IsAlive => _clientReference.IsAlive;
+
+    public void Invoke<TMessage>(TMessage message, object lockObject) where TMessage : MessageBase
+    {
+        if (_clientReference.Target is IMessageClient<TMessage> client)
         {
-            _clientReference = new WeakReference(client);
-        }
-
-        public bool IsAlive => _clientReference.IsAlive;
-
-        public void Invoke<TMessage>(TMessage message, object lockObject) where TMessage : MessageBase
-        {
-            if (_clientReference.Target is IMessageClient<TMessage> client)
+            lock (lockObject)
             {
-                lock (lockObject)
-                {
-                    client.HandleMessage(message);
-                }
+                client.HandleMessage(message);
             }
         }
     }
