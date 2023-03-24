@@ -5,6 +5,7 @@
 
 using BookGen;
 using BookGen.Commands;
+using BookGen.Gui;
 using BookGen.Infrastructure;
 
 using Webmaster442.HttpServerFramework;
@@ -23,6 +24,7 @@ AppSetting settings = AppSettingHandler.LoadAppSettings() ?? new AppSetting();
 var api = new ModuleApi(log, serverLog, settings, info);
 
 SimpleIoC ioc = new();
+ioc.RegisterSingleton<ITerminal, Terminal>();
 ioc.RegisterSingleton(log);
 ioc.RegisterSingleton(serverLog);
 ioc.RegisterSingleton(info);
