@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2022 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
+
+using System.Net.Http.Headers;
 
 namespace BookGen.Domain
 {
@@ -13,13 +15,16 @@ namespace BookGen.Domain
         public long ParagraphLines { get; set; }
         public long PageCountLines { get; set; }
 
-        public override string ToString()
+        public IDictionary<string, long> ToTable()
         {
-            return $"Characters:  {Chars:n0}\r\n"
-                 + $"Total bytes: {Bytes:n0}\r\n"
-                 + $"Words:       {Words:n0}\r\n"
-                 + $"Paragraphs:  {ParagraphLines:n0}\r\n"
-                 + $"Pages:       {PageCountLines / Constants.LinesPerPage:n0}";
+            return new Dictionary<string, long>
+            {
+                { "Characters", Chars },
+                { "Total bytes", Bytes },
+                { "Words", Words },
+                { "Paragraphs", ParagraphLines },
+                { "Pages", PageCountLines / Constants.LinesPerPage }
+            };
         }
     }
 }

@@ -386,4 +386,3 @@ Listst all available subcommands
 # Wiki
 
 Opens the BookGen Wiki page
-

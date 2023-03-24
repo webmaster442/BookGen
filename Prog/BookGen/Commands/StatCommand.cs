@@ -6,6 +6,7 @@
 using BookGen.CommandArguments;
 using BookGen.Domain.Configuration;
 using BookGen.Framework;
+using BookGen.Gui;
 using BookGen.Infrastructure;
 using BookGen.ProjectHandling;
 
@@ -15,11 +16,13 @@ namespace BookGen.Commands;
 internal class StatCommand : Command<StatArguments>
 {
     private readonly ILog _log;
+    private readonly ITerminal _terminal;
     private readonly ProgramInfo _programInfo;
 
-    public StatCommand(ILog log, ProgramInfo programInfo)
+    public StatCommand(ILog log, ITerminal terminal, ProgramInfo programInfo)
     {
         _log = log;
+        _terminal = terminal;
         _programInfo = programInfo;
     }
 
@@ -63,7 +66,7 @@ internal class StatCommand : Command<StatArguments>
             if (TryComputeStat(arguments.Input, ref stat))
             {
                 _log.PrintLine("");
-                _log.PrintLine(stat);
+                _terminal.Table(stat.ToTable());
                 return Constants.Succes;
             }
             return Constants.GeneralError;
@@ -92,7 +95,7 @@ internal class StatCommand : Command<StatArguments>
             if (result)
             {
                 _log.PrintLine("");
-                _log.PrintLine(stat);
+                _terminal.Table(stat.ToTable());
             }
 
             return result ? Constants.Succes : Constants.GeneralError;
