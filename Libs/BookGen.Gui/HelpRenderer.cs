@@ -12,12 +12,18 @@ public static class HelpRenderer
 
         Console.Clear();
 
-        int currentPage = 0;
+        int currentPage = -1;
+        int nextPage = 0;
         bool run = pages.Length > 1;
         do
         {
-            Render(pages[currentPage]);
-            RenderUsage(currentPage, pages.Length);
+            if (currentPage != nextPage)
+            {
+                currentPage = nextPage;
+                Console.Clear();
+                Render(pages[currentPage]);
+                RenderUsage(currentPage, pages.Length);
+            }
 
             if (!run) continue;
 
@@ -26,11 +32,11 @@ public static class HelpRenderer
             {
                 case ConsoleKey.LeftArrow:
                 case ConsoleKey.UpArrow:
-                    currentPage = CalculatePage(currentPage, pages.Length, +1);
+                    nextPage = CalculatePage(currentPage, pages.Length, -1);
                     break;
                 case ConsoleKey.DownArrow:
                 case ConsoleKey.RightArrow:
-                    currentPage = CalculatePage(currentPage, pages.Length, -1);
+                    nextPage = CalculatePage(currentPage, pages.Length, +1);
                     break;
                 case ConsoleKey.Escape:
                     run = false;
@@ -47,7 +53,7 @@ public static class HelpRenderer
             return;
 
         AnsiConsole.WriteLine();
-        AnsiConsole.MarkupInterpolated($"[teal]{currentPage+1} of {pages}[/]");
+        AnsiConsole.MarkupInterpolated($"[teal]{currentPage + 1} of {pages}[/]");
         AnsiConsole.Markup(" [silver]ESC: Exit, <- Prev, Next ->[/]\r\n");
     }
 
