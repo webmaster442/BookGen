@@ -17,6 +17,7 @@ namespace BookGen.Tests
         [SetUp]
         public void Setup()
         {
+            _moduleApiMock = new Mock<IModuleApi>();
             _moduleApiMock
                 .Setup(x => x.GetCommandNames())
                 .Returns(new[] { "bookgen", "assemblydocument" });
@@ -37,9 +38,9 @@ namespace BookGen.Tests
         [TestCase("BookGen", "bookGen")]
         [TestCase("BookGen", "Bookgen")]
         [TestCase("BookGen", "bookgen")]
-        [TestCase("AssemblyDocument", "BookGen ass")]
+        [TestCase("assemblydocument", "BookGen ass")]
         [TestCase("--assembly", "BookGen AssemblyDocument --ass")]
-        [TestCase("AssemblyDocument", "bookgen ass")]
+        [TestCase("assemblydocument", "bookgen ass")]
         [TestCase("--assembly", "bookGen AssemblyDocument --ass")]
         public void EnsureThat_ShellProgram_DoComplete_Completes(string expected, params string[] input)
         {

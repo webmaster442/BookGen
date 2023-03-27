@@ -29,7 +29,11 @@
 		<PackageLicenseFile>LICENCE</PackageLicenseFile>
     <RootNamespace>BookGen</RootNamespace>
 	</PropertyGroup>
-	<ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="BookGen.Tests"/>
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+  </ItemGroup>
+  <ItemGroup>
 		<Compile Remove="DefaultTemplate\**" />
 		<EmbeddedResource Remove="DefaultTemplate\**" />
 		<None Remove="DefaultTemplate\**" />
@@ -37,9 +41,6 @@
 		<None Include="..\..\LICENCE">
 			<Pack>True</Pack>
 		</None>
-	</ItemGroup>
-	<ItemGroup>
-		<None Remove="Resources\HelpEditModule.txt" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.31.0" />
