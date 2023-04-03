@@ -27,6 +27,7 @@ namespace BookGen.Launcher.ViewModels
         public ObservableCollectionEx<FileBrowserTreeViewModel> TreeItems { get; }
         public RunVsCodeCommand RunVsCodeCommand { get; }
         public StartShellCommand StartShellCommand { get; }
+        public RunExplorerCommand RunExplorerCommand { get; }
         public RelayCommand RefreshCommand { get; }
         public RelayCommand<FileBrowserTreeViewModel> TreeItemSelectedCommand { get; }
         public RelayCommand<FileBrowserItemViewModel> PreviewCommand { get; }
@@ -39,6 +40,7 @@ namespace BookGen.Launcher.ViewModels
             TreeItems = new ObservableCollectionEx<FileBrowserTreeViewModel>();
             RunVsCodeCommand = new RunVsCodeCommand();
             StartShellCommand = new StartShellCommand();
+            RunExplorerCommand = new RunExplorerCommand();
             RefreshCommand = new RelayCommand(Update);
             TreeItemSelectedCommand = new RelayCommand<FileBrowserTreeViewModel>(OnTreeSelected);
             PreviewCommand = new RelayCommand<FileBrowserItemViewModel>(OnPreview);

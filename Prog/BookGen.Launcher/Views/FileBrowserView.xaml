@@ -47,17 +47,21 @@
                 BorderBrush="{StaticResource MahApps.Brushes.Accent2}"
                 BorderThickness="0,0,0,2">
                 <Menu Margin="5">
-                    <MenuItem
-                        Command="{Binding RefreshCommand}"
-                        Header="Refresh" />
-                    <MenuItem
-                        Command="{Binding StartShellCommand}"
-                        CommandParameter="{Binding CurrentDir}"
-                        Header="Open folder in Terminal" />
-                    <MenuItem
-                        Command="{Binding RunVsCodeCommand}"
-                        CommandParameter="{Binding CurrentDir}"
-                        Header="Open folder in VS Code" />
+                    <MenuItem Command="{Binding RefreshCommand}" Header="Refresh" />
+                    <MenuItem Header="Open Folder">
+                        <MenuItem
+                            Command="{Binding StartShellCommand}"
+                            CommandParameter="{Binding CurrentDir}"
+                            Header="In Windows Terminal..." />
+                        <MenuItem
+                            Command="{Binding RunVsCodeCommand}"
+                            CommandParameter="{Binding CurrentDir}"
+                            Header="In VS Code..." />
+                        <MenuItem
+                            Command="{Binding RunExplorerCommand}"
+                            CommandParameter="{Binding CurrentDir}"
+                            Header="In File explorer..." />
+                    </MenuItem>
                 </Menu>
             </Border>
         </Grid>
@@ -69,13 +73,9 @@
             ItemSelectedCommand="{Binding TreeItemSelectedCommand}"
             ItemsSource="{Binding TreeItems}">
             <controls:TreeViewMVVM.ItemTemplate>
-                <HierarchicalDataTemplate
-                    DataType="{x:Type fileBrowser:FileBrowserTreeViewModel}"
-                    ItemsSource="{Binding SubItems}">
+                <HierarchicalDataTemplate DataType="{x:Type fileBrowser:FileBrowserTreeViewModel}" ItemsSource="{Binding SubItems}">
                     <StackPanel Orientation="Horizontal">
-                        <Viewbox
-                            Width="48"
-                            Height="48">
+                        <Viewbox Width="48" Height="48">
                             <ContentPresenter Content="{StaticResource icon-folder}" />
                         </Viewbox>
                         <TextBlock
@@ -110,9 +110,7 @@
                 <DataGridTemplateColumn Header="Icon">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Viewbox
-                                Width="96"
-                                Height="96">
+                            <Viewbox Width="96" Height="96">
                                 <ContentPresenter Content="{Binding Converter={controls:IconConverter}}" />
                             </Viewbox>
                         </DataTemplate>
@@ -137,9 +135,7 @@
                     IsReadOnly="True" />
             </controls:DataGridExtended.Columns>
         </controls:DataGridExtended>
-        <StatusBar
-            Grid.Row="2"
-            Grid.Column="2">
+        <StatusBar Grid.Row="2" Grid.Column="2">
             <TextBlock Text="To preview a file, double click on selected file" />
         </StatusBar>
     </Grid>
