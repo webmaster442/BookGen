@@ -4,12 +4,28 @@ namespace BookGen.Gui;
 
 public static class HelpRenderer
 {
-    public static void RenderHelp(IEnumerable<string> article)
+    public static string[][] GetPages(IEnumerable<string> article)
     {
         int pageSize = Console.WindowHeight - 3;
         IReadOnlyList<string> reWraped = DoReWrap(article, pageSize, Console.WindowWidth);
-        var pages = reWraped.Chunk(pageSize).ToArray();
+        return reWraped.Chunk(pageSize).ToArray();
+    }
+    public static void RenderPage(string[] pageContent)
+    {
+        foreach (var line in pageContent)
+        {
+            if (line.StartsWith("# "))
+                AnsiConsole.MarkupInterpolated($"[green bold]{line}[/]\r\n");
+            else if (line.StartsWith("`") || line.EndsWith("`"))
+                AnsiConsole.MarkupInterpolated($"[aqua]{line}[/]\r\n");
+            else
+                AnsiConsole.MarkupInterpolated($"[italic]{line}[/]\r\n");
+        }
+    }
 
+    public static void RenderHelp(IEnumerable<string> article)
+    {
+        var pages = GetPages(article);
         Console.Clear();
 
         int currentPage = -1;
@@ -21,7 +37,7 @@ public static class HelpRenderer
             {
                 currentPage = nextPage;
                 Console.Clear();
-                Render(pages[currentPage]);
+                RenderPage(pages[currentPage]);
                 RenderUsage(currentPage, pages.Length);
             }
 
@@ -55,19 +71,6 @@ public static class HelpRenderer
         AnsiConsole.WriteLine();
         AnsiConsole.MarkupInterpolated($"[teal]{currentPage + 1} of {pages}[/]");
         AnsiConsole.Markup(" [silver]ESC: Exit, <- Prev, Next ->[/]\r\n");
-    }
-
-    private static void Render(string[] pageContent)
-    {
-        foreach (var line in pageContent)
-        {
-            if (line.StartsWith("# "))
-                AnsiConsole.MarkupInterpolated($"[green bold]{line}[/]\r\n");
-            else if (line.StartsWith("`") || line.EndsWith("`"))
-                AnsiConsole.MarkupInterpolated($"[aqua]{line}[/]\r\n");
-            else
-                AnsiConsole.MarkupInterpolated($"[italic]{line}[/]\r\n");
-        }
     }
 
     private static int CalculatePage(int currentPage, int pages, int offset)

@@ -54,20 +54,19 @@ public sealed class Renderer
         _console.WriteLine(Localize(line));
     }
 
-    public async Task PrintPagedText(string text)
+
+    public async Task RenderHelpPages(IEnumerable<string> helpContent)
     {
-        IReadOnlyList<string> lines = TextHelper.GetLines(text, Console.WindowWidth);
-        int pageLines = Console.WindowHeight - 3;
-        int pageLineCounter = 0;
-        foreach (string line in lines)
+        var pages = HelpRenderer.GetPages(helpContent);
+        int pageCounter = 0;
+        foreach (var page in pages)
         {
-            _console.WriteLine(line);
-            pageLineCounter++;
-            if (pageLineCounter >= pageLines)
+            HelpRenderer.RenderPage(page);
+            ++pageCounter;
+            if (pageCounter < pages.Length)
             {
                 await WaitKey("Press a key for next page");
                 _console.Clear();
-                pageLineCounter = 0;
             }
         }
         await WaitKey();

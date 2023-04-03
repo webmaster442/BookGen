@@ -23,6 +23,8 @@ internal class HelpProvider : IHelpProvider
         LoadHelpData();
     }
 
+    public IEnumerable<string> HelpEntries => _helpData.Keys;
+
     private void LoadHelpData()
     {
         var lines =

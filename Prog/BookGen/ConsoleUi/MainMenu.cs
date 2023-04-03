@@ -15,16 +15,19 @@ internal sealed class MainMenu : MenuBase
 {
     private readonly GeneratorRunner _runner;
     private readonly IModuleApi _api;
-    private readonly Dictionary<string, string> _helpTable;
+    private readonly IHelpProvider _helpProvider;
     private bool _inHelpMode;
+    private readonly List<string> _helpItems;
 
-    public MainMenu(GeneratorRunner runner, IModuleApi api)
+    public MainMenu(GeneratorRunner runner, IModuleApi api, IHelpProvider helpProvider)
     {
+
         _runner = runner;
         _api = api;
-        /*_helpTable = modules.ToDictionary(m => m.ModuleCommand,
-                                          m => m.GetHelp() ?? "Module has no help");
-        _helpTable.Add("<-- Back to previous menu", nameof(ToggleHelp));*/
+        _helpProvider = helpProvider;
+        _helpItems = helpProvider.HelpEntries.Order().ToList();
+        _helpItems.Add("<- Back");
+
     }
 
     private bool ToggleHelp()
@@ -42,17 +45,16 @@ internal sealed class MainMenu : MenuBase
             if (_inHelpMode)
             {
                 renderer.FigletText("BookGen Help", ConsoleColor.Green);
-                var selection = await renderer.SelectionMenu("Select a command to display it's usage: ", _helpTable.Keys);
-                var text = _helpTable[selection];
-                if (text == nameof(ToggleHelp))
+                var selection = await renderer.SelectionMenu("Select a command to display it's usage: ", _helpItems);
+                if (selection == "<- Back")
                 {
                     ToggleHelp();
                 }
                 else
                 {
                     renderer.Clear();
-                    renderer.Rule(selection);
-                    await renderer.PrintPagedText(text);
+                    var help = _helpProvider.GetCommandHelp(selection);
+                    await renderer.RenderHelpPages(help);
                 }
             }
             else
@@ -63,7 +65,7 @@ internal sealed class MainMenu : MenuBase
 
                 var selection = await renderer.SelectionMenu("Select acion:", GetEnumItems<MainMenuAction>());
                 shouldRun = DoAction(selection, renderer);
-                if (shouldRun)
+                if (shouldRun && !_inHelpMode)
                     await renderer.WaitKey();
             }
         }

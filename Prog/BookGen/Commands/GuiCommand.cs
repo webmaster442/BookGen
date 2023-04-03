@@ -15,16 +15,18 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>, IDisposable
 {
     private readonly ILog _log;
     private readonly IModuleApi _api;
+    private readonly IHelpProvider _helpProvider;
     private readonly ProgramInfo _programInfo;
 
     private MainMenu? _mainMenu;
     private GeneratorRunner? _runner;
     private FolderLock? _folderLock;
 
-    public GuiCommand(ILog log, IModuleApi api, ProgramInfo programInfo)
+    public GuiCommand(ILog log, IModuleApi api, IHelpProvider helpProvider, ProgramInfo programInfo)
     {
         _log = log;
         _api = api;
+        _helpProvider = helpProvider;
         _programInfo = programInfo;
     }
 
@@ -47,7 +49,7 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>, IDisposable
         _programInfo.Gui = true;
         _runner = _api.CreateRunner(arguments.Verbose, arguments.Directory);
 
-        _mainMenu = new MainMenu(_runner, _api);
+        _mainMenu = new MainMenu(_runner, _api, _helpProvider);
 
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
 
