@@ -3,17 +3,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
 
-    <Style
-        x:Key="HeaderText"
-        TargetType="TextBlock">
+    <Style x:Key="HeaderText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Accent}" />
         <Setter Property="FontSize" Value="36" />
         <Setter Property="Margin" Value="50,20,0,10" />
     </Style>
 
-    <Style
-        x:Key="VersionText"
-        TargetType="TextBlock">
+    <Style x:Key="VersionText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Accent3}" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -21,9 +17,7 @@
         <Setter Property="FontSize" Value="18" />
     </Style>
 
-    <Style
-        x:Key="SmallHederText"
-        TargetType="TextBlock">
+    <Style x:Key="SmallHederText" TargetType="TextBlock">
         <Setter Property="FontSize" Value="20" />
         <Setter Property="Margin" Value="20,10" />
     </Style>
@@ -70,16 +64,12 @@
         </Style.Triggers>
     </Style>
 
-    <Style
-        x:Key="Disabled"
-        TargetType="Rectangle">
+    <Style x:Key="Disabled" TargetType="Rectangle">
         <Setter Property="Margin" Value="20,5" />
         <Setter Property="Fill" Value="{StaticResource MahApps.Brushes.Accent4}" />
     </Style>
 
-    <Style
-        x:Key="StartFolderList"
-        TargetType="ItemsControl">
+    <Style x:Key="StartFolderList" TargetType="ItemsControl">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="ItemsPanel">
@@ -110,9 +100,7 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="preview-text"
-        TargetType="TextBox">
+    <Style x:Key="preview-text" TargetType="TextBox">
         <Setter Property="FontFamily" Value="Consolas" />
         <Setter Property="FontSize" Value="18" />
         <Setter Property="IsReadOnly" Value="True" />
@@ -121,9 +109,7 @@
         <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
     </Style>
 
-    <Style
-        x:Key="preview-error"
-        TargetType="TextBlock">
+    <Style x:Key="preview-error" TargetType="TextBlock">
         <Setter Property="Foreground" Value="Red" />
         <Setter Property="FontSize" Value="48" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -139,9 +125,7 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock
-                        Margin="5"
-                        Text="{Binding}" />
+                    <TextBlock Margin="5" Text="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>

@@ -10,6 +10,18 @@ namespace BookGen.Launcher.ViewModels.FileBrowser
 {
     internal sealed class ObservableCollectionEx<T> : ObservableCollection<T>
     {
+        public ObservableCollectionEx()
+        {
+        }
+
+        public ObservableCollectionEx(IEnumerable<T> collection) : base(collection)
+        {
+        }
+
+        public ObservableCollectionEx(List<T> list) : base(list)
+        {
+        }
+
         /// <summary> 
         /// Adds the elements of the specified collection to the end of the ObservableCollection(Of T). 
         /// </summary> 

@@ -25,6 +25,8 @@ namespace BookGen.Launcher.ViewModels
 
         public ObservableCollectionEx<FileBrowserItemViewModel> Items { get; }
         public ObservableCollectionEx<FileBrowserTreeViewModel> TreeItems { get; }
+        public ObservableCollectionEx<FileBrowserTask> TaskItems { get; }
+
         public RunVsCodeCommand RunVsCodeCommand { get; }
         public StartShellCommand StartShellCommand { get; }
         public RunExplorerCommand RunExplorerCommand { get; }
@@ -38,6 +40,7 @@ namespace BookGen.Launcher.ViewModels
             _currentDir = currentDir;
             Items = new ObservableCollectionEx<FileBrowserItemViewModel>();
             TreeItems = new ObservableCollectionEx<FileBrowserTreeViewModel>();
+            TaskItems = new ObservableCollectionEx<FileBrowserTask>(new FileBrowserTasks());
             RunVsCodeCommand = new RunVsCodeCommand();
             StartShellCommand = new StartShellCommand();
             RunExplorerCommand = new RunExplorerCommand();

@@ -48,6 +48,17 @@
                 BorderThickness="0,0,0,2">
                 <Menu Margin="5">
                     <MenuItem Command="{Binding RefreshCommand}" Header="Refresh" />
+                    <Separator />
+                    <MenuItem Header="Tasks" ItemsSource="{Binding TaskItems}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Name}" />
+                                <Setter Property="Command" Value="{Binding Command}" />
+                                <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.CurrentDir}" />
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <Separator />
                     <MenuItem Header="Open Folder">
                         <MenuItem
                             Command="{Binding StartShellCommand}"
