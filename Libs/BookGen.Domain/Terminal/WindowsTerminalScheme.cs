@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 20222-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -75,7 +75,7 @@ public class WindowsTerminalScheme
     public WindowsTerminalScheme()
     {
         Name = DefaultShemeName;
-        Black = "#0a0520";
+        Black = "#961947";
         Red = "#ff796d";
         Green = "#99b481";
         Yellow = "#efdfac";
@@ -83,7 +83,7 @@ public class WindowsTerminalScheme
         Purple = "#e78fcd";
         Cyan = "#ba8cff";
         White = "#ffba81";
-        BrightBlack = "#100b23";
+        BrightBlack = "#d62365";
         BrightRed = "#f99f92";
         BrightGreen = "#b4be8f";
         BrightYellow = "#f2e9bf";
