@@ -30,8 +30,8 @@
     <RootNamespace>BookGen</RootNamespace>
 	</PropertyGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="BookGen.Tests"/>
-    <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    <InternalsVisibleTo Include="BookGen.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
   </ItemGroup>
   <ItemGroup>
 		<Compile Remove="DefaultTemplate\**" />
@@ -49,12 +49,6 @@
 		<PackageReference Include="SkiaSharp" Version="2.88.3" />
 		<PackageReference Include="Svg.Skia" Version="0.5.18" />
 		<PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
-		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
-		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="System.Net.Http" Version="4.3.4" />
-		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-		<PackageReference Include="System.Text.Json" Version="7.0.2" />
 		<PackageReference Include="XmlDocMarkdown.Core" Version="2.9.0" />
     <PackageReference Include="Microsoft.XmlSerializer.Generator" Version="7.0.0" />
 	</ItemGroup>
