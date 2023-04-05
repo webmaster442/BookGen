@@ -1,5 +1,4 @@
-﻿using Medallion.Shell;
-using System.Text;
+﻿using System.Text;
 
 namespace BookGen.DomainServices
 {
@@ -8,7 +7,7 @@ namespace BookGen.DomainServices
         private readonly string _tidyPath;
         private readonly Dictionary<string, string> _tagreplacements;
         private const string TidyName = "tidy.exe";
-        private const int TimeOut = 10_000;
+        private const int TimeOut = 10;
 
         public HtmlTidy()
         {
@@ -29,19 +28,6 @@ namespace BookGen.DomainServices
             };
         }
 
-        private string RunTidy(string input, params string[] arguments)
-        {
-            using var command = Command.Run(_tidyPath, arguments, (options) =>
-            {
-                options.Encoding(Encoding.UTF8);
-                options.Timeout(TimeSpan.FromMilliseconds(TimeOut));
-            }).RedirectFrom(input);
-
-            command.Wait();
-
-            return command.Result.StandardOutput;
-        }
-
         public string ConvertHtml5TagsToXhtmlCompatible(string input)
         {
             var buffer = new StringBuilder(input);
@@ -59,12 +45,18 @@ namespace BookGen.DomainServices
 
         public string HtmlToXhtml(string html)
         {
-            return RunTidy(html, "-asxhtml", "-utf8");
+            return ProcessRunner.GetCommandOutput(_tidyPath,
+                                                  new[] { "-asxhtml", "-utf8" },
+                                                  html,
+                                                  TimeOut);
         }
 
         public string XhtmlToHtml(string xhtml)
         {
-            return RunTidy(xhtml, "-ashtml", "-utf8");
+            return ProcessRunner.GetCommandOutput(_tidyPath,
+                                                  new[] { "-ashtml", "-utf8" },
+                                                  xhtml,
+                                                  TimeOut);
         }
     }
 }

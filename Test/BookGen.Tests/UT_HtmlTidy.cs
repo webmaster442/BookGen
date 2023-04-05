@@ -45,6 +45,7 @@ namespace BookGen.Tests
             {
                 Assert.That(xhtml, Is.Not.Null);
                 Assert.That(xhtml, Is.Not.Empty);
+                Assert.That(xhtml.Contains("</html>"), Is.True);
             });
         }
     }

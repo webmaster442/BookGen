@@ -3,7 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Medallion.Shell;
+using System;
+using System.Diagnostics;
+
+//using Medallion.Shell;
 
 namespace BookGen.DomainServices
 {
@@ -22,17 +25,56 @@ namespace BookGen.DomainServices
                                                                int timeOutSeconds,
                                                                string? workdir = null)
         {
-            using var command = Command.Run(programPath, arguments, (options) =>
+
+            using (var process = new Process())
             {
-                options.Timeout(TimeSpan.FromSeconds(timeOutSeconds));
+                process.StartInfo.FileName = programPath;
+                SetArguments(process.StartInfo, arguments);
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.CreateNoWindow = true;
+                Task timeout = Task.Delay(timeOutSeconds * 1000);
+                process.Start();
+                Task<string> read = process.StandardOutput.ReadToEndAsync();
+                if (Task.WaitAny(timeout, read) == 0)
+                {
+                    return (-1, "Timeout");
+                }
+                else
+                {
+                    return (process.ExitCode, read.Result);
+                }
+            }
+        }
 
-                if (!string.IsNullOrEmpty(workdir))
-                    options.WorkingDirectory(workdir);
-            });
+        public static string GetCommandOutput(string program, string[] arguments, string stdIn, int timeoutSeconds)
+        {
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = program;
+                SetArguments(process.StartInfo, arguments);
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.CreateNoWindow = true;
 
-            command.Wait();
+                Task timeout = Task.Delay(timeoutSeconds * 1000);
+                process.Start();
+                process.StandardInput.Write(stdIn);
+                process.StandardInput.Close();
+                Task<string> read = process.StandardOutput.ReadToEndAsync();
+                if (Task.WaitAny(timeout, read) == 0)
+                {
+                    return "timeout";
+                }
+                return read.Result;
+            }
+        }
 
-            return (command.Result.ExitCode, command.Result.StandardOutput);
+        private static void SetArguments(ProcessStartInfo startInfo, string[] arguments)
+        {
+            foreach (var arg in arguments)
+                startInfo.ArgumentList.Add(arg);
         }
     }
 }
