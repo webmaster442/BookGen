@@ -7,7 +7,7 @@ BookGen is a command line toolchain for writing books and documentation in markd
 It is designed to be cross platform, but It's developed and tested under Windows. It features a web based, cross platform Markdown editor.
 
 * MIT Licensed
-* Written in C#, targets .NET 6.0
+* Written in C#, targets .NET 7.0
 * Extremely fast, compared to GitBook and other NodeJs stuff
 * It hasn't got a template engine, so you don't have to learn a new template language. However it's extendable via shortcodes, like wordpress
 * Can be extended with Scripting API
@@ -23,7 +23,7 @@ It is designed to be cross platform, but It's developed and tested under Windows
 
 To Build and develop you will need:
 * Visual Studio 2022 with latest updates - https://visualstudio.microsoft.com/vs/
-* .NET 6 SDK - https://dotnet.microsoft.com/download
+* .NET 7 SDK - https://dotnet.microsoft.com/download
 
 # Getting the repo
 

@@ -1,5 +1,6 @@
-#2023.
+# 2023. - Not yet released -
 * New: GUI has been reworked. Instead of Terminal.GUI Spectre.Console is used
+* New: Pack subcommand to pack the book source into a zip file
 * Change: Default console log uses Spectre.Console for ouput. This produces more colorfull output
 * Change: Reworked subcommand architecture
 * Change: Removed & cleaned up nuget package dependencies
