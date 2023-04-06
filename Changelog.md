@@ -1,9 +1,15 @@
 #2023.
 * New: GUI has been reworked. Instead of Terminal.GUI Spectre.Console is used
 * Change: Default console log uses Spectre.Console for ouput. This produces more colorfull output
+* Change: Reworked subcommand architecture
+* Change: Removed & cleaned up nuget package dependencies
 * Change: Test server port is now 8090
+* Change: Removed WP-Load program
+* Change: Removed Chapters command
+* Change: Removed InstallPS Autocomplete command
 * Fix: E-pub build time has been reduced
 * Fix: Fixes a bug, which caused the progressbar messages while building not always readable
+* Fix: BookGen shell color scheme adjusted in windows terminal for better readability
 
 # 2023.01.12
 * New: Rewrote launcher, looks a bit better & has built in preview function
