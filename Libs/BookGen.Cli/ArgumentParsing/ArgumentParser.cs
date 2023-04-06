@@ -48,7 +48,6 @@ internal class ArgumentParser
                     {
                         property.SetValue(arguments, value);
                     }
-
                 }
             }
             else if (argParams != null)

@@ -22,10 +22,9 @@ internal class GeneratorRunner
 {
     private readonly CsharpScriptHandler _scriptHandler;
     private readonly ProjectLoader _projectLoader;
+    private readonly bool _projectLoadSuccess;
 
     public const string ExitString = "Press a key to exit...";
-
-    private readonly Config? _configuration;
     private readonly ToC? _toc;
     private readonly TagUtils? _tags;
     private readonly IModuleApi _moduleApi;
@@ -58,21 +57,21 @@ internal class GeneratorRunner
         _appSettings = appSettings;
         _programInfo = programInfo;
         _projectLoader = new ProjectLoader(workDir, log, programInfo);
+        _projectLoadSuccess = _projectLoader.LoadProject();
         _scriptHandler = new CsharpScriptHandler(Log);
         WorkDirectory = workDir;
         ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
-        _configuration = new Config();
         _toc = new ToC();
         _tags = new TagUtils();
     }
 
     #region Helpers
 
-    [MemberNotNull(nameof(_configuration), nameof(_toc), nameof(_tags))]
+    [MemberNotNull(nameof(_toc), nameof(_tags))]
     private void ThrowIfInvalidState()
     {
-        if (_configuration == null)
-            throw new InvalidOperationException("Configuration is null");
+        if (!_projectLoadSuccess)
+            throw new InvalidOperationException("Project load failed");
 
         if (_toc == null)
             throw new InvalidOperationException("Table of contents is null");
@@ -119,12 +118,10 @@ internal class GeneratorRunner
 
     private bool LoadAndCompileScripts()
     {
-        if (_configuration == null) return false;
-
-        if (string.IsNullOrEmpty(_configuration.ScriptsDirectory)) return true;
+        if (string.IsNullOrEmpty(_projectLoader.Configuration.ScriptsDirectory)) return true;
 
         Log.Info("Trying to load and compile script files...");
-        FsPath scripts = new FsPath(WorkDirectory).Combine(_configuration.ScriptsDirectory);
+        FsPath scripts = new FsPath(WorkDirectory).Combine(_projectLoader.Configuration.ScriptsDirectory);
 
         int count = _scriptHandler.LoadScripts(scripts);
         Log.Info("Loaded {0} instances from script files", count);
@@ -134,13 +131,10 @@ internal class GeneratorRunner
 
     public void DoClean()
     {
-        if (_configuration == null)
-            throw new InvalidOperationException("Configuration is null");
-
-        CreateOutputDirectory.CleanDirectory(new FsPath(_configuration.TargetWeb.OutPutDirectory), Log);
-        CreateOutputDirectory.CleanDirectory(new FsPath(_configuration.TargetPrint.OutPutDirectory), Log);
-        CreateOutputDirectory.CleanDirectory(new FsPath(_configuration.TargetEpub.OutPutDirectory), Log);
-        CreateOutputDirectory.CleanDirectory(new FsPath(_configuration.TargetWordpress.OutPutDirectory), Log);
+        CreateOutputDirectory.CleanDirectory(new FsPath(_projectLoader.Configuration.TargetWeb.OutPutDirectory), Log);
+        CreateOutputDirectory.CleanDirectory(new FsPath(_projectLoader.Configuration.TargetPrint.OutPutDirectory), Log);
+        CreateOutputDirectory.CleanDirectory(new FsPath(_projectLoader.Configuration.TargetEpub.OutPutDirectory), Log);
+        CreateOutputDirectory.CleanDirectory(new FsPath(_projectLoader.Configuration.TargetWordpress.OutPutDirectory), Log);
     }
     #endregion
 
@@ -162,7 +156,7 @@ internal class GeneratorRunner
     {
         ThrowIfInvalidState();
 
-        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetWeb);
+        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetWeb);
 
         Log.Info("Building deploy configuration...");
 
@@ -173,7 +167,7 @@ internal class GeneratorRunner
     {
         ThrowIfInvalidState();
 
-        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetPrint);
+        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetPrint);
 
         Log.Info("Building print configuration...");
 
@@ -184,7 +178,7 @@ internal class GeneratorRunner
     {
         ThrowIfInvalidState();
 
-        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetEpub);
+        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetEpub);
 
         Log.Info("Building epub configuration...");
 
@@ -195,7 +189,7 @@ internal class GeneratorRunner
     {
         ThrowIfInvalidState();
 
-        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetWordpress);
+        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetWordpress);
 
         Log.Info("Building Wordpress configuration...");
 
@@ -206,7 +200,7 @@ internal class GeneratorRunner
     {
         ThrowIfInvalidState();
 
-        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetPostProcess);
+        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetPostProcess);
 
         Log.Info("Building postprocess configuration...");
 
@@ -219,9 +213,9 @@ internal class GeneratorRunner
 
         Log.Info("Building test configuration...");
 
-        _configuration.HostName = "http://localhost:8090/";
+        _projectLoader.Configuration.HostName = "http://localhost:8090/";
 
-        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_configuration.TargetWeb);
+        RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetWeb);
 
 
         using (var loader = new ShortCodeLoader(Log, settings, _appSettings))
@@ -229,17 +223,17 @@ internal class GeneratorRunner
             var builder = new WebsiteGeneratorStepRunner(settings, Log, loader, _scriptHandler);
             TimeSpan runTime = builder.Run();
 
-            using (HttpServer? server = HttpServerFactory.CreateServerForTest(ServerLog, Path.Combine(WorkDirectory, _configuration.TargetWeb.OutPutDirectory)))
+            using (HttpServer? server = HttpServerFactory.CreateServerForTest(ServerLog, Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory)))
             {
                 server.Start();
                 Log.Info("-------------------------------------------------");
                 Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
                 Log.Info("Test server running on: http://localhost:8090/");
-                Log.Info("Serving from: {0}", _configuration.TargetWeb.OutPutDirectory);
+                Log.Info("Serving from: {0}", _projectLoader.Configuration.TargetWeb.OutPutDirectory);
 
                 if (_appSettings.AutoStartWebserver)
                 {
-                    UrlOpener.OpenUrl(_configuration.HostName);
+                    UrlOpener.OpenUrl(_projectLoader.Configuration.HostName);
                 }
 
                 Console.WriteLine(ExitString);

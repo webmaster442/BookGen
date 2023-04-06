@@ -26,7 +26,7 @@ public sealed class TerminalLog : IServerLog, ILog
         return logLevel switch
         {
             LogLevel.Warning => "[yellow]",
-            LogLevel.Info => "[gray]",
+            LogLevel.Info => "[white]",
             LogLevel.Critical => "[red]",
             _ => "[white]",
         };
