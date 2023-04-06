@@ -44,9 +44,11 @@ internal class ArgumentParser
                 else
                 {
                     var value = ValueConverter.Convert(argBag.GetSwitchValue(switchParams), property.PropertyType);
-                    var storedValue = property.GetValue(arguments);
-                    if (storedValue != null && value != null)
+                    if (value != null)
+                    {
                         property.SetValue(arguments, value);
+                    }
+
                 }
             }
             else if (argParams != null)
