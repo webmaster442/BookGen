@@ -214,6 +214,27 @@ Arguments:
 Note: the command gets the data from the clipboard and the generated
 markdown is also written to the clipboard.
 
+# Pack
+
+Pack / backup the bookgen related files of the current project into a 
+single zip file.
+
+`BookGen pack {-v} {-d [directory]} -o [fileName]`
+`BookGen pack {--verbose} {--dir [directory]} --output [fileName]`
+
+Arguments:
+
+-o, --output:
+    Required. Specifies the destination zip file. Note: if specified 
+    file extension differs from zip, then zip will be enforced.
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
 # Preview
 
 Launch a browser that allows markdown file previewing

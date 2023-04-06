@@ -18,4 +18,13 @@ public abstract class ArgumentsBase
     {
         return ValidationResult.Ok();
     }
+
+    /// <summary>
+    /// Called when validation is done. Allows a centralized
+    /// place for modifications. Eg. Enforcing a file extension
+    /// </summary>
+    public virtual void ModifyAfterValidation()
+    {
+        //Empty
+    }
 }

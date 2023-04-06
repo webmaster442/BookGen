@@ -203,6 +203,8 @@ public sealed class CommandRunner
                 return _settings.BadParametersExitCode;
             }
 
+            filled.ModifyAfterValidation();
+
             return await command.Execute(filled, argsToParse);
         }
         catch (Exception ex)
