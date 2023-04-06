@@ -25,7 +25,7 @@ namespace BookGen.Launcher.ViewModels
                 return;
             }
 
-            if (location.IsUrl() || location.StartsWith("<!doctype html>"))
+            if (location.IsUrl() || location.StartsWith("<!doctype html>", StringComparison.InvariantCultureIgnoreCase))
             {
                 Content = location;
                 return;

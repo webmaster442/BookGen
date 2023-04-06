@@ -36,6 +36,7 @@ namespace BookGen.Launcher.ViewModels.FileBrowser
                 process.StartInfo.FileName = "bookgen.exe";
                 process.StartInfo.Arguments = arguments;
                 process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+                process.StartInfo.CreateNoWindow = true;
                 process.Start();
                 string output = await process.StandardOutput.ReadToEndAsync();
                 await process.WaitForExitAsync();
