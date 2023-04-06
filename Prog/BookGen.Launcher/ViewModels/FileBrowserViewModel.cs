@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2022 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -19,17 +19,19 @@ namespace BookGen.Launcher.ViewModels
             set
             {
                 SetProperty(ref _currentDir, value);
+                TaskRunnerCommand.Folder = _currentDir;
                 Update();
             }
         }
 
         public ObservableCollectionEx<FileBrowserItemViewModel> Items { get; }
         public ObservableCollectionEx<FileBrowserTreeViewModel> TreeItems { get; }
-        public ObservableCollectionEx<FileBrowserTask> TaskItems { get; }
+        public ObservableCollectionEx<BookGenTask> TaskItems { get; }
 
         public RunVsCodeCommand RunVsCodeCommand { get; }
         public StartShellCommand StartShellCommand { get; }
         public RunExplorerCommand RunExplorerCommand { get; }
+        public TaskRunnerCommand TaskRunnerCommand { get; }
         public RelayCommand RefreshCommand { get; }
         public RelayCommand<FileBrowserTreeViewModel> TreeItemSelectedCommand { get; }
         public RelayCommand<FileBrowserItemViewModel> PreviewCommand { get; }
@@ -38,9 +40,10 @@ namespace BookGen.Launcher.ViewModels
         {
             _mainViewModel = mainViewModel;
             _currentDir = currentDir;
+            TaskRunnerCommand = new TaskRunnerCommand();
             Items = new ObservableCollectionEx<FileBrowserItemViewModel>();
             TreeItems = new ObservableCollectionEx<FileBrowserTreeViewModel>();
-            TaskItems = new ObservableCollectionEx<FileBrowserTask>(new FileBrowserTasks());
+            TaskItems = new ObservableCollectionEx<BookGenTask>(new BookGenTasks());
             RunVsCodeCommand = new RunVsCodeCommand();
             StartShellCommand = new StartShellCommand();
             RunExplorerCommand = new RunExplorerCommand();

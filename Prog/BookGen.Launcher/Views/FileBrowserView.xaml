@@ -53,8 +53,8 @@
                         <MenuItem.ItemContainerStyle>
                             <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
                                 <Setter Property="Header" Value="{Binding Name}" />
-                                <Setter Property="Command" Value="{Binding Command}" />
-                                <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.CurrentDir}" />
+                                <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.TaskRunnerCommand}" />
+                                <Setter Property="CommandParameter" Value="{Binding}" />
                             </Style>
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>
