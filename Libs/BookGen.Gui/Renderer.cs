@@ -30,23 +30,6 @@ public sealed class Renderer
         return translated ?? text;
     }
 
-    public Position GlobalPosition
-    {
-        get
-        {
-            (int Left, int Top) = Console.GetCursorPosition();
-            return new Position
-            {
-                X = Left,
-                Y = Top,
-            };
-        }
-        set
-        {
-            Console.SetCursorPosition(value.X, value.Y);
-        }
-    }
-
     public void Clear() => _console.Clear();
 
     public void PrintText(string line)
@@ -74,7 +57,6 @@ public sealed class Renderer
 
     public void FigletText(string text, ConsoleColor color)
     {
-        //todo: localize
         var figlet = new FigletText(Localize(text))
         {
             Justification = Justify.Left,
@@ -95,11 +77,19 @@ public sealed class Renderer
         return confirm.ShowAsync(_console, _token);
     }
 
-    public async Task<string> SelectionMenu(string title, IEnumerable<string> selectionItems, int pageSize = 12)
+    private static int GetPageSize()
+    {
+        var position = Console.GetCursorPosition();
+        var height = Console.WindowHeight;
+        int pageSize = height - position.Top - 5;
+        return pageSize;
+    }
+
+    public async Task<string> SelectionMenu(string title, IEnumerable<string> selectionItems)
     {
         SelectionPrompt<string> selector = new SelectionPrompt<string>()
             .Title(title)
-            .PageSize(pageSize)
+            .PageSize(GetPageSize())
             .AddChoices(selectionItems);
 
         string selected = await selector.ShowAsync(_console, _token);
@@ -112,7 +102,7 @@ public sealed class Renderer
     {
         SelectionPrompt<string> selector = new SelectionPrompt<string>()
             .Title(title)
-            .PageSize(12)
+            .PageSize(GetPageSize())
             .AddChoices(selectionItems.Keys.ToArray());
 
         string selected = await selector.ShowAsync(_console, _token);
@@ -127,7 +117,7 @@ public sealed class Renderer
     {
         MultiSelectionPrompt<string> selector = new MultiSelectionPrompt<string>()
             .Title(title)
-            .PageSize(12)
+            .PageSize(GetPageSize())
             .Required(isRequred)
             .AddChoices(selectionItems.Keys.ToArray());
 
