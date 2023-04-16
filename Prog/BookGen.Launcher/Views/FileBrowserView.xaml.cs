@@ -5,16 +5,15 @@
 
 using System.Windows.Controls;
 
-namespace BookGen.Launcher.Views
+namespace BookGen.Launcher.Views;
+
+/// <summary>
+/// Interaction logic for FileBrowserView.xaml
+/// </summary>
+public sealed partial class FileBrowserView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for FileBrowserView.xaml
-    /// </summary>
-    public sealed partial class FileBrowserView : UserControl
+    public FileBrowserView()
     {
-        public FileBrowserView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

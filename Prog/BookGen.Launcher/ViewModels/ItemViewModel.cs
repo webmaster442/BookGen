@@ -3,35 +3,34 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Launcher.ViewModels
+namespace BookGen.Launcher.ViewModels;
+
+internal sealed record ItemViewModel
 {
-    internal sealed record ItemViewModel
+    public string FolderName
     {
-        public string FolderName
+        get
         {
-            get
-            {
-                if (string.IsNullOrEmpty(FullPath))
-                    return string.Empty;
+            if (string.IsNullOrEmpty(FullPath))
+                return string.Empty;
 
-                string folderName = Path.GetFileName(FullPath);
+            string folderName = Path.GetFileName(FullPath);
 
-                if (string.IsNullOrEmpty(folderName))
-                    return FullPath;
+            if (string.IsNullOrEmpty(folderName))
+                return FullPath;
 
-                return folderName;
-            }
+            return folderName;
         }
+    }
 
-        public bool IsDisabled => !Directory.Exists(FullPath);
+    public bool IsDisabled => !Directory.Exists(FullPath);
 
-        public bool IsEnabled => Directory.Exists(FullPath);
+    public bool IsEnabled => Directory.Exists(FullPath);
 
-        public string FullPath { get; init; }
+    public string FullPath { get; init; }
 
-        public ItemViewModel()
-        {
-            FullPath = string.Empty;
-        }
+    public ItemViewModel()
+    {
+        FullPath = string.Empty;
     }
 }

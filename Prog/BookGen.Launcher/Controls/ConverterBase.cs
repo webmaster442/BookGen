@@ -3,29 +3,28 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Launcher.Controls
+namespace BookGen.Launcher.Controls;
+
+internal abstract class ConverterBase<TFrom, TTo> : MarkupExtension, IValueConverter
 {
-    internal abstract class ConverterBase<TFrom, TTo> : MarkupExtension, IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        if (value is TFrom tFrom)
         {
-            if (value is TFrom tFrom)
-            {
-                return ConvertToTTo(tFrom, parameter)!;
-            }
-            return Binding.DoNothing;
+            return ConvertToTTo(tFrom, parameter)!;
         }
+        return Binding.DoNothing;
+    }
 
-        protected abstract TTo ConvertToTTo(TFrom tFrom, object parameter);
+    protected abstract TTo ConvertToTTo(TFrom tFrom, object parameter);
 
-        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return Binding.DoNothing;
-        }
+    public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return Binding.DoNothing;
+    }
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
     }
 }

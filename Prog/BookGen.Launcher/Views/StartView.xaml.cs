@@ -5,16 +5,15 @@
 
 using System.Windows.Controls;
 
-namespace BookGen.Launcher.Views
+namespace BookGen.Launcher.Views;
+
+/// <summary>
+/// Interaction logic for FolderSelectorView.xaml
+/// </summary>
+public sealed partial class StartView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for FolderSelectorView.xaml
-    /// </summary>
-    public sealed partial class StartView : UserControl
+    public StartView()
     {
-        public StartView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -5,16 +5,15 @@
 
 using System.Windows.Controls;
 
-namespace BookGen.Launcher.Views
+namespace BookGen.Launcher.Views;
+
+/// <summary>
+/// Interaction logic for MenuView.xaml
+/// </summary>
+public sealed partial class MenuView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for MenuView.xaml
-    /// </summary>
-    public sealed partial class MenuView : UserControl
+    public MenuView()
     {
-        public MenuView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

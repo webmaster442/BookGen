@@ -3,17 +3,16 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Launcher.ViewModels
+namespace BookGen.Launcher.ViewModels;
+
+internal sealed class NullViewModel : INotifyPropertyChanged
 {
-    internal sealed class NullViewModel : INotifyPropertyChanged
+    private NullViewModel()
     {
-        private NullViewModel()
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
-        }
-
-        public static NullViewModel Instance => new();
-
-        public event PropertyChangedEventHandler? PropertyChanged;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
     }
+
+    public static NullViewModel Instance => new();
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 }

@@ -6,155 +6,154 @@
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
-namespace BookGen.Launcher.Controls
+namespace BookGen.Launcher.Controls;
+
+internal sealed class PreviewControl : ContentControl
 {
-    internal sealed class PreviewControl : ContentControl
+    public PreviewControl()
     {
-        public PreviewControl()
+        HorizontalContentAlignment = HorizontalAlignment.Stretch;
+        VerticalContentAlignment = VerticalAlignment.Stretch;
+    }
+
+    public string FileUnderPreview
+    {
+        get { return (string)GetValue(FileUnderPreviewProperty); }
+        set { SetValue(FileUnderPreviewProperty, value); }
+    }
+
+    public static readonly DependencyProperty FileUnderPreviewProperty =
+        DependencyProperty.Register("FileUnderPreview", typeof(string), typeof(PreviewControl), new PropertyMetadata(null, OnChange));
+
+    private static void OnChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is PreviewControl preview)
+            preview.LoadPreview();
+    }
+
+    private void LoadPreview()
+    {
+        string extension = Path.GetExtension(FileUnderPreview);
+        if (extension == null)
+            return;
+
+        switch (extension)
         {
-            HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            VerticalContentAlignment = VerticalAlignment.Stretch;
+            case ".txt":
+            case ".json":
+            case ".js":
+            case ".css":
+            case ".cs":
+            case ".gitignore":
+            case ".editorconfig":
+            case ".gitmodules":
+            case ".xml":
+                OpenAsText(FileUnderPreview);
+                break;
+            case ".jpg":
+            case ".jpeg":
+            case ".png":
+                OpenAsImage(FileUnderPreview);
+                break;
+            default:
+                OfferOpenShell(FileUnderPreview, extension);
+                break;
         }
 
-        public string FileUnderPreview
+    }
+
+    private void OfferOpenShell(string fileUnderPreview, string extension)
+    {
+        var panel = new StackPanel()
         {
-            get { return (string)GetValue(FileUnderPreviewProperty); }
-            set { SetValue(FileUnderPreviewProperty, value); }
-        }
-
-        public static readonly DependencyProperty FileUnderPreviewProperty =
-            DependencyProperty.Register("FileUnderPreview", typeof(string), typeof(PreviewControl), new PropertyMetadata(null, OnChange));
-
-        private static void OnChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+        var btn = new Button
         {
-            if (d is PreviewControl preview)
-                preview.LoadPreview();
-        }
-
-        private void LoadPreview()
+            Content = "Try to open with associated program ...",
+            Tag = fileUnderPreview,
+            Style = (Style)FindResource("preview-button"),
+        };
+        btn.Click += TryOpenShell;
+        panel.Children.Add(new TextBlock
         {
-            string extension = Path.GetExtension(FileUnderPreview);
-            if (extension == null)
-                return;
+            Style = (Style)FindResource("preview-error"),
+            Text = $"'{GetExtensionText(fileUnderPreview, extension)}' isn't supported by this preview"
+        });
+        panel.Children.Add(btn);
+        Content = panel;
+    }
 
-            switch (extension)
+    private static string GetExtensionText(string fileUnderPreview, string extension)
+    {
+        if (string.IsNullOrEmpty(extension))
+            return fileUnderPreview;
+
+        return extension;
+    }
+
+    private void TryOpenShell(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button btn)
+            return;
+
+        using (var process = new System.Diagnostics.Process())
+        {
+            try
             {
-                case ".txt":
-                case ".json":
-                case ".js":
-                case ".css":
-                case ".cs":
-                case ".gitignore":
-                case ".editorconfig":
-                case ".gitmodules":
-                case ".xml":
-                    OpenAsText(FileUnderPreview);
-                    break;
-                case ".jpg":
-                case ".jpeg":
-                case ".png":
-                    OpenAsImage(FileUnderPreview);
-                    break;
-                default:
-                    OfferOpenShell(FileUnderPreview, extension);
-                    break;
+                process.StartInfo.FileName = btn.Tag.ToString();
+                process.StartInfo.UseShellExecute = true;
+                process.Start();
             }
-
-        }
-
-        private void OfferOpenShell(string fileUnderPreview, string extension)
-        {
-            var panel = new StackPanel()
+            catch (Exception ex)
             {
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center
-            };
-            var btn = new Button
-            {
-                Content = "Try to open with associated program ...",
-                Tag = fileUnderPreview,
-                Style = (Style)FindResource("preview-button"),
-            };
-            btn.Click += TryOpenShell;
-            panel.Children.Add(new TextBlock
-            {
-                Style = (Style)FindResource("preview-error"),
-                Text = $"'{GetExtensionText(fileUnderPreview, extension)}' isn't supported by this preview"
-            });
-            panel.Children.Add(btn);
-            Content = panel;
-        }
-
-        private static string GetExtensionText(string fileUnderPreview, string extension)
-        {
-            if (string.IsNullOrEmpty(extension))
-                return fileUnderPreview;
-
-            return extension;
-        }
-
-        private void TryOpenShell(object sender, RoutedEventArgs e)
-        {
-            if (sender is not Button btn)
-                return;
-
-            using (var process = new System.Diagnostics.Process())
-            {
-                try
-                {
-                    process.StartInfo.FileName = btn.Tag.ToString();
-                    process.StartInfo.UseShellExecute = true;
-                    process.Start();
-                }
-                catch (Exception ex)
-                {
-                    Dialog.ShowMessageBox(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                Dialog.ShowMessageBox(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+    }
 
-        private void DisplayError(string message)
+    private void DisplayError(string message)
+    {
+        var tb = new TextBlock
         {
-            var tb = new TextBlock
+            Style = (Style)FindResource("preview-error"),
+            Text = message
+        };
+        Content = tb;
+    }
+
+    private void OpenAsText(string fileUnderPreview)
+    {
+        try
+        {
+            var tb = new TextBox
             {
-                Style = (Style)FindResource("preview-error"),
-                Text = message
+                Style = (Style)FindResource("preview-text"),
+                Text = File.ReadAllText(fileUnderPreview)
             };
             Content = tb;
         }
-
-        private void OpenAsText(string fileUnderPreview)
+        catch (Exception)
         {
-            try
-            {
-                var tb = new TextBox
-                {
-                    Style = (Style)FindResource("preview-text"),
-                    Text = File.ReadAllText(fileUnderPreview)
-                };
-                Content = tb;
-            }
-            catch (Exception)
-            {
-                DisplayError($"Error while loading: {fileUnderPreview}");
-            }
+            DisplayError($"Error while loading: {fileUnderPreview}");
         }
+    }
 
-        private void OpenAsImage(string image)
+    private void OpenAsImage(string image)
+    {
+        try
         {
-            try
+            var img = new Image
             {
-                var img = new Image
-                {
-                    Source = new BitmapImage(new Uri(image)),
-                    StretchDirection = StretchDirection.DownOnly,
-                };
-                Content = img;
-            }
-            catch (Exception)
-            {
-                DisplayError($"Error while loading: {image}");
-            }
+                Source = new BitmapImage(new Uri(image)),
+                StretchDirection = StretchDirection.DownOnly,
+            };
+            Content = img;
+        }
+        catch (Exception)
+        {
+            DisplayError($"Error while loading: {image}");
         }
     }
 }

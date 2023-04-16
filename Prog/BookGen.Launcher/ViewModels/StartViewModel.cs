@@ -6,208 +6,207 @@
 using System.Diagnostics;
 using System.Text.Json;
 
-namespace BookGen.Launcher.ViewModels
+namespace BookGen.Launcher.ViewModels;
+
+internal sealed class StartViewModel : ObservableObject
 {
-    internal sealed class StartViewModel : ObservableObject
+    private List<string> _elements;
+    private string _filter;
+    private readonly string _fileName;
+    private readonly IMainViewModel _mainViewModel;
+
+    public string Version { get; }
+
+    public BindingList<ItemViewModel> View { get; }
+
+    public RelayCommand<string> OpenFolderCommand { get; }
+    public RelayCommand<string> RemoveFolderCommand { get; }
+    public RelayCommand<string> FolderSelectCommand { get; }
+    public RelayCommand ClearFoldersCommand { get; }
+
+    public StartViewModel(IMainViewModel mainViewModel)
     {
-        private List<string> _elements;
-        private string _filter;
-        private readonly string _fileName;
-        private readonly IMainViewModel _mainViewModel;
+        _mainViewModel = mainViewModel;
+        _filter = string.Empty;
+        _elements = new List<string>();
+        _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
 
-        public string Version { get; }
+        OpenFolderCommand = new RelayCommand<string>(OnOpenFolder);
+        ClearFoldersCommand = new RelayCommand(OnClearFolders);
+        RemoveFolderCommand = new RelayCommand<string>(OnRemoveFolder);
+        FolderSelectCommand = new RelayCommand<string>(OnFolderSelect);
 
-        public BindingList<ItemViewModel> View { get; }
+        View = new BindingList<ItemViewModel>();
+        Version = GetVersion();
 
-        public RelayCommand<string> OpenFolderCommand { get; }
-        public RelayCommand<string> RemoveFolderCommand { get; }
-        public RelayCommand<string> FolderSelectCommand { get; }
-        public RelayCommand ClearFoldersCommand { get; }
+        LoadFolderList();
+    }
 
-        public StartViewModel(IMainViewModel mainViewModel)
+    private void LoadFolderList()
+    {
+        string? json = ReadFile();
+
+        if (!string.IsNullOrEmpty(json))
         {
-            _mainViewModel = mainViewModel;
-            _filter = string.Empty;
-            _elements = new List<string>();
-            _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
-
-            OpenFolderCommand = new RelayCommand<string>(OnOpenFolder);
-            ClearFoldersCommand = new RelayCommand(OnClearFolders);
-            RemoveFolderCommand = new RelayCommand<string>(OnRemoveFolder);
-            FolderSelectCommand = new RelayCommand<string>(OnFolderSelect);
-
-            View = new BindingList<ItemViewModel>();
-            Version = GetVersion();
-
-            LoadFolderList();
-        }
-
-        private void LoadFolderList()
-        {
-            string? json = ReadFile();
-
-            if (!string.IsNullOrEmpty(json))
+            string[]? deserialized = JsonSerializer.Deserialize<string[]>(json);
+            if (deserialized != null)
             {
-                string[]? deserialized = JsonSerializer.Deserialize<string[]>(json);
-                if (deserialized != null)
-                {
-                    _elements = new List<string>(deserialized);
-                }
-            }
-
-            string[] arguments = Environment.GetCommandLineArgs();
-            if (arguments.Length == 2
-                && Directory.Exists(arguments[1]))
-            {
-                _elements.Add(arguments[1]);
-            }
-
-            App.UpdateJumplist(_elements);
-            ApplyFilter();
-        }
-
-        public string Filter
-        {
-            get => _filter;
-            set
-            {
-                if (_filter != value)
-                {
-                    _filter = value;
-                    ApplyFilter();
-                    OnPropertyChanged(nameof(Filter));
-                }
+                _elements = new List<string>(deserialized);
             }
         }
 
-        public bool IsEmpty => View.Count < 1;
-
-        public void SaveFolders()
+        string[] arguments = Environment.GetCommandLineArgs();
+        if (arguments.Length == 2
+            && Directory.Exists(arguments[1]))
         {
-            string? text = JsonSerializer.Serialize(_elements);
-            WriteFile(text);
-            App.UpdateJumplist(_elements);
+            _elements.Add(arguments[1]);
         }
 
-        private void ApplyFilter()
+        App.UpdateJumplist(_elements);
+        ApplyFilter();
+    }
+
+    public string Filter
+    {
+        get => _filter;
+        set
         {
-            if (!string.IsNullOrEmpty(Filter))
+            if (_filter != value)
             {
-                IEnumerable<string>? subset = _elements.Where(x => x.Contains(Filter));
-                CreateItems(subset);
+                _filter = value;
+                ApplyFilter();
+                OnPropertyChanged(nameof(Filter));
             }
-            else
-            {
-                CreateItems(_elements);
-            }
-            OnPropertyChanged(nameof(IsEmpty));
         }
+    }
 
-        private void CreateItems(IEnumerable<string> subset)
+    public bool IsEmpty => View.Count < 1;
+
+    public void SaveFolders()
+    {
+        string? text = JsonSerializer.Serialize(_elements);
+        WriteFile(text);
+        App.UpdateJumplist(_elements);
+    }
+
+    private void ApplyFilter()
+    {
+        if (!string.IsNullOrEmpty(Filter))
         {
-            View.RaiseListChangedEvents = false;
-            View.Clear();
-            foreach (string? item in subset)
-            {
-                View.Add(new ItemViewModel
-                {
-                    FullPath = item
-                });
-            }
-            View.RaiseListChangedEvents = true;
-            View.ResetBindings();
+            IEnumerable<string>? subset = _elements.Where(x => x.Contains(Filter));
+            CreateItems(subset);
         }
-
-        private static string GetVersion()
+        else
         {
-            System.Reflection.AssemblyName? name = typeof(App).Assembly.GetName();
-            return name?.Version?.ToString() ?? "Couldn't get version";
+            CreateItems(_elements);
         }
+        OnPropertyChanged(nameof(IsEmpty));
+    }
 
-        private string ReadFile()
+    private void CreateItems(IEnumerable<string> subset)
+    {
+        View.RaiseListChangedEvents = false;
+        View.Clear();
+        foreach (string? item in subset)
         {
-            if (File.Exists(_fileName))
+            View.Add(new ItemViewModel
             {
-                try
-                {
-                    return File.ReadAllText(_fileName);
-                }
-                catch (Exception)
-                {
-                    return string.Empty;
-                }
-            }
-            return string.Empty;
+                FullPath = item
+            });
         }
+        View.RaiseListChangedEvents = true;
+        View.ResetBindings();
+    }
 
-        private void WriteFile(string content)
+    private static string GetVersion()
+    {
+        System.Reflection.AssemblyName? name = typeof(App).Assembly.GetName();
+        return name?.Version?.ToString() ?? "Couldn't get version";
+    }
+
+    private string ReadFile()
+    {
+        if (File.Exists(_fileName))
         {
             try
             {
-                File.WriteAllText(_fileName, content);
+                return File.ReadAllText(_fileName);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex);
+                return string.Empty;
             }
         }
+        return string.Empty;
+    }
 
-        private void OnOpenFolder(string? obj)
+    private void WriteFile(string content)
+    {
+        try
         {
-            if (Dialog.TryselectFolderDialog(out string selected))
+            File.WriteAllText(_fileName, content);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
+    }
+
+    private void OnOpenFolder(string? obj)
+    {
+        if (Dialog.TryselectFolderDialog(out string selected))
+        {
+            if (_elements.Contains(selected))
             {
-                if (_elements.Contains(selected))
-                {
-                    _elements.Remove(selected);
-                    _elements.Insert(0, selected);
-                }
-                else
-                {
-                    _elements.Insert(0, selected);
-                }
+                _elements.Remove(selected);
+                _elements.Insert(0, selected);
+            }
+            else
+            {
+                _elements.Insert(0, selected);
+            }
+            ApplyFilter();
+            SaveFolders();
+        }
+    }
+
+    private void OnClearFolders()
+    {
+        if (Dialog.ShowMessageBox(Properties.Resources.ClearRecentList,
+                              Properties.Resources.Question,
+                              MessageBoxButton.YesNo,
+                              MessageBoxImage.Question) == MessageBoxResult.Yes)
+        {
+            _elements.Clear();
+            ApplyFilter();
+            SaveFolders();
+        }
+    }
+
+    private void OnRemoveFolder(string? obj)
+    {
+        if (obj is string folder)
+        {
+            MessageBoxResult confirm = Dialog.ShowMessageBox(
+                string.Format(Properties.Resources.RemoveFolder, folder),
+                Properties.Resources.Question,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (confirm == MessageBoxResult.Yes)
+            {
+                _elements.Remove(folder);
                 ApplyFilter();
                 SaveFolders();
             }
         }
+    }
 
-        private void OnClearFolders()
+    private void OnFolderSelect(string? obj)
+    {
+        if (!string.IsNullOrEmpty(obj))
         {
-            if (Dialog.ShowMessageBox(Properties.Resources.ClearRecentList,
-                                  Properties.Resources.Question,
-                                  MessageBoxButton.YesNo,
-                                  MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                _elements.Clear();
-                ApplyFilter();
-                SaveFolders();
-            }
-        }
-
-        private void OnRemoveFolder(string? obj)
-        {
-            if (obj is string folder)
-            {
-                MessageBoxResult confirm = Dialog.ShowMessageBox(
-                    string.Format(Properties.Resources.RemoveFolder, folder),
-                    Properties.Resources.Question,
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-
-                if (confirm == MessageBoxResult.Yes)
-                {
-                    _elements.Remove(folder);
-                    ApplyFilter();
-                    SaveFolders();
-                }
-            }
-        }
-
-        private void OnFolderSelect(string? obj)
-        {
-            if (!string.IsNullOrEmpty(obj))
-            {
-                _mainViewModel.OpenContent(new ViewModels.FileBrowserViewModel(_mainViewModel, obj));
-            }
+            _mainViewModel.OpenContent(new ViewModels.FileBrowserViewModel(_mainViewModel, obj));
         }
     }
 }

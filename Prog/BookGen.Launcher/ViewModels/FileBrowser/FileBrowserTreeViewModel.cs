@@ -3,20 +3,19 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Launcher.ViewModels.FileBrowser
+namespace BookGen.Launcher.ViewModels.FileBrowser;
+
+internal sealed class FileBrowserTreeViewModel
 {
-    internal sealed class FileBrowserTreeViewModel
+    public string Name { get; init; }
+    public string FullPath { get; init; }
+
+    public FileBrowserTreeViewModel[] SubItems { get; init; }
+
+    public FileBrowserTreeViewModel()
     {
-        public string Name { get; init; }
-        public string FullPath { get; init; }
-
-        public FileBrowserTreeViewModel[] SubItems { get; init; }
-
-        public FileBrowserTreeViewModel()
-        {
-            Name = string.Empty;
-            FullPath = string.Empty;
-            SubItems = Array.Empty<FileBrowserTreeViewModel>();
-        }
+        Name = string.Empty;
+        FullPath = string.Empty;
+        SubItems = Array.Empty<FileBrowserTreeViewModel>();
     }
 }

@@ -1,16 +1,15 @@
 ﻿using MahApps.Metro.Controls;
 
-namespace BookGen.Launcher
+namespace BookGen.Launcher;
+
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public sealed partial class MainWindow : MetroWindow
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public sealed partial class MainWindow : MetroWindow
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-            DataContext = new MainWindowViewModel();
-        }
+        InitializeComponent();
+        DataContext = new MainWindowViewModel();
     }
 }

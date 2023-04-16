@@ -3,29 +3,28 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Launcher.Controls
+namespace BookGen.Launcher.Controls;
+
+internal sealed class SearchBoxWatermarkVisibilityConverter : MarkupExtension, IMultiValueConverter
 {
-    internal sealed class SearchBoxWatermarkVisibilityConverter : MarkupExtension, IMultiValueConverter
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        if (values.Length == 2
+            && values[0] is string text
+            && values[1] is bool focused)
         {
-            if (values.Length == 2
-                && values[0] is string text
-                && values[1] is bool focused)
-            {
-                return string.IsNullOrEmpty(text) && !focused ? Visibility.Visible : Visibility.Collapsed;
-            }
-            return Binding.DoNothing;
+            return string.IsNullOrEmpty(text) && !focused ? Visibility.Visible : Visibility.Collapsed;
         }
+        return Binding.DoNothing;
+    }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            return Array.Empty<object>();
-        }
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    {
+        return Array.Empty<object>();
+    }
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
     }
 }

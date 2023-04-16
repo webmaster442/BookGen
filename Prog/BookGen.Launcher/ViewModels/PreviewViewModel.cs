@@ -3,15 +3,14 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Launcher.ViewModels
-{
-    internal sealed class PreviewViewModel : ObservableObject
-    {
-        public PreviewViewModel(string filePath)
-        {
-            FilePath = filePath;
-        }
+namespace BookGen.Launcher.ViewModels;
 
-        public string FilePath { get; }
+internal sealed class PreviewViewModel : ObservableObject
+{
+    public PreviewViewModel(string filePath)
+    {
+        FilePath = filePath;
     }
+
+    public string FilePath { get; }
 }

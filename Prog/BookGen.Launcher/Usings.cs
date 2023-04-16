@@ -3,11 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-global using BookGen.Launcher.Controls;
-global using BookGen.Launcher.Interfaces;
-global using BookGen.Launcher.ViewModels;
-global using CommunityToolkit.Mvvm.ComponentModel;
-global using CommunityToolkit.Mvvm.Input;
 global using System;
 global using System.Collections.Generic;
 global using System.ComponentModel;
@@ -18,3 +13,10 @@ global using System.Windows;
 global using System.Windows.Data;
 global using System.Windows.Markup;
 global using System.Windows.Media;
+
+global using BookGen.Launcher.Controls;
+global using BookGen.Launcher.Interfaces;
+global using BookGen.Launcher.ViewModels;
+
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;

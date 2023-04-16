@@ -5,26 +5,25 @@
 
 using BookGen.DomainServices;
 
-namespace BookGen.Launcher.ViewModels.Commands
+namespace BookGen.Launcher.ViewModels.Commands;
+
+internal sealed class RunVsCodeCommand : ProcessCommandBase
 {
-    internal sealed class RunVsCodeCommand : ProcessCommandBase
+    public override bool CanExecute(string? folder)
     {
-        public override bool CanExecute(string? folder)
+        return InstallStatus.IsVSCodeInstalled
+            && Directory.Exists(folder);
+    }
+
+    public override void Execute(string? folder)
+    {
+        if (string.IsNullOrEmpty(folder)
+            || !Directory.Exists(folder))
         {
-            return InstallStatus.IsVSCodeInstalled
-                && Directory.Exists(folder);
+            Message(Properties.Resources.FolderNoLongerExists, MessageBoxImage.Error);
+            return;
         }
 
-        public override void Execute(string? folder)
-        {
-            if (string.IsNullOrEmpty(folder)
-                || !Directory.Exists(folder))
-            {
-                Message(Properties.Resources.FolderNoLongerExists, MessageBoxImage.Error);
-                return;
-            }
-
-            RunProgram(InstallDetector.VsCodeExe, folder);
-        }
+        RunProgram(InstallDetector.VsCodeExe, folder);
     }
 }

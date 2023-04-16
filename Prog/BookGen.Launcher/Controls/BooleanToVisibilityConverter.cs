@@ -3,19 +3,18 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Launcher.Controls
-{
-    internal sealed class BooleanToVisibilityConverter : ConverterBase<bool, Visibility>
-    {
-        protected override Visibility ConvertToTTo(bool tFrom, object parameter)
-        {
-            bool invert = false;
-            if (parameter != null)
-                invert = true;
+namespace BookGen.Launcher.Controls;
 
-            if (!invert && tFrom) return Visibility.Visible;
-            else if (invert && !tFrom) return Visibility.Visible;
-            else return Visibility.Collapsed;
-        }
+internal sealed class BooleanToVisibilityConverter : ConverterBase<bool, Visibility>
+{
+    protected override Visibility ConvertToTTo(bool tFrom, object parameter)
+    {
+        bool invert = false;
+        if (parameter != null)
+            invert = true;
+
+        if (!invert && tFrom) return Visibility.Visible;
+        else if (invert && !tFrom) return Visibility.Visible;
+        else return Visibility.Collapsed;
     }
 }

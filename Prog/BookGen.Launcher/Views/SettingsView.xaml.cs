@@ -5,16 +5,15 @@
 
 using System.Windows.Controls;
 
-namespace BookGen.Launcher.Views
+namespace BookGen.Launcher.Views;
+
+/// <summary>
+/// Interaction logic for SettingsView.xaml
+/// </summary>
+public sealed partial class SettingsView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SettingsView.xaml
-    /// </summary>
-    public sealed partial class SettingsView : UserControl
+    public SettingsView()
     {
-        public SettingsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

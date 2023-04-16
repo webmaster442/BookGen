@@ -5,30 +5,29 @@
 
 using BookGen.Launcher.Properties;
 
-namespace BookGen.Launcher.ViewModels
-{
-    internal sealed class SettingsViewModel : ObservableObject
-    {
-        public bool UseWindowsTerminal
-        {
-            get => Settings.Default.UseWindowsTerminal;
-            set
-            {
-                Settings.Default.UseWindowsTerminal = value;
-                Settings.Default.Save();
-                OnPropertyChanged(nameof(UseWindowsTerminal));
-            }
-        }
+namespace BookGen.Launcher.ViewModels;
 
-        public bool AutoExitLauncher
+internal sealed class SettingsViewModel : ObservableObject
+{
+    public bool UseWindowsTerminal
+    {
+        get => Settings.Default.UseWindowsTerminal;
+        set
         {
-            get => Settings.Default.AutoExitLauncher;
-            set
-            {
-                Settings.Default.AutoExitLauncher = value;
-                Settings.Default.Save();
-                OnPropertyChanged(nameof(AutoExitLauncher));
-            }
+            Settings.Default.UseWindowsTerminal = value;
+            Settings.Default.Save();
+            OnPropertyChanged(nameof(UseWindowsTerminal));
+        }
+    }
+
+    public bool AutoExitLauncher
+    {
+        get => Settings.Default.AutoExitLauncher;
+        set
+        {
+            Settings.Default.AutoExitLauncher = value;
+            Settings.Default.Save();
+            OnPropertyChanged(nameof(AutoExitLauncher));
         }
     }
 }
