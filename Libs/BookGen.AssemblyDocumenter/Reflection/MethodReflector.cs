@@ -1,4 +1,11 @@
-﻿using System.Diagnostics;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// Based on the work of Junle Li and the Vsxmd project
+// https://github.com/lijunle/Vsxmd
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Diagnostics;
 using System.Reflection;
 
 namespace BookGen.AssemblyDocumenter.Reflection;

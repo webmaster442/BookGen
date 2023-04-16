@@ -1,4 +1,11 @@
-﻿using System.ComponentModel;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// Based on the work of Junle Li and the Vsxmd project
+// https://github.com/lijunle/Vsxmd
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 

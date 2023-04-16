@@ -5,41 +5,40 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.AssemblyDocumenter.Units
+namespace BookGen.AssemblyDocumenter.Units;
+
+/// <summary>
+/// The member kind.
+/// </summary>
+internal enum MemberKind
 {
     /// <summary>
-    /// The member kind.
+    /// Not supported member kind.
     /// </summary>
-    internal enum MemberKind
-    {
-        /// <summary>
-        /// Not supported member kind.
-        /// </summary>
-        NotSupported,
+    NotSupported,
 
-        /// <summary>
-        /// Type.
-        /// </summary>
-        Type,
+    /// <summary>
+    /// Type.
+    /// </summary>
+    Type,
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        Constructor,
+    /// <summary>
+    /// Constructor.
+    /// </summary>
+    Constructor,
 
-        /// <summary>
-        /// Constants
-        /// </summary>
-        Constants,
+    /// <summary>
+    /// Constants
+    /// </summary>
+    Constants,
 
-        /// <summary>
-        /// Property.
-        /// </summary>
-        Property,
+    /// <summary>
+    /// Property.
+    /// </summary>
+    Property,
 
-        /// <summary>
-        /// Method.
-        /// </summary>
-        Method,
-    }
+    /// <summary>
+    /// Method.
+    /// </summary>
+    Method,
 }

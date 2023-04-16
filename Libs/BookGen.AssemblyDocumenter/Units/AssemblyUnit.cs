@@ -5,30 +5,29 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.AssemblyDocumenter.Units
+namespace BookGen.AssemblyDocumenter.Units;
+
+/// <summary>
+/// Assembly unit.
+/// </summary>
+internal class AssemblyUnit : BaseUnit
 {
+    private const string Href = "assembly";
+
     /// <summary>
-    /// Assembly unit.
+    /// Initializes a new instance of the <see cref="AssemblyUnit"/> class.
     /// </summary>
-    internal class AssemblyUnit : BaseUnit
+    /// <param name="element">The assembly XML element.</param>
+    /// <exception cref="ArgumentException">Throw if XML element name is not <c>assembly</c>.</exception>
+    internal AssemblyUnit(XElement element) : base(element, XmlElements.Assembly)
     {
-        private const string Href = "assembly";
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyUnit"/> class.
-        /// </summary>
-        /// <param name="element">The assembly XML element.</param>
-        /// <exception cref="ArgumentException">Throw if XML element name is not <c>assembly</c>.</exception>
-        internal AssemblyUnit(XElement element) : base(element, XmlElements.Assembly)
-        {
-        }
+    private string AssemblyName => GetChild(XmlElements.Name)?.Value ?? string.Empty;
 
-        private string AssemblyName => GetChild(XmlElements.Name)?.Value ?? string.Empty;
-
-        /// <inheritdoc />
-        public override IEnumerable<string> ToMarkdown()
-        {
-            yield return $"{Href.ToAnchor()}# {AssemblyName}";
-        }
+    /// <inheritdoc />
+    public override IEnumerable<string> ToMarkdown()
+    {
+        yield return $"{Href.ToAnchor()}# {AssemblyName}";
     }
 }
