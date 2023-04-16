@@ -49,9 +49,13 @@ internal class AssemblyDocumentCommand : Command<AssemblyDocumentArguments>
                 if (XmlDocValidator.ValidateXml(xmlfile, _log))
                 {
 
-                    var documenter = new XmlDocumenter(xmlfile);
+                    var documenter = new XmlDocumenter(xmlfile, arguments.AssemblyPath);
 
-                    string? result = documenter.ToMarkdown();
+                    string? result = documenter.ToMarkdown(new ConverterSettings
+                    {
+                        ShouldSkipInternal = true,
+                        ShouldSkipNonBrowsable = true,
+                    });
 
                     filename.WriteFile(_log, result);
                     return Constants.Succes;
