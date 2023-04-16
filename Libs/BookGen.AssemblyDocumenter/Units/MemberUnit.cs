@@ -5,6 +5,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.AssemblyDocumenter.Reflection;
+
 namespace BookGen.AssemblyDocumenter.Units
 {
     /// <summary>
@@ -13,6 +15,7 @@ namespace BookGen.AssemblyDocumenter.Units
     internal partial class MemberUnit : BaseUnit
     {
         private readonly MemberName _name;
+        private readonly MemberAccess access;
 
         static MemberUnit()
         {
@@ -24,12 +27,14 @@ namespace BookGen.AssemblyDocumenter.Units
         /// </summary>
         /// <param name="element">The member XML element.</param>
         /// <exception cref="ArgumentException">Throw if XML element name is not <c>member</c>.</exception>
-        internal MemberUnit(XElement element)
+        internal MemberUnit(XElement element, AssemblyReflector? assembly)
             : base(element, XmlElements.Member)
         {
             _name = new MemberName(
                 GetAttribute(XmlAttributes.Name),
                 GetChildren(XmlElements.Param).Select(x => x.Attribute("name")?.Value ?? string.Empty));
+
+            access = new MemberAccess(_name, assembly);
         }
 
         /// <summary>
@@ -109,8 +114,10 @@ namespace BookGen.AssemblyDocumenter.Units
         /// <inheritdoc />
         public override IEnumerable<string> ToMarkdown()
         {
-            var list = new List<string>();
-            list.Add(_name.Caption);
+            var list = new List<string>
+            {
+                _name.Caption
+            };
             list.AddRange(Namespace);
             list.AddRange(Namespace);
             list.AddRange(InheritDoc);
@@ -127,12 +134,23 @@ namespace BookGen.AssemblyDocumenter.Units
         }
 
         /// <summary>
+        /// Determines if the member should be skipped in documentation.
+        /// </summary>
+        /// <param name="settings">The settings being used for the conversion.</param>
+        /// <returns>True if the member should not be in the documentation.</returns>
+        public bool ShouldSkipMember(ConverterSettings settings)
+        {
+            return (settings.ShouldSkipInternal && !this.access.IsVisible)
+                || (settings.ShouldSkipNonBrowsable && !this.access.IsBrowsable);
+        }
+
+        /// <summary>
         /// Complement a type unit if the member unit <paramref name="group"/> does not have one.
         /// One member unit group has the same <see cref="TypeName"/>.
         /// </summary>
         /// <param name="group">The member unit group.</param>
         /// <returns>The complemented member unit group.</returns>
-        internal static IEnumerable<MemberUnit> ComplementType(IEnumerable<MemberUnit> group)
+        internal static IEnumerable<MemberUnit> ComplementType(IEnumerable<MemberUnit> group, AssemblyReflector? assembly)
         {
             if (group.Any(unit => unit.Kind == MemberKind.Type))
             {
@@ -140,13 +158,13 @@ namespace BookGen.AssemblyDocumenter.Units
             }
             else
             {
-                return group.Concat(new[] { Create(group.First().TypeName) });
+                return group.Concat(new[] { Create(group.First().TypeName, assembly) });
             }
         }
 
-        private static MemberUnit Create(string typeName)
+        private static MemberUnit Create(string typeName, AssemblyReflector? assembly)
         {
-            return new MemberUnit(new XElement(XmlElements.Member, new XAttribute(XmlAttributes.Name, $"T:{typeName}")));
+            return new MemberUnit(new XElement(XmlElements.Member, new XAttribute(XmlAttributes.Name, $"T:{typeName}")), assembly);
         }
     }
 }

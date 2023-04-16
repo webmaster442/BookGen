@@ -15,7 +15,8 @@ namespace BookGen.AssemblyDocumenter
         /// <summary>
         /// Convert to Markdown syntax.
         /// </summary>
+        /// <param name="settings">The settings to use during the conversion.</param>
         /// <returns>The generated Markdown content.</returns>
-        string ToMarkdown();
+        string ToMarkdown(ConverterSettings settings);
     }
 }

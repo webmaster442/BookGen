@@ -122,6 +122,36 @@ namespace BookGen.AssemblyDocumenter.Units
             }
         }
 
+        /// <summary>
+        /// Gets the friendly name.
+        /// </summary>
+        /// <value>The friendly name.</value>
+        /// <example><c>ToString</c>, <c>#ctor</c>.</example>
+        internal string FriendlyName
+        {
+            get
+            {
+                if (Kind == MemberKind.Type)
+                {
+                    return this.TypeShortName;
+                }
+                else
+                {
+                    if (Kind == MemberKind.Constants
+                        || Kind == MemberKind.Property 
+                        || Kind == MemberKind.Constructor
+                        || Kind == MemberKind.Method)
+                    {
+                        return NameSegments.Last();
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }
+            }
+        }
+
         internal string TypeShortName
         {
             get
@@ -153,19 +183,6 @@ namespace BookGen.AssemblyDocumenter.Units
         private IEnumerable<string> NameSegments =>
             LongName.Split('.');
 
-        private string FriendlyName
-        {
-            get
-            {
-                return Kind switch
-                {
-                    MemberKind.Type => TypeShortName,
-                    MemberKind.Constants or MemberKind.Property or MemberKind.Constructor or MemberKind.Method => NameSegments.Last(),
-                    _ => string.Empty
-                };
-            }
-        }
-
         /// <summary>
         /// Gets the method parameter type names from the member name.
         /// </summary>
@@ -178,7 +195,13 @@ namespace BookGen.AssemblyDocumenter.Units
         /// </example>
         internal IEnumerable<string> GetParamTypes()
         {
-            string? paramString = _name.Split('(').Last().Trim(')');
+            var paramSplit = _name.Split('(');
+            if (paramSplit.Length == 1)
+            {
+                return Enumerable.Empty<string>();
+            }
+
+            var paramString = paramSplit.Last().Trim(')');
 
             int delta = 0;
             var list = new List<StringBuilder>()
