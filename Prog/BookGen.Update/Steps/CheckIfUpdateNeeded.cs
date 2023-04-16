@@ -3,9 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Reflection;
+
 using BookGen.Update.Dto;
 using BookGen.Update.Infrastructure;
-using System.Reflection;
 
 namespace BookGen.Update.Steps;
 

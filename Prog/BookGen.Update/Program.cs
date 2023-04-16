@@ -3,9 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+
 using BookGen.Update.Infrastructure;
 using BookGen.Update.Steps;
-using System.Diagnostics;
+
 using static BookGen.Update.ShellCommands.ShellFileGenerator;
 
 static void WriteIssues(List<string> issues)

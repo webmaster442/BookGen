@@ -3,8 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Update.Dto;
 using System.Runtime.InteropServices;
+
+using BookGen.Update.Dto;
+
 using static BookGen.Update.ShellCommands.ShellFileGenerator;
 
 namespace BookGen.Update.Infrastructure;

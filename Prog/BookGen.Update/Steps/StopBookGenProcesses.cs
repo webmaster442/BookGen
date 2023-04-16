@@ -3,8 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Update.Infrastructure;
 using System.Diagnostics;
+
+using BookGen.Update.Infrastructure;
 
 namespace BookGen.Update.Steps;
 
