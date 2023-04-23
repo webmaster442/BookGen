@@ -54,6 +54,9 @@ internal class PackCommand : Command<PackArguments>
         if (projectFiles.tags.IsExisting)
             filesToPack.Add(projectFiles.tags.ToString());
 
+        if (projectFiles.tasks.IsExisting)
+            filesToPack.Add(projectFiles.tasks.ToString());
+
         ConsoleProgressbar progressbar = new(0, filesToPack.Count);
 
         try

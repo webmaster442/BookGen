@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 2022-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ internal abstract class LoadStep
         State = state;
         Log = log;
 
-        var (confgJson, configYaml, tags) = ProjectFilesLocator.Locate(state.WorkDir);
+        var (confgJson, configYaml, tags, _) = ProjectFilesLocator.Locate(state.WorkDir);
 
         _configJson = confgJson;
         _configYaml = configYaml;
