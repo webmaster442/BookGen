@@ -72,6 +72,28 @@ Build Actions:
 
 Prints the currently available config options
 
+# Download
+
+Download a file from the network
+
+
+`BookGen Download [url] {-v} {-d [directory]}`
+`BookGen Download [url] {--verbose} {--dir [directory]}`
+
+Parameters:
+
+url: The URL to download to the directory speciifed by the directory
+argument. The result file name will be determined from the url.
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
 # Edit
 
 Open a file for editing with configured editor.
