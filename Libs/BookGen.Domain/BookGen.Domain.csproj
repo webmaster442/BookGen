@@ -9,11 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookGen.Interfaces\BookGen.Interfaces.csproj" />
+    <Compile Remove="ArgumentParsing\**" />
+    <EmbeddedResource Remove="ArgumentParsing\**" />
+    <None Remove="ArgumentParsing\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ArgumentParsing\" />
+    <ProjectReference Include="..\BookGen.Interfaces\BookGen.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

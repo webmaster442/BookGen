@@ -15,6 +15,4 @@ public enum InitMenuAction
     CreateScripts,
     [Text("ID_CreateConfig")]
     CreateConfig,
-    [Text("ID_CreateVsTasks")]
-    CreateVsTasks
 }

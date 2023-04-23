@@ -156,9 +156,6 @@
   <data name="ID_CreateTemplates" xml:space="preserve">
     <value>Extract/overwrite templates for customization?</value>
   </data>
-  <data name="ID_CreateVsTasks" xml:space="preserve">
-    <value>Create/overwrite VS Tasks json file?</value>
-  </data>
   <data name="ID_Exit" xml:space="preserve">
     <value>Exit program</value>
   </data>
