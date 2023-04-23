@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace BookGen.Domain.TaskRunner;
 
-public class Tasks
+public class BookGenTask
 {
     [XmlArray]
     [XmlArrayItem(nameof(Confirm), typeof(Confirm))]
@@ -16,8 +16,12 @@ public class Tasks
     [XmlArrayItem(nameof(ShellCommands), typeof(ShellCommands))]
     public TaskItem[] Items { get; init; }
 
-    public Tasks()
+    [XmlAttribute]
+    public string Name { get; init; }
+
+    public BookGenTask()
     {
         Items = Array.Empty<TaskItem>();
+        Name = string.Empty;
     }
 }

@@ -37,7 +37,6 @@ public sealed class Renderer
         _console.WriteLine(Localize(line));
     }
 
-
     public async Task RenderHelpPages(IEnumerable<string> helpContent)
     {
         var pages = HelpRenderer.GetPages(helpContent);
@@ -74,6 +73,18 @@ public sealed class Renderer
     public Task WaitKey(string message = "Press a key to continue...")
     {
         TextPrompt<string> confirm = new TextPrompt<string>(message).AllowEmpty();
+        return confirm.ShowAsync(_console, _token);
+    }
+
+    public Task<string> Prompt(string message)
+    {
+        TextPrompt<string> prompt = new TextPrompt<string>(message);
+        return prompt.ShowAsync(_console, _token);
+    }
+
+    public Task<bool> Confirm(string message)
+    {
+        ConfirmationPrompt confirm = new ConfirmationPrompt(message);
         return confirm.ShowAsync(_console, _token);
     }
 
