@@ -27,6 +27,12 @@ public sealed class SimpleIoC : IResolver
         _instanceTypes.Add(typeof(TInterface), typeof(TImplementation));
     }
 
+    public void Register<TImplementation>()
+        where TImplementation : class
+    {
+        _instanceTypes.Add(typeof(TImplementation), typeof(TImplementation));
+    }
+
     public void RegisterSingleton<TInterface, TImplementation>()
         where TInterface : class
         where TImplementation : class

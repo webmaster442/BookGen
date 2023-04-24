@@ -5,6 +5,8 @@
 
 using System.Diagnostics;
 
+using BookGen.Api;
+
 namespace BookGen.DomainServices
 {
     public static class ProcessRunner
@@ -17,25 +19,33 @@ namespace BookGen.DomainServices
             return RunProcess(programPath, new string[] { argument }, timeOutSeconds, workdir);
         }
 
-        private static Task RunShell(string shell, string arguments)
+        private static void RunShell(string shell, string arguments, ILog log)
         {
-            using var process = new Process();
-            process.StartInfo.FileName = shell;
-            process.StartInfo.Arguments = arguments;
-            process.Start();
-            return process.WaitForExitAsync();
+            try
+            {
+                using var process = new Process();
+                process.StartInfo.FileName = shell;
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.UseShellExecute = false;
+                process.Start();
+                process.WaitForExit();
+            }
+            catch (Exception e) 
+            {
+                log.Warning(e);
+            }
         }
 
-        public static Task RunCmdScript(string shellScript)
-            => RunShell("cmd.exe", $"\"{shellScript}\"");
+        public static void RunCmdScript(string shellScript, ILog log)
+            => RunShell("cmd.exe", $"\"{shellScript}\"", log);
 
-        public static Task RunPowershellScript(string shellScript)
+        public static void RunPowershellScript(string shellScript, ILog log)
         {
             var installStatus = InstallDetector.GetInstallStatus();
             if (installStatus.IsPsCoreInstalled)
-                return RunShell(InstallDetector.PowershellCoreExe, $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+                RunShell(InstallDetector.PowershellCoreExe, $"-ExecutionPolicy Bypass -File \"{shellScript}\"", log);
             else
-                return RunShell("powershell.exe", $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+                RunShell("powershell.exe", $"-ExecutionPolicy Bypass -File \"{shellScript}\"", log);
         }
 
 

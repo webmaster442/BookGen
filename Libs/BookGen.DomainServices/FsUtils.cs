@@ -289,7 +289,7 @@ namespace BookGen.DomainServices
             }
         }
 
-        public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IList<(string prefix, string namespac)>? nslist = null) where T : class, new()
+        public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IReadOnlyList<(string prefix, string namespac)>? nslist = null) where T : class
         {
             try
             {

@@ -9,7 +9,7 @@ namespace BookGen.Domain.TaskRunner;
 
 public class BookGenTask
 {
-    [XmlArray]
+    [XmlArray()]
     [XmlArrayItem(nameof(Confirm), typeof(Confirm))]
     [XmlArrayItem(nameof(InputPrompt), typeof(InputPrompt))]
     [XmlArrayItem(nameof(ShellCommands), typeof(ShellCommands))]

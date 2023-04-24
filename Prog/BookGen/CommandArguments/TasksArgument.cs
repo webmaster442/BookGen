@@ -6,5 +6,7 @@
 namespace BookGen.CommandArguments;
 
 internal class TasksArgument : BookGenArgumentBase
-{ 
+{
+    [Switch("c", "create")]
+    public bool Create { get; set; }
 }

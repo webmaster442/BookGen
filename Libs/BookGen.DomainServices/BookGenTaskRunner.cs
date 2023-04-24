@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.Domain.TaskRunner;
 
 namespace BookGen.DomainServices;
@@ -11,11 +12,13 @@ public class BookGenTaskRunner
 {
     private readonly Dictionary<string, bool> _confirmVars;
     private readonly Dictionary<string, string> _promptResults;
+    private readonly ILog _log;
 
-    public BookGenTaskRunner()
+    public BookGenTaskRunner(ILog log)
     {
         _confirmVars = new Dictionary<string, bool>();
         _promptResults = new Dictionary<string, string>();
+        _log = log;
     }
 
     public void SetConfirmResult(string varialbe, bool result)
@@ -28,7 +31,7 @@ public class BookGenTaskRunner
         _promptResults[varialbe] = result;
     }
 
-    public async Task RunTask(TaskItem item)
+    public void RunTask(TaskItem item)
     {
         if (item is ShellCommands commands)
         {
@@ -38,11 +41,11 @@ public class BookGenTaskRunner
                     throw new InvalidOperationException($"{commands.ConditionVariable} hasn't been set");
 
                 if (_confirmVars[commands.ConditionVariable])
-                    await Run(commands.Commands, commands.ShellType);
+                    Run(commands.Commands, commands.ShellType);
             }
             else
             {
-                await Run(commands.Commands, commands.ShellType);
+                Run(commands.Commands, commands.ShellType);
             }
         }
         else
@@ -51,22 +54,54 @@ public class BookGenTaskRunner
         }
     }
 
-    private async static Task Run(string commands, ShellType shellType)
+    private void Run(string commands, ShellType shellType)
     {
-        var tempFileName = Path.GetTempFileName();
-        File.WriteAllText(tempFileName, commands);
+        SetVariables();
+        var tempFileName = GenerateName();
         
         switch (shellType)
         {
             case ShellType.Powershell:
-                await ProcessRunner.RunPowershellScript(tempFileName);
+                tempFileName = Path.ChangeExtension(tempFileName, ".ps1");
+                File.WriteAllText(tempFileName, commands);
+                ProcessRunner.RunPowershellScript(tempFileName, _log);
                 break;
             case ShellType.Cmd:
-                await ProcessRunner.RunCmdScript(tempFileName);
+                tempFileName = Path.ChangeExtension(tempFileName, ".cmd");
+                File.WriteAllText(tempFileName, commands);
+                ProcessRunner.RunCmdScript(tempFileName, _log);
                 break;
         }
 
         if (File.Exists(tempFileName))
             File.Delete(tempFileName);
+
+        CleanupVariables();
+    }
+
+    private static string GenerateName()
+    {
+        char[] name = new char[15];
+        for (int i=0; i<name.Length; i++)
+        {
+            name[i] = (char)Random.Shared.Next('a', 'z');
+        }
+        return new string(name);
+    }
+
+    private void CleanupVariables()
+    {
+        foreach (var variable in _promptResults.Keys)
+        {
+            Environment.SetEnvironmentVariable(variable, null);
+        }
+    }
+
+    private void SetVariables()
+    {
+        foreach (var variable in _promptResults.Keys)
+        {
+            Environment.SetEnvironmentVariable(variable, _promptResults[variable]);
+        }
     }
 }

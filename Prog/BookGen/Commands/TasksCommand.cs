@@ -12,6 +12,7 @@ using BookGen.ProjectHandling;
 
 namespace BookGen.Commands;
 
+[CommandName("tasks")]
 internal class TasksCommand : AsyncCommand<TasksArgument>
 {
     private readonly BookGenTaskRunner _taskRunner;
@@ -28,21 +29,30 @@ internal class TasksCommand : AsyncCommand<TasksArgument>
         var files = ProjectFilesLocator.Locate(new FsPath(arguments.Directory));
         if (!files.tasks.IsExisting)
         {
-            _log.Warning("project doesn't contain a tasks.xml");
-            return Constants.GeneralError;
+            if (arguments.Create)
+            {
+                var items = BookGenTaskFactory.CreateSample();
+                files.tasks.SerializeXml(items, _log);
+            }
+            else
+            {
+                _log.Warning("project doesn't contain a tasks.xml. Exiting");
+                _log.Info("To create a sample tasks.xml run this command with the -c option");
+                return Constants.GeneralError;
+            }
         }
 
         using var stream = files.tasks.OpenStreamRead();
 
-        XmlSerializer serializer = new XmlSerializer(typeof(Task[]));
-        BookGenTask[]? tasks = serializer.Deserialize(stream) as BookGenTask[];
+        XmlSerializer serializer = new XmlSerializer(typeof(BookGenTasks));
+        BookGenTasks? tasks = serializer.Deserialize(stream) as BookGenTasks;
         if (tasks == null)
         {
             _log.Warning("tasks.xml is empty or corrupted");
             return Constants.GeneralError;
         }
 
-        TasksMenu menu = new TasksMenu(_taskRunner, tasks);
+        TasksMenu menu = new TasksMenu(_taskRunner, arguments.Directory, tasks.Tasks);
         await menu.Run();
 
         return Constants.Succes;

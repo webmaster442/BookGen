@@ -14,11 +14,13 @@ internal class TasksMenu : MenuBase
     private readonly BookGenTask[] _tasks;
     private readonly string[] _taskMenu;
     private readonly BookGenTaskRunner _taskRunner;
+    private readonly string _directory;
 
-    public TasksMenu(BookGenTaskRunner taskRunner, BookGenTask[] tasks)
+    public TasksMenu(BookGenTaskRunner taskRunner, string directory,  BookGenTask[] tasks)
     {
         _tasks = tasks;
         _taskRunner = taskRunner;
+        _directory = directory;
         _taskMenu = _tasks.Select(x => x.Name).Append(Exit).ToArray();
     }
 
@@ -27,14 +29,17 @@ internal class TasksMenu : MenuBase
         bool shouldRun = true;
         while (shouldRun)
         {
-            renderer.FigletText("BookGen Gui", ConsoleColor.Green);
+            renderer.Clear();
+            renderer.FigletText("Tasks", ConsoleColor.Magenta);
+            renderer.DisplayPath("Working directory", _directory);
             string selected = await renderer.SelectionMenu("Select task", _taskMenu);
             if (selected == "Exit") 
             {
                 shouldRun = false;
+                continue;
             }
             await RunTask(_tasks.First(x => x.Name == selected), renderer);
-
+            await renderer.WaitKey();
         }
     }
 
@@ -47,14 +52,14 @@ internal class TasksMenu : MenuBase
                 var result = await renderer.Prompt(prompt.Message);
                 _taskRunner.SetPromptResult(prompt.Varialbe, result);
             }
-            if (item is Confirm confirm)
+            else if (item is Confirm confirm)
             {
                 var result = await renderer.Confirm(confirm.Message);
                 _taskRunner.SetConfirmResult(confirm.Varialbe, result);
             }
             else
             {
-                await _taskRunner.RunTask(item);
+                _taskRunner.RunTask(item);
             }
         }
     }
