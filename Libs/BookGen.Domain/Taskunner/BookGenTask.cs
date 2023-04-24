@@ -12,7 +12,6 @@ public class BookGenTask
     [XmlArray]
     [XmlArrayItem(nameof(Confirm), typeof(Confirm))]
     [XmlArrayItem(nameof(InputPrompt), typeof(InputPrompt))]
-    [XmlArrayItem(nameof(ShellCommand), typeof(ShellCommand))]
     [XmlArrayItem(nameof(ShellCommands), typeof(ShellCommands))]
     public TaskItem[] Items { get; init; }
 

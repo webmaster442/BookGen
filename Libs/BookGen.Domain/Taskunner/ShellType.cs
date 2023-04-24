@@ -7,7 +7,6 @@ namespace BookGen.Domain.TaskRunner;
 
 public enum ShellType
 {
-    Bash,
     Powershell,
     Cmd,
 }

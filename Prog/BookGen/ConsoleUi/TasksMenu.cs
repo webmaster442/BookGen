@@ -54,7 +54,7 @@ internal class TasksMenu : MenuBase
             }
             else
             {
-                await _taskRunner.RunTask(bookGenTask);
+                await _taskRunner.RunTask(item);
             }
         }
     }

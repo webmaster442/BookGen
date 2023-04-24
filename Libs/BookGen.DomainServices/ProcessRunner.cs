@@ -1,12 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2021 Ruzsinszki Gábor
+// (c) 2020-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
 using System.Diagnostics;
-
-//using Medallion.Shell;
 
 namespace BookGen.DomainServices
 {
@@ -19,6 +16,28 @@ namespace BookGen.DomainServices
         {
             return RunProcess(programPath, new string[] { argument }, timeOutSeconds, workdir);
         }
+
+        private static Task RunShell(string shell, string arguments)
+        {
+            using var process = new Process();
+            process.StartInfo.FileName = shell;
+            process.StartInfo.Arguments = arguments;
+            process.Start();
+            return process.WaitForExitAsync();
+        }
+
+        public static Task RunCmdScript(string shellScript)
+            => RunShell("cmd.exe", $"\"{shellScript}\"");
+
+        public static Task RunPowershellScript(string shellScript)
+        {
+            var installStatus = InstallDetector.GetInstallStatus();
+            if (installStatus.IsPsCoreInstalled)
+                return RunShell(InstallDetector.PowershellCoreExe, $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+            else
+                return RunShell("powershell.exe", $"-ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"");
+        }
+
 
         public static (int exitcode, string output) RunProcess(string programPath,
                                                                string[] arguments,
