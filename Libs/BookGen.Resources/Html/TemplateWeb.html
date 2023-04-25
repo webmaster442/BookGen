@@ -246,6 +246,14 @@
     <script type="text/javascript">
         var currentindex = pages.indexOf(window.location.href);
 
+        if (currentindex + 1 < pages.length) {
+            var link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'document';
+            link.href = pages[currentindex + 1];
+            document.head.appendChild(link);
+        }
+
         window.onscroll = function () {
             if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                 $('#topbutton').css("display", "block");
