@@ -20,7 +20,7 @@ internal class DownloadCommand : AsyncCommand<DownloadArguments>
             {
                 Uri uri = new(arguments.Url, UriKind.RelativeOrAbsolute);
                 FsPath targetFile = GetFileName(arguments.Directory, uri);
-
+                _log.Info("Downloading to {0}...", targetFile);
                 await client.DownloadToFile(uri, targetFile, _log);
 
                 return Constants.Succes;
