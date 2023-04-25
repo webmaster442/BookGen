@@ -1,6 +1,8 @@
 # 2023. - Not yet released -
 * New: GUI has been reworked. Instead of Terminal.GUI Spectre.Console is used
 * New: Pack subcommand to pack the book source into a zip file
+* New: Download command, to quickly download files from the internet to your project
+* New: Tasks command, which allows running additional tasks & customizing workflow
 * Change: Default console log uses Spectre.Console for ouput. This produces more colorfull output
 * Change: Reworked subcommand architecture
 * Change: Removed & cleaned up nuget package dependencies
@@ -8,6 +10,7 @@
 * Change: Removed WP-Load program
 * Change: Removed Chapters command
 * Change: Removed InstallPS Autocomplete command
+* Change: Removed support for VS tasks
 * Fix: E-pub build time has been reduced
 * Fix: Fixes a bug, which caused the progressbar messages while building not always readable
 * Fix: BookGen shell color scheme adjusted in windows terminal for better readability
