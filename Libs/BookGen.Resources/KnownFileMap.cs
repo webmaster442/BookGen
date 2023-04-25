@@ -18,7 +18,6 @@ namespace BookGen.Resources
             { KnownFile.PrismCss, "/JsCss/prism.css" },
             { KnownFile.PrismJs, "/JsCss/prism.js" },
             { KnownFile.PrismPrintCss, "/JsCss/prism.print.css" },
-            { KnownFile.TurbolinksJs, "/JsCss/turbolinks.js" },
             { KnownFile.PreviewCss, "/JsCss/preview.css" },
             { KnownFile.SinglePageCss, "/JsCss/SinglePage.css"  },
             { KnownFile.EditCss, "/JsCss/edit.css" },
