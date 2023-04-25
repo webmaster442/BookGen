@@ -13,8 +13,8 @@ public sealed class ShellCommands : TaskItem
     public ShellType ShellType { get; init; }
     [XmlAttribute]
     public string ConditionVariable { get; init; }
-    [XmlText]
-    public string Commands { get; init; }
+    [XmlElement]
+    public CData Commands { get; init; }
 
     public ShellCommands()
     {
