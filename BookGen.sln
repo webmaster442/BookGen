@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141
 		.editorconfig = .editorconfig
 		Changelog.md = Changelog.md
 		Commands.md = Commands.md
+		getting-started.md = getting-started.md
 		notes.md = notes.md
 		Scripts\publish.ps1 = Scripts\publish.ps1
 		README.md = README.md

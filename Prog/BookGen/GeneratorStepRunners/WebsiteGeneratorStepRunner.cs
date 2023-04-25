@@ -41,7 +41,6 @@ internal sealed class WebsiteGeneratorStepRunner : GeneratorStepRunner
                 (KnownFile.BootstrapMinJs, "Assets"),
                 (KnownFile.JqueryMinJs, "Assets"),
                 (KnownFile.PopperMinJs, "Assets"),
-                (KnownFile.TurbolinksJs, "Assets"),
             };
         }
         return step;

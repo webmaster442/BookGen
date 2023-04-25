@@ -3,16 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Gui.MenuEnums;
+namespace BookGen.CommandArguments;
 
-public enum InitMenuAction
+internal class TasksArgument : BookGenArgumentBase
 {
-    [Text("ID_CreateMdFiles")]
-    CreateMdFiles,
-    [Text("ID_CreateTemplates")]
-    CreateTemplates,
-    [Text("ID_CreateScripts")]
-    CreateScripts,
-    [Text("ID_CreateConfig")]
-    CreateConfig,
+    [Switch("c", "create")]
+    public bool Create { get; set; }
 }

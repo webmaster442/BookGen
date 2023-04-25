@@ -178,15 +178,6 @@ namespace BookGen.Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create/overwrite VS Tasks json file?.
-        /// </summary>
-        internal static string ID_CreateVsTasks {
-            get {
-                return ResourceManager.GetString("ID_CreateVsTasks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Exit program.
         /// </summary>
         internal static string ID_Exit {

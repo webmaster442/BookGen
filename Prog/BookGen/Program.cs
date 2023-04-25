@@ -31,6 +31,7 @@ ioc.RegisterSingleton(info);
 ioc.RegisterSingleton(settings);
 ioc.RegisterSingleton<IAppSetting>(settings);
 ioc.RegisterSingleton<IModuleApi>(api);
+ioc.Register<BookGenTaskRunner>();
 
 ioc.Build();
 

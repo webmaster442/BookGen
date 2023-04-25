@@ -113,13 +113,6 @@ internal static class InitializerMethods
         ResourceHandler.ExtractKnownFile(KnownFile.ScriptTemplateCs, workdir.Combine("Scripts").ToString(), log);
     }
 
-    internal static void DoCreateTasks(ILog log, FsPath workDir)
-    {
-        Domain.VsTasks.VsTaskRoot Tasks = VsTaskFactory.CreateTasks();
-        FsPath file = workDir.Combine(".vscode\\tasks.json");
-        file.SerializeJson(Tasks, log);
-    }
-
     public static void ExtractTemplates(ILog log, FsPath workdir)
     {
         string? templatedir = workdir.Combine("Templates").ToString();
@@ -135,7 +128,5 @@ internal static class InitializerMethods
         ResourceHandler.ExtractKnownFile(KnownFile.BootstrapMinJs, assetsdir, log);
         ResourceHandler.ExtractKnownFile(KnownFile.JqueryMinJs, assetsdir, log);
         ResourceHandler.ExtractKnownFile(KnownFile.PopperMinJs, assetsdir, log);
-        ResourceHandler.ExtractKnownFile(KnownFile.TurbolinksJs, assetsdir, log);
-
     }
 }

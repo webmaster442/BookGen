@@ -64,11 +64,5 @@ internal sealed class InitMenu : MenuBase
                                             createScripts,
                                             _programInfo.ConfigVersion);
         }
-
-        if (options.Contains(InitMenuAction.CreateVsTasks))
-        {
-            renderer.PrintText("Creating VS Code Tasks");
-            InitializerMethods.DoCreateTasks(_log, _workDir);
-        }
     }
 }

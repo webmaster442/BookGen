@@ -14,7 +14,6 @@
     <!--{SriDependency file="Assets/bootstrap.min.js"}-->
     <!--{SriDependency file="Assets/prism.css"}-->
     <!--{SriDependency file="Assets/prism.js"}-->
-    <!--{SriDependency file="Assets/turbolinks.js"}-->
     <!--{SriDependency file="pages.js"}-->
     <style type="text/css">
         .nodisplay {
@@ -158,7 +157,7 @@
     </div>
 
     <div id="toc">
-        <a href="#closetoc" id="closebtn" data-turbolinks="false">&times;</a>
+        <a href="#closetoc" id="closebtn">&times;</a>
         <div id="tocinside">
             <!--{toc}-->
         </div>
@@ -183,7 +182,7 @@
     <nav id="Header" class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#toc" data-turbolinks="false">
+                <a class="nav-link" href="#toc">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="16" height="16">
                         <path fill="white" opacity="0.5"
                             d="M542.22 32.05c-54.8 3.11-163.72 14.43-230.96 55.59-4.64 2.84-7.27 7.89-7.27 13.17v363.87c0 11.55 12.63 18.85 23.28 13.49 69.18-34.82 169.23-44.32 218.7-46.92 16.89-.89 30.02-14.43 30.02-30.66V62.75c.01-17.71-15.35-31.74-33.77-30.7zM264.73 87.64C197.5 46.48 88.58 35.17 33.78 32.05 15.36 31.01 0 45.04 0 62.75V400.6c0 16.24 13.13 29.78 30.02 30.66 49.49 2.6 149.59 12.11 218.77 46.95 10.62 5.35 23.21-1.94 23.21-13.46V100.63c0-5.29-2.62-10.14-7.27-12.99z" />
@@ -192,7 +191,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="modal" data-target="#toc-local" data-turbolinks="false">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#toc-local">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="16" height="16">
                         <path fill="white" opacity="0.5"
                             d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-72v8c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm96-114.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z" />
@@ -212,7 +211,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#previous" data-turbolinks="false">
+                <a class="nav-link" href="#previous">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="16" height="16">
                         <path fill="white" opacity="0.5"
                             d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z" />
@@ -221,7 +220,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#next" data-turbolinks="false">
+                <a class="nav-link" href="#next">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="16" height="16">
                         <path fill="white" opacity="0.5"
                             d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" />
@@ -246,8 +245,13 @@
 
     <script type="text/javascript">
         var currentindex = pages.indexOf(window.location.href);
-        if (Turbolinks.supported) {
-            Turbolinks.start();
+
+        if (currentindex + 1 < pages.length) {
+            var link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'document';
+            link.href = pages[currentindex + 1];
+            document.head.appendChild(link);
         }
 
         window.onscroll = function () {

@@ -3,16 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Gui.MenuEnums;
+namespace BookGen.Domain.TaskRunner;
 
-public enum InitMenuAction
+public enum ShellType
 {
-    [Text("ID_CreateMdFiles")]
-    CreateMdFiles,
-    [Text("ID_CreateTemplates")]
-    CreateTemplates,
-    [Text("ID_CreateScripts")]
-    CreateScripts,
-    [Text("ID_CreateConfig")]
-    CreateConfig,
+    Powershell,
+    Cmd,
 }

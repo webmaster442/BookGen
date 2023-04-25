@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,11 +7,10 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace BookGen.Domain.Wordpress
+namespace BookGen.Domain
 {
     public class CData : IXmlSerializable
     {
-        private string _value;
 
         /// <summary>
         /// Allow direct assignment from string:
@@ -32,15 +31,11 @@ namespace BookGen.Domain.Wordpress
         /// <returns></returns>
         public static implicit operator string(CData cdata)
         {
-            return cdata._value;
+            return cdata.Value;
         }
 
         [XmlIgnore]
-        public string Value
-        {
-            get => _value;
-            set => _value = value;
-        }
+        public string Value { get; set; }
 
         public CData() : this(string.Empty)
         {
@@ -48,12 +43,12 @@ namespace BookGen.Domain.Wordpress
 
         public CData(string value)
         {
-            _value = value;
+            Value = value;
         }
 
         public override string ToString()
         {
-            return _value;
+            return Value;
         }
 
         public XmlSchema? GetSchema()
@@ -63,12 +58,12 @@ namespace BookGen.Domain.Wordpress
 
         public virtual void ReadXml(XmlReader reader)
         {
-            _value = reader.ReadElementString();
+            Value = reader.ReadElementString();
         }
 
-        public virtual void WriteXml(System.Xml.XmlWriter writer)
+        public virtual void WriteXml(XmlWriter writer)
         {
-            writer.WriteCData(_value);
+            writer.WriteCData(Value);
         }
     }
 }

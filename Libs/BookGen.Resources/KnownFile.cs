@@ -30,6 +30,5 @@ namespace BookGen.Resources
         TemplatePrintHtml,
         TemplateSinglePageHtml,
         TemplateWebHtml,
-        TurbolinksJs,
     }
 }

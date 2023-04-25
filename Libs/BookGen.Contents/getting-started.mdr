@@ -9,7 +9,6 @@ BookGen installs various programs that can be used to achieve Book generation an
 * BookGen.ShellHelper - Shell helper, used by BookGen shell
 * BookGen.Update - Update program
 * tidy - HTML Tidy, used by BookGen to prettify HTML, can be used as stand alone program
-* wpload - Wordpress site download & upload utility
 
 [7mBookgen shell commands[0m
 

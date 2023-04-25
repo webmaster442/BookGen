@@ -135,6 +135,11 @@ namespace BookGen.DomainServices
             }
         }
 
+        public static FileStream OpenStreamRead(this FsPath target)
+        {
+            return File.OpenRead(target.ToString());
+        }
+
         public static FileStream CreateStream(this FsPath target, ILog log)
         {
             string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
@@ -284,7 +289,7 @@ namespace BookGen.DomainServices
             }
         }
 
-        public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IList<(string prefix, string namespac)>? nslist = null) where T : class, new()
+        public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IReadOnlyList<(string prefix, string namespac)>? nslist = null) where T : class
         {
             try
             {

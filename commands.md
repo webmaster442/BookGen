@@ -403,6 +403,31 @@ Arguments:
     Auto generate tags from content files. For it to properly work the
     ÿBookLanguageÿ config has to be set correctly for the language of the book
 
+# Tasks
+
+Open the task runner menu
+
+`BookGen Tasks {-v} {-d [directory]} {-c}`
+`BookGen Tasks {--verbose} {--dir [directory]} {--create}`
+
+Your bookgen project can contain a tasks.xml file, where you can
+add various commands that help with your book building workflow.
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+-c, --create:
+    If the tasks.xml file doesn't exist in the project, then it creates a sample
+    one and opens the menu. You can edit the file via your editor of choice.
+    The sample tasks.xml is designed in a way, to introduce every feature of the 
+    task runner.
+
 # Version
 
 Print the current program and config API version

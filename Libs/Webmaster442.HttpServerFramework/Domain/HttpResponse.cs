@@ -77,7 +77,7 @@ public sealed class HttpResponse : IDisposable
     public async ValueTask Write(string text)
     {
         var txt = Encoding.UTF8.GetBytes(text);
-        var headers = Encoding.UTF8.GetBytes(PrepareHeaders(txt.Length));
+        var headers = Encoding.UTF8.GetBytes(PrepareHeaders(txt.Length+end.Length));
         if (_stream != null)
         {
 #pragma warning disable RCS1090 // Add call to 'ConfigureAwait' (or vice versa).

@@ -68,7 +68,7 @@ internal sealed class ArgumentBag : IEnumerable<string>
 
     public string? GetArgument(ArgumentAttribute argument)
     {
-        int notNullIndex = 0;
+        int notNullIndex = -1;
         for (int i = 0; i < _arguments.Length; i++)
         {
             if (_arguments[i] != null)

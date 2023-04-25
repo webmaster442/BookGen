@@ -10,7 +10,6 @@ and writing tasks with the help of Markdown.
 * BookGen.ShellHelper - Shell helper, used by BookGen shell
 * BookGen.Update - Update program
 * tidy - HTML Tidy, used by BookGen to prettify HTML, can be used as stand alone program
-* wpload - Wordpress site download & upload utility
 
 # Bookgen shell commands
 
