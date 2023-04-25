@@ -128,7 +128,5 @@ internal static class InitializerMethods
         ResourceHandler.ExtractKnownFile(KnownFile.BootstrapMinJs, assetsdir, log);
         ResourceHandler.ExtractKnownFile(KnownFile.JqueryMinJs, assetsdir, log);
         ResourceHandler.ExtractKnownFile(KnownFile.PopperMinJs, assetsdir, log);
-        ResourceHandler.ExtractKnownFile(KnownFile.TurbolinksJs, assetsdir, log);
-
     }
 }
