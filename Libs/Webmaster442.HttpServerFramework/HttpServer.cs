@@ -136,6 +136,8 @@ public sealed class HttpServer : IDisposable
         try
         {
             HttpRequest request = parser.ParseRequest(stream);
+            
+            if (string.IsNullOrEmpty(request.Url)) return;
 
             bool wasHandled = false;
             foreach (var handler in _handlers)
