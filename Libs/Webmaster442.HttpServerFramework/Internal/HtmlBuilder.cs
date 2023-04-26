@@ -49,9 +49,14 @@ internal sealed class HtmlBuilder
         AppendElement($"h{level}", text);
     }
 
-    internal void AppendHr()
+    public void AppendHr()
     {
         _content.Append("<hr/>");
+    }
+
+    public void AppendImage(string imgUrl, string altText = "")
+    {
+        _content.Append($"<img src=\"{imgUrl}\" alt=\"{altText}\"/>");
     }
 
     public void AppendPre(string text)

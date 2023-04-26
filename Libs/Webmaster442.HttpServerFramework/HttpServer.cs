@@ -14,13 +14,13 @@ namespace Webmaster442.HttpServerFramework;
 /// </summary>
 public sealed class HttpServer : IDisposable
 {
-    private TcpListener? _listner;
     private readonly IServerLog? _log;
-    private bool _canRun;
     private readonly HttpServerConfiguration _configuration;
     private readonly List<IRequestHandler> _handlers;
 
-    private int FreeClientSlots;
+    private TcpListener? _listner;
+    private bool _canRun;
+    private int _freeClientSlots;
 
     /// <summary>
     /// Predicate that can be used to impelement whitelist or blaclist
@@ -40,9 +40,15 @@ public sealed class HttpServer : IDisposable
         _configuration = configuration;
         _log = log;
         _handlers = new List<IRequestHandler>();
-        FreeClientSlots = configuration.MaxClients;
+        _freeClientSlots = configuration.MaxClients;
         _listner = new TcpListener(configuration.ListenAdress, configuration.Port);
     }
+
+    /// <summary>
+    /// Gets the Current configuration
+    /// </summary>
+    public HttpServerConfiguration Configuration
+        => _configuration;
 
     /// <summary>
     /// Add a handler that can process requests to the server
@@ -98,11 +104,11 @@ public sealed class HttpServer : IDisposable
                         }
                     }
 
-                if (FreeClientSlots > 0)
+                if (_freeClientSlots > 0)
                 {
-                    System.Threading.Interlocked.Decrement(ref FreeClientSlots);
+                    Interlocked.Decrement(ref _freeClientSlots);
                     await HandleClient(client);
-                    System.Threading.Interlocked.Increment(ref FreeClientSlots);
+                    Interlocked.Increment(ref _freeClientSlots);
                 }
                 else
                 {
