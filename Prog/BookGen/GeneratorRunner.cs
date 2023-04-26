@@ -229,6 +229,7 @@ internal class GeneratorRunner
                 Log.Info("-------------------------------------------------");
                 Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
                 Log.Info("Test server running on: http://localhost:8090/");
+                Log.Info("To get QR code for another device visit: http://localhost:8090/qrcodelink");
                 Log.Info("Serving from: {0}", _projectLoader.Configuration.TargetWeb.OutPutDirectory);
 
                 if (_appSettings.AutoStartWebserver)

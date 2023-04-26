@@ -6,7 +6,6 @@
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text.Encodings.Web;
 using System.Web;
 
 using Webmaster442.HttpServerFramework.Domain;
@@ -62,16 +61,29 @@ public class QrCodeLinkHandler : IRequestHandler
 
         const string title = "Link to this server";
         HtmlBuilder builder = new HtmlBuilder(title);
-        builder.AppendHeader(1, title);
-        builder.AppendHr();
 
-        builder.AppendParagraph("Scan this QR code to connect to this server");
+        builder
+            .AppendCss("#content { margin-left: 30px; }")
+            .AppendHeader(1, title)
+            .AppendHr()
+            .AppendBeginElement(Element.Div, "content")
+            .AppendParagraph("Scan this QR code to connect to this server")
+            .AppendBeginElement(Element.P)
+            .AppendLink("/", "Continue to server...")
+            .AppendEndElement(Element.P)
+            .AppendLineBreak();
 
         string data = $"http://{_address}:{_port}";
         string query = $"https://api.qrserver.com/v1/create-qr-code/?data={HttpUtility.UrlEncode(data)}&size=300x300";
-        builder.AppendImage(query, "Local server");
-        builder.AppendParagraph($"Or letenatively use this url: {data}");
-        builder.AppendParagraph("Note: This only works if the server and the device you are using is on the same network");
+        
+        builder
+            .AppendImage(query, "Local server")
+            .AppendParagraph($"Or letenatively use this url: {data}")
+            .AppendParagraph("Note: This only works if the server and the device you are using is on the same network")
+            .AppendEndElement(Element.Div);
+        
+        response.ContentType = "text/html";
+        response.ResponseCode = HttpResponseCode.Ok;
 
         await response.Write(builder.ToString());
 

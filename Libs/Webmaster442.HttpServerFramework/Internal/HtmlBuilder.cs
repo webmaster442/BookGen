@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2022 Ruzsinszki Gábor
+// Copyright (c) 2021-2023 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
@@ -36,35 +36,68 @@ internal sealed class HtmlBuilder
         _content.AppendLine($"</{element}>");
     }
 
-    public void AppendParagraph(string text)
+    public HtmlBuilder AppendParagraph(string text)
     {
         AppendElement("p", text);
+        return this;
     }
 
-    public void AppendHeader(int level, string text)
+    public HtmlBuilder AppendHeader(int level, string text)
     {
         if (level < 1 || level > 6)
             throw new ArgumentOutOfRangeException(nameof(level), "level must be between 1 and 6");
 
         AppendElement($"h{level}", text);
+        return this;
     }
 
-    public void AppendHr()
+    public HtmlBuilder AppendHr()
     {
         _content.Append("<hr/>");
+        return this;
     }
 
-    public void AppendImage(string imgUrl, string altText = "")
+    public HtmlBuilder AppendLineBreak()
+    {
+        _content.Append("<br/>");
+        return this;
+    }
+
+    public HtmlBuilder AppendImage(string imgUrl, string altText = "")
     {
         _content.Append($"<img src=\"{imgUrl}\" alt=\"{altText}\"/>");
+        return this;
     }
 
-    public void AppendPre(string text)
+    public HtmlBuilder AppendPre(string text)
     {
         AppendElement("pre", text);
+        return this;
     }
 
-    public void UnorderedList<T>(IEnumerable<T> enumerable, Func<T, string> itemSelector)
+    public HtmlBuilder AppendBeginElement(Element element, string id="")
+    {
+        if (string.IsNullOrEmpty(id))
+            _content.Append($"<{element.ToString().ToLower()}>");
+        else
+            _content.Append($"<{element.ToString().ToLower()} id=\"{id}\">");
+
+        return this;
+    }
+
+    public HtmlBuilder AppendEndElement(Element element)
+    {
+        _content.Append($"</{element.ToString().ToLower()}>");
+        return this;
+    }
+
+    public HtmlBuilder AppendLink(string url, string title)
+    {
+        _content.Append($"<a href=\"{url}\">{title}</a>");
+        return this;
+    }
+
+    public HtmlBuilder UnorderedList<T>(IEnumerable<T> enumerable, Func<T, string> itemSelector)
     {
         _content.AppendLine("<ul>");
         foreach (var item in enumerable)
@@ -74,6 +107,15 @@ internal sealed class HtmlBuilder
             _content.Append("</li>");
         }
         _content.AppendLine("</ul>");
+        return this;
+    }
+
+    public HtmlBuilder AppendCss(string css)
+    {
+        _content.AppendLine("<style type=\"text/css\">");
+        _content.AppendLine(css);
+        _content.AppendLine("</style>");
+        return this;
     }
 
     private void CloseHtml()

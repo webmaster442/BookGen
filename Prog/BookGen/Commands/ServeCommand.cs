@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.CommandArguments;
 using BookGen.Framework;
 using BookGen.Framework.Server;
@@ -35,9 +36,10 @@ internal class ServeCommand : Command<BookGenArgumentBase>
             using (HttpServer? server = HttpServerFactory.CreateServerForServModule(_serverLog, arguments.Directory))
             {
                 server.Start();
-                Console.WriteLine("Serving: {0}", arguments.Directory);
-                Console.WriteLine("Server running on http://localhost:8081");
-                Console.WriteLine("Press a key to exit...");
+                _log.Info("Serving: {0}", arguments.Directory);
+                _log.Info("Server running on http://localhost:8081");
+                _log.Info("To get QR code for another device visit: http://localhost:8081/qrcodelink");
+                _log.Info("Press a key to exit...");
                 Console.ReadLine();
                 server.Stop();
             }

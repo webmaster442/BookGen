@@ -24,6 +24,7 @@ internal static class HttpServerFactory
         }, log);
 
         server.RegisterHandler(new FileServeHandler(folder, false, "/"));
+        server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
     }
@@ -42,6 +43,7 @@ internal static class HttpServerFactory
         }, log);
 
         server.RegisterHandler(new FileServeHandler(folder, true, "/"));
+        server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
     }
@@ -62,6 +64,7 @@ internal static class HttpServerFactory
 
         server.RegisterHandler(new PreviewStaticHandler());
         server.RegisterHandler(new PreviewRenderHandler(directory, log));
+        server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
     }

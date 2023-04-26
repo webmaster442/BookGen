@@ -33,6 +33,7 @@ internal class PreviewCommand : Command<BookGenArgumentBase>
             server.Start();
             _log.Info("-------------------------------------------------");
             _log.Info("Test server running on: {0}", url);
+            _log.Info($"To get QR code for another device visit: {url}/qrcodelink");
             _log.Info("Serving from: {0}", arguments.Directory);
 
             if (_appSettings.AutoStartWebserver)
