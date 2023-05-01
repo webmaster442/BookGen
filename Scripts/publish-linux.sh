@@ -7,3 +7,7 @@ cd bin/publish-linux
 ./BookGen Md2HTML -i ../../Commands.md -ns -o Commands.html
 ./BookGen Md2HTML -i ../../Changelog.md -ns -o ChangeLog.html
 ./BookGen Md2HTML -i ../../notes.md -ns -o RelaseNotes.html
+cd bin/publish-linux
+zip -r ../publish-linux.zip .
+cd ..
+sha256sum publish-linux.zip > linux-hash.txt

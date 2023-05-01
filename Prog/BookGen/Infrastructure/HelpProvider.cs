@@ -29,7 +29,7 @@ internal class HelpProvider : IHelpProvider
     {
         var lines =
             ResourceHandler.GetResourceFile<HelpProvider>("Resources/Commands.md")
-            .Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            .Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
         List<string> chapterData = new(50);
         string? currentChapter = null;
