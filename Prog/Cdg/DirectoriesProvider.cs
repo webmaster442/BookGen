@@ -4,13 +4,41 @@ namespace Cdg;
 
 internal class DirectoriesProvider
 {
+    private readonly Dictionary<string, string> _knownFolders;
+
+    public DirectoriesProvider()
+    {
+        _knownFolders = new Dictionary<string, string>();
+        foreach (var folder in Enum.GetValues<Environment.SpecialFolder>().Distinct())
+        {
+            string path = Environment.GetFolderPath(folder);
+            if (!string.IsNullOrEmpty(path))
+            {
+                _knownFolders.Add($"|-{folder}", path);
+            }
+        }
+    }
+
     public static bool PathIsRootDirString(string input) => input == nameof(Resources._MenuSelectorRootDir_30);
 
     public static bool PathIsCurrentDirString(string input) => input == nameof(Resources._MenuSelectorCurrentDir_10);
 
-    public static bool PathIsHomeDirString(string selected) => selected == nameof(Resources._MenuSelectorHomeDir_35);
+    public static bool PathIsHomeDirString(string input) => input == nameof(Resources._MenuSelectorHomeDir_35);
 
-    public static bool TryUpOneDir(string dir, string path, out string oneDirUp)
+    public static bool PathIsKnownDirsString(string input) => input == nameof(Resources._MenuSelectorKnownDirs_40);
+
+    public bool TryKnownFolder(string selected, out string newFolder)
+    {
+        if (_knownFolders.ContainsKey(selected))
+        {
+            newFolder = _knownFolders[selected];
+            return true;
+        }
+        newFolder = string.Empty;
+        return false;
+    }
+
+    public bool TryUpOneDir(string dir, string path, out string oneDirUp)
     {
         if (dir == nameof(Resources._MenuSelectorUpOneDir_20))
         {
@@ -30,11 +58,15 @@ internal class DirectoriesProvider
         return false;
     }
 
-    public static IEnumerable<string> GetSubdirs(string workDir, bool showHidden)
+    public IEnumerable<string> GetSubdirs(string workDir, bool showHidden)
     {
         if (PathIsRootDirString(workDir))
         {
             return GetDrives();
+        }
+        else if (PathIsKnownDirsString(workDir))
+        {
+            return _knownFolders.Select(x => x.Key.ToString()).Order();
         }
         return GetDirectories(workDir, showHidden);
     }

@@ -38,6 +38,7 @@ internal class DirectorySelectorMenu
         yield return nameof(Resources._MenuSelectorUpOneDir_20);
         yield return nameof(Resources._MenuSelectorRootDir_30);
         yield return nameof(Resources._MenuSelectorHomeDir_35);
+        yield return nameof(Resources._MenuSelectorKnownDirs_40);
     }
 
 

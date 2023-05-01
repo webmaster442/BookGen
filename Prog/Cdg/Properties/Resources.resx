@@ -135,6 +135,9 @@
   <data name="_MenuSelectorHomeDir_35" xml:space="preserve">
     <value>[[ Jump to home ~ ]]</value>
   </data>
+  <data name="_MenuSelectorKnownDirs_40" xml:space="preserve">
+    <value>[[Known Folders ?]]</value>
+  </data>
   <data name="_MenuSelectorRootDir_30" xml:space="preserve">
     <value>[[Jump to root /]]</value>
   </data>

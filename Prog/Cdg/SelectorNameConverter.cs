@@ -25,6 +25,7 @@ internal class SelectorNameConverter
             nameof(Resources._MenuSelectorUpOneDir_20) => Resources._MenuSelectorUpOneDir_20,
             nameof(Resources._MenuSelectorRootDir_30) => Resources._MenuSelectorRootDir_30,
             nameof(Resources._MenuSelectorHomeDir_35) => Resources._MenuSelectorHomeDir_35,
+            nameof(Resources._MenuSelectorKnownDirs_40) => Resources._MenuSelectorKnownDirs_40,
             _ => Path.GetFileName(arg) == string.Empty ? arg : Path.GetFileName(arg),
         };
     }

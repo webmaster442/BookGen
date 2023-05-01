@@ -79,6 +79,15 @@ namespace Cdg.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [[Known Folders ?]].
+        /// </summary>
+        internal static string _MenuSelectorKnownDirs_40 {
+            get {
+                return ResourceManager.GetString("_MenuSelectorKnownDirs_40", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [[Jump to root /]].
         /// </summary>
         internal static string _MenuSelectorRootDir_30 {

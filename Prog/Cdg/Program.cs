@@ -2,6 +2,7 @@
 
 using Spectre.Console;
 
+var directories = new DirectoriesProvider();
 var selector = new DirectorySelectorMenu(Environment.CurrentDirectory);
 
 while (true)
@@ -9,7 +10,7 @@ while (true)
     try
     {
         AnsiConsole.Clear();
-        IEnumerable<string> items = DirectoriesProvider.GetSubdirs(selector.CurrentPath, false);
+        IEnumerable<string> items = directories.GetSubdirs(selector.CurrentPath, false);
         SelectionPrompt<string> menu = selector.CreateSelection(items);
         string selected = await menu.ShowAsync(AnsiConsole.Console, CancellationToken.None);
 
@@ -22,7 +23,11 @@ while (true)
         {
             selector.CurrentPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         }
-        else if (DirectoriesProvider.TryUpOneDir(selected, selector.CurrentPath, out string newPath))
+        else if (directories.TryKnownFolder(selected, out string newPath))
+        {
+            selector.CurrentPath = newPath;
+        }
+        else if (directories.TryUpOneDir(selected, selector.CurrentPath, out newPath))
         {
             selector.CurrentPath = newPath;
         }
