@@ -27,6 +27,26 @@ namespace BookGen.Resources
 
         }
 
+        public static IReadOnlyList<string> GetResourceFileLines<T>(string file)
+        {
+            List<string> lines = new();
+
+            using (Stream? stream = GetResourceStream<T>(file))
+            {
+                if (stream == null)
+                {
+                    throw new InvalidOperationException("Could not load manifest resource stream.");
+                }
+                using (var reader = new StreamReader(stream))
+                {
+                    string? line;
+                    while ((line = reader.ReadLine()) != null)
+                        lines.Add(line);
+                }
+            }
+            return lines;
+        }
+
         public static string GetResourceFile<T>(string file)
         {
             using (Stream? stream = GetResourceStream<T>(file))

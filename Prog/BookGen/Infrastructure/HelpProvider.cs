@@ -28,8 +28,7 @@ internal class HelpProvider : IHelpProvider
     private void LoadHelpData()
     {
         var lines =
-            ResourceHandler.GetResourceFile<HelpProvider>("Resources/Commands.md")
-            .Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            ResourceHandler.GetResourceFileLines<HelpProvider>("Resources/Commands.md");
 
         List<string> chapterData = new(50);
         string? currentChapter = null;
