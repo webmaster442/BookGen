@@ -34,13 +34,7 @@
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
   </ItemGroup>
   <ItemGroup>
-		<Compile Remove="DefaultTemplate\**" />
-		<EmbeddedResource Remove="DefaultTemplate\**" />
-		<None Remove="DefaultTemplate\**" />
 		<EmbeddedResource Include="..\..\Commands.md" Link="Resources\Commands.md" />
-		<None Include="..\..\LICENCE">
-			<Pack>True</Pack>
-		</None>
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.31.0" />
