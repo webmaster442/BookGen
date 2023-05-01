@@ -47,7 +47,7 @@ internal class DirectorySelectorMenu
     }
 
 
-    private string DisplayPath(string currentPath)
+    private static string DisplayPath(string currentPath)
     {
         return currentPath switch
         {
