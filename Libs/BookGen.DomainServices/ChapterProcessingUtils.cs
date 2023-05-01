@@ -82,7 +82,7 @@ namespace BookGen.DomainServices
 
             foreach (Chapter? chapter in chapters)
             {
-                buffer.AppendFormat("## {0}\r\n", chapter.Title);
+                buffer.AppendFormat("## {0}{1}", chapter.Title, Environment.NewLine);
                 foreach (string? file in chapter.Files)
                 {
                     var path = new FsPath(workDir, file);

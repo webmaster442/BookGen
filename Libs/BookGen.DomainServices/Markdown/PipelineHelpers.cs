@@ -19,14 +19,14 @@ namespace BookGen.DomainServices.Markdown
         public static void AppendPrismCss(MarkdownDocument document, bool isPrinting = false)
         {
             var content = new StringBuilder();
-            content.Append("<style type=\"text/css\">\r\n");
+            content.AppendLine("<style type=\"text/css\">");
 
             if (isPrinting)
                 content.Append(Resources.ResourceHandler.GetFile(Resources.KnownFile.PrismPrintCss));
             else
                 content.Append(Resources.ResourceHandler.GetFile(Resources.KnownFile.PrismCss));
 
-            content.Append("</style>\r\n");
+            content.AppendLine("</style>");
             var block = new HtmlBlock(new HtmlBlockParser());
             block.Lines = new Markdig.Helpers.StringLineGroup(content.ToString());
             document.Insert(0, block);

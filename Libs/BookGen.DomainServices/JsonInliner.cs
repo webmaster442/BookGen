@@ -45,7 +45,7 @@ namespace BookGen.DomainServices
             pythonBuilder.AppendLine("class Deserialize(object):");
             pythonBuilder.AppendLine("    def __init__(self, j):");
             pythonBuilder.AppendLine("          self.__dict__ = json.loads(j)");
-            pythonBuilder.AppendFormat("{0} = Deserialize('{1}')\r\n", variableName, json);
+            pythonBuilder.AppendFormat("{0} = Deserialize('{1}'){2}", variableName, json, Environment.NewLine);
             return pythonBuilder.ToString();
         }
     }

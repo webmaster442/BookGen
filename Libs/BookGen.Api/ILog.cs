@@ -63,7 +63,7 @@ namespace BookGen.Api
         /// </summary>
         /// <param name="ex">Exception to log</param>
         void Critical(Exception ex)
-            => Log(LogLevel.Critical, "{0}\r\n{1}", ex.Message, ex.StackTrace ?? string.Empty);
+            => Log(LogLevel.Critical, "{0}{1}{2}", ex.Message, Environment.NewLine, ex.StackTrace ?? string.Empty);
 
         /// <summary>
         /// Log a warning message.

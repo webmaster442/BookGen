@@ -127,7 +127,7 @@ namespace BookGen.DomainServices.Markdown
                         result.Append(" ");
                     }
                 }
-                result.Append("\r\n");
+                result.AppendLine();
                 ++insetedRow;
             }
 
@@ -164,7 +164,7 @@ namespace BookGen.DomainServices.Markdown
                     result.Append(" ");
                 }
             }
-            result.Append("\r\n");
+            result.AppendLine();
         }
 
         private bool ContainsDividerRow(IEnumerable<string> columns)

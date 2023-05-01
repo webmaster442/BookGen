@@ -28,8 +28,8 @@ public class BookGenTaskFactory
                         new ShellCommands
                         {
                             ShellType = ShellType.Powershell,
-                            Commands = "git add .\r\n"+
-                                   "git commit -m \"$Env:gitcommitmsg\"\r\n"+
+                            Commands = $"git add .{Environment.NewLine}"+
+                                   "git commit -m \"$Env:gitcommitmsg\"" +Environment.NewLine +
                                    "git push"
                         }
                     }
