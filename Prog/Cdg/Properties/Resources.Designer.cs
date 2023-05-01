@@ -61,7 +61,7 @@ namespace Cdg.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [[Select current  directory ►]].
+        ///   Looks up a localized string similar to [red italic][[Select current  directory ►]][/].
         /// </summary>
         internal static string _MenuSelectorCurrentDir_10 {
             get {
@@ -70,7 +70,7 @@ namespace Cdg.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [[ Jump to home ~ ]].
+        ///   Looks up a localized string similar to [yellow][[Jump to home ~]][/].
         /// </summary>
         internal static string _MenuSelectorHomeDir_35 {
             get {
@@ -79,7 +79,7 @@ namespace Cdg.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [[Known Folders ?]].
+        ///   Looks up a localized string similar to [lime][[Known Folders ~]][/].
         /// </summary>
         internal static string _MenuSelectorKnownDirs_40 {
             get {
@@ -88,7 +88,7 @@ namespace Cdg.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [[Jump to root /]].
+        ///   Looks up a localized string similar to [fuchsia][[Jump to root /]][/].
         /// </summary>
         internal static string _MenuSelectorRootDir_30 {
             get {
@@ -97,7 +97,7 @@ namespace Cdg.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [[Up one directory ▲]].
+        ///   Looks up a localized string similar to [olive][[Up one directory ▲]][/].
         /// </summary>
         internal static string _MenuSelectorUpOneDir_20 {
             get {

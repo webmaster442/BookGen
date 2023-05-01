@@ -130,18 +130,18 @@
     <value>Drives</value>
   </data>
   <data name="_MenuSelectorCurrentDir_10" xml:space="preserve">
-    <value>[[Select current  directory ►]]</value>
+    <value>[red italic][[Select current  directory ►]][/]</value>
   </data>
   <data name="_MenuSelectorHomeDir_35" xml:space="preserve">
-    <value>[[ Jump to home ~ ]]</value>
+    <value>[yellow][[Jump to home ~]][/]</value>
   </data>
   <data name="_MenuSelectorKnownDirs_40" xml:space="preserve">
-    <value>[[Known Folders ?]]</value>
+    <value>[lime][[Known Folders ~]][/]</value>
   </data>
   <data name="_MenuSelectorRootDir_30" xml:space="preserve">
-    <value>[[Jump to root /]]</value>
+    <value>[fuchsia][[Jump to root /]][/]</value>
   </data>
   <data name="_MenuSelectorUpOneDir_20" xml:space="preserve">
-    <value>[[Up one directory ▲]]</value>
+    <value>[olive][[Up one directory ▲]][/]</value>
   </data>
 </root>

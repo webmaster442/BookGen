@@ -1,7 +1,15 @@
-﻿using Cdg;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Cli;
+
+using Cdg;
 
 using Spectre.Console;
 
+var arguments = new ArgumentParser<CdgArguments>().Parse(args);
 var directories = new DirectoriesProvider();
 var selector = new DirectorySelectorMenu(Environment.CurrentDirectory);
 
@@ -10,7 +18,7 @@ while (true)
     try
     {
         AnsiConsole.Clear();
-        IEnumerable<string> items = directories.GetSubdirs(selector.CurrentPath, false);
+        IEnumerable<string> items = directories.GetSubdirs(selector.CurrentPath, arguments.ShowHidden);
         SelectionPrompt<string> menu = selector.CreateSelection(items);
         string selected = await menu.ShowAsync(AnsiConsole.Console, CancellationToken.None);
 

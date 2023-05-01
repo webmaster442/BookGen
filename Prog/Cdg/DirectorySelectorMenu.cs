@@ -1,4 +1,9 @@
-﻿using Cdg.Properties;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Cdg.Properties;
 
 using Spectre.Console;
 
