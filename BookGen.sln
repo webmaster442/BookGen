@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141-F5F9-44DD-A4D1-57ED6647993F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		BookGenShell.ps1 = BookGenShell.ps1
 		Changelog.md = Changelog.md
 		Commands.md = Commands.md
 		getting-started.md = getting-started.md

@@ -1,21 +1,15 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 2.4
-# Last modified: 2022-06-27
+# Version 2.5
+# Last modified: 2023-05-01
 # -----------------------------------------------------------------------------
 
 # cdg command
 function cdg()
 {
-    [void] [System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms')
-    $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog -Property @{
-        ShowNewFolderButton = $false
-		SelectedPath = $(Get-Location).Path
-        Description = "Select Folder"
-    }
-    [void] $FolderBrowserDialog.ShowDialog(((New-Object System.Windows.Forms.Form -Property @{TopMost = $true })))
-    Push-Location $FolderBrowserDialog.SelectedPath
-	$FolderBrowserDialog.Dispose()
+    cdg.exe
+    $location = [Environment]::GetEnvironmentVariable('cdgPath', 'User')
+    Push-Location $location
 }
 
 function bookgen-info()

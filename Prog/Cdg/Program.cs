@@ -24,7 +24,7 @@ while (true)
 
         if (DirectoriesProvider.PathIsCurrentDirString(selected))
         {
-            AnsiConsole.WriteLine(selector.CurrentPath);
+            Environment.SetEnvironmentVariable("cdgPath", selector.CurrentPath, EnvironmentVariableTarget.User);
             Environment.Exit(0);
         }
         else if (DirectoriesProvider.PathIsHomeDirString(selected))
