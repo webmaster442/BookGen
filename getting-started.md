@@ -6,10 +6,13 @@ and writing tasks with the help of Markdown.
 # Installed programs
 
 * BookGen - Main command line program
-* BookGen.Launcher - Graphical launcher
+* BookGen.Launcher - Graphical launcher - Not available on Linux
 * BookGen.ShellHelper - Shell helper, used by BookGen shell
-* BookGen.Update - Update program
+* BookGen.Update - Update program - Not available on Linux
 * tidy - HTML Tidy, used by BookGen to prettify HTML, can be used as stand alone program
+
+Note: tidy is only bundled with the Windows release. On linux install it with your
+package manager or download from: https://www.html-tidy.org/
 
 # Bookgen shell commands
 
