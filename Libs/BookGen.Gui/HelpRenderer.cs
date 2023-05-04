@@ -70,7 +70,7 @@ public static class HelpRenderer
 
         AnsiConsole.WriteLine();
         AnsiConsole.MarkupInterpolated($"[teal]{currentPage + 1} of {pages}[/]");
-        AnsiConsole.Markup(" [silver]ESC: Exit, <- Prev, Next ->[/]{Environment.NewLine}");
+        AnsiConsole.MarkupInterpolated($" [silver]ESC: Exit, <- Prev, Next ->[/]{Environment.NewLine}");
     }
 
     private static int CalculatePage(int currentPage, int pages, int offset)

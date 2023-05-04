@@ -90,6 +90,7 @@ internal class GeneratorRunner
         }
         else
         {
+            Log.Flush();
             Environment.Exit((int)ExitCode.BadConfiguration);
             return false;
         }

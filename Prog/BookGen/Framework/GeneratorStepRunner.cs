@@ -81,13 +81,13 @@ internal abstract class GeneratorStepRunner : IDisposable
     {
         Settings.OutputDirectory = ConfigureOutputDirectory(Settings.SourceDirectory);
         var sw = new Stopwatch();
-        ConsoleProgressbar progressbar = new(0, _steps.Count);
+        ConsoleProgressbar progressbar = new(0, _steps.Count, _log is not JsonLog);
         sw.Start();
         string stepName = string.Empty;
         try
         {
             progressbar.SwitchBuffers();
-            _logListen = true;
+            _logListen = _log is not JsonLog;
             int stepCounter = 1;
             foreach (IGeneratorStep? step in _steps)
             {

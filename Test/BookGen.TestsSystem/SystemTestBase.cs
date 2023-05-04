@@ -37,7 +37,7 @@ namespace BookGen.TestsSystem
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.FileName = GetFileName();
-            process.StartInfo.Arguments = $"{commandLine} -js -nw";
+            process.StartInfo.Arguments = $"{commandLine} -js";
             process.StartInfo.WorkingDirectory = _workDir;
             process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
             process.Start();
@@ -47,7 +47,7 @@ namespace BookGen.TestsSystem
             if ((int)expectedExitCode != process.ExitCode)
             {
                 string? logmsg = GetLastLogMsg();
-                Assert.Fail(logmsg);
+                Assert.Fail(logmsg+$"\r\nExit code: {process.ExitCode}");
             }
         }
 

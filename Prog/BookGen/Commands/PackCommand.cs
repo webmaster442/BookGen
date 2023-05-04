@@ -6,6 +6,7 @@
 using System.IO.Compression;
 
 using BookGen.CommandArguments;
+using BookGen.Framework;
 using BookGen.Gui;
 using BookGen.ProjectHandling;
 
@@ -57,7 +58,7 @@ internal class PackCommand : Command<PackArguments>
         if (projectFiles.tasks.IsExisting)
             filesToPack.Add(projectFiles.tasks.ToString());
 
-        ConsoleProgressbar progressbar = new(0, filesToPack.Count);
+        ConsoleProgressbar progressbar = new(0, filesToPack.Count, _log is not JsonLog);
 
         try
         {
