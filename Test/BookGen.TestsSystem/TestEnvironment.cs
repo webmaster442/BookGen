@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using NUnit.Framework;
+
 using System.IO;
 
 namespace BookGen.TestsSystem
@@ -12,9 +13,10 @@ namespace BookGen.TestsSystem
     {
         private readonly string _workDir;
 
-        public void AssertFileExistsAndHasContents(string file)
+        public void AssertFileExistsAndHasContents(params string[] file)
         {
-            var f = new FileInfo(Path.Combine(_workDir, file));
+            var filePath = Path.Combine(file);
+            var f = new FileInfo(Path.Combine(_workDir, filePath));
             Assert.IsTrue(f.Exists);
             Assert.IsTrue(f.Length > 0);
         }
@@ -29,9 +31,22 @@ namespace BookGen.TestsSystem
             _workDir = workDir;
         }
 
+        internal void DeleteDir(string directory)
+        {
+            string path = Path.Combine(_workDir, directory);
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
+        }
+
         internal void DeleteFile(string file)
         {
-            File.Delete(Path.Combine(_workDir, file));
+            string path = Path.Combine(_workDir, file);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
         }
     }
 }

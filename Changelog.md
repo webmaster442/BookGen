@@ -1,19 +1,24 @@
-# 2023. - Not yet released -
+# 2023. 05. 06
 * New: GUI has been reworked. Instead of Terminal.GUI Spectre.Console is used
 * New: Pack subcommand to pack the book source into a zip file
 * New: Download command, to quickly download files from the internet to your project
 * New: Tasks command, which allows running additional tasks & customizing workflow
-* Change: Default console log uses Spectre.Console for ouput. This produces more colorfull output
+* New: Web server now has a dedicated page to make it easier to connect to it, from other devices
+* New: Linux build (experimental)
+* Change: The Shell's cdg command is now implemented as terminal UI program with more features
+* Change: Various fixes to support building and running on Linux distributions 
+* Change: Default console log uses Spectre.Console for output. This produces more colourful output
 * Change: Reworked subcommand architecture
-* Change: Removed & cleaned up nuget package dependencies
+* Change: Removed & cleaned up NuGet package dependencies
 * Change: Test server port is now 8090
 * Change: Removed WP-Load program
 * Change: Removed Chapters command
 * Change: Removed InstallPS Autocomplete command
 * Change: Removed support for VS tasks
+* Fix: Various Web sever stability fixes & improvements
 * Fix: E-pub build time has been reduced
-* Fix: Fixes a bug, which caused the progressbar messages while building not always readable
-* Fix: BookGen shell color scheme adjusted in windows terminal for better readability
+* Fix: Fixes a bug, which caused the progress bar messages while building not always readable
+* Fix: BookGen shell colour scheme adjusted in windows terminal for better readability
 
 # 2023.01.12
 * New: Rewrote launcher, looks a bit better & has built in preview function
@@ -21,11 +26,11 @@
 * New: Output type for post processing (experimental)
 * New: QR code generator module (Requires internet connection to work)
 * New: Print output produces an XHTML file too, with embedded CSS rules for better compatibility with word processing 
-* New: JSON schema for config and tags available
+* New: JSON schema for configuration and tags available
 * New: Tags module can now auto extract tags with RAKE if needed
 * Change: Reworked preview module, now has a basic markdown editor
-* Change: BookGen now ships with .NET, no need to install it sepperately
-* Change: Updater now is a seperate program.
+* Change: BookGen now ships with .NET, no need to install it separately
+* Change: Updater now is a separate program.
 * Change: Removed markdown editor from launcher
 * Change: Json output from now on doesn't encode non ASCII chars specially.
 * Change: Better XHTML output for e-Pub generation with the use of HTMLTidy
@@ -48,14 +53,14 @@
 * Change: Md2HTML default template handles print better
 * Change: Windows terminal profile has now a distinct theme
 * Change: Windows terminal profile now uses powershell core, if installed
-* Change: Laucnher has now a built in command documentation
+* Change: Launcher has now a built in command documentation
 * Fix: Console Gui memory leaks
 * Fix: Updated wiki documentation
 
 # 2022.05.23
 * New: Better, simplistic icon
 * New: Wpload implements download feature
-* New: Installs as windows termninal fragment, if Windows terminal is installed
+* New: Installs as windows terminal fragment, if Windows terminal is installed
 * New: cdg command in shell, to graphically change workdir.
 * Fix: printable html generation
 * Fix: exiting gui properly deletes the folderlock

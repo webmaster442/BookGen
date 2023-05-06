@@ -36,7 +36,8 @@ namespace BookGen.DomainServices.Markdown
                 md.Append(":--");
                 md.Append(" ");
             }
-            md.Append("|\r\n");
+            md.Append("|");
+            md.AppendLine();
         }
 
         private static void WriteRow(StringBuilder md, string[] columns)
@@ -47,7 +48,7 @@ namespace BookGen.DomainServices.Markdown
                 md.Append(column);
                 md.Append(" ");
             }
-            md.Append("|\r\n");
+            md.AppendLine();
         }
 
         private static List<string[]> ParseTable(string input, char delimiter)

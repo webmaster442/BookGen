@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.InteropServices;
+using System.Text;
 
 namespace BookGen.DomainServices
 {
@@ -11,9 +12,16 @@ namespace BookGen.DomainServices
 
         public HtmlTidy()
         {
-            _tidyPath = Path.Combine(AppContext.BaseDirectory, TidyName);
-            if (!File.Exists(_tidyPath))
-                throw new InvalidOperationException("tidy can't be found");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                _tidyPath = Path.Combine(AppContext.BaseDirectory, TidyName);
+                if (!File.Exists(_tidyPath))
+                    throw new InvalidOperationException("tidy can't be found");
+            }
+            else
+            {
+                _tidyPath = "/usr/bin/tidy";
+            }
 
             _tagreplacements = new Dictionary<string, string>()
             {
@@ -26,6 +34,11 @@ namespace BookGen.DomainServices
                 { "section", "div" },
                 { "figcaption", "p" }
             };
+        }
+
+        public bool IsInstalled()
+        {
+            return File.Exists(_tidyPath);
         }
 
         public string ConvertHtml5TagsToXhtmlCompatible(string input)

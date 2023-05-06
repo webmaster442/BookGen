@@ -6,6 +6,8 @@
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 
+using Microsoft.CodeAnalysis;
+
 namespace BookGen.GeneratorSteps.Epub;
 
 internal sealed class CreateEpubPages : ITemplatedStep
@@ -62,11 +64,24 @@ internal sealed class CreateEpubPages : ITemplatedStep
             MaxDegreeOfParallelism = 5,
         };
 
-        Parallel.ForEach(tidyCache, options, toTidy =>
+        if (tidy.IsInstalled())
         {
-            string replaced = tidy.ConvertHtml5TagsToXhtmlCompatible(toTidy.Value);
-            string html = tidy.HtmlToXhtml(replaced);
-            toTidy.Key.WriteFile(log, html);
-        });
+            Parallel.ForEach(tidyCache, options, toTidy =>
+            {
+                string replaced = tidy.ConvertHtml5TagsToXhtmlCompatible(toTidy.Value);
+                string html = tidy.HtmlToXhtml(replaced);
+                toTidy.Key.WriteFile(log, html);
+            });
+        }
+        else
+        {
+            log.Warning("HtmlTidy not found, skipping tidy step");
+            Parallel.ForEach(tidyCache, options, toTidy =>
+            {
+                string replaced = tidy.ConvertHtml5TagsToXhtmlCompatible(toTidy.Value);
+                toTidy.Key.WriteFile(log, replaced);
+            });
+
+        }
     }
 }

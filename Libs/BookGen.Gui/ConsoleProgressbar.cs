@@ -14,9 +14,11 @@ namespace BookGen.Gui
         public int Minimum { get; }
 
         private bool _alternateBuffer;
+        private readonly bool _enabled;
 
         public void SwitchBuffers()
         {
+            if (!_enabled) return;
             if (!_alternateBuffer)
             {
                 //entering
@@ -30,19 +32,22 @@ namespace BookGen.Gui
             _alternateBuffer = !_alternateBuffer;
         }
 
-        public ConsoleProgressbar(int minumum, int maximum)
+        public ConsoleProgressbar(int minumum, int maximum, bool enabled)
         {
             Minimum = minumum;
             Maximum = maximum;
+            _enabled = enabled;
         }
 
         public void Report(int value)
         {
+            if (!_enabled) return;
             Report(value, string.Empty);
         }
 
         public void Report(int value, string message, params object[] args)
         {
+            if (!_enabled) return;
             AnsiConsole.Clear();
             int range = Maximum - Minimum;
             int maxChars = Console.WindowWidth - "   ││   ".Length;
@@ -69,6 +74,7 @@ namespace BookGen.Gui
 
         public void Report(IEnumerable<string> value)
         {
+            if (!_enabled) return;
             foreach (string? item in value)
             {
                 AnsiConsole.WriteLine(item);

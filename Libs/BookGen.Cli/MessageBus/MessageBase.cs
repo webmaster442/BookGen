@@ -18,6 +18,6 @@ public abstract class MessageBase
 
     public override string ToString()
     {
-        return $"DispatchTime: {DispatchTime}\r\nSender: {SenderId}";
+        return $"DispatchTime: {DispatchTime}{Environment.NewLine}Sender: {SenderId}";
     }
 }

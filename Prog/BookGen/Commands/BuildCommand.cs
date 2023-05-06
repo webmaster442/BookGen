@@ -59,6 +59,7 @@ internal class BuildCommand : Command<BuildArguments>
                     break;
             }
 
+            _log.Flush();
             return Constants.Succes;
         }
     }

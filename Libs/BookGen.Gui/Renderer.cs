@@ -152,7 +152,7 @@ public sealed class Renderer
 
     public void DisplayPath(string title, string path)
     {
-        _console.MarkupInterpolated($"{title} [green]{path}[/]\r\n");
+        _console.MarkupInterpolated($"{title} [green]{path}[/]{Environment.NewLine}");
     }
 
     public void DisplayImage(Stream img)

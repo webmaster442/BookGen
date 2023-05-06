@@ -16,6 +16,6 @@ public class SimpleMessage<T> : MessageBase
 
     public override string ToString()
     {
-        return $"DispatchTime: {DispatchTime}\r\nSender: {SenderId}\r\nPayload: {Payload}";
+        return $"DispatchTime: {DispatchTime}{Environment.NewLine}Sender: {SenderId}{Environment.NewLine}Payload: {Payload}";
     }
 }

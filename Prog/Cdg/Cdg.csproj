@@ -1,24 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
     <ApplicationIcon>..\..\Icon.ico</ApplicationIcon>
     <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Version>$([System.DateTime]::UtcNow.ToString("yyyy")).$([System.DateTime]::UtcNow.ToString("MM")).$([System.DateTime]::UtcNow.ToString("dd")).0</Version>
     <AssemblyVersion>$([System.DateTime]::UtcNow.ToString("yyyy")).$([System.DateTime]::UtcNow.ToString("MM")).$([System.DateTime]::UtcNow.ToString("dd")).0</AssemblyVersion>
     <FileVersion>$([System.DateTime]::UtcNow.ToString("yyyy")).$([System.DateTime]::UtcNow.ToString("MM")).$([System.DateTime]::UtcNow.ToString("dd")).0</FileVersion>
   </PropertyGroup>
 
-
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\BookGen.DomainServices\BookGen.DomainServices.csproj" />
+    <PackageReference Include="Spectre.Console" Version="0.46.0" />
+    <PackageReference Include="Spectre.Console.Analyzer" Version="0.46.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libs\BookGen.Cli\BookGen.Cli.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -26,18 +34,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
-    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1722.45" />
-    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,13 +41,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 
 </Project>

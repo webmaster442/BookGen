@@ -15,11 +15,11 @@ public static class HelpRenderer
         foreach (var line in pageContent)
         {
             if (line.StartsWith("# "))
-                AnsiConsole.MarkupInterpolated($"[green bold]{line}[/]\r\n");
+                AnsiConsole.MarkupInterpolated($"[green bold]{line}[/]{Environment.NewLine}");
             else if (line.StartsWith("`") || line.EndsWith("`"))
-                AnsiConsole.MarkupInterpolated($"[aqua]{line}[/]\r\n");
+                AnsiConsole.MarkupInterpolated($"[aqua]{line}[/]{Environment.NewLine}");
             else
-                AnsiConsole.MarkupInterpolated($"[italic]{line}[/]\r\n");
+                AnsiConsole.MarkupInterpolated($"[italic]{line}[/]{Environment.NewLine}");
         }
     }
 
@@ -70,7 +70,7 @@ public static class HelpRenderer
 
         AnsiConsole.WriteLine();
         AnsiConsole.MarkupInterpolated($"[teal]{currentPage + 1} of {pages}[/]");
-        AnsiConsole.Markup(" [silver]ESC: Exit, <- Prev, Next ->[/]\r\n");
+        AnsiConsole.MarkupInterpolated($" [silver]ESC: Exit, <- Prev, Next ->[/]{Environment.NewLine}");
     }
 
     private static int CalculatePage(int currentPage, int pages, int offset)
