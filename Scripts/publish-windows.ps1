@@ -13,7 +13,7 @@ Write-Host "Updating Getting started doc"
 Show-Markdown getting-started.md > Libs\BookGen.Contents\getting-started.mdr
 
 Write-Host "Publish..."
-dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true --self-contained true -o bin\publish\
+dotnet publish BookGen.sln -c Release -r win-x64 -p:PublishReadyToRun=true --self-contained true -o bin\publish\
 
 Write-Host "Creating html docs..."
 cd bin\Publish\
