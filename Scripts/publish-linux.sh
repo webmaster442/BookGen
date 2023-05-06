@@ -10,6 +10,6 @@ cd bin/publish-linux
 ./BookGen Md2HTML -i ../../notes.md -ns -o RelaseNotes.html
 cd bin/publish-linux
 rm tidy.exe
-zip -r ../publish-linux.zip .
+tar -zcvf ../publish-linux.tar.gz .
 cd ..
-sha256sum publish-linux.zip > linux-hash.txt
+sha256sum publish-linux.tar.gz > linux-hash.txt
