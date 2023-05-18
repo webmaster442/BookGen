@@ -5,7 +5,9 @@
 
 using System.Threading;
 
-namespace BookGen.CommandArguments;
+using BookGen.CommandArguments;
+
+namespace BookGen.Commands;
 
 [CommandName("stocksearch")]
 internal class StockSearchCommand : Command<StockSearchArguments>
