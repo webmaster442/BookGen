@@ -1,3 +1,6 @@
+# 2023
+* New: Ionsearch command
+
 # 2023. 05. 06
 * New: GUI has been reworked. Instead of Terminal.GUI Spectre.Console is used
 * New: Pack subcommand to pack the book source into a zip file

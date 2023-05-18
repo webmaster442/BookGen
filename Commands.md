@@ -134,6 +134,26 @@ Arguments:
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
+# IconSearch
+
+Searches for icons on the internet.
+
+`BookGen IconSearch -s [keyword(s)] {-i8} {-svg}`
+`BookGen IconSearch --search [keyword(s)] {--icons8} {--svgrepo}`
+
+Arguments:
+
+-s, --search:
+    Specifies the search term or terms to search for
+
+-i8, --icons8:
+    Search on https://icons8.com/
+
+-svg, --svgrepo:
+    Search on https://www.svgrepo.com/
+
+Note: If no icons provider is selected search is performed on all icons sites.
+
 # ImgConvert
 
 Converts images from a format to an other format

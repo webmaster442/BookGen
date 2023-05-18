@@ -3,9 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Threading;
-
 using BookGen.CommandArguments;
+using BookGen.Infrastructure;
 
 namespace BookGen.Commands;
 
@@ -24,29 +23,20 @@ internal class StockSearchCommand : Command<StockSearchArguments>
         if (arguments.Pixabay == true || arguments.All)
         {
             _log.Info("Searching on Pixabay...");
-            PerformSearch(Constants.PixabaySearchUrl, arguments.SearchTerms);
+            Search.Perform(Constants.PixabaySearchUrl, arguments.SearchTerms, _log);
         }
         if (arguments.Pexels == true || arguments.All)
         {
             _log.Info("Searching on Pexels...");
-            PerformSearch(Constants.PexelSearchUrl, arguments.SearchTerms);
+            Search.Perform(Constants.PexelSearchUrl, arguments.SearchTerms, _log);
         }
         if (arguments.Unsplash == true || arguments.All)
         {
             _log.Info("Searching on Unsplash...");
-            PerformSearch(Constants.UnsplashSearchUrl, arguments.SearchTerms);
+            Search.Perform(Constants.UnsplashSearchUrl, arguments.SearchTerms, _log);
         }
 
         return Constants.Succes;
-    }
-
-    private void PerformSearch(string searchUrl, string searchTerms)
-    {
-        if (!UrlOpener.OpenUrlWithParameters(searchUrl, searchTerms))
-        {
-            _log.Warning("Coudn't open: {0}", searchUrl);
-        }
-        Thread.Sleep(100);
     }
 
 }

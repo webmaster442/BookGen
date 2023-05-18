@@ -21,6 +21,9 @@ namespace BookGen.Domain
         public const string UnsplashSearchUrl = "https://unsplash.com/s/photos/{0}";
         public const string PixabaySearchUrl = "https://pixabay.com/images/search/{0}/";
 
+        public const string SvgRepoSearchUrl = "https://www.svgrepo.com/vectors/{0}/";
+        public const string Icons8SearchUrl = "https://icons8.com/icons/set/{0}";
+
         public const string VsCodePath = @"%localappdata%\Programs\Microsoft VS Code\Code.exe";
         public const string NotepadPath = @"%windir%\notepad.exe";
 
