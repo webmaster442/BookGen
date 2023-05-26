@@ -19,14 +19,15 @@ internal static class Extensions
         return sites.Concat(aliases).Order();
     }
 
-    public static IReadOnlyList<string> GetSearchUrls(this Bangs bangs, string bangName, string terms)
+    public static bool TryGetSearchUrls(this Bangs bangs, string bangName, string terms, out IReadOnlyList<string> urls)
     {
         var site = bangs.Sites.FirstOrDefault(site => site.Name == bangName);
         var aliases = bangs.Aliases.FirstOrDefault(alias => alias.Name == bangName);
 
         if (site != null)
         {
-            return new[] { CreateUrl(site, terms) };
+            urls = new[] { CreateUrl(site, terms) };
+            return true;
         }
         else if (aliases != null)
         {
@@ -35,11 +36,13 @@ internal static class Extensions
             {
                 list.Add(CreateUrl(bangs.Sites.First(site => site.Name == alias), terms));
             }
-            return list;
+            urls = list;
+            return true;
         }
         else
         {
-            return Array.Empty<string>();
+            urls = Array.Empty<string>();
+            return false;
         }
     }
 
