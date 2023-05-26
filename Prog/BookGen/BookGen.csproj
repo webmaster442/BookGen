@@ -13,9 +13,6 @@
 		<FileVersion>1.0.14.0</FileVersion>
     <ApplicationIcon>..\..\Icon.ico</ApplicationIcon>
 		<OutputPath>..\..\bin\$(Configuration)\</OutputPath>
-		<PackAsTool>true</PackAsTool>
-		<ToolCommandName>BookGen</ToolCommandName>
-		<PackageOutputPath>..\bin\nupkg</PackageOutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <SGenVerbose>true</SGenVerbose>
 	</PropertyGroup>
