@@ -15,7 +15,7 @@
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.31.0" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.4.1" />
-    <PackageReference Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.4.1" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.4.2" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.4.1" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.3" />
