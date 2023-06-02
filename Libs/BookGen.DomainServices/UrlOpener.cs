@@ -26,12 +26,5 @@ namespace BookGen.DomainServices
                 return false;
             }
         }
-
-        public static bool OpenUrlWithParameters(string url, params string[] parameters)
-        {
-            string[]? encoded = parameters.Select(x => HttpUtility.UrlEncode(x)).ToArray();
-            string full = string.Format(url, encoded);
-            return OpenUrl(full);
-        }
     }
 }
