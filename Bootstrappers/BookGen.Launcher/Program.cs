@@ -18,13 +18,12 @@ namespace BookGen.Launcher
         {
             ExceptionHandler.Try(() =>
             {
-
+                InstallVerify.ThrowIfNotExist();
                 using (var process =
                     new ProcessBuilder()
                     .SetProgram(AppDomain.CurrentDomain.BaseDirectory, Constants.DataFolder, Constants.BookGenLauncher)
                     .SetWorkDir(AppDomain.CurrentDomain.BaseDirectory, Constants.DataFolder)
                     .SetArguments(args)
-                    .VerifyPaths()
                     .Build())
                 {
                     process.Start();

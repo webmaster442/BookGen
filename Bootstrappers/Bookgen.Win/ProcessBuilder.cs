@@ -36,18 +36,6 @@ namespace Bookgen.Win
             return this;
         }
 
-        public ProcessBuilder VerifyPaths()
-        {
-            if (!File.Exists(_program))
-                throw new FileNotFoundException(Resources.ErrorProgramNotFound);
-
-            if (!Directory.Exists(_workdir))
-                throw new DirectoryNotFoundException(Resources.ErrorProgramNotFound);
-
-            return this;
-
-        }
-
         public ProcessBuilder SetArguments(string[] args) 
         {
             _arguments = string.Join(" ", args.Select(arg =>

@@ -26,8 +26,8 @@ namespace BookGen
 
             ExceptionHandler.Try(() =>
             {
+                InstallVerify.ThrowIfNotExist();
                 var processBuilder = new ProcessBuilder();
-
                 if (InstallDetector.IsInstalled(Constants.WindowsTerminal))
                 {
                     StartTerminal(shellExe, shellScript, processBuilder);
@@ -42,7 +42,7 @@ namespace BookGen
 
         private static void StartPowershell(string shellExe, string shellScript, ProcessBuilder processBuilder)
         {
-            processBuilder
+            using (var process = processBuilder
                 .SetProgram(shellExe)
                 .SetWorkDir(AppContext.BaseDirectory)
                 .SetArguments(new[]
@@ -54,13 +54,15 @@ namespace BookGen
                             shellScript,
                             AppContext.BaseDirectory,
                 })
-                .Build()
-                .Start();
+                .Build())
+            {
+                process.Start();
+            }
         }
 
         private static void StartTerminal(string shellExe, string shellScript, ProcessBuilder processBuilder)
         {
-            processBuilder
+            using (var process = processBuilder
                 .SetProgram(Constants.WindowsTerminal)
                 .SetArguments(new[] {
                             "new-tab",
@@ -77,8 +79,11 @@ namespace BookGen
                             AppContext.BaseDirectory,
                 })
                 .SetWorkDir(AppContext.BaseDirectory)
-                .Build()
-                .Start();
+                .Build())
+            {
+                process.Start();
+            }
+                
         }
     }
 }
