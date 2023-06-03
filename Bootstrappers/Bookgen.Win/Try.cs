@@ -1,4 +1,9 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
