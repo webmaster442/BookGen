@@ -50,7 +50,13 @@ namespace Bookgen.Win
 
         public ProcessBuilder SetArguments(string[] args) 
         {
-            _arguments = string.Join(" ", args.Select(arg => $"\"{arg}\""));
+            _arguments = string.Join(" ", args.Select(arg =>
+            {
+                if (arg.Contains(' '))
+                    return $"\"{arg}\"";
+                else
+                    return arg ;
+            }));
             return this;
         }
 
