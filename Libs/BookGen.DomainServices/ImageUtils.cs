@@ -5,7 +5,9 @@
 
 using BookGen.Api;
 using BookGen.Interfaces;
+
 using SkiaSharp;
+
 using Svg.Skia;
 
 namespace BookGen.DomainServices
@@ -127,10 +129,42 @@ namespace BookGen.DomainServices
             }
         }
 
+        public static SKBitmap LoadForConvert(FsPath input, int? maxWidth, int? maxHeight)
+        {
+            if (IsSvg(input))
+            {
+                int targetWidth = maxWidth ?? int.MaxValue;
+                int taregetHeight = maxHeight ?? int.MaxValue;
+
+                var svg = new SKSvg();
+                svg.Load(input.ToString());
+
+                if (svg.Picture == null)
+                    return new SKBitmap(1, 1);
+
+                SKRect svgSize = svg.Picture.CullRect;
+
+                (int renderWidth, int renderHeight, float scale) = CalcNewSize(svgSize, targetWidth, taregetHeight);
+
+                var matrix = SKMatrix.CreateScale(scale, scale);
+
+                var bitmap = new SKBitmap(renderWidth, renderHeight);
+                using (var canvas = new SKCanvas(bitmap))
+                {
+                    canvas.DrawPicture(svg.Picture, ref matrix);
+                    canvas.Flush();
+                }
+
+                return bitmap;
+            }
+
+            return LoadImage(input);
+        }
+
         public static bool ConvertImageFile(ILog log, FsPath input, FsPath output, int quality, int? width, int? height, string? format = null)
         {
             SKEncodedImageFormat targetFormat;
-            using (SKBitmap image = LoadImage(input))
+            using (SKBitmap image = LoadForConvert(input, width, height))
             {
                 if (!string.IsNullOrEmpty(format))
                 {
