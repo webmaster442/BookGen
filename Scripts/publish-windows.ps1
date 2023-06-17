@@ -20,6 +20,7 @@ cd bin\Publish\data
 .\BookGen.exe Md2HTML -i ..\..\..\Commands.md -ns -o Commands.html
 .\BookGen.exe Md2HTML -i ..\..\..\Changelog.md -ns -o ChangeLog.html
 .\BookGen.exe Md2HTML -i ..\..\..\notes.md -ns -o RelaseNotes.html
+.\BookGen.exe Md2HTML -i ..\..\..\markdown-cheatsheet.md -o Markdown-cheatsheet.html
 $version = (.\BookGen.exe version -bd) | Out-String
 $version = $version -replace "`t|`n|`r",""
 cd ..
@@ -41,7 +42,7 @@ $compress = @{
   CompressionLevel = "Optimal"
   DestinationPath = "bin\published.Zip"
 }
-Compress-Archive @compress
+Compress-Archive @compress -Force
 
 Write-Host "Creating hash..."
 Get-FileHash -Path bin\published.zip -Algorithm SHA256 > bin\published.txt
