@@ -3,7 +3,10 @@
 #define MyAppName "BookGen"
 #define MyAppPublisher "webmaster442"
 #define MyAppURL "https://github.com/webmaster442/BookGen"
-#define MyAppExeName "BookGen.Launch.exe"
+#define LauncherBootstrapper "BookGen.Launcher.exe"
+#define CliBootstrapper "BookGen.exe"
+#define CliIconName "BookGen shell"
+#define LauncherIconName "BookGen launcher"
 
 [Setup]
 AppId={{EA96EDA6-EF13-4AD9-BFA6-1800AF466EA4}
@@ -34,13 +37,15 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "..\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion createallsubdirs recursesubdirs
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\{#LauncherBootstrapper}"; Filename: "{app}\{#LauncherBootstrapper}"
+Name: "{group}\{#CliBootstrapper}"; Filename: "{app}\{#CliBootstrapper}"
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{commondesktop}\{#CliIconName}"; Filename: "{app}\{#LauncherBootstrapper}"; Tasks: desktopicon
+Name: "{commondesktop}\{#LauncherIconName}"; Filename: "{app}\{#CliBootstrapper}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"
+Filename: "{app}\{#LauncherBootstrapper}"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"
 Filename: "https://www.microsoft.com/store/productId/9N0DX20HK701"; Flags: runasoriginaluser shellexec nowait postinstall skipifsilent; Check: CheckTerminalInstall 
 Filename: "https://www.microsoft.com/store/productId/9MZ1SNWT0N5D"; Flags: runasoriginaluser shellexec nowait postinstall skipifsilent; Check: CheckPsCoreInstall
 
