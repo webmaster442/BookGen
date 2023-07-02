@@ -69,7 +69,7 @@ public sealed class HttpResponse : IDisposable
         headers.Append("HTTP/1.1 ").Append((int)ResponseCode).AppendLine(" ResponseCode");
         headers.Append("Content-Length: ").Append(contentLength).AppendLine();
         headers.Append("Content-Type: ").AppendLine(ContentType);
-        headers.Append("Date: ").AppendLine(DateTime.UtcNow.ToHeaderFormat())
+        headers.Append("Date: ").AppendLine(DateTime.UtcNow.ToHeaderFormat());
         headers.Append("Last-Modified: ").AppendLine(LastModified.ToHeaderFormat());;
         foreach (var header in AdditionalHeaders)
         {
