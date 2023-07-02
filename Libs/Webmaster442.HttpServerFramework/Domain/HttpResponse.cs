@@ -17,9 +17,8 @@ namespace Webmaster442.HttpServerFramework.Domain;
 /// </summary>
 public sealed class HttpResponse : IDisposable
 {
-    private static readonly byte[] end = Encoding.UTF8.GetBytes("\n\n");
-
     private NetworkStream? _stream;
+    private readonly byte[] _end;
 
     /// <summary>
     /// Response code
@@ -51,6 +50,8 @@ public sealed class HttpResponse : IDisposable
         AdditionalHeaders = new Dictionary<string, string>();
         ResponseCode = HttpResponseCode.Ok;
         LastModified = DateTime.UtcNow;
+
+        _end = "\n\n"u8.ToArray();
     }
 
     /// <inheritdoc/>
@@ -87,13 +88,13 @@ public sealed class HttpResponse : IDisposable
     public async ValueTask WriteAsync(string text)
     {
         var txt = Encoding.UTF8.GetBytes(text);
-        var headers = Encoding.UTF8.GetBytes(PrepareHeaders(txt.Length+end.Length));
+        var headers = Encoding.UTF8.GetBytes(PrepareHeaders(txt.Length+ _end.Length));
         if (_stream != null)
         {
 #pragma warning disable RCS1090 // Add call to 'ConfigureAwait' (or vice versa).
             await _stream.WriteAsync(headers);
             await _stream.WriteAsync(txt);
-            await _stream.WriteAsync(end);
+            await _stream.WriteAsync(_end);
 #pragma warning restore RCS1090 // Add call to 'ConfigureAwait' (or vice versa).
         }
     }
@@ -119,7 +120,7 @@ public sealed class HttpResponse : IDisposable
                 await _stream.WriteAsync(buffer, 0, read);
             }
             while (read > 0);
-            await _stream.WriteAsync(end);
+            await _stream.WriteAsync(_end);
 #pragma warning restore RCS1090 // Add call to 'ConfigureAwait' (or vice versa).
         }
     }
@@ -137,7 +138,7 @@ public sealed class HttpResponse : IDisposable
 #pragma warning disable RCS1090 // Add call to 'ConfigureAwait' (or vice versa).
             await _stream.WriteAsync(headers);
             await _stream.WriteAsync(data, 0, data.Length);
-            await _stream.WriteAsync(end);
+            await _stream.WriteAsync(_end);
 #pragma warning restore RCS1090 // Add call to 'ConfigureAwait' (or vice versa).
         }
     }
