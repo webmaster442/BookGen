@@ -54,9 +54,11 @@ public sealed class HttpServer : IDisposable
     /// Add a handler that can process requests to the server
     /// </summary>
     /// <param name="handler">Request handler</param>
-    public void RegisterHandler(IRequestHandler handler)
+    /// <returns>The server</returns>
+    public HttpServer RegisterHandler(IRequestHandler handler)
     {
         _handlers.Add(handler);
+        return this;
     }
 
     /// <inheritdoc/>

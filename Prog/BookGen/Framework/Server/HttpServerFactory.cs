@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Resources;
+
 using Webmaster442.HttpServerFramework;
 using Webmaster442.HttpServerFramework.Handlers;
 
@@ -24,8 +26,11 @@ internal static class HttpServerFactory
             EnableLastAccesTime = true,
         }, log);
 
-        server.RegisterHandler(new FileServeHandler(folder, false, server.Configuration, "/"));
-        server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
+        server
+            .RegisterHandler(new FaviconHandler(ResourceHandler.GetFileStream(KnownFile.FaviconT),
+                                                MimeTypes.GetMimeForExtension(".png")))
+            .RegisterHandler(new FileServeHandler(folder, false, server.Configuration, "/"))
+            .RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
     }
@@ -44,8 +49,11 @@ internal static class HttpServerFactory
             EnableLastAccesTime = true,
         }, log);
 
-        server.RegisterHandler(new FileServeHandler(folder, true, server.Configuration, "/"));
-        server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
+        server
+            .RegisterHandler(new FaviconHandler(ResourceHandler.GetFileStream(KnownFile.FaviconT),
+                                                MimeTypes.GetMimeForExtension(".png")))
+            .RegisterHandler(new FileServeHandler(folder, true, server.Configuration, "/"))
+            .RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
     }
@@ -65,9 +73,12 @@ internal static class HttpServerFactory
         }, serverlog);
 
 
-        server.RegisterHandler(new PreviewStaticHandler());
-        server.RegisterHandler(new PreviewRenderHandler(directory, log));
-        server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
+        server
+            .RegisterHandler(new FaviconHandler(ResourceHandler.GetFileStream(KnownFile.FaviconP),
+                                                MimeTypes.GetMimeForExtension(".png")))
+            .RegisterHandler(new PreviewStaticHandler())
+            .RegisterHandler(new PreviewRenderHandler(directory, log))
+            .RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
     }

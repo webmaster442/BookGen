@@ -38,6 +38,11 @@ namespace BookGen.Resources
             { KnownFile.ScriptTemplateCs, "/Etc/ScriptTemplate.cs" },
             { KnownFile.SummaryMd, "/Etc/summary.md" },
 
+            //Png
+            { KnownFile.FaviconP, "Png/favicon-p.png" },
+            { KnownFile.FaviconT, "Png/favicon-t.png" },
+            { KnownFile.FaviconFs, "Png/favicon-fs.png" },
+
         };
     }
 }
