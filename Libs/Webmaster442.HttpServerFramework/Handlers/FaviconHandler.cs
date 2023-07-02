@@ -41,7 +41,7 @@ public sealed class FaviconHandler : IRequestHandler, IDisposable
         _iconStream.Seek(0, SeekOrigin.Begin);
         response.ContentType = _mime;
         response.ResponseCode = HttpResponseCode.Ok;
-        await response.Write(_iconStream);
+        await response.WriteAsync(_iconStream);
 
         return true;
     }

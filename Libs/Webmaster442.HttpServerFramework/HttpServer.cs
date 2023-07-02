@@ -192,7 +192,7 @@ public sealed class HttpServer : IDisposable
             builder.AppendParagraph("Stack trace:");
             builder.AppendPre(ex.StackTrace ?? "");
         }
-        await response.Write(builder.ToString());
+        await response.WriteAsync(builder.ToString());
     }
 
     private async ValueTask ServeErrorHandler(HttpResponse response, HttpResponseCode responseCode)
@@ -201,7 +201,7 @@ public sealed class HttpServer : IDisposable
         response.ContentType = "text/html";
         if (_configuration.CustomErrorHandlers.ContainsKey(responseCode))
         {
-            await response.Write(_configuration.CustomErrorHandlers[responseCode]);
+            await response.WriteAsync(_configuration.CustomErrorHandlers[responseCode]);
         }
         else
         {
@@ -209,7 +209,7 @@ public sealed class HttpServer : IDisposable
             builder.AppendHeader(1, $"{(int)responseCode} - {responseCode}");
             builder.AppendHr();
             builder.AppendParagraph($"More info about this issue <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/{(int)responseCode}\">can be found here</a>");
-            await response.Write(builder.ToString());
+            await response.WriteAsync(builder.ToString());
         }
     }
 }

@@ -104,7 +104,7 @@ public class FileServeHandler : IRequestHandler
                     response.LastModified = _sendLastAccesTime ? lastModifiedDate : DateTime.UtcNow;
                     response.ContentType = MimeTypes.GetMimeTypeForFile(fileOnDisk);
                     response.ResponseCode = HttpResponseCode.Ok;
-                    await response.Write(stream);
+                    await response.WriteAsync(stream);
                 }
                 return true;
             }
@@ -137,7 +137,7 @@ public class FileServeHandler : IRequestHandler
 
         response.ContentType = "text/html";
         response.ResponseCode = HttpResponseCode.Ok;
-        await response.Write(builder.ToString());
+        await response.WriteAsync(builder.ToString());
     }
 
     private static string GetUrl(string baseUrl, string item)

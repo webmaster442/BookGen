@@ -30,7 +30,7 @@ namespace BookGen.Tests
                     byte[] msg = Encoding.UTF8.GetBytes("TestHandler");
                     response.ResponseCode = HttpResponseCode.Ok;
                     response.ContentType = "text/plain";
-                    await response.Write(msg);
+                    await response.WriteAsync(msg);
                     return true;
                 }
                 return false;

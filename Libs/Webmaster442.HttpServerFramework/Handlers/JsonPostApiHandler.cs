@@ -57,7 +57,7 @@ namespace Webmaster442.HttpServerFramework.Handlers
 
             if (result)
             {
-                await response.WriteJson(responseObject);
+                await response.WriteJsonAsync(responseObject);
             }
 
             return result;

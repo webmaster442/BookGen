@@ -85,7 +85,7 @@ public class QrCodeLinkHandler : IRequestHandler
         response.ContentType = "text/html";
         response.ResponseCode = HttpResponseCode.Ok;
 
-        await response.Write(builder.ToString());
+        await response.WriteAsync(builder.ToString());
 
         return true;
     }
