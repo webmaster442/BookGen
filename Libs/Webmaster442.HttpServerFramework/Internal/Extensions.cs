@@ -9,7 +9,7 @@ namespace Webmaster442.HttpServerFramework.Internal;
 
 internal static class Extensions
 {
-    public static string ToLastModifiedHeaderFormat(this DateTime dateTime)
+    public static string ToHeaderFormat(this DateTime dateTime)
     {
         var culture = new CultureInfo("en-US");
         if (dateTime.Kind != DateTimeKind.Utc)
