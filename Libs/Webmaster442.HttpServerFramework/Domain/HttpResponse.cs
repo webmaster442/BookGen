@@ -8,6 +8,8 @@ using System.Text;
 using System.Text.Json;
 using System.Xml.Serialization;
 
+using Webmaster442.HttpServerFramework.Internal;
+
 namespace Webmaster442.HttpServerFramework.Domain;
 
 /// <summary>
@@ -30,6 +32,11 @@ public sealed class HttpResponse : IDisposable
     public string ContentType { get; set; }
 
     /// <summary>
+    /// Contains a date and time when the origin server believes the resource was last modified.
+    /// </summary>
+    public DateTime LastModified { get; set; }
+
+    /// <summary>
     /// Additional headers to send
     /// </summary>
     public Dictionary<string, string> AdditionalHeaders { get; }
@@ -43,6 +50,7 @@ public sealed class HttpResponse : IDisposable
         ContentType = "text/plain";
         AdditionalHeaders = new Dictionary<string, string>();
         ResponseCode = HttpResponseCode.Ok;
+        LastModified = DateTime.UtcNow;
     }
 
     /// <inheritdoc/>
@@ -57,10 +65,11 @@ public sealed class HttpResponse : IDisposable
 
     private string PrepareHeaders(long contentLength)
     {
-        StringBuilder headers = new StringBuilder();
+        StringBuilder headers = new();
         headers.Append("HTTP/1.1 ").Append((int)ResponseCode).AppendLine(" ResponseCode");
         headers.Append("Content-Length: ").Append(contentLength).AppendLine();
         headers.Append("Content-Type: ").AppendLine(ContentType);
+        headers.Append("Last-Modified: ").AppendLine(LastModified.ToLastModifiedHeaderFormat());
         foreach (var header in AdditionalHeaders)
         {
             headers.AppendLine($"{header.Key}: {header.Value}");

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -21,9 +21,10 @@ internal static class HttpServerFactory
         {
             DebugMode = debug,
             Port = 8090,
+            EnableLastAccesTime = true,
         }, log);
 
-        server.RegisterHandler(new FileServeHandler(folder, false, "/"));
+        server.RegisterHandler(new FileServeHandler(folder, false, server.Configuration, "/"));
         server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
@@ -40,9 +41,10 @@ internal static class HttpServerFactory
         {
             DebugMode = debug,
             Port = 8081,
+            EnableLastAccesTime = true,
         }, log);
 
-        server.RegisterHandler(new FileServeHandler(folder, true, "/"));
+        server.RegisterHandler(new FileServeHandler(folder, true, server.Configuration, "/"));
         server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
@@ -59,6 +61,7 @@ internal static class HttpServerFactory
         {
             DebugMode = debug,
             Port = 8082,
+            EnableLastAccesTime = false,
         }, serverlog);
 
 

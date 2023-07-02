@@ -15,6 +15,7 @@ public class FileServeHandler : IRequestHandler
 {
     private readonly string _path;
     private readonly string _mountPath;
+    private readonly bool _sendLastAccesTime;
     private readonly bool _listFolders;
 
     /// <summary>
@@ -28,10 +29,15 @@ public class FileServeHandler : IRequestHandler
     /// <param name="path">Path in the file system to serve from.</param>
     /// <param name="mountPath">Mount path on server</param>
     /// <param name="listFolders">Allow listing of folders, if no index page is present</param>
-    public FileServeHandler(string path, bool listFolders, string mountPath = "/")
+    /// <param name="configuration">HTTP server configuration</param>
+    public FileServeHandler(string path,
+                            bool listFolders,
+                            HttpServerConfiguration configuration,
+                            string mountPath = "/")
     {
         _path = path;
         _mountPath = mountPath;
+        _sendLastAccesTime = configuration.EnableLastAccesTime;
         _listFolders = listFolders;
         IndexFiles = new[]
         {
@@ -91,9 +97,11 @@ public class FileServeHandler : IRequestHandler
 
             if (File.Exists(fileOnDisk))
             {
+                DateTime lastModifiedDate = File.GetLastWriteTimeUtc(fileOnDisk);
                 using (var stream = File.OpenRead(fileOnDisk))
                 {
                     log?.Info("Serving {0}...", request.Url);
+                    response.LastModified = _sendLastAccesTime ? lastModifiedDate : DateTime.UtcNow;
                     response.ContentType = MimeTypes.GetMimeTypeForFile(fileOnDisk);
                     response.ResponseCode = HttpResponseCode.Ok;
                     await response.Write(stream);

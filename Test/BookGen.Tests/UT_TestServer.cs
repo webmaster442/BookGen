@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -44,10 +44,11 @@ namespace BookGen.Tests
             _server = new HttpServer(new HttpServerConfiguration
             {
                 Port = 8080,
+                EnableLastAccesTime = false,
             }, _log.Object);
 
             _server.RegisterHandler(new TestHandler());
-            _server.RegisterHandler(new FileServeHandler(TestEnvironment.GetTestFolder(), false, "/"));
+            _server.RegisterHandler(new FileServeHandler(TestEnvironment.GetTestFolder(), false, _server.Configuration, "/"));
             _server.Start();
         }
 
