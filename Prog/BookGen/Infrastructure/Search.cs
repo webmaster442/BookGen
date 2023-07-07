@@ -18,7 +18,7 @@ public static class Search
     public static void Perform(SearchModel model, string terms, ILog log)
     {
         string encodedTerms = terms.Replace(" ", model.Space);
-        encodedTerms = HttpUtility.UrlEncode(terms);
+        encodedTerms = HttpUtility.UrlEncode(encodedTerms);
         string fullUrl = string.Format(model.Url, encodedTerms);
         if (!UrlOpener.OpenUrl(fullUrl))
         {
