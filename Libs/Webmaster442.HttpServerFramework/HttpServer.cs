@@ -4,6 +4,7 @@
 // -----------------------------------------------------------------------------------------------
 
 using System.Net.Sockets;
+
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Internal;
 
@@ -86,25 +87,25 @@ public sealed class HttpServer : IDisposable
         Task.Run(StartPrivate);
     }
 
-        private async Task StartPrivate()
+    private async Task StartPrivate()
+    {
+        _listner?.Start();
+        while (_canRun && _listner != null)
         {
-            _listner?.Start();
-            while (_canRun && _listner != null)
+            using TcpClient client = await _listner.AcceptTcpClientAsync();
+            try
             {
-                using TcpClient client = await _listner.AcceptTcpClientAsync();
-                try
+                if (ClientFilteringPredicate != null)
                 {
-                    if (ClientFilteringPredicate != null)
+                    _log?.Info("Running {0} ...", nameof(ClientFilteringPredicate));
+                    bool canHandle = ClientFilteringPredicate?.Invoke(client) ?? false;
+                    if (!canHandle)
                     {
-                        _log?.Info("Running {0} ...", nameof(ClientFilteringPredicate));
-                        bool canHandle = ClientFilteringPredicate?.Invoke(client) ?? false;
-                        if (!canHandle)
-                        {
-                            _log?.Warning("{0} returned false. Refusing client connection", nameof(ClientFilteringPredicate));
-                            client?.Dispose();
-                            continue;
-                        }
+                        _log?.Warning("{0} returned false. Refusing client connection", nameof(ClientFilteringPredicate));
+                        client?.Dispose();
+                        continue;
                     }
+                }
 
                 if (_freeClientSlots > 0)
                 {
@@ -144,7 +145,7 @@ public sealed class HttpServer : IDisposable
         try
         {
             HttpRequest request = parser.ParseRequest(stream);
-            
+
             if (string.IsNullOrEmpty(request.Url)) return;
 
             bool wasHandled = false;
