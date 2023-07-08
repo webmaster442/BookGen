@@ -4,7 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using System.Runtime.CompilerServices;
+using System.Text;
 
+using BookGen.Domain.Terminal;
 using BookGen.DomainServices;
 
 [assembly: InternalsVisibleTo("BookGen.Tests")]
@@ -29,13 +31,19 @@ static void DoPrompt(string workDir)
         if (exitcode == 0)
         {
             var status = GitParser.ParseStatus(output);
-            Console.WriteLine("({0}) ↓: {1} ↑: {2} M: {3}",
-                              status.BranchName,
-                              status.IncommingCommits,
-                              status.OutGoingCommits,
-                              status.NotCommitedChanges);
+            PrintStatus(status);
         }
     }
+}
+
+static void PrintStatus(GitStatus status)
+{
+    Console.OutputEncoding = Encoding.UTF8;
+    Console.WriteLine("({0}) ↓: {1} ↑: {2} M: {3}",
+                      status.BranchName,
+                      status.IncommingCommits,
+                      status.OutGoingCommits,
+                      status.NotCommitedChanges);
 }
 
 static bool TestIfGitDir(string workDir)

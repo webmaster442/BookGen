@@ -43,6 +43,9 @@ function intro()
 	Write-Host "      .( o )."
 }
 
+#Set UTF8 encoding
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 #Set BookGenRoot variable
 $env:BookGenPath = $PSScriptRoot
 
@@ -81,7 +84,7 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
 
 # set prompt
 function prompt {
-    $git = $(BookGen.ShellHelper.exe "prompt" $(Get-Location).Path) | Out-String
+    $git = $(BookGen.ShellHelper.exe "prompt" $(Get-Location).Path)
     'PS ' +  $(Get-Location) + ' '+$git+ $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
 }
 
