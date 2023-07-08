@@ -8,8 +8,11 @@ using System.Text;
 
 using BookGen.Domain.Terminal;
 using BookGen.DomainServices;
+using BookGen.ShellHelper;
 
 [assembly: InternalsVisibleTo("BookGen.Tests")]
+
+Console.OutputEncoding = Encoding.UTF8;
 
 const string promptMode = "prompt";
 const int timeOut = 10;
@@ -38,12 +41,23 @@ static void DoPrompt(string workDir)
 
 static void PrintStatus(GitStatus status)
 {
-    Console.OutputEncoding = Encoding.UTF8;
-    Console.WriteLine("({0}) ↓: {1} ↑: {2} M: {3}",
-                      status.BranchName,
-                      status.IncommingCommits,
-                      status.OutGoingCommits,
-                      status.NotCommitedChanges);
+    string text = new TerminalStringBuilder()
+        .BackgroundGreen()
+        .Text($"({status.BranchName}) ")
+        .ForegroundBlack()
+        .BackgroundMagenta()
+        .Text("↓: ")
+        .Text(status.IncommingCommits)
+        .BackgroundYellow()
+        .Text(" ↑: ")
+        .Text(status.OutGoingCommits)
+        .BackgroundCyan()
+        .Text(" M: ")
+        .Text(status.NotCommitedChanges)
+        .Default()
+        .ToString();
+
+    Console.WriteLine(text);
 }
 
 static bool TestIfGitDir(string workDir)
