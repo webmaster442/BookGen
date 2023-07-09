@@ -30,5 +30,8 @@ namespace BookGen.Resources
         TemplatePrintHtml,
         TemplateSinglePageHtml,
         TemplateWebHtml,
+        FaviconFs,
+        FaviconP,
+        FaviconT,
     }
 }

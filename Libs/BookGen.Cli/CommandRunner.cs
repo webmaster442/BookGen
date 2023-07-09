@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -209,6 +210,9 @@ public sealed class CommandRunner
         }
         catch (Exception ex)
         {
+#if DEBUG
+            Debugger.Break();
+#endif
             ExceptionHandlerDelegate.Invoke(ex);
             return _settings.ExcptionExitCode;
         }

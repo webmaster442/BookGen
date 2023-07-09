@@ -3,14 +3,14 @@
   <Class Name="BookGen.Cli.ArgumentsBase">
     <Position X="5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAIAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ArgumentBase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BookGen.Cli.AsyncCommand">
     <Position X="2" Y="7.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAQAAAAAAAAAAEAAAACAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAQAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>AsyncCommand.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -18,7 +18,7 @@
   <Class Name="BookGen.Cli.AsyncCommand&lt;TArguments&gt;">
     <Position X="4.25" Y="7.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAQAAAAAAAAAAEAAAACAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAQAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>AsyncCommandWithArgs.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -26,7 +26,7 @@
   <Class Name="BookGen.Cli.Command">
     <Position X="2" Y="5.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAQAAAAAAAAAAEAAAACAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAQAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Command.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -34,7 +34,7 @@
   <Class Name="BookGen.Cli.Command&lt;TArguments&gt;">
     <Position X="4.25" Y="5.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAQAAAAAAAAAAEAAAACAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAQAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>CommandWithArgs.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -42,14 +42,14 @@
   <Class Name="BookGen.Cli.ValidationResult">
     <Position X="7.25" Y="5.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAIAAAAIAAAAAAAAAAABAAAIAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAQAEAAIAAAAIAAAAAAAAAAABAAAIAAA=</HashCode>
       <FileName>ValidationResult.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="BookGen.Cli.ICommand">
     <Position X="9" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAEAAAACAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>ICommand.cs</FileName>
     </TypeIdentifier>
   </Interface>

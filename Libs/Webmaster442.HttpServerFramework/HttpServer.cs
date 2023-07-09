@@ -4,6 +4,7 @@
 // -----------------------------------------------------------------------------------------------
 
 using System.Net.Sockets;
+
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Internal;
 
@@ -54,9 +55,11 @@ public sealed class HttpServer : IDisposable
     /// Add a handler that can process requests to the server
     /// </summary>
     /// <param name="handler">Request handler</param>
-    public void RegisterHandler(IRequestHandler handler)
+    /// <returns>The server</returns>
+    public HttpServer RegisterHandler(IRequestHandler handler)
     {
         _handlers.Add(handler);
+        return this;
     }
 
     /// <inheritdoc/>
@@ -84,25 +87,25 @@ public sealed class HttpServer : IDisposable
         Task.Run(StartPrivate);
     }
 
-        private async Task StartPrivate()
+    private async Task StartPrivate()
+    {
+        _listner?.Start();
+        while (_canRun && _listner != null)
         {
-            _listner?.Start();
-            while (_canRun && _listner != null)
+            using TcpClient client = await _listner.AcceptTcpClientAsync();
+            try
             {
-                using TcpClient client = await _listner.AcceptTcpClientAsync();
-                try
+                if (ClientFilteringPredicate != null)
                 {
-                    if (ClientFilteringPredicate != null)
+                    _log?.Info("Running {0} ...", nameof(ClientFilteringPredicate));
+                    bool canHandle = ClientFilteringPredicate?.Invoke(client) ?? false;
+                    if (!canHandle)
                     {
-                        _log?.Info("Running {0} ...", nameof(ClientFilteringPredicate));
-                        bool canHandle = ClientFilteringPredicate?.Invoke(client) ?? false;
-                        if (!canHandle)
-                        {
-                            _log?.Warning("{0} returned false. Refusing client connection", nameof(ClientFilteringPredicate));
-                            client?.Dispose();
-                            continue;
-                        }
+                        _log?.Warning("{0} returned false. Refusing client connection", nameof(ClientFilteringPredicate));
+                        client?.Dispose();
+                        continue;
                     }
+                }
 
                 if (_freeClientSlots > 0)
                 {
@@ -142,7 +145,7 @@ public sealed class HttpServer : IDisposable
         try
         {
             HttpRequest request = parser.ParseRequest(stream);
-            
+
             if (string.IsNullOrEmpty(request.Url)) return;
 
             bool wasHandled = false;
@@ -190,7 +193,7 @@ public sealed class HttpServer : IDisposable
             builder.AppendParagraph("Stack trace:");
             builder.AppendPre(ex.StackTrace ?? "");
         }
-        await response.Write(builder.ToString());
+        await response.WriteAsync(builder.ToString());
     }
 
     private async ValueTask ServeErrorHandler(HttpResponse response, HttpResponseCode responseCode)
@@ -199,7 +202,7 @@ public sealed class HttpServer : IDisposable
         response.ContentType = "text/html";
         if (_configuration.CustomErrorHandlers.ContainsKey(responseCode))
         {
-            await response.Write(_configuration.CustomErrorHandlers[responseCode]);
+            await response.WriteAsync(_configuration.CustomErrorHandlers[responseCode]);
         }
         else
         {
@@ -207,7 +210,7 @@ public sealed class HttpServer : IDisposable
             builder.AppendHeader(1, $"{(int)responseCode} - {responseCode}");
             builder.AppendHr();
             builder.AppendParagraph($"More info about this issue <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/{(int)responseCode}\">can be found here</a>");
-            await response.Write(builder.ToString());
+            await response.WriteAsync(builder.ToString());
         }
     }
 }

@@ -41,7 +41,7 @@ public abstract class JsonApiGetHandler<TResponse> : IRequestHandler
         if (result)
         {
             response.ContentType = "application/json";
-            await response.WriteJson(responseObject);
+            await response.WriteJsonAsync(responseObject);
         }
 
         return result;

@@ -10,10 +10,14 @@ using Webmaster442.HttpServerFramework.Domain;
 
 namespace Webmaster442.HttpServerFramework.Internal;
 
-internal sealed class RequestParser
+internal sealed partial class RequestParser
 {
-    private static readonly Regex splitter = new(@"\?|\&");
-    private static readonly Regex headerSplitter = new(@":\s");
+    [GeneratedRegex("\\?|\\&")]
+    private static partial Regex Splitter();
+
+    [GeneratedRegex(@":\s")]
+    private static partial Regex HeaderSplitter();
+
     private readonly int _maxPayload;
 
     public RequestParser(int maxPayload = 1024 * 1024 * 25)
@@ -50,7 +54,7 @@ internal sealed class RequestParser
                     {
                         throw new ServerException(HttpResponseCode.BadRequest);
                     }
-                    if (!Enum.TryParse<RequestMethod>(methodUrlVersion[0], true, out method))
+                    if (!Enum.TryParse(methodUrlVersion[0], true, out method))
                         throw new ServerException(HttpResponseCode.BadRequest);
 
                     if (methodUrlVersion[1].Length > ushort.MaxValue)
@@ -122,7 +126,7 @@ internal sealed class RequestParser
     {
         if (string.IsNullOrEmpty(line)) return;
 
-        var keyvalue = headerSplitter.Split(line);
+        var keyvalue = HeaderSplitter().Split(line);
         if (keyvalue.Length == 2)
         {
             headers.Add(keyvalue[0], keyvalue[1]);
@@ -137,7 +141,7 @@ internal sealed class RequestParser
             || location.Contains('?')
             || location.Contains('='))
         {
-            var parts = splitter.Split(location);
+            var parts = Splitter().Split(location);
 
             for (int i = 1; i < parts.Length; i++)
             {

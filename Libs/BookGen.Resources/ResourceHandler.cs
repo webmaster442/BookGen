@@ -15,7 +15,7 @@ namespace BookGen.Resources
             return path.Replace("/", ".");
         }
 
-        public static Stream? GetResourceStream<T>(string resource)
+        private static Stream? GetResourceStream<T>(string resource)
         {
             Assembly? assembly = typeof(T).GetTypeInfo().Assembly;
 
@@ -25,6 +25,21 @@ namespace BookGen.Resources
 
             return assembly.GetManifestResourceStream(resourceName);
 
+        }
+
+        private static string GetResourceFile(string file)
+        {
+            using (Stream? stream = GetResourceStream<KnownFile>(file))
+            {
+                if (stream == null)
+                {
+                    throw new InvalidOperationException("Could not load manifest resource stream.");
+                }
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
         }
 
         public static IReadOnlyList<string> GetResourceFileLines<T>(string file)
@@ -47,40 +62,16 @@ namespace BookGen.Resources
             return lines;
         }
 
-        public static string GetResourceFile<T>(string file)
-        {
-            using (Stream? stream = GetResourceStream<T>(file))
-            {
-                if (stream == null)
-                {
-                    throw new InvalidOperationException("Could not load manifest resource stream.");
-                }
-                using (var reader = new StreamReader(stream))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
-        }
-
-        public static string GetResourceFile(string file)
-        {
-            using (Stream? stream = GetResourceStream<KnownFile>(file))
-            {
-                if (stream == null)
-                {
-                    throw new InvalidOperationException("Could not load manifest resource stream.");
-                }
-                using (var reader = new StreamReader(stream))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
-        }
-
         public static string GetFile(KnownFile file)
         {
             string? location = KnownFileMap.Map[file];
             return GetResourceFile(location);
+        }
+
+        public static Stream GetFileStream(KnownFile file) 
+        {
+            string? location = KnownFileMap.Map[file];
+            return GetResourceStream<KnownFile>(location) ?? throw new InvalidOperationException();
         }
 
         public static void ExtractKnownFile(KnownFile file, string targetDir, ILog log)

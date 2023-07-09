@@ -26,50 +26,12 @@ internal class StatCommand : Command<StatArguments>
         _programInfo = programInfo;
     }
 
-    private bool TryComputeStat(string input, ref StatisticsData stat)
-    {
-        try
-        {
-            string? line = null;
-            using (StreamReader? reader = File.OpenText(input))
-            {
-                stat.Bytes += reader.BaseStream.Length;
-                do
-                {
-                    line = reader.ReadLine();
-                    if (line != null)
-                    {
-                        stat.Chars += line.Length;
-                        ++stat.ParagraphLines;
-                        stat.Words += line.GetWordCount();
-                        stat.PageCountLines += line.Length < 80 ? 1 : line.Length / 80;
-                    }
-                }
-                while (line != null);
-
-                return true;
-            }
-        }
-        catch (Exception ex)
-        {
-            _log.Warning("ReadFile failed: {0}", input);
-            _log.Detail(ex.Message);
-            return false;
-        }
-    }
-
     public override int Execute(StatArguments arguments, string[] context)
     {
-        var stat = new StatisticsData();
         if (!string.IsNullOrEmpty(arguments.Input))
         {
-            if (TryComputeStat(arguments.Input, ref stat))
-            {
-                _log.PrintLine("");
-                _terminal.Table(stat.ToTable());
-                return Constants.Succes;
-            }
-            return Constants.GeneralError;
+            var result = StatisticsCollector.ComputeStatistics(arguments.Input, _log);
+            Print(result, null);
         }
 
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
@@ -79,27 +41,36 @@ internal class StatCommand : Command<StatArguments>
             var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
             bool result = loader.LoadProject();
 
-            if (result)
+            if (!result)
             {
-                RuntimeSettings settings = loader.CreateRuntimeSettings(new BuildConfig());
-                foreach (string? link in settings.TocContents.Files)
-                {
-                    if (!TryComputeStat(link, ref stat))
-                    {
-                        result = false;
-                        break;
-                    }
-                }
+                return Constants.GeneralError;
             }
 
-            if (result)
+            RuntimeSettings settings = loader.CreateRuntimeSettings(new BuildConfig());
+
+            Dictionary<string, StatisticResult> _results = new();
+            StatisticResult sumStat = new();
+            foreach (var chapter in loader.Toc.Chapters)
             {
-                _log.PrintLine("");
-                _terminal.Table(stat.ToTable());
+                var chapterFiles = loader.Toc.GetLinksForChapter(chapter).Select(l => l.Url);
+                var chapterStat = StatisticsCollector.ComputeStatistics(chapterFiles, _log);
+                sumStat += chapterStat;
+                _results.Add(chapter, chapterStat);
             }
 
-            return result ? Constants.Succes : Constants.GeneralError;
+            Print(sumStat, _results);
         }
 
+        return Constants.Succes;
+    }
+
+    private void Print(StatisticResult sumStat, IDictionary<string, StatisticResult>? results)
+    {
+        _terminal.Table<object>(sumStat.ToTable());
+        if (results != null)
+        {
+            var graphData = results.ToDictionary(x => x.Key, x => (double)x.Value.Bytes);
+            _terminal.BreakDownChart(graphData);
+        }
     }
 }

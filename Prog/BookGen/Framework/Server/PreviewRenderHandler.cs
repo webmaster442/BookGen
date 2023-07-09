@@ -81,7 +81,7 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
             _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.PreviewHtml);
             _processor.Content = _indexBuilder.RenderIndex();
             _processor.Title = "Preview";
-            await response.Write(_processor.Render());
+            await response.WriteAsync(_processor.Render());
             return true;
         }
         else if (CanServeFromDir(request.Url, out string found))
@@ -108,7 +108,7 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
                 _processor.Title = $"Preview of {request.Url}";
                 _processor.Content = _mdpipeline?.RenderMarkdown(fileContents) ?? string.Empty;
             }
-            await response.Write(_processor.Render());
+            await response.WriteAsync(_processor.Render());
             return true;
         }
         return false;

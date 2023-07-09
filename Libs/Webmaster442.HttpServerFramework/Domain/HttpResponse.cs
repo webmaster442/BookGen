@@ -8,6 +8,8 @@ using System.Text;
 using System.Text.Json;
 using System.Xml.Serialization;
 
+using Webmaster442.HttpServerFramework.Internal;
+
 namespace Webmaster442.HttpServerFramework.Domain;
 
 /// <summary>
@@ -15,9 +17,8 @@ namespace Webmaster442.HttpServerFramework.Domain;
 /// </summary>
 public sealed class HttpResponse : IDisposable
 {
-    private static readonly byte[] end = Encoding.UTF8.GetBytes("\n\n");
-
     private NetworkStream? _stream;
+    private readonly byte[] _end;
 
     /// <summary>
     /// Response code
@@ -28,6 +29,11 @@ public sealed class HttpResponse : IDisposable
     /// Response content type
     /// </summary>
     public string ContentType { get; set; }
+
+    /// <summary>
+    /// Contains a date and time when the origin server believes the resource was last modified.
+    /// </summary>
+    public DateTime LastModified { get; set; }
 
     /// <summary>
     /// Additional headers to send
@@ -43,6 +49,9 @@ public sealed class HttpResponse : IDisposable
         ContentType = "text/plain";
         AdditionalHeaders = new Dictionary<string, string>();
         ResponseCode = HttpResponseCode.Ok;
+        LastModified = DateTime.UtcNow;
+
+        _end = "\n\n"u8.ToArray();
     }
 
     /// <inheritdoc/>
@@ -57,10 +66,12 @@ public sealed class HttpResponse : IDisposable
 
     private string PrepareHeaders(long contentLength)
     {
-        StringBuilder headers = new StringBuilder();
+        StringBuilder headers = new();
         headers.Append("HTTP/1.1 ").Append((int)ResponseCode).AppendLine(" ResponseCode");
         headers.Append("Content-Length: ").Append(contentLength).AppendLine();
         headers.Append("Content-Type: ").AppendLine(ContentType);
+        headers.Append("Date: ").AppendLine(DateTime.UtcNow.ToHeaderFormat());
+        headers.Append("Last-Modified: ").AppendLine(LastModified.ToHeaderFormat());;
         foreach (var header in AdditionalHeaders)
         {
             headers.AppendLine($"{header.Key}: {header.Value}");
@@ -74,16 +85,16 @@ public sealed class HttpResponse : IDisposable
     /// </summary>
     /// <param name="text">Text to write</param>
     /// <returns>an awaitable task</returns>
-    public async ValueTask Write(string text)
+    public async ValueTask WriteAsync(string text)
     {
         var txt = Encoding.UTF8.GetBytes(text);
-        var headers = Encoding.UTF8.GetBytes(PrepareHeaders(txt.Length+end.Length));
+        var headers = Encoding.UTF8.GetBytes(PrepareHeaders(txt.Length+ _end.Length));
         if (_stream != null)
         {
 #pragma warning disable RCS1090 // Add call to 'ConfigureAwait' (or vice versa).
             await _stream.WriteAsync(headers);
             await _stream.WriteAsync(txt);
-            await _stream.WriteAsync(end);
+            await _stream.WriteAsync(_end);
 #pragma warning restore RCS1090 // Add call to 'ConfigureAwait' (or vice versa).
         }
     }
@@ -93,7 +104,7 @@ public sealed class HttpResponse : IDisposable
     /// </summary>
     /// <param name="data">a stream containing the data</param>
     /// <returns>an awaitable task</returns>
-    public async ValueTask Write(Stream data)
+    public async ValueTask WriteAsync(Stream data)
     {
         var headers = Encoding.UTF8.GetBytes(PrepareHeaders(data.Length));
         if (_stream != null)
@@ -109,7 +120,7 @@ public sealed class HttpResponse : IDisposable
                 await _stream.WriteAsync(buffer, 0, read);
             }
             while (read > 0);
-            await _stream.WriteAsync(end);
+            await _stream.WriteAsync(_end);
 #pragma warning restore RCS1090 // Add call to 'ConfigureAwait' (or vice versa).
         }
     }
@@ -119,7 +130,7 @@ public sealed class HttpResponse : IDisposable
     /// </summary>
     /// <param name="data">data to write</param>
     /// <returns>an awaitable task</returns>
-    public async ValueTask Write(byte[] data)
+    public async ValueTask WriteAsync(byte[] data)
     {
         var headers = Encoding.UTF8.GetBytes(PrepareHeaders(data.Length));
         if (_stream != null)
@@ -127,7 +138,7 @@ public sealed class HttpResponse : IDisposable
 #pragma warning disable RCS1090 // Add call to 'ConfigureAwait' (or vice versa).
             await _stream.WriteAsync(headers);
             await _stream.WriteAsync(data, 0, data.Length);
-            await _stream.WriteAsync(end);
+            await _stream.WriteAsync(_end);
 #pragma warning restore RCS1090 // Add call to 'ConfigureAwait' (or vice versa).
         }
     }
@@ -139,11 +150,11 @@ public sealed class HttpResponse : IDisposable
     /// <param name="input">input object</param>
     /// <param name="options">Serializer options</param>
     /// <returns>an awaitable task</returns>
-    public async ValueTask WriteJson<T>(T input, JsonSerializerOptions? options = null)
+    public async ValueTask WriteJsonAsync<T>(T input, JsonSerializerOptions? options = null)
     {
         string serialized = JsonSerializer.Serialize(input, options);
         ContentType = "application/json";
-        await Write(serialized);
+        await WriteAsync(serialized);
     }
     /// <summary>
     /// Write data as XML
@@ -151,13 +162,13 @@ public sealed class HttpResponse : IDisposable
     /// <param name="serializer">XML serializer to use for the data</param>
     /// <param name="data">Data to write</param>
     /// <returns>an awaitable task</returns>
-    public async ValueTask WriteXml(XmlSerializer serializer, object data)
+    public async ValueTask WriteXmlAsync(XmlSerializer serializer, object data)
     {
         ContentType = "application/xml";
         using (var ms = new MemoryStream())
         {
             serializer.Serialize(ms, data);
-            await Write(ms);
+            await WriteAsync(ms);
         }
     }
 }

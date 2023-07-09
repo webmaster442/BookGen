@@ -13,9 +13,6 @@
 		<FileVersion>1.0.14.0</FileVersion>
     <ApplicationIcon>..\..\Icon.ico</ApplicationIcon>
 		<OutputPath>..\..\bin\$(Configuration)\</OutputPath>
-		<PackAsTool>true</PackAsTool>
-		<ToolCommandName>BookGen</ToolCommandName>
-		<PackageOutputPath>..\bin\nupkg</PackageOutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <SGenVerbose>true</SGenVerbose>
 	</PropertyGroup>
@@ -43,7 +40,7 @@
 		<PackageReference Include="SkiaSharp" Version="2.88.3" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.3" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.3" />
-		<PackageReference Include="Svg.Skia" Version="0.5.18" />
+		<PackageReference Include="Svg.Skia" Version="1.0.0" />
 		<PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
 		<PackageReference Include="XmlDocMarkdown.Core" Version="2.9.0" />
     <PackageReference Include="Microsoft.XmlSerializer.Generator" Version="7.0.0" />

@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2022 Ruzsinszki Gábor
+// Copyright (c) 2021-2023 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
@@ -44,6 +44,14 @@ public sealed class HttpServerConfiguration
     public int MaxClients { get; init; }
 
     /// <summary>
+    /// Enable or disable last acces time header sending.
+    /// If set to true, then last write time of file is sent
+    /// So a browser can cache the response.
+    /// By default it's set to true
+    /// </summary>
+    public bool EnableLastAccesTime { get; init; }
+
+    /// <summary>
     /// Creates a new Instance of HttpServerConfiguration
     /// </summary>
     public HttpServerConfiguration()
@@ -54,5 +62,6 @@ public sealed class HttpServerConfiguration
         CustomErrorHandlers = new Dictionary<HttpResponseCode, string>();
         MaxPostSize = 25 * 1024 * 1024;
         MaxClients = 10;
+        EnableLastAccesTime = true;
     }
 }

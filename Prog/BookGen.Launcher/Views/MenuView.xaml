@@ -42,6 +42,14 @@
                 Content="Relase notes..."
                 Style="{StaticResource LinkButton}" />
             <Button
+                Command="{Binding OpenBrowserCommand}"
+                CommandParameter="Markdown-cheatsheet.html"
+                Content="Markdown cheat sheet..."
+                Style="{StaticResource LinkButton}" />
+            <Rectangle
+                Height="4"
+                Style="{StaticResource Disabled}" />
+            <Button
                 Command="{Binding TerminalInstallCommand}"
                 Style="{StaticResource LinkButton}">
                 <TextBlock

@@ -38,7 +38,7 @@ internal sealed class PreviewStaticHandler : IRequestHandler
             log?.Info("Serving: {0}...", request.Url);
             string? file = ResourceHandler.GetFile(_table[request.Url]);
             response.ContentType = MimeTypes.GetMimeTypeForFile(request.Url);
-            await response.Write(file);
+            await response.WriteAsync(file);
             return true;
         }
         return false;

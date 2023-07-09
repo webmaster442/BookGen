@@ -30,10 +30,8 @@ public static class GitParser
 
     private static string Extract(string line, string begining)
     {
-        if (line.StartsWith(begining))
-        {
-            return line[begining.Length..].Trim();
-        }
-        return string.Empty;
+        return line.StartsWith(begining) 
+            ? line[begining.Length..].Trim() 
+            : string.Empty;
     }
 }

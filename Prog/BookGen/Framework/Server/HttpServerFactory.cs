@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
+
+using BookGen.Resources;
 
 using Webmaster442.HttpServerFramework;
 using Webmaster442.HttpServerFramework.Handlers;
@@ -21,10 +23,14 @@ internal static class HttpServerFactory
         {
             DebugMode = debug,
             Port = 8090,
+            EnableLastAccesTime = true,
         }, log);
 
-        server.RegisterHandler(new FileServeHandler(folder, false, "/"));
-        server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
+        server
+            .RegisterHandler(new FaviconHandler(ResourceHandler.GetFileStream(KnownFile.FaviconT),
+                                                MimeTypes.GetMimeForExtension(".png")))
+            .RegisterHandler(new FileServeHandler(folder, false, server.Configuration, "/"))
+            .RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
     }
@@ -40,10 +46,14 @@ internal static class HttpServerFactory
         {
             DebugMode = debug,
             Port = 8081,
+            EnableLastAccesTime = true,
         }, log);
 
-        server.RegisterHandler(new FileServeHandler(folder, true, "/"));
-        server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
+        server
+            .RegisterHandler(new FaviconHandler(ResourceHandler.GetFileStream(KnownFile.FaviconFs),
+                                                MimeTypes.GetMimeForExtension(".png")))
+            .RegisterHandler(new FileServeHandler(folder, true, server.Configuration, "/"))
+            .RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
     }
@@ -59,12 +69,16 @@ internal static class HttpServerFactory
         {
             DebugMode = debug,
             Port = 8082,
+            EnableLastAccesTime = false,
         }, serverlog);
 
 
-        server.RegisterHandler(new PreviewStaticHandler());
-        server.RegisterHandler(new PreviewRenderHandler(directory, log));
-        server.RegisterHandler(new QrCodeLinkHandler(server.Configuration));
+        server
+            .RegisterHandler(new FaviconHandler(ResourceHandler.GetFileStream(KnownFile.FaviconP),
+                                                MimeTypes.GetMimeForExtension(".png")))
+            .RegisterHandler(new PreviewStaticHandler())
+            .RegisterHandler(new PreviewRenderHandler(directory, log))
+            .RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
     }
