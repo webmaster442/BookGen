@@ -1,5 +1,12 @@
 # 2023
-* New: Ionsearch command
+* New: Linux install script
+* New: Windows builds with bootstappers
+* New: Laucnher includes a markdown cheat sheet
+* Change: Improved stat command
+* Change: HTTP server has favicons & last acces time is sent in header
+* Fix: Image convert command correctly handles SVG files
+* Fix: ImgSearch correctly handles spaces in query
+* Fix: Shell now sets UTF-8 encoding for output
 
 # 2023. 05. 06
 * New: GUI has been reworked. Instead of Terminal.GUI Spectre.Console is used
