@@ -121,14 +121,14 @@ public class FileServeHandler : IRequestHandler
         builder.AppendHeader(1, title);
         builder.AppendHr();
 
-        builder.AppendParagraph("Directories:");
+        builder.AppendHeader(2, "Directories:");
 
         builder.UnorderedList(Directory.GetDirectories(folder), item =>
         {
             return $"<a href=\"{GetUrl(url, item)}\">{Path.GetFileName(item)}</a>";
         });
 
-        builder.AppendParagraph("Files:");
+        builder.AppendHeader(2, "Files:");
 
         builder.UnorderedList(Directory.GetFiles(folder), item =>
         {
