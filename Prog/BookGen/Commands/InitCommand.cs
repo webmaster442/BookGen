@@ -5,7 +5,6 @@
 
 using BookGen.CommandArguments;
 using BookGen.ConsoleUi;
-using BookGen.Framework;
 using BookGen.Infrastructure;
 
 namespace BookGen.Commands;
@@ -28,14 +27,9 @@ internal class InitCommand : AsyncCommand<BookGenArgumentBase>
         _log.LogLevel = arguments.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
-        using (var l = new FolderLock(arguments.Directory))
-        {
-
-            _initMenu = new InitMenu(_log, new FsPath(arguments.Directory), _programInfo);
-            await _initMenu.Run();
-            return Constants.Succes;
-
-        }
+        _initMenu = new InitMenu(_log, new FsPath(arguments.Directory), _programInfo);
+        await _initMenu.Run();
+        return Constants.Succes;
     }
 
     public void Dispose()

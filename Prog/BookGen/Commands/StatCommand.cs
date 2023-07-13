@@ -5,7 +5,6 @@
 
 using BookGen.CommandArguments;
 using BookGen.Domain.Configuration;
-using BookGen.Framework;
 using BookGen.Gui;
 using BookGen.Infrastructure;
 using BookGen.ProjectHandling;
@@ -30,36 +29,33 @@ internal class StatCommand : Command<StatArguments>
     {
         if (!string.IsNullOrEmpty(arguments.Input))
         {
-            var result = StatisticsCollector.ComputeStatistics(arguments.Input, _log);
-            Print(result, null);
+            var singleResult = StatisticsCollector.ComputeStatistics(arguments.Input, _log);
+            Print(singleResult, null);
         }
 
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
 
-        using (var l = new FolderLock(arguments.Directory))
+        var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
+        bool result = loader.LoadProject();
+
+        if (!result)
         {
-            var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
-            bool result = loader.LoadProject();
-
-            if (!result)
-            {
-                return Constants.GeneralError;
-            }
-
-            RuntimeSettings settings = loader.CreateRuntimeSettings(new BuildConfig());
-
-            Dictionary<string, StatisticResult> _results = new();
-            StatisticResult sumStat = new();
-            foreach (var chapter in loader.Toc.Chapters)
-            {
-                var chapterFiles = loader.Toc.GetLinksForChapter(chapter).Select(l => l.Url);
-                var chapterStat = StatisticsCollector.ComputeStatistics(chapterFiles, _log);
-                sumStat += chapterStat;
-                _results.Add(chapter, chapterStat);
-            }
-
-            Print(sumStat, _results);
+            return Constants.GeneralError;
         }
+
+        RuntimeSettings settings = loader.CreateRuntimeSettings(new BuildConfig());
+
+        Dictionary<string, StatisticResult> _results = new();
+        StatisticResult sumStat = new();
+        foreach (var chapter in loader.Toc.Chapters)
+        {
+            var chapterFiles = loader.Toc.GetLinksForChapter(chapter).Select(l => l.Url);
+            var chapterStat = StatisticsCollector.ComputeStatistics(chapterFiles, _log);
+            sumStat += chapterStat;
+            _results.Add(chapter, chapterStat);
+        }
+
+        Print(sumStat, _results);
 
         return Constants.Succes;
     }

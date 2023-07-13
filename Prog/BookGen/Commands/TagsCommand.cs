@@ -6,7 +6,6 @@
 using System.Diagnostics;
 
 using BookGen.CommandArguments;
-using BookGen.Framework;
 using BookGen.Infrastructure;
 using BookGen.ProjectHandling;
 
@@ -30,38 +29,35 @@ internal class TagsCommand : Command<TagsArguments>
 
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
 
-        using (var l = new FolderLock(arguments.Directory))
+        var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
+
+        bool result = loader.LoadProject();
+
+        if (result)
         {
-            var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            bool result = loader.LoadProject();
+            var tagUtils = new WritableTagUtils(loader.Tags,
+                                                loader.Configuration.BookLanguage,
+                                                _log);
 
-            if (result)
-            {
-                var stopwatch = new Stopwatch();
-                stopwatch.Start();
+            tagUtils.DeleteNoLongerExisting(loader.Toc);
+            tagUtils.CreateNotYetExisting(loader.Toc);
 
-                var tagUtils = new WritableTagUtils(loader.Tags,
-                                                    loader.Configuration.BookLanguage,
-                                                    _log);
+            if (arguments.AutoGenerateTags)
+                tagUtils.AutoGenerate(loader.Toc, arguments.AutoKeyWordCount);
 
-                tagUtils.DeleteNoLongerExisting(loader.Toc);
-                tagUtils.CreateNotYetExisting(loader.Toc);
+            PrintStats(_log, tagUtils);
 
-                if (arguments.AutoGenerateTags)
-                    tagUtils.AutoGenerate(loader.Toc, arguments.AutoKeyWordCount);
+            SerializeTagCollection(arguments.Directory, _log, tagUtils.TagCollection);
 
-                PrintStats(_log, tagUtils);
+            _log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
-                SerializeTagCollection(arguments.Directory, _log, tagUtils.TagCollection);
-
-                _log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
-
-                return Constants.Succes;
-            }
-
-            return Constants.GeneralError;
+            return Constants.Succes;
         }
+
+        return Constants.GeneralError;
     }
 
     private static void PrintStats(ILog log, TagUtils tagUtils)

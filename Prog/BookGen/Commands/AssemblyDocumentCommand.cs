@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 
 using BookGen.AssemblyDocumenter;
 using BookGen.CommandArguments;
-using BookGen.Framework;
 using BookGen.Infrastructure;
 
 using XmlDocMarkdown.Core;
@@ -36,47 +35,43 @@ internal class AssemblyDocumentCommand : Command<AssemblyDocumentArguments>
     {
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.OutputDirectory.ToString());
 
-        using (var l = new FolderLock(arguments.OutputDirectory.ToString()))
+        if (arguments.SinglePage)
         {
-            if (arguments.SinglePage)
+            Interfaces.FsPath? filename = arguments.OutputDirectory
+                .Combine(arguments.AssemblyPath.Filename)
+                .Combine("_doc.md");
+
+            Interfaces.FsPath? xmlfile = arguments.AssemblyPath.ChangeExtension(".xml");
+
+            if (XmlDocValidator.ValidateXml(xmlfile, _log))
             {
-                Interfaces.FsPath? filename = arguments.OutputDirectory
-                    .Combine(arguments.AssemblyPath.Filename)
-                    .Combine("_doc.md");
 
-                Interfaces.FsPath? xmlfile = arguments.AssemblyPath.ChangeExtension(".xml");
+                var documenter = new XmlDocumenter(xmlfile, arguments.AssemblyPath);
 
-                if (XmlDocValidator.ValidateXml(xmlfile, _log))
+                string? result = documenter.ToMarkdown(new ConverterSettings
                 {
+                    ShouldSkipInternal = true,
+                    ShouldSkipNonBrowsable = true,
+                });
 
-                    var documenter = new XmlDocumenter(xmlfile, arguments.AssemblyPath);
-
-                    string? result = documenter.ToMarkdown(new ConverterSettings
-                    {
-                        ShouldSkipInternal = true,
-                        ShouldSkipNonBrowsable = true,
-                    });
-
-                    filename.WriteFile(_log, result);
-                    return Constants.Succes;
-                }
-                return Constants.GeneralError;
-            }
-            else
-            {
-                XmlDocMarkdownResult? result = XmlDocMarkdownGenerator.Generate(arguments.AssemblyPath.ToString(),
-                                             arguments.OutputDirectory.ToString(),
-                                             new XmlDocMarkdownSettings
-                                             {
-                                                 IsQuiet = true,
-                                                 ShouldClean = true,
-                                                 VisibilityLevel = XmlDocVisibilityLevel.Protected,
-                                                 SkipUnbrowsable = true,
-                                             });
-                Logdetails(result.Messages);
+                filename.WriteFile(_log, result);
                 return Constants.Succes;
             }
+            return Constants.GeneralError;
         }
-
+        else
+        {
+            XmlDocMarkdownResult? result = XmlDocMarkdownGenerator.Generate(arguments.AssemblyPath.ToString(),
+                                         arguments.OutputDirectory.ToString(),
+                                         new XmlDocMarkdownSettings
+                                         {
+                                             IsQuiet = true,
+                                             ShouldClean = true,
+                                             VisibilityLevel = XmlDocVisibilityLevel.Protected,
+                                             SkipUnbrowsable = true,
+                                         });
+            Logdetails(result.Messages);
+            return Constants.Succes;
+        }
     }
 }

@@ -7,7 +7,6 @@ using System.Diagnostics;
 
 using BookGen.CommandArguments;
 using BookGen.Domain.Configuration;
-using BookGen.Framework;
 using BookGen.Infrastructure;
 using BookGen.ProjectHandling;
 
@@ -34,29 +33,26 @@ internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
 
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
 
-        using (var l = new FolderLock(arguments.Directory))
+        var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
+
+        if (loader.LoadProject())
         {
-            var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            if (loader.LoadProject())
-            {
-                var stopwatch = new Stopwatch();
-                stopwatch.Start();
+            RuntimeSettings settings = loader.CreateRuntimeSettings(new BuildConfig());
 
-                RuntimeSettings settings = loader.CreateRuntimeSettings(new BuildConfig());
+            string content = ExtractLinksToMdFile(settings, _log);
 
-                string content = ExtractLinksToMdFile(settings, _log);
+            arguments.OutputFile.WriteFile(_log, content);
 
-                arguments.OutputFile.WriteFile(_log, content);
+            stopwatch.Stop();
+            _log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
-                stopwatch.Stop();
-                _log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
-
-                return Constants.Succes;
-            }
-
-            return Constants.GeneralError;
+            return Constants.Succes;
         }
+
+        return Constants.GeneralError;
     }
 
     private string ExtractLinksToMdFile(RuntimeSettings settings, ILog log)
