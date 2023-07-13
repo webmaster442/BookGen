@@ -13,9 +13,8 @@ internal static class FolderLock
     {
         if (!Directory.Exists(folder))
             return false;
-
+        
         var concurrentProcesses = Process.GetProcesses()
-            .Where(p => p.StartInfo.WorkingDirectory == folder)
             .Where(p => p.ProcessName == "BookGen")
             .Where(p => p.Id != Environment.ProcessId)
             .Any();
