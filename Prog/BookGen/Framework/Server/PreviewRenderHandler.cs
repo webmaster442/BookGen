@@ -89,6 +89,8 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
 
             var fileContents = new FsPath(found).ReadFile(_log);
 
+            _mdpipeline?.InjectPath(new FsPath(_directory));
+
             if (request.Parameters.ContainsKey("edit")
                 && request.Parameters["edit"] == "true")
             {
