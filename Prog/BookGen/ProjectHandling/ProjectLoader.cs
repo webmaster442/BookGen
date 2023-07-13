@@ -58,8 +58,9 @@ internal sealed class ProjectLoader
     {
         get
         {
-            var (confgJson, configYaml, _, _) = ProjectFilesLocator.Locate(_state.WorkDir);
-            return confgJson.IsExisting || configYaml.IsExisting;
+            ProjectFiles projectFiles = ProjectFilesLocator.Locate(_state.WorkDir);
+            return projectFiles.ConfigJson.IsExisting 
+                || projectFiles.ConfigYaml.IsExisting;
         }
     }
 

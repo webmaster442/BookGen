@@ -26,13 +26,13 @@ internal class TasksCommand : AsyncCommand<TasksArgument>
 
     public override async Task<int> Execute(TasksArgument arguments, string[] context)
     {
-        var files = ProjectFilesLocator.Locate(new FsPath(arguments.Directory));
-        if (!files.tasks.IsExisting)
+        ProjectFiles files = ProjectFilesLocator.Locate(new FsPath(arguments.Directory));
+        if (!files.TasksXml.IsExisting)
         {
             if (arguments.Create)
             {
                 var items = BookGenTaskFactory.CreateSample();
-                files.tasks.SerializeXml(items, _log);
+                files.TasksXml.SerializeXml(items, _log);
             }
             else
             {
@@ -42,7 +42,7 @@ internal class TasksCommand : AsyncCommand<TasksArgument>
             }
         }
 
-        using var stream = files.tasks.OpenStreamRead();
+        using var stream = files.TasksXml.OpenStreamRead();
 
         XmlSerializer serializer = new XmlSerializer(typeof(BookGenTasks));
         BookGenTasks? tasks = serializer.Deserialize(stream) as BookGenTasks;
