@@ -73,7 +73,7 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
 
     public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
     {
-        response.AdditionalHeaders.Add("Cache-Control", "no-store");
+        response.Headers.Add("Cache-Control", "no-store");
         response.ContentType = "text/html";
         if (request.Url == "/")
         {
