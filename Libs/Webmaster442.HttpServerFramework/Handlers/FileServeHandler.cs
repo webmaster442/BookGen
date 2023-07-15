@@ -135,7 +135,7 @@ public class FileServeHandler : IRequestHandler
             return $"<a href=\"{GetUrl(url, item)}\">{Path.GetFileName(item)}</a>";
         });
 
-        response.ContentType = "text/html";
+        response.ContentType = "text/html; charset=utf-8";
         response.ResponseCode = HttpResponseCode.Ok;
         await response.WriteAsync(builder.ToString());
     }
