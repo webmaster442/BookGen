@@ -67,11 +67,11 @@ public sealed class HttpResponse : IDisposable
     private string PrepareHeaders(long contentLength)
     {
         StringBuilder headers = new();
-        headers.Append("HTTP/1.1 ").Append((int)ResponseCode).AppendLine(" ResponseCode");
+        headers.Append("HTTP/1.1 ").Append((int)ResponseCode).AppendLine($" {ResponseCode}");
         headers.Append("Content-Length: ").Append(contentLength).AppendLine();
         headers.Append("Content-Type: ").AppendLine(ContentType);
         headers.Append("Date: ").AppendLine(DateTime.UtcNow.ToHeaderFormat());
-        headers.Append("Last-Modified: ").AppendLine(LastModified.ToHeaderFormat());;
+        headers.Append("Last-Modified: ").AppendLine(LastModified.ToHeaderFormat());
         foreach (var header in AdditionalHeaders)
         {
             headers.AppendLine($"{header.Key}: {header.Value}");
