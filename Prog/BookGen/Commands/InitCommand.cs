@@ -10,7 +10,7 @@ using BookGen.Infrastructure;
 namespace BookGen.Commands;
 
 [CommandName("init")]
-internal class InitCommand : AsyncCommand<BookGenArgumentBase>
+internal sealed class InitCommand : AsyncCommand<BookGenArgumentBase>, IDisposable
 {
     private InitMenu? _initMenu;
     private readonly ILog _log;

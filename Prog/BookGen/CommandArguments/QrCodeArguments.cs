@@ -29,7 +29,7 @@ internal sealed class QrCodeArguments : ArgumentsBase
         if (string.IsNullOrEmpty(Data))
             result.AddIssue("Data can't be empty");
 
-        if (Data.Length < 1 && Data.Length > 900)
+        if (Data?.Length < 1 || Data?.Length > 900)
             result.AddIssue("Data must be at least 1 chars and max 900 chars");
 
         if (FsPath.IsEmptyPath(Output))
@@ -38,7 +38,7 @@ internal sealed class QrCodeArguments : ArgumentsBase
         if (Size < 10 || Size > 1000)
             result.AddIssue("Size must be bigger than 10px and maximum 1000 pixels");
 
-        if (Output.Extension != ".png" || Output.Extension != ".svg")
+        if (Output.Extension != ".png" && Output.Extension != ".svg")
             result.AddIssue("Output extension must be .png or .svg");
 
         return result;

@@ -46,12 +46,7 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>, IDisposable
 
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
 
-        if (_mainMenu != null)
-        {
-            await _mainMenu.Run();
-            return Constants.Succes;
-        }
-
-        return Constants.GeneralError;
+        await _mainMenu.Run();
+        return Constants.Succes;
     }
 }
