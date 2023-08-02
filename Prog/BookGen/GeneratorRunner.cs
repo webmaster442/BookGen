@@ -119,7 +119,7 @@ internal class GeneratorRunner
 
     private void LoadAndCompileScripts()
     {
-        if (string.IsNullOrEmpty(_projectLoader.Configuration.ScriptsDirectory)) return true;
+        if (string.IsNullOrEmpty(_projectLoader.Configuration.ScriptsDirectory)) return;
 
         Log.Info("Trying to load and compile script files...");
         FsPath scripts = new FsPath(WorkDirectory).Combine(_projectLoader.Configuration.ScriptsDirectory);
