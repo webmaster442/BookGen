@@ -20,7 +20,7 @@ internal sealed class ColorConverter : ConverterBase<string, SolidColorBrush>
 
     private static Color HSLtoRGB(double Hue, double Luminance, double Saturation)
     {
-        if (Saturation == 0)
+        if (Math.Abs(Saturation) <0.000001d)
         {
             // achromatic color (gray scale)
             return Color.FromRgb(

@@ -47,8 +47,10 @@ internal static class Dialog
             main.WindowState = WindowState.Normal;
 
         main.Blocker.Visibility = Visibility.Visible;
-        dialog.ShowDialog();
-        main.Blocker.Visibility = Visibility.Collapsed;
+        if (dialog.ShowDialog() != null)
+        {
+            main.Blocker.Visibility = Visibility.Collapsed;
+        }
 
         return dialog.ClickedButton;
     }

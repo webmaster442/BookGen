@@ -40,9 +40,8 @@ internal sealed partial class RequestParser
 
         using (var reader = new StreamReader(stream, leaveOpen: true))
         {
-            do
+            while ((line = reader.ReadLine()) != null)
             {
-                line = reader.ReadLine();
                 if (string.IsNullOrEmpty(line))
                 {
                     break;
@@ -73,7 +72,6 @@ internal sealed partial class RequestParser
                 }
                 ++lineNumber;
             }
-            while (!string.IsNullOrEmpty(line));
 
             if (method == RequestMethod.Post)
             {
