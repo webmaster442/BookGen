@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.31.0" />
+    <PackageReference Include="Markdig" Version="0.32.0" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.4.2" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.4.2" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.4.2" />
