@@ -5,6 +5,7 @@
 
 using BookGen.CommandArguments;
 using BookGen.DomainServices.Markdown;
+using BookGen.Native;
 
 namespace BookGen.Commands;
 
@@ -20,7 +21,9 @@ internal class MdTableCommand : Command<MdTableArguments>
 
     public override int Execute(MdTableArguments arguments, string[] context)
     {
-        string? content = WinClipboard.GetText();
+        IClipboard clipboard = NativeFactory.GetPlatformClipboard();
+
+        string? content = clipboard.GetText();
         if (string.IsNullOrEmpty(content))
         {
             _log.Warning("Clipboard doesn't contain string data");
@@ -30,7 +33,7 @@ internal class MdTableCommand : Command<MdTableArguments>
         if (MarkdownTableConverter.TryConvertToMarkdownTable(content, arguments.Delimiter, out string markdown))
         {
             _log.Info("Table formatted & copied to clipboard");
-            WinClipboard.SetText(markdown);
+            clipboard.SetText(markdown);
             return Constants.Succes;
         }
         else
