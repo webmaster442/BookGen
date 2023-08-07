@@ -5,6 +5,8 @@
 
 using System.Runtime.InteropServices;
 
+using BookGen.Native.Implementations;
+
 namespace BookGen.Native;
 public static class NativeFactory
 {
@@ -19,6 +21,6 @@ public static class NativeFactory
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
             ? new WindowsProcessExtensions()
-            : throw new PlatformNotSupportedException();
+            : new DumyProcessExtensions();
     }
 }

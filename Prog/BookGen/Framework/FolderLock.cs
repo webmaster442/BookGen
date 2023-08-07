@@ -5,20 +5,44 @@
 
 using System.Diagnostics;
 
+using BookGen.Native;
+
 namespace BookGen.Framework;
 
 internal static class FolderLock
 {
-    public static bool IsFolderLocked(string folder)
+    public static bool IsFolderLocked(string folderToCheck)
     {
-        if (!Directory.Exists(folder))
-            return false;
-        
-        var concurrentProcesses = Process.GetProcesses()
-            .Where(p => p.ProcessName == "BookGen")
-            .Where(p => p.Id != Environment.ProcessId)
-            .Any();
+        var processExtensons = NativeFactory.GetPlatformProcessExtensions();
 
-        return concurrentProcesses;
+        if (!Directory.Exists(folderToCheck))
+            return false;
+
+        Environment.CurrentDirectory = folderToCheck;
+
+#if DEBUG
+        var directory = processExtensons.GetWorkingDirectory(Process.GetCurrentProcess());
+        if (Environment.CurrentDirectory != directory)
+        {
+            //Working dir not correctly set
+            Debugger.Break();
+        }
+#endif
+
+        var concurrentBookGens = Process.GetProcesses()
+            .Where(p => p.ProcessName == "BookGen"
+              && p.Id != Environment.ProcessId);
+
+        foreach (var otherBookGen in concurrentBookGens) 
+        {
+            var workingFolder = processExtensons.GetWorkingDirectory(otherBookGen);
+            if (string.IsNullOrEmpty(workingFolder)
+                || workingFolder == folderToCheck)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

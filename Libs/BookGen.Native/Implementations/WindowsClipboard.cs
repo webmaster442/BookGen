@@ -10,7 +10,7 @@ using System.Text;
 
 using BookGen.Native.Windows;
 
-namespace BookGen.Native;
+namespace BookGen.Native.Implementations;
 
 internal sealed class WindowsClipboard : IClipboard
 {
@@ -52,7 +52,7 @@ internal sealed class WindowsClipboard : IClipboard
     private static void SetTextNative(string text)
     {
         User32.EmptyClipboard();
-        IntPtr hGlobal = default;
+        nint hGlobal = default;
         try
         {
             int bytes = (text.Length + 1) * 2;
@@ -61,7 +61,7 @@ internal sealed class WindowsClipboard : IClipboard
             if (hGlobal == default)
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
-            IntPtr target = Kernel32.GlobalLock(hGlobal);
+            nint target = Kernel32.GlobalLock(hGlobal);
 
             if (target == default)
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -91,8 +91,8 @@ internal sealed class WindowsClipboard : IClipboard
 
     private static string? GetTextNative()
     {
-        IntPtr handle = default;
-        IntPtr pointer = default;
+        nint handle = default;
+        nint pointer = default;
         try
         {
             handle = User32.GetClipboardData(cfUnicodeText);
