@@ -26,18 +26,16 @@ namespace BookGen.Tests.Environment
 
         internal static IAppSetting GetMockedAppSettings()
         {
-            var mock = new Mock<IAppSetting>();
-            mock.SetupGet(x => x.NodeJsPath).Returns("");
-            mock.SetupGet(x => x.NodeJsTimeout).Returns(60);
-
-            return mock.Object;
+            var mock = Substitute.For<IAppSetting>();
+            mock.NodeJsPath.Returns(string.Empty);
+            mock.NodeJsTimeout.Returns(60);
+            return mock;
         }
 
         public static ILog GetMockedLog()
         {
-            var mock = new Mock<ILog>();
-
-            return mock.Object;
+            var mock = Substitute.For<ILog>();
+            return mock;
         }
 
         public static IReadonlyRuntimeSettings GetMockedSettings()
@@ -45,12 +43,11 @@ namespace BookGen.Tests.Environment
             var testConfig = Config.CreateDefault();
             testConfig.HostName = "http://test.com/";
 
-            var mock = new Mock<IReadonlyRuntimeSettings>();
-            mock.SetupGet(m => m.Configuration).Returns(testConfig);
-            mock.SetupGet(m => m.OutputDirectory).Returns(new FsPath(GetTestFolder()));
-            mock.SetupGet(m => m.SourceDirectory).Returns(new FsPath(GetTestFolder()));
-
-            return mock.Object;
+            var mock = Substitute.For<IReadonlyRuntimeSettings>();
+            mock.Configuration.Returns(testConfig);
+            mock.OutputDirectory.Returns(new FsPath(GetTestFolder()));
+            mock.SourceDirectory.Returns(new FsPath(GetTestFolder()));
+            return mock;
         }
     }
 }

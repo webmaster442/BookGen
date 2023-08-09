@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2022 Ruzsinszki Gábor
+// (c) 2020-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -12,13 +12,13 @@ namespace BookGen.Tests.Integration
     public class IT_NodeJs
     {
         private NodeJs _sut;
-        private Mock<ILog> _log;
+        private ILog _log;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            _log = new Mock<ILog>();
-            _sut = new NodeJs(_log.Object, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
+            var _log = Substitute.For<ILog>();
+            _sut = new NodeJs(_log, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
         }
 
         [OneTimeTearDown]

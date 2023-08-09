@@ -14,7 +14,7 @@ namespace BookGen.Tests
     public class UT_TestServer
     {
         private HttpServer _server;
-        private Mock<IServerLog> _log;
+        private IServerLog _log;
 
         private class TestHandler : IRequestHandler
         {
@@ -40,12 +40,12 @@ namespace BookGen.Tests
         [SetUp]
         public void Setup()
         {
-            _log = new Mock<IServerLog>();
+            _log = Substitute.For<IServerLog>();
             _server = new HttpServer(new HttpServerConfiguration
             {
                 Port = 8080,
                 EnableLastAccesTime = false,
-            }, _log.Object);
+            }, _log);
 
             _server.RegisterHandler(new TestHandler());
             _server.RegisterHandler(new FileServeHandler(TestEnvironment.GetTestFolder(), false, _server.Configuration, "/"));

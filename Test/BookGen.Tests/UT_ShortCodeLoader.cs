@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -9,13 +9,13 @@ namespace BookGen.Tests
     public class UT_ShortCodeLoader
     {
         private ShortCodeLoader _sut;
-        private Mock<ILog> _logMock;
+        private ILog _logMock;
 
         [SetUp]
         public void Setup()
         {
-            _logMock = new Mock<ILog>();
-            _sut = new ShortCodeLoader(_logMock.Object, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
+            _logMock = Substitute.For<ILog>();
+            _sut = new ShortCodeLoader(_logMock, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
             _sut.LoadAll();
         }
 

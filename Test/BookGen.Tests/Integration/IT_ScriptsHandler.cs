@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2022 Ruzsinszki Gábor
+// (c) 2020-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -12,19 +12,19 @@ namespace BookGen.Tests.Integration
     public class IT_ScriptsHandler
     {
         private CsharpScriptHandler _sut;
-        private Mock<ILog> _log;
-        private Mock<IReadonlyRuntimeSettings> _settings;
+        private ILog _log;
+        private IReadonlyRuntimeSettings _settings;
         private int _loaded;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            _log = new Mock<ILog>();
-            _settings = new Mock<IReadonlyRuntimeSettings>();
-            _settings.Setup(x => x.SourceDirectory).Returns(FsPath.Empty);
+            _log = Substitute.For<ILog>();
+            _settings = Substitute.For<IReadonlyRuntimeSettings>();
+            _settings.SourceDirectory.Returns(FsPath.Empty);
 
-            _sut = new CsharpScriptHandler(_log.Object);
-            _sut.SetHostFromRuntimeSettings(_settings.Object);
+            _sut = new CsharpScriptHandler(_log);
+            _sut.SetHostFromRuntimeSettings(_settings);
             _loaded = _sut.LoadScripts(new FsPath(TestEnvironment.GetTestFolder()));
         }
 

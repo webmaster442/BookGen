@@ -24,8 +24,8 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_Compiler_CompileToAssembly_ReturnsAssemblyValidSource()
         {
-            var _logMock = new Mock<ILog>();
-            var _sut = new Compiler(_logMock.Object);
+            var _logMock = Substitute.For<ILog>();
+            var _sut = new Compiler(_logMock);
 
             IEnumerable<Microsoft.CodeAnalysis.SyntaxTree> tree = _sut.ParseToSyntaxTree(source);
             System.Reflection.Assembly result = _sut.CompileToAssembly(tree);
@@ -36,8 +36,8 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_Compiler_CompileToAssembly_ReturnsNullInValidSource()
         {
-            var _logMock = new Mock<ILog>();
-            var _sut = new Compiler(_logMock.Object);
+            var _logMock = Substitute.For<ILog>();
+            var _sut = new Compiler(_logMock);
 
             const string invalidsource = source + "asdd";
 
