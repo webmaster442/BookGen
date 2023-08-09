@@ -12,20 +12,15 @@ namespace BookGen.Tests
     public class UT_Shell
     {
         private ShellCommand _sut;
-        private Mock<IModuleApi> _moduleApiMock;
+        private IModuleApi _moduleApiMock;
 
         [SetUp]
         public void Setup()
         {
-            _moduleApiMock = new Mock<IModuleApi>();
-            _moduleApiMock
-                .Setup(x => x.GetCommandNames())
-                .Returns(new[] { "bookgen", "assemblydocument" });
-            _moduleApiMock
-                .Setup(x => x.GetAutoCompleteItems("assemblydocument"))
-                .Returns(new string[] { "--assembly" });
-
-            _sut = new ShellCommand(_moduleApiMock.Object);
+            _moduleApiMock = Substitute.For<IModuleApi>();
+            _moduleApiMock.GetCommandNames().Returns(new[] { "bookgen", "assemblydocument" });
+            _moduleApiMock.GetAutoCompleteItems("assemblydocument").Returns(new string[] { "--assembly" });
+            _sut = new ShellCommand(_moduleApiMock);
         }
 
         [Test]
