@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -12,21 +12,21 @@ namespace BookGen.Tests
     public class UT_ShortCodeParser
     {
         private ShortCodeParser _sut;
-        private Mock<ILog> _log;
+        private ILog _log;
 
         [SetUp]
         public void Setup()
         {
-            _log = new Mock<ILog>();
+            _log = Substitute.For<ILog>();
             var tranlate = new Translations();
-            var handler = new CsharpScriptHandler(_log.Object);
+            var handler = new CsharpScriptHandler(_log);
 
             _sut = new ShortCodeParser(new List<ITemplateShortCode>
             {
                 new Stubs.DumyShortCode(),
                 new Stubs.ArgumentedShortCode(),
                 new Stubs.ArgumentNameYielderShortCode()
-            }, handler, tranlate, _log.Object);
+            }, handler, tranlate, _log);
         }
 
         [TearDown]

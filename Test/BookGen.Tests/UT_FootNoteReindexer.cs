@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2022 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,13 +10,13 @@ namespace BookGen.Tests
     public class UT_FootNoteReindexer
     {
         private FootNoteReindexer _sut;
-        private Mock<ILog> _logMock;
+        private ILog _logMock;
 
         [SetUp]
         public void Setup()
         {
-            _logMock = new Mock<ILog>();
-            _sut = new FootNoteReindexer(_logMock.Object);
+            _logMock = Substitute.For<ILog>();
+            _sut = new FootNoteReindexer(_logMock);
         }
 
         [Test]
