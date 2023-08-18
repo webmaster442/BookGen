@@ -134,6 +134,19 @@ Arguments:
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
+# Html2Pdf
+
+Converts a HTML file to a printable PDF using edges headless mode.
+
+`BookGen Html2Pdf -i [input] -o [output]`
+`BookGen Html2Pdf --input [input] --output [output]`
+
+-i, --input:
+    Input html file with extension of .htm or .html
+
+-o, --output:
+    Output PDF file.
+
 # ImgConvert
 
 Converts images from a format to an other format
