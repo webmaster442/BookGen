@@ -37,7 +37,7 @@
 		<PackageReference Include="Markdig" Version="0.32.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0" />
 		<PackageReference Include="PreMailer.Net" Version="2.4.0" />
-		<PackageReference Include="SkiaSharp" Version="2.88.3" />
+		<PackageReference Include="SkiaSharp" Version="2.88.4" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.3" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.3" />
 		<PackageReference Include="Svg.Skia" Version="1.0.0" />
