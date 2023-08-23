@@ -39,6 +39,6 @@ internal sealed class WebBrowserControl : WebView2
             await preview.EnsureCoreWebView2Async();
             return true;
         }
-        return true;
+        return false;
     }
 }

@@ -43,7 +43,5 @@ internal static class StopwordsLoader
 
             }
         }
-
-        throw new InvalidOperationException($"No stopword can be found for language: {culture}");
     }
 }

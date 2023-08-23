@@ -1,35 +1,48 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+
+using BookGen.Native;
+
 namespace BookGen.Framework;
 
-internal sealed class FolderLock : IDisposable
+internal static class FolderLock
 {
-    private readonly string _lockfile;
-    private const string lockName = "bookGen.lock";
-
-    public FolderLock(string folder)
+    public static bool IsFolderLocked(string folderToCheck)
     {
-        _lockfile = Path.Combine(folder, lockName);
-        if (!File.Exists(_lockfile))
+        var processExtensons = NativeFactory.GetPlatformProcessExtensions();
+
+        if (!Directory.Exists(folderToCheck))
+            return false;
+
+        Environment.CurrentDirectory = folderToCheck;
+
+#if DEBUG
+        var directory = processExtensons.GetWorkingDirectory(Process.GetCurrentProcess());
+        if (Environment.CurrentDirectory != directory)
         {
-            using StreamWriter? f = File.CreateText(_lockfile);
+            //Working dir not correctly set
+            Debugger.Break();
         }
-    }
+#endif
 
-    public void Dispose()
-    {
-        if (File.Exists(_lockfile))
+        var concurrentBookGens = Process.GetProcesses()
+            .Where(p => p.ProcessName == "BookGen"
+              && p.Id != Environment.ProcessId);
+
+        foreach (var otherBookGen in concurrentBookGens) 
         {
-            File.Delete(_lockfile);
+            var workingFolder = processExtensons.GetWorkingDirectory(otherBookGen);
+            if (string.IsNullOrEmpty(workingFolder)
+                || workingFolder == folderToCheck)
+            {
+                return true;
+            }
         }
-    }
 
-    public static bool TryCheckLockExistance(string folder, out string lockFile)
-    {
-        lockFile = Path.Combine(folder, lockName);
-        return File.Exists(lockFile);
+        return false;
     }
 }

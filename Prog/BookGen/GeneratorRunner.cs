@@ -109,7 +109,7 @@ internal class GeneratorRunner
         bool ret = _projectLoader.LoadProject();
 
         if (compileScripts)
-            ret = ret && LoadAndCompileScripts();
+            LoadAndCompileScripts();
 
         if (!ret && !NoWait)
             _moduleApi.Wait(ExitString);
@@ -117,17 +117,15 @@ internal class GeneratorRunner
         return ret;
     }
 
-    private bool LoadAndCompileScripts()
+    private void LoadAndCompileScripts()
     {
-        if (string.IsNullOrEmpty(_projectLoader.Configuration.ScriptsDirectory)) return true;
+        if (string.IsNullOrEmpty(_projectLoader.Configuration.ScriptsDirectory)) return;
 
         Log.Info("Trying to load and compile script files...");
         FsPath scripts = new FsPath(WorkDirectory).Combine(_projectLoader.Configuration.ScriptsDirectory);
 
         int count = _scriptHandler.LoadScripts(scripts);
         Log.Info("Loaded {0} instances from script files", count);
-
-        return true;
     }
 
     public void DoClean()

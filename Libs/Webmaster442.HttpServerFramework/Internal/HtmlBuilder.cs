@@ -22,8 +22,9 @@ internal sealed class HtmlBuilder
     private void CreateHtmlDocHeaders()
     {
         _content.AppendLine("<!doctype html>");
-        _content.AppendLine("<html>");
+        _content.AppendLine("<html lang=\"en\">");
         _content.AppendLine("<head><meta charset=\"utf-8\">");
+        _content.AppendLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
         _content.AppendLine("<title>");
         _content.AppendLine(_title);
         _content.AppendLine("</title></head><body>");

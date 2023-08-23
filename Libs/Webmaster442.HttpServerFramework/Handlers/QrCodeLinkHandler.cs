@@ -82,7 +82,7 @@ public class QrCodeLinkHandler : IRequestHandler
             .AppendParagraph("Note: This only works if the server and the device you are using is on the same network")
             .AppendEndElement(Element.Div);
         
-        response.ContentType = "text/html";
+        response.ContentType = "text/html; charset=utf8";
         response.ResponseCode = HttpResponseCode.Ok;
 
         await response.WriteAsync(builder.ToString());

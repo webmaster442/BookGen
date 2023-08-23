@@ -46,17 +46,7 @@ internal class PackCommand : Command<PackArguments>
         //project files
         var projectFiles = ProjectFilesLocator.Locate(new FsPath(arguments.Directory));
 
-        if (projectFiles.confgJson.IsExisting)
-            filesToPack.Add(projectFiles.confgJson.ToString());
-
-        if (projectFiles.configYaml.IsExisting)
-            filesToPack.Add(projectFiles.configYaml.ToString());
-
-        if (projectFiles.tags.IsExisting)
-            filesToPack.Add(projectFiles.tags.ToString());
-
-        if (projectFiles.tasks.IsExisting)
-            filesToPack.Add(projectFiles.tasks.ToString());
+        projectFiles.AddToPackListIfExist(filesToPack);
 
         ConsoleProgressbar progressbar = new(0, filesToPack.Count, _log is not JsonLog);
 

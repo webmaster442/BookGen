@@ -27,6 +27,6 @@ internal sealed class TocLoad : LoadStep
 
         State.Toc = MarkdownUtils.ParseToc(tocFile.ReadFile(Log));
 
-        return State.Toc != null;
+        return State.Toc.FilesCount > 0;
     }
 }

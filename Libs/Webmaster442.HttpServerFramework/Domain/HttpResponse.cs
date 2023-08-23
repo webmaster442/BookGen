@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2022 Ruzsinszki Gábor
+// Copyright (c) 2021-2023 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ public sealed class HttpResponse : IDisposable
     /// <summary>
     /// Additional headers to send
     /// </summary>
-    public Dictionary<string, string> AdditionalHeaders { get; }
+    public Dictionary<string, string> Headers { get; }
 
     /// <summary>
     /// Creates a new instance of HttpResponse
@@ -47,7 +47,7 @@ public sealed class HttpResponse : IDisposable
     {
         _stream = networkStream;
         ContentType = "text/plain";
-        AdditionalHeaders = new Dictionary<string, string>();
+        Headers = new Dictionary<string, string>();
         ResponseCode = HttpResponseCode.Ok;
         LastModified = DateTime.UtcNow;
 
@@ -63,16 +63,25 @@ public sealed class HttpResponse : IDisposable
             _stream = null;
         }
     }
+    
+    private void SetHeader(string name, object value)
+    {
+        string valueStr = value.ToString() ?? string.Empty;
+        if (Headers.ContainsKey(name))
+            Headers[name] = valueStr;
+        else
+            Headers.Add(name, valueStr);
+    }
 
     private string PrepareHeaders(long contentLength)
     {
         StringBuilder headers = new();
-        headers.Append("HTTP/1.1 ").Append((int)ResponseCode).AppendLine(" ResponseCode");
-        headers.Append("Content-Length: ").Append(contentLength).AppendLine();
-        headers.Append("Content-Type: ").AppendLine(ContentType);
-        headers.Append("Date: ").AppendLine(DateTime.UtcNow.ToHeaderFormat());
-        headers.Append("Last-Modified: ").AppendLine(LastModified.ToHeaderFormat());;
-        foreach (var header in AdditionalHeaders)
+        headers.Append("HTTP/1.1 ").Append((int)ResponseCode).AppendLine($" {ResponseCode}");
+        SetHeader("Content-Length", contentLength);
+        SetHeader("Content-Type", ContentType);
+        SetHeader("Date", DateTime.UtcNow.ToHeaderFormat());
+        SetHeader("Last-Modified", LastModified.ToHeaderFormat());
+        foreach (var header in Headers)
         {
             headers.AppendLine($"{header.Key}: {header.Value}");
         }

@@ -5,7 +5,6 @@
 
 using BookGen.CommandArguments;
 using BookGen.ConsoleUi;
-using BookGen.Framework;
 using BookGen.Infrastructure;
 
 namespace BookGen.Commands;
@@ -20,7 +19,6 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>, IDisposable
 
     private MainMenu? _mainMenu;
     private GeneratorRunner? _runner;
-    private FolderLock? _folderLock;
 
     public GuiCommand(ILog log, IModuleApi api, IHelpProvider helpProvider, ProgramInfo programInfo)
     {
@@ -37,11 +35,6 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>, IDisposable
             _mainMenu.Dispose();
             _mainMenu = null;
         }
-        if (_folderLock != null)
-        {
-            _folderLock.Dispose();
-            _folderLock = null;
-        }
     }
 
     public override async Task<int> Execute(BookGenArgumentBase arguments, string[] context)
@@ -53,14 +46,7 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>, IDisposable
 
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
 
-        _folderLock = new FolderLock(arguments.Directory);
-
-        if (_mainMenu != null)
-        {
-            await _mainMenu.Run();
-            return Constants.Succes;
-        }
-
-        return Constants.GeneralError;
+        await _mainMenu.Run();
+        return Constants.Succes;
     }
 }

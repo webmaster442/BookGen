@@ -16,11 +16,11 @@ internal abstract class LoadStep
         State = state;
         Log = log;
 
-        var (confgJson, configYaml, tags, _) = ProjectFilesLocator.Locate(state.WorkDir);
+        ProjectFiles projectFiles = ProjectFilesLocator.Locate(state.WorkDir);
 
-        _configJson = confgJson;
-        _configYaml = configYaml;
-        _tagsJson = tags;
+        _configJson = projectFiles.ConfigJson;
+        _configYaml = projectFiles.ConfigYaml;
+        _tagsJson = projectFiles.TagsJson;
     }
 
     public LoadState State { get; }
