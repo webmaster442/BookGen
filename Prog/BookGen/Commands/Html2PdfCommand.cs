@@ -9,6 +9,8 @@ internal class Html2PdfCommand : AsyncCommand<Html2PdfArguments>
 {
     private readonly ILog _log;
 
+    public override Cli.SupportedOs SupportedOs => Cli.SupportedOs.Windows;
+
     public Html2PdfCommand(ILog log)
     {
         _log = log;
