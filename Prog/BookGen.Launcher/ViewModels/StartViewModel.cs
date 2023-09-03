@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace BookGen.Launcher.ViewModels;
 
-internal sealed class StartViewModel : ObservableObject
+internal sealed partial class StartViewModel : ObservableObject
 {
     private List<string> _elements;
     private string _filter;
@@ -19,22 +19,12 @@ internal sealed class StartViewModel : ObservableObject
 
     public BindingList<ItemViewModel> View { get; }
 
-    public RelayCommand<string> OpenFolderCommand { get; }
-    public RelayCommand<string> RemoveFolderCommand { get; }
-    public RelayCommand<string> FolderSelectCommand { get; }
-    public RelayCommand ClearFoldersCommand { get; }
-
     public StartViewModel(IMainViewModel mainViewModel)
     {
         _mainViewModel = mainViewModel;
         _filter = string.Empty;
         _elements = new List<string>();
         _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
-
-        OpenFolderCommand = new RelayCommand<string>(OnOpenFolder);
-        ClearFoldersCommand = new RelayCommand(OnClearFolders);
-        RemoveFolderCommand = new RelayCommand<string>(OnRemoveFolder);
-        FolderSelectCommand = new RelayCommand<string>(OnFolderSelect);
 
         View = new BindingList<ItemViewModel>();
         Version = GetVersion();
@@ -152,7 +142,8 @@ internal sealed class StartViewModel : ObservableObject
         }
     }
 
-    private void OnOpenFolder(string? obj)
+    [RelayCommand]
+    private void OpenFolder(string? obj)
     {
         if (Dialog.TryselectFolderDialog(out string selected))
         {
@@ -170,7 +161,8 @@ internal sealed class StartViewModel : ObservableObject
         }
     }
 
-    private void OnClearFolders()
+    [RelayCommand]
+    private void ClearFolders()
     {
         if (Dialog.ShowMessageBox(Properties.Resources.ClearRecentList,
                               Properties.Resources.Question,
@@ -183,7 +175,8 @@ internal sealed class StartViewModel : ObservableObject
         }
     }
 
-    private void OnRemoveFolder(string? obj)
+    [RelayCommand]
+    private void RemoveFolder(string? obj)
     {
         if (obj is string folder)
         {
@@ -202,7 +195,8 @@ internal sealed class StartViewModel : ObservableObject
         }
     }
 
-    private void OnFolderSelect(string? obj)
+    [RelayCommand]
+    private void FolderSelect(string? obj)
     {
         if (!string.IsNullOrEmpty(obj))
         {
