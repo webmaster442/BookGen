@@ -6,6 +6,8 @@
 using System.Diagnostics;
 using System.Text.Json;
 
+using BookGen.Launcher.Infrastructure;
+
 namespace BookGen.Launcher.ViewModels;
 
 internal sealed partial class StartViewModel : ObservableObject
@@ -13,6 +15,7 @@ internal sealed partial class StartViewModel : ObservableObject
     private List<string> _elements;
     private string _filter;
     private readonly string _fileName;
+    private readonly string _tempName;
     private readonly IMainViewModel _mainViewModel;
 
     public string Version { get; }
@@ -24,6 +27,7 @@ internal sealed partial class StartViewModel : ObservableObject
         _mainViewModel = mainViewModel;
         _filter = string.Empty;
         _elements = new List<string>();
+        _tempName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "temp.json");
         _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
 
         View = new BindingList<ItemViewModel>();
@@ -34,15 +38,9 @@ internal sealed partial class StartViewModel : ObservableObject
 
     private void LoadFolderList()
     {
-        string? json = ReadFile();
-
-        if (!string.IsNullOrEmpty(json))
+        if (FilleManagement.ReadJson<string[]>(_fileName, out string[]? deserialized))
         {
-            string[]? deserialized = JsonSerializer.Deserialize<string[]>(json);
-            if (deserialized != null)
-            {
-                _elements = new List<string>(deserialized);
-            }
+            _elements = new List<string>(deserialized);
         }
 
         string[] arguments = Environment.GetCommandLineArgs();
@@ -74,8 +72,7 @@ internal sealed partial class StartViewModel : ObservableObject
 
     public void SaveFolders()
     {
-        string? text = JsonSerializer.Serialize(_elements);
-        WriteFile(text);
+        FilleManagement.WriteJson(_tempName, _fileName, _elements);
         App.UpdateJumplist(_elements);
     }
 
@@ -114,33 +111,6 @@ internal sealed partial class StartViewModel : ObservableObject
         return name?.Version?.ToString() ?? "Couldn't get version";
     }
 
-    private string ReadFile()
-    {
-        if (File.Exists(_fileName))
-        {
-            try
-            {
-                return File.ReadAllText(_fileName);
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-        }
-        return string.Empty;
-    }
-
-    private void WriteFile(string content)
-    {
-        try
-        {
-            File.WriteAllText(_fileName, content);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-        }
-    }
 
     [RelayCommand]
     private void OpenFolder(string? obj)

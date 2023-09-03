@@ -31,6 +31,9 @@ internal sealed partial class MainWindowViewModel : ObservableObject, IMainViewM
     private bool _isMenuOpen;
 
     [ObservableProperty]
+    private bool _isTodoOpen;
+    
+    [ObservableProperty]
     private INotifyPropertyChanged? _popupContent;
 
     [ObservableProperty]

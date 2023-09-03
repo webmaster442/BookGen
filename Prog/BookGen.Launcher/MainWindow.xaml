@@ -25,6 +25,11 @@
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <ToggleButton
+                x:Name="TodoToggle"
+                Content="Todo Items"
+                IsChecked="{Binding IsTodoOpen}"
+                Visibility="{Binding IsPopupOpen, Converter={controls:BooleanToVisibilityConverter}, ConverterParameter=negate}" />
+            <ToggleButton
                 x:Name="MenuToggle"
                 Content="Menu"
                 IsChecked="{Binding IsMenuOpen}"
@@ -44,9 +49,16 @@
                 Position="Right">
                 <views:MenuView DataContext="{Binding ElementName=MainWin, Path=DataContext}" />
             </mah:Flyout>
+            <mah:Flyout
+                Header="Todo"
+                Width="{Binding ElementName=MainGrid, Path=ActualWidth}"
+                IsOpen="{Binding IsTodoOpen}"
+                Position="Right">
+                <views:TodoView />
+            </mah:Flyout>
         </mah:FlyoutsControl>
     </mah:MetroWindow.Flyouts>
-    <Grid>
+    <Grid x:Name="MainGrid">
         <ContentControl
             x:Name="ContentPopup"
             Panel.ZIndex="1"
