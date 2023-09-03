@@ -39,9 +39,13 @@ internal sealed partial class MainWindowViewModel : ObservableObject, IMainViewM
     [ObservableProperty]
     private INotifyPropertyChanged? _mainContent;
 
+    [ObservableProperty]
+    private TodoViewModel _todoViewModel;
+
     public MainWindowViewModel()
     {
         _popupTitle = string.Empty;
+        _todoViewModel = new TodoViewModel();
         Start();
     }
 

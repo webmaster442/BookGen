@@ -50,11 +50,11 @@
                 <views:MenuView DataContext="{Binding ElementName=MainWin, Path=DataContext}" />
             </mah:Flyout>
             <mah:Flyout
-                Header="Todo"
                 Width="{Binding ElementName=MainGrid, Path=ActualWidth}"
+                Header="Todo"
                 IsOpen="{Binding IsTodoOpen}"
                 Position="Right">
-                <views:TodoView />
+                <views:TodoView DataContext="{Binding ElementName=MainWin, Path=DataContext.TodoViewModel}" />
             </mah:Flyout>
         </mah:FlyoutsControl>
     </mah:MetroWindow.Flyouts>
