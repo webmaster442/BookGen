@@ -1,4 +1,9 @@
-﻿namespace BookGen.Launcher.ViewModels;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Launcher.ViewModels;
 
 public sealed class TodoItemModel : ObservableObject
 {

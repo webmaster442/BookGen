@@ -1,17 +1,19 @@
-﻿using BookGen.Launcher.Infrastructure;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
 
-using Microsoft.VisualBasic;
+using BookGen.Launcher.Infrastructure;
 
 namespace BookGen.Launcher.ViewModels;
+
 internal sealed partial class TodoViewModel : ObservableObject
 {
     private readonly string _fileName;
     private readonly string _tempName;
 
     private bool _isNewItem;
-
-    [ObservableProperty]
-    private bool _sortByDate;
+    private int _editedIndex;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(DeleteCommand), nameof(EditCommand))]
@@ -33,7 +35,6 @@ internal sealed partial class TodoViewModel : ObservableObject
     {
         _tempName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "todotemp.json");
         _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenTodo.json");
-        _sortByDate = true;
         _editorTitle = string.Empty;
         TodoItems = LoadList();
     }
@@ -52,9 +53,15 @@ internal sealed partial class TodoViewModel : ObservableObject
         FilleManagement.WriteJson(_tempName, _fileName, TodoItems);
     }
 
-    private bool CanEditDelete(TodoItemModel? todoItemModel)
+    private static bool CanDelete(TodoItemModel? todoItemModel)
     {
         return todoItemModel != null;
+    }
+
+    private static bool CanEdit(TodoItemModel? todoItemModel)
+    {
+        return todoItemModel != null 
+            && todoItemModel.IsChecked == false;
     }
 
     [RelayCommand]
@@ -76,16 +83,21 @@ internal sealed partial class TodoViewModel : ObservableObject
         EditorVisible = true;
     }
 
-    [RelayCommand(CanExecute = nameof(CanEditDelete))]
+    [RelayCommand(CanExecute = nameof(CanEdit))]
     private void Edit(TodoItemModel? todoItemModel)
     {
         if (todoItemModel == null)
             return;
 
-        
+        _isNewItem = false;
+        _editedIndex = TodoItems.IndexOf(todoItemModel);
+
+        EditorTitle = todoItemModel.Title;
+        EditorDate = todoItemModel.DueDate;
+        EditorVisible = true;
     }
 
-    [RelayCommand(CanExecute = nameof(CanEditDelete))]
+    [RelayCommand(CanExecute = nameof(CanDelete))]
     private void Delete(TodoItemModel? todoItemModel)
     {
         if (todoItemModel == null)
@@ -110,6 +122,11 @@ internal sealed partial class TodoViewModel : ObservableObject
                 Title = EditorTitle,
             };
             TodoItems.Add(item);
+        }
+        else
+        {
+            TodoItems[_editedIndex].Title = EditorTitle;
+            TodoItems[_editedIndex].DueDate = EditorDate;
         }
         SaveList();
         EditorVisible = false;
