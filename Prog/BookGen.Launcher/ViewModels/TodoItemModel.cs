@@ -1,4 +1,5 @@
 ﻿namespace BookGen.Launcher.ViewModels;
+
 public sealed class TodoItemModel : ObservableObject
 {
     private bool _isChecked;
