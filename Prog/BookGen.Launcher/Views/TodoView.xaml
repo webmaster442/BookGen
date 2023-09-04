@@ -7,6 +7,7 @@
     xmlns:controls="clr-namespace:BookGen.Launcher.Controls"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:ClassModifier="internal"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
