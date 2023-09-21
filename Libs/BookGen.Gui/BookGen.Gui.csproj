@@ -10,7 +10,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.5" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.5" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.6" />
 		<PackageReference Include="Spectre.Console" Version="0.47.0" />
     <PackageReference Include="SkiaSharp" Version="2.88.5" />
 		<PackageReference Include="Spectre.Console.Analyzer" Version="0.47.0">
