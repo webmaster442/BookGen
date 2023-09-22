@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<OutputType>Exe</OutputType>
 		<AssemblyTitle>BookGen</AssemblyTitle>
@@ -35,15 +35,15 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.33.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0-2.final" />
 		<PackageReference Include="PreMailer.Net" Version="2.4.0" />
 		<PackageReference Include="SkiaSharp" Version="2.88.6" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.6" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.6" />
 		<PackageReference Include="Svg.Skia" Version="1.0.0.2" />
-		<PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
+		<PackageReference Include="System.ComponentModel.Composition" Version="8.0.0-rc.1.23419.4" />
 		<PackageReference Include="XmlDocMarkdown.Core" Version="2.9.0" />
-    <PackageReference Include="Microsoft.XmlSerializer.Generator" Version="7.0.0" />
+    <PackageReference Include="Microsoft.XmlSerializer.Generator" Version="8.0.0-rc.1.23419.4" />
 	</ItemGroup>
 
   <ItemGroup>
