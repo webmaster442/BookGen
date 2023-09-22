@@ -1,18 +1,17 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2022 Ruzsinszki Gábor
+// (c) 2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Windows.Controls;
 
 namespace BookGen.Launcher.Views;
-
 /// <summary>
-/// Interaction logic for FileBrowserView.xaml
+/// Interaction logic for TodoView.xaml
 /// </summary>
-internal sealed partial class FileBrowserView : UserControl
+internal partial class TodoView : UserControl
 {
-    public FileBrowserView()
+    public TodoView()
     {
         InitializeComponent();
     }

@@ -7,19 +7,10 @@ using BookGen.DomainServices;
 
 namespace BookGen.Launcher;
 
-internal sealed class MainWindowViewModel : ObservableObject, IMainViewModel
+internal sealed partial class MainWindowViewModel : ObservableObject, IMainViewModel
 {
-    private bool _isPopupOpen;
-    private bool _isMenuOpen;
-    private INotifyPropertyChanged? _popupContent;
-    private INotifyPropertyChanged? _mainContent;
-    private string _popupTitle;
 
-    public RelayCommand ClosePopupCommand { get; }
-    public RelayCommand OpenSettingsCommand { get; }
-    public RelayCommand StartCommand { get; }
-    public RelayCommand TerminalInstallCommand { get; }
-    public RelayCommand<string> OpenBrowserCommand { get; }
+    private string _popupTitle;
 
     public string AppTitle
     {
@@ -33,42 +24,33 @@ internal sealed class MainWindowViewModel : ObservableObject, IMainViewModel
         }
     }
 
-    public INotifyPropertyChanged? PopupContent
-    {
-        get => _popupContent;
-        set => SetProperty(ref _popupContent, value);
-    }
+    [ObservableProperty]
+    private bool _isPopupOpen;
 
-    public INotifyPropertyChanged? MainContent
-    {
-        get => _mainContent;
-        set => SetProperty(ref _mainContent, value);
-    }
+    [ObservableProperty]
+    private bool _isMenuOpen;
 
-    public bool IsPopupOpen
-    {
-        get => _isPopupOpen;
-        set => SetProperty(ref _isPopupOpen, value);
-    }
+    [ObservableProperty]
+    private bool _isTodoOpen;
+    
+    [ObservableProperty]
+    private INotifyPropertyChanged? _popupContent;
 
-    public bool IsMenuOpen
-    {
-        get => _isMenuOpen;
-        set => SetProperty(ref _isMenuOpen, value);
-    }
+    [ObservableProperty]
+    private INotifyPropertyChanged? _mainContent;
+
+    [ObservableProperty]
+    private TodoViewModel _todoViewModel;
 
     public MainWindowViewModel()
     {
         _popupTitle = string.Empty;
-        TerminalInstallCommand = new RelayCommand(OnTerminalInstall);
-        ClosePopupCommand = new RelayCommand(OnClosePopup);
-        OpenBrowserCommand = new RelayCommand<string>(OnOpenBrowser);
-        OpenSettingsCommand = new RelayCommand(OnOpenSettings);
-        StartCommand = new RelayCommand(OnStart);
-        OnStart();
+        _todoViewModel = new TodoViewModel();
+        Start();
     }
 
-    private void OnTerminalInstall()
+    [RelayCommand]
+    private void TerminalInstall()
     {
         var result = TerminalProfileInstaller.TryInstall();
         if (result == null)
@@ -79,17 +61,20 @@ internal sealed class MainWindowViewModel : ObservableObject, IMainViewModel
             MessageBox.Show("Terminal profile install failed", "Terminal install", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
-    private void OnStart()
+    [RelayCommand]
+    private void Start()
     {
         OpenContent(new ViewModels.StartViewModel(this));
     }
 
-    private void OnOpenSettings()
+    [RelayCommand]
+    private void OpenSettings()
     {
         OpenPopupContent(new ViewModels.SettingsViewModel(), "Settings");
     }
 
-    private void OnOpenBrowser(string? obj)
+    [RelayCommand]
+    private void OpenBrowser(string? obj)
     {
         OpenPopupContent(new ViewModels.WebViewModel(obj), obj ?? string.Empty);
     }
@@ -111,7 +96,8 @@ internal sealed class MainWindowViewModel : ObservableObject, IMainViewModel
         OnPropertyChanged(nameof(AppTitle));
     }
 
-    private void OnClosePopup()
+    [RelayCommand]
+    private void ClosePopup()
     {
         _popupTitle = string.Empty;
         PopupContent = NullViewModel.Instance;
@@ -131,6 +117,6 @@ internal sealed class MainWindowViewModel : ObservableObject, IMainViewModel
 
     void IMainViewModel.ClosePopup()
     {
-        OnClosePopup();
+        ClosePopup();
     }
 }

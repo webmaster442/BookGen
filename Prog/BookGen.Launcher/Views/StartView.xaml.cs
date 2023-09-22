@@ -10,7 +10,7 @@ namespace BookGen.Launcher.Views;
 /// <summary>
 /// Interaction logic for FolderSelectorView.xaml
 /// </summary>
-public sealed partial class StartView : UserControl
+internal sealed partial class StartView : UserControl
 {
     public StartView()
     {

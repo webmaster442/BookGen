@@ -6,35 +6,29 @@
 using System.Diagnostics;
 using System.Text.Json;
 
+using BookGen.Launcher.Infrastructure;
+
 namespace BookGen.Launcher.ViewModels;
 
-internal sealed class StartViewModel : ObservableObject
+internal sealed partial class StartViewModel : ObservableObject
 {
     private List<string> _elements;
     private string _filter;
     private readonly string _fileName;
+    private readonly string _tempName;
     private readonly IMainViewModel _mainViewModel;
 
     public string Version { get; }
 
     public BindingList<ItemViewModel> View { get; }
 
-    public RelayCommand<string> OpenFolderCommand { get; }
-    public RelayCommand<string> RemoveFolderCommand { get; }
-    public RelayCommand<string> FolderSelectCommand { get; }
-    public RelayCommand ClearFoldersCommand { get; }
-
     public StartViewModel(IMainViewModel mainViewModel)
     {
         _mainViewModel = mainViewModel;
         _filter = string.Empty;
         _elements = new List<string>();
+        _tempName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "temp.json");
         _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
-
-        OpenFolderCommand = new RelayCommand<string>(OnOpenFolder);
-        ClearFoldersCommand = new RelayCommand(OnClearFolders);
-        RemoveFolderCommand = new RelayCommand<string>(OnRemoveFolder);
-        FolderSelectCommand = new RelayCommand<string>(OnFolderSelect);
 
         View = new BindingList<ItemViewModel>();
         Version = GetVersion();
@@ -44,15 +38,9 @@ internal sealed class StartViewModel : ObservableObject
 
     private void LoadFolderList()
     {
-        string? json = ReadFile();
-
-        if (!string.IsNullOrEmpty(json))
+        if (FilleManagement.ReadJson<string[]>(_fileName, out string[]? deserialized))
         {
-            string[]? deserialized = JsonSerializer.Deserialize<string[]>(json);
-            if (deserialized != null)
-            {
-                _elements = new List<string>(deserialized);
-            }
+            _elements = new List<string>(deserialized);
         }
 
         string[] arguments = Environment.GetCommandLineArgs();
@@ -84,8 +72,7 @@ internal sealed class StartViewModel : ObservableObject
 
     public void SaveFolders()
     {
-        string? text = JsonSerializer.Serialize(_elements);
-        WriteFile(text);
+        FilleManagement.WriteJson(_tempName, _fileName, _elements);
         App.UpdateJumplist(_elements);
     }
 
@@ -124,35 +111,9 @@ internal sealed class StartViewModel : ObservableObject
         return name?.Version?.ToString() ?? "Couldn't get version";
     }
 
-    private string ReadFile()
-    {
-        if (File.Exists(_fileName))
-        {
-            try
-            {
-                return File.ReadAllText(_fileName);
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-        }
-        return string.Empty;
-    }
 
-    private void WriteFile(string content)
-    {
-        try
-        {
-            File.WriteAllText(_fileName, content);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-        }
-    }
-
-    private void OnOpenFolder(string? obj)
+    [RelayCommand]
+    private void OpenFolder(string? obj)
     {
         if (Dialog.TryselectFolderDialog(out string selected))
         {
@@ -170,7 +131,8 @@ internal sealed class StartViewModel : ObservableObject
         }
     }
 
-    private void OnClearFolders()
+    [RelayCommand]
+    private void ClearFolders()
     {
         if (Dialog.ShowMessageBox(Properties.Resources.ClearRecentList,
                               Properties.Resources.Question,
@@ -183,7 +145,8 @@ internal sealed class StartViewModel : ObservableObject
         }
     }
 
-    private void OnRemoveFolder(string? obj)
+    [RelayCommand]
+    private void RemoveFolder(string? obj)
     {
         if (obj is string folder)
         {
@@ -202,7 +165,8 @@ internal sealed class StartViewModel : ObservableObject
         }
     }
 
-    private void OnFolderSelect(string? obj)
+    [RelayCommand]
+    private void FolderSelect(string? obj)
     {
         if (!string.IsNullOrEmpty(obj))
         {

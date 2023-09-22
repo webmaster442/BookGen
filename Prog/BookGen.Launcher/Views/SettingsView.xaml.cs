@@ -10,7 +10,7 @@ namespace BookGen.Launcher.Views;
 /// <summary>
 /// Interaction logic for SettingsView.xaml
 /// </summary>
-public sealed partial class SettingsView : UserControl
+internal sealed partial class SettingsView : UserControl
 {
     public SettingsView()
     {
