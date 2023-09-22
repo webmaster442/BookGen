@@ -7,8 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:ClassModifier="internal"
     mc:Ignorable="d">
-    <Grid Margin="10,0" Width="300">
+    <Grid
+        Width="300"
+        Margin="10,0">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
@@ -53,9 +56,9 @@
                 Command="{Binding TerminalInstallCommand}"
                 Style="{StaticResource LinkButton}">
                 <TextBlock
-                    Text="Integrate Bookgen shell to Windows terminal..." 
-                    TextWrapping="Wrap"
-                    Width="230"/>
+                    Width="230"
+                    Text="Integrate Bookgen shell to Windows terminal..."
+                    TextWrapping="Wrap" />
             </Button>
         </StackPanel>
         <StackPanel

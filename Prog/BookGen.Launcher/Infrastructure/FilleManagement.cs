@@ -40,9 +40,13 @@ internal static class FilleManagement
     {
         try
         {
-            using (var stream = File.OpenWrite(tempName))
+            using (var stream = File.Create(tempName))
             {
                 JsonSerializer.Serialize<T>(stream, content, _jsonSerializerOptions);
+            }
+            if (File.Exists(finalName))
+            {
+                File.Delete(finalName);
             }
             File.Move(tempName, finalName);
         }
