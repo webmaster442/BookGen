@@ -53,6 +53,9 @@ Write-Output "#define MyAppVersion ""$version""" | Out-File -FilePath "version.i
 & 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup.iss
 cd ..
 
+Write-Host "Creating ISO..."
+copy-item autorun.inf bin\Publish
+.\Scripts\Folder2Iso.exe -i bin\Publish -v "BookGen" -o bin\bookgen.iso
 
 Write-Host "Cleanup..."
 Remove-Item bin\Release\ -Recurse
