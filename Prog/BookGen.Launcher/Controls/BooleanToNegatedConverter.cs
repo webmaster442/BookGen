@@ -6,23 +6,18 @@ namespace BookGen.Launcher.Controls;
 
 internal sealed class BooleanToNegatedConverter : MarkupExtension, IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    private static object Negate(object value)
     {
-        if (value is bool b)
-        {
-            return !b;
-        }
-        return Binding.DoNothing;
+        return value is bool b
+            ? !b 
+            : Binding.DoNothing;
     }
 
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        => Negate(value);
+
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is bool b)
-        {
-            return !b;
-        }
-        return Binding.DoNothing;
-    }
+        => Negate(value);
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
