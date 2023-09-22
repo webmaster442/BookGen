@@ -3,19 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen", "BookGen\BookGen.csproj", "{45095BC4-0F34-4087-A859-1227763AFA0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen", "BookGen\BookGen.csproj", "{45095BC4-0F34-4087-A859-1227763AFA0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookGen.Launcher", "BookGen.Launcher\BookGen.Launcher.csproj", "{D6228E0E-AD04-443A-B177-671FFBC58E21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Launcher", "BookGen.Launcher\BookGen.Launcher.csproj", "{D6228E0E-AD04-443A-B177-671FFBC58E21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookgen.Win", "Bookgen.Win\Bookgen.Win.csproj", "{9832DC6D-3F44-4221-BB59-2FF64D650C56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookgen.Win", "Bookgen.Win\Bookgen.Win.csproj", "{9832DC6D-3F44-4221-BB59-2FF64D650C56}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Installer", "BookGen.Installer\BookGen.Installer.csproj", "{D1553AF2-BD6C-4847-8434-FB2B8232AA98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{45095BC4-0F34-4087-A859-1227763AFA0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +29,15 @@ Global
 		{9832DC6D-3F44-4221-BB59-2FF64D650C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9832DC6D-3F44-4221-BB59-2FF64D650C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9832DC6D-3F44-4221-BB59-2FF64D650C56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1553AF2-BD6C-4847-8434-FB2B8232AA98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1553AF2-BD6C-4847-8434-FB2B8232AA98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1553AF2-BD6C-4847-8434-FB2B8232AA98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1553AF2-BD6C-4847-8434-FB2B8232AA98}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6C21A96-CFC5-4F86-A793-913F058FC1C1}
 	EndGlobalSection
 EndGlobal
