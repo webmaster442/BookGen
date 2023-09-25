@@ -61,10 +61,6 @@ namespace BookGen.Domain.Configuration
         {
         }
 
-        private Translations(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-
         public static Translations CreateDefault()
         {
             return new Translations()

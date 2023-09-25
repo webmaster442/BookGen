@@ -23,8 +23,4 @@ public class DependencyException : Exception
     public DependencyException(string? message, Exception? innerException) : base("Missing dependecy for: " + message, innerException)
     {
     }
-
-    protected DependencyException(SerializationInfo info, StreamingContext context) : base(info, context)
-    {
-    }
 }

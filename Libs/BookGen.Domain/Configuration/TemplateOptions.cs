@@ -59,10 +59,6 @@ namespace BookGen.Domain.Configuration
         {
         }
 
-        private TemplateOptions(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-
         internal static TemplateOptions CreateDefaultOptions()
         {
             return new TemplateOptions
