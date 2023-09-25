@@ -1,5 +1,3 @@
-#include "version.iss"
-
 #define MyAppName "BookGen"
 #define MyAppPublisher "webmaster442"
 #define MyAppURL "https://github.com/webmaster442/BookGen"
@@ -9,7 +7,6 @@
 #define LauncherIconName "BookGen launcher"
 
 [Setup]
-AppId={{EA96EDA6-EF13-4AD9-BFA6-1800AF466EA4}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
@@ -19,8 +16,6 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName=c:\{#MyAppName}
 DefaultGroupName={#MyAppName}
 LicenseFile=licence.rtf
-OutputDir=..\bin
-OutputBaseFilename=published.exe
 SolidCompression=yes
 InternalCompressLevel=max
 PrivilegesRequired=lowest
@@ -32,9 +27,6 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-
-[Files]
-Source: "..\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion createallsubdirs recursesubdirs
 
 [Icons]
 Name: "{group}\{#LauncherBootstrapper}"; Filename: "{app}\{#LauncherBootstrapper}"
@@ -141,4 +133,4 @@ begin
   begin
     if (GetUninstallString() <> '') then UnInstallOldVersion();
   end;
-end;                 
+end;  

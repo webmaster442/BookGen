@@ -36,22 +36,25 @@ copy-item bin\bootstaper\Release\BookGen.Launcher.exe bin\Publish
 copy-item bin\bootstaper\Release\Bookgen.Win.dll bin\Publish
 
 
-Write-Host "Creating zip package..."
-$compress = @{
-  Path = "bin\publish\*"
-  CompressionLevel = "Optimal"
-  DestinationPath = "bin\published.Zip"
-}
-Compress-Archive @compress -Force
-
-Write-Host "Creating hash..."
-Get-FileHash -Path bin\published.zip -Algorithm SHA256 > bin\published.txt
-
 Write-Host "Creating installer..."
 cd Setup
 Write-Output "#define MyAppVersion ""$version""" | Out-File -FilePath "version.iss" -Encoding ASCII
-& 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup.iss
+& 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup-web.iss
 cd ..
+
+Write-Host "Creating installer for ISO image..."
+cd bin\publish
+$publishFiles=$(Get-ChildItem -Name -Recurse -Include *.*)
+cd ..\..
+cd Setup
+Write-Output "[Files]" | Out-File -FilePath "cdfiles.iss" -Encoding ASCII
+foreach ($file in $publishFiles)
+{
+	$targetDir=$(Split-Path $file)
+	Write-Output "Source: ""{src}\$file""; DestDir: ""{app}\$targetDir""; Flags: ignoreversion external" | Out-File -Append -FilePath "cdfiles.iss" -Encoding ASCII
+}
+& 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup-iso.iss
+cd..
 
 Write-Host "Creating ISO..."
 copy-item autorun.inf bin\Publish
