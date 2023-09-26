@@ -34,6 +34,7 @@ cd ..
 copy-item bin\bootstaper\Release\BookGen.exe bin\Publish
 copy-item bin\bootstaper\Release\BookGen.Launcher.exe bin\Publish
 copy-item bin\bootstaper\Release\Bookgen.Win.dll bin\Publish
+copy-item bin\bootstaper\Release\Documents.html bin\Publish
 
 
 Write-Host "Creating installer..."
