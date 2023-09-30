@@ -18,6 +18,8 @@ if (IsUnfinishedUpdateDetected())
 
 var argumentList = args.ToList();
 
+ProgramConfigurator.WaitForDebugger(argumentList);
+
 (ILog log, IServerLog serverLog) = ProgramConfigurator.ConfigureLog(argumentList);
 ProgramInfo info = new();
 AppSetting settings = AppSettingHandler.LoadAppSettings() ?? new AppSetting();
