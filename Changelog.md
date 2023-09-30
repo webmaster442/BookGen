@@ -2,10 +2,11 @@
 * New: Linux install script
 * New: Windows builds with bootstappers
 * New: Laucnher includes a markdown cheat sheet
-* New: HTML2OPDF command (Windows only)
+* New: HTML2PDF command (Windows only)
 * Change: Improved stat command
 * Change: HTTP server has favicons & last acces time is sent in header
 * Change: Replaces File based folder locking wiht a process based one
+* Change: Auto updater removed, because of multiple platform issues
 * Fix: Image convert command correctly handles SVG files
 * Fix: ImgSearch correctly handles spaces in query
 * Fix: Shell now sets UTF-8 encoding for output
