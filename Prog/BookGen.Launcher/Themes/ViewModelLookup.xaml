@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:BookGen.Launcher.Controls"
     xmlns:viewModels="clr-namespace:BookGen.Launcher.ViewModels"
+    xmlns:rssViewModels="clr-namespace:BookGen.Launcher.ViewModels.Rss"
     xmlns:views="clr-namespace:BookGen.Launcher.Views">
 
     <DataTemplate DataType="{x:Type viewModels:NullViewModel}" />
@@ -25,6 +26,10 @@
 
     <DataTemplate DataType="{x:Type viewModels:PreviewViewModel}">
         <controls:PreviewControl FileUnderPreview="{Binding FilePath}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type rssViewModels:NewsViewModel}">
+        <views:NewsView/>
     </DataTemplate>
 
 </ResourceDictionary>

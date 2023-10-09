@@ -8,7 +8,6 @@ using System.Xml.Serialization;
 namespace BookGen.Launcher.ViewModels.Rss;
 
 [Serializable]
-[XmlType(AnonymousType = true)]
 public class RssChannel
 {
     [XmlElement("title")]

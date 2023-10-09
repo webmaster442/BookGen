@@ -19,7 +19,11 @@
         <StackPanel Grid.Row="0">
             <Button
                 Command="{Binding StartCommand}"
-                Content="Start"
+                Content="Start..."
+                Style="{StaticResource LinkButton}" />
+            <Button
+                Command="{Binding OpenNewsCommand}"
+                Content="News..."
                 Style="{StaticResource LinkButton}" />
             <Rectangle
                 Height="4"

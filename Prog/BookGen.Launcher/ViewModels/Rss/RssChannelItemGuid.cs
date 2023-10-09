@@ -14,7 +14,7 @@ public class RssChannelItemGuid
     [XmlAttribute("isPermaLink")]
     public bool IsPermaLink { get; set; }
 
-    [XmlText()]
+    [XmlText]
     public string Value { get; set; }
 
     public RssChannelItemGuid()
