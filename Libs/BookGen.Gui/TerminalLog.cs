@@ -38,8 +38,8 @@ public sealed class TerminalLog : IServerLog, ILog
 
     public void Log(LogLevel logLevel, string format, params object[] args)
     {
-        string text = string.Format(format, args);
-        string line = string.Format("{0} | {1} | {2}", DateTime.Now.ToShortTimeString(), logLevel, text);
+        string text = string.Format(format, args).EscapeMarkup();
+        string line = string.Format("{0} | {1} | {2}", DateTime.Now.ToShortTimeString(), logLevel, text).EscapeMarkup();
         if (logLevel <= LogLevel)
         {
             AnsiConsole.MarkupLine($"{GetFormat(logLevel)}{line}[/]");
