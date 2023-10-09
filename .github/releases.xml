@@ -31,7 +31,7 @@
         🔧 Fix: Fixes a bug, which caused the progress bar messages while building not always readable
         🔧 Fix: BookGen shell colour scheme adjusted in windows terminal for better readability
       </description>
-      <pubDate>Wed, 27 Sep 2023 18:40:45 -0000</pubDate>
+      <pubDate>Sat, 6 May 2023 18:40:45 -0000</pubDate>
       <guid isPermaLink="false">https://github.com/webmaster442/BookGen/releases/tag/2023-05-06</guid>
     </item>
     <item>
@@ -54,7 +54,7 @@
         👁‍🗨 Change: Updated dependencies
         👁‍🗨 Change: configuration files are moved into .bookgen folder for projects
       </description>
-      <pubDate>Wed, 27 Sep 2023 18:25:45 -0000</pubDate>
+      <pubDate>Thu, 12 Jan 2023 18:25:45 -0000</pubDate>
       <guid isPermaLink="false">https://github.com/webmaster442/BookGen/releases/tag/2023-01-12</guid>
     </item>
   </channel>

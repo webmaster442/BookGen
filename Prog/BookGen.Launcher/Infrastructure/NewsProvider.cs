@@ -46,7 +46,7 @@ internal sealed class NewsProvider
         var xmlSerializer = new XmlSerializer(typeof(RSS));
         try
         {
-            if (File.Exists(_cacheFile) 
+            if (File.Exists(_cacheFile)
                 && (DateTime.Now - File.GetLastWriteTime(_cacheFile)).TotalHours < 12)
             {
                 using (var cache = File.OpenRead(_cacheFile))
