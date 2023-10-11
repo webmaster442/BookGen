@@ -1,13 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
+
+using System.Text;
+
+using BookGen.Resources;
 
 using Markdig.Parsers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
-using System.Text;
 
 namespace BookGen.DomainServices.Markdown.Renderers
 {
@@ -16,6 +19,7 @@ namespace BookGen.DomainServices.Markdown.Renderers
         private readonly CodeBlockRenderer _underlyingRenderer;
         private readonly JavaScriptInterop _interop;
         private readonly HashSet<string> _supportedLanguages;
+        private const string Terminallanguage = "terminal";
 
         public static bool Enabled { get; set; } = true;
 
@@ -45,7 +49,7 @@ namespace BookGen.DomainServices.Markdown.Renderers
                 "sass", "scss", "scala", "scheme", "smalltalk", "smarty", "sql", "soy", 
                 "stylus", "swift", "tap", "tcl", "textile", "tt2", "twig", "typescript",
                 "vbnet", "velocity", "verilog", "vhdl", "vim", "visual-basic", "wasm", "wiki",
-                "xeora", "xojo", "xquery", "yaml"
+                "xeora", "xojo", "xquery", "yaml", Terminallanguage
             };
         }
 
@@ -101,17 +105,32 @@ namespace BookGen.DomainServices.Markdown.Renderers
 
             string code = GetCode(obj);
 
-            string rendered = Render(code, languageMoniker);
-
-            renderer.Write(rendered);
+            if (languageMoniker == Terminallanguage)
+            {
+                string terminalOutput = RenderTerminalString(code);
+                renderer.Write(terminalOutput);
+            }
+            else
+            {
+                string rendered = RenderWithPrism(code, languageMoniker);
+                renderer.Write(rendered);
+            }
         }
 
-        private string Render(string code, string languageMoniker)
+        private static string RenderTerminalString(string code)
+        {
+            const string codeTag = "<!--{Code}-->";
+            string template = ResourceHandler.GetFile(KnownFile.TerminalRenderingHtml);
+            return template.Replace(codeTag, code);
+
+        }
+
+        private string RenderWithPrism(string code, string languageMoniker)
         {
             var sb = new StringBuilder();
             sb.AppendFormat("<pre><code class=\"language-{0}\">", languageMoniker);
             sb.AppendLine();
-            sb.AppendLine(_interop.SyntaxHighlight(code, languageMoniker));
+            sb.AppendLine(_interop.PrismSyntaxHighlight(code, languageMoniker));
             sb.AppendLine("</code></pre>");
             return sb.ToString();
         }
