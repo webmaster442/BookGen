@@ -22,7 +22,7 @@ internal static class FolderLock
 
 #if DEBUG
         var directory = processExtensons.GetWorkingDirectory(Process.GetCurrentProcess());
-        if (Environment.CurrentDirectory != directory)
+        if (!DirectoriesSame(Environment.CurrentDirectory,directory))
         {
             //Working dir not correctly set
             Debugger.Break();
@@ -44,5 +44,24 @@ internal static class FolderLock
         }
 
         return false;
+    }
+
+    internal static readonly char[] _separators = new char[] { '\\', '/' };
+
+    private static bool DirectoriesSame(string directoryA, string directoryB)
+    {
+        var pathA = directoryA.Split(_separators, StringSplitOptions.RemoveEmptyEntries);
+        var pathB = directoryB.Split(_separators, StringSplitOptions.RemoveEmptyEntries);
+
+        if (pathA.Length != pathB.Length)
+            return false;
+
+        for (int i=0; i<pathA.Length; i++)
+        {
+            if (pathA[i] != pathB[i])
+                return false;
+        }
+
+        return true;
     }
 }
