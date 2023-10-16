@@ -1,13 +1,20 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 2.5
-# Last modified: 2023-05-01
+# Version 2.5.1
+# Last modified: 2023-10-16
 # -----------------------------------------------------------------------------
 
 # cdg command
-function cdg()
+function cdg($args)
 {
-    cdg.exe
+	if ([string]::IsNullOrWhiteSpace($arg))
+	{
+		cdg.exe
+	}
+	else
+	{
+		cdg.exe "$arg"
+	}
     $location = [Environment]::GetEnvironmentVariable('cdgPath', 'User')
     Push-Location $location
 }
