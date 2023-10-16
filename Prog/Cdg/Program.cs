@@ -11,7 +11,14 @@ using Spectre.Console;
 
 var arguments = new ArgumentParser<CdgArguments>().Parse(args);
 var directories = new DirectoriesProvider();
-var selector = new DirectorySelectorMenu(Environment.CurrentDirectory);
+var selector = new DirectorySelectorMenu(arguments.Folder);
+
+var validation = arguments.Validate();
+if (!validation.IsOk)
+{
+    AnsiConsole.WriteLine(validation.ToString());
+    return;
+}
 
 while (true)
 {
