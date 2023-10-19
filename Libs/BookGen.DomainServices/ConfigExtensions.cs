@@ -14,10 +14,7 @@ namespace BookGen.DomainServices
             if (config.Version == 0 || config.Version < targetVersion)
                 config.Version = targetVersion;
 
-            if (config.Translations == null)
-            {
-                config.Translations = Translations.CreateDefault();
-            }
+            config.Translations ??= Translations.CreateDefault();
 
             UpgradeTranslations(config.Translations);
         }

@@ -78,22 +78,21 @@ public sealed class Renderer
 
     public Task<string> Prompt(string message)
     {
-        TextPrompt<string> prompt = new TextPrompt<string>(message);
+        TextPrompt<string> prompt = new(message);
         return prompt.ShowAsync(_console, _token);
     }
 
     public Task<bool> Confirm(string message)
     {
-        ConfirmationPrompt confirm = new ConfirmationPrompt(message);
+        ConfirmationPrompt confirm = new(message);
         return confirm.ShowAsync(_console, _token);
     }
 
     private static int GetPageSize()
     {
-        var position = Console.GetCursorPosition();
+        var (_, top) = Console.GetCursorPosition();
         var height = Console.WindowHeight;
-        int pageSize = height - position.Top - 5;
-        return pageSize;
+        return height - top - 5;
     }
 
     public async Task<string> SelectionMenu(string title, IEnumerable<string> selectionItems)

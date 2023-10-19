@@ -91,5 +91,4 @@ public sealed class TerminalLog : IServerLog, ILog
 
     void IServerLog.Warning(string format, params object[] args)
         => Log(LogLevel.Warning, format, args);
-
 }

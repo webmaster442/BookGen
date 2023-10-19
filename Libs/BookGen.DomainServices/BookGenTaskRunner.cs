@@ -8,7 +8,7 @@ using BookGen.Domain.TaskRunner;
 
 namespace BookGen.DomainServices;
 
-public class BookGenTaskRunner
+public sealed class BookGenTaskRunner
 {
     private readonly Dictionary<string, bool> _confirmVars;
     private readonly Dictionary<string, string> _promptResults;
@@ -58,7 +58,7 @@ public class BookGenTaskRunner
     {
         SetVariables();
         var tempFileName = GenerateName();
-        
+
         switch (shellType)
         {
             case ShellType.Powershell:

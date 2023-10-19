@@ -2,7 +2,7 @@
 
 namespace BookGen.DomainServices;
 
-public class BookGenTaskFactory
+public static class BookGenTaskFactory
 {
     public static BookGenTasks CreateSample()
     {

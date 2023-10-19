@@ -38,11 +38,9 @@ internal static class TextHelper
 
     public static string ImageStreamToMarkup(Stream source, int targetWidth, int targetHeight)
     {
-        if (targetWidth < 1)
-            throw new ArgumentOutOfRangeException($"{nameof(targetWidth)} must at least 1");
+        ArgumentOutOfRangeException.ThrowIfLessThan(targetWidth, 1);
 
-        if (targetHeight < 1)
-            throw new ArgumentOutOfRangeException($"{nameof(targetHeight)} must at least 1");
+        ArgumentOutOfRangeException.ThrowIfLessThan(targetHeight, 1);
 
         using SKBitmap image = SKBitmap.Decode(source);
         using SKBitmap resized = Resize(image, targetWidth, targetHeight);
@@ -73,12 +71,11 @@ internal static class TextHelper
 
         return (renderWidth: (int)(inputSize.Width * scale),
                 renderHeight: maxHeight);
-
     }
 
     private static string Encode(SKBitmap finalSize)
     {
-        StringBuilder buffer = new StringBuilder(finalSize.Width);
+        StringBuilder buffer = new(finalSize.Width);
         for (int y = 0; y < finalSize.Height; y += 2)
         {
             for (int x = 0; x < finalSize.Width; x++)
