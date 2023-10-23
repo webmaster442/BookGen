@@ -12,7 +12,7 @@ using BookGen.Domain;
 
 namespace BookGen.DomainServices;
 
-public class StatisticsCollector
+public static class StatisticsCollector
 {
     public static StatisticResult ComputeStatistics(IEnumerable<string> files, ILog log)
     {

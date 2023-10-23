@@ -82,7 +82,7 @@ internal class AssemblyReflector
             }
 
             type = new TypeReflector(realType, parent);
-            this._typeCache[name] = type;
+            _typeCache[name] = type;
         }
 
         return type;

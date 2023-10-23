@@ -21,7 +21,7 @@ internal class FieldReflector : MemberReflector
     public FieldReflector(FieldInfo? field)
         : base(field)
     {
-        this.IsVisible = field != null ? (field.IsPublic || field.IsFamily || field.IsFamilyOrAssembly) : true;
+        IsVisible = field == null || field.IsPublic || field.IsFamily || field.IsFamilyOrAssembly;
     }
 
     /// <inheritdoc/>

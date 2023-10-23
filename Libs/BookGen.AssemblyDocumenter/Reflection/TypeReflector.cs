@@ -33,19 +33,19 @@ internal class TypeReflector
 
         try
         {
-            this.IsBrowsable = type.GetCustomAttribute<EditorBrowsableAttribute>()?.State != EditorBrowsableState.Never;
+            IsBrowsable = type.GetCustomAttribute<EditorBrowsableAttribute>()?.State != EditorBrowsableState.Never;
         }
         catch (IOException)
         {
             // Ignore types that are missing dependencies.
-            this.IsBrowsable = true;
+            IsBrowsable = true;
             Trace.WriteLine($"Warning: unable to use reflection to determine properties for {type.FullName}");
         }
 
         if (parent != null)
         {
-            this.IsVisible &= parent.IsVisible;
-            this.IsBrowsable &= parent.IsBrowsable;
+            IsVisible &= parent.IsVisible;
+            IsBrowsable &= parent.IsBrowsable;
         }
     }
 
@@ -67,7 +67,7 @@ internal class TypeReflector
     /// <summary>
     /// Gets the type's full name.
     /// </summary>
-    public string? FullName => this._type.FullName;
+    public string? FullName => _type.FullName;
 
     /// <summary>
     /// Gets the field with the given name.
@@ -83,15 +83,15 @@ internal class TypeReflector
     /// <returns>The methods.</returns>
     public IEnumerable<MethodReflector> GetMethods(string name)
     {
-        if (this._methodCache == null)
+        if (_methodCache == null)
         {
-            this._methodCache = this._type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
+            _methodCache = _type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
                                                     BindingFlags.Static | BindingFlags.DeclaredOnly)
                 .ToLookup(m => m.Name, m => new MethodReflector(m));
         }
 
         // Explicit method implementations use # in the XML file but really are dot-separated.
-        return this._methodCache[name.Replace('#', '.')];
+        return _methodCache[name.Replace('#', '.')];
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ internal class TypeReflector
     /// <returns>The accessor.</returns>
     public MethodReflector GetProperty(string name)
     {
-        var propertyInfo = this._type.GetProperty(name);
+        var propertyInfo = _type.GetProperty(name);
         return new MethodReflector(propertyInfo?.GetMethod ?? propertyInfo?.SetMethod);
     }
 }

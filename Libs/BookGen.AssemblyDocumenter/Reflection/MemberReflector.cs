@@ -30,7 +30,6 @@ internal abstract class MemberReflector
             // Ignore members that are missing dependencies.
             IsBrowsable = true;
             System.Diagnostics.Trace.WriteLine($"Warning: unable to use reflection to determine browsable state for {member?.DeclaringType}.{member?.Name}");
-            return;
         }
     }
 
