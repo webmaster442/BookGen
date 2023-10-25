@@ -441,6 +441,25 @@ Arguments:
     The sample tasks.xml is designed in a way, to introduce every feature of the 
     task runner.
 
+# Terminalinstall
+
+Installs a bookgen profile to the Windows Termninal
+
+`BookGen Terminalinstall {-c} {-t}`
+`BookGen Terminalinstall {--checkinstall} {--checkterminalinstall}`
+
+Arguments:
+
+-c, --checkinstall:
+    Optional argument. When specified checks, if terminal profile installed or not.
+    If exit code is 0, profile is installed.
+
+-t, --checkterminalinstall:
+    Optional argument. When specified checks, if windows terminal is installed or not.
+    If exit code is 0, terminal is installed.
+
+Without arguments, performs terminal profile install.
+
 # Version
 
 Print the current program and config API version

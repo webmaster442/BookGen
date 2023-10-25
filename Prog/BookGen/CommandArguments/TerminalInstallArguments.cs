@@ -6,5 +6,5 @@ internal sealed class TerminalInstallArguments : ArgumentsBase
     public bool CheckInstall { get; set; }
 
     [Switch("t", "checkterminalinstall")]
-    public bool checkTerminalInstall { get; set; }
+    public bool CheckTerminalInstall { get; set; }
 }

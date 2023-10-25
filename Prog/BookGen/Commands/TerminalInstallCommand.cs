@@ -15,7 +15,8 @@ internal sealed class TerminalInstallCommand : Command<TerminalInstallArguments>
 
     public override int Execute(TerminalInstallArguments arguments, string[] context)
     {
-        if (arguments.checkTerminalInstall)
+
+        if (arguments.CheckTerminalInstall)
         {
             InstallStatus installStatus = InstallDetector.GetInstallStatus();
             return installStatus.IsWindowsTerminalInstalled ? Constants.Succes : Constants.GeneralError;
