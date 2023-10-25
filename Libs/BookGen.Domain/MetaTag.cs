@@ -5,7 +5,7 @@
 
 namespace BookGen.Domain
 {
-    public class MetaTag
+    public sealed class MetaTag
     {
         public string Author { get; set; }
         public string SiteName { get; set; }

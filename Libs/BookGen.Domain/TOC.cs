@@ -7,7 +7,7 @@ using BookGen.Api;
 
 namespace BookGen.Domain
 {
-    public class ToC : ITableOfContents
+    public sealed class ToC : ITableOfContents
     {
         private readonly Dictionary<string, List<Link>> _tocContents;
 

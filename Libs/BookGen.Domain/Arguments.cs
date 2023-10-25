@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace BookGen.Domain
 {
-    public class ShortCodeArguments : IArguments
+    public sealed class ShortCodeArguments : IArguments
     {
         private readonly Dictionary<string, string> _storage;
 

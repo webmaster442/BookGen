@@ -3,8 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+
 namespace BookGen.Domain
 {
+    [DebuggerDisplay("{Title}")]
     public sealed class Chapter
     {
         public string Title { get; set; }

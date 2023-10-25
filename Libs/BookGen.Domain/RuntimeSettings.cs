@@ -11,7 +11,7 @@ using System.Collections.Concurrent;
 
 namespace BookGen.Domain
 {
-    public class RuntimeSettings : IReadonlyRuntimeSettings
+    public sealed class RuntimeSettings : IReadonlyRuntimeSettings
     {
         public FsPath OutputDirectory { get; set; }
         public FsPath SourceDirectory { get; init; }
