@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:rss="clr-namespace:BookGen.Launcher.ViewModels.Rss"
+    xmlns:rss="clr-namespace:BookGen.Domain.Rss;assembly=BookGen.Domain"
     x:Name="control"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -21,7 +21,7 @@
             </ControlTemplate>
         </ItemsControl.Template>
         <ItemsControl.ItemTemplate>
-            <DataTemplate DataType="{x:Type rss:RssChannelItem}">
+            <DataTemplate DataType="{x:Type rss:Item}">
                 <Grid Margin="3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />

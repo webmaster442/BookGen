@@ -7,15 +7,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+using BookGen.Domain.Rss;
 using BookGen.Launcher.Properties;
-using BookGen.Launcher.ViewModels.Rss;
 
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace BookGen.Launcher.Infrastructure;
 internal sealed class NewsProvider
 {
-    public RSS? NewsRss { get; private set; }
+    public RssFeed? NewsRss { get; private set; }
 
     private const string NewsChannel = "https://raw.githubusercontent.com/webmaster442/BookGen/development/.github/releases.xml";
     
@@ -31,19 +31,19 @@ internal sealed class NewsProvider
         NewsRss = await DowloadTask();
         if (NewsRss != null)
         {
-            DateTime lastEntry = NewsRss.Channel.Item.Max(x => DateTime.Parse(x.PubDate));
+            DateTime lastEntry = NewsRss.Channel.Item?.Max(x => !string.IsNullOrEmpty(x.PubDate) ? DateTime.Parse(x.PubDate) : DateTime.MinValue) ?? DateTime.MinValue;
             if (lastEntry > Settings.Default.NewsLastSeen)
             {
                 Settings.Default.NewsLastSeen = lastEntry;
                 Settings.Default.Save();
-                WeakReferenceMessenger.Default.Send(NewsRss.Channel.Item);
+                WeakReferenceMessenger.Default.Send(NewsRss.Channel.Item ?? Array.Empty<Item>());
             }
         }
     }
 
-    private async Task<RSS?> DowloadTask()
+    private async Task<RssFeed?> DowloadTask()
     {
-        var xmlSerializer = new XmlSerializer(typeof(RSS));
+        var xmlSerializer = new XmlSerializer(typeof(RssFeed));
         try
         {
             if (File.Exists(_cacheFile)
@@ -51,7 +51,7 @@ internal sealed class NewsProvider
             {
                 using (var cache = File.OpenRead(_cacheFile))
                 {
-                    return xmlSerializer.Deserialize(cache) as RSS;
+                    return xmlSerializer.Deserialize(cache) as RssFeed;
                 }
             }
             else
@@ -63,7 +63,7 @@ internal sealed class NewsProvider
                     stream.CopyTo(cache);
                     cache.Flush();
                     cache.Seek(0, SeekOrigin.Begin);
-                    return xmlSerializer.Deserialize(cache) as RSS;
+                    return xmlSerializer.Deserialize(cache) as RssFeed;
                 }
             }
         }

@@ -3,16 +3,16 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain.Rss;
 using BookGen.DomainServices;
 using BookGen.Launcher.Infrastructure;
-using BookGen.Launcher.ViewModels.Rss;
 
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace BookGen.Launcher;
 
 internal sealed partial class MainWindowViewModel 
-    : ObservableObject, IMainViewModel, IRecipient<RssChannelItem[]>
+    : ObservableObject, IMainViewModel, IRecipient<Item[]>
 {
 
     private string _popupTitle;
@@ -94,7 +94,7 @@ internal sealed partial class MainWindowViewModel
         OpenNewsView(NewsProvider.NewsRss?.Channel.Item);
     }
 
-    private void OpenNewsView(RssChannelItem[]? items)
+    private void OpenNewsView(Item[]? items)
     {
         var model = new NewsViewModel(items);
         OpenPopupContent(model, "News");
@@ -141,7 +141,7 @@ internal sealed partial class MainWindowViewModel
         ClosePopup();
     }
 
-    void IRecipient<RssChannelItem[]>.Receive(RssChannelItem[] message)
+    void IRecipient<Item[]>.Receive(Item[] message)
     {
         OpenNewsView(message);
     }

@@ -6,16 +6,18 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace BookGen.Launcher.ViewModels.Rss;
+using BookGen.Domain.Rss;
+
+namespace BookGen.Launcher.ViewModels;
 internal partial class NewsViewModel : ObservableObject
 {
-    public ObservableCollection<RssChannelItem> Items { get; }
+    public ObservableCollection<Item> Items { get; }
 
-    public NewsViewModel(RssChannelItem[]? items)
+    public NewsViewModel(Item[]? items)
     {
         Items = items != null
-            ? new ObservableCollection<RssChannelItem>(items)
-            : new ObservableCollection<RssChannelItem>();
+            ? new ObservableCollection<Item>(items)
+            : new ObservableCollection<Item>();
     }
 
     [RelayCommand]

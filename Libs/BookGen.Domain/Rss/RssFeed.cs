@@ -12,7 +12,7 @@ namespace BookGen.Domain.Rss;
 /// Represents a Really Simple Syndication (RSS) feed
 /// </summary>
 [Serializable]
-[XmlRoot(Namespace = "", IsNullable = false)]
+[XmlRoot(ElementName = "rss", Namespace = "", IsNullable = false)]
 public class RssFeed
 {
     /// <summary>
