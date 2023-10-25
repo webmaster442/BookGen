@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 2.5.1
-# Last modified: 2023-10-16
+# Version 2.5.2
+# Last modified: 2023-10-25
 # -----------------------------------------------------------------------------
 
 # cdg command
@@ -48,6 +48,16 @@ function intro()
 	Write-Host "        \ /\"
 	Write-Host "        ( )"
 	Write-Host "      .( o )."
+
+    Bookgen.exe terminalinstall -t
+    if ($LastExitCode -eq 0) {
+        Bookgen.exe terminalinstall -c
+        if ($LastExitCode -ne 0) {
+            Write-Host ""
+            Write-Host "To install this shell as a windows terminal profile run:";
+            Write-Host "Bookgen terminalinstall"
+        }
+    } 
 }
 
 #Set UTF8 encoding
