@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.DomainServices;
 using BookGen.Launcher.Infrastructure;
 
 namespace BookGen.Launcher.ViewModels;
@@ -33,8 +34,8 @@ internal sealed partial class TodoViewModel : ObservableObject
 
     public TodoViewModel()
     {
-        _tempName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "todotemp.json");
-        _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenTodo.json");
+        _tempName = FileProvider.GetLauncherTodoTempFile();
+        _fileName = FileProvider.GetLauncherTodoFile();
         _editorTitle = string.Empty;
         TodoItems = LoadList();
     }

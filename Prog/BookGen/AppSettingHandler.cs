@@ -4,20 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using System.Text.Json;
-
 namespace BookGen;
 
 public static class AppSettingHandler
 {
-    private static string GetConfigFile()
-    {
-        string? path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        return Path.Combine(path, "BookGen.app.json");
-    }
-
     public static AppSetting? LoadAppSettings()
     {
-        string file = GetConfigFile();
+        string file = FileProvider.GetConfigFile();
         if (File.Exists(file))
         {
             string? contents = File.ReadAllText(file);
@@ -44,7 +37,7 @@ public static class AppSettingHandler
 
     public static void SaveAppSettings(AppSetting appSetting)
     {
-        string file = GetConfigFile() + ".new";
+        string file = FileProvider.GetConfigFile() + ".new";
 
         string? contents = JsonSerializer.Serialize<AppSetting>(appSetting, new JsonSerializerOptions
         {
@@ -56,7 +49,7 @@ public static class AppSettingHandler
             stream.Write(contents);
         }
 
-        File.Move(file, GetConfigFile(), true);
+        File.Move(file, FileProvider.GetConfigFile(), true);
     }
 
 }
