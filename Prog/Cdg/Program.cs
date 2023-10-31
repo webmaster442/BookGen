@@ -42,7 +42,7 @@ while (true)
         {
             selector.CurrentPath = newPath;
         }
-        else if (directories.TryUpOneDir(selected, selector.CurrentPath, out newPath))
+        else if (DirectoriesProvider.TryUpOneDir(selected, selector.CurrentPath, out newPath))
         {
             selector.CurrentPath = newPath;
         }

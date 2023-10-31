@@ -8,7 +8,7 @@ using Cdg.Properties;
 using Spectre.Console;
 
 namespace Cdg;
-internal class DirectorySelectorMenu
+internal sealed class DirectorySelectorMenu
 {
     private readonly SelectorNameConverter _converter;
     public string CurrentPath { get; set; }

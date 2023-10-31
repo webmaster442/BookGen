@@ -7,7 +7,7 @@ using Cdg.Properties;
 
 namespace Cdg;
 
-internal class DirectoriesProvider
+internal sealed class DirectoriesProvider
 {
     private readonly Dictionary<string, string> _knownFolders;
 
@@ -34,16 +34,16 @@ internal class DirectoriesProvider
 
     public bool TryKnownFolder(string selected, out string newFolder)
     {
-        if (_knownFolders.ContainsKey(selected))
+        if (_knownFolders.TryGetValue(selected, out string? value))
         {
-            newFolder = _knownFolders[selected];
+            newFolder = value;
             return true;
         }
         newFolder = string.Empty;
         return false;
     }
 
-    public bool TryUpOneDir(string dir, string path, out string oneDirUp)
+    public static bool TryUpOneDir(string dir, string path, out string oneDirUp)
     {
         if (dir == nameof(Resources._MenuSelectorUpOneDir_20))
         {
@@ -71,7 +71,7 @@ internal class DirectoriesProvider
         }
         else if (PathIsKnownDirsString(workDir))
         {
-            return _knownFolders.Select(x => x.Key.ToString()).Order();
+            return _knownFolders.Select(x => x.Key).Order();
         }
         return GetDirectories(workDir, showHidden);
     }
@@ -83,7 +83,6 @@ internal class DirectoriesProvider
             if (drive.IsReady)
                 yield return drive.Name;
         }
-        yield break;
     }
 
     private static IEnumerable<string> GetDirectories(string workDir, bool showHidden)
