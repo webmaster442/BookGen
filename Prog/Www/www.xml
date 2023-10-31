@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<www>
+  <favorites>
+    <url href="https://github.com">Github</url>
+    <url href="https://color.adobe.com/">Adobe Color</url>
+    <url href="https://nomnoml.com/">Nomnoml</url>
+    <url href="https://mermaid.live/">Mermaid live editor</url>
+  </favorites>
+  <bangs>
+    <bang url="https://www.youtube.com/results?search_query=" delimiter="+" activator="yt">Youtube</bang>
+    <bang url="https://wikipedia.org/w/index.php?go=Go&amp;search=" delimiter="+" activator="wiki">Wikipedia</bang>
+  </bangs>
+</www>
