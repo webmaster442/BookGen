@@ -7,14 +7,14 @@ using System.Xml.Serialization;
 
 namespace BookGen.Domain.Www;
 
-[Serializable()]
+[Serializable]
 [XmlType(AnonymousType = true)]
 public class WwwUrl
 {
     [XmlAttribute("href")]
     public string Href { get; set; }
 
-    [XmlText()]
+    [XmlText]
     public string Value { get; set; }
 
     public WwwUrl()

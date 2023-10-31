@@ -9,7 +9,7 @@ namespace BookGen.Domain.Www;
 
 [Serializable]
 [XmlType(TypeName = "www")]
-public class Www
+public class WwwConfig
 {
     [XmlArrayItem("url", IsNullable = false)]
     [XmlElement("favorites")]
@@ -19,7 +19,7 @@ public class Www
     [XmlElement("bangs")]
     public WwwBang[] Bangs { get; set; }
 
-    public Www()
+    public WwwConfig()
     {
         Favorites = Array.Empty<WwwUrl>();
         Bangs = Array.Empty<WwwBang>();

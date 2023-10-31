@@ -25,8 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\BookGen.Cli\BookGen.Cli.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.DomainServices\BookGen.DomainServices.csproj" />
     <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="WwwConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

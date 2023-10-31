@@ -40,4 +40,7 @@ public static class FileProvider
 
     public static string GetLauncherTodoTempFile()
         => Path.Combine(GetOrCreateBookGenConfigFolder(), TodoTempFile);
+
+    public static string GetWwwConfig()
+        => Path.Combine(AppContext.BaseDirectory, "WwwConfig.xml");
 }

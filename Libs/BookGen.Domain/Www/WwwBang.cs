@@ -9,7 +9,7 @@ namespace BookGen.Domain.Www;
 
 [Serializable]
 [XmlType(AnonymousType = true)]
-public class WwwBang
+public class WwwBang : IEquatable<WwwBang?>
 {
     [XmlAttribute("url")]
     public string Url { get; set; }
@@ -29,5 +29,21 @@ public class WwwBang
         Delimiter = string.Empty;
         Activator = string.Empty;
         Value = string.Empty;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as WwwBang);
+    }
+
+    public bool Equals(WwwBang? other)
+    {
+        return other is not null &&
+               Url == other.Url;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Url);
     }
 }
