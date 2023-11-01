@@ -20,6 +20,9 @@ public class WwwBang : IEquatable<WwwBang?>
     [XmlAttribute("activator")]
     public string Activator { get; set; }
 
+    [XmlAttribute("alt")]
+    public string? AltActivator { get; set; }
+
     [XmlText]
     public string Value { get; set; }
 

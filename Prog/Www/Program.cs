@@ -28,16 +28,19 @@ static void OpenUrl(string url)
     }
 }
 
-static void LaunchBang(WwwBang[] bangs, string[] args)
+static void LaunchBangs(WwwBang[] bangs, string[] args)
 {
-    var bang = bangs.FirstOrDefault(bang => bang.Activator == args[0]);
-    if (bang == null)
+    var found = bangs.Where(bang => bang.Activator == args[0] || bang.AltActivator == args[0]);
+    if (!found.Any())
     {
         AnsiConsole.WriteLine($"[red]Bang not found: {args[0].EscapeMarkup()}[/]");
         return;
     }
-    string url = string.Join(bang.Delimiter, args.Select(x => HttpUtility.UrlEncode(x)));
-    OpenUrl(url);
+    foreach (var bang in found)
+    {
+        string url = string.Join(bang.Delimiter, args.Select(x => HttpUtility.UrlEncode(x)));
+        OpenUrl(url);
+    }
 }
 
 if (argParser.HasArguments)
@@ -48,11 +51,12 @@ if (argParser.HasArguments)
     }
     else if (argParser.IsBangFormat)
     {
-        LaunchBang(config.Bangs, args);
+        LaunchBangs(config.Bangs, args);
     }
     else throw new UnreachableException("This shouldn't happen");
 }
 else
 {
-    new MainMenu(config.Favorites, config.Bangs).Run();
+    var menu = new MainMenu(config.Favorites, config.Bangs);
+    await menu.Run(AnsiConsole.Console, OpenUrl);
 }

@@ -1,13 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+www tool configuration
+favorites: Items that are displayed, when running without arguments
+bangs: Search items
+-->
 <www>
   <favorites>
     <url href="https://github.com">Github</url>
     <url href="https://color.adobe.com/">Adobe Color</url>
-    <url href="https://nomnoml.com/">Nomnoml</url>
+    <url href="https://nomnoml.com/">Nomnoml - The sassy uml editor</url>
     <url href="https://mermaid.live/">Mermaid live editor</url>
+    <url href="https://regexr.com/">RegExer: Build &amp; Test Regex</url>
+    <url href="https://carbon.now.sh/">Carbon - Create images from source code</url>
   </favorites>
   <bangs>
     <bang url="https://www.youtube.com/results?search_query=" delimiter="+" activator="yt">Youtube</bang>
     <bang url="https://wikipedia.org/w/index.php?go=Go&amp;search=" delimiter="+" activator="wiki">Wikipedia</bang>
+    <bang url="https://www.pexels.com/search/" delimiter="%20" activator="pexels" alt="stocksearch">Pexels</bang>
+    <bang url="https://unsplash.com/s/photos/" delimiter="-" activator="unspalsh" alt="stocksearch">Unsplash</bang>
+    <bang url="https://pixabay.com/images/search/" delimiter="%20" activator="pixbay" alt="stocksearch">Pixbay</bang>
+    <bang url="https://www.svgrepo.com/vectors/" delimiter="-" activator="svg" alt="stocksearch">SvgRepo</bang>
+    <bang url="https://learn.microsoft.com/en-us/search/?terms=" delimiter=" " activator="mslearn" alt="msdn">Microsoft learn</bang>
   </bangs>
 </www>

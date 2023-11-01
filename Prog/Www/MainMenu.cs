@@ -1,19 +1,45 @@
 ﻿using BookGen.Domain.Www;
 
+using Spectre.Console;
+
 namespace Www;
-internal class MainMenu
+internal sealed class MainMenu
 {
-    private readonly WwwUrl[] _favorites;
+    private readonly Dictionary<string, string> _favorites;
     private readonly WwwBang[] _bangs;
+    private const string Exit = "Exit";
 
     public MainMenu(WwwUrl[] favorites, WwwBang[] bangs)
     {
-        _favorites = favorites;
+        _favorites = favorites.ToDictionary(x => x.Value, x => x.Href);
         _bangs = bangs;
     }
 
-    internal void Run()
+    public async Task Run(IAnsiConsole console, Action<string> openUrl)
     {
-        throw new NotImplementedException();
+        console.Clear();
+        SelectionPrompt<string> urlSelector = CreateSelector();
+        string selected = await urlSelector.ShowAsync(console, CancellationToken.None);
+        if (selected == Exit)
+        {
+            Environment.Exit(0);
+            return;
+        }
+        string url = _favorites[selected];
+        openUrl.Invoke(url);
+    }
+
+    private SelectionPrompt<string> CreateSelector()
+    {
+        SelectionPrompt<string> selector = new()
+        {
+            Title = "WWW",
+            WrapAround = true,
+            PageSize = Console.WindowHeight - 4,
+            Mode = SelectionMode.Leaf
+        };
+        selector.AddChoiceGroup("Favorites", _favorites.Keys);
+        selector.AddChoiceGroup("Program", Exit);
+        return selector;
     }
 }

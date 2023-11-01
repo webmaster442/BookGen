@@ -1,5 +1,5 @@
 ﻿namespace Www;
-internal class WwwArgumentParser
+internal sealed class WwwArgumentParser
 {
     private readonly string[] _args;
 
