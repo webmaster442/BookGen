@@ -17,23 +17,25 @@ internal sealed class MainMenu
 
     public async Task Run(IAnsiConsole console, Action<string> openUrl)
     {
-        console.Clear();
-        SelectionPrompt<string> urlSelector = CreateSelector();
-        string selected = await urlSelector.ShowAsync(console, CancellationToken.None);
-        if (selected == Exit)
+        while (true)
         {
-            Environment.Exit(0);
-            return;
+            console.Clear();
+            SelectionPrompt<string> urlSelector = CreateSelector();
+            string selected = await urlSelector.ShowAsync(console, CancellationToken.None);
+            if (selected == Exit)
+            {
+                break;
+            }
+            string url = _favorites[selected];
+            openUrl.Invoke(url);
         }
-        string url = _favorites[selected];
-        openUrl.Invoke(url);
     }
 
     private SelectionPrompt<string> CreateSelector()
     {
         SelectionPrompt<string> selector = new()
         {
-            Title = "WWW",
+            Title = "WWW - A web tool",
             WrapAround = true,
             PageSize = Console.WindowHeight - 4,
             Mode = SelectionMode.Leaf

@@ -12,11 +12,11 @@ namespace BookGen.Domain.Www;
 public class WwwConfig
 {
     [XmlArrayItem("url", IsNullable = false)]
-    [XmlElement("favorites")]
+    [XmlArray("favorites")]
     public WwwUrl[] Favorites { get; set; }
 
     [XmlArrayItem("bang", IsNullable = false)]
-    [XmlElement("bangs")]
+    [XmlArray("bangs")]
     public WwwBang[] Bangs { get; set; }
 
     public WwwConfig()
