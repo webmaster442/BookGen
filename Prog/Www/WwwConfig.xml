@@ -20,6 +20,6 @@ bangs: Search items
     <bang url="https://unsplash.com/s/photos/" delimiter="-" activator="unspalsh" alt="stocksearch">Unsplash</bang>
     <bang url="https://pixabay.com/images/search/" delimiter="%20" activator="pixbay" alt="stocksearch">Pixbay</bang>
     <bang url="https://www.svgrepo.com/vectors/" delimiter="-" activator="svg" alt="stocksearch">SvgRepo</bang>
-    <bang url="https://learn.microsoft.com/en-us/search/?terms=" delimiter=" " activator="mslearn" alt="msdn">Microsoft learn</bang>
+    <bang url="https://learn.microsoft.com/en-us/search/?terms=" delimiter="%20" activator="mslearn" alt="msdn">Microsoft learn</bang>
   </bangs>
 </www>

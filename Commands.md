@@ -373,29 +373,6 @@ Arguments:
 -i, --input: 
     Input markdown file path
 
-# StockSearch
-
-Searches for stock fotos on the internet.
-
-`BookGen StockSearch -s [keyword(s)] {-pe} {-un} {-pi}`
-`BookGen StockSearch --search [keyword(s)] {--pexels} {--unsplash} {--pixabay}`
-
-Arguments:
-
--s, --search:
-    Specifies the search term or terms to search for
-
--pe, --pexels:
-    Search on https://www.pexels.com/
-
--un, --unsplash:
-    Search on https://unsplash.com/
-
--pi, --pixabay:
-    Search on https://pixabay.com/
-
-Note: If no stock provider is selected search is performed on all stock sites.
-
 # Tags
 
 Create or update the tags database and display various stats
