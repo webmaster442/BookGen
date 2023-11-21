@@ -1,4 +1,10 @@
-﻿namespace Www;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace Www;
+
 internal sealed class WwwArgumentParser
 {
     private readonly string[] _args;
@@ -7,6 +13,9 @@ internal sealed class WwwArgumentParser
     {
         _args = args;
     }
+
+    public bool IsHelpRequested
+        => _args.Any(x => x == "-h" || x == "--help");
 
     public bool HasArguments
         => _args.Length > 0;

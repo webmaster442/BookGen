@@ -1,8 +1,14 @@
-﻿using BookGen.Domain.Www;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Domain.Www;
 
 using Spectre.Console;
 
 namespace Www;
+
 internal sealed class MainMenu
 {
     private readonly Dictionary<string, string> _favorites;

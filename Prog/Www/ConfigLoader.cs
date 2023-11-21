@@ -1,9 +1,15 @@
-﻿using System.Xml.Serialization;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Xml.Serialization;
 
 using BookGen.Domain.Www;
 using BookGen.DomainServices;
 
 namespace Www;
+
 internal class ConfigLoader
 {
     public WwwBang[] Bangs { get; }
@@ -16,7 +22,7 @@ internal class ConfigLoader
         Favorites = Array.Empty<WwwUrl>();
         if (File.Exists(FileProvider.GetWwwConfig()))
         {
-            using (var file = File.OpenRead(FileProvider.GetWwwConfig())) 
+            using (var file = File.OpenRead(FileProvider.GetWwwConfig()))
             {
                 if (serializer.Deserialize(file) is WwwConfig config)
                 {

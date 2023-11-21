@@ -45,7 +45,11 @@ static void LaunchBangs(WwwBang[] bangs, string[] args)
 
 if (argParser.HasArguments)
 {
-    if (argParser.FirstParamIsUrl)
+    if (argParser.IsHelpRequested)
+    {
+        HelpGenerator.PrintHelp(config.Bangs);
+    }
+    else if (argParser.FirstParamIsUrl)
     {
         OpenUrl(args[0]);
     }
