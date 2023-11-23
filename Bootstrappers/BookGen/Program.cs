@@ -28,7 +28,12 @@ namespace BookGen
             {
                 InstallVerify.ThrowIfNotExist();
                 var processBuilder = new ProcessBuilder();
-                if (InstallDetector.IsInstalled(Constants.WindowsTerminal))
+
+                if (InstallDetector.IsWindowsTerminalPortalbeInstalled(out string portable))
+                {
+                    StartTerminal(shellExe, shellScript, processBuilder, portable);
+                }
+                else if (InstallDetector.IsInstalled(Constants.WindowsTerminal))
                 {
                     StartTerminal(shellExe, shellScript, processBuilder);
                 }
@@ -60,10 +65,10 @@ namespace BookGen
             }
         }
 
-        private static void StartTerminal(string shellExe, string shellScript, ProcessBuilder processBuilder)
+        private static void StartTerminal(string shellExe, string shellScript, ProcessBuilder processBuilder, string terminalPath = Constants.WindowsTerminal)
         {
             using (var process = processBuilder
-                .SetProgram(Constants.WindowsTerminal)
+                .SetProgram(terminalPath)
                 .SetArguments(new[] {
                             "new-tab",
                             "-p",
