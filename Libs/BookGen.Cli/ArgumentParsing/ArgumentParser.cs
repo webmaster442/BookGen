@@ -29,35 +29,41 @@ internal class ArgumentParser
 
         foreach (var property in _properities)
         {
-            var switchParams = property.GetCustomAttribute<SwitchAttribute>();
-            var argParams = property.GetCustomAttribute<ArgumentAttribute>();
+            var switchAttribute = property.GetCustomAttribute<SwitchAttribute>();
+            var argumentAttribute = property.GetCustomAttribute<ArgumentAttribute>();
 
-            if (switchParams != null && argParams != null)
+            if (switchAttribute != null && argumentAttribute != null)
                 throw new InvalidOperationException($"Invalid annotation found in type {_argumentType.FullName} on propery {property.Name}. Both Switch and Argument attributes are present");
 
-            if (switchParams != null)
+            if (switchAttribute != null)
             {
                 if (property.PropertyType == typeof(bool))
                 {
-                    property.SetValue(arguments, argBag.GetSwitch(switchParams));
+                    property.SetValue(arguments, argBag.GetSwitch(switchAttribute));
                 }
                 else
                 {
-                    var value = ValueConverter.Convert(argBag.GetSwitchValue(switchParams), property.PropertyType);
+                    var value = ValueConverter.Convert(argBag.GetSwitchValue(switchAttribute), property.PropertyType);
                     if (value != null)
                     {
                         property.SetValue(arguments, value);
                     }
                 }
             }
-            else if (argParams != null)
+            else if (argumentAttribute != null)
             {
-                var value = ValueConverter.Convert(argBag.GetArgument(argParams), property.PropertyType);
+                var argumentValue = argBag.GetArgument(argumentAttribute);
+
+                if (argumentValue == null)
+                {
+                    if (!argumentAttribute.IsOptional)
+                        throw new InvalidOperationException("Missing Arguments");
+
+                    continue;
+                }
+
+                var value = ValueConverter.Convert(argumentValue, property.PropertyType);
                 property.SetValue(arguments, value);
-            }
-            else
-            {
-                continue;
             }
 
         }

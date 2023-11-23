@@ -27,4 +27,8 @@
         <controls:PreviewControl FileUnderPreview="{Binding FilePath}" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type viewModels:NewsViewModel}">
+        <views:NewsView/>
+    </DataTemplate>
+
 </ResourceDictionary>

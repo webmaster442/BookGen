@@ -373,29 +373,6 @@ Arguments:
 -i, --input: 
     Input markdown file path
 
-# StockSearch
-
-Searches for stock fotos on the internet.
-
-`BookGen StockSearch -s [keyword(s)] {-pe} {-un} {-pi}`
-`BookGen StockSearch --search [keyword(s)] {--pexels} {--unsplash} {--pixabay}`
-
-Arguments:
-
--s, --search:
-    Specifies the search term or terms to search for
-
--pe, --pexels:
-    Search on https://www.pexels.com/
-
--un, --unsplash:
-    Search on https://unsplash.com/
-
--pi, --pixabay:
-    Search on https://pixabay.com/
-
-Note: If no stock provider is selected search is performed on all stock sites.
-
 # Tags
 
 Create or update the tags database and display various stats
@@ -440,6 +417,25 @@ Arguments:
     one and opens the menu. You can edit the file via your editor of choice.
     The sample tasks.xml is designed in a way, to introduce every feature of the 
     task runner.
+
+# Terminalinstall
+
+Installs a bookgen profile to the Windows Termninal
+
+`BookGen Terminalinstall {-c} {-t}`
+`BookGen Terminalinstall {--checkinstall} {--checkterminalinstall}`
+
+Arguments:
+
+-c, --checkinstall:
+    Optional argument. When specified checks, if terminal profile installed or not.
+    If exit code is 0, profile is installed.
+
+-t, --checkterminalinstall:
+    Optional argument. When specified checks, if windows terminal is installed or not.
+    If exit code is 0, terminal is installed.
+
+Without arguments, performs terminal profile install.
 
 # Version
 

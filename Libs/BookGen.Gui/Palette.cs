@@ -8,8 +8,8 @@ internal class Palette
 
     public Palette()
     {
-        Random rnd = new Random(2);
-        _colors = Generate(rnd, 32); 
+        Random rnd = new(2);
+        _colors = Generate(rnd, 32);
         _index = 0;
     }
 

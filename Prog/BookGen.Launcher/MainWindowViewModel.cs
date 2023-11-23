@@ -3,11 +3,16 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain.Rss;
 using BookGen.DomainServices;
+using BookGen.Launcher.Infrastructure;
+
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace BookGen.Launcher;
 
-internal sealed partial class MainWindowViewModel : ObservableObject, IMainViewModel
+internal sealed partial class MainWindowViewModel 
+    : ObservableObject, IMainViewModel, IRecipient<Item[]>
 {
 
     private string _popupTitle;
@@ -42,10 +47,14 @@ internal sealed partial class MainWindowViewModel : ObservableObject, IMainViewM
     [ObservableProperty]
     private TodoViewModel _todoViewModel;
 
+    private NewsProvider NewsProvider { get; }
+
     public MainWindowViewModel()
     {
         _popupTitle = string.Empty;
         _todoViewModel = new TodoViewModel();
+        NewsProvider = new NewsProvider();
+        NewsProvider.StartDownload();
         Start();
     }
 
@@ -77,6 +86,18 @@ internal sealed partial class MainWindowViewModel : ObservableObject, IMainViewM
     private void OpenBrowser(string? obj)
     {
         OpenPopupContent(new ViewModels.WebViewModel(obj), obj ?? string.Empty);
+    }
+
+    [RelayCommand]
+    private void OpenNews()
+    {
+        OpenNewsView(NewsProvider.NewsRss?.Channel.Item);
+    }
+
+    private void OpenNewsView(Item[]? items)
+    {
+        var model = new NewsViewModel(items);
+        OpenPopupContent(model, "News");
     }
 
     private void OpenContent(INotifyPropertyChanged viewModel)
@@ -118,5 +139,10 @@ internal sealed partial class MainWindowViewModel : ObservableObject, IMainViewM
     void IMainViewModel.ClosePopup()
     {
         ClosePopup();
+    }
+
+    void IRecipient<Item[]>.Receive(Item[] message)
+    {
+        OpenNewsView(message);
     }
 }

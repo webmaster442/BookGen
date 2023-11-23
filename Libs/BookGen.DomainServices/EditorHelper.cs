@@ -9,7 +9,7 @@ namespace BookGen.DomainServices
 {
     public static class EditorHelper
     {
-        private static readonly HashSet<string> supportedFileTypes = new()
+        private static readonly HashSet<string> SupportedFileTypes = new()
         {
             ".txt",
             ".md",
@@ -31,7 +31,7 @@ namespace BookGen.DomainServices
         public static bool IsSupportedFile(string file)
         {
             string? ext = Path.GetExtension(file).ToLower();
-            return supportedFileTypes.Contains(ext);
+            return SupportedFileTypes.Contains(ext);
         }
 
         public static bool TryFindVsCodeInstall(out string installedVsCodePath)

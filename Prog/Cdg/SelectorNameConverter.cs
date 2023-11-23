@@ -7,11 +7,11 @@ using Cdg.Properties;
 
 namespace Cdg;
 
-internal class SelectorNameConverter
+internal sealed class SelectorNameConverter
 {
     private readonly string[] _drives;
 
-    public SelectorNameConverter() 
+    public SelectorNameConverter()
     {
         _drives = Environment.GetLogicalDrives();
     }

@@ -12,20 +12,17 @@ namespace BookGen.Tests.Integration
     public class IT_NodeJs
     {
         private NodeJs _sut;
-        private ILog _log;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            var _log = Substitute.For<ILog>();
-            _sut = new NodeJs(_log, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
+            _sut = new NodeJs(Substitute.For<ILog>(), TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
         }
 
         [OneTimeTearDown]
         public void TearDown()
         {
             _sut = null;
-            _log = null;
         }
 
         [Test]

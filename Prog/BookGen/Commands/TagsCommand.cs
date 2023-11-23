@@ -50,7 +50,7 @@ internal class TagsCommand : Command<TagsArguments>
 
             PrintStats(_log, tagUtils);
 
-            SerializeTagCollection(arguments.Directory, _log, tagUtils.TagCollection);
+            SerializeTagCollection(arguments.Directory, _log, tagUtils.TagCollection.OrderBy(x => x.Key).ToDictionary());
 
             _log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 

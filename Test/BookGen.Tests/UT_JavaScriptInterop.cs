@@ -29,7 +29,7 @@ namespace BookGen.Tests
             const string input = "#include <stdio.h>\r\n"
                 + "int main() { printf(\"Hello World!\n\"); return 0; }";
 
-            string result = _sut.SyntaxHighlight(input, "c");
+            string result = _sut.PrismSyntaxHighlight(input, "c");
             Assert.That(result, Is.Not.Null);
         }
     }

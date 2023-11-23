@@ -5,6 +5,8 @@
 
 using BookGen.Api;
 using BookGen.Interfaces;
+
+using System;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -41,28 +43,28 @@ namespace BookGen.DomainServices
             }
         }
 
-        public static bool CopyDirectory(this FsPath sourceDirectory, FsPath TargetDir, ILog log)
+        public static bool CopyDirectory(this FsPath sourceDirectory, FsPath targetDir, ILog log)
         {
             try
             {
-                if (!Directory.Exists(TargetDir.ToString()))
+                if (!Directory.Exists(targetDir.ToString()))
                 {
-                    log.Detail("Creating directory: {0}", TargetDir);
-                    Directory.CreateDirectory(TargetDir.ToString());
+                    log.Detail("Creating directory: {0}", targetDir);
+                    Directory.CreateDirectory(targetDir.ToString());
                 }
 
                 //Copy all the files & Replaces any files with the same name
                 foreach (string newPath in Directory.GetFiles(sourceDirectory.ToString(), "*.*",
                     SearchOption.AllDirectories))
                 {
-                    string? targetfile = newPath.Replace(sourceDirectory.ToString(), TargetDir.ToString());
+                    string? targetfile = newPath.Replace(sourceDirectory.ToString(), targetDir.ToString());
                     log.Detail("Copy file: {0} to {1}", newPath, targetfile);
 
-                    string? targetDir = Path.GetDirectoryName(targetfile);
-                    if (targetDir != null && !Directory.Exists(targetDir))
+                    string? targetDirString = Path.GetDirectoryName(targetfile);
+                    if (targetDirString != null && !Directory.Exists(targetDirString))
                     {
-                        log.Detail("Creating directory: {0}", targetDir);
-                        Directory.CreateDirectory(targetDir.ToString());
+                        log.Detail("Creating directory: {0}", targetDirString);
+                        Directory.CreateDirectory(targetDirString);
                     }
 
                     File.Copy(newPath, targetfile, true);
@@ -71,7 +73,7 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("CopyDirectory failed: {0} to {1}", sourceDirectory, TargetDir);
+                log.Warning("CopyDirectory failed: {0} to {1}", sourceDirectory, targetDir);
                 log.Detail(ex.Message);
                 return false;
             }
@@ -391,7 +393,6 @@ namespace BookGen.DomainServices
                 if (!fileInfo.Exists && fileInfo.Directory != null)
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
 
-
                 ISerializer? serializer = new SerializerBuilder()
                     .WithNamingConvention(CamelCaseNamingConvention.Instance)
                     .WithTypeConverter(new CultureInfoConverter())
@@ -472,7 +473,7 @@ namespace BookGen.DomainServices
 
                 var pathUri = new Uri(filespec);
 
-                if (folder.EndsWith(Path.DirectorySeparatorChar.ToString()) == false)
+                if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
                 {
                     folder += Path.DirectorySeparatorChar;
                 }
@@ -498,7 +499,7 @@ namespace BookGen.DomainServices
 
         public static bool IsWildCard(this FsPath path)
         {
-            return path.ToString().Contains("*");
+            return path.ToString().Contains('*');
         }
 
         public static FsPath ChangeExtension(this FsPath path, string extension)

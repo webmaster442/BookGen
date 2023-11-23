@@ -9,6 +9,7 @@ namespace BookGen.Cli.Annotations;
 public sealed class ArgumentAttribute : Attribute
 {
     public int Index { get; }
+    public bool IsOptional { get; init; }
 
     public ArgumentAttribute(int index)
     {

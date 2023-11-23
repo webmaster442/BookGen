@@ -15,7 +15,7 @@ namespace BookGen.AssemblyDocumenter.Reflection;
 /// </summary>
 internal class MethodReflector : MemberReflector
 {
-    private readonly MethodBase? method;
+    private readonly MethodBase? _method;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MethodReflector"/> class.
@@ -24,15 +24,15 @@ internal class MethodReflector : MemberReflector
     public MethodReflector(MethodBase? method)
         : base(method)
     {
-        this.method = method;
+        _method = method;
 
         try
         {
-            this.Parameters = method?.GetParameters();
+            Parameters = method?.GetParameters();
 
             // Visible if the method is public or protected in a non-sealed type.
             // Default to true if we don't have a method to check against.
-            this.IsVisible = method != null
+            IsVisible = method != null
                 ? method.IsPublic ||
                   (method.IsFamily && method.DeclaringType?.IsSealed == false) ||
                   (method.IsFamilyOrAssembly && method.DeclaringType?.IsSealed == false)

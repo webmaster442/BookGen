@@ -24,7 +24,7 @@ internal sealed class CreateWpPages : ITemplatedStep
     {
         _session = session;
 #if DEBUG
-        _usedids = new HashSet<int>();
+        _usedids = [];
 #endif
     }
 
@@ -59,10 +59,10 @@ internal sealed class CreateWpPages : ITemplatedStep
             Ping_status = "closed",
             Comment_status = templateOptions[TemplateOptions.WordpressCommentStatus],
             Is_sticky = "0",
-            Postmeta = new List<Postmeta>
-                    {
+            Postmeta =
+                    [
                         new Postmeta { Meta_key = "", Meta_value = "" }
-                    },
+                    ],
             Post_password = "",
             Status = "publish",
             Post_name = EncodeTitle(title),
@@ -133,7 +133,7 @@ internal sealed class CreateWpPages : ITemplatedStep
             throw new DependencyException(nameof(Template));
 
         log.Info("Generating Wordpress export content...");
-        _session.CurrentChannel.Item = new List<Item>();
+        _session.CurrentChannel.Item = [];
 
         string? host = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost];
 

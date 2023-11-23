@@ -6,6 +6,7 @@
 using System.Diagnostics;
 using System.Text.Json;
 
+using BookGen.DomainServices;
 using BookGen.Launcher.Infrastructure;
 
 namespace BookGen.Launcher.ViewModels;
@@ -27,8 +28,8 @@ internal sealed partial class StartViewModel : ObservableObject
         _mainViewModel = mainViewModel;
         _filter = string.Empty;
         _elements = new List<string>();
-        _tempName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "temp.json");
-        _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgenlauncher.json");
+        _tempName = FileProvider.GetLauncherTempFile();
+        _fileName = FileProvider.GetLauncherFile();
 
         View = new BindingList<ItemViewModel>();
         Version = GetVersion();

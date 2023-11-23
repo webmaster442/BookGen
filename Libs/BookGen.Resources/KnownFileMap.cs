@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -32,6 +32,7 @@ namespace BookGen.Resources
             { KnownFile.TemplateSinglePageHtml, "/Html/TemplateSinglePage.html" },
             { KnownFile.PreviewHtml, "/Html/TemplatePreview.html" },
             { KnownFile.EditHtml, "/Html/TemplateEdit.html" },
+            { KnownFile.TerminalRenderingHtml, "/Html/TerminalRendering.html" },
 
             //etc
             { KnownFile.IndexMd, "/Etc/index.md" },

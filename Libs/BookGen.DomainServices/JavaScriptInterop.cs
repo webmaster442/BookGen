@@ -43,7 +43,7 @@ namespace BookGen.DomainServices
             return result as string ?? string.Empty;
         }
 
-        public string SyntaxHighlight(string code, string language)
+        public string PrismSyntaxHighlight(string code, string language)
         {
             InitWithScript(ref _prismLoaded, KnownFile.PrismJs);
             _engine.Script.code = code;

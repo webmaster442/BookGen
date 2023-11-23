@@ -15,13 +15,13 @@ internal sealed class TerminalStringBuilder
         _builder = new StringBuilder();
     }
 
-    public TerminalStringBuilder Default() 
+    public TerminalStringBuilder Default()
     {
         _builder.Append("\x1b[0m");
         return this;
     }
 
-    public TerminalStringBuilder ForegroundBlack() 
+    public TerminalStringBuilder ForegroundBlack()
     {
         _builder.Append("\x1b[30m");
         return this;

@@ -16,7 +16,7 @@ public static class HelpRenderer
         {
             if (line.StartsWith("# "))
                 AnsiConsole.MarkupInterpolated($"[green bold]{line}[/]{Environment.NewLine}");
-            else if (line.StartsWith("`") || line.EndsWith("`"))
+            else if (line.StartsWith('`') || line.EndsWith('`'))
                 AnsiConsole.MarkupInterpolated($"[aqua]{line}[/]{Environment.NewLine}");
             else
                 AnsiConsole.MarkupInterpolated($"[italic]{line}[/]{Environment.NewLine}");
@@ -86,9 +86,9 @@ public static class HelpRenderer
         return newIndex;
     }
 
-    private static IReadOnlyList<string> DoReWrap(IEnumerable<string> article, int pageSize, int windowWidth)
+    private static List<string> DoReWrap(IEnumerable<string> article, int pageSize, int windowWidth)
     {
-        List<string> result = new List<string>(pageSize);
+        List<string> result = new(pageSize);
         foreach (string line in article)
         {
             if (line.Length > windowWidth)

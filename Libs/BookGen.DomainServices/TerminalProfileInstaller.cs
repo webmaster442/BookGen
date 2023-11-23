@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 2022-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -11,6 +11,12 @@ namespace BookGen.DomainServices;
 
 public static class TerminalProfileInstaller
 {
+    public static readonly string TerminalFragmentPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                                                                      "Microsoft",
+                                                                      "Windows Terminal",
+                                                                      "Fragments",
+                                                                      "BookGen");
+
     private static WindowsTerminalProfile CreateProfile(string title)
     {
         return new WindowsTerminalProfile
@@ -60,13 +66,13 @@ public static class TerminalProfileInstaller
             if (string.IsNullOrEmpty(json))
                 return false;
 
-            string fragmentPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Windows Terminal\Fragments\BookGen");
-            if (!Directory.Exists(fragmentPath))
+            
+            if (!Directory.Exists(TerminalFragmentPath))
             {
-                Directory.CreateDirectory(fragmentPath);
+                Directory.CreateDirectory(TerminalFragmentPath);
             }
 
-            File.WriteAllText(Path.Combine(fragmentPath, fileName), json);
+            File.WriteAllText(Path.Combine(TerminalFragmentPath, fileName), json);
             return true;
         }
         catch (IOException)

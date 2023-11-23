@@ -18,7 +18,7 @@ namespace BookGen.DomainServices
             { '#', "sharp" },
             { '|', "pipe" },
             { '@', "at" },
-            { '&', "ampersand" },
+            { '&', "and" },
             { '~', "tide" },
             { '%', "percent" },
             { '+', "plus" },
@@ -42,10 +42,10 @@ namespace BookGen.DomainServices
             => _loadedTags.SelectMany(x => x.Value).DistinctBy(x => x.ToLower()).Count();
 
         public int TotalTagCount
-            => _loadedTags.SelectMany(x => x.Value).Count();
+            => _loadedTags.Sum(x => x.Value.Length);
 
         public int FilesWithOutTags
-            => _loadedTags.Where(x => x.Value == null || x.Value.Length < 1).Count();
+            => _loadedTags.Count(x => x.Value == null || x.Value.Length < 1);
 
         public TagUtils()
         {

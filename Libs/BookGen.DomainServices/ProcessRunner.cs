@@ -62,6 +62,10 @@ namespace BookGen.DomainServices
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.CreateNoWindow = true;
+                
+                if (workdir != null)
+                    process.StartInfo.WorkingDirectory = workdir;
+
                 Task timeout = Task.Delay(timeOutSeconds * 1000);
                 process.Start();
                 Task<string> read = process.StandardOutput.ReadToEndAsync();

@@ -10,6 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Documents.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Documents.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Bookgen.Win\Bookgen.Win.csproj" />
   </ItemGroup>
 

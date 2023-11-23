@@ -9,9 +9,11 @@ namespace BookGen.DomainServices;
 
 public static class GitParser
 {
+    private static readonly string[] Splits = new string[] { "\n" };
+
     public static GitStatus ParseStatus(string status)
     {
-        string[] lines = status.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+        string[] lines = status.Split(Splits, StringSplitOptions.RemoveEmptyEntries);
 
         if (lines.Length < 4)
             return new GitStatus();
@@ -30,8 +32,8 @@ public static class GitParser
 
     private static string Extract(string line, string begining)
     {
-        return line.StartsWith(begining) 
-            ? line[begining.Length..].Trim() 
+        return line.StartsWith(begining)
+            ? line[begining.Length..].Trim()
             : string.Empty;
     }
 }

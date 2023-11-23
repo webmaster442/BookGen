@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Product>BookGen</Product>
 		<OutputPath>..\..\bin\$(Configuration)\</OutputPath>
 		<Nullable>enable</Nullable>
@@ -31,6 +31,7 @@
 		<None Remove="Html\TemplatePrint.html" />
 		<None Remove="Html\TemplateSinglePage.html" />
 		<None Remove="Html\TemplateWeb.html" />
+		<None Remove="Html\TerminalRendering.html" />
 		<None Remove="JsCss\bootstrap.min.css" />
 		<None Remove="JsCss\bootstrap.min.js" />
 		<None Remove="JsCss\edit.css" />
@@ -65,6 +66,7 @@
 		<EmbeddedResource Include="Html\TemplatePrint.html" />
 		<EmbeddedResource Include="Html\TemplateSinglePage.html" />
 		<EmbeddedResource Include="Html\TemplateWeb.html" />
+		<EmbeddedResource Include="Html\TerminalRendering.html" />
 		<EmbeddedResource Include="JsCss\bootstrap.min.css" />
 		<EmbeddedResource Include="JsCss\bootstrap.min.js" />
 		<EmbeddedResource Include="JsCss\edit.css" />

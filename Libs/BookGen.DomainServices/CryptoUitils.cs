@@ -13,26 +13,20 @@ namespace BookGen.DomainServices
     {
         public static string GetSRI(string content)
         {
-            using (var hashAlgorithm = SHA384.Create())
-            {
+            using var hashAlgorithm = SHA384.Create();
 
-                byte[] textData = Encoding.UTF8.GetBytes(content);
-                byte[] hash = hashAlgorithm.ComputeHash(textData);
+            byte[] textData = Encoding.UTF8.GetBytes(content);
+            byte[] hash = SHA384.HashData(textData);
 
-                return "sha384-" + Convert.ToBase64String(hash);
-            }
+            return "sha384-" + Convert.ToBase64String(hash);
         }
 
         public static string GetSRI(FsPath path)
         {
-            using (FileStream? fs = File.OpenRead(path.ToString()))
-            {
-                using (var hashAlgorithm = SHA384.Create())
-                {
-                    byte[] hash = hashAlgorithm.ComputeHash(fs);
-                    return "sha384-" + Convert.ToBase64String(hash);
-                }
-            }
+            using FileStream? fs = File.OpenRead(path.ToString());
+            using var hashAlgorithm = SHA384.Create();
+            byte[] hash = hashAlgorithm.ComputeHash(fs);
+            return "sha384-" + Convert.ToBase64String(hash);
         }
     }
 }
