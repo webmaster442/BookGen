@@ -79,4 +79,11 @@ public class Terminal : ITerminal
 
         AnsiConsole.Write(chart);
     }
+
+    public void Header(string title)
+    {
+        AnsiConsole.WriteLine(title);
+        AnsiConsole.WriteLine("".PadLeft(Console.WindowWidth, '-'));
+        AnsiConsole.WriteLine();
+    }
 }

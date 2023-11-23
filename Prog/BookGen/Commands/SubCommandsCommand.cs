@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Gui;
 using BookGen.Infrastructure;
 
 namespace BookGen.Commands;
@@ -10,19 +11,28 @@ namespace BookGen.Commands;
 [CommandName("subcommands")]
 internal class SubCommandsCommand : Command
 {
-    private readonly IEnumerable<string> _commands;
+    private readonly IEnumerable<IGrouping<char, string>> _commands;
+    private readonly ITerminal _terminal;
 
-    public SubCommandsCommand(IModuleApi api)
+    public SubCommandsCommand(IModuleApi api, ITerminal terminal)
     {
-        _commands = api.GetCommandNames();
+        _terminal = terminal;
+        _commands = api
+            .GetCommandNames()
+            .Order()
+            .GroupBy(x => x[0]);
     }
 
     public override int Execute(string[] context)
     {
-        Console.WriteLine("Available sub commands: \r\n");
-        foreach (var command in _commands)
+        _terminal.Header("Available sub commands:");
+        foreach (var commandGroup in _commands)
         {
-            Console.WriteLine(command);
+            Console.WriteLine(commandGroup.Key);
+            foreach (var command in commandGroup)
+            {
+                Console.WriteLine($"  {command}");
+            }
         }
         return Constants.Succes;
     }
