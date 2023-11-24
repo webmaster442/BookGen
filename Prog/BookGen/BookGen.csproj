@@ -40,7 +40,7 @@
 		<PackageReference Include="SkiaSharp" Version="2.88.6" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.6" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.6" />
-		<PackageReference Include="Svg.Skia" Version="1.0.0.4" />
+		<PackageReference Include="Svg.Skia" Version="1.0.0.5" />
 		<PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
 		<PackageReference Include="XmlDocMarkdown.Core" Version="2.9.0" />
 	</ItemGroup>
