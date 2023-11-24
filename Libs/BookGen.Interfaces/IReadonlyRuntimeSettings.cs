@@ -3,8 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Api.Configuration;
+using BookGen.Interfaces.Configuration;
 
 namespace BookGen.Interfaces
 {

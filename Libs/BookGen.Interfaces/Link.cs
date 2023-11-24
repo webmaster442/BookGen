@@ -1,14 +1,14 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Api
+namespace BookGen.Interfaces
 {
     /// <summary>
     /// Represents a link in the Markdown Table of Contents.
     /// </summary>
-    public sealed class Link
+    public sealed record class Link
     {
         /// <summary>
         /// Link text, that will be displayed.

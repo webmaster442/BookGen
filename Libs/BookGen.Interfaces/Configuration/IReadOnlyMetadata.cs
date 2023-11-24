@@ -1,9 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Api.Configuration
+namespace BookGen.Interfaces.Configuration
 {
     /// <summary>
     /// Metadata informations

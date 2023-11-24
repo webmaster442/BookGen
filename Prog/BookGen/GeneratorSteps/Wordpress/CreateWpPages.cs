@@ -5,7 +5,7 @@
 
 using System.Diagnostics;
 
-using BookGen.Api.Configuration;
+using BookGen.Interfaces.Configuration;
 using BookGen.Domain.Configuration;
 using BookGen.Domain.Wordpress;
 using BookGen.DomainServices.Markdown;

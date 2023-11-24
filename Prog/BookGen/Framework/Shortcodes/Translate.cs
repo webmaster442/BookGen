@@ -5,7 +5,7 @@
 
 using System.ComponentModel.Composition;
 
-using BookGen.Api.Configuration;
+using BookGen.Interfaces.Configuration;
 
 namespace BookGen.Framework.Shortcodes;
 
