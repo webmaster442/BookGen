@@ -1,15 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>18.0</AssemblyVersion>
-    <FileVersion>18.0</FileVersion>
-    <Version>18.0</Version>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <DocumentationFile>..\..\bin\$(Configuration)\BookGen.Api.xml</DocumentationFile>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 </Project>

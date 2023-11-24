@@ -1,9 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Api
+namespace BookGen.Interfaces
 {
     /// <summary>
     /// Interface for accesing the table of contents
