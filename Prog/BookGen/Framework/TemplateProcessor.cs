@@ -15,10 +15,10 @@ internal sealed class TemplateProcessor : ITemplateProcessor
 
     public string TemplateContent { get; set; }
 
-    private static readonly HashSet<string> _protectedNames = new()
-    {
+    private static readonly HashSet<string> _protectedNames =
+    [
         "toc", "title", "content", "host", "metadata", "precompiledheader",
-    };
+    ];
 
     public TemplateProcessor(Config cfg, ShortCodeParser shortCodeParser, StaticTemplateContent? staticContent = null)
     {
@@ -36,9 +36,7 @@ internal sealed class TemplateProcessor : ITemplateProcessor
         _parser.AddShortcodesToLookupIndex(CreateInternalsList());
     }
 
-
-
-    private IList<ITemplateShortCode> CreateInternalsList()
+    private List<ITemplateShortCode> CreateInternalsList()
     {
         var internals = new List<ITemplateShortCode>(_table.Count);
         foreach (KeyValuePair<string, string> item in _table)

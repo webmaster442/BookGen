@@ -10,12 +10,17 @@ namespace BookGen.Tests
     {
         private ShortCodeLoader _sut;
         private ILog _logMock;
+        private TimeProvider _timeProvider;
 
         [SetUp]
         public void Setup()
         {
+            _timeProvider = Substitute.For<TimeProvider>();
             _logMock = Substitute.For<ILog>();
-            _sut = new ShortCodeLoader(_logMock, TestEnvironment.GetMockedSettings(), TestEnvironment.GetMockedAppSettings());
+            _sut = new ShortCodeLoader(_logMock,
+                                       TestEnvironment.GetMockedSettings(),
+                                       TestEnvironment.GetMockedAppSettings(),
+                                       _timeProvider);
             _sut.LoadAll();
         }
 
@@ -29,14 +34,14 @@ namespace BookGen.Tests
         [Test]
         public void EnsureThat_ShortCodeLoaderLoadsShortCodes()
         {
-            Assert.IsTrue(_sut.Imports.Count > 0);
+            Assert.That(_sut.Imports, Is.Not.Empty);
         }
 
         [Test]
         public void EnsureThat_ShortCodeLoader_SatisfiesLogImport()
         {
             ITemplateShortCode sri = _sut.Imports.FirstOrDefault(s => s.Tag == nameof(SriDependency));
-            Assert.IsNotNull(sri);
+            Assert.That(sri, Is.Not.Null);
         }
     }
 }

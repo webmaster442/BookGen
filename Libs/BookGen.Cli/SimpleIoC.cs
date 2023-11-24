@@ -15,9 +15,9 @@ public sealed class SimpleIoC : IResolver
 
     public SimpleIoC()
     {
-        _instanceTypes = new Dictionary<Type, Type>();
-        _singletonTypes = new Dictionary<Type, Type>();
-        _singletons = new Dictionary<Type, object>();
+        _instanceTypes = [];
+        _singletonTypes = [];
+        _singletons = [];
     }
 
     public void Register<TInterface, TImplementation>()
@@ -54,10 +54,8 @@ public sealed class SimpleIoC : IResolver
 
     private object CreateInstance(Type value)
     {
-        var ctorToCall = DependencyComparer.GetConstructor(value);
-
-        if (ctorToCall == null)
-            throw new InvalidOperationException($"{value.FullName} doesn't have a public constructor");
+        var ctorToCall = DependencyComparer.GetConstructor(value)
+            ?? throw new InvalidOperationException($"{value.FullName} doesn't have a public constructor");
 
         var parameters = ctorToCall.GetParameters();
         object[] parameterInstances = new object[parameters.Length];
