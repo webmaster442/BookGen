@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
+using BookGen.Domain;
+
 using NUnit.Framework;
 
 namespace BookGen.TestsSystem
@@ -17,7 +19,7 @@ namespace BookGen.TestsSystem
         [Test, Timeout(3000)]
         public void Test_NoSyntax_Raw()
         {
-            EnsureRunWithoutException(ExitCode.Succes, "md2html -i Testpage.md -ns -r -o nsr.html -nw");
+            EnsureRunWithoutException(Constants.Succes, "md2html -i Testpage.md -ns -r -o nsr.html -nw");
             Environment.AssertFileExistsAndHasContents("nsr.html");
             string? contents = Environment.ReadFileContents("nsr.html");
             Assert.Multiple(() =>
@@ -30,7 +32,7 @@ namespace BookGen.TestsSystem
         [Test, Timeout(3000)]
         public void Test_Syntax_Raw()
         {
-            EnsureRunWithoutException(ExitCode.Succes, "md2html -i Testpage.md -r -o r.html -nw");
+            EnsureRunWithoutException(Constants.Succes, "md2html -i Testpage.md -r -o r.html -nw");
             Environment.AssertFileExistsAndHasContents("r.html");
             string? contents = Environment.ReadFileContents("r.html");
             Assert.Multiple(() =>
@@ -47,7 +49,7 @@ namespace BookGen.TestsSystem
         [Test, Timeout(3000)]
         public void Test_Full()
         {
-            EnsureRunWithoutException(ExitCode.Succes, "md2html -i Testpage.md -o full.html -nw");
+            EnsureRunWithoutException(Constants.Succes, "md2html -i Testpage.md -o full.html -nw");
 
             Environment.AssertFileExistsAndHasContents("full.html");
             string? contents = Environment.ReadFileContents("full.html");

@@ -34,8 +34,7 @@ namespace BookGen.DomainServices.Markdown
 
         public static void SetupSyntaxRender(IMarkdownRenderer renderer, JavaScriptInterop interop)
         {
-            if (renderer == null)
-                throw new ArgumentNullException(nameof(renderer));
+            ArgumentNullException.ThrowIfNull(renderer);
 
             if (renderer is not TextRendererBase<HtmlRenderer> htmlRenderer) return;
 

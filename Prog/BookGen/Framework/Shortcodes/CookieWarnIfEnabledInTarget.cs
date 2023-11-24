@@ -42,6 +42,5 @@ public sealed class CookieWarnIfEnabledInTarget : ITemplateShortCode
             _log.Detail("Cookies not enalbed for current target.");
             return string.Empty;
         }
-
     }
 }

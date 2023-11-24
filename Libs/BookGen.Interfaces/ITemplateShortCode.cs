@@ -13,7 +13,7 @@ namespace BookGen.Interfaces
         /// ShortCode activator tag
         /// </summary>
         string Tag { get; }
-        
+       
         /// <summary>
         /// ShortCode main entry point
         /// </summary>

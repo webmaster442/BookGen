@@ -31,7 +31,7 @@ namespace BookGen.TestsSystem
             LastLog = new List<LogEntry>();
         }
 
-        protected void EnsureRunWithoutException(ExitCode expectedExitCode, string commandLine)
+        protected void EnsureRunWithoutException(int expectedExitCode, string commandLine)
         {
             var process = new Process();
             process.StartInfo.UseShellExecute = false;

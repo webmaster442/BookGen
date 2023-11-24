@@ -73,7 +73,6 @@ internal class GeneratorRunner
 
         if (_tags == null)
             throw new InvalidOperationException("Tags is null");
-
     }
 
     public bool InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
@@ -91,7 +90,7 @@ internal class GeneratorRunner
         }
     }
 
-    public bool Initialize(bool compileScripts = true)
+    public bool Initialize()
     {
         Log.Info("---------------------------------------------------------");
         Log.Info("BookGen Build date: {0:yyyy.MM.dd} Starting...", _programInfo.BuildDateUtc.Date);
@@ -103,21 +102,10 @@ internal class GeneratorRunner
 
         bool ret = _projectLoader.LoadProject();
 
-        if (compileScripts)
-            LoadAndCompileScripts();
-
         if (!ret && !NoWait)
             _moduleApi.Wait(ExitString);
 
         return ret;
-    }
-
-    private void LoadAndCompileScripts()
-    {
-        if (string.IsNullOrEmpty(_projectLoader.Configuration.ScriptsDirectory)) return;
-
-        Log.Info("Trying to load and compile script files...");
-        FsPath scripts = new FsPath(WorkDirectory).Combine(_projectLoader.Configuration.ScriptsDirectory);
     }
 
     public void DoClean()
@@ -207,7 +195,6 @@ internal class GeneratorRunner
         _projectLoader.Configuration.HostName = "http://localhost:8090/";
 
         RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetWeb);
-
 
         using (var loader = new ShortCodeLoader(Log, settings, _appSettings))
         {

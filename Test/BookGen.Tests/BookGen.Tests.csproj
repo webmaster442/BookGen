@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Environment\TestScript.cs" />
     <Compile Remove="UT_NodeJsHost.cs" />
   </ItemGroup>
 
@@ -33,13 +32,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Node.js.redist" Version="20.9.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Environment\TestScript.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Integration\IT_NodeJs.cs" />
   </ItemGroup>
 
   <ItemGroup>

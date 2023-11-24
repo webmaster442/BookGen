@@ -21,8 +21,6 @@ internal abstract class GeneratorStepRunner : IDisposable
     protected RuntimeSettings Settings { get; }
 
     protected readonly ShortCodeLoader _loader;
-
-
     protected GeneratorStepRunner(RuntimeSettings settings,
                       ILog log,
                       ShortCodeLoader shortCodeLoader)

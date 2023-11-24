@@ -14,6 +14,8 @@ namespace BookGen.Domain
         public const int GeneralError = int.MaxValue;
         public const int UpdateError = int.MinValue;
 
+        public const int FiveSeconds = 5000;
+
         public const string WikiUrl = "https://github.com/webmaster442/BookGen/wiki";
 
         public const string ConfigJson = "config.json";

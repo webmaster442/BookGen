@@ -13,5 +13,4 @@ internal static class Extensions
             Environment.Exit(Constants.FolderLocked);
         }
     }
-
 }

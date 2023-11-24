@@ -3,11 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Interfaces.Configuration;
+using System.Collections.Concurrent;
+
 using BookGen.Domain.Configuration;
 using BookGen.Interfaces;
-using System.Collections.Concurrent;
+using BookGen.Interfaces.Configuration;
 
 namespace BookGen.Domain
 {

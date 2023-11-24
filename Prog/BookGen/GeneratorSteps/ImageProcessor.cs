@@ -26,7 +26,6 @@ internal sealed class ImageProcessor : IGeneratorStep
         {
             ProcessImage(file, settings, targetdir, log);
         });
-
     }
 
     private void ProcessImage(FsPath file, IReadonlyRuntimeSettings settings, FsPath targetdir, ILog log)
@@ -96,7 +95,7 @@ internal sealed class ImageProcessor : IGeneratorStep
         }
     }
 
-    private void InlineImage(FsPath file, IReadonlyRuntimeSettings settings, SKData data, string? extensionOverride)
+    private static void InlineImage(FsPath file, IReadonlyRuntimeSettings settings, SKData data, string? extensionOverride)
     {
         string base64 = Convert.ToBase64String(data.ToArray());
         string mime = Webmaster442.HttpServerFramework.MimeTypes.GetMimeForExtension(file.Extension);

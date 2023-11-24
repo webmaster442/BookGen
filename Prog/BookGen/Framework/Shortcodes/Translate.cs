@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,10 +10,12 @@ using BookGen.Interfaces.Configuration;
 namespace BookGen.Framework.Shortcodes;
 
 [Export(typeof(ITemplateShortCode))]
-public sealed class Translate : ITemplateShortCode
+public sealed partial class Translate : ITemplateShortCode
 {
     private readonly IReadOnlyTranslations _translations;
-    public static readonly Regex TranslateCheck = new Regex("^([A-Za-z_0-9]+)$", RegexOptions.Compiled);
+
+    [GeneratedRegex("^([A-Za-z_0-9]+)$", RegexOptions.Compiled, Constants.FiveSeconds)]
+    private static partial Regex CreateTranslateRegex();
 
     [ImportingConstructor]
     public Translate(IReadOnlyTranslations translations)
@@ -40,7 +42,7 @@ public sealed class Translate : ITemplateShortCode
         if (string.IsNullOrEmpty(key))
             return string.Empty;
 
-        if (!TranslateCheck.IsMatch(key))
+        if (!CreateTranslateRegex().IsMatch(key))
             return $"Invalid tranlation key: {key}";
         else if (translations.ContainsKey(key))
             return translations[key];

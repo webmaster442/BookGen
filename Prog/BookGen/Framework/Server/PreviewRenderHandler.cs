@@ -16,13 +16,11 @@ namespace BookGen.Framework.Server;
 
 internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
 {
-
     private readonly string _directory;
     private readonly ILog _log;
     private readonly TemplateProcessor _processor;
     private readonly PreviewIndexBuilder _indexBuilder;
     private BookGenPipeline? _mdpipeline;
-
 
     public PreviewRenderHandler(string directory, ILog log)
     {
@@ -40,8 +38,6 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
         _mdpipeline = new BookGenPipeline(BookGenPipeline.Preview);
         _mdpipeline.SetSyntaxHighlightTo(false);
     }
-
-
 
     public bool CanServe(string AbsoluteUri)
     {
@@ -85,7 +81,6 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
         }
         else if (CanServeFromDir(request.Url, out string found))
         {
-
             var fileContents = new FsPath(found).ReadFile(_log);
 
             _mdpipeline?.InjectPath(new FsPath(_directory));

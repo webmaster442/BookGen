@@ -84,7 +84,6 @@ namespace BookGen.Domain.Configuration
                 value = default;
                 return false;
             }
-
         }
     }
 }

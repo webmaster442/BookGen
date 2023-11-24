@@ -1,4 +1,5 @@
 ﻿using BookGen.Api;
+using BookGen.Domain;
 
 using NUnit.Framework;
 
@@ -14,14 +15,14 @@ internal class ST_Build : SystemTestBase
     [Test, Timeout(3000)]
     public void Test_Build_Print()
     {
-        EnsureRunWithoutException(ExitCode.Succes, "Build -a BuildPrint -n");
+        EnsureRunWithoutException(Constants.Succes, "Build -a BuildPrint -n");
         Environment.AssertFileExistsAndHasContents("output", "print", "print.html");
     }
 
     [Test, Timeout(3000)]
     public void Test_Build_Website()
     {
-        EnsureRunWithoutException(ExitCode.Succes, "Build -a BuildWeb -n");
+        EnsureRunWithoutException(Constants.Succes, "Build -a BuildWeb -n");
 
         Assert.Multiple(() =>
         {
