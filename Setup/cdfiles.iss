@@ -2,6 +2,7 @@
 Source: "{src}\BookGen.exe"; DestDir: "{app}\"; Flags: ignoreversion external
 Source: "{src}\BookGen.Launcher.exe"; DestDir: "{app}\"; Flags: ignoreversion external
 Source: "{src}\Bookgen.Win.dll"; DestDir: "{app}\"; Flags: ignoreversion external
+Source: "{src}\Documents.html"; DestDir: "{app}\"; Flags: ignoreversion external
 Source: "{src}\data\Accessibility.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\AngleSharp.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\bookgen-bg.png"; DestDir: "{app}\data"; Flags: ignoreversion external
@@ -56,11 +57,6 @@ Source: "{src}\data\BookGen.ShellHelper.dll"; DestDir: "{app}\data"; Flags: igno
 Source: "{src}\data\BookGen.ShellHelper.exe"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\BookGen.ShellHelper.pdb"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\BookGen.ShellHelper.runtimeconfig.json"; DestDir: "{app}\data"; Flags: ignoreversion external
-Source: "{src}\data\BookGen.Update.deps.json"; DestDir: "{app}\data"; Flags: ignoreversion external
-Source: "{src}\data\BookGen.Update.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
-Source: "{src}\data\BookGen.Update.exe"; DestDir: "{app}\data"; Flags: ignoreversion external
-Source: "{src}\data\BookGen.Update.pdb"; DestDir: "{app}\data"; Flags: ignoreversion external
-Source: "{src}\data\BookGen.Update.runtimeconfig.json"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\BookGenShell.ps1"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\Cdg.deps.json"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\Cdg.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
@@ -84,9 +80,7 @@ Source: "{src}\data\coreclr.dll"; DestDir: "{app}\data"; Flags: ignoreversion ex
 Source: "{src}\data\createdump.exe"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\D3DCompiler_47_cor3.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\DirectWriteForwarder.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
-Source: "{src}\data\dotnet-Microsoft.XmlSerializer.Generator.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\ExCSS.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
-Source: "{src}\data\Fizzler.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\getting-started.mdr"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\HarfBuzzSharp.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\hostfxr.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
@@ -112,7 +106,7 @@ Source: "{src}\data\Microsoft.Win32.Registry.AccessControl.dll"; DestDir: "{app}
 Source: "{src}\data\Microsoft.Win32.Registry.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\Microsoft.Win32.SystemEvents.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\Microsoft.Xaml.Behaviors.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
-Source: "{src}\data\mscordaccore_amd64_amd64_8.0.23.41904.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
+Source: "{src}\data\mscordaccore_amd64_amd64_8.0.23.53103.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\mscordaccore.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\mscordbi.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\mscorlib.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
@@ -348,6 +342,12 @@ Source: "{src}\data\WebView2Loader.dll"; DestDir: "{app}\data"; Flags: ignorever
 Source: "{src}\data\WindowsBase.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\WindowsFormsIntegration.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\wpfgfx_cor3.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
+Source: "{src}\data\Www.deps.json"; DestDir: "{app}\data"; Flags: ignoreversion external
+Source: "{src}\data\Www.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
+Source: "{src}\data\Www.exe"; DestDir: "{app}\data"; Flags: ignoreversion external
+Source: "{src}\data\Www.pdb"; DestDir: "{app}\data"; Flags: ignoreversion external
+Source: "{src}\data\Www.runtimeconfig.json"; DestDir: "{app}\data"; Flags: ignoreversion external
+Source: "{src}\data\WwwConfig.xml"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\XmlDocMarkdown.Core.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\YamlDotNet.dll"; DestDir: "{app}\data"; Flags: ignoreversion external
 Source: "{src}\data\cs\Microsoft.CodeAnalysis.CSharp.resources.dll"; DestDir: "{app}\data\cs"; Flags: ignoreversion external
