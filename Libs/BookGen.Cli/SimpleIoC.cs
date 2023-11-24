@@ -83,11 +83,11 @@ public sealed class SimpleIoC : IResolver
 
     public object Resolve(Type type)
     {
-        if (_instanceTypes.ContainsKey(type))
-            return CreateInstance(_instanceTypes[type]);
+        if (_instanceTypes.TryGetValue(type, out Type? foundType))
+            return CreateInstance(foundType);
 
-        if (_singletons.ContainsKey(type))
-            return _singletons[type];
+        if (_singletons.TryGetValue(type, out object? instance))
+            return instance;
 
         throw new InvalidOperationException($"Don't know how to resolve: {type.FullName}");
     }

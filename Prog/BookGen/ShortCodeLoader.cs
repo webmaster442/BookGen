@@ -9,6 +9,7 @@ using System.ComponentModel.Composition.Hosting;
 using BookGen.ShortCodes;
 using BookGen.Interfaces.Configuration;
 using System.Reflection;
+using System;
 
 namespace BookGen;
 
@@ -29,19 +30,24 @@ internal sealed class ShortCodeLoader : IDisposable
     [Export(typeof(IAppSetting))]
     private readonly IAppSetting _appSetting;
 
+    [Export(typeof(TimeProvider))]
+    private readonly TimeProvider _timeProvider;
+
     private CompositionContainer? _container;
 
-    public ShortCodeLoader(ILog log, IReadonlyRuntimeSettings settings, IAppSetting appSetting)
+    public ShortCodeLoader(ILog log, IReadonlyRuntimeSettings settings, IAppSetting appSetting, TimeProvider timeProvider)
     {
         _log = log;
         _settings = settings;
         _tranlsations = settings.Configuration.Translations;
         _appSetting = appSetting;
+        _timeProvider = timeProvider;
 
         var catalog = new AggregateCatalog();
         catalog.Catalogs.Add(new TypeCatalog(typeof(ILog),
                                              typeof(IReadonlyRuntimeSettings),
-                                             typeof(IAppSetting)));
+                                             typeof(IAppSetting),
+                                             typeof(TimeProvider)));
 
         catalog.Catalogs.Add(new AssemblyCatalog(typeof(BuiltInShortCodeAttribute).Assembly));
         foreach (var plugin in LoadPlugins(_log))

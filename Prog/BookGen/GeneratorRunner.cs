@@ -26,6 +26,7 @@ internal class GeneratorRunner
     private readonly IModuleApi _moduleApi;
     private readonly IAppSetting _appSettings;
     private readonly ProgramInfo _programInfo;
+    private readonly TimeProvider _timeProvider;
 
     public FsPath ConfigFile { get; }
 
@@ -45,6 +46,7 @@ internal class GeneratorRunner
                            IModuleApi moduleApi,
                            IAppSetting appSettings,
                            ProgramInfo programInfo,
+                           TimeProvider timeProvider,
                            string workDir)
     {
         ServerLog = serverLog;
@@ -52,6 +54,7 @@ internal class GeneratorRunner
         Log = log;
         _appSettings = appSettings;
         _programInfo = programInfo;
+        _timeProvider = timeProvider;
         _projectLoader = new ProjectLoader(workDir, log, programInfo);
         _projectLoadSuccess = _projectLoader.LoadProject();
         WorkDirectory = workDir;
@@ -120,7 +123,7 @@ internal class GeneratorRunner
 
     private void RunSteps<TBuilder>(Func<ShortCodeLoader, TBuilder> builderCreator, RuntimeSettings settings) where TBuilder : BookGen.Framework.GeneratorStepRunner
     {
-        using (var loader = new ShortCodeLoader(Log, settings, _appSettings))
+        using (var loader = new ShortCodeLoader(Log, settings, _appSettings, _timeProvider))
         {
             using (TBuilder instance = builderCreator(loader))
             {
@@ -195,7 +198,7 @@ internal class GeneratorRunner
 
         RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetWeb);
 
-        using (var loader = new ShortCodeLoader(Log, settings, _appSettings))
+        using (var loader = new ShortCodeLoader(Log, settings, _appSettings, _timeProvider))
         {
             var builder = new WebsiteGeneratorStepRunner(settings, Log, loader);
             TimeSpan runTime = builder.Run();

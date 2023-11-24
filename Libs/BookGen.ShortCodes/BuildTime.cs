@@ -9,12 +9,20 @@ namespace BookGen.ShortCodes;
 [BuiltInShortCode]
 public sealed class BuildTime : ITemplateShortCode
 {
+    private readonly TimeProvider _timeProvider;
+
+    [ImportingConstructor]
+    public BuildTime(TimeProvider timeProvider)
+    {
+        _timeProvider = timeProvider;
+    }
+
     public string Tag => nameof(BuildTime);
 
     public bool CanCacheResult => false;
 
     public string Generate(IArguments arguments)
     {
-        return DateTime.Now.ToString("yy-MM-dd hh:mm:ss");
+        return _timeProvider.GetLocalNow().ToString("yy-MM-dd hh:mm:ss");
     }
 }

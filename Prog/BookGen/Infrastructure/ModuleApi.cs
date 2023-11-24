@@ -7,19 +7,25 @@ using Webmaster442.HttpServerFramework;
 
 namespace BookGen.Infrastructure;
 
-internal class ModuleApi : IModuleApi
+internal sealed class ModuleApi : IModuleApi
 {
     private readonly ILog _log;
     private readonly IServerLog _serverLog;
     private readonly IAppSetting _setting;
     private readonly ProgramInfo _programInfo;
+    private readonly TimeProvider _timeProvider;
 
-    public ModuleApi(ILog log, IServerLog serverLog, IAppSetting setting, ProgramInfo programInfo)
+    public ModuleApi(ILog log,
+                     IServerLog serverLog,
+                     IAppSetting setting,
+                     ProgramInfo programInfo,
+                     TimeProvider timeProvider)
     {
         _log = log;
         _serverLog = serverLog;
         _setting = setting;
         _programInfo = programInfo;
+        _timeProvider = timeProvider;
     }
 
     public Action<string, string[]>? OnExecuteModule { get; set; }
@@ -53,6 +59,6 @@ internal class ModuleApi : IModuleApi
     public GeneratorRunner CreateRunner(bool verbose, string workDir)
     {
         _log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
-        return new GeneratorRunner(_log, _serverLog, this, _setting, _programInfo, workDir);
+        return new GeneratorRunner(_log, _serverLog, this, _setting, _programInfo, _timeProvider, workDir);
     }
 }
