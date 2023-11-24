@@ -3,9 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-
-namespace BookGen.Interfaces
+namespace BookGen.Api
 {
     public interface ITemplateShortCode
     {

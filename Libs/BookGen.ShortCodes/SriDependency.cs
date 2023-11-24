@@ -1,9 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.ComponentModel.Composition;
+using BookGen.DomainServices;
+using BookGen.Interfaces;
 
 namespace BookGen.Framework.Shortcodes;
 
@@ -27,8 +28,7 @@ public sealed class SriDependency : ITemplateShortCode
     private string ComputeSRI(FsPath filePath)
     {
         _log.Detail("Computing SRI and caching results for {0}...", filePath);
-        string sri = CryptoUitils.GetSRI(filePath);
-        return sri;
+        return CryptoUitils.GetSRI(filePath);
     }
 
     public string Generate(IArguments arguments)

@@ -1,9 +1,7 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
-
-using System.ComponentModel.Composition;
 
 namespace BookGen.Framework.Shortcodes;
 
@@ -26,10 +24,8 @@ public sealed class InlineFile : ITemplateShortCode
     {
         string? name = arguments.GetArgumentOrThrow<string>("file");
 
-        var file = new FsPath(name);
+        _log.Detail("Inlineing {0}...", name);
 
-        _log.Detail("Inlineing {0}...", file);
-
-        return file.ReadFile(_log);
+        return File.ReadAllText(name);
     }
 }
