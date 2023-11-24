@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Configuration;
-using BookGen.Framework.Shortcodes;
+using BookGen.ShortCodes;
 
 namespace BookGen.Framework;
 

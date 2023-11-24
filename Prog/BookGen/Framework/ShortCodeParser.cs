@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Configuration;
-using BookGen.Framework.Shortcodes;
+using BookGen.ShortCodes;
 
 namespace BookGen.Framework;
 
@@ -37,11 +37,7 @@ internal sealed partial class ShortCodeParser
 
     public void AddShortcodeToLookupIndex(ITemplateShortCode shortCode)
     {
-        if (!_shortCodesIndex.ContainsKey(shortCode.Tag))
-        {
-            _shortCodesIndex.Add(shortCode.Tag, shortCode);
-        }
-        else
+        if (!_shortCodesIndex.TryAdd(shortCode.Tag, shortCode))
         {
             _log.Warning("Shortcode has allready been registered: {0}. Duplicate entries cause unexpected behaviour.", shortCode.Tag);
         }

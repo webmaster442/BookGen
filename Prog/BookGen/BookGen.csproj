@@ -59,6 +59,7 @@
 	  <ProjectReference Include="..\..\Libs\BookGen.Gui\BookGen.Gui.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Native\BookGen.Native.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Resources\BookGen.Resources.csproj" />
+	  <ProjectReference Include="..\..\Libs\BookGen.ShortCodes\BookGen.ShortCodes.csproj" />
 	  <ProjectReference Include="..\..\Libs\Webmaster442.HttpServerFramework\Webmaster442.HttpServerFramework.csproj" />
 	</ItemGroup>
 	<ItemGroup>
