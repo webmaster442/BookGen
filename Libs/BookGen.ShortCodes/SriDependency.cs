@@ -6,9 +6,10 @@
 using BookGen.DomainServices;
 using BookGen.Interfaces;
 
-namespace BookGen.Framework.Shortcodes;
+namespace BookGen.ShortCodes;
 
 [Export(typeof(ITemplateShortCode))]
+[BuiltInShortCode]
 public sealed class SriDependency : ITemplateShortCode
 {
     private readonly ILog _log;

@@ -3,9 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Framework.Shortcodes;
+namespace BookGen.ShortCodes;
 
 [Export(typeof(ITemplateShortCode))]
+[BuiltInShortCode]
 public sealed class InlineFile : ITemplateShortCode
 {
     private readonly ILog _log;

@@ -8,9 +8,10 @@ using System.Text.RegularExpressions;
 using BookGen.Domain;
 using BookGen.Interfaces.Configuration;
 
-namespace BookGen.Framework.Shortcodes;
+namespace BookGen.ShortCodes;
 
 [Export(typeof(ITemplateShortCode))]
+[BuiltInShortCode]
 public sealed partial class Translate : ITemplateShortCode
 {
     private readonly IReadOnlyTranslations _translations;

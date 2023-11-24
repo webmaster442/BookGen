@@ -8,9 +8,10 @@ using BookGen.Interfaces;
 using BookGen.Interfaces.Configuration;
 using BookGen.Resources;
 
-namespace BookGen.Framework.Shortcodes;
+namespace BookGen.ShortCodes;
 
 [Export(typeof(ITemplateShortCode))]
+[BuiltInShortCode]
 public sealed class CookieWarnIfEnabledInTarget : ITemplateShortCode
 {
     private readonly ILog _log;

@@ -9,9 +9,10 @@ using BookGen.DomainServices;
 
 using BookGen.Resources;
 
-namespace BookGen.Framework.Shortcodes;
+namespace BookGen.ShortCodes;
 
 [Export(typeof(ITemplateShortCode))]
+[BuiltInShortCode]
 public sealed class JSPageToc : ITemplateShortCode
 {
     public string Tag => nameof(JSPageToc);

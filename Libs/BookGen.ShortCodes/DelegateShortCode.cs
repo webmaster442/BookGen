@@ -3,8 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Framework.Shortcodes;
+namespace BookGen.ShortCodes;
 
+[BuiltInShortCode]
 public sealed class DelegateShortCode : ITemplateShortCode
 {
     private readonly Func<IArguments, string> _generator;
