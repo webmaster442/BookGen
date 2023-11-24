@@ -1,10 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Configuration;
-using BookGen.Framework.Scripts;
 using BookGen.Framework.Shortcodes;
 
 namespace BookGen.Framework;
@@ -14,7 +13,6 @@ internal sealed partial class ShortCodeParser
     private readonly Dictionary<string, ITemplateShortCode> _shortCodesIndex;
     private readonly Dictionary<string, string> _codeResultCache;
     private readonly Translations _translations;
-    private readonly CsharpScriptHandler _scriptHandler;
     private readonly ILog _log;
 
     private const string shortCodeStart = "<!--{";
@@ -27,13 +25,11 @@ internal sealed partial class ShortCodeParser
     private partial Regex CodeRegex();
 
     public ShortCodeParser(IList<ITemplateShortCode> shortCodes,
-                           CsharpScriptHandler scriptHandler,
                            Translations translations,
                            ILog log)
     {
         _shortCodesIndex = new Dictionary<string, ITemplateShortCode>(shortCodes.Count);
         _codeResultCache = new Dictionary<string, string>(100);
-        _scriptHandler = scriptHandler;
         _translations = translations;
         _log = log;
         AddShortcodesToLookupIndex(shortCodes);
@@ -162,14 +158,9 @@ internal sealed partial class ShortCodeParser
                         _codeResultCache.Add(match.Value, generated);
                     }
                 }
-                else if (_scriptHandler.IsKnownScript(tagKey))
-                {
-                    string? scriptResult = _scriptHandler.ExecuteScript(tagKey, GetArguments(match.Value));
-                    result.Replace(match.Value, scriptResult);
-                }
                 else
                 {
-                    _log.Warning("Unknown shortcode or script: {0}", tagKey);
+                    _log.Warning("Unknown shortcode: {0}", tagKey);
                 }
             }
         }

@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.Composition;
-///-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+﻿///-----------------------------------------------------------------------------
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel.Composition;
+
 using BookGen.Domain.Configuration;
+using BookGen.Interfaces.Configuration;
 using BookGen.Resources;
 
 namespace BookGen.Framework.Shortcodes;
@@ -28,7 +30,7 @@ public sealed class CookieWarnIfEnabledInTarget : ITemplateShortCode
 
     public string Generate(IArguments arguments)
     {
-        Api.Configuration.IReadOnlyBuildConfig? currentconfig = _settings.CurrentBuildConfig;
+        IReadOnlyBuildConfig? currentconfig = _settings.CurrentBuildConfig;
 
         if (currentconfig.TemplateOptions.TryGetOption(TemplateOptions.CookieDisplayBannerEnabled, out bool value) && value)
         {

@@ -10,7 +10,7 @@ internal static class Extensions
         if (FolderLock.IsFolderLocked(folder))
         {
             log.Critical("An other bookgen process is using this folder. Exiting...");
-            Environment.Exit((int)ExitCode.FolderLocked);
+            Environment.Exit(Constants.FolderLocked);
         }
     }
 

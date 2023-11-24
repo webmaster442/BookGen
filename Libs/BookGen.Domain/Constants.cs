@@ -9,8 +9,10 @@ namespace BookGen.Domain
     {
         public const int Succes = 0;
         public const int ArgumentsError = 1;
+        public const int ConfigError = 2;
+        public const int FolderLocked = 3;
         public const int GeneralError = int.MaxValue;
-        public const int UpdateError = int.MinValue; 
+        public const int UpdateError = int.MinValue;
 
         public const string WikiUrl = "https://github.com/webmaster442/BookGen/wiki";
 

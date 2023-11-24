@@ -1,17 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework;
-using BookGen.Framework.Scripts;
 
 namespace BookGen.GeneratorStepRunners;
 
 internal sealed class WordpressGeneratorStepRunner : GeneratorStepRunner
 {
-    public WordpressGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader, CsharpScriptHandler scriptHandler)
-        : base(settings, log, loader, scriptHandler)
+    public WordpressGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader)
+        : base(settings, log, loader)
     {
         var session = new GeneratorSteps.Wordpress.Session();
         AddStep(new GeneratorSteps.CreateOutputDirectory());

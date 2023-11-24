@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2022 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -32,7 +32,6 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
 
         _processor = new TemplateProcessor(new Config(),
                          new ShortCodeParser(new List<ITemplateShortCode>(),
-                                             new Scripts.CsharpScriptHandler(_log),
                                              new Translations(),
                                              _log),
                          new StaticTemplateContent());

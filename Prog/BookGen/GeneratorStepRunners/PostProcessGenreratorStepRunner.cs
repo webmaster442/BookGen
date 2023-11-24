@@ -1,17 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 2022-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework;
-using BookGen.Framework.Scripts;
-
 namespace BookGen.GeneratorStepRunners;
 
 internal sealed class PostProcessGenreratorStepRunner : GeneratorStepRunner
 {
-    public PostProcessGenreratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader shortCodeLoader, CsharpScriptHandler scriptHandler)
-        : base(settings, log, shortCodeLoader, scriptHandler)
+    public PostProcessGenreratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader shortCodeLoader)
+        : base(settings, log, shortCodeLoader)
     {
         AddStep(new GeneratorSteps.CreateOutputDirectory());
         AddStep(new GeneratorSteps.ImageProcessor());
