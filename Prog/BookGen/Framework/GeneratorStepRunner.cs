@@ -26,12 +26,12 @@ internal abstract class GeneratorStepRunner : IDisposable
                       ShortCodeLoader shortCodeLoader)
     {
         Settings = settings;
-        _redirectedLogMessages = new List<string>();
+        _redirectedLogMessages = [];
         _staticContent = new StaticTemplateContent();
         _loader = shortCodeLoader;
         _loader.LoadAll();
 
-        _steps = new List<IGeneratorStep>();
+        _steps = [];
         _log = log;
         _log.OnLogWritten += OnLogWritten;
     }

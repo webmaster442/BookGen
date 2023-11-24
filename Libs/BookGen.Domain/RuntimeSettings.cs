@@ -39,7 +39,7 @@ namespace BookGen.Domain
             ImageDirectory = FsPath.Empty;
             TocContents = new ToC();
             Configuration = new Config();
-            MetataCache = new Dictionary<string, string>();
+            MetataCache = [];
             InlineImgCache = new ConcurrentDictionary<string, string>();
             CurrentBuildConfig = new BuildConfig();
             Tags = tags;

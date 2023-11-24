@@ -45,14 +45,14 @@ namespace BookGen.Domain.Configuration
         {
             OutPutDirectory = "Path to output directory";
             TemplateFile = "";
-            TemplateAssets = new List<Asset>
-            {
+            TemplateAssets =
+            [
                 new Asset
                 {
                     Source = "",
                     Target = ""
                 }
-            };
+            ];
             TemplateOptions = TemplateOptions.CreateDefaultOptions();
             StyleClasses = new StyleClasses();
             ImageOptions = new ImageOptions();

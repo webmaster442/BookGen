@@ -31,7 +31,7 @@ namespace BookGen.Domain
 
         public ToC()
         {
-            _tocContents = new Dictionary<string, List<Link>>();
+            _tocContents = [];
         }
 
         public void AddChapter(string chapter, List<Link> files)

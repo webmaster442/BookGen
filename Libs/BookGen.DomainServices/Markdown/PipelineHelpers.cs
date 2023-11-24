@@ -74,20 +74,20 @@ namespace BookGen.DomainServices.Markdown
             node.GetAttributes().AddClass(style);
         }
 
-        public static void RenderImages(IReadonlyRuntimeSettings RuntimeConfig,
+        public static void RenderImages(IReadonlyRuntimeSettings runtimeConfig,
                                         MarkdownDocument document)
         {
             foreach (MarkdownObject? node in document.Descendants())
             {
                 if (node is LinkInline link && link.IsImage)
                 {
-                    link.Url = FixExtension(link.Url, RuntimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
-                    if (RuntimeConfig.InlineImgCache?.Count > 0)
+                    link.Url = FixExtension(link.Url, runtimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
+                    if (runtimeConfig.InlineImgCache?.Count > 0)
                     {
-                        string? inlinekey = ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
-                        if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
+                        string? inlinekey = ToImgCacheKey(link.Url, runtimeConfig.OutputDirectory);
+                        if (runtimeConfig.InlineImgCache.TryGetValue(inlinekey, out string? value))
                         {
-                            link.Url = RuntimeConfig.InlineImgCache[inlinekey];
+                            link.Url = value;
                         }
                     }
                 }

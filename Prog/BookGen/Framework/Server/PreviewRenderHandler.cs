@@ -39,16 +39,16 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
         _mdpipeline.SetSyntaxHighlightTo(false);
     }
 
-    public bool CanServe(string AbsoluteUri)
+    public bool CanServe(string absoluteUri)
     {
-        return CanServeFromDir(AbsoluteUri, out _)
-            || AbsoluteUri == "/";
+        return CanServeFromDir(absoluteUri, out _)
+            || absoluteUri == "/";
     }
 
     private bool CanServeFromDir(string absoluteUri, out string foundUri)
     {
         if (absoluteUri.StartsWith('/'))
-            absoluteUri = absoluteUri.Substring(1);
+            absoluteUri = absoluteUri[1..];
 
         //string filePath = absoluteUri.Replace("/", "\\");
         string checkPath = Path.Combine(_directory, absoluteUri);

@@ -41,7 +41,7 @@ internal sealed class ShortCodeLoader : IDisposable
                                              typeof(IReadonlyRuntimeSettings),
                                              typeof(IAppSetting)));
         catalog.Catalogs.Add(new AssemblyCatalog(typeof(ShortCodeLoader).Assembly));
-        Imports = new List<ITemplateShortCode>();
+        Imports = [];
         _container = new CompositionContainer(catalog);
     }
 

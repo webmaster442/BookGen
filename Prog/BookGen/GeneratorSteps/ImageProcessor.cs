@@ -28,7 +28,7 @@ internal sealed class ImageProcessor : IGeneratorStep
         });
     }
 
-    private void ProcessImage(FsPath file, IReadonlyRuntimeSettings settings, FsPath targetdir, ILog log)
+    private static void ProcessImage(FsPath file, IReadonlyRuntimeSettings settings, FsPath targetdir, ILog log)
     {
         IReadonlyImageOptions? options = settings.CurrentBuildConfig.ImageOptions;
 
@@ -82,7 +82,12 @@ internal sealed class ImageProcessor : IGeneratorStep
         }
     }
 
-    private void InlineOrSave(FsPath file, FsPath targetdir, ILog log, IReadonlyRuntimeSettings settings, SKData data, string? extensionOverride = null)
+    private static void InlineOrSave(FsPath file,
+                                     FsPath targetdir,
+                                     ILog log,
+                                     IReadonlyRuntimeSettings settings,
+                                     SKData data,
+                                     string? extensionOverride = null)
     {
         if (data.Size < settings.CurrentBuildConfig.ImageOptions.InlineImageSizeLimit)
         {
@@ -111,7 +116,7 @@ internal sealed class ImageProcessor : IGeneratorStep
         settings.InlineImgCache.TryAdd(key, $"data:{mime};base64,{base64}");
     }
 
-    private void SaveImage(FsPath file, FsPath targetdir, ILog log, SKData data, string? extensionOverride)
+    private static void SaveImage(FsPath file, FsPath targetdir, ILog log, SKData data, string? extensionOverride)
     {
         FsPath target = targetdir.Combine(file.Filename);
         if (extensionOverride != null)

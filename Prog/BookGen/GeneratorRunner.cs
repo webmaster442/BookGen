@@ -27,7 +27,7 @@ internal class GeneratorRunner
     private readonly IAppSetting _appSettings;
     private readonly ProgramInfo _programInfo;
 
-    public FsPath ConfigFile { get; private set; }
+    public FsPath ConfigFile { get; }
 
     public string WorkDirectory
     {
@@ -98,7 +98,6 @@ internal class GeneratorRunner
         Log.Info("Working directory: {0}", WorkDirectory);
         Log.Info("Os: {0}", Environment.OSVersion.VersionString);
         Log.Info("---------------------------------------------------------");
-
 
         bool ret = _projectLoader.LoadProject();
 
