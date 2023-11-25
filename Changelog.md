@@ -10,6 +10,7 @@
 * New: Terminal output renderer, when building markdown
 * New: CDG program can handle a path argument, to specify where to start from
 * New: WWW program that can perform web searches easily
+* Change: API cleanup & removed C# scripting support
 * Change: StockSearch command functionality has been integrated to the WWW command
 * Change: Removed auto updater (hard to maintain)
 * Change: Removed ZIP format release
