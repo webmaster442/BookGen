@@ -9,11 +9,16 @@ namespace BookGen.Tests
     public class UT_BuildTime
     {
         private TimeProvider _timeProvider;
+        private DateTimeOffset _expected;
 
         [SetUp]
         public void Setup()
         {
+            _expected = new DateTimeOffset(new DateTime(1, 1, 1, 11, 11, 11));
             _timeProvider = Substitute.For<TimeProvider>();
+            _timeProvider.LocalTimeZone.Returns(TimeZoneInfo.Utc);
+            _timeProvider.GetUtcNow().Returns(_expected);
+
         }
 
         [Test]
@@ -21,7 +26,7 @@ namespace BookGen.Tests
         {
             var sut = new BuildTime(_timeProvider);
 
-            string expected = DateTime.Now.ToString("yy-MM-dd hh:mm:ss");
+            string expected = _expected.ToString("yy-MM-dd hh:mm:ss");
 
             string result = sut.Generate(null);
 
