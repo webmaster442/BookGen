@@ -13,7 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="BookGen.Tests"/>
+    <InternalsVisibleTo Include="BookGen.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -23,12 +23,8 @@ namespace BookGen.Api
         /// </summary>
         Info = 2,
         /// <summary>
-        /// Detailed info messages. Only visible when verbose 
+        /// Detailed info messages. Only visible when verbose
         /// </summary>
         Detail = 3,
-        /// <summary>
-        /// The Logger interface PrintLine method was called
-        /// </summary>
-        PrintLine = 255
     }
 }

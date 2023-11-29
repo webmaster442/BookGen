@@ -20,18 +20,17 @@ var argumentList = args.ToList();
 
 ProgramConfigurator.WaitForDebugger(argumentList);
 
-(ILog log, IServerLog serverLog) = ProgramConfigurator.ConfigureLog(argumentList);
+ILog log = ProgramConfigurator.ConfigureLog(argumentList);
 ProgramInfo info = new();
 
 var timeProvider = new TimeProviderImplementation();
 
 AppSetting settings = AppSettingHandler.LoadAppSettings() ?? new AppSetting();
-var api = new ModuleApi(log, serverLog, settings, info, timeProvider);
+var api = new ModuleApi(log, settings, info, timeProvider);
 
 SimpleIoC ioc = new();
 ioc.RegisterSingleton<ITerminal, Terminal>();
 ioc.RegisterSingleton(log);
-ioc.RegisterSingleton(serverLog);
 ioc.RegisterSingleton(info);
 ioc.RegisterSingleton(settings);
 ioc.RegisterSingleton<IAppSetting>(settings);

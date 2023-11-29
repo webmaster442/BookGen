@@ -14,7 +14,7 @@ namespace BookGen.Tests
     public class UT_TestServer
     {
         private HttpServer _server;
-        private IServerLog _log;
+        private ILog _log;
 
         private class TestHandler : IRequestHandler
         {
@@ -23,7 +23,7 @@ namespace BookGen.Tests
                 return AbsoluteUri == "/testme";
             }
 
-            public async Task<bool> Handle(IServerLog log, HttpRequest request, HttpResponse response)
+            public async Task<bool> Handle(ILog log, HttpRequest request, HttpResponse response)
             {
                 if (CanServe(request.Url))
                 {
@@ -40,7 +40,7 @@ namespace BookGen.Tests
         [SetUp]
         public void Setup()
         {
-            _log = Substitute.For<IServerLog>();
+            _log = Substitute.For<ILog>();
             _server = new HttpServer(new HttpServerConfiguration
             {
                 Port = 8080,

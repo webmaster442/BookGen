@@ -15,12 +15,10 @@ namespace BookGen.Commands;
 internal class ServeCommand : Command<BookGenArgumentBase>
 {
     private readonly ILog _log;
-    private readonly IServerLog _serverLog;
 
-    public ServeCommand(ILog log, IServerLog serverLog)
+    public ServeCommand(ILog log)
     {
         _log = log;
-        _serverLog = serverLog;
     }
 
     public override int Execute(BookGenArgumentBase arguments, string[] context)
@@ -29,7 +27,7 @@ internal class ServeCommand : Command<BookGenArgumentBase>
 
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
 
-        using (HttpServer? server = HttpServerFactory.CreateServerForServModule(_serverLog, arguments.Directory))
+        using (HttpServer? server = HttpServerFactory.CreateServerForServModule(_log, arguments.Directory))
         {
             server.Start();
             _log.Info("Serving: {0}", arguments.Directory);

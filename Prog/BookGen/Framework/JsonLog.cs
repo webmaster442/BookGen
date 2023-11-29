@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ using Webmaster442.HttpServerFramework;
 
 namespace BookGen.Framework;
 
-internal sealed class JsonLog : ILog, IServerLog
+internal sealed class JsonLog : ILog
 {
     private readonly List<LogEntry> _entries;
     private readonly JsonSerializerOptions _options;
@@ -44,15 +44,5 @@ internal sealed class JsonLog : ILog, IServerLog
             TimeStamp = DateTime.UtcNow,
         });
         OnLogWritten?.Invoke(this, new LogEventArgs(logLevel, string.Format(format, args)));
-    }
-
-    public void PrintLine(string str)
-    {
-        Log(LogLevel.PrintLine, str, Array.Empty<string>());
-    }
-
-    public void PrintLine(object obj)
-    {
-        Log(LogLevel.PrintLine, obj.ToString() ?? string.Empty, Array.Empty<string>());
     }
 }

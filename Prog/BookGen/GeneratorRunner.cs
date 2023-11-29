@@ -36,20 +36,17 @@ internal class GeneratorRunner
     }
 
     public ILog Log { get; }
-    public IServerLog ServerLog { get; }
     public bool NoWait { get; internal set; }
 
     public bool IsBookGenFolder => _projectLoader.IsBookGenFolder;
 
     public GeneratorRunner(ILog log,
-                           IServerLog serverLog,
                            IModuleApi moduleApi,
                            IAppSetting appSettings,
                            ProgramInfo programInfo,
                            TimeProvider timeProvider,
                            string workDir)
     {
-        ServerLog = serverLog;
         _moduleApi = moduleApi;
         Log = log;
         _appSettings = appSettings;
@@ -203,7 +200,7 @@ internal class GeneratorRunner
             var builder = new WebsiteGeneratorStepRunner(settings, Log, loader);
             TimeSpan runTime = builder.Run();
 
-            using (HttpServer? server = HttpServerFactory.CreateServerForTest(ServerLog, Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory)))
+            using (HttpServer? server = HttpServerFactory.CreateServerForTest(Log, Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory)))
             {
                 server.Start();
                 Log.Info("-------------------------------------------------");

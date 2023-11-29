@@ -8,6 +8,8 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Web;
 
+using BookGen.Api;
+
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Internal;
 
@@ -51,7 +53,7 @@ public class QrCodeLinkHandler : IRequestHandler
     }
 
     /// <inheritdoc/>
-    public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
     {
         if (request.Method != RequestMethod.Get
             || request.Url != "/qrcodelink")

@@ -14,13 +14,11 @@ namespace BookGen.Commands;
 internal class PreviewCommand : Command<BookGenArgumentBase>
 {
     private readonly ILog _log;
-    private readonly IServerLog _serverlog;
     private readonly IAppSetting _appSettings;
 
-    public PreviewCommand(ILog log, IServerLog serverLog, IAppSetting appSettings)
+    public PreviewCommand(ILog log, IAppSetting appSettings)
     {
         _log = log;
-        _serverlog = serverLog;
         _appSettings = appSettings;
     }
 
@@ -28,7 +26,7 @@ internal class PreviewCommand : Command<BookGenArgumentBase>
     {
         const string url = "http://localhost:8082/";
 
-        using (HttpServer? server = HttpServerFactory.CreateServerForPreview(_log, _serverlog, arguments.Directory))
+        using (HttpServer? server = HttpServerFactory.CreateServerForPreview(_log, arguments.Directory))
         {
             server.Start();
             _log.Info("-------------------------------------------------");

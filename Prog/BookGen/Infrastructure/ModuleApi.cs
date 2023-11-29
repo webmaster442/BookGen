@@ -10,19 +10,16 @@ namespace BookGen.Infrastructure;
 internal sealed class ModuleApi : IModuleApi
 {
     private readonly ILog _log;
-    private readonly IServerLog _serverLog;
     private readonly IAppSetting _setting;
     private readonly ProgramInfo _programInfo;
     private readonly TimeProvider _timeProvider;
 
     public ModuleApi(ILog log,
-                     IServerLog serverLog,
                      IAppSetting setting,
                      ProgramInfo programInfo,
                      TimeProvider timeProvider)
     {
         _log = log;
-        _serverLog = serverLog;
         _setting = setting;
         _programInfo = programInfo;
         _timeProvider = timeProvider;
@@ -39,7 +36,7 @@ internal sealed class ModuleApi : IModuleApi
 
     public string[] GetAutoCompleteItems(string commandName)
     {
-        return OnGetAutocompleteItems?.Invoke(commandName) ?? Array.Empty<string>();
+        return OnGetAutocompleteItems?.Invoke(commandName) ?? [];
     }
 
     public IEnumerable<string> GetCommandNames()
@@ -59,6 +56,6 @@ internal sealed class ModuleApi : IModuleApi
     public GeneratorRunner CreateRunner(bool verbose, string workDir)
     {
         _log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
-        return new GeneratorRunner(_log, _serverLog, this, _setting, _programInfo, _timeProvider, workDir);
+        return new GeneratorRunner(_log, this, _setting, _programInfo, _timeProvider, workDir);
     }
 }

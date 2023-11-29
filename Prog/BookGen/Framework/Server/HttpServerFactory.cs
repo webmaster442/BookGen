@@ -12,7 +12,7 @@ namespace BookGen.Framework.Server;
 
 internal static class HttpServerFactory
 {
-    public static HttpServer CreateServerForTest(IServerLog log, string folder)
+    public static HttpServer CreateServerForTest(ILog log, string folder)
     {
         bool debug = false;
 #if DEBUG
@@ -35,7 +35,7 @@ internal static class HttpServerFactory
         return server;
     }
 
-    public static HttpServer CreateServerForServModule(IServerLog log, string folder)
+    public static HttpServer CreateServerForServModule(ILog log, string folder)
     {
         bool debug = false;
 #if DEBUG
@@ -58,7 +58,7 @@ internal static class HttpServerFactory
         return server;
     }
 
-    public static HttpServer CreateServerForPreview(ILog log, IServerLog serverlog, string directory)
+    public static HttpServer CreateServerForPreview(ILog log, string directory)
     {
         bool debug = false;
 #if DEBUG
@@ -70,7 +70,7 @@ internal static class HttpServerFactory
             DebugMode = debug,
             Port = 8082,
             EnableLastAccesTime = false,
-        }, serverlog);
+        }, log);
 
 
         server
