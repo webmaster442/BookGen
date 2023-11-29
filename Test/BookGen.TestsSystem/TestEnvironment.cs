@@ -17,8 +17,11 @@ namespace BookGen.TestsSystem
         {
             var filePath = Path.Combine(file);
             var f = new FileInfo(Path.Combine(_workDir, filePath));
-            Assert.IsTrue(f.Exists);
-            Assert.IsTrue(f.Length > 0);
+            Assert.Multiple(() =>
+            {
+                Assert.That(f.Exists, Is.True);
+                Assert.That(f.Length, Is.GreaterThan(0));
+            });
         }
 
         public string ReadFileContents(string file)

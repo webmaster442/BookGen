@@ -16,7 +16,7 @@ namespace BookGen.TestsSystem
         {
         }
 
-        [Test, Timeout(3000)]
+        [Test, CancelAfter(3000)]
         public void Test_NoSyntax_Raw()
         {
             EnsureRunWithoutException(Constants.Succes, "md2html -i Testpage.md -ns -r -o nsr.html -nw");
@@ -29,7 +29,7 @@ namespace BookGen.TestsSystem
             });
         }
 
-        [Test, Timeout(3000)]
+        [Test, CancelAfter(3000)]
         public void Test_Syntax_Raw()
         {
             EnsureRunWithoutException(Constants.Succes, "md2html -i Testpage.md -r -o r.html -nw");
@@ -46,7 +46,7 @@ namespace BookGen.TestsSystem
             });
         }
 
-        [Test, Timeout(3000)]
+        [Test, CancelAfter(3000)]
         public void Test_Full()
         {
             EnsureRunWithoutException(Constants.Succes, "md2html -i Testpage.md -o full.html -nw");
