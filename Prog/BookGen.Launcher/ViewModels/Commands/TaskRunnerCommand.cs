@@ -4,15 +4,12 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
-using System.Windows.Input;
 
 using BookGen.Launcher.ViewModels.FileBrowser;
 
 namespace BookGen.Launcher.ViewModels.Commands;
-internal class TaskRunnerCommand : ICommand
+internal class TaskRunnerCommand : CommandBase
 {
-    public event EventHandler? CanExecuteChanged;
-
     public string Folder { get; set; }
 
     public TaskRunnerCommand()
@@ -20,12 +17,7 @@ internal class TaskRunnerCommand : ICommand
         Folder = Environment.CurrentDirectory;
     }
 
-    public bool CanExecute(object? parameter)
-    {
-        return true;
-    }
-
-    public void Execute(object? parameter)
+    public override void Execute(object? parameter)
     {
         if (parameter is not BookGenTask task)
             return;
