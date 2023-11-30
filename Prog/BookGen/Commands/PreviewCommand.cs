@@ -5,6 +5,7 @@
 
 using BookGen.CommandArguments;
 using BookGen.Framework.Server;
+using BookGen.Infrastructure;
 
 using Webmaster442.HttpServerFramework;
 
@@ -25,6 +26,8 @@ internal class PreviewCommand : Command<BookGenArgumentBase>
     public override int Execute(BookGenArgumentBase arguments, string[] context)
     {
         const string url = "http://localhost:8082/";
+
+        _log.EnableVerboseLogingIfRequested(arguments);
 
         using (HttpServer? server = HttpServerFactory.CreateServerForPreview(_log, arguments.Directory))
         {

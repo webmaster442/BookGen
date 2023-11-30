@@ -8,6 +8,7 @@ using System.IO.Compression;
 using BookGen.CommandArguments;
 using BookGen.Framework;
 using BookGen.Gui;
+using BookGen.Infrastructure;
 using BookGen.ProjectHandling;
 
 namespace BookGen.Commands;
@@ -26,9 +27,11 @@ internal class PackCommand : Command<PackArguments>
 
     public override int Execute(PackArguments arguments, string[] context)
     {
-        ProjectLoader loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
+        _log.EnableVerboseLogingIfRequested(arguments);
 
-        List<string> filesToPack = new List<string>();
+        ProjectLoader loader = new(arguments.Directory, _log, _programInfo);
+
+        List<string> filesToPack = [];
 
         if (!loader.LoadProject())
         {

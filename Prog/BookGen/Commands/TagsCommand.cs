@@ -25,8 +25,7 @@ internal class TagsCommand : Command<TagsArguments>
 
     public override int Execute(TagsArguments arguments, string[] context)
     {
-        _log.LogLevel = arguments.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
-
+        _log.EnableVerboseLogingIfRequested(arguments);
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
 
         var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
