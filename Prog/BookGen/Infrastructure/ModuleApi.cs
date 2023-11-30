@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Webmaster442.HttpServerFramework;
-
 namespace BookGen.Infrastructure;
 
 internal sealed class ModuleApi : IModuleApi

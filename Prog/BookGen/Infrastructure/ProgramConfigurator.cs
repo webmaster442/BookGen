@@ -9,8 +9,6 @@ using System.Threading;
 using BookGen.Framework;
 using BookGen.Gui;
 
-using Webmaster442.HttpServerFramework;
-
 namespace BookGen.Infrastructure;
 
 internal static class ProgramConfigurator

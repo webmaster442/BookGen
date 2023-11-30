@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Collections;
+
 using BookGen.Interfaces;
 
 namespace BookGen.Domain
@@ -59,6 +61,18 @@ namespace BookGen.Domain
             {
                 return _tocContents[chapter];
             }
+        }
+
+        public IEnumerator<Link> GetEnumerator()
+        {
+            return _tocContents
+                .SelectMany(x => x.Value)
+                .GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public IEnumerable<string> Files

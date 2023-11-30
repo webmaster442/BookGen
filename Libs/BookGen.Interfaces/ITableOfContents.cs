@@ -8,7 +8,7 @@ namespace BookGen.Interfaces
     /// <summary>
     /// Interface for accesing the table of contents
     /// </summary>
-    public interface ITableOfContents
+    public interface ITableOfContents : IEnumerable<Link>
     {
         /// <summary>
         /// A flat list of chapters without hierarchy
