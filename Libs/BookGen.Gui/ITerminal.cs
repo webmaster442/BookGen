@@ -7,4 +7,5 @@ public interface ITerminal
     void Header(string title);
     void Table<T>(IDictionary<string, T> rows, string keyColumnName = "", string valueColumnName = "");
     void Table<T>(IEnumerable<T> rows);
+    bool Confirm(string message);
 }
