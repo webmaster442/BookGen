@@ -52,7 +52,7 @@ internal sealed class CreateEpubPages : ITemplatedStep
 
             string? inputContent = input.ReadFile(log);
 
-            Content.Title = MarkdownUtils.GetDocumentTitle(inputContent, log);
+            Content.Title = MarkdownUtils.GetDocumentTitle(inputContent, log, input);
             Content.Content = pipeline.RenderMarkdown(inputContent);
 
             tidyCache.Add(target, Template.Render());

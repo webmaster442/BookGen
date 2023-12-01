@@ -68,10 +68,7 @@ namespace BookGen.Interfaces
             return _path;
         }
 
-        public static FsPath Empty
-        {
-            get { return new FsPath(); }
-        }
+        public static readonly FsPath Empty = new();
 
         public bool IsConsole
         {

@@ -12,7 +12,7 @@ public static class TocUtils
         foreach (var file in contents)
         {
             var content = file.ReadFile(log);
-            var title = MarkdownUtils.GetDocumentTitle(content, log);
+            var title = MarkdownUtils.GetDocumentTitle(content, log, file);
             yield return new Link(title, file.GetRelativePathRelativeTo(directory).ToString().Replace(@"\", "/"));
         }
     }

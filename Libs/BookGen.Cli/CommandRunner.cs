@@ -48,8 +48,7 @@ public sealed class CommandRunner
 
         var parameter = method
             ?.GetParameters()
-            .Where(p => p.ParameterType.IsAssignableTo(typeof(ArgumentsBase)))
-            .FirstOrDefault()
+            .FirstOrDefault(p => p.ParameterType.IsAssignableTo(typeof(ArgumentsBase)))
             ?.ParameterType;
 
         return parameter;

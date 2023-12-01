@@ -66,7 +66,7 @@ namespace BookGen.DomainServices
         /// </summary>
         /// <param name="markDownContent">markdown content</param>
         /// <returns>Title of page</returns>
-        public static string GetDocumentTitle(string markDownContent, ILog log)
+        public static string GetDocumentTitle(string markDownContent, ILog log, FsPath fileName)
         {
             using (var reader = new StringReader(markDownContent))
             {
@@ -105,7 +105,7 @@ namespace BookGen.DomainServices
                 }
             }
 
-            log.Warning("Found no document title :(");
+            log.Warning("Found no document title : {0}", fileName);
             return string.Empty;
         }
     }
