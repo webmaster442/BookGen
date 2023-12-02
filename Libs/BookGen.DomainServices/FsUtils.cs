@@ -1,17 +1,17 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2021 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Interfaces;
-
-using System;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Xml.Serialization;
+
+using BookGen.Api;
+using BookGen.Interfaces;
+
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 

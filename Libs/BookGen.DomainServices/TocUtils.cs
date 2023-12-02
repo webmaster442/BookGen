@@ -21,6 +21,11 @@ public static class TocUtils
 
     public static readonly IEqualityComparer<Link> LinkTitleComparer = new LinkByTitleComparer();
 
+    public static string ToMarkdownLink(Link link)
+    {
+        return $"[{link.Text}]({link.Url})";
+    }
+
     private class LinkByTitleComparer : IEqualityComparer<Link>
     {
         public bool Equals(Link? x, Link? y)
