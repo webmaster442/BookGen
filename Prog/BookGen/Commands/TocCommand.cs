@@ -54,8 +54,8 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
             using (var stream = filePath.CreateStreamWriter(_log))
             {
                 _log.Info("Writing toc Info to: {0}", filePath);
-                WriteItems(stream, byTarget, "Not found in toc:");
-                WriteItems(stream, byTitle, "Found, but with differtent title");
+                WriteItems(stream, byTarget, _log, "Not found in toc:");
+                WriteItems(stream, byTitle, _log, "Found, but with differtent title");
             }
         }
         else
@@ -63,20 +63,26 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
             using (var stream = filePath.CreateStreamWriter(_log))
             {
                 _log.Info("Writing toc Info to: {0}", filePath);
-                WriteItems(stream, files, "Not found in toc:");
+                WriteItems(stream, files, _log, "Not found in toc:");
             }
         }
 
         return Constants.Succes;
     }
 
-    private static void WriteItems(StreamWriter stream, IEnumerable<Link> items, string title)
+    private static void WriteItems(StreamWriter stream,
+                                   IEnumerable<Link> items,
+                                   ILog _log,
+                                   string title)
     {
+        int count = 0;
         stream.WriteLine(title);
         stream.WriteLine();
         foreach (var item in items)
         {
             stream.WriteLine(TocUtils.ToMarkdownLink(item));
+            ++count;
         }
+        _log.Info("Wrote {0} items into file", count);
     }
 }
