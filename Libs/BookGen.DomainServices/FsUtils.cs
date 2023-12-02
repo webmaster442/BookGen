@@ -154,9 +154,16 @@ namespace BookGen.DomainServices
             return File.Create(target.ToString());
         }
 
-        public static FileStream OpenStream(this FsPath source)
+        public static StreamWriter CreateStreamWriter(this FsPath target, ILog log)
         {
-            return File.OpenRead(source.ToString());
+            string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
+            if (!Directory.Exists(dir))
+            {
+                log.Detail("Creating directory: {0}", dir);
+                Directory.CreateDirectory(dir);
+            }
+
+            return File.CreateText(target.ToString());
         }
 
         public static bool CreateBackup(this FsPath source, ILog log)

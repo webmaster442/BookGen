@@ -79,27 +79,27 @@ namespace BookGen.DomainServices
                     }
                     else if (line.StartsWith("## "))
                     {
-                        log.Warning("Found 2nd level title as the document title: {0}", line);
+                        log.Warning("Found 2nd level title as the document title: {0}, File: {1}", line, fileName);
                         return line[3..];
                     }
                     else if (line.StartsWith("### "))
                     {
-                        log.Warning("Found 3rd level title as the document title: {0}", line);
+                        log.Warning("Found 3rd level title as the document title: {0}, File: {1}", line, fileName);
                         return line[4..];
                     }
                     else if (line.StartsWith("#### "))
                     {
-                        log.Warning("Found 4th level title as the document title: {0}", line);
+                        log.Warning("Found 4th level title as the document title: {0}, File: {1}", line, fileName);
                         return line[5..];
                     }
                     else if (line.StartsWith("##### "))
                     {
-                        log.Warning("Found 5th level title as the document title: {0}", line);
+                        log.Warning("Found 5th level title as the document title: {0}, File: {1}", line, fileName);
                         return line[6..];
                     }
                     else if (line.StartsWith("###### "))
                     {
-                        log.Warning("Found 6th level title as the document title: {0}", line);
+                        log.Warning("Found 6th level title as the document title: {0}, File: {1}", line, fileName);
                         return line[7..];
                     }
                 }

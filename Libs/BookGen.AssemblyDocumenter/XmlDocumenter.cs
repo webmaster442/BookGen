@@ -23,7 +23,7 @@ public sealed class XmlDocumenter : IConverter
     /// <param name="assembly">The assembly file</param>
     public XmlDocumenter(FsPath xml, FsPath assembly)
     {
-        using (var stream = xml.OpenStream())
+        using (var stream = xml.OpenStreamRead())
         {
             Assembly loadedAssembly = Assembly.LoadFrom(assembly.ToString());
             _converter = new Converter(XDocument.Load(stream), loadedAssembly);

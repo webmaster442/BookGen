@@ -20,7 +20,7 @@ public static class XmlDocValidator
         {
             var schema = new XmlSchemaSet();
             schema.Add(LoadXsd());
-            using (System.IO.FileStream? stream = xml.OpenStream())
+            using (FileStream? stream = xml.OpenStreamRead())
             {
                 using (var rd = XmlReader.Create(stream))
                 {
