@@ -21,6 +21,12 @@ public sealed class BuildTime : ITemplateShortCode
 
     public bool CanCacheResult => false;
 
+    public ShortCodeInfo HelpInfo => new()
+    {
+        Description = "Inserts the current build time",
+        ArgumentInfos = Array.Empty<ArgumentInfo>(),
+    };
+
     public string Generate(IArguments arguments)
     {
         return _timeProvider.GetLocalNow().ToString("yy-MM-dd hh:mm:ss");

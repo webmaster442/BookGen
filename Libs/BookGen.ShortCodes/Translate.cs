@@ -29,6 +29,20 @@ public sealed partial class Translate : ITemplateShortCode
 
     public bool CanCacheResult => false;
 
+    public ShortCodeInfo HelpInfo => new()
+    {
+        Description = "Insert a translatable text defined in the configuration",
+        ArgumentInfos = new ArgumentInfo[]
+        {
+            new ArgumentInfo
+            {
+                Name = string.Empty,
+                Description = "Translation id, defined in the config file",
+                Optional = false,
+            }
+        }
+    };
+
     public string Generate(IArguments arguments)
     {
         string argument = string.Empty;

@@ -19,6 +19,26 @@ public sealed class JSPageToc : ITemplateShortCode
 
     public bool CanCacheResult => true;
 
+    public ShortCodeInfo HelpInfo => new()
+    {
+        Description = "Generate a table of contents from the headings",
+        ArgumentInfos = new ArgumentInfo[]
+        {
+            new()
+            {
+                Name = "ContentsDiv",
+                Description = "Contents div to scan for chapters",
+                Optional = false,
+            },
+            new()
+            {
+                Name = "TargetDiv",
+                Description = "Target div, where toc will be inserted",
+                Optional = false,
+            }
+        }
+    };
+
     public string Generate(IArguments arguments)
     {
         string? contentsDiv = arguments.GetArgumentOrThrow<string>("ContentsDiv");

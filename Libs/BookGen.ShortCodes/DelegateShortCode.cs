@@ -5,7 +5,7 @@
 
 namespace BookGen.ShortCodes;
 
-[BuiltInShortCode]
+[BuiltInShortCode(DisplayInHelp = false)]
 public sealed class DelegateShortCode : ITemplateShortCode
 {
     private readonly Func<IArguments, string> _generator;
@@ -19,6 +19,12 @@ public sealed class DelegateShortCode : ITemplateShortCode
     }
 
     public string Tag { get; }
+
+    public ShortCodeInfo HelpInfo => new()
+    {
+        ArgumentInfos = Array.Empty<ArgumentInfo>(),
+        Description = "Internal shortcode"
+    };
 
     public string Generate(IArguments arguments)
     {

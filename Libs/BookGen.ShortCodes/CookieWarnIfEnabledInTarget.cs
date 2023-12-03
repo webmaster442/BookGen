@@ -11,7 +11,7 @@ using BookGen.Resources;
 namespace BookGen.ShortCodes;
 
 [Export(typeof(ITemplateShortCode))]
-[BuiltInShortCode]
+[BuiltInShortCode(DisplayInHelp = false)]
 public sealed class CookieWarnIfEnabledInTarget : ITemplateShortCode
 {
     private readonly ILog _log;
@@ -20,6 +20,12 @@ public sealed class CookieWarnIfEnabledInTarget : ITemplateShortCode
     public string Tag => nameof(CookieWarnIfEnabledInTarget);
 
     public bool CanCacheResult => true;
+
+    public ShortCodeInfo HelpInfo => new ShortCodeInfo()
+    {
+        Description = "Internal cookie banner",
+        ArgumentInfos = Array.Empty<ArgumentInfo>(),
+    };
 
     [ImportingConstructor]
     public CookieWarnIfEnabledInTarget(ILog log, IReadonlyRuntimeSettings settings)

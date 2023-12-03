@@ -19,6 +19,20 @@ public sealed class SriDependency : ITemplateShortCode
 
     public bool CanCacheResult => true;
 
+    public ShortCodeInfo HelpInfo => new ShortCodeInfo
+    {
+        Description = "Include a css or js filew with Subresorce integrity hash",
+        ArgumentInfos = new ArgumentInfo[]
+        {
+            new()
+            {
+                Name = "file",
+                Description = "css or js file name",
+                Optional = false,
+            }
+        }
+    };
+
     [ImportingConstructor]
     public SriDependency(ILog log, IReadonlyRuntimeSettings settings)
     {

@@ -5,12 +5,20 @@
 
 namespace BookGen.Api
 {
+    /// <summary>
+    /// Interface that shortcodes need to implement
+    /// </summary>
     public interface ITemplateShortCode
     {
         /// <summary>
         /// ShortCode activator tag
         /// </summary>
         string Tag { get; }
+
+        /// <summary>
+        /// Help info for generating dynamic descriptions
+        /// </summary>
+        ShortCodeInfo HelpInfo { get; }
 
         /// <summary>
         /// ShortCode main entry point
