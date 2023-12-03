@@ -8,20 +8,30 @@ This config file can be created with the following command:
 `BookGen Init`
 
 To get information regarding the configuration file bookgen.json file run:
-Bookgen ConfigHelp
 
-To Get more help about a subcommand type: BookGen Help [module]
+`Bookgen ConfigHelp`
 
-To list available subcommands type: BookGen SubCommands
+To Get more help about a subcommand type:
+
+`BookGen Help [module]`
+
+To list available subcommands type:
+
+`BookGen SubCommands`
 
 General arguments:
 
--wd:
+`-wd`
+`--wait-debugger`
     Waits for a debugger to be attached. Usefull for error reporting & error finding.
 
--js:
-    Outputs log in JSON format. Usefull for interop purposes.
+`-ad`
+`--attach-debugger`
+    Attaches a debugger. Usefull for error reporting & error finding.
 
+`-js`
+`--json-log`
+    Outputs log in JSON format. Usefull for interop purposes.
 
 # AssemblyDocument
 

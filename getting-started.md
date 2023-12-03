@@ -24,6 +24,8 @@ package manager or download from: https://www.html-tidy.org/
 
 `launcher` - Opens the bookgen launcher in the current working directory
 
+`www` - Web starting util for seaching
+
 # Common BookGen commands
 
 `BookGen md2html -i input.md -o out.html` - Convert the input.md file to out.html
