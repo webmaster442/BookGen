@@ -10,6 +10,11 @@ namespace BookGen.Cli;
 /// </summary>
 public abstract class Command : ICommand
 {
+    /// <summary>
+    /// Entry point of command
+    /// </summary>
+    /// <param name="context">arguments passed to command</param>
+    /// <returns>reurtn value to shell</returns>
     public abstract int Execute(string[] context);
 
     Task<int> ICommand.Execute(ArgumentsBase arguments, string[] context)

@@ -38,8 +38,6 @@ internal class GeneratorRunner
     public ILog Log { get; }
     public bool NoWait { get; internal set; }
 
-    public bool IsBookGenFolder => _projectLoader.IsBookGenFolder;
-
     public GeneratorRunner(ILog log,
                            IModuleApi moduleApi,
                            IAppSetting appSettings,
