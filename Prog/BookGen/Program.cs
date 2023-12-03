@@ -8,16 +8,9 @@ using BookGen.Commands;
 using BookGen.Gui;
 using BookGen.Infrastructure;
 
-using Webmaster442.HttpServerFramework;
-
-if (IsUnfinishedUpdateDetected())
-{
-    Console.WriteLine("Update error. Please reinstall program!");
-    Environment.Exit(Constants.UpdateError);
-}
-
 var argumentList = args.ToList();
 
+ProgramConfigurator.AttachDebugger(argumentList);
 ProgramConfigurator.WaitForDebugger(argumentList);
 
 ILog log = ProgramConfigurator.ConfigureLog(argumentList);
@@ -63,12 +56,3 @@ helpProvider.RegisterCallback("build", HelpCallbacks.DocumentBuildActions);
 ioc.RegisterSingleton<IHelpProvider>(helpProvider);
 
 return await runner.Run(argumentList);
-
-// ----------------------------------------------------------------------------
-
-static bool IsUnfinishedUpdateDetected()
-{
-    return Directory
-        .GetFiles(AppContext.BaseDirectory, "*.*")
-        .Any(x => x.EndsWith("_new"));
-}

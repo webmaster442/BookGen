@@ -6,11 +6,17 @@ using BookGen.Interfaces;
 namespace BookGen.DomainServices;
 public static class TocUtils
 {
-    public static IEnumerable<Link> GetLinks(FsPath directory, ILog log)
+    public static IEnumerable<Link> GetLinks(FsPath directory, IEnumerable<string> exclude, ILog log)
     {
         var contents = directory.GetAllFiles(true, "*.md");
+
+        var excludes = exclude.ToHashSet();
+
         foreach (var file in contents)
         {
+            if (excludes.Contains(file.Filename))
+                continue;
+
             var content = file.ReadFile(log);
             var title = MarkdownUtils.GetDocumentTitle(content, log, file);
             yield return new Link(title, file.GetRelativePathRelativeTo(directory).ToString().Replace(@"\", "/"));
