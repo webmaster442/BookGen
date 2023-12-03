@@ -36,7 +36,6 @@ namespace BookGen.Resources
 
             //etc
             { KnownFile.IndexMd, "/Etc/index.md" },
-            { KnownFile.ScriptTemplateCs, "/Etc/ScriptTemplate.cs" },
             { KnownFile.SummaryMd, "/Etc/summary.md" },
 
             //Png

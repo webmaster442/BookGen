@@ -150,9 +150,6 @@
   <data name="ID_CreateMdFiles" xml:space="preserve">
     <value>Create summary.md/overwrite and index.md files?</value>
   </data>
-  <data name="ID_CreateScripts" xml:space="preserve">
-    <value>Create/overwrite script file and script project?</value>
-  </data>
   <data name="ID_CreateTemplates" xml:space="preserve">
     <value>Extract/overwrite templates for customization?</value>
   </data>

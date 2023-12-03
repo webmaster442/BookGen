@@ -11,8 +11,6 @@ public enum InitMenuAction
     CreateMdFiles,
     [Text("ID_CreateTemplates")]
     CreateTemplates,
-    [Text("ID_CreateScripts")]
-    CreateScripts,
     [Text("ID_CreateConfig")]
     CreateConfig,
 }

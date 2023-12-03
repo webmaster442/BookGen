@@ -22,7 +22,6 @@ namespace BookGen.Resources
         PrismCss,
         PrismJs,
         PrismPrintCss,
-        ScriptTemplateCs,
         SearchformHtml,
         SinglePageCss,
         SummaryMd,

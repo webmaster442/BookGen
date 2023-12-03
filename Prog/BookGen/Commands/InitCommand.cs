@@ -24,9 +24,9 @@ internal sealed class InitCommand : AsyncCommand<BookGenArgumentBase>, IDisposab
 
     public override async Task<int> Execute(BookGenArgumentBase arguments, string[] context)
     {
-        _log.LogLevel = arguments.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
-
+        _log.EnableVerboseLogingIfRequested(arguments);
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
+
         _initMenu = new InitMenu(_log, new FsPath(arguments.Directory), _programInfo);
         await _initMenu.Run();
         return Constants.Succes;

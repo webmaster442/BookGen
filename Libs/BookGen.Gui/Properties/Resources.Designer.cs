@@ -160,15 +160,6 @@ namespace BookGen.Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create/overwrite script file and script project?.
-        /// </summary>
-        internal static string ID_CreateScripts {
-            get {
-                return ResourceManager.GetString("ID_CreateScripts", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Extract/overwrite templates for customization?.
         /// </summary>
         internal static string ID_CreateTemplates {
