@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
+using System.Text;
 
 using BookGen.Api;
 
@@ -90,6 +91,8 @@ namespace BookGen.DomainServices
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardInput = true;
                 process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.StandardInputEncoding = Encoding.UTF8;
+                process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
 
                 Task timeout = Task.Delay(timeoutSeconds * 1000);
                 process.Start();
