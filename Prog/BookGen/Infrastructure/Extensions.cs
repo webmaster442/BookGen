@@ -1,4 +1,5 @@
-﻿using BookGen.Framework;
+﻿using BookGen.CommandArguments;
+using BookGen.Framework;
 
 namespace BookGen.Infrastructure;
 
@@ -10,8 +11,13 @@ internal static class Extensions
         if (FolderLock.IsFolderLocked(folder))
         {
             log.Critical("An other bookgen process is using this folder. Exiting...");
-            Environment.Exit((int)ExitCode.FolderLocked);
+            Environment.Exit(Constants.FolderLocked);
         }
     }
 
+    public static void EnableVerboseLogingIfRequested(this ILog log, BookGenArgumentBase argumentBase)
+    {
+        if (argumentBase.Verbose)
+            log.LogLevel = LogLevel.Detail;
+    }
 }

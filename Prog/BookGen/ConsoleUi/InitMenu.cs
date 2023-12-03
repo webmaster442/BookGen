@@ -1,4 +1,9 @@
-﻿using BookGen.Gui;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Gui;
 using BookGen.Gui.MenuEnums;
 
 namespace BookGen.ConsoleUi;
@@ -34,7 +39,6 @@ internal sealed class InitMenu : MenuBase
         bool createConfig = options.Contains(InitMenuAction.CreateConfig);
         bool createMdFiles = options.Contains(InitMenuAction.CreateMdFiles);
         bool createTemplates = options.Contains(InitMenuAction.CreateTemplates);
-        bool createScripts = options.Contains(InitMenuAction.CreateScripts);
 
         if (createMdFiles)
         {
@@ -46,11 +50,6 @@ internal sealed class InitMenu : MenuBase
             renderer.PrintText("Extracting templates...");
             InitializerMethods.ExtractTemplates(_log, _workDir);
         }
-        if (createScripts)
-        {
-            renderer.PrintText("Creating Script project...");
-            InitializerMethods.CreateScriptProject(_log, _workDir, _programInfo.ProgramDirectory);
-        }
         if (createConfig)
         {
             renderer.PrintText("Creating and configuring config file...");
@@ -61,7 +60,6 @@ internal sealed class InitMenu : MenuBase
                                             configInYaml,
                                             createMdFiles,
                                             createTemplates,
-                                            createScripts,
                                             _programInfo.ConfigVersion);
         }
     }

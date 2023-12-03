@@ -22,14 +22,14 @@ namespace BookGen.Tests
         public void EnsureThatValidXmlResultsTrue()
         {
             bool result = XmlDocValidator.ValidateXml(new FsPath(TestEnvironment.GetFile("test.xml")), _logMock);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
         public void EnsureThatInvalidXmlResultsFalse()
         {
             bool result = XmlDocValidator.ValidateXml(new FsPath(TestEnvironment.GetFile("test.js")), _logMock);
-            Assert.False(result);
+            Assert.That(result, Is.False);
         }
     }
 }

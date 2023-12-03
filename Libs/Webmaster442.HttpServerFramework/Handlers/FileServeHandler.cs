@@ -1,7 +1,9 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2022 Ruzsinszki Gábor
+// Copyright (c) 2021-2023 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
+
+using BookGen.Api;
 
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Internal;
@@ -68,7 +70,7 @@ public class FileServeHandler : IRequestHandler
 
 
     /// <inheritdoc/>
-    public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
     {
         if (request.Method != RequestMethod.Get)
         {
@@ -112,7 +114,7 @@ public class FileServeHandler : IRequestHandler
         return false;
     }
 
-    private async ValueTask RenderFolder(string folder, string url, IServerLog? log, HttpResponse response)
+    private async ValueTask RenderFolder(string folder, string url, ILog? log, HttpResponse response)
     {
         log?.Info("Rendering file list for: {0}...", folder);
         string title = $"Index of {url}";

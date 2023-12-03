@@ -19,8 +19,8 @@ internal sealed class ProjectLoader
     {
         _state = new LoadState(workDir, programInfo.ConfigVersion);
         _log = log;
-        _loadSteps = new LoadStep[]
-        {
+        _loadSteps =
+        [
             new MigrateProjectIfOldStyle(_state, _log),
             new ConfigLoad(_state, _log),
             new ConfigUpgrade(_state, _log),
@@ -28,7 +28,7 @@ internal sealed class ProjectLoader
             new TocLoad(_state, _log),
             new TocValidate(_state, _log),
             new TagsLoad(_state, _log),
-        };
+        ];
     }
 
     public Config Configuration

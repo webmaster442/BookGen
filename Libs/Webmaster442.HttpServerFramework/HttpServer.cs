@@ -1,9 +1,11 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2022 Ruzsinszki Gábor
+// Copyright (c) 2021-2023 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
 using System.Net.Sockets;
+
+using BookGen.Api;
 
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Internal;
@@ -15,7 +17,7 @@ namespace Webmaster442.HttpServerFramework;
 /// </summary>
 public sealed class HttpServer : IDisposable
 {
-    private readonly IServerLog? _log;
+    private readonly ILog? _log;
     private readonly HttpServerConfiguration _configuration;
     private readonly List<IRequestHandler> _handlers;
 
@@ -34,7 +36,7 @@ public sealed class HttpServer : IDisposable
     /// </summary>
     /// <param name="configuration">Server configuration</param>
     /// <param name="log">logger to use</param>
-    public HttpServer(HttpServerConfiguration configuration, IServerLog? log = null)
+    public HttpServer(HttpServerConfiguration configuration, ILog? log = null)
     {
         ConfigurationValidator.ValidateAndTrhowExceptions(configuration);
 

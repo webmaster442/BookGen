@@ -1,13 +1,13 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Api.Configuration;
+using System.Collections.Concurrent;
+
 using BookGen.Domain.Configuration;
 using BookGen.Interfaces;
-using System.Collections.Concurrent;
+using BookGen.Interfaces.Configuration;
 
 namespace BookGen.Domain
 {
@@ -39,7 +39,7 @@ namespace BookGen.Domain
             ImageDirectory = FsPath.Empty;
             TocContents = new ToC();
             Configuration = new Config();
-            MetataCache = new Dictionary<string, string>();
+            MetataCache = [];
             InlineImgCache = new ConcurrentDictionary<string, string>();
             CurrentBuildConfig = new BuildConfig();
             Tags = tags;

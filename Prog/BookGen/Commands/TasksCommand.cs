@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using BookGen.CommandArguments;
 using BookGen.ConsoleUi;
 using BookGen.Domain.TaskRunner;
+using BookGen.Infrastructure;
 using BookGen.ProjectHandling;
 
 namespace BookGen.Commands;
@@ -26,6 +27,8 @@ internal class TasksCommand : AsyncCommand<TasksArgument>
 
     public override async Task<int> Execute(TasksArgument arguments, string[] context)
     {
+        _log.EnableVerboseLogingIfRequested(arguments);
+
         ProjectFiles files = ProjectFilesLocator.Locate(new FsPath(arguments.Directory));
         if (!files.TasksXml.IsExisting)
         {

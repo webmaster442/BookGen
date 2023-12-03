@@ -1,11 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Configuration;
-using BookGen.Framework.Scripts;
-using BookGen.Framework.Shortcodes;
+using BookGen.ShortCodes;
 
 namespace BookGen.Framework;
 
@@ -14,11 +13,10 @@ internal sealed partial class ShortCodeParser
     private readonly Dictionary<string, ITemplateShortCode> _shortCodesIndex;
     private readonly Dictionary<string, string> _codeResultCache;
     private readonly Translations _translations;
-    private readonly CsharpScriptHandler _scriptHandler;
     private readonly ILog _log;
 
-    private const string shortCodeStart = "<!--{";
-    private const string shortCodeEnd = "}-->";
+    private const string ShortCodeStart = "<!--{";
+    private const string ShortCodeEnd = "}-->";
 
     [GeneratedRegex("(<!--\\{\\? [A-Za-z_0-9]+\\}-->)")]
     private partial Regex TranslateRegex();
@@ -27,13 +25,11 @@ internal sealed partial class ShortCodeParser
     private partial Regex CodeRegex();
 
     public ShortCodeParser(IList<ITemplateShortCode> shortCodes,
-                           CsharpScriptHandler scriptHandler,
                            Translations translations,
                            ILog log)
     {
         _shortCodesIndex = new Dictionary<string, ITemplateShortCode>(shortCodes.Count);
         _codeResultCache = new Dictionary<string, string>(100);
-        _scriptHandler = scriptHandler;
         _translations = translations;
         _log = log;
         AddShortcodesToLookupIndex(shortCodes);
@@ -41,11 +37,7 @@ internal sealed partial class ShortCodeParser
 
     public void AddShortcodeToLookupIndex(ITemplateShortCode shortCode)
     {
-        if (!_shortCodesIndex.ContainsKey(shortCode.Tag))
-        {
-            _shortCodesIndex.Add(shortCode.Tag, shortCode);
-        }
-        else
+        if (!_shortCodesIndex.TryAdd(shortCode.Tag, shortCode))
         {
             _log.Warning("Shortcode has allready been registered: {0}. Duplicate entries cause unexpected behaviour.", shortCode.Tag);
         }
@@ -65,12 +57,12 @@ internal sealed partial class ShortCodeParser
         if (parts.Length == 1)
         {
             //value is eg. <!--{foo}-->
-            int len = value.Length - shortCodeStart.Length - shortCodeEnd.Length;
-            return value.Substring(shortCodeStart.Length, len);
+            int len = value.Length - ShortCodeStart.Length - ShortCodeEnd.Length;
+            return value.Substring(ShortCodeStart.Length, len);
         }
         else
         {
-            return parts[0][shortCodeStart.Length..].Trim();
+            return parts[0][ShortCodeStart.Length..].Trim();
         }
     }
 
@@ -86,7 +78,7 @@ internal sealed partial class ShortCodeParser
         foreach (Match? match in matches)
         {
             if (match == null) continue;
-            string? key = match.Value.Replace($"{shortCodeStart}? ", "").Replace(shortCodeEnd, "");
+            string? key = match.Value.Replace($"{ShortCodeStart}? ", "").Replace(ShortCodeEnd, "");
 
             string? text = Translate.DoTranslateForKey(_translations, key);
 
@@ -118,7 +110,7 @@ internal sealed partial class ShortCodeParser
                 }
                 else
                 {
-                    results.TryAdd(pair[0].Replace(shortCodeEnd, ""), string.Empty);
+                    results.TryAdd(pair[0].Replace(ShortCodeEnd, ""), string.Empty);
                 }
             }
         }
@@ -128,10 +120,10 @@ internal sealed partial class ShortCodeParser
     private static string RemoveStartingSpaceAndEndTags(string input)
     {
         //input string will be in following format: "Assets/bootstrap.min.css"}-->
-        if (input.StartsWith("\"") && input.EndsWith("\"}-->"))
+        if (input.StartsWith('"') && input.EndsWith("\"}-->"))
         {
             //need to retgurn only: Assets/bootstrap.min.css
-            return input.Substring(1, input.Length - (shortCodeEnd.Length + 2));
+            return input.Substring(1, input.Length - (ShortCodeEnd.Length + 2));
         }
         return input;
     }
@@ -145,15 +137,14 @@ internal sealed partial class ShortCodeParser
             if (match != null)
             {
                 string? tagKey = GetTagKey(match.Value);
-                if (_codeResultCache.ContainsKey(match.Value))
+                if (_codeResultCache.TryGetValue(match.Value, out string? value))
                 {
                     //Cache has it stored, so simply lookup and replace
-                    result.Replace(match.Value, _codeResultCache[match.Value]);
+                    result.Replace(match.Value, value);
                 }
-                else if (_shortCodesIndex.ContainsKey(tagKey))
+                else if (_shortCodesIndex.TryGetValue(tagKey, out ITemplateShortCode? shortcode))
                 {
                     //It is a known shortcode, so run it
-                    ITemplateShortCode? shortcode = _shortCodesIndex[tagKey];
                     string? generated = shortcode.Generate(GetArguments(match.Value));
                     result.Replace(match.Value, generated);
                     //For next iteration of it's occurance cache it if it's cacheable
@@ -162,14 +153,9 @@ internal sealed partial class ShortCodeParser
                         _codeResultCache.Add(match.Value, generated);
                     }
                 }
-                else if (_scriptHandler.IsKnownScript(tagKey))
-                {
-                    string? scriptResult = _scriptHandler.ExecuteScript(tagKey, GetArguments(match.Value));
-                    result.Replace(match.Value, scriptResult);
-                }
                 else
                 {
-                    _log.Warning("Unknown shortcode or script: {0}", tagKey);
+                    _log.Warning("Unknown shortcode: {0}", tagKey);
                 }
             }
         }

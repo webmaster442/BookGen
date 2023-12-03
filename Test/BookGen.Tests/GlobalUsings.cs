@@ -6,7 +6,7 @@
 global using BookGen.Api;
 global using BookGen.Domain.Configuration;
 global using BookGen.DomainServices;
-global using BookGen.Framework.Shortcodes;
+global using BookGen.ShortCodes;
 global using BookGen.Interfaces;
 global using BookGen.Tests.Environment;
 global using NSubstitute;

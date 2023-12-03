@@ -1,9 +1,12 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2022 Ruzsinszki Gábor
+// Copyright (c) 2021-2023 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
 using System.Text.Json;
+
+using BookGen.Api;
+
 using Webmaster442.HttpServerFramework.Domain;
 
 namespace Webmaster442.HttpServerFramework.Handlers
@@ -40,7 +43,7 @@ namespace Webmaster442.HttpServerFramework.Handlers
         }
 
         /// <inheritdoc/>
-        public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
+        public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
         {
             if (request.Url != Url)
             {
@@ -71,6 +74,6 @@ namespace Webmaster442.HttpServerFramework.Handlers
         /// <param name="requestObject">Request JSON deserialized object</param>
         /// <param name="responseObject">Response object that will be JSON serialized</param>
         /// <returns>True, if processing was succesfull, false if not</returns>
-        protected abstract Task<bool> TryProcessRequest(IServerLog? log, TRequest requestObject, out TResponse responseObject);
+        protected abstract Task<bool> TryProcessRequest(ILog? log, TRequest requestObject, out TResponse responseObject);
     }
 }

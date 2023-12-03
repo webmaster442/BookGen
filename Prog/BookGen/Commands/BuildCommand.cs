@@ -24,7 +24,6 @@ internal class BuildCommand : Command<BuildArguments>
     {
         _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
 
-
         GeneratorRunner? runner = _moduleApi.CreateRunner(arguments.Verbose, arguments.Directory);
         runner.NoWait = arguments.NoWaitForExit;
 

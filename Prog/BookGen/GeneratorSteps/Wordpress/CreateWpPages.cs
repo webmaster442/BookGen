@@ -5,7 +5,7 @@
 
 using System.Diagnostics;
 
-using BookGen.Api.Configuration;
+using BookGen.Interfaces.Configuration;
 using BookGen.Domain.Configuration;
 using BookGen.Domain.Wordpress;
 using BookGen.DomainServices.Markdown;
@@ -176,7 +176,7 @@ internal sealed class CreateWpPages : ITemplatedStep
                 string? raw = input.ReadFile(log);
                 Content.Content = pipeline.RenderMarkdown(raw);
 
-                string? title = MarkdownUtils.GetDocumentTitle(raw, log);
+                string? title = MarkdownUtils.GetDocumentTitle(raw, log, input);
 
                 string subpath = $"{host}{EncodeTitle(chapter)}/{EncodeTitle(title)}";
 

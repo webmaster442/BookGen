@@ -1,46 +1,42 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Configuration;
-using BookGen.Domain.CsProj;
-using BookGen.Framework;
 using BookGen.Resources;
 
 namespace BookGen;
 
 internal static class InitializerMethods
 {
-    private const string EpubTemplateLocation = "Templates\\TemplateEpub.html";
-    private const string PrintTemplateLocation = "Templates\\TemplatePrint.html";
-    private const string WebTemplate = "Templates\\TemplateWeb.html";
-    private const string ScriptProject = "Scripts\\ScriptProject.csproj";
+    private const string EpubTemplateLocation = ".bookgen\\Templates\\TemplateEpub.html";
+    private const string PrintTemplateLocation = ".bookgen\\Templates\\TemplatePrint.html";
+    private const string WebTemplate = ".bookgen\\Templates\\TemplateWeb.html";
 
     internal static void CreateConfig(ILog log,
                                       FsPath workDir,
                                       bool configInYaml,
                                       bool createMdFiles,
                                       bool createTemplates,
-                                      bool createScripts,
                                       int configVersion)
     {
-        Config createdConfig = MakeConfigStructure(createMdFiles, createTemplates, createScripts, configVersion);
+        Config createdConfig = MakeConfigStructure(createMdFiles, createTemplates, configVersion);
 
         if (configInYaml)
         {
-            FsPath? file = workDir.Combine("bookgen.yml");
+            FsPath? file = workDir.Combine(".bookgen\\bookgen.yml");
             file.SerializeYaml(createdConfig, log);
         }
         else
         {
-            FsPath? file = workDir.Combine("bookgen.json");
+            FsPath? file = workDir.Combine(".bookgen\\bookgen.json");
             file.SerializeJson(createdConfig, log, true);
         }
 
     }
 
-    private static Config MakeConfigStructure(bool createdmdFiles, bool extractedTemplate, bool createdScript, int configVersion)
+    private static Config MakeConfigStructure(bool createdmdFiles, bool extractedTemplate, int configVersion)
     {
         var configuration = Config.CreateDefault(configVersion);
 
@@ -48,11 +44,6 @@ internal static class InitializerMethods
         {
             configuration.Index = "index.md";
             configuration.TOCFile = "summary.md";
-        }
-
-        if (createdScript)
-        {
-            configuration.ScriptsDirectory = "Scripts";
         }
 
         if (extractedTemplate)
@@ -64,12 +55,12 @@ internal static class InitializerMethods
             {
                 new Asset
                 {
-                    Source = "Templates\\Assets\\prism.css",
+                    Source = ".bookgen\\Templates\\Assets\\prism.css",
                     Target = "Assets\\prism.css"
                 },
                 new Asset
                 {
-                    Source = "Templates\\Assets\\prism.js",
+                    Source = ".bookgen\\Templates\\Assets\\prism.js",
                     Target = "Assets\\prism.js"
                 }
             };
@@ -87,36 +78,10 @@ internal static class InitializerMethods
         ResourceHandler.ExtractKnownFile(KnownFile.SummaryMd, workdir.ToString(), log);
     }
 
-    public static void CreateScriptProject(ILog log, FsPath workdir, string ApiReferencePath)
-    {
-        log.Info("Creating scripts project...");
-        var p = new Project
-        {
-            Sdk = "Microsoft.NET.Sdk",
-            PropertyGroup = new PropertyGroup
-            {
-                Nullable = "enable",
-                TargetFramework = "netstandard2.1"
-            },
-            ItemGroup = new ItemGroup
-            {
-                Reference = new Reference
-                {
-                    Include = "BookGen.Api",
-                    HintPath = Path.Combine(ApiReferencePath, "BookGen.Api.dll")
-                }
-            }
-        };
-        FsPath csProj = workdir.Combine(ScriptProject);
-        csProj.SerializeXml(p, log);
-
-        ResourceHandler.ExtractKnownFile(KnownFile.ScriptTemplateCs, workdir.Combine("Scripts").ToString(), log);
-    }
-
     public static void ExtractTemplates(ILog log, FsPath workdir)
     {
-        string? templatedir = workdir.Combine("Templates").ToString();
-        string? assetsdir = workdir.Combine("Templates\\Assets").ToString();
+        string? templatedir = workdir.Combine(".bookgen\\Templates").ToString();
+        string? assetsdir = workdir.Combine(".bookgen\\Templates\\Assets").ToString();
 
         ResourceHandler.ExtractKnownFile(KnownFile.TemplateEpubHtml, templatedir, log);
         ResourceHandler.ExtractKnownFile(KnownFile.TemplatePrintHtml, templatedir, log);

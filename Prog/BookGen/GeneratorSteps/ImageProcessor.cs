@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
+
+using BookGen.Interfaces.Configuration;
 
 using SkiaSharp;
 
@@ -24,12 +26,11 @@ internal sealed class ImageProcessor : IGeneratorStep
         {
             ProcessImage(file, settings, targetdir, log);
         });
-
     }
 
-    private void ProcessImage(FsPath file, IReadonlyRuntimeSettings settings, FsPath targetdir, ILog log)
+    private static void ProcessImage(FsPath file, IReadonlyRuntimeSettings settings, FsPath targetdir, ILog log)
     {
-        Api.Configuration.IReadonlyImageOptions? options = settings.CurrentBuildConfig.ImageOptions;
+        IReadonlyImageOptions? options = settings.CurrentBuildConfig.ImageOptions;
 
         if (!ImageUtils.IsImage(file))
         {
@@ -81,7 +82,12 @@ internal sealed class ImageProcessor : IGeneratorStep
         }
     }
 
-    private void InlineOrSave(FsPath file, FsPath targetdir, ILog log, IReadonlyRuntimeSettings settings, SKData data, string? extensionOverride = null)
+    private static void InlineOrSave(FsPath file,
+                                     FsPath targetdir,
+                                     ILog log,
+                                     IReadonlyRuntimeSettings settings,
+                                     SKData data,
+                                     string? extensionOverride = null)
     {
         if (data.Size < settings.CurrentBuildConfig.ImageOptions.InlineImageSizeLimit)
         {
@@ -94,7 +100,7 @@ internal sealed class ImageProcessor : IGeneratorStep
         }
     }
 
-    private void InlineImage(FsPath file, IReadonlyRuntimeSettings settings, SKData data, string? extensionOverride)
+    private static void InlineImage(FsPath file, IReadonlyRuntimeSettings settings, SKData data, string? extensionOverride)
     {
         string base64 = Convert.ToBase64String(data.ToArray());
         string mime = Webmaster442.HttpServerFramework.MimeTypes.GetMimeForExtension(file.Extension);
@@ -110,7 +116,7 @@ internal sealed class ImageProcessor : IGeneratorStep
         settings.InlineImgCache.TryAdd(key, $"data:{mime};base64,{base64}");
     }
 
-    private void SaveImage(FsPath file, FsPath targetdir, ILog log, SKData data, string? extensionOverride)
+    private static void SaveImage(FsPath file, FsPath targetdir, ILog log, SKData data, string? extensionOverride)
     {
         FsPath target = targetdir.Combine(file.Filename);
         if (extensionOverride != null)

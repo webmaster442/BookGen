@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ public static class XmlDocValidator
         {
             var schema = new XmlSchemaSet();
             schema.Add(LoadXsd());
-            using (System.IO.FileStream? stream = xml.OpenStream())
+            using (FileStream? stream = xml.OpenStreamRead())
             {
                 using (var rd = XmlReader.Create(stream))
                 {

@@ -1,4 +1,11 @@
-﻿using Webmaster442.HttpServerFramework.Domain;
+﻿// ------------------------------------------------------------------------------------------------
+// Copyright (c) 2021-2023 Ruzsinszki Gábor
+// This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
+// -----------------------------------------------------------------------------------------------
+
+using BookGen.Api;
+
+using Webmaster442.HttpServerFramework.Domain;
 
 namespace Webmaster442.HttpServerFramework.Handlers;
 
@@ -28,7 +35,7 @@ public sealed class FaviconHandler : IRequestHandler, IDisposable
     }
 
     /// <inheritdoc/>
-    public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
     {
         if (request.Method != RequestMethod.Get
             || request.Url != "/favicon.ico")

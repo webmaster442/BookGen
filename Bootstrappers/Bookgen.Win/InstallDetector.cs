@@ -12,15 +12,10 @@ namespace Bookgen.Win
     {
         public static bool IsWindowsTerminalPortalbeInstalled(out string portablePath)
         {
-            string[] searchPaths = new[]
-            {
-                Path.Combine(AppContext.BaseDirectory, "terminal", Constants.WindowsTerminal),
-                Path.Combine(AppContext.BaseDirectory, "wt", Constants.WindowsTerminal),
-            };
-
+            string[] searchPaths = Directory.GetDirectories(AppContext.BaseDirectory, "*.*", SearchOption.TopDirectoryOnly);
             foreach (var searchPath in searchPaths) 
             {
-                if (File.Exists(searchPath)) 
+                if (File.Exists(Path.Combine(searchPath, Constants.WindowsTerminal)))
                 {
                     portablePath = searchPath;
                     return true;

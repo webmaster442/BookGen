@@ -1,12 +1,12 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Text;
 using System.Web;
 
-using BookGen.Api.Configuration;
+using BookGen.Interfaces.Configuration;
 using BookGen.Domain;
 
 namespace BookGen.DomainServices

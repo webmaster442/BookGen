@@ -32,6 +32,5 @@ internal sealed class TocValidate : LoadStep
 
         Log.Info("TOC file doesn't contain any errors");
         return true;
-
     }
 }

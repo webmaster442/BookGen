@@ -1,10 +1,12 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.Api;
 using BookGen.Domain;
+using BookGen.Interfaces;
+
 using Markdig;
 using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Syntax;
@@ -64,7 +66,7 @@ namespace BookGen.DomainServices
         /// </summary>
         /// <param name="markDownContent">markdown content</param>
         /// <returns>Title of page</returns>
-        public static string GetDocumentTitle(string markDownContent, ILog log)
+        public static string GetDocumentTitle(string markDownContent, ILog log, FsPath fileName)
         {
             using (var reader = new StringReader(markDownContent))
             {
@@ -77,33 +79,33 @@ namespace BookGen.DomainServices
                     }
                     else if (line.StartsWith("## "))
                     {
-                        log.Warning("Found 2nd level title as the document title: {0}", line);
+                        log.Warning("Found 2nd level title as the document title: {0}, File: {1}", line, fileName);
                         return line[3..];
                     }
                     else if (line.StartsWith("### "))
                     {
-                        log.Warning("Found 3rd level title as the document title: {0}", line);
+                        log.Warning("Found 3rd level title as the document title: {0}, File: {1}", line, fileName);
                         return line[4..];
                     }
                     else if (line.StartsWith("#### "))
                     {
-                        log.Warning("Found 4th level title as the document title: {0}", line);
+                        log.Warning("Found 4th level title as the document title: {0}, File: {1}", line, fileName);
                         return line[5..];
                     }
                     else if (line.StartsWith("##### "))
                     {
-                        log.Warning("Found 5th level title as the document title: {0}", line);
+                        log.Warning("Found 5th level title as the document title: {0}, File: {1}", line, fileName);
                         return line[6..];
                     }
                     else if (line.StartsWith("###### "))
                     {
-                        log.Warning("Found 6th level title as the document title: {0}", line);
+                        log.Warning("Found 6th level title as the document title: {0}, File: {1}", line, fileName);
                         return line[7..];
                     }
                 }
             }
 
-            log.Warning("Found no document title :(");
+            log.Warning("Found no document title : {0}", fileName);
             return string.Empty;
         }
     }

@@ -1,7 +1,9 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2022 Ruzsinszki Gábor
+// Copyright (c) 2021-2023 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
+
+using BookGen.Api;
 
 namespace Webmaster442.HttpServerFramework.Domain;
 
@@ -17,5 +19,5 @@ public interface IRequestHandler
     /// <param name="request">Request</param>
     /// <param name="response">Response to the request</param>
     /// <returns>true, if the request is handled</returns>
-    Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response);
+    Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response);
 }

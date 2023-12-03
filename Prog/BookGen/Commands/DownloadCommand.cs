@@ -1,4 +1,5 @@
 ﻿using BookGen.CommandArguments;
+using BookGen.Infrastructure;
 
 namespace BookGen.Commands;
 
@@ -14,6 +15,8 @@ internal class DownloadCommand : AsyncCommand<DownloadArguments>
 
     public override async Task<int> Execute(DownloadArguments arguments, string[] context)
     {
+        _log.EnableVerboseLogingIfRequested(arguments);
+
         using (var client = new BookGenHttpClient())
         {
             try

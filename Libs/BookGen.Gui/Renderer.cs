@@ -90,9 +90,8 @@ public sealed class Renderer
 
     private static int GetPageSize()
     {
-        var (_, top) = Console.GetCursorPosition();
-        var height = Console.WindowHeight;
-        return height - top - 5;
+        int calculated = Console.WindowHeight - 5;
+        return calculated >= 3 ? calculated : 3;
     }
 
     public async Task<string> SelectionMenu(string title, IEnumerable<string> selectionItems)

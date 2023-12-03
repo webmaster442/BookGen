@@ -28,10 +28,10 @@ namespace BookGen.TestsSystem
         {
             _workDir = Path.Combine(AppContext.BaseDirectory, workDir);
             Environment = new TestEnvironment(_workDir);
-            LastLog = new List<LogEntry>();
+            LastLog = [];
         }
 
-        protected void EnsureRunWithoutException(ExitCode expectedExitCode, string commandLine)
+        protected void EnsureRunWithoutException(int expectedExitCode, string commandLine)
         {
             var process = new Process();
             process.StartInfo.UseShellExecute = false;
@@ -62,11 +62,11 @@ namespace BookGen.TestsSystem
                 options.Converters.Add(new JsonStringEnumConverter());
 
                 List<LogEntry>? list = JsonSerializer.Deserialize<List<LogEntry>>(output, options);
-                return list ?? new List<LogEntry>();
+                return list ?? [];
             }
             catch (Exception)
             {
-                return new List<LogEntry>();
+                return [];
             }
         }
 

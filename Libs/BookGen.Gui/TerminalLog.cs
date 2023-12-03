@@ -3,14 +3,15 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using Spectre.Console;
 using System.Diagnostics;
-using Webmaster442.HttpServerFramework;
+
+using BookGen.Api;
+
+using Spectre.Console;
 
 namespace BookGen.Gui;
 
-public sealed class TerminalLog : IServerLog, ILog
+public sealed class TerminalLog : ILog
 {
     private readonly TextWriter? _logFile;
 
@@ -79,16 +80,4 @@ public sealed class TerminalLog : IServerLog, ILog
         AnsiConsole.WriteLine("");
         AnsiConsole.WriteException(ex);
     }
-
-    void IServerLog.Critical(Exception ex)
-    {
-        AnsiConsole.WriteLine("");
-        AnsiConsole.WriteException(ex);
-    }
-
-    void IServerLog.Info(string format, params object[] args)
-        => Log(LogLevel.Info, format, args);
-
-    void IServerLog.Warning(string format, params object[] args)
-        => Log(LogLevel.Warning, format, args);
 }

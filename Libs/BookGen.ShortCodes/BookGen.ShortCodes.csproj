@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Product>BookGen</Product>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+    <ProjectReference Include="..\BookGen.DomainServices\BookGen.DomainServices.csproj" />
+    <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />
+    <ProjectReference Include="..\BookGen.Interfaces\BookGen.Interfaces.csproj" />
+    <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
+  </ItemGroup>
+  
+</Project>

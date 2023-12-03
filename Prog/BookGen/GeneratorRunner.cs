@@ -5,9 +5,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-using BookGen.Domain.Configuration;
-using BookGen.Framework;
-using BookGen.Framework.Scripts;
 using BookGen.Framework.Server;
 using BookGen.GeneratorStepRunners;
 using BookGen.GeneratorSteps;
@@ -20,7 +17,6 @@ namespace BookGen;
 
 internal class GeneratorRunner
 {
-    private readonly CsharpScriptHandler _scriptHandler;
     private readonly ProjectLoader _projectLoader;
     private readonly bool _projectLoadSuccess;
 
@@ -30,8 +26,9 @@ internal class GeneratorRunner
     private readonly IModuleApi _moduleApi;
     private readonly IAppSetting _appSettings;
     private readonly ProgramInfo _programInfo;
+    private readonly TimeProvider _timeProvider;
 
-    public FsPath ConfigFile { get; private set; }
+    public FsPath ConfigFile { get; }
 
     public string WorkDirectory
     {
@@ -39,26 +36,24 @@ internal class GeneratorRunner
     }
 
     public ILog Log { get; }
-    public IServerLog ServerLog { get; }
     public bool NoWait { get; internal set; }
 
     public bool IsBookGenFolder => _projectLoader.IsBookGenFolder;
 
     public GeneratorRunner(ILog log,
-                           IServerLog serverLog,
                            IModuleApi moduleApi,
                            IAppSetting appSettings,
                            ProgramInfo programInfo,
+                           TimeProvider timeProvider,
                            string workDir)
     {
-        ServerLog = serverLog;
         _moduleApi = moduleApi;
         Log = log;
         _appSettings = appSettings;
         _programInfo = programInfo;
+        _timeProvider = timeProvider;
         _projectLoader = new ProjectLoader(workDir, log, programInfo);
         _projectLoadSuccess = _projectLoader.LoadProject();
-        _scriptHandler = new CsharpScriptHandler(Log);
         WorkDirectory = workDir;
         ConfigFile = new FsPath(WorkDirectory, "bookgen.json");
         _toc = new ToC();
@@ -78,7 +73,6 @@ internal class GeneratorRunner
 
         if (_tags == null)
             throw new InvalidOperationException("Tags is null");
-
     }
 
     public bool InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
@@ -91,12 +85,12 @@ internal class GeneratorRunner
         else
         {
             Log.Flush();
-            Environment.Exit((int)ExitCode.BadConfiguration);
+            Environment.Exit(Constants.ConfigError);
             return false;
         }
     }
 
-    public bool Initialize(bool compileScripts = true)
+    public bool Initialize()
     {
         Log.Info("---------------------------------------------------------");
         Log.Info("BookGen Build date: {0:yyyy.MM.dd} Starting...", _programInfo.BuildDateUtc.Date);
@@ -105,27 +99,12 @@ internal class GeneratorRunner
         Log.Info("Os: {0}", Environment.OSVersion.VersionString);
         Log.Info("---------------------------------------------------------");
 
-
         bool ret = _projectLoader.LoadProject();
-
-        if (compileScripts)
-            LoadAndCompileScripts();
 
         if (!ret && !NoWait)
             _moduleApi.Wait(ExitString);
 
         return ret;
-    }
-
-    private void LoadAndCompileScripts()
-    {
-        if (string.IsNullOrEmpty(_projectLoader.Configuration.ScriptsDirectory)) return;
-
-        Log.Info("Trying to load and compile script files...");
-        FsPath scripts = new FsPath(WorkDirectory).Combine(_projectLoader.Configuration.ScriptsDirectory);
-
-        int count = _scriptHandler.LoadScripts(scripts);
-        Log.Info("Loaded {0} instances from script files", count);
     }
 
     public void DoClean()
@@ -141,7 +120,7 @@ internal class GeneratorRunner
 
     private void RunSteps<TBuilder>(Func<ShortCodeLoader, TBuilder> builderCreator, RuntimeSettings settings) where TBuilder : BookGen.Framework.GeneratorStepRunner
     {
-        using (var loader = new ShortCodeLoader(Log, settings, _appSettings))
+        using (var loader = new ShortCodeLoader(Log, settings, _appSettings, _timeProvider))
         {
             using (TBuilder instance = builderCreator(loader))
             {
@@ -159,7 +138,7 @@ internal class GeneratorRunner
 
         Log.Info("Building deploy configuration...");
 
-        RunSteps((loader) => new WebsiteGeneratorStepRunner(settings, Log, loader, _scriptHandler), settings);
+        RunSteps((loader) => new WebsiteGeneratorStepRunner(settings, Log, loader), settings);
     }
 
     public void DoPrint()
@@ -170,7 +149,7 @@ internal class GeneratorRunner
 
         Log.Info("Building print configuration...");
 
-        RunSteps((loader) => new PrintGeneratorStepRunner(settings, Log, loader, _scriptHandler), settings);
+        RunSteps((loader) => new PrintGeneratorStepRunner(settings, Log, loader), settings);
     }
 
     public void DoEpub()
@@ -181,7 +160,7 @@ internal class GeneratorRunner
 
         Log.Info("Building epub configuration...");
 
-        RunSteps((loader) => new EpubGeneratorStepRunner(settings, Log, loader, _scriptHandler), settings);
+        RunSteps((loader) => new EpubGeneratorStepRunner(settings, Log, loader), settings);
     }
 
     public void DoWordpress()
@@ -192,7 +171,7 @@ internal class GeneratorRunner
 
         Log.Info("Building Wordpress configuration...");
 
-        RunSteps((loader) => new WordpressGeneratorStepRunner(settings, Log, loader, _scriptHandler), settings);
+        RunSteps((loader) => new WordpressGeneratorStepRunner(settings, Log, loader), settings);
     }
 
     public void DoPostProcess()
@@ -203,7 +182,7 @@ internal class GeneratorRunner
 
         Log.Info("Building postprocess configuration...");
 
-        RunSteps((loader) => new PostProcessGenreratorStepRunner(settings, Log, loader, _scriptHandler), settings);
+        RunSteps((loader) => new PostProcessGenreratorStepRunner(settings, Log, loader), settings);
     }
 
     public void DoTest()
@@ -216,13 +195,12 @@ internal class GeneratorRunner
 
         RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetWeb);
 
-
-        using (var loader = new ShortCodeLoader(Log, settings, _appSettings))
+        using (var loader = new ShortCodeLoader(Log, settings, _appSettings, _timeProvider))
         {
-            var builder = new WebsiteGeneratorStepRunner(settings, Log, loader, _scriptHandler);
+            var builder = new WebsiteGeneratorStepRunner(settings, Log, loader);
             TimeSpan runTime = builder.Run();
 
-            using (HttpServer? server = HttpServerFactory.CreateServerForTest(ServerLog, Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory)))
+            using (HttpServer? server = HttpServerFactory.CreateServerForTest(Log, Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory)))
             {
                 server.Start();
                 Log.Info("-------------------------------------------------");

@@ -86,4 +86,10 @@ public class Terminal : ITerminal
         AnsiConsole.WriteLine("".PadLeft(Console.WindowWidth, '-'));
         AnsiConsole.WriteLine();
     }
+
+    public bool Confirm(string message)
+    {
+        var prompt = new ConfirmationPrompt(message);
+        return prompt.Show(AnsiConsole.Console);
+    }
 }

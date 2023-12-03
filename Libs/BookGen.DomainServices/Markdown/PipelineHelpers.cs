@@ -1,9 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api.Configuration;
+using BookGen.Interfaces.Configuration;
 using BookGen.Interfaces;
 using Markdig.Parsers;
 using Markdig.Renderers;
@@ -34,8 +34,7 @@ namespace BookGen.DomainServices.Markdown
 
         public static void SetupSyntaxRender(IMarkdownRenderer renderer, JavaScriptInterop interop)
         {
-            if (renderer == null)
-                throw new ArgumentNullException(nameof(renderer));
+            ArgumentNullException.ThrowIfNull(renderer);
 
             if (renderer is not TextRendererBase<HtmlRenderer> htmlRenderer) return;
 
@@ -75,20 +74,20 @@ namespace BookGen.DomainServices.Markdown
             node.GetAttributes().AddClass(style);
         }
 
-        public static void RenderImages(IReadonlyRuntimeSettings RuntimeConfig,
+        public static void RenderImages(IReadonlyRuntimeSettings runtimeConfig,
                                         MarkdownDocument document)
         {
             foreach (MarkdownObject? node in document.Descendants())
             {
                 if (node is LinkInline link && link.IsImage)
                 {
-                    link.Url = FixExtension(link.Url, RuntimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
-                    if (RuntimeConfig.InlineImgCache?.Count > 0)
+                    link.Url = FixExtension(link.Url, runtimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
+                    if (runtimeConfig.InlineImgCache?.Count > 0)
                     {
-                        string? inlinekey = ToImgCacheKey(link.Url, RuntimeConfig.OutputDirectory);
-                        if (RuntimeConfig.InlineImgCache.ContainsKey(inlinekey))
+                        string? inlinekey = ToImgCacheKey(link.Url, runtimeConfig.OutputDirectory);
+                        if (runtimeConfig.InlineImgCache.TryGetValue(inlinekey, out string? value))
                         {
-                            link.Url = RuntimeConfig.InlineImgCache[inlinekey];
+                            link.Url = value;
                         }
                     }
                 }

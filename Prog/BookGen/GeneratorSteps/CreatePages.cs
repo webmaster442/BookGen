@@ -40,7 +40,7 @@ internal sealed class CreatePages : ITemplatedStep
 
             string? inputContent = input.ReadFile(log);
 
-            result.title = MarkdownUtils.GetDocumentTitle(inputContent, log);
+            result.title = MarkdownUtils.GetDocumentTitle(inputContent, log, input);
 
             if (string.IsNullOrEmpty(result.title))
             {

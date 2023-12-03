@@ -1,17 +1,17 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2021 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using BookGen.Interfaces;
-
-using System;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Xml.Serialization;
+
+using BookGen.Api;
+using BookGen.Interfaces;
+
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -154,9 +154,16 @@ namespace BookGen.DomainServices
             return File.Create(target.ToString());
         }
 
-        public static FileStream OpenStream(this FsPath source)
+        public static StreamWriter CreateStreamWriter(this FsPath target, ILog log)
         {
-            return File.OpenRead(source.ToString());
+            string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
+            if (!Directory.Exists(dir))
+            {
+                log.Detail("Creating directory: {0}", dir);
+                Directory.CreateDirectory(dir);
+            }
+
+            return File.CreateText(target.ToString());
         }
 
         public static bool CreateBackup(this FsPath source, ILog log)

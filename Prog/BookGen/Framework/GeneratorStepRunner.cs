@@ -1,11 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2021 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
 
-using BookGen.Framework.Scripts;
 using BookGen.Gui;
 
 namespace BookGen.Framework;
@@ -13,7 +12,6 @@ namespace BookGen.Framework;
 internal abstract class GeneratorStepRunner : IDisposable
 {
     private readonly List<IGeneratorStep> _steps;
-    private readonly CsharpScriptHandler _scriptHandler;
     private readonly StaticTemplateContent _staticContent;
     private readonly List<string> _redirectedLogMessages;
     private bool _logListen;
@@ -23,23 +21,17 @@ internal abstract class GeneratorStepRunner : IDisposable
     protected RuntimeSettings Settings { get; }
 
     protected readonly ShortCodeLoader _loader;
-
-
     protected GeneratorStepRunner(RuntimeSettings settings,
                       ILog log,
-                      ShortCodeLoader shortCodeLoader,
-                      CsharpScriptHandler scriptHandler)
+                      ShortCodeLoader shortCodeLoader)
     {
         Settings = settings;
-        _redirectedLogMessages = new List<string>();
+        _redirectedLogMessages = [];
         _staticContent = new StaticTemplateContent();
         _loader = shortCodeLoader;
         _loader.LoadAll();
 
-        _scriptHandler = scriptHandler;
-        scriptHandler.SetHostFromRuntimeSettings(Settings);
-
-        _steps = new List<IGeneratorStep>();
+        _steps = [];
         _log = log;
         _log.OnLogWritten += OnLogWritten;
     }
@@ -62,7 +54,6 @@ internal abstract class GeneratorStepRunner : IDisposable
     {
         return new TemplateProcessor(Settings.Configuration,
                                      new ShortCodeParser(_loader.Imports,
-                                                         _scriptHandler,
                                                          Settings.Configuration.Translations,
                                                          _log),
                                      _staticContent);

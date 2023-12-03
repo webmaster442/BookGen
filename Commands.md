@@ -437,6 +437,24 @@ Arguments:
 
 Without arguments, performs terminal profile install.
 
+# Toc
+
+Scans the folder and the configuration for markdown conent files
+and writes out the missing Table of content entries to a file,
+so the Table of conents can be easily updated.
+
+`BookGen Toc {-v} {-d [directory]}`
+`BookGen Toc {--verbose} {--dir [directory]}`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
 # Version
 
 Print the current program and config API version

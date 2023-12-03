@@ -1,9 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
+using System.Collections;
+
+using BookGen.Interfaces;
 
 namespace BookGen.Domain
 {
@@ -31,7 +33,7 @@ namespace BookGen.Domain
 
         public ToC()
         {
-            _tocContents = new Dictionary<string, List<Link>>();
+            _tocContents = [];
         }
 
         public void AddChapter(string chapter, List<Link> files)
@@ -59,6 +61,18 @@ namespace BookGen.Domain
             {
                 return _tocContents[chapter];
             }
+        }
+
+        public IEnumerator<Link> GetEnumerator()
+        {
+            return _tocContents
+                .SelectMany(x => x.Value)
+                .GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public IEnumerable<string> Files

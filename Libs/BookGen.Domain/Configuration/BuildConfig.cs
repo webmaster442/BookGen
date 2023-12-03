@@ -1,10 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api.Configuration;
 using System.Text.Json.Serialization;
+
+using BookGen.Interfaces.Configuration;
 
 namespace BookGen.Domain.Configuration
 {
@@ -44,14 +45,14 @@ namespace BookGen.Domain.Configuration
         {
             OutPutDirectory = "Path to output directory";
             TemplateFile = "";
-            TemplateAssets = new List<Asset>
-            {
+            TemplateAssets =
+            [
                 new Asset
                 {
                     Source = "",
                     Target = ""
                 }
-            };
+            ];
             TemplateOptions = TemplateOptions.CreateDefaultOptions();
             StyleClasses = new StyleClasses();
             ImageOptions = new ImageOptions();

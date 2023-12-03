@@ -33,7 +33,7 @@ namespace BookGen.Tests
         }
 
         [Test]
-        [Timeout(3000)]
+        [CancelAfter(3000)]
         public void EnsureThat_HtmlTidy_HtmlToXhtml_ReturnsText()
         {
             var file = TestEnvironment.GetFile("full.html");

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2022 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ internal sealed class PreviewStaticHandler : IRequestHandler
         return _table.ContainsKey(AbsoluteUri);
     }
 
-    public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
     {
         if (CanServe(request.Url))
         {

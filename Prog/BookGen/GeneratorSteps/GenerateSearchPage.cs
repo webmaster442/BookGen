@@ -1,12 +1,12 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api.Configuration;
 using BookGen.Domain.Configuration;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
+using BookGen.Interfaces.Configuration;
 using BookGen.Resources;
 
 namespace BookGen.GeneratorSteps;
@@ -47,7 +47,7 @@ internal sealed class GenerateSearchPage : ITemplatedStep
         target.WriteFile(log, html);
     }
 
-    private string FillMeta(IReadOnlyConfig configruation)
+    private static string FillMeta(IReadOnlyConfig configruation)
     {
         MetaTag? meta = new MetaTag().FillWithConfigDefaults(configruation);
         meta.Title = $"{configruation.Metadata.Title} - {configruation.Translations[Translations.SearchPageTitle]}";

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2022 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,13 +16,11 @@ namespace BookGen.Framework.Server;
 
 internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
 {
-
     private readonly string _directory;
     private readonly ILog _log;
     private readonly TemplateProcessor _processor;
     private readonly PreviewIndexBuilder _indexBuilder;
     private BookGenPipeline? _mdpipeline;
-
 
     public PreviewRenderHandler(string directory, ILog log)
     {
@@ -32,7 +30,6 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
 
         _processor = new TemplateProcessor(new Config(),
                          new ShortCodeParser(new List<ITemplateShortCode>(),
-                                             new Scripts.CsharpScriptHandler(_log),
                                              new Translations(),
                                              _log),
                          new StaticTemplateContent());
@@ -42,18 +39,16 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
         _mdpipeline.SetSyntaxHighlightTo(false);
     }
 
-
-
-    public bool CanServe(string AbsoluteUri)
+    public bool CanServe(string absoluteUri)
     {
-        return CanServeFromDir(AbsoluteUri, out _)
-            || AbsoluteUri == "/";
+        return CanServeFromDir(absoluteUri, out _)
+            || absoluteUri == "/";
     }
 
     private bool CanServeFromDir(string absoluteUri, out string foundUri)
     {
         if (absoluteUri.StartsWith('/'))
-            absoluteUri = absoluteUri.Substring(1);
+            absoluteUri = absoluteUri[1..];
 
         //string filePath = absoluteUri.Replace("/", "\\");
         string checkPath = Path.Combine(_directory, absoluteUri);
@@ -71,7 +66,7 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
         }
     }
 
-    public async Task<bool> Handle(IServerLog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
     {
         response.Headers.Add("Cache-Control", "no-store");
         response.ContentType = "text/html";
@@ -86,7 +81,6 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
         }
         else if (CanServeFromDir(request.Url, out string found))
         {
-
             var fileContents = new FsPath(found).ReadFile(_log);
 
             _mdpipeline?.InjectPath(new FsPath(_directory));

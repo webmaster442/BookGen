@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Framework;
-using BookGen.Framework.Scripts;
 
 namespace BookGen.Tests
 {
@@ -19,14 +18,13 @@ namespace BookGen.Tests
         {
             _log = Substitute.For<ILog>();
             var tranlate = new Translations();
-            var handler = new CsharpScriptHandler(_log);
 
             _sut = new ShortCodeParser(new List<ITemplateShortCode>
             {
                 new Stubs.DumyShortCode(),
                 new Stubs.ArgumentedShortCode(),
                 new Stubs.ArgumentNameYielderShortCode()
-            }, handler, tranlate, _log);
+            }, tranlate, _log);
         }
 
         [TearDown]

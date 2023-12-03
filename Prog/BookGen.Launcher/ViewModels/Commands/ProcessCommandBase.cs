@@ -1,10 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2022 Ruzsinszki Gábor
+// (c) 2021-2023 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
-using System.Windows.Input;
 
 using BookGen.Domain.Terminal;
 using BookGen.DomainServices;
@@ -12,9 +11,8 @@ using BookGen.Launcher.Properties;
 
 namespace BookGen.Launcher.ViewModels.Commands;
 
-internal abstract class ProcessCommandBase : ICommand
+internal abstract class ProcessCommandBase : CommandBase
 {
-    public event EventHandler? CanExecuteChanged;
     protected InstallStatus InstallStatus;
 
     protected const string PowershellExe = "powershell.exe";
@@ -24,7 +22,7 @@ internal abstract class ProcessCommandBase : ICommand
         InstallStatus = InstallDetector.GetInstallStatus();
     }
 
-    public bool CanExecute(object? parameter)
+    public override bool CanExecute(object? parameter)
     {
         return CanExecute(parameter as string);
     }
@@ -34,7 +32,7 @@ internal abstract class ProcessCommandBase : ICommand
         return Directory.Exists(folder);
     }
 
-    public void Execute(object? parameter)
+    public override void Execute(object? parameter)
     {
         Execute(parameter as string);
         if (Settings.Default.AutoExitLauncher)
@@ -42,11 +40,6 @@ internal abstract class ProcessCommandBase : ICommand
             Settings.Default.Save();
             Application.Current.Shutdown(0);
         }
-    }
-
-    public void OnCanExecuteChanged()
-    {
-        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 
     protected static void Message(string text, MessageBoxImage icon)
