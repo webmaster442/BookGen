@@ -383,6 +383,11 @@ Arguments:
 -i, --input: 
     Input markdown file path
 
+# Shortcodes
+
+Displays the available shortcode names that can be used in markdown and 
+template files. 
+
 # Tags
 
 Create or update the tags database and display various stats
