@@ -55,6 +55,7 @@ public static class HelpRenderer
                     nextPage = CalculatePage(currentPage, pages.Length, +1);
                     break;
                 case ConsoleKey.Escape:
+                case ConsoleKey.Q:
                     run = false;
                     Console.Clear();
                     break;
@@ -70,7 +71,7 @@ public static class HelpRenderer
 
         AnsiConsole.WriteLine();
         AnsiConsole.MarkupInterpolated($"[teal]{currentPage + 1} of {pages}[/]");
-        AnsiConsole.MarkupInterpolated($" [silver]ESC: Exit, <- Prev, Next ->[/]{Environment.NewLine}");
+        AnsiConsole.MarkupInterpolated($" [silver]ESC or Q: Exit, <- Prev, Next ->[/]{Environment.NewLine}");
     }
 
     private static int CalculatePage(int currentPage, int pages, int offset)
