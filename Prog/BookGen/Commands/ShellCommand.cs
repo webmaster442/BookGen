@@ -3,6 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+
+using BookGen.Cli;
 using BookGen.Infrastructure;
 
 namespace BookGen.Commands;
@@ -41,23 +44,32 @@ internal class ShellCommand : Command
 
         if (words.Length > 0)
         {
-            var command = _api.GetCommandNames().FirstOrDefault(cmd => cmd.StartsWith(words[0], StringComparison.OrdinalIgnoreCase));
+            var commands = _api
+                .GetCommandNames()
+                .Where(cmd => cmd.StartsWith(words[0], StringComparison.OrdinalIgnoreCase))
+                .ToArray();
 
-            if (!string.IsNullOrEmpty(command))
+            if (commands.Length > 1)
             {
-                if (words.Length > 1)
-                {
-                    IEnumerable<string>? candidate = _api.GetAutoCompleteItems(command).Where(arg => arg.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
+                return commands;
+            }
+            else if (!string.IsNullOrEmpty(commands[0]))
+            {
+                if (!string.Equals(words[0], commands[0], StringComparison.OrdinalIgnoreCase))
+                    return commands;
 
-                    if (candidate.Any())
-                        return candidate;
-                    else
-                        return ProgramConfigurator.GeneralArguments.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
-                }
+                string[] items = _api.GetAutoCompleteItems(commands[0]);
+
+                if (words.Length <= 1)
+                    return items;
+
+                var candidate = items.Where(arg => arg.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
+
+                if (candidate.Any())
+                    return candidate;
                 else
-                {
-                    return new string[] { command };
-                }
+                    return ProgramConfigurator.GeneralArguments.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
+
             }
         }
 

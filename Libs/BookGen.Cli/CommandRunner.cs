@@ -134,13 +134,9 @@ public sealed class CommandRunner
     {
         if (_commands.ContainsKey(commandName))
         {
-            var type =
-                _commands[commandName]
-                .GetType();
+            var type = _commands[commandName];
 
-            var genTypes = type.GetGenericArguments();
-
-            var args = genTypes.Length > 0 ? genTypes[0] : null;
+            var args = GetArgumentType(type);
 
             if (args != null)
             {
