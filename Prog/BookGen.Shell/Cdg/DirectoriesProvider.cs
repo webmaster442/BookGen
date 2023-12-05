@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Cdg.Properties;
+using TextResources = BookGen.Shell.Properties.Resources;
 
-namespace Cdg;
+namespace BookGen.Shell.Cdg;
 
 internal sealed class DirectoriesProvider
 {
@@ -24,13 +24,13 @@ internal sealed class DirectoriesProvider
         }
     }
 
-    public static bool PathIsRootDirString(string input) => input == nameof(Resources._MenuSelectorRootDir_30);
+    public static bool PathIsRootDirString(string input) => input == nameof(TextResources._MenuSelectorRootDir_30);
 
-    public static bool PathIsCurrentDirString(string input) => input == nameof(Resources._MenuSelectorCurrentDir_10);
+    public static bool PathIsCurrentDirString(string input) => input == nameof(TextResources._MenuSelectorCurrentDir_10);
 
-    public static bool PathIsHomeDirString(string input) => input == nameof(Resources._MenuSelectorHomeDir_35);
+    public static bool PathIsHomeDirString(string input) => input == nameof(TextResources._MenuSelectorHomeDir_35);
 
-    public static bool PathIsKnownDirsString(string input) => input == nameof(Resources._MenuSelectorKnownDirs_40);
+    public static bool PathIsKnownDirsString(string input) => input == nameof(TextResources._MenuSelectorKnownDirs_40);
 
     public bool TryKnownFolder(string selected, out string newFolder)
     {
@@ -45,7 +45,7 @@ internal sealed class DirectoriesProvider
 
     public static bool TryUpOneDir(string dir, string path, out string oneDirUp)
     {
-        if (dir == nameof(Resources._MenuSelectorUpOneDir_20))
+        if (dir == nameof(TextResources._MenuSelectorUpOneDir_20))
         {
             DirectoryInfo di = new(path);
             var parent = di.Parent;
@@ -55,7 +55,7 @@ internal sealed class DirectoriesProvider
             }
             else
             {
-                oneDirUp = nameof(Resources._MenuSelectorRootDir_30);
+                oneDirUp = nameof(TextResources._MenuSelectorRootDir_30);
             }
             return true;
         }

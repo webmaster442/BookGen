@@ -14,7 +14,7 @@ using Spectre.Console;
 namespace BookGen.Shell.Commands;
 
 [CommandName("prompt")]
-internal sealed class Prompt : Command<Prompt.PromptArguments>
+internal sealed class PromptCommand : Command<PromptCommand.PromptArguments>
 {
     private const int TimeOut = 10;
     private readonly IAnsiConsole _console;
@@ -29,7 +29,7 @@ internal sealed class Prompt : Command<Prompt.PromptArguments>
         }
     }
 
-    public Prompt(IAnsiConsole console)
+    public PromptCommand(IAnsiConsole console)
     {
         _console = console;
     }

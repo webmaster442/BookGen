@@ -24,6 +24,8 @@ CommandRunner runner = new CommandRunner(ioc, log, new CommandRunnerSettings
     PlatformNotSupportedExitCode = 4,
 });
 
-runner.AddCommand<Prompt>();
+runner
+    .AddCommand<PromptCommand>()
+    .AddCommand<CdgCommand>();
 
 return await runner.Run(args);

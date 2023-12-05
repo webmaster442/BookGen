@@ -5,15 +5,16 @@
 # -----------------------------------------------------------------------------
 
 # cdg command
-function cdg($args)
+function cdg
 {
-	if ([string]::IsNullOrWhiteSpace($arg))
+    $argsAsString = $args -join ' '
+    if ([string]::IsNullOrWhiteSpace($argsAsString))
 	{
-		cdg.exe
+		BookGen.Shell.exe "cdg"
 	}
 	else
 	{
-		cdg.exe "$arg"
+		BookGen.Shell.exe "cdg" "$argsAsString"
 	}
     $location = [Environment]::GetEnvironmentVariable('cdgPath', 'User')
     Push-Location $location

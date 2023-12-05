@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Cdg.Properties;
+using TextResources = BookGen.Shell.Properties.Resources;
 
-namespace Cdg;
+namespace BookGen.Shell.Cdg;
 
 internal sealed class SelectorNameConverter
 {
@@ -26,11 +26,11 @@ internal sealed class SelectorNameConverter
 
         return arg switch
         {
-            nameof(Resources._MenuSelectorCurrentDir_10) => Resources._MenuSelectorCurrentDir_10,
-            nameof(Resources._MenuSelectorUpOneDir_20) => Resources._MenuSelectorUpOneDir_20,
-            nameof(Resources._MenuSelectorRootDir_30) => Resources._MenuSelectorRootDir_30,
-            nameof(Resources._MenuSelectorHomeDir_35) => Resources._MenuSelectorHomeDir_35,
-            nameof(Resources._MenuSelectorKnownDirs_40) => Resources._MenuSelectorKnownDirs_40,
+            nameof(TextResources._MenuSelectorCurrentDir_10) => TextResources._MenuSelectorCurrentDir_10,
+            nameof(TextResources._MenuSelectorUpOneDir_20) => TextResources._MenuSelectorUpOneDir_20,
+            nameof(TextResources._MenuSelectorRootDir_30) => TextResources._MenuSelectorRootDir_30,
+            nameof(TextResources._MenuSelectorHomeDir_35) => TextResources._MenuSelectorHomeDir_35,
+            nameof(TextResources._MenuSelectorKnownDirs_40) => TextResources._MenuSelectorKnownDirs_40,
             _ => Path.GetFileName(arg) == string.Empty ? arg : Path.GetFileName(arg),
         };
     }

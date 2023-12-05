@@ -6,7 +6,8 @@
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 
-namespace Cdg;
+namespace BookGen.Shell.Cdg;
+
 internal sealed class CdgArguments : ArgumentsBase
 {
     [Switch("h", "hidden")]
@@ -22,10 +23,8 @@ internal sealed class CdgArguments : ArgumentsBase
 
     public override ValidationResult Validate()
     {
-        if (string.IsNullOrEmpty(Folder) || !Directory.Exists(Folder))
-        {
-            return ValidationResult.Error($"Folder doesn't exist: {Folder}");
-        }
-        return ValidationResult.Ok();
+        return string.IsNullOrEmpty(Folder) || !Directory.Exists(Folder)
+            ? ValidationResult.Error($"Folder doesn't exist: {Folder}")
+            : ValidationResult.Ok();
     }
 }
