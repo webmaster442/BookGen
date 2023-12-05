@@ -15,6 +15,20 @@ public sealed class InlineFile : ITemplateShortCode
 
     public bool CanCacheResult => true;
 
+    public ShortCodeInfo HelpInfo => new()
+    {
+        Description = "Inline a files contents",
+        ArgumentInfos = new ArgumentInfo[]
+        {
+            new()
+            {
+                Name = "file",
+                Description = "The file name, whose contents will be inilined",
+                Optional = false,
+            }
+        }
+    };
+
     [ImportingConstructor]
     public InlineFile(ILog log)
     {

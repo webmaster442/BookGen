@@ -21,6 +21,20 @@ public sealed class Python : ScriptProcess, ITemplateShortCode
 
     public string Tag => "Python";
 
+    public ShortCodeInfo HelpInfo => new()
+    {
+        Description = "Run Python script and insert it's output",
+        ArgumentInfos = new ArgumentInfo[]
+        {
+            new()
+            {
+                Name = "file",
+                Description = "Python file name to run with python",
+                Optional = false,
+            },
+        }
+    };
+
     public bool CanCacheResult => false;
 
     public string Generate(IArguments arguments)

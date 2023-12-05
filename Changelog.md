@@ -10,6 +10,8 @@
 * New: Terminal output renderer, when building markdown
 * New: CDG program can handle a path argument, to specify where to start from
 * New: WWW program that can perform web searches easily
+* New: toc command, to find files that are not included in the toc file
+* New: shortcodes command, to list available shortcodes
 * Change: API cleanup & removed C# scripting support
 * Change: StockSearch command functionality has been integrated to the WWW command
 * Change: Removed auto updater (hard to maintain)
@@ -25,6 +27,9 @@
 * Fix: ImgSearch correctly handles spaces in query
 * Fix: Shell now sets UTF-8 encoding for output
 * Fix: Various HTTP server bugfixes
+* Fix: HTML Tidy speed greatly improved and encoding issues are fixed
+* Fix: Initializer adapted to new folder structure
+* Fix: Fixed a possible crash in init, when using Windows Terminal
 
 # 2023. 05. 06
 * New: GUI has been reworked. Instead of Terminal.GUI Spectre.Console is used

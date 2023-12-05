@@ -5,11 +5,10 @@
 
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-
-using BookGen.ShortCodes;
-using BookGen.Interfaces.Configuration;
 using System.Reflection;
-using System;
+
+using BookGen.Interfaces.Configuration;
+using BookGen.ShortCodes;
 
 namespace BookGen;
 

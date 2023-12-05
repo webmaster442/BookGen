@@ -18,6 +18,20 @@ public sealed class Php : ScriptProcess, ITemplateShortCode
 
     public bool CanCacheResult => false;
 
+    public ShortCodeInfo HelpInfo => new()
+    {
+        Description = "Run PHP script and insert it's output",
+        ArgumentInfos = new ArgumentInfo[]
+        {
+            new()
+            {
+                Name = "file",
+                Description = "PHP file name to run with php",
+                Optional = false,
+            },
+        }
+    };
+
     public string Generate(IArguments arguments)
     {
         string? file = arguments.GetArgumentOrThrow<string>("file");

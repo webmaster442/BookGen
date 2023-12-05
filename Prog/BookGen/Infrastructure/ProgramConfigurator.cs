@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Data;
 using System.Diagnostics;
 using System.Threading;
 
@@ -15,11 +16,13 @@ internal static class ProgramConfigurator
 {
     private const string DebuggerShort = "-wd";
     private const string DebuggerLong = "--wait-debugger";
+    private const string DebuggerStartShort = "-ad";
+    private const string DebuggerStartLong = "--attach-debugger";
+
     private const string JsonLogShort = "-js";
     private const string JsonLogLong = "--json-log";
     private const string LogFileShort = "-lf";
     private const string LogFileLong = "--log-file";
-    private const string NoWait = "-nw";
 
     public static IEnumerable<string> GeneralArguments
     {
@@ -27,6 +30,8 @@ internal static class ProgramConfigurator
         {
             yield return DebuggerShort;
             yield return DebuggerLong;
+            yield return DebuggerStartShort;
+            yield return DebuggerStartLong;
             yield return JsonLogShort;
             yield return JsonLogLong;
         }
@@ -80,6 +85,18 @@ internal static class ProgramConfigurator
         }
     }
 
+    public static void AttachDebugger(IList<string> arguments)
+    {
+        if (GetSwitch(arguments, DebuggerStartShort, DebuggerStartLong))
+        {
+            Console.WriteLine("Attaching debugger...");
+            if (!Debugger.IsAttached)
+            {
+                Debugger.Launch();
+            }
+        }
+    }
+
     internal static ILog ConfigureLog(IList<string> arguments)
     {
         if (GetSwitch(arguments, JsonLogShort, JsonLogLong))
@@ -89,13 +106,5 @@ internal static class ProgramConfigurator
 
         bool logFile = GetSwitch(arguments, LogFileShort, LogFileLong);
         return new TerminalLog(logFile);
-    }
-
-    internal static ProgramInfo ConfigureState(IList<string> arguments)
-    {
-        return new()
-        {
-            NoWaitForExit = GetSwitch(arguments, NoWait, NoWait)
-        };
     }
 }

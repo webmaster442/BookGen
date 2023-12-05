@@ -23,6 +23,20 @@ public sealed class NodeJs : ScriptProcess, ITemplateShortCode
 
     public bool CanCacheResult => false;
 
+    public ShortCodeInfo HelpInfo => new()
+    {
+        Description = "Run node JS script and insert it's output",
+        ArgumentInfos = new ArgumentInfo[]
+        {
+            new() 
+            {
+                Name = "file",
+                Description = "javascript file name to run with node.js",
+                Optional = false,
+            },
+        }
+    };
+
     public string Generate(IArguments arguments)
     {
         string? file = arguments.GetArgumentOrThrow<string>("file");

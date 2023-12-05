@@ -36,7 +36,18 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
 
         var filePath = new FsPath(arguments.Directory, "toc_scratch.md");
 
-        IEnumerable<Link> files = TocUtils.GetLinks(new FsPath(arguments.Directory), _log);
+        string[] exclude = Array.Empty<string>();
+
+        if (hasToc)
+        {
+            exclude =
+            [
+                loader.Configuration.TOCFile,
+                loader.Configuration.Index,
+            ];
+        }
+
+        IEnumerable<Link> files = TocUtils.GetLinks(new FsPath(arguments.Directory), exclude, _log);
 
         if (hasToc)
         {
@@ -55,7 +66,7 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
             {
                 _log.Info("Writing toc Info to: {0}", filePath);
                 WriteItems(stream, byTarget, _log, "Not found in toc:");
-                WriteItems(stream, byTitle, _log, "Found, but with differtent title");
+                WriteItems(stream, byTitle, _log, "\r\nFound, but with differtent title:");
             }
         }
         else

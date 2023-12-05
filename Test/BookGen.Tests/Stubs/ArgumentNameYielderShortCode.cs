@@ -9,6 +9,8 @@ namespace BookGen.Tests.Stubs
     {
         public string Tag => "yield";
 
+        public ShortCodeInfo HelpInfo => ShortCodeInfo.Empty;
+
         public bool CanCacheResult => false;
         public string Generate(IArguments arguments)
         {

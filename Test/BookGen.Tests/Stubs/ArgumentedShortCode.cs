@@ -11,6 +11,8 @@ namespace BookGen.Tests.Stubs
 
         public bool CanCacheResult => false;
 
+        public ShortCodeInfo HelpInfo => ShortCodeInfo.Empty;
+
         public string Generate(IArguments arguments)
         {
             return arguments.GetArgumentOrThrow<string>("parameter");
