@@ -101,7 +101,7 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
 
 # set prompt
 function prompt {
-    $git = $(BookGen.ShellHelper.exe "prompt" $(Get-Location).Path)
+    $git = $(BookGen.Shell.exe "prompt" $(Get-Location).Path)
     'PS ' +  $(Get-Location) + ' '+$git+ $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
 }
 
