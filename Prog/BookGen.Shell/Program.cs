@@ -11,9 +11,11 @@ using BookGen.Shell.Infrastructure;
 using Spectre.Console;
 
 ILog log = new Log();
+CommandNameProvider commandNameProvider = new();
 
 SimpleIoC ioc = new();
 ioc.RegisterSingleton<IAnsiConsole>(AnsiConsole.Console);
+ioc.RegisterSingleton(commandNameProvider);
 ioc.Build();
 
 CommandRunner runner = new CommandRunner(ioc, log, new CommandRunnerSettings
@@ -24,8 +26,13 @@ CommandRunner runner = new CommandRunner(ioc, log, new CommandRunnerSettings
     PlatformNotSupportedExitCode = 4,
 });
 
+
 runner
+    .AddDefaultCommand<CommandListCommand>()
     .AddCommand<PromptCommand>()
-    .AddCommand<CdgCommand>();
+    .AddCommand<CdgCommand>()
+    .AddCommand<WwwCommand>();
+
+commandNameProvider.CommandNames = runner.CommandNames;
 
 return await runner.Run(args);

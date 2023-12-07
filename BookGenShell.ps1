@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 2.5.2
-# Last modified: 2023-10-25
+# Version 2.7.0
+# Last modified: 2023-12-07
 # -----------------------------------------------------------------------------
 
 # cdg command
@@ -20,6 +20,21 @@ function cdg
     Push-Location $location
 }
 
+# www command
+function www
+{
+    $argsAsString = $args -join ' '
+    if ([string]::IsNullOrWhiteSpace($argsAsString))
+	{
+		BookGen.Shell.exe "www"
+	}
+	else
+	{
+		BookGen.Shell.exe "www" "$argsAsString"
+	}
+}
+
+# info command
 function bookgen-info()
 {
 	Clear-Host
@@ -63,6 +78,7 @@ function intro()
 
 #Set UTF8 encoding
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+[console]::InputEncoding = [System.Text.Encoding]::UTF8
 
 #Set BookGenRoot variable
 $env:BookGenPath = $PSScriptRoot

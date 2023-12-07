@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Diagnostics;
-
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Shell.Cdg;

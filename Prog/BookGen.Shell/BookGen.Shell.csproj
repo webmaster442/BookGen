@@ -48,4 +48,11 @@
     </EmbeddedResource>
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Update="WwwConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
