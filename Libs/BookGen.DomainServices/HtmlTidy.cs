@@ -1,14 +1,18 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BookGen.DomainServices
 {
-    public class HtmlTidy
+    public partial class HtmlTidy
     {
         private readonly string _tidyPath;
         private readonly Dictionary<string, string> _tagreplacements;
         private const string TidyName = "tidy.exe";
         private const int TimeOut = 10;
+
+        [GeneratedRegex("Tidy found ([0-9]+) warnings and ([0-9]+) errors!", RegexOptions.None, 5000)]
+        private static partial Regex GetWarningAndErrorRegex();
 
         public HtmlTidy()
         {
@@ -58,18 +62,32 @@ namespace BookGen.DomainServices
 
         public string HtmlToXhtml(string html)
         {
-            return ProcessRunner.GetCommandOutput(_tidyPath,
-                                                  new[] { "-asxhtml", "-utf8" },
-                                                  html,
-                                                  TimeOut);
+            var result = ProcessRunner.GetCommandOutput(_tidyPath, new[] { "-asxhtml", "-utf8" }, html, TimeOut);
+            return GetResult(result);
         }
 
         public string XhtmlToHtml(string xhtml)
         {
-            return ProcessRunner.GetCommandOutput(_tidyPath,
-                                                  new[] { "-ashtml", "-utf8" },
-                                                  xhtml,
-                                                  TimeOut);
+            var result = ProcessRunner.GetCommandOutput(_tidyPath, new[] { "-ashtml", "-utf8"}, xhtml, TimeOut);
+            return GetResult(result);
+        }
+
+        private static string GetResult((string stdOut, string stdErr) result)
+        {
+            //tidy doesn't have option to only output errors, so manual extraction is done
+            if (!string.IsNullOrEmpty(result.stdErr))
+            {
+                var matches = GetWarningAndErrorRegex().Match(result.stdErr);
+                int errors = 0;
+                if (matches.Groups.Count > 2)
+                {
+                    errors = int.Parse(matches.Groups[2].Value);
+                }
+
+                if (errors > 0)
+                    return $"<pre>{result.stdErr}</pre>";
+            }
+            return result.stdOut;
         }
     }
 }

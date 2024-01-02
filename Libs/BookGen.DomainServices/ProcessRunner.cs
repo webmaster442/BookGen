@@ -81,7 +81,7 @@ namespace BookGen.DomainServices
             }
         }
 
-        public static string GetCommandOutput(string program, string[] arguments, string stdIn, int timeoutSeconds)
+        public static (string stdOut, string stdErr) GetCommandOutput(string program, string[] arguments, string stdIn, int timeoutSeconds)
         {
             using (var process = new Process())
             {
@@ -89,21 +89,24 @@ namespace BookGen.DomainServices
                 SetArguments(process.StartInfo, arguments);
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
                 process.StartInfo.RedirectStandardInput = true;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.StandardInputEncoding = Encoding.UTF8;
                 process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+                process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
 
                 Task timeout = Task.Delay(timeoutSeconds * 1000);
                 process.Start();
                 process.StandardInput.Write(stdIn);
                 process.StandardInput.Close();
-                Task<string> read = process.StandardOutput.ReadToEndAsync();
-                if (Task.WaitAny(timeout, read) == 0)
+                Task<string> @out = process.StandardOutput.ReadToEndAsync();
+                Task<string> err = process.StandardError.ReadToEndAsync();
+                if (Task.WaitAny(timeout, @out, err) == 0)
                 {
-                    return "timeout";
+                    return ("", "timeout");
                 }
-                return read.Result;
+                return (@out.Result, err.Result);
             }
         }
 
