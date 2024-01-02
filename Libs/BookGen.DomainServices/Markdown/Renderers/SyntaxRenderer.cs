@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Text;
+using System.Web;
 
 using BookGen.Resources;
 
@@ -122,7 +123,7 @@ namespace BookGen.DomainServices.Markdown.Renderers
         {
             const string codeTag = "<!--{Code}-->";
             string template = ResourceHandler.GetFile(KnownFile.TerminalRenderingHtml);
-            return template.Replace(codeTag, code);
+            return template.Replace(codeTag, HttpUtility.HtmlEncode(code));
 
         }
 
