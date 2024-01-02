@@ -13,7 +13,7 @@ namespace BookGen.DomainServices.Markdown
     {
         public static MarkdownPipeline Web
         {
-            get => new MarkdownPipelineBuilder().Use<WebModifier>().UseAdvancedExtensions().Build();
+            get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<WebModifier>().Build();
         }
 
         public static MarkdownPipeline Print
