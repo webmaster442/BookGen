@@ -1,6 +1,13 @@
-﻿using System.Runtime.InteropServices;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023-2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+
+using BookGen.Api;
 
 namespace BookGen.DomainServices
 {
@@ -8,13 +15,15 @@ namespace BookGen.DomainServices
     {
         private readonly string _tidyPath;
         private readonly Dictionary<string, string> _tagreplacements;
+        private readonly ILog _log;
+
         private const string TidyName = "tidy.exe";
         private const int TimeOut = 10;
 
         [GeneratedRegex("Tidy found ([0-9]+) warnings and ([0-9]+) errors!", RegexOptions.None, 5000)]
         private static partial Regex GetWarningAndErrorRegex();
 
-        public HtmlTidy()
+        public HtmlTidy(ILog log)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -38,6 +47,7 @@ namespace BookGen.DomainServices
                 { "section", "div" },
                 { "figcaption", "p" }
             };
+            _log = log;
         }
 
         public bool IsInstalled()
@@ -62,30 +72,40 @@ namespace BookGen.DomainServices
 
         public string HtmlToXhtml(string html)
         {
-            var result = ProcessRunner.GetCommandOutput(_tidyPath, new[] { "-asxhtml", "-utf8" }, html, TimeOut);
+            var result = ProcessRunner.GetCommandOutput(_tidyPath, ["-asxhtml", "-utf8"], html, TimeOut);
             return GetResult(result);
         }
 
         public string XhtmlToHtml(string xhtml)
         {
-            var result = ProcessRunner.GetCommandOutput(_tidyPath, new[] { "-ashtml", "-utf8"}, xhtml, TimeOut);
+            var result = ProcessRunner.GetCommandOutput(_tidyPath, ["-ashtml", "-utf8"], xhtml, TimeOut);
             return GetResult(result);
         }
 
-        private static string GetResult((string stdOut, string stdErr) result)
+        private string GetResult((string stdOut, string stdErr) result)
         {
             //tidy doesn't have option to only output errors, so manual extraction is done
             if (!string.IsNullOrEmpty(result.stdErr))
             {
                 var matches = GetWarningAndErrorRegex().Match(result.stdErr);
                 int errors = 0;
-                if (matches.Groups.Count > 2)
+                int warnings = 0;
+                if (matches.Groups.Count == 2)
                 {
+                    warnings = int.Parse(matches.Groups[1].Value);
                     errors = int.Parse(matches.Groups[2].Value);
                 }
 
+                if (warnings > 0)
+                {
+                    _log.Warning("Tidy found {0} warnings", warnings);
+                }
+
                 if (errors > 0)
+                {
+                    _log.Critical("Creating of XTML failed, Tidy found errors. See output file for details");
                     return $"<pre>{result.stdErr}</pre>";
+                }
             }
             return result.stdOut;
         }
