@@ -22,6 +22,8 @@ Note: tidy is only bundled with the Windows release. On linux install it with yo
 
 [48;2;155;155;155;38;2;30;30;30mlauncher[0m - Opens the bookgen launcher in the current working directory
 
+[48;2;155;155;155;38;2;30;30;30mwww[0m - Web starting util for seaching
+
 [7mCommon BookGen commands[0m
 
 [48;2;155;155;155;38;2;30;30;30mBookGen md2html -i input.md -o out.html[0m - Convert the input.md file to out.html
