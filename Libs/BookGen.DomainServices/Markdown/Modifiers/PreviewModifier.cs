@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -58,7 +58,7 @@ namespace BookGen.DomainServices.Markdown.Modifiers
             if (_interop == null)
                 throw new InvalidOperationException();
 
-            PipelineHelpers.SetupSyntaxRender(renderer, _interop);
+            PipelineHelpers.SetupSyntaxRenderForPreRender(renderer, _interop);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)

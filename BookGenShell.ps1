@@ -1,24 +1,40 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 2.5.2
-# Last modified: 2023-10-25
+# Version 2.7.0
+# Last modified: 2023-12-07
 # -----------------------------------------------------------------------------
 
 # cdg command
-function cdg($args)
+function cdg
 {
-	if ([string]::IsNullOrWhiteSpace($arg))
+    $argsAsString = $args -join ' '
+    if ([string]::IsNullOrWhiteSpace($argsAsString))
 	{
-		cdg.exe
+		BookGen.Shell.exe "cdg"
 	}
 	else
 	{
-		cdg.exe "$arg"
+		BookGen.Shell.exe "cdg" "$argsAsString"
 	}
     $location = [Environment]::GetEnvironmentVariable('cdgPath', 'User')
     Push-Location $location
 }
 
+# www command
+function www
+{
+    $argsAsString = $args -join ' '
+    if ([string]::IsNullOrWhiteSpace($argsAsString))
+	{
+		BookGen.Shell.exe "www"
+	}
+	else
+	{
+		BookGen.Shell.exe "www" "$argsAsString"
+	}
+}
+
+# info command
 function bookgen-info()
 {
 	Clear-Host
@@ -62,6 +78,7 @@ function intro()
 
 #Set UTF8 encoding
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+[console]::InputEncoding = [System.Text.Encoding]::UTF8
 
 #Set BookGenRoot variable
 $env:BookGenPath = $PSScriptRoot
@@ -101,7 +118,7 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
 
 # set prompt
 function prompt {
-    $git = $(BookGen.ShellHelper.exe "prompt" $(Get-Location).Path)
+    $git = $(BookGen.Shell.exe "prompt" $(Get-Location).Path)
     'PS ' +  $(Get-Location) + ' '+$git+ $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
 }
 

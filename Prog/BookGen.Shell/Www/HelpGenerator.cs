@@ -1,8 +1,13 @@
-﻿using BookGen.Domain.Www;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Domain.Www;
 
 using Spectre.Console;
 
-namespace Www;
+namespace BookGen.Shell.Www;
 
 internal static class HelpGenerator
 {

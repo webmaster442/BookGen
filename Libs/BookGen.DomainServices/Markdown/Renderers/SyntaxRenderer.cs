@@ -1,9 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Text;
+using System.Web;
 
 using BookGen.Resources;
 
@@ -14,18 +15,18 @@ using Markdig.Syntax;
 
 namespace BookGen.DomainServices.Markdown.Renderers
 {
-    internal class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>
+    internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>
     {
-        private readonly CodeBlockRenderer _underlyingRenderer;
+        private readonly CodeBlockRenderer _originalRenderer;
         private readonly JavaScriptInterop _interop;
         private readonly HashSet<string> _supportedLanguages;
-        private const string Terminallanguage = "terminal";
+        public  const string Terminallanguage = "terminal";
 
         public static bool Enabled { get; set; } = true;
 
         public SyntaxRenderer(CodeBlockRenderer underlyingRenderer, JavaScriptInterop interop)
         {
-            _underlyingRenderer = underlyingRenderer ?? new CodeBlockRenderer();
+            _originalRenderer = underlyingRenderer ?? new CodeBlockRenderer();
             _interop = interop;
             _supportedLanguages = new HashSet<string>
             {
@@ -53,7 +54,7 @@ namespace BookGen.DomainServices.Markdown.Renderers
             };
         }
 
-        private static string GetCode(LeafBlock node)
+        public static string GetCode(LeafBlock node)
         {
             var code = new StringBuilder();
             var lines = node.Lines.Lines;
@@ -85,21 +86,22 @@ namespace BookGen.DomainServices.Markdown.Renderers
                 || obj is not FencedCodeBlock fencedCodeBlock
                 || obj.Parser is not FencedCodeBlockParser parser)
             {
-                _underlyingRenderer.Write(renderer, obj);
+                _originalRenderer.Write(renderer, obj);
                 return;
             }
 
             if (string.IsNullOrEmpty(fencedCodeBlock.Info)
                 || string.IsNullOrEmpty(parser.InfoPrefix))
             {
-                _underlyingRenderer.Write(renderer, obj);
+                _originalRenderer.Write(renderer, obj);
                 return;
             }
             string languageMoniker = fencedCodeBlock.Info.Replace(parser.InfoPrefix, string.Empty);
+           
             if (string.IsNullOrEmpty(languageMoniker) 
                 || !_supportedLanguages.Contains(languageMoniker))
             {
-                _underlyingRenderer.Write(renderer, obj);
+                _originalRenderer.Write(renderer, obj);
                 return;
             }
 
@@ -117,11 +119,11 @@ namespace BookGen.DomainServices.Markdown.Renderers
             }
         }
 
-        private static string RenderTerminalString(string code)
+        public static string RenderTerminalString(string code)
         {
             const string codeTag = "<!--{Code}-->";
             string template = ResourceHandler.GetFile(KnownFile.TerminalRenderingHtml);
-            return template.Replace(codeTag, code);
+            return template.Replace(codeTag, HttpUtility.HtmlEncode(code));
 
         }
 

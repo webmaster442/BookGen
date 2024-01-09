@@ -6,10 +6,10 @@
 using System.Xml.Serialization;
 
 using BookGen.Domain.Www;
+
 using BookGen.DomainServices;
 
-namespace Www;
-
+namespace BookGen.Shell.Www;
 internal class ConfigLoader
 {
     public WwwBang[] Bangs { get; }

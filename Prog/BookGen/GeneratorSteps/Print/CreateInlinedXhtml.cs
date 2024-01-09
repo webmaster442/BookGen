@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022-2023 Ruzsinszki Gábor
+// (c) 2022-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ internal sealed class CreateInlinedXhtml : IGeneratorStep
         string content = source.ReadFile(log);
 
         log.Detail("Inlining CSS...");
-        var htmlTidy = new HtmlTidy();
+        var htmlTidy = new HtmlTidy(log);
 
         var xhtml = htmlTidy.HtmlToXhtml(content);
 

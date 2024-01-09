@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -11,11 +11,13 @@ namespace BookGen.Tests
     internal class UT_HtmlTidy
     {
         private HtmlTidy _sut;
+        private ILog _log;
 
         [SetUp]
         public void Setup()
         {
-            _sut= new HtmlTidy();
+            _log = Substitute.For<ILog>();
+            _sut= new HtmlTidy(_log);
         }
 
         [TestCase("<figure>foo</figure>", "<div>foo</div>")]

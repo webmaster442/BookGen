@@ -3,11 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Cdg.Properties;
-
 using Spectre.Console;
 
-namespace Cdg;
+using TextResources = BookGen.Shell.Properties.Resources;
+
+namespace BookGen.Shell.Cdg;
+
 internal sealed class DirectorySelectorMenu
 {
     private readonly SelectorNameConverter _converter;
@@ -24,34 +25,33 @@ internal sealed class DirectorySelectorMenu
         SelectionPrompt<string> selector = new()
         {
             Converter = _converter.Convert,
-            Title = string.Format(Resources.MenuTitle, DisplayPath(CurrentPath)),
+            Title = string.Format(TextResources.MenuTitle, DisplayPath(CurrentPath)),
             WrapAround = true,
             PageSize = Console.WindowHeight - 4,
             Mode = SelectionMode.Leaf,
         };
-        selector.AddChoiceGroup(Resources.GroupSpecials, GetSpecialItems());
+        selector.AddChoiceGroup(TextResources.GroupSpecials, GetSpecialItems());
         if (items.Any())
         {
-            selector.AddChoiceGroup(Resources.GroupDirectories, items);
+            selector.AddChoiceGroup(TextResources.GroupDirectories, items);
         }
         return selector;
     }
 
     private static IEnumerable<string> GetSpecialItems()
     {
-        yield return nameof(Resources._MenuSelectorCurrentDir_10);
-        yield return nameof(Resources._MenuSelectorUpOneDir_20);
-        yield return nameof(Resources._MenuSelectorRootDir_30);
-        yield return nameof(Resources._MenuSelectorHomeDir_35);
-        yield return nameof(Resources._MenuSelectorKnownDirs_40);
+        yield return nameof(TextResources._MenuSelectorCurrentDir_10);
+        yield return nameof(TextResources._MenuSelectorUpOneDir_20);
+        yield return nameof(TextResources._MenuSelectorRootDir_30);
+        yield return nameof(TextResources._MenuSelectorHomeDir_35);
+        yield return nameof(TextResources._MenuSelectorKnownDirs_40);
     }
-
 
     private static string DisplayPath(string currentPath)
     {
         return currentPath switch
         {
-            nameof(Resources._MenuSelectorRootDir_30) => Resources.PathNameRootDir,
+            nameof(TextResources._MenuSelectorRootDir_30) => TextResources.PathNameRootDir,
             _ => currentPath,
         };
     }

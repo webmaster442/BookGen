@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ namespace BookGen.DomainServices.Markdown.Modifiers
 
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
-            // Method intentionally left empty.
+            PipelineHelpers.SetupSyntaxRenderForWeb(renderer);
         }
 
         private static bool IsOffHostLink(LinkInline link, IReadonlyRuntimeSettings RuntimeConfig)

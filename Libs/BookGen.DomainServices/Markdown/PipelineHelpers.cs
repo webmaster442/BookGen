@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ namespace BookGen.DomainServices.Markdown
             document.Insert(0, block);
         }
 
-        public static void SetupSyntaxRender(IMarkdownRenderer renderer, JavaScriptInterop interop)
+        public static void SetupSyntaxRenderForPreRender(IMarkdownRenderer renderer, JavaScriptInterop interop)
         {
             ArgumentNullException.ThrowIfNull(renderer);
 
@@ -43,6 +43,19 @@ namespace BookGen.DomainServices.Markdown
             {
                 htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
                 htmlRenderer.ObjectRenderers.AddIfNotAlready(new Renderers.SyntaxRenderer(originalCodeBlockRenderer, interop));
+            }
+        }
+
+        public static void SetupSyntaxRenderForWeb(IMarkdownRenderer renderer)
+        {
+            ArgumentNullException.ThrowIfNull(renderer);
+
+            if (renderer is not TextRendererBase<HtmlRenderer> htmlRenderer) return;
+            CodeBlockRenderer? originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
+            if (originalCodeBlockRenderer != null)
+            {
+                htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new Renderers.TerminalOutputSyntaxRenderer(originalCodeBlockRenderer));
             }
         }
 

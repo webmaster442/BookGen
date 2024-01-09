@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,11 +10,13 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <Version>$([System.DateTime]::UtcNow.ToString("yyyy")).$([System.DateTime]::UtcNow.ToString("MM")).$([System.DateTime]::UtcNow.ToString("dd")).0</Version>
-    <AssemblyVersion>$([System.DateTime]::UtcNow.ToString("yyyy")).$([System.DateTime]::UtcNow.ToString("MM")).$([System.DateTime]::UtcNow.ToString("dd")).0</AssemblyVersion>
-    <FileVersion>$([System.DateTime]::UtcNow.ToString("yyyy")).$([System.DateTime]::UtcNow.ToString("MM")).$([System.DateTime]::UtcNow.ToString("dd")).0</FileVersion>
-  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libs\BookGen.DomainServices\BookGen.DomainServices.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.Cli\BookGen.Cli.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.Gui\BookGen.Gui.csproj" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Spectre.Console" Version="0.48.0" />
@@ -24,9 +26,11 @@
     </PackageReference>
   </ItemGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\BookGen.Cli\BookGen.Cli.csproj" />
+    <Folder Include="Cdg\" />
   </ItemGroup>
+
 
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -36,11 +40,19 @@
     </Compile>
   </ItemGroup>
 
+
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Update="WwwConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

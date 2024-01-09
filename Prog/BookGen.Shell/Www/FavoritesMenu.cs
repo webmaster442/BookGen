@@ -7,21 +7,19 @@ using BookGen.Domain.Www;
 
 using Spectre.Console;
 
-namespace Www;
+namespace BookGen.Shell.Www;
 
-internal sealed class MainMenu
+internal sealed class FavoritesMenu
 {
     private readonly Dictionary<string, string> _favorites;
-    private readonly WwwBang[] _bangs;
     private const string Exit = "Exit";
 
-    public MainMenu(WwwUrl[] favorites, WwwBang[] bangs)
+    public FavoritesMenu(WwwUrl[] favorites)
     {
         _favorites = favorites.ToDictionary(x => x.Value, x => x.Href);
-        _bangs = bangs;
     }
 
-    public async Task Run(IAnsiConsole console, Action<string> openUrl)
+    public async Task Run(IAnsiConsole console, Action<string> urlOpenAction)
     {
         while (true)
         {
@@ -33,7 +31,7 @@ internal sealed class MainMenu
                 break;
             }
             string url = _favorites[selected];
-            openUrl.Invoke(url);
+            urlOpenAction.Invoke(url);
         }
     }
 
