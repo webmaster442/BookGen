@@ -49,7 +49,9 @@ internal class TagsCommand : Command<TagsArguments>
 
             PrintStats(_log, tagUtils);
 
-            SerializeTagCollection(arguments.Directory, _log, tagUtils.TagCollection.OrderBy(x => x.Key).ToDictionary());
+            var procectFiles = loader.Toc.Files.ToArray();
+
+            SerializeTagCollection(arguments.Directory, _log, tagUtils.TagCollection.OrderBy(x => Array.IndexOf(procectFiles, x)).ToDictionary());
 
             _log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
 
