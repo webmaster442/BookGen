@@ -10,16 +10,6 @@ namespace BookGen.Native.Windows;
 public sealed partial class Kernel32
 {
     [LibraryImport("kernel32.dll", SetLastError = true)]
-    internal static partial IntPtr GlobalLock(IntPtr hMem);
-
-    [LibraryImport("kernel32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    internal static partial bool GlobalUnlock(IntPtr hMem);
-
-    [LibraryImport("Kernel32.dll", SetLastError = true)]
-    internal static partial int GlobalSize(IntPtr hMem);
-
-    [LibraryImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, ref IntPtr lpBuffer, IntPtr dwSize, IntPtr lpNumberOfBytesRead);
 
