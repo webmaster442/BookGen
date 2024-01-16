@@ -22,6 +22,7 @@ internal sealed class TocBlockParser : BlockParser, IAttributesParseable
     }
 
     const string TOC = "[toc]";
+
     public override BlockState TryOpen(BlockProcessor processor)
     {
         if (processor.IsCodeIndent)
