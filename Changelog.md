@@ -1,4 +1,4 @@
-# 2023
+# 2024. 01. 09
 * New: Based on .NET 8
 * New: Linux install script
 * New: Windows builds with bootstappers
@@ -30,6 +30,7 @@
 * Fix: HTML Tidy speed greatly improved and encoding issues are fixed
 * Fix: Initializer adapted to new folder structure
 * Fix: Fixed a possible crash in init, when using Windows Terminal
+* Fix: HTMTidy runtime speed improved & made more robust
 
 # 2023. 05. 06
 * New: GUI has been reworked. Instead of Terminal.GUI Spectre.Console is used

@@ -19,6 +19,7 @@ LicenseFile=licence.rtf
 SolidCompression=yes
 InternalCompressLevel=max
 PrivilegesRequired=lowest
+WizardStyle=modern
 PrivilegesRequiredOverridesAllowed=dialog commandline
 UsePreviousPrivileges=false
 
