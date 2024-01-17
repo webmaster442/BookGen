@@ -21,7 +21,7 @@ internal sealed class TocBlockParser : BlockParser, IAttributesParseable
         OpeningCharacters = new[] { '[' };
     }
 
-    const string TOC = "[toc]";
+    const string TOC = "[[toc]]";
 
     public override BlockState TryOpen(BlockProcessor processor)
     {

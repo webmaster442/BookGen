@@ -1,9 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020 Ruzsinszki Gábor
+// (c) 2020-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.DomainServices.Markdown.Modifiers;
+using BookGen.DomainServices.Markdown.TableOfContents;
 using BookGen.Interfaces;
 using Markdig;
 
@@ -13,32 +14,53 @@ namespace BookGen.DomainServices.Markdown
     {
         public static MarkdownPipeline Web
         {
-            get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<WebModifier>().Build();
+            get => new MarkdownPipelineBuilder()
+                .UseAdvancedExtensions()
+                .UseTableOfContents()
+                .Use<WebModifier>()
+                .Build();
         }
 
         public static MarkdownPipeline Print
         {
-            get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PrintModifier>().Build();
+            get => new MarkdownPipelineBuilder()
+                .UseAdvancedExtensions()
+                .UseTableOfContents()
+                .Use<PrintModifier>()
+                .Build();
         }
 
         public static MarkdownPipeline Plain
         {
-            get => new MarkdownPipelineBuilder().Build();
+            get => new MarkdownPipelineBuilder()
+                .Build();
         }
 
         public static MarkdownPipeline Epub
         {
-            get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<EpubModifier>().Build();
+            get => new MarkdownPipelineBuilder()
+                .UseAdvancedExtensions()
+                .UseTableOfContents()
+                .Use<EpubModifier>()
+                .Build();
         }
 
         public static MarkdownPipeline Preview
         {
-            get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<PreviewModifier>().Build();
+            get => new MarkdownPipelineBuilder()
+                .UseAdvancedExtensions()
+                .UseTableOfContents()
+                .Use<PreviewModifier>()
+                .Build();
         }
 
         public static MarkdownPipeline Wordpress
         {
-            get => new MarkdownPipelineBuilder().UseAdvancedExtensions().Use<WordpressModifier>().Build();
+            get => new MarkdownPipelineBuilder()
+                .UseAdvancedExtensions()
+                .UseTableOfContents()
+                .Use<WordpressModifier>()
+                .Build();
         }
 
         public MarkdownPipeline? MarkdownPipeline { get; private set; }
