@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -188,7 +188,7 @@ public sealed class CommandRunner
             if (argumentType == null)
                 return await command.Execute(new EmptyArgs(), argsToParse);
 
-            ArgumentParser parser = new(argumentType);
+            ArgumentParser parser = new(argumentType, _log);
 
             var filled = parser.Fill(argsToParse);
             var validationResult = filled.Validate();

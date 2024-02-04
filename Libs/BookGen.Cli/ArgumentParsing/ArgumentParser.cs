@@ -1,10 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Reflection;
 
+using BookGen.Api;
 using BookGen.Cli.Annotations;
 
 namespace BookGen.Cli.ArgumentParsing;
@@ -13,16 +14,18 @@ internal class ArgumentParser
 {
     private readonly PropertyInfo[] _properities;
     private readonly Type _argumentType;
+    private readonly ILog _log;
 
-    public ArgumentParser(Type argumentType)
+    public ArgumentParser(Type argumentType, ILog log)
     {
         _properities = argumentType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         _argumentType = argumentType;
+        _log = log;
     }
 
     public ArgumentsBase Fill(IReadOnlyList<string> args)
     {
-        var arguments = Activator.CreateInstance(_argumentType)
+        var argumentsClass = Activator.CreateInstance(_argumentType)
             ?? throw new InvalidOperationException();
 
         var argBag = new ArgumentBag(args);
@@ -39,14 +42,14 @@ internal class ArgumentParser
             {
                 if (property.PropertyType == typeof(bool))
                 {
-                    property.SetValue(arguments, argBag.GetSwitch(switchAttribute));
+                    property.SetValue(argumentsClass, argBag.GetSwitch(switchAttribute));
                 }
                 else
                 {
                     var value = ValueConverter.Convert(argBag.GetSwitchValue(switchAttribute), property.PropertyType);
                     if (value != null)
                     {
-                        property.SetValue(arguments, value);
+                        property.SetValue(argumentsClass, value);
                     }
                 }
             }
@@ -63,11 +66,15 @@ internal class ArgumentParser
                 }
 
                 var value = ValueConverter.Convert(argumentValue, property.PropertyType);
-                property.SetValue(arguments, value);
+                property.SetValue(argumentsClass, value);
             }
 
         }
 
-        return (ArgumentsBase)arguments;
+        var notProcessesd = string.Join(' ', argBag.GetNotProcessed());
+        if (!string.IsNullOrEmpty(notProcessesd))
+            _log.Warning("Not processed arguments: {0}", notProcessesd);
+
+        return (ArgumentsBase)argumentsClass;
     }
 }

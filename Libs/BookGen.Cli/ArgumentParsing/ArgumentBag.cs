@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -77,9 +77,22 @@ internal sealed class ArgumentBag : IEnumerable<string>
             }
             if (notNullIndex == argument.Index)
             {
-                return _arguments[i];
+                string? returnValue = _arguments[i];
+                _arguments[i] = null;
+                return returnValue;
             }
         }
         return null;
+    }
+
+    public IEnumerable<string> GetNotProcessed()
+    {
+        foreach (var item in _arguments)
+        {
+            if (item != null)
+            {
+                yield return item;
+            }
+        }
     }
 }
