@@ -26,21 +26,16 @@ namespace BookGen.Interfaces
 
             string? combined = Path.Combine(pathParts);
 
-            if (combined.Contains('/') && combined.Contains('\\'))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                || RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+                && combined.Contains('\\'))
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
-                    || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    _path = combined.Replace("\\", "/");
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    _path = combined.Replace("/", "\\");
-                }
-                else
-                {
-                    _path = combined;
-                }
+                _path = combined.Replace("\\", "/");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                && combined.Contains('/'))
+            {
+                _path = combined.Replace("/", "\\");
             }
             else
             {

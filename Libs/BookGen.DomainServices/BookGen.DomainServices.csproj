@@ -21,7 +21,7 @@
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.7" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.7" />
     <PackageReference Include="Svg.Skia" Version="1.0.0.13" />
-    <PackageReference Include="YamlDotNet" Version="13.7.1" />
+    <PackageReference Include="YamlDotNet" Version="15.1.0" />
   </ItemGroup>
 
   <ItemGroup>

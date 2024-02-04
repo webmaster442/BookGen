@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -460,7 +461,16 @@ namespace BookGen.DomainServices
                 }
 
                 var pathUri = new Uri(new Uri(folder), filespec);
-                return new FsPath(pathUri.ToString().Replace("file:///", "").Replace("/", "\\"));
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                    || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    return new FsPath(pathUri.ToString().Replace("file://", ""));
+                }
+                else
+                {
+                    return new FsPath(pathUri.ToString().Replace("file:///", ""));
+                }
             }
             catch (UriFormatException)
             {
