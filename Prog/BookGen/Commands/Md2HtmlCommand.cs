@@ -1,9 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.CommandArguments;
+using BookGen.Domain.Epub;
 using BookGen.DomainServices.Markdown;
 using BookGen.Resources;
 
@@ -38,6 +39,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
         using var pipeline = new BookGenPipeline(BookGenPipeline.Preview);
         pipeline.InjectPath(arguments.InputFile.GetDirectory());
         pipeline.SetSyntaxHighlightTo(!arguments.NoSyntax);
+        pipeline.SetSvgPasstroughTo(arguments.SvgPassthrough);
 
         string? mdcontent = pipeline.RenderMarkdown(md);
 
@@ -48,7 +50,8 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
         }
         else
         {
-            rendered = pageTemplate.Replace("<!--{css}-->", cssForInline);
+            rendered = pageTemplate.Replace("<!--{title}-->", arguments.Title);
+            rendered = rendered.Replace("<!--{css}-->", cssForInline);
             rendered = rendered.Replace("<!--{content}-->", mdcontent);
         }
 

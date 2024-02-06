@@ -109,6 +109,19 @@ namespace BookGen.DomainServices.Markdown
             }
         }
 
+        public void SetSvgPasstroughTo(bool svgPasstrough)
+        {
+            if (MarkdownPipeline == null) return;
+
+            foreach (IMarkdownExtension? extension in MarkdownPipeline.Extensions)
+            {
+                if (extension is IMarkdownExtensionWithSvgPassthoughToggle toggle)
+                {
+                    toggle.SvgPasstrough = svgPasstrough;
+                }
+            }
+        }
+
         /// <summary>
         /// Generate Markdown to html
         /// </summary>

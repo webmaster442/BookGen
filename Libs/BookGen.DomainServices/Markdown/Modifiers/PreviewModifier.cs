@@ -14,7 +14,11 @@ using Svg.Skia;
 
 namespace BookGen.DomainServices.Markdown.Modifiers
 {
-    internal sealed class PreviewModifier : IMarkdownExtensionWithPath, IMarkdownExtensionWithSyntaxToggle, IDisposable
+    internal sealed class PreviewModifier :
+        IMarkdownExtensionWithPath, 
+        IMarkdownExtensionWithSyntaxToggle,
+        IMarkdownExtensionWithSvgPassthoughToggle,
+        IDisposable
     {
         private MarkdownPipelineBuilder? _pipeline;
         private JavaScriptInterop? _interop;
@@ -32,6 +36,8 @@ namespace BookGen.DomainServices.Markdown.Modifiers
             get { return SyntaxRenderer.Enabled; }
             set { SyntaxRenderer.Enabled = value; }
         }
+
+        public bool SvgPasstrough { get; set; }
 
         public void Dispose()
         {
@@ -72,12 +78,12 @@ namespace BookGen.DomainServices.Markdown.Modifiers
                     && link.IsImage
                     && !string.IsNullOrEmpty(link.Url))
                 {
-                    link.Url = Base64EncodeIfLocal(link.Url);
+                    link.Url = InlineImageIfLocal(link.Url);
                 }
             }
         }
 
-        private string Base64EncodeIfLocal(string url)
+        private string InlineImageIfLocal(string url)
         {
             if (url.StartsWith("https://") || url.StartsWith("http://"))
                 return url;
@@ -98,8 +104,12 @@ namespace BookGen.DomainServices.Markdown.Modifiers
                 return string.Empty;
             }
 
-            byte[] data = CompressWebp(inlinePath);
+            if (SvgPasstrough)
+            {
+                return File.ReadAllText(inlinePath.ToString());
+            }
 
+            byte[] data = CompressWebp(inlinePath);
             return $"data:image/webp;base64,{Convert.ToBase64String(data)}";
 
         }

@@ -242,6 +242,15 @@ Arguments:
     Optional argument. Disables full html generation, only outputs
     the html produced by the markdown formatting.
 
+-t, --title
+    Optional argument. Specifies the rendered HTML page title.
+    Only has affect, when -r or --raw is not specified.
+
+-s, --svg
+    Enables SVG Passthrough. When enabled SVG files will be
+    embedded in resulting html, instead of being rendered to
+    webp.
+
 # MdTable
 
 Converts a CSV or Spreadsheet cell range to a markdown table
