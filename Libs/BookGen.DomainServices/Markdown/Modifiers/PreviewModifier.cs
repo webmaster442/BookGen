@@ -65,6 +65,7 @@ namespace BookGen.DomainServices.Markdown.Modifiers
                 throw new InvalidOperationException();
 
             PipelineHelpers.SetupSyntaxRenderForPreRender(renderer, _interop);
+            PipelineHelpers.SetupLinkInlineRendererWithSvgSupport(renderer);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)

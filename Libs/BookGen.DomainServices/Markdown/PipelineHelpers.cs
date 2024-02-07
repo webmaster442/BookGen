@@ -3,14 +3,18 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Interfaces.Configuration;
+using System.Text;
+
+using BookGen.DomainServices.Markdown.Renderers;
 using BookGen.Interfaces;
+using BookGen.Interfaces.Configuration;
+
 using Markdig.Parsers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
+using Markdig.Renderers.Html.Inlines;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using System.Text;
 
 namespace BookGen.DomainServices.Markdown
 {
@@ -32,10 +36,20 @@ namespace BookGen.DomainServices.Markdown
             document.Insert(0, block);
         }
 
+        public static void SetupLinkInlineRendererWithSvgSupport(IMarkdownRenderer renderer)
+        {
+            if (renderer is not TextRendererBase<HtmlRenderer> htmlRenderer) return;
+
+            var original = htmlRenderer.ObjectRenderers.FindExact<LinkInlineRenderer>();
+            if (original != null)
+            {
+                htmlRenderer.ObjectRenderers.Remove(original);
+                htmlRenderer.ObjectRenderers.Add(new LinkInlineRendererWithSvgSupport());
+            }
+        }
+
         public static void SetupSyntaxRenderForPreRender(IMarkdownRenderer renderer, JavaScriptInterop interop)
         {
-            ArgumentNullException.ThrowIfNull(renderer);
-
             if (renderer is not TextRendererBase<HtmlRenderer> htmlRenderer) return;
 
             CodeBlockRenderer? originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
@@ -48,8 +62,6 @@ namespace BookGen.DomainServices.Markdown
 
         public static void SetupSyntaxRenderForWeb(IMarkdownRenderer renderer)
         {
-            ArgumentNullException.ThrowIfNull(renderer);
-
             if (renderer is not TextRendererBase<HtmlRenderer> htmlRenderer) return;
             CodeBlockRenderer? originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
             if (originalCodeBlockRenderer != null)
