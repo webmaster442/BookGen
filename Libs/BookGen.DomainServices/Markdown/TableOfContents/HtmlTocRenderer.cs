@@ -46,16 +46,19 @@ internal sealed class HtmlTocRenderer : HtmlObjectRenderer<TocBlock>
 
     private static void WriteTitle(HtmlRenderer renderer, TocBlock obj)
     {
+        if (obj.Inline?.Any() == false)
+            return;
+
         if (renderer.EnableHtmlForBlock)
         {
-            renderer.Write("<p>");
+            renderer.Write("<h1 class=\"toc-title\">");
         }
 
         renderer.WriteLeafInline(obj);
 
         if (renderer.EnableHtmlForBlock)
         {
-            renderer.Write("</p>");
+            renderer.Write("</h1>");
         }
     }
 }
