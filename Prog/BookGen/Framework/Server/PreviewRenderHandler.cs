@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2023 Ruzsinszki Gábor
+// (c) 2021-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -28,11 +28,11 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
         _log = log;
         _indexBuilder = new(directory);
 
-        _processor = new TemplateProcessor(new Config(),
-                         new ShortCodeParser(new List<ITemplateShortCode>(),
-                                             new Translations(),
-                                             _log),
-                         new StaticTemplateContent());
+        _processor = new TemplateProcessor(new ShortCodeParser(new List<ITemplateShortCode>(),
+                                                               new Translations(),
+                                                               _log),
+                                           new Config(),
+                                           new StaticTemplateContent());
 
         _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.PreviewHtml);
         _mdpipeline = new BookGenPipeline(BookGenPipeline.Preview);

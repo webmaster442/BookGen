@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2020 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -20,16 +20,16 @@ internal sealed class TemplateProcessor : ITemplateProcessor
         "toc", "title", "content", "host", "metadata", "precompiledheader",
     ];
 
-    public TemplateProcessor(Config cfg, ShortCodeParser shortCodeParser, StaticTemplateContent? staticContent = null)
+    public TemplateProcessor(ShortCodeParser shortCodeParser, Config cfg, StaticTemplateContent? staticContent = null)
     {
         _table = new Dictionary<string, string>
         {
-            { "toc",  staticContent == null ? string.Empty : staticContent.TableOfContents },
-            { "title", staticContent == null ? string.Empty : staticContent.Title },
-            { "content", staticContent == null ? string.Empty : staticContent.Content },
-            { "host", cfg.HostName },
-            { "metadata", staticContent == null ? string.Empty : staticContent.Metadata },
-            { "precompiledheader", staticContent == null ? string.Empty : staticContent.PrecompiledHeader }
+            { "toc",  staticContent != null ? staticContent.TableOfContents : string.Empty },
+            { "title", staticContent != null ? staticContent.Title : string.Empty },
+            { "content", staticContent != null ? staticContent.Content : string.Empty },
+            { "host", cfg != null ? cfg.HostName : string.Empty },
+            { "metadata", staticContent != null ? staticContent.Metadata : string.Empty },
+            { "precompiledheader", staticContent != null ? staticContent.PrecompiledHeader : string.Empty }
         };
         TemplateContent = string.Empty;
         _parser = shortCodeParser;

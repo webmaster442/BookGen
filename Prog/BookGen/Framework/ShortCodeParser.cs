@@ -122,7 +122,7 @@ internal sealed partial class ShortCodeParser
         //input string will be in following format: "Assets/bootstrap.min.css"}-->
         if (input.StartsWith('"') && input.EndsWith("\"}-->"))
         {
-            //need to retgurn only: Assets/bootstrap.min.css
+            //need to return only: Assets/bootstrap.min.css
             return input.Substring(1, input.Length - (ShortCodeEnd.Length + 2));
         }
         return input;

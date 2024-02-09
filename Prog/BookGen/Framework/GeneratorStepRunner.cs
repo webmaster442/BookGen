@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -52,10 +52,10 @@ internal abstract class GeneratorStepRunner : IDisposable
 
     private TemplateProcessor CreateTemplateProcessor()
     {
-        return new TemplateProcessor(Settings.Configuration,
-                                     new ShortCodeParser(_loader.Imports,
+        return new TemplateProcessor(new ShortCodeParser(_loader.Imports,
                                                          Settings.Configuration.Translations,
                                                          _log),
+                                     Settings.Configuration,
                                      _staticContent);
     }
 
