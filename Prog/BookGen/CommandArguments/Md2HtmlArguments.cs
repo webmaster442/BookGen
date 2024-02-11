@@ -10,6 +10,9 @@ internal sealed class Md2HtmlArguments : InputOutputArguments
     [Switch("c", "css")]
     public FsPath Css { get; set; }
 
+    [Switch("tf", "template")]
+    public FsPath Template { get; set; }
+
     [Switch("ns", "no-syntax")]
     public bool NoSyntax { get; set; }
 
@@ -26,12 +29,20 @@ internal sealed class Md2HtmlArguments : InputOutputArguments
     public Md2HtmlArguments()
     {
         Css = FsPath.Empty;
+        Template = FsPath.Empty;
         Title = "Markdown document";
     }
 
     public override ValidationResult Validate()
     {
         ValidationResult result = new();
+
+        if (Template != FsPath.Empty)
+        {
+            if (!Template.IsExisting)
+                result.AddIssue("Template file doesn't exist");
+        }
+
         if (Css != FsPath.Empty)
         {
             if (!Css.IsExisting)

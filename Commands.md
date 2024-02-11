@@ -251,6 +251,13 @@ Arguments:
     embedded in resulting html, instead of being rendered to
     webp.
 
+-tf, --template
+    Specify a template html file. The file must contain the folloing
+    tags:
+    `<!--{title}-->` - For document title
+    `<!--{css}-->` - For css contents
+    `<!--{content}-->` - For document content
+
 # MdTable
 
 Converts a CSV or Spreadsheet cell range to a markdown table
