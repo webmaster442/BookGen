@@ -19,6 +19,9 @@ internal sealed class Md2HtmlArguments : InputOutputArguments
     [Switch("r", "raw")]
     public bool RawHtml { get; set; }
 
+    [Switch("nc", "no-css")]
+    public bool NoCss { get; set; }
+
     [Switch("s", "svg")]
     public bool SvgPassthrough { get; set; }
 

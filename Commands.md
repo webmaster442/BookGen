@@ -233,7 +233,11 @@ Arguments:
     Output html file path. If file name is "con", outputs to console.
 
 -c. --css:
-    Optional argument. Specifies the css file to be aplied to the html
+    Optional argument. Specifies the css file to be aplied to the html.
+    If not specified built in styles get aplied.
+
+-nc, --no-css
+    Optional argument. If specified, built in styles don't get aplied.
 
 -ns, --no-syntax
     Optional argument. Disables syntax highlight

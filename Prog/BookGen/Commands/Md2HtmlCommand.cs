@@ -38,8 +38,8 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
         if (!ValidateTemplate(pageTemplate))
             return Constants.GeneralError;
 
-        string cssForInline = string.Empty;
-        if (FsPath.IsEmptyPath(arguments.Css))
+        string cssForInline = "/*no inline css was specified*/";
+        if (FsPath.IsEmptyPath(arguments.Css) && !arguments.NoCss)
             cssForInline = ResourceHandler.GetFile(KnownFile.SinglePageCss);
         else if (arguments.Css.IsExisting)
             cssForInline = arguments.Css.ReadFile(_log);
