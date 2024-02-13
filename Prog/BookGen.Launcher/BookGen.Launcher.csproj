@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\BookGen.DomainServices\BookGen.DomainServices.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.Settings\BookGen.Settings.csproj" />
   </ItemGroup>
 
 

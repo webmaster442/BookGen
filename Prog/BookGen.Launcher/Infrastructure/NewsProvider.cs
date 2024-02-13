@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using BookGen.Domain.Rss;
-using BookGen.Launcher.Properties;
 
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -32,10 +31,10 @@ internal sealed class NewsProvider
         if (NewsRss != null)
         {
             DateTime lastEntry = NewsRss.Channel.Item?.Max(x => !string.IsNullOrEmpty(x.PubDate) ? DateTime.Parse(x.PubDate) : DateTime.MinValue) ?? DateTime.MinValue;
-            if (lastEntry > Settings.Default.NewsLastSeen)
+            if (lastEntry > Properties.Settings.Default.NewsLastSeen)
             {
-                Settings.Default.NewsLastSeen = lastEntry;
-                Settings.Default.Save();
+                Properties.Settings.Default.NewsLastSeen = lastEntry;
+                Properties.Settings.Default.Save();
                 WeakReferenceMessenger.Default.Send(NewsRss.Channel.Item ?? Array.Empty<Item>());
             }
         }

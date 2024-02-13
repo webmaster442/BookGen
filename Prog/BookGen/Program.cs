@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ ProgramInfo info = new();
 
 var timeProvider = new TimeProviderImplementation();
 
-AppSetting settings = AppSettingHandler.LoadAppSettings() ?? new AppSetting();
+AppSetting settings = await AppSettingHandler.LoadAppSettingsAsync();
 var api = new ModuleApi(log, settings, info, timeProvider);
 
 SimpleIoC ioc = new();

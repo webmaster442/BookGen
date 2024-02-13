@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2023 Ruzsinszki Gábor
+// (c) 2021-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -35,9 +35,9 @@ internal abstract class ProcessCommandBase : CommandBase
     public override void Execute(object? parameter)
     {
         Execute(parameter as string);
-        if (Settings.Default.AutoExitLauncher)
+        if (Properties.Settings.Default.AutoExitLauncher)
         {
-            Settings.Default.Save();
+            Properties.Settings.Default.Save();
             Application.Current.Shutdown(0);
         }
     }

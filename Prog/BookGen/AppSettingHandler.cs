@@ -1,27 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2022 Ruzsinszki Gábor
+// (c) 2020-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Text.Json;
+using System.Threading;
+
+using BookGen.Settings;
+
 namespace BookGen;
 
 public static class AppSettingHandler
 {
-    public static AppSetting? LoadAppSettings()
-    {
-        string file = FileProvider.GetConfigFile();
-        if (File.Exists(file))
-        {
-            string? contents = File.ReadAllText(file);
-            return JsonSerializer.Deserialize<AppSetting>(contents);
-        }
-        else
-        {
-            return CreateDefaultSettings();
-        }
-    }
-
     private static AppSetting CreateDefaultSettings()
     {
         var defaults = new AppSetting
@@ -35,21 +24,21 @@ public static class AppSettingHandler
         return defaults;
     }
 
-    public static void SaveAppSettings(AppSetting appSetting)
+    public static async Task SaveAppSettingsAsync(AppSetting appSetting, CancellationToken cancellationToken = default)
     {
-        string file = FileProvider.GetConfigFile() + ".new";
+        SettingsManager manager = FileProvider.GetSettingsManager();
+        await manager.SerializeAsync(FileProvider.Keys.AppSettings, appSetting, cancellationToken);
+    }
 
-        string? contents = JsonSerializer.Serialize<AppSetting>(appSetting, new JsonSerializerOptions
-        {
-            WriteIndented = true
-        });
+    public static async Task<AppSetting> LoadAppSettingsAsync(CancellationToken cancellationToken = default)
+    {
+        SettingsManager manager = FileProvider.GetSettingsManager();
+        AppSetting? result = await manager.DeserializeAsync<AppSetting>(FileProvider.Keys.AppSettings, cancellationToken);
+        
+        if (result == null)
+            return CreateDefaultSettings();
 
-        using (StreamWriter? stream = File.CreateText(file))
-        {
-            stream.Write(contents);
-        }
-
-        File.Move(file, FileProvider.GetConfigFile(), true);
+        return result;
     }
 
 }

@@ -1,9 +1,7 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2022 Ruzsinszki Gábor
+// (c) 2021-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
-
-using BookGen.Launcher.Properties;
 
 namespace BookGen.Launcher.ViewModels;
 
@@ -11,22 +9,22 @@ internal sealed class SettingsViewModel : ObservableObject
 {
     public bool UseWindowsTerminal
     {
-        get => Settings.Default.UseWindowsTerminal;
+        get => Properties.Settings.Default.UseWindowsTerminal;
         set
         {
-            Settings.Default.UseWindowsTerminal = value;
-            Settings.Default.Save();
+            Properties.Settings.Default.UseWindowsTerminal = value;
+            Properties.Settings.Default.Save();
             OnPropertyChanged(nameof(UseWindowsTerminal));
         }
     }
 
     public bool AutoExitLauncher
     {
-        get => Settings.Default.AutoExitLauncher;
+        get => Properties.Settings.Default.AutoExitLauncher;
         set
         {
-            Settings.Default.AutoExitLauncher = value;
-            Settings.Default.Save();
+            Properties.Settings.Default.AutoExitLauncher = value;
+            Properties.Settings.Default.Save();
             OnPropertyChanged(nameof(AutoExitLauncher));
         }
     }

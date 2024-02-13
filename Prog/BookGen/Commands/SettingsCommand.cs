@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@ using System.Reflection;
 namespace BookGen.Commands;
 
 [CommandName("settings")]
-internal class SettingsCommand : Command
+internal class SettingsCommand : AsyncCommand
 {
     private readonly Dictionary<string, Type> _knownsettings;
     private readonly AppSetting _settings;
@@ -28,7 +28,7 @@ internal class SettingsCommand : Command
         _knownsettings = FillKnownSettings();
     }
 
-    public override int Execute(string[] context)
+    public override async Task<int> Execute(string[] context)
     {
         if (context.Length < 1) return Constants.ArgumentsError;
 
@@ -46,7 +46,7 @@ internal class SettingsCommand : Command
         else if (string.Equals(context[0], "set", StringComparison.OrdinalIgnoreCase)
                  && context.Length == 3)
         {
-            SetSetting(context[1], context[2]);
+            await SetSetting(context[1], context[2]);
             return Constants.Succes;
         }
 
@@ -88,7 +88,7 @@ internal class SettingsCommand : Command
         }
     }
 
-    private void SetSetting(string setting, string value)
+    private async Task SetSetting(string setting, string value)
     {
         PropertyInfo? prop = GetProperty(setting);
         if (prop != null)
@@ -97,12 +97,12 @@ internal class SettingsCommand : Command
             {
                 object? changed = Convert.ChangeType(value, prop.PropertyType);
                 prop.SetValue(_settings, changed);
+                await AppSettingHandler.SaveAppSettingsAsync(_settings);
             }
             catch (Exception)
             {
                 _log.Warning("Can't convert {0} to type {1}", value, prop.PropertyType);
             }
-            AppSettingHandler.SaveAppSettings(_settings);
         }
     }
 }

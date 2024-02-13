@@ -1,18 +1,16 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.DomainServices;
-using BookGen.Launcher.Infrastructure;
+using System.Threading.Tasks;
+
+using BookGen.Settings;
 
 namespace BookGen.Launcher.ViewModels;
 
 internal sealed partial class TodoViewModel : ObservableObject
 {
-    private readonly string _fileName;
-    private readonly string _tempName;
-
     private bool _isNewItem;
     private int _editedIndex;
 
@@ -34,24 +32,40 @@ internal sealed partial class TodoViewModel : ObservableObject
 
     public TodoViewModel()
     {
-        _tempName = FileProvider.GetLauncherTodoTempFile();
-        _fileName = FileProvider.GetLauncherTodoFile();
         _editorTitle = string.Empty;
         TodoItems = LoadList();
     }
 
     private BindingList<TodoItemModel> LoadList()
     {
-        if (FilleManagement.ReadJson(_fileName, out TodoItemModel[]? items))
+        var manager = FileProvider.GetSettingsManager();
+        try
         {
-            return new BindingList<TodoItemModel>(items);
+            TodoItemModel[]? items = manager.DeserializeAsync<TodoItemModel[]>(FileProvider.Keys.TodoItems).GetAwaiter().GetResult();
+            if (items != null)
+            {
+                return new BindingList<TodoItemModel>(items);
+            }
+            return new BindingList<TodoItemModel>();
         }
-        return new BindingList<TodoItemModel>();
+        catch (Exception ex)
+        {
+            Dialog.ShowMessageBox(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return new BindingList<TodoItemModel>();
+        }
     }
 
-    private void SaveList()
+    private async Task SaveList()
     {
-        FilleManagement.WriteJson(_tempName, _fileName, TodoItems);
+        var manager = FileProvider.GetSettingsManager();
+        try
+        {
+            await manager.SerializeAsync(FileProvider.Keys.TodoItems, TodoItems.ToArray());
+        }
+        catch (Exception ex)
+        {
+            Dialog.ShowMessageBox(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     private static bool CanDelete(TodoItemModel? todoItemModel)
@@ -66,13 +80,13 @@ internal sealed partial class TodoViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Check(TodoItemModel? todoItemModel)
+    private async Task Check(TodoItemModel? todoItemModel)
     {
         if (todoItemModel == null)
             return;
 
         todoItemModel.IsChecked = true;
-        SaveList();
+        await SaveList();
     }
 
     [RelayCommand]
@@ -113,7 +127,7 @@ internal sealed partial class TodoViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(CanEditorOk))]
-    private void EditorOk()
+    private async Task EditorOk()
     {
         if (_isNewItem)
         {
@@ -129,7 +143,7 @@ internal sealed partial class TodoViewModel : ObservableObject
             TodoItems[_editedIndex].Title = EditorTitle;
             TodoItems[_editedIndex].DueDate = EditorDate;
         }
-        SaveList();
+        await SaveList();
         EditorVisible = false;
     }
 

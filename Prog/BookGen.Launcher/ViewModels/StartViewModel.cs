@@ -1,13 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2022 Ruzsinszki Gábor
+// (c) 2021-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Diagnostics;
-using System.Text.Json;
+using System.Threading.Tasks;
 
-using BookGen.DomainServices;
-using BookGen.Launcher.Infrastructure;
+using BookGen.Settings;
 
 namespace BookGen.Launcher.ViewModels;
 
@@ -15,8 +13,6 @@ internal sealed partial class StartViewModel : ObservableObject
 {
     private List<string> _elements;
     private string _filter;
-    private readonly string _fileName;
-    private readonly string _tempName;
     private readonly IMainViewModel _mainViewModel;
 
     public string Version { get; }
@@ -28,8 +24,6 @@ internal sealed partial class StartViewModel : ObservableObject
         _mainViewModel = mainViewModel;
         _filter = string.Empty;
         _elements = new List<string>();
-        _tempName = FileProvider.GetLauncherTempFile();
-        _fileName = FileProvider.GetLauncherFile();
 
         View = new BindingList<ItemViewModel>();
         Version = GetVersion();
@@ -39,20 +33,32 @@ internal sealed partial class StartViewModel : ObservableObject
 
     private void LoadFolderList()
     {
-        if (FilleManagement.ReadJson<string[]>(_fileName, out string[]? deserialized))
+        try
         {
-            _elements = new List<string>(deserialized);
-        }
+            var manager = FileProvider.GetSettingsManager();
+            var deserialized = manager.DeserializeAsync<string[]>(FileProvider.Keys.Launcher).GetAwaiter().GetResult();
+            if (deserialized == null)
+            {
+                _elements = new List<string>();
+            }
+            else
+            {
+                _elements = new List<string>(deserialized);
+            }
+            string[] arguments = Environment.GetCommandLineArgs();
+            if (arguments.Length == 2
+                && Directory.Exists(arguments[1]))
+            {
+                _elements.Add(arguments[1]);
+            }
 
-        string[] arguments = Environment.GetCommandLineArgs();
-        if (arguments.Length == 2
-            && Directory.Exists(arguments[1]))
+            App.UpdateJumplist(_elements);
+            ApplyFilter();
+        }
+        catch (Exception ex)
         {
-            _elements.Add(arguments[1]);
+            Dialog.ShowMessageBox(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
-        App.UpdateJumplist(_elements);
-        ApplyFilter();
     }
 
     public string Filter
@@ -71,10 +77,18 @@ internal sealed partial class StartViewModel : ObservableObject
 
     public bool IsEmpty => View.Count < 1;
 
-    public void SaveFolders()
+    private async Task SaveFolders()
     {
-        FilleManagement.WriteJson(_tempName, _fileName, _elements);
-        App.UpdateJumplist(_elements);
+        try
+        {
+            var manager = FileProvider.GetSettingsManager();
+            await manager.SerializeAsync<List<string>>(FileProvider.Keys.Launcher, _elements);
+            App.UpdateJumplist(_elements);
+        }
+        catch (Exception ex)
+        {
+            Dialog.ShowMessageBox(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     private void ApplyFilter()
@@ -114,7 +128,7 @@ internal sealed partial class StartViewModel : ObservableObject
 
 
     [RelayCommand]
-    private void OpenFolder(string? obj)
+    private async Task OpenFolder(string? obj)
     {
         if (Dialog.TryselectFolderDialog(out string selected))
         {
@@ -128,12 +142,12 @@ internal sealed partial class StartViewModel : ObservableObject
                 _elements.Insert(0, selected);
             }
             ApplyFilter();
-            SaveFolders();
+            await SaveFolders();
         }
     }
 
     [RelayCommand]
-    private void ClearFolders()
+    private async Task ClearFolders()
     {
         if (Dialog.ShowMessageBox(Properties.Resources.ClearRecentList,
                               Properties.Resources.Question,
@@ -142,12 +156,12 @@ internal sealed partial class StartViewModel : ObservableObject
         {
             _elements.Clear();
             ApplyFilter();
-            SaveFolders();
+            await SaveFolders();
         }
     }
 
     [RelayCommand]
-    private void RemoveFolder(string? obj)
+    private async Task RemoveFolder(string? obj)
     {
         if (obj is string folder)
         {
@@ -161,7 +175,7 @@ internal sealed partial class StartViewModel : ObservableObject
             {
                 _elements.Remove(folder);
                 ApplyFilter();
-                SaveFolders();
+                await SaveFolders();
             }
         }
     }
