@@ -4,13 +4,15 @@
 // Based on work of Alexandre Mutel. https://github.com/leisn/MarkdigToc
 //-----------------------------------------------------------------------------
 
+using System.Text.RegularExpressions;
+
 using Markdig.Helpers;
 using Markdig.Parsers;
 using Markdig.Syntax;
 
 namespace BookGen.DomainServices.Markdown.TableOfContents;
 
-internal sealed class TocBlockParser : BlockParser, IAttributesParseable
+internal sealed partial class TocBlockParser : BlockParser, IAttributesParseable
 {
     public TocState Options { get; }
     public TryParseAttributesDelegate? TryParseAttributes { get; set; }
@@ -21,22 +23,39 @@ internal sealed class TocBlockParser : BlockParser, IAttributesParseable
         OpeningCharacters = new[] { '[' };
     }
 
-    const string TOC = "[[toc]]";
+    [GeneratedRegex("^(\\[toc\\])|(\\[toc maxlevel=\\\"\\d+\\\"\\])$")]
+    private static partial Regex TocTagMatcher();
+
+    [GeneratedRegex("\\[toc maxlevel=\\\"(\\d+)\\\"\\]")]
+    private static partial Regex MaxLevelMatcher();
 
     public override BlockState TryOpen(BlockProcessor processor)
     {
         if (processor.IsCodeIndent)
             return BlockState.None;
-        var line = processor.Line;
-        var column = processor.Column;
-        var sourcePosition = line.Start;
 
-        var match = line.MatchLowercase(TOC);
-        if (!match)
+        StringSlice line = processor.Line;
+        int column = processor.Column;
+        int sourcePosition = line.Start;
+
+        var matches = TocTagMatcher().Matches(line.ToString());
+
+        if (matches.Count < 1)
             return BlockState.None;
 
+        int tagLength = matches.Select(x => x.Value.Length).Sum();
+
+        var maxLevelMathes = MaxLevelMatcher().Matches(line.ToString());
+        if (maxLevelMathes.Count > 0)
+        {
+            if (int.TryParse(MaxLevelMatcher().Replace(line.ToString(), "$1"), out int maxLevel))
+            {
+                Options.MaxLevel = maxLevel;
+            }
+        }
+
         var c = line.CurrentChar;
-        for (int i = 0; i < TOC.Length; i++)
+        for (int i = 0; i < tagLength; i++)
             c = processor.NextChar();
 
         StringSlice trivia = StringSlice.Empty;
@@ -60,7 +79,7 @@ internal sealed class TocBlockParser : BlockParser, IAttributesParseable
         processor.NewBlocks.Push(block);
         if (!processor.TrackTrivia)
         {
-            processor.GoToColumn(column + TOC.Length + 1);
+            processor.GoToColumn(column + tagLength + 1);
         }
         TryParseAttributes?.Invoke(processor, ref processor.Line, block);
 

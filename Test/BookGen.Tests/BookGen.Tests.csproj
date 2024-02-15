@@ -46,6 +46,12 @@
     <None Update="Environment\full.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Environment\normal-limited.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Environment\normal-limited.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Environment\normal-with-title.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

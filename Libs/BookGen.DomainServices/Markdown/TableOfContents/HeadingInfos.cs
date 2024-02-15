@@ -37,6 +37,9 @@ internal sealed class HeadingInfos : LevelList<HeadingInfos>
 
         foreach (var item in Children)
         {
+            if (item.Level > options.MaxLevel)
+                continue;
+
             renderer.WriteLine("<li>");
 
             if (!item.IsLocator)

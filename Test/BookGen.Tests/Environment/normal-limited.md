@@ -1,4 +1,4 @@
-[toc]
+[toc maxlevel="2"]
 
 # t1
 
