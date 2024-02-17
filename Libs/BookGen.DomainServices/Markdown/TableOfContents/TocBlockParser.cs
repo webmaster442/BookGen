@@ -23,7 +23,7 @@ internal sealed partial class TocBlockParser : BlockParser, IAttributesParseable
         OpeningCharacters = new[] { '[' };
     }
 
-    [GeneratedRegex("^(\\[toc\\])|(\\[toc maxlevel=\\\"\\d+\\\"\\])$")]
+    [GeneratedRegex("^(\\[toc\\])|(\\[toc maxlevel=\\\"\\d+\\\"\\])")]
     private static partial Regex TocTagMatcher();
 
     [GeneratedRegex("\\[toc maxlevel=\\\"(\\d+)\\\"\\]")]
@@ -48,7 +48,7 @@ internal sealed partial class TocBlockParser : BlockParser, IAttributesParseable
         var maxLevelMathes = MaxLevelMatcher().Matches(line.ToString());
         if (maxLevelMathes.Count > 0)
         {
-            if (int.TryParse(MaxLevelMatcher().Replace(line.ToString(), "$1"), out int maxLevel))
+            if (int.TryParse(maxLevelMathes[0].Groups.Values.Last().Value, out int maxLevel))
             {
                 Options.MaxLevel = maxLevel;
             }
