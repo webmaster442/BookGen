@@ -1,4 +1,4 @@
-[toc]
+[toc maxlevel="2"] Title
 
 # t1
 

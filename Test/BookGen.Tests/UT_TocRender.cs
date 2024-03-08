@@ -23,10 +23,11 @@ public class UT_TocRender
 
     [TestCase("normal.md")]
     [TestCase("normal-with-title.md")]
+    [TestCase("normal-limited.md")]
     public void TestTocRender(string inputFile)
     {
         string markDown = File.ReadAllText(TestEnvironment.GetFile(inputFile));
-        string expectedHTML = File.ReadAllText(TestEnvironment.GetFile(Path.ChangeExtension(inputFile, ".html")));
+        string expectedHTML = File.ReadAllText(TestEnvironment.GetFile(Path.ChangeExtension(inputFile, ".html"))).Replace("\r\n", "\n");
 
         string result = Markdown.ToHtml(markDown, _pipeline);
         Assert.That(result, Is.EqualTo(expectedHTML));

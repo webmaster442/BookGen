@@ -131,7 +131,6 @@ namespace BookGen.DomainServices.Markdown.Renderers
         {
             var sb = new StringBuilder();
             sb.AppendFormat("<pre><code class=\"language-{0}\">", languageMoniker);
-            sb.AppendLine();
             sb.AppendLine(_interop.PrismSyntaxHighlight(code, languageMoniker));
             sb.AppendLine("</code></pre>");
             return sb.ToString();

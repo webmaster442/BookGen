@@ -13,15 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.34.0" />
+    <PackageReference Include="Markdig" Version="0.35.0" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.4.4" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.4.4" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.4.4" />
     <PackageReference Include="SkiaSharp" Version="2.88.7" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.7" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.7" />
-    <PackageReference Include="Svg.Skia" Version="1.0.0.13" />
-    <PackageReference Include="YamlDotNet" Version="15.1.1" />
+    <PackageReference Include="Svg.Skia" Version="1.0.0.14" />
+    <PackageReference Include="YamlDotNet" Version="15.1.2" />
   </ItemGroup>
 
   <ItemGroup>

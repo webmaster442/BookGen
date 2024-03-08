@@ -10,9 +10,12 @@ internal sealed class TocState
 {
     internal HeadingInfos Headings { get; }
 
+    internal int MaxLevel { get; set; }
+
     public TocState()
     {
         Headings = new HeadingInfos() { IsLocator = true, Level = -1 };
+        MaxLevel = int.MaxValue;
     }
 
     internal void AddHeading(HeadingInfo info)
