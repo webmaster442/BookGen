@@ -88,6 +88,9 @@ namespace BookGen.DomainServices.Markdown.Modifiers
             if (string.IsNullOrEmpty(url))
                 return string.Empty;
 
+            if (url.StartsWith("data:"))
+                return url;
+
             var parts = url.ToLower().Replace("\\", "/").Split('/').ToList();
             int imgdirIndex = parts.IndexOf(RuntimeConfig!.Configuration.ImageDir.ToLower());
 

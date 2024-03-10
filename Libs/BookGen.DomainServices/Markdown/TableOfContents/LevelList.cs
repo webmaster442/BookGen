@@ -196,8 +196,12 @@ internal class LevelList<T> where T : LevelList<T>, new()
                 if (start == end - 1)
                     emtpy._current = item;
             }
-            if (end - start > 1)
+            if (end - start > 1 
+                && parent._data.Count > 0)
+            {
                 parent._data.RemoveRange(start + 1, end - start - 1);
+            }
+
             parent._data[start] = emtpy;
         }
 
