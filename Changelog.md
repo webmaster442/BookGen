@@ -1,3 +1,16 @@
+# Next
+
+* Change: Updated dependencies
+* Change: Cplipboard implementation replaced with TextCopy
+* Change: Linux distribution now uses a deb package for distribution
+* Change: SVG Passthrough implemented in md2html command
+* Change: md2thml is extended with templating and new options
+* Change: Various BookGen related settings now use a single .ZIP file for configuration
+* Fix: Various linux compatibility fixes
+* Fix: Various fixes in the Table of Contents generation
+* Fix: Template processor fixes
+* Fix: Various fixes
+
 # 2024. 01. 09
 * New: Based on .NET 8
 * New: Linux install script
