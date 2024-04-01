@@ -27,9 +27,9 @@ internal static class HttpServerFactory
         }, log);
 
         server
+            .RegisterHandler(new FileServeHandler(folder, false, server.Configuration, "/"))
             .RegisterHandler(new FaviconHandler(ResourceHandler.GetFileStream(KnownFile.FaviconT),
                                                 MimeTypes.GetMimeForExtension(".png")))
-            .RegisterHandler(new FileServeHandler(folder, false, server.Configuration, "/"))
             .RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;
