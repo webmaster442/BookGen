@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Reflection;
+using System.Text.Json;
 
 using BookGen.Api;
 using BookGen.Cli.Annotations;
@@ -44,6 +45,22 @@ internal class ArgumentParser
                 {
                     property.SetValue(argumentsClass, argBag.GetSwitch(switchAttribute));
                 }
+                else if (property.PropertyType.IsArray)
+                {
+                    string[] values = argBag.GetSwitchValues(switchAttribute);
+                    var elementType = property.PropertyType.GetElementType();
+                    if (elementType != null)
+                    {
+                        var finalValues = values
+                            .Select(v => ValueConverter.Convert(v, elementType))
+                            .ToArray();
+
+                        var array = Array.CreateInstance(elementType, finalValues.Length);
+                        Array.Copy(finalValues, array, finalValues.Length);
+
+                        property.SetValue(argumentsClass, array);
+                    }
+                }
                 else
                 {
                     var value = ValueConverter.Convert(argBag.GetSwitchValue(switchAttribute), property.PropertyType);
@@ -55,6 +72,9 @@ internal class ArgumentParser
             }
             else if (argumentAttribute != null)
             {
+                if (property.PropertyType.IsArray)
+                    throw new InvalidOperationException("Array properties are not supported for arguments");
+
                 var argumentValue = argBag.GetArgument(argumentAttribute);
 
                 if (argumentValue == null)
@@ -76,5 +96,31 @@ internal class ArgumentParser
             _log.Warning("Not processed arguments: {0}", notProcessesd);
 
         return (ArgumentsBase)argumentsClass;
+    }
+
+    internal ArgumentsBase LoadArgsFromJson(string argsJson)
+    {
+        KeyValuePair<string, string>[] arguments = JsonSerializer.Deserialize<KeyValuePair<string, string>[]>(File.ReadAllText(argsJson))
+            ?? throw new InvalidOperationException($"Failed to deserialize {argsJson}");
+
+        List<string> toParse = new();
+        List<string> values = new();
+        foreach (var argument in arguments)
+        {
+            if (string.IsNullOrEmpty(argument.Key))
+            {
+                values.Add(argument.Value);
+            }
+            else
+            {
+                toParse.Add(argument.Key);
+                if (!string.IsNullOrEmpty(argument.Value))
+                    values.Add(argument.Value);
+            }
+        }
+
+        toParse.AddRange(values);
+
+        return Fill(toParse);
     }
 }

@@ -6,6 +6,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 
 using BookGen.Api;
 using BookGen.Cli.Annotations;
@@ -21,7 +22,7 @@ public sealed class CommandRunner
     private readonly CommandRunnerSettings _settings;
     private readonly SupportedOs _currentOs;
     private string? _defaultCommandName;
-    private class EmptyArgs : ArgumentsBase { }
+    private class EmptyArgs : ArgumentsBase;
 
     private static string GetCommandName(Type t)
     {
@@ -53,6 +54,7 @@ public sealed class CommandRunner
 
         return parameter;
     }
+
     private void DefaultExceptionHandler(Exception obj)
     {
         _log.Critical(obj);
@@ -132,9 +134,9 @@ public sealed class CommandRunner
 
     public string[] GetAutoCompleteItems(string commandName)
     {
-        if (_commands.ContainsKey(commandName))
+        if (_commands.TryGetValue(commandName, out Type? value))
         {
-            var type = _commands[commandName];
+            var type = value;
 
             var args = GetArgumentType(type);
 
@@ -157,6 +159,7 @@ public sealed class CommandRunner
         {
             if (string.IsNullOrEmpty(_defaultCommandName))
                 throw new InvalidOperationException("Default command hasn't been setup");
+
             commandName = _defaultCommandName;
         }
 
@@ -184,24 +187,37 @@ public sealed class CommandRunner
 
         try
         {
-
             if (argumentType == null)
                 return await command.Execute(new EmptyArgs(), argsToParse);
 
-            ArgumentParser parser = new(argumentType, _log);
+            ArgumentsBase args = new EmptyArgs();
 
-            var filled = parser.Fill(argsToParse);
-            var validationResult = filled.Validate();
+            string argsJson = Path.Combine(Environment.CurrentDirectory, Path.ChangeExtension(commandName, ".json"));
+            ArgumentParser parser = new(argumentType, _log);
+            if (argsToParse.Length < 1 
+                && File.Exists(argsJson))
+            {
+                args = parser.LoadArgsFromJson(argsJson);
+            }
+            else
+            {
+                args = parser.Fill(argsToParse);
+            }
+
+            var validationResult = args.Validate();
 
             if (!validationResult.IsOk)
             {
+                ConsoleColor orignal = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(validationResult);
+                Console.ForegroundColor = orignal;
                 return _settings.BadParametersExitCode;
             }
 
-            filled.ModifyAfterValidation();
+            args.ModifyAfterValidation();
 
-            return await command.Execute(filled, argsToParse);
+            return await command.Execute(args, argsToParse);
         }
         catch (Exception ex)
         {

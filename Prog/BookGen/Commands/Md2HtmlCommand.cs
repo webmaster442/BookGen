@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.CommandArguments;
-using BookGen.Domain.Epub;
 using BookGen.DomainServices.Markdown;
 using BookGen.Resources;
 
@@ -26,7 +25,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
 
     public override int Execute(Md2HtmlArguments arguments, string[] context)
     {
-        string md = arguments.InputFile.ReadFile(_log);
+        string md = ReadInputFiles(arguments.InputFiles);
 
         string pageTemplate = string.Empty;
 
@@ -45,7 +44,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
             cssForInline = arguments.Css.ReadFile(_log);
 
         using var pipeline = new BookGenPipeline(BookGenPipeline.Preview);
-        pipeline.InjectPath(arguments.InputFile.GetDirectory());
+        pipeline.InjectPath(arguments.InputFiles[0].GetDirectory());
         pipeline.SetSyntaxHighlightTo(!arguments.NoSyntax);
         pipeline.SetSvgPasstroughTo(arguments.SvgPassthrough);
 
@@ -71,6 +70,18 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
         return Constants.Succes;
     }
 
+    private string ReadInputFiles(FsPath[] inputFiles)
+    {
+        StringBuilder md = new(inputFiles.Length * 1024);
+        foreach (var inputFile in inputFiles)
+        {
+            string content = inputFile.ReadFile(_log);
+            md.Append(content);
+            if (!content.EndsWith('\n'))
+                md.Append(Environment.NewLine);
+        }
+        return md.ToString();
+    }
 
     private bool ValidateTemplate(string pageTemplate)
     {
