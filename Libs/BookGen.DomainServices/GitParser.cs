@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
+
+using System.Globalization;
 
 using BookGen.Domain.Terminal;
 
@@ -15,25 +17,31 @@ public static class GitParser
     {
         string[] lines = status.Split(Splits, StringSplitOptions.RemoveEmptyEntries);
 
-        if (lines.Length < 4)
-            return new GitStatus();
+        int notCommited = lines.Count(x => x.StartsWith('?'));
 
-        string[] inout = Extract(lines[3], "# branch.ab ").Split(' ');
+        string[] inout = Parse(lines, "# branch.ab ", "0 0").Split(' ');
 
         return new GitStatus
         {
-            LastCommitId = Extract(lines[0], "# branch.oid "),
-            BranchName = Extract(lines[1], "# branch.head "),
+            LastCommitId = Parse(lines, "# branch.oid ", ""),
+            BranchName = Parse(lines, "# branch.head ", "Unknown brach"),
             IncommingCommits = int.Parse(inout[1]) * -1,
             OutGoingCommits = int.Parse(inout[0]),
-            NotCommitedChanges = lines.Length - 4,
+            NotCommitedChanges = notCommited
         };
     }
 
-    private static string Extract(string line, string begining)
+    private static T Parse<T>(IEnumerable<string> lines, string header, T defaultValue)
+        where T : IParsable<T>
     {
-        return line.StartsWith(begining)
-            ? line[begining.Length..].Trim()
-            : string.Empty;
+        var line = lines.FirstOrDefault(x => x.StartsWith(header));
+
+        if (line == null)
+        {
+            return defaultValue;
+        }
+
+        var cleaned = line[header.Length..].Trim();
+        return T.Parse(cleaned, CultureInfo.InvariantCulture);
     }
 }

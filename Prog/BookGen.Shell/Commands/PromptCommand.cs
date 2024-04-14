@@ -70,7 +70,7 @@ internal sealed class PromptCommand : Command<PromptCommand.PromptArguments>
         {
             var gitArguments = new string[] { "status", "-b", "-s", "--porcelain=2" };
 
-            var (exitcode, output) = ProcessRunner.RunProcess("git", gitArguments, TimeOut);
+            var (exitcode, output) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, arguments.WorkDirectory);
             if (exitcode == 0)
             {
                 var status = GitParser.ParseStatus(output);
