@@ -71,11 +71,6 @@ namespace BookGen.DomainServices.Markdown
             }
         }
 
-        public static string ToImgCacheKey(string url, FsPath outputDir)
-        {
-            var requested = new FsPath(url);
-            return requested.GetAbsolutePathRelativeTo(outputDir).ToString();
-        }
 
         internal static void DeleteFirstH1(MarkdownDocument document)
         {
@@ -109,7 +104,7 @@ namespace BookGen.DomainServices.Markdown
                     link.Url = FixExtension(link.Url, runtimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
                     if (runtimeConfig.InlineImgCache?.Count > 0)
                     {
-                        string? inlinekey = ToImgCacheKey(link.Url, runtimeConfig.OutputDirectory);
+                        string? inlinekey = Path.GetFileName(link.Url);
                         if (runtimeConfig.InlineImgCache.TryGetValue(inlinekey, out string? value))
                         {
                             link.Url = value;
