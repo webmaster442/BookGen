@@ -1,7 +1,7 @@
 # Next
 
 * Change: Updated dependencies
-* Change: Cplipboard implementation replaced with TextCopy
+* Change: Cplipboard implementation replaced with TextCopy, now works multiplatform
 * Change: Linux distribution now uses a deb package for distribution
 * Change: SVG Passthrough implemented in md2html command
 * Change: md2thml is extended with templating and new options
