@@ -4,9 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
+using System.Reflection.Metadata;
 using System.Text;
 
 using BookGen.Api;
+using BookGen.Domain.Epub.Ncx;
 
 namespace BookGen.DomainServices
 {
@@ -81,6 +83,49 @@ namespace BookGen.DomainServices
             }
         }
 
+        private static IProgress<string>? _reporter;
+
+        public static int RunProcess(string programPath,
+                                     string[] arguments,
+                                     string? workdir,
+                                     IProgress<string> progress)
+        {
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = programPath;
+                SetArguments(process.StartInfo, arguments);
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+                process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
+                process.OutputDataReceived += OnOutput;
+                process.ErrorDataReceived += OnOutput;
+                _reporter = progress;
+
+                if (workdir != null)
+                    process.StartInfo.WorkingDirectory = workdir;
+
+                process.Start();
+                process.BeginErrorReadLine();
+                process.BeginOutputReadLine();
+                process.WaitForExit();
+
+                process.OutputDataReceived -= OnOutput;
+                process.ErrorDataReceived -= OnOutput;
+                _reporter = null;
+
+                return process.ExitCode;
+            }
+        }
+
+        private static void OnOutput(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data != null)
+                _reporter?.Report(e.Data);
+        }
+
         public static (string stdOut, string stdErr) GetCommandOutput(string program, string[] arguments, string stdIn, int timeoutSeconds)
         {
             using (var process = new Process())
@@ -114,6 +159,11 @@ namespace BookGen.DomainServices
         {
             foreach (var arg in arguments)
                 startInfo.ArgumentList.Add(arg);
+        }
+
+        public static void RunProcess(string v, object value, string workdir, object onReportProgress)
+        {
+            throw new NotImplementedException();
         }
     }
 }

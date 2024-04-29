@@ -15,7 +15,7 @@ namespace BookGen.Shell.Commands;
 internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
 {
     protected const int TimeOut = 10;
-    private readonly IAnsiConsole _console;
+    protected readonly IAnsiConsole _console;
 
     internal sealed class GitArguments : ArgumentsBase
     {
@@ -40,7 +40,7 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         return exitcode == 0;
     }
 
-    protected void GetGitStatus(string workDirectory)
+    protected void GetGitStatus(string workDirectory, bool longStatus = false)
     {
         var gitArguments = new string[] { "status", "-b", "-s", "--porcelain=2" };
 
@@ -48,8 +48,20 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         if (exitcode == 0)
         {
             var status = GitParser.ParseStatus(output);
-            PrintStatus(status);
+            
+            if (longStatus)
+                PrintLongStatus(status);
+            else
+                PrintStatus(status);
         }
+    }
+
+    private void PrintLongStatus(GitStatus status)
+    {
+        _console.MarkupLine($"[green]Branch:            {status.BranchName.EscapeMarkup()}[/]");
+        _console.MarkupLine($"[magenta]Incomming commits: {status.IncommingCommits}[/]");
+        _console.MarkupLine($"[yellow]Outgoing commits:  {status.OutGoingCommits}[/]");
+        _console.MarkupLine($"[cyan]Modified:          {status.NotCommitedChanges}[/]");
     }
 
     private void PrintStatus(GitStatus status)

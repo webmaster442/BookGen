@@ -31,7 +31,8 @@ runner
     .AddDefaultCommand<CommandListCommand>()
     .AddCommand<PromptCommand>()
     .AddCommand<CdgCommand>()
-    .AddCommand<WwwCommand>();
+    .AddCommand<WwwCommand>()
+    .AddCommand<GitGuiCommand>();
 
 commandNameProvider.CommandNames = runner.CommandNames;
 
