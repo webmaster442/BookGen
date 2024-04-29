@@ -17,7 +17,7 @@ public static class GitParser
     {
         string[] lines = status.Split(Splits, StringSplitOptions.RemoveEmptyEntries);
 
-        int notCommited = lines.Count(x => x.StartsWith('?'));
+        int notCommited = lines.Count(x => !x.StartsWith('#'));
 
         string[] inout = Parse(lines, "# branch.ab ", "0 0").Split(' ');
 
