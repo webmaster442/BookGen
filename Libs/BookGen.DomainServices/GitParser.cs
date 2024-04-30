@@ -4,14 +4,15 @@
 //-----------------------------------------------------------------------------
 
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 using BookGen.Domain.Terminal;
 
 namespace BookGen.DomainServices;
 
-public static class GitParser
+public static partial class GitParser
 {
-    private static readonly string[] Splits = new string[] { "\n" };
+    private static readonly string[] Splits = ["\n"];
 
     public static GitStatus ParseStatus(string status)
     {
@@ -31,6 +32,15 @@ public static class GitParser
         };
     }
 
+    public static IEnumerable<string>ParseBranches(string branches)
+    {
+        string[] lines = branches.Split(Splits, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var line in lines)
+        {
+            yield return BranchNameCleaner().Replace(line, "").Trim();
+        }
+    }
+
     private static T Parse<T>(IEnumerable<string> lines, string header, T defaultValue)
         where T : IParsable<T>
     {
@@ -44,4 +54,7 @@ public static class GitParser
         var cleaned = line[header.Length..].Trim();
         return T.Parse(cleaned, CultureInfo.InvariantCulture);
     }
+
+    [GeneratedRegex(@"^\s*[*]?\s*|remotes/")]
+    private static partial Regex BranchNameCleaner();
 }

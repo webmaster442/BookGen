@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Runtime.InteropServices;
-
 using BookGen.Cli.Annotations;
 using BookGen.Shell.GitGui;
 
@@ -15,15 +13,22 @@ namespace BookGen.Shell.Commands;
 [CommandName("gitgui")]
 internal class GitGuiCommand : GitCommandBase, IProgress<string>
 {
-    private readonly GuiCommand[] _commands =
-{
-        new RunCommand("fetch", ["fetch", "--no-auto-gc"]),
-        new RunCommand("pull", ["pull", "--progress"]),
-        new DelegateCommand("exit", () => Environment.Exit(0))
-    };
+    private readonly GuiCommand[] _commands;
+
+    private bool Confirm(string message)
+        => _console.Confirm(message);
 
     public GitGuiCommand(IAnsiConsole console) : base(console)
     {
+        _commands =
+        [
+            new RunCommand("fetch", ["fetch", "--no-auto-gc"]),
+            new RunCommand("pull", ["pull", "--progress"]),
+            new RunCommand("last 20 log entry", ["log", "--graph", "--date=relative", "--format=format:'%C(auto)%h %C(bold blue)%an%C(auto)%d %C(green)%ad%C(reset)%n%w(80,8,8)%s'", "--max-count=20"]),
+            new CheckoutCommand(_console),
+            new RunCommand("hard reset", ["reset", "--hard"], () => Confirm("Are you sure you want to reset?")),
+            new DelegateCommand("exit", () => Environment.Exit(0)),
+        ];
     }
 
     void IProgress<string>.Report(string value)
@@ -65,7 +70,10 @@ internal class GitGuiCommand : GitCommandBase, IProgress<string>
 
             var choice = _console.Prompt(selector);
             choice.Execute(workdir, this);
-            _console.Ask<string>("Press any key to continue");
+
+            new TextPrompt<string>("Press any key to continue")
+                .AllowEmpty()
+                .Show(_console);
         }
     }
 

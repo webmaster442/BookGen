@@ -10,6 +10,7 @@ using BookGen.DomainServices;
 using Spectre.Console;
 
 namespace BookGen.Shell.GitGui;
+
 internal sealed partial class CloneCommand : GuiCommand
 {
     private readonly IAnsiConsole _console;
