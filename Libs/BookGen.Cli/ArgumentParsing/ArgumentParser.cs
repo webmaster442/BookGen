@@ -9,6 +9,8 @@ using System.Text.Json;
 using BookGen.Api;
 using BookGen.Cli.Annotations;
 
+using Markdig.Extensions.Tables;
+
 namespace BookGen.Cli.ArgumentParsing;
 
 internal class ArgumentParser
@@ -100,27 +102,18 @@ internal class ArgumentParser
 
     internal ArgumentsBase LoadArgsFromJson(string argsJson)
     {
-        KeyValuePair<string, string>[] arguments = JsonSerializer.Deserialize<KeyValuePair<string, string>[]>(File.ReadAllText(argsJson))
-            ?? throw new InvalidOperationException($"Failed to deserialize {argsJson}");
-
-        List<string> toParse = new();
-        List<string> values = new();
-        foreach (var argument in arguments)
+        string[]? arguments = null;
+        try
         {
-            if (string.IsNullOrEmpty(argument.Key))
-            {
-                values.Add(argument.Value);
-            }
-            else
-            {
-                toParse.Add(argument.Key);
-                if (!string.IsNullOrEmpty(argument.Value))
-                    values.Add(argument.Value);
-            }
+            arguments = JsonSerializer.Deserialize<string[]>(File.ReadAllText(argsJson));
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Failed to load arguments from json", ex);
         }
 
-        toParse.AddRange(values);
-
-        return Fill(toParse);
+        return arguments != null
+            ? Fill(arguments)
+            : throw new InvalidOperationException("No arguments found in json file");
     }
 }

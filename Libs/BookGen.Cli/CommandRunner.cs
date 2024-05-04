@@ -190,7 +190,7 @@ public sealed class CommandRunner
 
         if (!command.SupportedOs.HasFlag(_currentOs))
         {
-            Console.WriteLine($"{commandName} is not supported on {_currentOs}");
+            _log.Critical($"{commandName} is not supported on {_currentOs}");
             return _settings.PlatformNotSupportedExitCode;
         }
 
@@ -206,6 +206,7 @@ public sealed class CommandRunner
             if (argsToParse.Length < 1 
                 && File.Exists(argsJson))
             {
+                _log.Info($"Loading arguments from {argsJson}");
                 args = parser.LoadArgsFromJson(argsJson);
             }
             else
