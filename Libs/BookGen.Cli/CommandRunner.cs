@@ -6,7 +6,6 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text.Json;
 
 using BookGen.Api;
 using BookGen.Cli.Annotations;
@@ -89,6 +88,16 @@ public sealed class CommandRunner
         _settings = settings;
         ExceptionHandlerDelegate = DefaultExceptionHandler;
         _currentOs = GetCurrentOs();
+        ConfigureUtfSupport(_settings.EnableUtf8Output);
+    }
+
+    private static void ConfigureUtfSupport(bool enableUtf8Output)
+    {
+        if (enableUtf8Output)
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.InputEncoding = System.Text.Encoding.UTF8;
+        }
     }
 
     public Action<Exception> ExceptionHandlerDelegate { get; set; }
