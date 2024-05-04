@@ -9,8 +9,6 @@ using System.Text.Json;
 using BookGen.Api;
 using BookGen.Cli.Annotations;
 
-using Markdig.Extensions.Tables;
-
 namespace BookGen.Cli.ArgumentParsing;
 
 internal class ArgumentParser
