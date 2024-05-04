@@ -75,5 +75,25 @@ namespace BookGen.Tests
                 Assert.That(result.NotCommitedChanges, Is.EqualTo(1));
             });
         }
+
+        [Test]
+        public void TestParseBranches()
+        {
+            const string input = """
+                * master
+                next
+                remotes/origin/next
+                remotes/origin/master
+                remotes/origin/HEAD -> origin/master
+                """;
+
+            var result = GitParser.ParseBranches(input);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Has.Count.EqualTo(2));
+                Assert.That(result, Does.Contain("master"));
+                Assert.That(result, Does.Contain("next"));
+            });
+        }
     }
 }

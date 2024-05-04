@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -32,13 +33,25 @@ public static partial class GitParser
         };
     }
 
-    public static IEnumerable<string>ParseBranches(string branches)
+    public static HashSet<string>ParseBranches(string branches)
     {
-        string[] lines = branches.Split(Splits, StringSplitOptions.RemoveEmptyEntries);
-        foreach (var line in lines)
+        HashSet<string> results = new();
+        foreach (var line in branches.Split(Splits, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
         {
-            yield return BranchNameCleaner().Replace(line, "").Trim();
+            if (line.Contains(" -> "))
+                continue; //item is pointer, skip it
+
+            string branch = line;
+
+            if (branch.StartsWith("* "))
+                branch = branch.Replace("* ", ""); //acutal branch
+
+            if (branch.StartsWith("remotes/origin/"))
+                branch = branch.Replace("remotes/origin/", "").Trim();
+
+            results.Add(branch);
         }
+        return results;
     }
 
     private static T Parse<T>(IEnumerable<string> lines, string header, T defaultValue)
@@ -54,7 +67,4 @@ public static partial class GitParser
         var cleaned = line[header.Length..].Trim();
         return T.Parse(cleaned, CultureInfo.InvariantCulture);
     }
-
-    [GeneratedRegex(@"^\s*[*]?\s*|remotes/")]
-    private static partial Regex BranchNameCleaner();
 }

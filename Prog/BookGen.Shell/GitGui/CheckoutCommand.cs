@@ -29,11 +29,11 @@ internal sealed partial class CheckoutCommand : GuiCommand
             return exitcode;
         }
 
-        var branchList = GitParser.ParseBranches(output);
+        var branches = GitParser.ParseBranches(output).Order();
         var branch = _console.Prompt(new SelectionPrompt<string>()
             .Title("Select a branch to checkout")
             .PageSize(10)
-            .AddChoices(branchList));
+            .AddChoices(branches));
 
         return ProcessRunner.RunProcess("git", ["checkout", branch], workDir, progress);
     }
