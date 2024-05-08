@@ -22,7 +22,8 @@ internal sealed class PromptCommand : GitCommandBase
         if (!string.IsNullOrEmpty(arguments.WorkDirectory)
             && TestIfGitDir(arguments.WorkDirectory))
         {
-            GetGitStatus(arguments.WorkDirectory);
+            var status = GetGitStatus(arguments.WorkDirectory);
+            PrintStatus(status);
         }
         return 0;
     }

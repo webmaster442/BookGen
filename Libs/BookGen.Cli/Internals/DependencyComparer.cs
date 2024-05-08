@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace BookGen.Cli.Internals;
 
-internal class DependencyComparer : IComparer<Type>
+internal sealed class DependencyComparer : IComparer<Type>
 {
     private readonly IResolver _resolver;
 

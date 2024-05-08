@@ -26,9 +26,17 @@ internal class GitGuiCommand : GitCommandBase, IProgress<string>
             new RunCommand("pull", ["pull", "--progress"]),
             new RunCommand("last 20 log entry", ["log", "--graph", "--date=relative", "--format=format:'%C(auto)%h %C(bold blue)%an%C(auto)%d %C(green)%ad%C(reset)%n%w(80,8,8)%s'", "--max-count=20"]),
             new CheckoutCommand(_console),
+            new CommitCommand(_console, CommitCheck, false),
+            new CommitCommand(_console, CommitCheck, true),
             new RunCommand("hard reset", ["reset", "--hard"], () => Confirm("Are you sure you want to reset?")),
             new DelegateCommand("exit", () => Environment.Exit(0)),
         ];
+    }
+
+    private bool CommitCheck(string workdir)
+    {
+        var status = GetGitStatus(workdir);
+        return status?.NotCommitedChanges > 0;
     }
 
     void IProgress<string>.Report(string value)
@@ -65,7 +73,8 @@ internal class GitGuiCommand : GitCommandBase, IProgress<string>
             _console.Markup("[green]Repo: [/]");
             _console.Write(path);
             _console.WriteLine();
-            GetGitStatus(workdir, true);
+            var status = GetGitStatus(workdir);
+            PrintLongStatus(status);
             AnsiConsole.Write(new Rule());
 
             var choice = _console.Prompt(selector);

@@ -40,7 +40,7 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         return exitcode == 0;
     }
 
-    protected void GetGitStatus(string workDirectory, bool longStatus = false)
+    protected GitStatus? GetGitStatus(string workDirectory)
     {
         var gitArguments = new string[] { "status", "-b", "-s", "--porcelain=2" };
 
@@ -48,24 +48,31 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         if (exitcode == 0)
         {
             var status = GitParser.ParseStatus(output);
-            
-            if (longStatus)
-                PrintLongStatus(status);
-            else
-                PrintStatus(status);
+
+            return status;
         }
+
+        return null;
     }
 
-    private void PrintLongStatus(GitStatus status)
+    protected void PrintLongStatus(GitStatus? status)
     {
+        if (status is null)
+        {
+            return;
+        }
         _console.MarkupLine($"[green]Branch:            {status.BranchName.EscapeMarkup()}[/]");
         _console.MarkupLine($"[magenta]Incomming commits: {status.IncommingCommits}[/]");
         _console.MarkupLine($"[yellow]Outgoing commits:  {status.OutGoingCommits}[/]");
         _console.MarkupLine($"[cyan]Modified:          {status.NotCommitedChanges}[/]");
     }
 
-    private void PrintStatus(GitStatus status)
+    protected void PrintStatus(GitStatus? status)
     {
+        if (status is null)
+        {
+            return;
+        }
         string text = new TerminalStringBuilder()
             .BackgroundGreen()
             .Text($"({status.BranchName}) ")

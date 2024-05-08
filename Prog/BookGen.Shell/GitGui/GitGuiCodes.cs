@@ -9,4 +9,6 @@ internal static class GitGuiCodes
 {
     public const int ErrorNoWorkdir = 1;
     public const int ErrorCloneInvalidUrl = 2;
+    public const int ErrorNoCommitMessage = 3;
+    public const int ErrorNoCommit = 4;
 }
