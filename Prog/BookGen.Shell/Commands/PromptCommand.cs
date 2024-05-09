@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Cli.Annotations;
-using BookGen.DomainServices;
 
 using Spectre.Console;
 

@@ -5,6 +5,7 @@
 
 using BookGen;
 using BookGen.Commands;
+using BookGen.Framework;
 using BookGen.Gui;
 using BookGen.Infrastructure;
 
@@ -55,4 +56,8 @@ helpProvider.VerifyHelpData();
 helpProvider.RegisterCallback("build", HelpCallbacks.DocumentBuildActions);
 ioc.RegisterSingleton<IHelpProvider>(helpProvider);
 
-return await runner.Run(argumentList);
+int exitCode = await runner.Run(argumentList);
+
+FolderLock.ReleaseLock();
+
+return exitCode;

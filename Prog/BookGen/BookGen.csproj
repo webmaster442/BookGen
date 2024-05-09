@@ -57,7 +57,6 @@
 	  <ProjectReference Include="..\..\Libs\BookGen.DomainServices\BookGen.DomainServices.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Gui\BookGen.Gui.csproj" />
-	  <ProjectReference Include="..\..\Libs\BookGen.Native\BookGen.Native.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Resources\BookGen.Resources.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Settings\BookGen.Settings.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.ShortCodes\BookGen.ShortCodes.csproj" />

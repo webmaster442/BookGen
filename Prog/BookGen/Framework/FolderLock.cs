@@ -3,65 +3,38 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Diagnostics;
-
-using BookGen.Native;
+using System.Threading; 
 
 namespace BookGen.Framework;
 
 internal static class FolderLock
 {
+    private static Mutex? _lockMutex;
+
     public static bool IsFolderLocked(string folderToCheck)
     {
-        var processExtensons = NativeFactory.GetPlatformProcessExtensions();
-
         if (!Directory.Exists(folderToCheck))
             return false;
 
         Environment.CurrentDirectory = folderToCheck;
 
-#if DEBUG
-        var directory = processExtensons.GetWorkingDirectory(Process.GetCurrentProcess());
-        if (!DirectoriesSame(Environment.CurrentDirectory,directory))
-        {
-            //Working dir not correctly set
-            Debugger.Break();
-        }
-#endif
+        var mutexId = Convert.ToBase64String(Encoding.UTF8.GetBytes(folderToCheck));
 
-        var concurrentBookGens = Process.GetProcesses()
-            .Where(p => p.ProcessName == "BookGen"
-              && p.Id != Environment.ProcessId);
-
-        foreach (var otherBookGen in concurrentBookGens) 
+        if (Mutex.TryOpenExisting(mutexId, out _))
         {
-            var workingFolder = processExtensons.GetWorkingDirectory(otherBookGen);
-            if (string.IsNullOrEmpty(workingFolder)
-                || workingFolder == folderToCheck)
-            {
-                return true;
-            }
+            return true;
         }
 
-        return false;
+        _lockMutex = new Mutex(true, mutexId);
+        return true;
     }
 
-    internal static readonly char[] _separators = new char[] { '\\', '/' };
-
-    private static bool DirectoriesSame(string directoryA, string directoryB)
+    public static void ReleaseLock()
     {
-        var pathA = directoryA.Split(_separators, StringSplitOptions.RemoveEmptyEntries);
-        var pathB = directoryB.Split(_separators, StringSplitOptions.RemoveEmptyEntries);
-
-        if (pathA.Length != pathB.Length)
-            return false;
-
-        for (int i=0; i<pathA.Length; i++)
+        if (_lockMutex != null)
         {
-            if (pathA[i] != pathB[i])
-                return false;
+            _lockMutex.ReleaseMutex();
+            _lockMutex.Dispose();
         }
-
-        return true;
     }
 }
