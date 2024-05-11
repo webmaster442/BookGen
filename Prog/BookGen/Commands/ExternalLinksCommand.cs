@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 using BookGen.CommandArguments;
 using BookGen.Domain.Configuration;
+using BookGen.Framework;
 using BookGen.Infrastructure;
 using BookGen.ProjectHandling;
 
@@ -16,14 +17,16 @@ namespace BookGen.Commands;
 internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
 {
     private readonly ILog _log;
+    private readonly IMutexFolderLock _folderLock;
     private readonly ProgramInfo _programInfo;
 
     [GeneratedRegex(@"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?")]
     private partial Regex Links();
 
-    public ExternalLinksCommand(ILog log, ProgramInfo programInfo)
+    public ExternalLinksCommand(ILog log, IMutexFolderLock folderLock, ProgramInfo programInfo)
     {
         _log = log;
+        _folderLock = folderLock;
         _programInfo = programInfo;
     }
 
@@ -31,7 +34,7 @@ internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
     {
         _log.LogLevel = arguments.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
-        _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
+        _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
         var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
 
@@ -77,7 +80,6 @@ internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
                     if (match != null)
                         links.Add(match.Value);
                 }
-
             });
 
             foreach (string link in links.Distinct().OrderBy(s => s))
@@ -89,5 +91,4 @@ internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
 
         return results.ToString();
     }
-
 }

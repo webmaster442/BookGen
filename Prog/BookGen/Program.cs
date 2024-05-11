@@ -22,8 +22,9 @@ var timeProvider = new TimeProviderImplementation();
 AppSetting settings = await AppSettingHandler.LoadAppSettingsAsync();
 var api = new ModuleApi(log, settings, info, timeProvider);
 
-SimpleIoC ioc = new();
+using SimpleIoC ioc = new();
 ioc.RegisterSingleton<ITerminal, Terminal>();
+ioc.RegisterSingleton<IMutexFolderLock, MutexFolderLock>();
 ioc.RegisterSingleton(log);
 ioc.RegisterSingleton(info);
 ioc.RegisterSingleton(settings);
@@ -57,7 +58,5 @@ helpProvider.RegisterCallback("build", HelpCallbacks.DocumentBuildActions);
 ioc.RegisterSingleton<IHelpProvider>(helpProvider);
 
 int exitCode = await runner.Run(argumentList);
-
-FolderLock.ReleaseLock();
 
 return exitCode;

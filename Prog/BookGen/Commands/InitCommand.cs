@@ -1,10 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.CommandArguments;
 using BookGen.ConsoleUi;
+using BookGen.Framework;
 using BookGen.Infrastructure;
 
 namespace BookGen.Commands;
@@ -14,18 +15,21 @@ internal sealed class InitCommand : AsyncCommand<BookGenArgumentBase>, IDisposab
 {
     private InitMenu? _initMenu;
     private readonly ILog _log;
+    private readonly IMutexFolderLock _folderLock;
     private readonly ProgramInfo _programInfo;
 
-    public InitCommand(ILog log, ProgramInfo programInfo)
+    public InitCommand(ILog log, IMutexFolderLock folderLock, ProgramInfo programInfo)
     {
         _log = log;
+        _folderLock = folderLock;
         _programInfo = programInfo;
     }
 
     public override async Task<int> Execute(BookGenArgumentBase arguments, string[] context)
     {
         _log.EnableVerboseLogingIfRequested(arguments);
-        _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
+
+        _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
         _initMenu = new InitMenu(_log, new FsPath(arguments.Directory), _programInfo);
         await _initMenu.Run();

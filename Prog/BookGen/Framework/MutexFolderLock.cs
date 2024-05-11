@@ -1,17 +1,22 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2023 Ruzsinszki Gábor
+// (c) 2021-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Threading; 
+using System.Threading;
 
 namespace BookGen.Framework;
 
-internal static class FolderLock
+internal sealed class MutexFolderLock : IDisposable, IMutexFolderLock
 {
-    private static Mutex? _lockMutex;
+    private Mutex? _lockMutex;
 
-    public static bool IsFolderLocked(string folderToCheck)
+    public MutexFolderLock()
+    {
+        Console.CancelKeyPress += OnConsoleAbort;
+    }
+
+    public bool CheckAndLock(string folderToCheck)
     {
         if (!Directory.Exists(folderToCheck))
             return false;
@@ -26,15 +31,17 @@ internal static class FolderLock
         }
 
         _lockMutex = new Mutex(true, mutexId);
-        return true;
+        return false;
     }
 
-    public static void ReleaseLock()
+    public void Dispose()
     {
-        if (_lockMutex != null)
-        {
-            _lockMutex.ReleaseMutex();
-            _lockMutex.Dispose();
-        }
+        Console.CancelKeyPress -= OnConsoleAbort;
+        _lockMutex?.Dispose();
+    }
+
+    private void OnConsoleAbort(object? sender, ConsoleCancelEventArgs e)
+    {
+        Dispose();
     }
 }

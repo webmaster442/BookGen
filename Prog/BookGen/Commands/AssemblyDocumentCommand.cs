@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 
 using BookGen.AssemblyDocumenter;
 using BookGen.CommandArguments;
+using BookGen.Framework;
 using BookGen.Infrastructure;
 
 using XmlDocMarkdown.Core;
@@ -17,10 +18,12 @@ namespace BookGen.Commands;
 internal class AssemblyDocumentCommand : Command<AssemblyDocumentArguments>
 {
     private readonly ILog _log;
+    private readonly IMutexFolderLock _folderLock;
 
-    public AssemblyDocumentCommand(ILog log)
+    public AssemblyDocumentCommand(ILog log, IMutexFolderLock folderLock)
     {
         _log = log;
+        _folderLock = folderLock;
     }
 
     private void Logdetails(Collection<string> messages)
@@ -33,7 +36,7 @@ internal class AssemblyDocumentCommand : Command<AssemblyDocumentArguments>
 
     public override int Execute(AssemblyDocumentArguments arguments, string[] context)
     {
-        _log.CheckLockFileExistsAndExitWhenNeeded(arguments.OutputDirectory.ToString());
+        _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.OutputDirectory.ToString());
 
         if (arguments.SinglePage)
         {
@@ -45,7 +48,6 @@ internal class AssemblyDocumentCommand : Command<AssemblyDocumentArguments>
 
             if (XmlDocValidator.ValidateXml(xmlfile, _log))
             {
-
                 var documenter = new XmlDocumenter(xmlfile, arguments.AssemblyPath);
 
                 string? result = documenter.ToMarkdown(new ConverterSettings
