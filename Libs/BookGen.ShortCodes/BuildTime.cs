@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Runtime.InteropServices;
+
 namespace BookGen.ShortCodes;
 
 [Export(typeof(ITemplateShortCode))]
@@ -29,6 +31,8 @@ public sealed class BuildTime : ITemplateShortCode
 
     public string Generate(IArguments arguments)
     {
-        return _timeProvider.GetLocalNow().ToString("yy-MM-dd hh:mm:ss");
+        var format = arguments.GetArgumentOrFallback("format", "yy-MM-dd hh:mm:ss");
+
+        return _timeProvider.GetLocalNow().ToString(format);
     }
 }

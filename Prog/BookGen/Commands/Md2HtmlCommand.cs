@@ -4,13 +4,15 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.CommandArguments;
+using BookGen.Domain.Configuration;
 using BookGen.DomainServices.Markdown;
+using BookGen.Framework;
 using BookGen.Resources;
 
 namespace BookGen.Commands;
 
 [CommandName("md2html")]
-internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
+internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>, IDisposable
 {
     private readonly ILog _log;
 
@@ -18,9 +20,20 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
     private const string CssTag = "<!--{css}-->";
     private const string ContentTag = "<!--{content}-->";
 
-    public Md2HtmlCommand(ILog log)
+    private ShortCodeLoader? _loader;
+    private readonly ShortCodeParser _parser;
+
+    public Md2HtmlCommand(ILog log, IAppSetting appSetting, TimeProvider timeProvider)
     {
         _log = log;
+        _loader = new ShortCodeLoader(_log,
+                                      new RuntimeSettings(new EmptyTagUtils()),
+                                      appSetting,
+                                      timeProvider);
+        _loader.LoadAll();
+        _parser = new ShortCodeParser(_loader.Imports,
+                                      new Translations(),
+                                      _log);
     }
 
     public override int Execute(Md2HtmlArguments arguments, string[] context)
@@ -60,6 +73,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
             rendered = pageTemplate.Replace(TitleTag, arguments.Title);
             rendered = rendered.Replace(CssTag, cssForInline);
             rendered = rendered.Replace(ContentTag, mdcontent);
+            rendered = _parser.Parse(rendered);
         }
 
         if (arguments.OutputFile.IsConsole)
@@ -111,5 +125,14 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
     {
         Console.OutputEncoding = Encoding.UTF8;
         Console.WriteLine(rendered);
+    }
+
+    public void Dispose()
+    {
+        if (_loader != null)
+        {
+            _loader.Dispose();
+            _loader = null;
+        }
     }
 }
