@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain;
+
 namespace BookGen.Tests
 {
     [TestFixture]
@@ -28,7 +30,7 @@ namespace BookGen.Tests
 
             string expected = _expected.ToString("yy-MM-dd hh:mm:ss");
 
-            string result = sut.Generate(null);
+            string result = sut.Generate(new ShortCodeArguments());
 
             Assert.That(result, Is.EqualTo(expected));
         }
