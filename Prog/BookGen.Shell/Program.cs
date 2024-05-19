@@ -16,6 +16,7 @@ CommandNameProvider commandNameProvider = new();
 using SimpleIoC ioc = new();
 ioc.RegisterSingleton<IAnsiConsole>(AnsiConsole.Console);
 ioc.RegisterSingleton(commandNameProvider);
+ioc.RegisterSingleton(log);
 ioc.Build();
 
 CommandRunner runner = new(ioc, log, new CommandRunnerSettings
@@ -31,7 +32,8 @@ runner
     .AddDefaultCommand<CommandListCommand>()
     .AddCommand<PromptCommand>()
     .AddCommand<CdgCommand>()
-    .AddCommand<WwwCommand>();
+    .AddCommand<WwwCommand>()
+    .AddCommand<OrganizeCommand>();
 
 commandNameProvider.CommandNames = runner.CommandNames;
 
