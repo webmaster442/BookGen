@@ -33,7 +33,8 @@ runner
     .AddCommand<PromptCommand>()
     .AddCommand<CdgCommand>()
     .AddCommand<WwwCommand>()
-    .AddCommand<OrganizeCommand>();
+    .AddCommand<OrganizeCommand>()
+    .AddCommand<GitAutoCompleteCommand>();
 
 commandNameProvider.CommandNames = runner.CommandNames;
 
