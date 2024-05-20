@@ -25,6 +25,13 @@ internal class RuleEngine
         foreach (var file in Directory.GetFiles(folder))
         {
             var foundRule = _loadedRules.FirstOrDefault(rule => rule.Key.IsMatch(file));
+
+            if (foundRule.Key == null)
+            {
+                _log.Warning($"No rule found for {file}");
+                continue;
+            }
+
             var newName = Path.Combine(foundRule.Value, Path.GetFileName(file));
             if (!simulate)
             {

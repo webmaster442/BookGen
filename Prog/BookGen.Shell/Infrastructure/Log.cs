@@ -15,7 +15,11 @@ internal class Log : ILog
 
     void ILog.Log(LogLevel logLevel, string format, params object[] args)
     {
-        string msg = string.Format(format, args);
+        string msg;
+        if (args.Length == 0)
+            msg = format;
+        else
+            msg = string.Format(format, args);
         OnLogWritten?.Invoke(this, new LogEventArgs(logLevel, msg));
     }
 }

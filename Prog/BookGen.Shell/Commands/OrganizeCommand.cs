@@ -8,6 +8,8 @@ using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Shell.Organize;
 
+using Spectre.Console;
+
 namespace BookGen.Shell.Commands;
 
 [CommandName("organize")]
@@ -18,6 +20,26 @@ internal class OrganizeCommand : Command<OrganizeArguments>
     public OrganizeCommand(ILog log)
     {
         _log = log;
+        _log.OnLogWritten += OnLog;
+    }
+
+    private void OnLog(object? sender, LogEventArgs e)
+    {
+        switch (e.LogLevel)
+        {
+            case LogLevel.Critical:
+                AnsiConsole.MarkupLine($"[red]{e.Message.EscapeMarkup()}[/]");
+                break;
+            case LogLevel.Warning:
+                AnsiConsole.MarkupLine($"[yellow]{e.Message.EscapeMarkup()}[/]");
+                break;
+            case LogLevel.Info:
+                AnsiConsole.MarkupLine($"[green]{e.Message.EscapeMarkup()}[/]");
+                break;
+            case LogLevel.Detail:
+                AnsiConsole.MarkupLine($"[grey]{e.Message.EscapeMarkup()}[/]");
+                break;
+        }
     }
 
     public override int Execute(OrganizeArguments arguments, string[] context)
