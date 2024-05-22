@@ -200,6 +200,27 @@ Arguments:
     Optional argument. Specifies work directory. If not specified, then
     the current directory will be used as working directory.
 
+# JsonArgs
+
+Creates an empty json arguments template file for a given bookgen command.
+
+`BookGen JsonArgs -c [command] {-d [directory]}`
+`BookGen JsonArgs --command [command] {--dir [directory]}`
+
+A Json arguments template can be used to store command line arguments,
+so the bookgen command can be invoked with the same arguments without having 
+to type them in again.
+
+Arguments:
+
+-c, --command:
+    Required argument. Specifies the command for which the json template
+    will be created.
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
 # Math2Svg
 
 Renders a single markdown file containing Tex formulas to svg files

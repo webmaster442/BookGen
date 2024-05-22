@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using System.Reflection;
-using System.Text.Json;
 
 using BookGen.Api;
 using BookGen.Cli.Annotations;
@@ -129,22 +128,5 @@ internal class ArgumentParser
             var value = ValueConverter.Convert(argumentValue, property.PropertyType);
             property.SetValue(argumentsClass, value);
         }
-    }
-
-    internal ArgumentsBase LoadArgsFromJson(string argsJson)
-    {
-        string[]? arguments = null;
-        try
-        {
-            arguments = JsonSerializer.Deserialize<string[]>(File.ReadAllText(argsJson));
-        }
-        catch (Exception ex)
-        {
-            throw new InvalidOperationException("Failed to load arguments from json", ex);
-        }
-
-        return arguments != null
-            ? Fill(arguments)
-            : throw new InvalidOperationException("No arguments found in json file");
     }
 }

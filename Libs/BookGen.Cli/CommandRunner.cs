@@ -6,6 +6,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 
 using BookGen.Api;
 using BookGen.Cli.Annotations;
@@ -15,6 +16,7 @@ namespace BookGen.Cli;
 
 public sealed class CommandRunner
 {
+    private readonly JsonSerializerOptions _serializerOptions;
     private readonly Dictionary<string, Type> _commands;
     private readonly IResolver _resolver;
     private readonly ILog _log;
@@ -82,6 +84,12 @@ public sealed class CommandRunner
                          ILog log,
                          CommandRunnerSettings settings)
     {
+        _serializerOptions = new JsonSerializerOptions
+        {
+            ReadCommentHandling = JsonCommentHandling.Skip,
+            AllowTrailingCommas = true,
+            WriteIndented = true
+        };
         _commands = new Dictionary<string, Type>();
         _resolver = resolver;
         _log = log;
@@ -177,15 +185,22 @@ public sealed class CommandRunner
         return RunCommand(commandName, argsToParse);
     }
 
+    private async Task<ArgumentJsonItem[]> LoadFromJsonFile(string jsonFile)
+    {
+        await using var stream = File.OpenRead(jsonFile);
+        return await JsonSerializer.DeserializeAsync<ArgumentJsonItem[]>(stream, _serializerOptions)
+            ?? throw new InvalidOperationException("Failed to load arguments from json");
+    }
+
     public async Task<int> RunCommand(string commandName, string[] argsToParse)
     {
-        if (!_commands.ContainsKey(commandName))
+        if (!_commands.TryGetValue(commandName, out Type? value))
         {
             _log.Critical(_settings.UnknownCommandCodeAndMessage.message);
             return _settings.UnknownCommandCodeAndMessage.code;
         }
 
-        var argumentType = GetArgumentType(_commands[commandName]);
+        var argumentType = GetArgumentType(value);
         ICommand command = CreateCommand(commandName);
 
         if (!command.SupportedOs.HasFlag(_currentOs))
@@ -194,34 +209,37 @@ public sealed class CommandRunner
             return _settings.PlatformNotSupportedExitCode;
         }
 
+        if (argumentType == null)
+            return await command.Execute(new EmptyArgs(), argsToParse);
+
+        string jsonFileName = Path.ChangeExtension(commandName, ".json");
+
+        string argsJson = Path.Combine(Environment.CurrentDirectory, jsonFileName);
+
+        if (argsToParse.Length < 1
+            && File.Exists(argsJson))
+        {
+            _log.Info("Loading arguments from {0}...", jsonFileName);
+            var items = await LoadFromJsonFile(argsJson);
+
+            return await ExecuteMultiple(items, argumentType, command);
+        }
+        return await ExecuteSingle(argsToParse, argumentType, command);
+    }
+
+    private async Task<int> ExecuteSingle(string[] argsToParse, Type argumentType, ICommand command)
+    {
         try
         {
-            if (argumentType == null)
-                return await command.Execute(new EmptyArgs(), argsToParse);
-
             ArgumentsBase args = new EmptyArgs();
-
-            string argsJson = Path.Combine(Environment.CurrentDirectory, Path.ChangeExtension(commandName, ".json"));
             ArgumentParser parser = new(argumentType, _log);
-            if (argsToParse.Length < 1 
-                && File.Exists(argsJson))
-            {
-                _log.Info($"Loading arguments from {argsJson}");
-                args = parser.LoadArgsFromJson(argsJson);
-            }
-            else
-            {
-                args = parser.Fill(argsToParse);
-            }
+            args = parser.Fill(argsToParse);
 
             var validationResult = args.Validate();
 
             if (!validationResult.IsOk)
             {
-                ConsoleColor orignal = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(validationResult);
-                Console.ForegroundColor = orignal;
+                _log.Critical(validationResult.ToString());
                 return _settings.BadParametersExitCode;
             }
 
@@ -237,5 +255,20 @@ public sealed class CommandRunner
             ExceptionHandlerDelegate.Invoke(ex);
             return _settings.ExcptionExitCode;
         }
+    }
+
+    private async Task<int> ExecuteMultiple(ArgumentJsonItem[] items, Type argumentType, ICommand command)
+    {
+        foreach (var item in items)
+        {
+            _log.Info($"Executing {item.Name} from json file...");
+            int exitcode = await ExecuteSingle(item.Arguments, argumentType, command);
+            if (exitcode != 0)
+            {
+                _log.Critical($"Failed to execute {item.Name}. Exit code: {exitcode}");
+                return exitcode;
+            }
+        }
+        return 0;
     }
 }
