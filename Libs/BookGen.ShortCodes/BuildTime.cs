@@ -27,7 +27,7 @@ public sealed class BuildTime : ITemplateShortCode
     {
         Description = "Inserts the current build time",
         ArgumentInfos = Array.Empty<ArgumentInfo>(),
-    };
+    };  
 
     public string Generate(IArguments arguments)
     {
