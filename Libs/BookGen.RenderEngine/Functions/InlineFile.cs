@@ -30,7 +30,6 @@ internal sealed class InlineFile : Function, IInjectable
     {
         return new FunctionInfo
         {
-            CanCacheResult = false,
             Name = "InlineFile",
             Description = "Inline a file into the output",
             ArgumentInfos = new[]

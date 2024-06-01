@@ -27,7 +27,6 @@ internal sealed class Python : Function, IInjectable
         return new FunctionInfo
         {
             Name = "Python",
-            CanCacheResult = false,
             Description = "Execute a Python script and insert it's output",
             ArgumentInfos = new Internals.ArgumentInfo[]
             {

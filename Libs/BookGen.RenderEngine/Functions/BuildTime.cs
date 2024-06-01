@@ -29,7 +29,6 @@ internal sealed class BuildTime : Function, IInjectable
         {
             Name = "BuildTime",
             Description = "Inserts the current build time",
-            CanCacheResult = false,
             ArgumentInfos =
             [
                 new Internals.ArgumentInfo

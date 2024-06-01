@@ -27,7 +27,6 @@ internal sealed class Php : Function, IInjectable
         return new FunctionInfo
         {
             Name = "Php",
-            CanCacheResult = false,
             Description = "Run PHP script and insert it's output",
             ArgumentInfos = new Internals.ArgumentInfo[]
             {

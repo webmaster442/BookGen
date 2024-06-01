@@ -45,7 +45,6 @@ internal sealed class CookieWarnIfEnabledInTarget : Function, IInjectable
             Description = "Internal cookie banner",
             Name = "CookieWarnIfEnabledInTarget",
             ArgumentInfos = Array.Empty<Internals.ArgumentInfo>(),
-            CanCacheResult = true,
         };
     }
 }

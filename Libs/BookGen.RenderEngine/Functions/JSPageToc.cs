@@ -32,7 +32,6 @@ internal sealed class JSPageToc : Function
         return new FunctionInfo
         {
             Name = "JSPageToc",
-            CanCacheResult = true,
             Description = "Generate a table of contents from the headings",
             ArgumentInfos = new Internals.ArgumentInfo[]
             {

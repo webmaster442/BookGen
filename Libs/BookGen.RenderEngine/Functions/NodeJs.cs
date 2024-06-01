@@ -26,7 +26,6 @@ internal sealed class NodeJs : Function, IInjectable
         return new FunctionInfo
         {
             Name = "NodeJs",
-            CanCacheResult = false,
             Description = "Execute a NodeJs script and insert it's output",
             ArgumentInfos = new Internals.ArgumentInfo[]
             {
