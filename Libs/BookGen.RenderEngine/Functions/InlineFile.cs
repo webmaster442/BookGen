@@ -3,42 +3,45 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Api;
 using BookGen.RenderEngine.Internals;
 
 namespace BookGen.RenderEngine.Functions;
 
-internal sealed class BuildTime : Function, IInjectable
+internal sealed class InlineFile : Function, IInjectable
 {
-    internal TimeProvider Provider { get; set; } = null!;
-
+    private ILog _log = null!;
 
     public override string Execute(FunctionArguments arguments)
     {
-        var format = arguments.GetArgumentOrFallback("format", "yy-MM-dd hh:mm:ss");
-        return Provider.GetLocalNow().ToString(format);
+        string? name = arguments.GetArgumentOrThrow<string>("file");
+
+        _log.Detail("Inlineing {0}...", name);
+
+        return File.ReadAllText(name);
     }
 
     public void Inject(FunctionServices functionServices)
     {
-        Provider = functionServices.TimeProvider;
+        _log = functionServices.Log;
     }
 
     protected override FunctionInfo GetInformation()
     {
         return new FunctionInfo
         {
-            Name = "BuildTime",
-            Description = "Inserts the current build time",
             CanCacheResult = false,
-            ArgumentInfos =
-            [
+            Name = "InlineFile",
+            Description = "Inline a file into the output",
+            ArgumentInfos = new[]
+            {
                 new Internals.ArgumentInfo
                 {
-                    Name = "format",
-                    Optional = true,
-                    Description = "The format of the time. Default is yy-MM-dd hh:mm:ss"
+                    Name = "File",
+                    Optional = false,
+                    Description = "The file to inline"
                 }
-            ]
+            },
         };
     }
 }

@@ -27,15 +27,10 @@ public partial class TemplateRenderer : ITemplateRenderer
     private readonly FunctionServices _functionServices;
     private static readonly char[] _functionSplitters = ['(', ')', ','];
 
-    public TemplateRenderer(ILog log, TimeProvider timeProvider, IAppSetting appSetting, int bufferSize = 4096)
+    public TemplateRenderer(FunctionServices functionServices, int bufferSize = 4096)
     {
-        _log = log;
-        _functionServices = new FunctionServices
-        {
-            Log = log,
-            AppSetting = appSetting,
-            TimeProvider = timeProvider
-        };
+        _log = functionServices.Log;
+        _functionServices = functionServices;
         _buffer = new StringBuilder(bufferSize);
         _functions = FunctionLoader.LoadFunctions(_functionServices).ToDictionary(f => f.Information.Name, f => f);
     }
