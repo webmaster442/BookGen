@@ -10,8 +10,8 @@ namespace BookGen.GeneratorStepRunners;
 
 internal sealed class PrintGeneratorStepRunner : GeneratorStepRunner
 {
-    public PrintGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader)
-        : base(settings, log, loader)
+    public PrintGeneratorStepRunner(RuntimeSettings settings, ILog log, IAppSetting appSetting)
+        : base(settings, log, appSetting)
     {
         AddStep(new GeneratorSteps.CreateOutputDirectory());
         AddStep(new GeneratorSteps.CopyAssets(settings.Configuration.TargetPrint));

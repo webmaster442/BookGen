@@ -58,7 +58,7 @@ internal static class HttpServerFactory
         return server;
     }
 
-    public static HttpServer CreateServerForPreview(ILog log, string directory)
+    public static HttpServer CreateServerForPreview(ILog log, IAppSetting appSetting, string directory)
     {
         bool debug = false;
 #if DEBUG
@@ -77,7 +77,7 @@ internal static class HttpServerFactory
             .RegisterHandler(new FaviconHandler(ResourceHandler.GetFileStream(KnownFile.FaviconP),
                                                 MimeTypes.GetMimeForExtension(".png")))
             .RegisterHandler(new PreviewStaticHandler())
-            .RegisterHandler(new PreviewRenderHandler(directory, log))
+            .RegisterHandler(new PreviewRenderHandler(directory, log, appSetting))
             .RegisterHandler(new QrCodeLinkHandler(server.Configuration));
 
         return server;

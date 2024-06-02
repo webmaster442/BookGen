@@ -21,11 +21,11 @@ public partial class TemplateRenderer : ITemplateRenderer
     [GeneratedRegex(@"\{\{([\w]+)\}\}")]
     private static partial Regex Identifier();
 
-    [GeneratedRegex(@"\{\{([\w]+\([\w\,\=\ ]*\))}\}")]
+    [GeneratedRegex(@"\{\{\w+\([\w\=\.\-_]*\)\}}")]
     private static partial Regex Function();
 
     private readonly FunctionServices _functionServices;
-    private static readonly char[] _functionSplitters = ['(', ')', ','];
+    private static readonly char[] _functionSplitters = ['(', ')', ',', '{', '}'];
 
     public TemplateRenderer(FunctionServices functionServices, int bufferSize = 4096)
     {
@@ -63,7 +63,7 @@ public partial class TemplateRenderer : ITemplateRenderer
     {
         foreach (Match match in functions)
         {
-            var (functionName, arguments) = ParseFunction(match.Groups[1].Value);
+            var (functionName, arguments) = ParseFunction(match.Groups[0].Value);
             if (_functions.TryGetValue(functionName, out Function? function))
             {
                 line = line.Replace(match.Value, function.Execute(arguments));

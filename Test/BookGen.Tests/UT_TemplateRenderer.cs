@@ -1,4 +1,5 @@
-﻿using BookGen.RenderEngine;
+﻿using BookGen.Domain;
+using BookGen.RenderEngine;
 
 namespace BookGen.Tests;
 
@@ -6,23 +7,27 @@ namespace BookGen.Tests;
 public class UT_TemplateRenderer
 {
     private TemplateRenderer _sut;
-    private ILog _log;
     private TemplateParameters _templateParameters;
     private TimeProvider _timeProvider;
     private DateTimeOffset _expected;
-    private IAppSetting _appSetting;
 
     [SetUp]
     public void Setup()
     {
-        _log = Substitute.For<ILog>();
-        _appSetting = Substitute.For<IAppSetting>();
         _expected = new DateTimeOffset(new DateTime(1, 1, 1, 11, 11, 11));
         _timeProvider = Substitute.For<TimeProvider>();
         _timeProvider.LocalTimeZone.Returns(TimeZoneInfo.Utc);
         _timeProvider.GetUtcNow().Returns(_expected);
 
-        _sut = new TemplateRenderer(_log, _timeProvider, _appSetting);
+        System.Environment.CurrentDirectory = TestEnvironment.GetTestFolder();
+
+        _sut = new TemplateRenderer(new FunctionServices
+        {
+            Log = Substitute.For<ILog>(),
+            TimeProvider = _timeProvider,
+            AppSetting = Substitute.For<IAppSetting>(),
+            RuntimeSettings = TestEnvironment.GetMockedRuntimeSettings(),
+        });
         
         _templateParameters = new TemplateParameters
         {
@@ -52,7 +57,11 @@ public class UT_TemplateRenderer
     }
 
 
+    [TestCase("{{UnknownFunction()}}", "{{UnknownFunction()}}\r\n")]
     [TestCase("{{BuildTime()}}", "01-01-01 11:11:11\r\n")]
+    [TestCase("{{SriDependency(file=Test.js)}}", "<script src=\"http://test.com/Test.js\" integrity=\"sha384-ZIiaaYu+MewKtrhJpP8K5vAKFUJ2wHaxNkltrjfIdh4opRm4o8xc9Tki1F9z2swu\" crossorigin=\"anonymous\"></script>\r\n")]
+    [TestCase("{{SriDependency(file=Test.css)}}", "<link rel=\"stylesheet\" href=\"http://test.com/Test.css\" integrity=\"sha384-J8/g2z9Vs8+kXGVMf08+mwZ4yYQ9cRJOPruNGnoj6Tn6+L9cjqFwOHsCGk+yUpfa\" crossorigin=\"anonymous\"/>\r\n")]
+    [TestCase("{{InlineFile(file=TestFile.txt)}}", "Test\r\n")]
     public void EnsureThat_TemplateRenderer_WorksForFunctionExpected(string input, string expected)
     {
         var rendered = _sut.Render(input, _templateParameters);

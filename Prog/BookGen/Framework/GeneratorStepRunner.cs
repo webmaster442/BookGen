@@ -6,6 +6,7 @@
 using System.Diagnostics;
 
 using BookGen.Gui;
+using BookGen.RenderEngine;
 
 namespace BookGen.Framework;
 
@@ -20,16 +21,21 @@ internal abstract class GeneratorStepRunner : IDisposable
 
     protected RuntimeSettings Settings { get; }
 
-    protected readonly ShortCodeLoader _loader;
-    protected GeneratorStepRunner(RuntimeSettings settings,
-                      ILog log,
-                      ShortCodeLoader shortCodeLoader)
+    private readonly FunctionServices _functionServices;
+
+    protected GeneratorStepRunner(RuntimeSettings settings, ILog log, IAppSetting appSetting)
     {
         Settings = settings;
         _redirectedLogMessages = [];
         _staticContent = new StaticTemplateContent();
-        _loader = shortCodeLoader;
-        _loader.LoadAll();
+
+        _functionServices = new FunctionServices
+        {
+            Log = log,
+            RuntimeSettings = Settings,
+            TimeProvider = TimeProvider.System,
+            AppSetting = appSetting,
+        };
 
         _steps = [];
         _log = log;
@@ -51,13 +57,7 @@ internal abstract class GeneratorStepRunner : IDisposable
     }
 
     private TemplateProcessor CreateTemplateProcessor()
-    {
-        return new TemplateProcessor(new ShortCodeParser(_loader.Imports,
-                                                         Settings.Configuration.Translations,
-                                                         _log),
-                                     Settings.Configuration,
-                                     _staticContent);
-    }
+        => new(_functionServices, _staticContent);
 
     protected abstract string ConfigureTemplateContent();
 
