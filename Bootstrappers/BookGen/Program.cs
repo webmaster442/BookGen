@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -19,8 +19,13 @@ namespace BookGen
         public static void Main()
         {
             string shellExe = InstallDetector.IsInstalled(Constants.PowershellCore)
-                ? Constants.PowershellCore 
+                ? Constants.PowershellCore
                 : Constants.Powershell;
+
+            if (InstallDetector.IsPowershellLocallyPresent(out string pwshPath))
+            {
+                shellExe = pwshPath;
+            }
 
             string shellScript = Path.Combine(AppContext.BaseDirectory, Constants.DataFolder, "BookGenShell.ps1");
 

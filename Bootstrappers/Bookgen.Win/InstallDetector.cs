@@ -41,5 +41,11 @@ namespace Bookgen.Win
             }
             return false;
         }
+
+        public static bool IsPowershellLocallyPresent(out string pwshPath)
+        {
+            pwshPath = Path.Combine(AppContext.BaseDirectory, Constants.PowerShellFolder, Constants.PowershellCore);
+            return File.Exists(pwshPath);
+        }
     }
 }
