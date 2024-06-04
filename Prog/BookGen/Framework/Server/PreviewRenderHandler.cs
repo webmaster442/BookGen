@@ -7,6 +7,7 @@ using System.Web;
 
 using BookGen.Domain.Configuration;
 using BookGen.DomainServices.Markdown;
+using BookGen.RenderEngine;
 using BookGen.Resources;
 
 using Webmaster442.HttpServerFramework;
@@ -22,18 +23,21 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
     private readonly PreviewIndexBuilder _indexBuilder;
     private BookGenPipeline? _mdpipeline;
 
-    public PreviewRenderHandler(string directory, ILog log)
+    public PreviewRenderHandler(string directory, ILog log, IAppSetting appSetting)
     {
         _directory = directory;
         _log = log;
         _indexBuilder = new(directory);
 
-        _processor = new TemplateProcessor(new ShortCodeParser(new List<ITemplateShortCode>(),
-                                                               new Translations(),
-                                                               _log),
-                                           new Config(),
-                                           new StaticTemplateContent());
+        var functionServices = new FunctionServices
+        {
+            Log = log,
+            TimeProvider = TimeProvider.System,
+            RuntimeSettings = new RuntimeSettings(new EmptyTagUtils()),
+            AppSetting = appSetting,
+        };
 
+        _processor = new TemplateProcessor(functionServices, new StaticTemplateContent());
         _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.PreviewHtml);
         _mdpipeline = new BookGenPipeline(BookGenPipeline.Preview);
         _mdpipeline.SetSyntaxHighlightTo(false);

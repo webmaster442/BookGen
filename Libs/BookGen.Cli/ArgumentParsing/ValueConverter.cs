@@ -43,8 +43,11 @@ internal static class ValueConverter
 
         try
         {
-            object converted = System.Convert.ChangeType(value, currenttype, CultureInfo.InvariantCulture);
-            return converted;
+            checked
+            {
+                object converted = System.Convert.ChangeType(value, currenttype, CultureInfo.InvariantCulture);
+                return converted;
+            }
         }
         catch (Exception ex)
               when (ex is InvalidCastException

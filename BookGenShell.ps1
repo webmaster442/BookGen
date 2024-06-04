@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 2.7.0
-# Last modified: 2023-12-07
+# Version 2.9.0
+# Last modified: 2024-05-20
 # -----------------------------------------------------------------------------
 
 # cdg command
@@ -32,6 +32,20 @@ function www
 	{
 		BookGen.Shell.exe "www" "$argsAsString"
 	}
+}
+
+# organize command
+function organize
+{
+    $argsAsString = $args -join ' '
+    if ([string]::IsNullOrWhiteSpace($argsAsString))
+    {
+        BookGen.Shell.exe "organize"
+    }
+    else
+    {
+        BookGen.Shell.exe "organize" "$argsAsString"
+    }
 }
 
 # info command
@@ -112,6 +126,14 @@ Register-ArgumentCompleter -Native -CommandName bookgen -ScriptBlock {
 Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
 	param($commandName, $wordToComplete, $cursorPosition)
 		dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+			[System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+	 }
+}
+
+# PowerShell parameter completion shim for git
+Register-ArgumentCompleter -Native -CommandName git -ScriptBlock {
+	param($commandName, $wordToComplete, $cursorPosition)
+		BookGen.Shell.exe "git-complete" $cursorPosition "$wordToComplete" | ForEach-Object {
 			[System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
 	 }
 }

@@ -29,7 +29,7 @@ internal class PreviewCommand : Command<BookGenArgumentBase>
 
         _log.EnableVerboseLogingIfRequested(arguments);
 
-        using (HttpServer? server = HttpServerFactory.CreateServerForPreview(_log, arguments.Directory))
+        using (HttpServer? server = HttpServerFactory.CreateServerForPreview(_log, _appSettings, arguments.Directory))
         {
             server.Start();
             _log.Info("-------------------------------------------------");

@@ -4,8 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.CommandArguments;
-using BookGen.Domain.Epub;
 using BookGen.DomainServices.Markdown;
+using BookGen.Framework;
+using BookGen.RenderEngine;
 using BookGen.Resources;
 
 namespace BookGen.Commands;
@@ -15,18 +16,27 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
 {
     private readonly ILog _log;
 
-    private const string TitleTag = "<!--{title}-->";
-    private const string CssTag = "<!--{css}-->";
-    private const string ContentTag = "<!--{content}-->";
+    private const string TitleTag = "{{title}}";
+    private const string CssTag = "{{css}}";
+    private const string ContentTag = "{{content}}";
 
-    public Md2HtmlCommand(ILog log)
+    private readonly TemplateRenderer _renderer;
+
+    public Md2HtmlCommand(ILog log, IAppSetting appSetting, TimeProvider timeProvider)
     {
         _log = log;
+        _renderer = new TemplateRenderer(new FunctionServices
+        {
+            AppSetting = appSetting,
+            Log = log,
+            TimeProvider = timeProvider,
+            RuntimeSettings = new RuntimeSettings(new EmptyTagUtils()),
+        });
     }
 
     public override int Execute(Md2HtmlArguments arguments, string[] context)
     {
-        string md = arguments.InputFile.ReadFile(_log);
+        string md = ReadInputFiles(arguments.InputFiles);
 
         string pageTemplate = string.Empty;
 
@@ -45,7 +55,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
             cssForInline = arguments.Css.ReadFile(_log);
 
         using var pipeline = new BookGenPipeline(BookGenPipeline.Preview);
-        pipeline.InjectPath(arguments.InputFile.GetDirectory());
+        pipeline.InjectPath(arguments.InputFiles[0].GetDirectory());
         pipeline.SetSyntaxHighlightTo(!arguments.NoSyntax);
         pipeline.SetSvgPasstroughTo(arguments.SvgPassthrough);
 
@@ -58,9 +68,14 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
         }
         else
         {
-            rendered = pageTemplate.Replace(TitleTag, arguments.Title);
-            rendered = rendered.Replace(CssTag, cssForInline);
-            rendered = rendered.Replace(ContentTag, mdcontent);
+            var parameters = new TemplateParameters
+            {
+                Title = arguments.Title,
+                Content = mdcontent,
+            };
+            parameters.Add("css", cssForInline);
+
+            rendered = _renderer.Render(pageTemplate, parameters);
         }
 
         if (arguments.OutputFile.IsConsole)
@@ -71,6 +86,18 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
         return Constants.Succes;
     }
 
+    private string ReadInputFiles(FsPath[] inputFiles)
+    {
+        StringBuilder md = new(inputFiles.Length * 1024);
+        foreach (var inputFile in inputFiles)
+        {
+            string content = inputFile.ReadFile(_log);
+            md.Append(content);
+            if (!content.EndsWith('\n'))
+                md.Append(Environment.NewLine);
+        }
+        return md.ToString();
+    }
 
     private bool ValidateTemplate(string pageTemplate)
     {

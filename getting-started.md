@@ -26,6 +26,8 @@ package manager or download from: https://www.html-tidy.org/
 
 `www` - Web starting util for seaching
 
+`organize` - Organize files in the current working directory
+
 # Common BookGen commands
 
 `BookGen md2html -i input.md -o out.html` - Convert the input.md file to out.html

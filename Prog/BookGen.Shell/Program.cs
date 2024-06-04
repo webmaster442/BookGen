@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -13,25 +13,28 @@ using Spectre.Console;
 ILog log = new Log();
 CommandNameProvider commandNameProvider = new();
 
-SimpleIoC ioc = new();
+using SimpleIoC ioc = new();
 ioc.RegisterSingleton<IAnsiConsole>(AnsiConsole.Console);
 ioc.RegisterSingleton(commandNameProvider);
+ioc.RegisterSingleton(log);
 ioc.Build();
 
-CommandRunner runner = new CommandRunner(ioc, log, new CommandRunnerSettings
+CommandRunner runner = new(ioc, log, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,
     ExcptionExitCode = -1,
     PlatformNotSupportedExitCode = 4,
+    EnableUtf8Output = true,
 });
-
 
 runner
     .AddDefaultCommand<CommandListCommand>()
     .AddCommand<PromptCommand>()
     .AddCommand<CdgCommand>()
-    .AddCommand<WwwCommand>();
+    .AddCommand<WwwCommand>()
+    .AddCommand<OrganizeCommand>()
+    .AddCommand<GitAutoCompleteCommand>();
 
 commandNameProvider.CommandNames = runner.CommandNames;
 

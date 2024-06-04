@@ -1,39 +1,70 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
+
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 using BookGen.Domain.Terminal;
 
 namespace BookGen.DomainServices;
 
-public static class GitParser
+public static partial class GitParser
 {
-    private static readonly string[] Splits = new string[] { "\n" };
+    private static readonly string[] Splits = ["\n"];
 
     public static GitStatus ParseStatus(string status)
     {
         string[] lines = status.Split(Splits, StringSplitOptions.RemoveEmptyEntries);
 
-        if (lines.Length < 4)
-            return new GitStatus();
+        int notCommited = lines.Count(x => !x.StartsWith('#'));
 
-        string[] inout = Extract(lines[3], "# branch.ab ").Split(' ');
+        string[] inout = Parse(lines, "# branch.ab ", "0 0").Split(' ');
 
         return new GitStatus
         {
-            LastCommitId = Extract(lines[0], "# branch.oid "),
-            BranchName = Extract(lines[1], "# branch.head "),
+            LastCommitId = Parse(lines, "# branch.oid ", ""),
+            BranchName = Parse(lines, "# branch.head ", "Unknown brach"),
             IncommingCommits = int.Parse(inout[1]) * -1,
             OutGoingCommits = int.Parse(inout[0]),
-            NotCommitedChanges = lines.Length - 4,
+            NotCommitedChanges = notCommited
         };
     }
 
-    private static string Extract(string line, string begining)
+    public static HashSet<string>ParseBranches(string branches)
     {
-        return line.StartsWith(begining)
-            ? line[begining.Length..].Trim()
-            : string.Empty;
+        HashSet<string> results = new();
+        foreach (var line in branches.Split(Splits, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            if (line.Contains(" -> "))
+                continue; //item is pointer, skip it
+
+            string branch = line;
+
+            if (branch.StartsWith("* "))
+                branch = branch.Replace("* ", ""); //acutal branch
+
+            if (branch.StartsWith("remotes/origin/"))
+                branch = branch.Replace("remotes/origin/", "").Trim();
+
+            results.Add(branch);
+        }
+        return results;
+    }
+
+    private static T Parse<T>(IEnumerable<string> lines, string header, T defaultValue)
+        where T : IParsable<T>
+    {
+        var line = lines.FirstOrDefault(x => x.StartsWith(header));
+
+        if (line == null)
+        {
+            return defaultValue;
+        }
+
+        var cleaned = line[header.Length..].Trim();
+        return T.Parse(cleaned, CultureInfo.InvariantCulture);
     }
 }

@@ -5,12 +5,13 @@
 
 namespace BookGen.Cli;
 
-public class CommandRunnerSettings
+public sealed class CommandRunnerSettings
 {
     public (int code, string message) UnknownCommandCodeAndMessage { get; init; }
     public int BadParametersExitCode { get; init; }
     public int PlatformNotSupportedExitCode { get; init; }
     public int ExcptionExitCode { get; init; }
+    public bool EnableUtf8Output { get; init; }
 
     public CommandRunnerSettings()
     {

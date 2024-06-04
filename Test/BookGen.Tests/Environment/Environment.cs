@@ -19,26 +19,13 @@ namespace BookGen.Tests.Environment
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Environment");
         }
 
-        public static string GetSystemTestContentFolder()
-        {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Environment", "SystemTest");
-        }
-
-        internal static IAppSetting GetMockedAppSettings()
-        {
-            var mock = Substitute.For<IAppSetting>();
-            mock.NodeJsPath.Returns(string.Empty);
-            mock.NodeJsTimeout.Returns(60);
-            return mock;
-        }
-
         public static ILog GetMockedLog()
         {
             var mock = Substitute.For<ILog>();
             return mock;
         }
 
-        public static IReadonlyRuntimeSettings GetMockedSettings()
+        public static IReadonlyRuntimeSettings GetMockedRuntimeSettings()
         {
             var testConfig = Config.CreateDefault();
             testConfig.HostName = "http://test.com/";

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ using BookGen.Cli.Internals;
 
 namespace BookGen.Cli;
 
-public sealed class SimpleIoC : IResolver
+public sealed class SimpleIoC : IResolver, IDisposable
 {
     private readonly Dictionary<Type, Type> _instanceTypes;
     private readonly Dictionary<Type, Type> _singletonTypes;
@@ -88,5 +88,14 @@ public sealed class SimpleIoC : IResolver
             return instance;
 
         throw new InvalidOperationException($"Don't know how to resolve: {type.FullName}");
+    }
+
+    public void Dispose()
+    {
+        foreach (var singleton in _singletons)
+        {
+            if (singleton.Value is IDisposable disposable)
+                disposable.Dispose();
+        }
     }
 }

@@ -6,6 +6,7 @@
 using System.Text;
 
 namespace BookGen.ShellHelper;
+
 internal sealed class TerminalStringBuilder
 {
     private readonly StringBuilder _builder;

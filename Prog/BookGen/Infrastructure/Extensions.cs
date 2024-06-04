@@ -1,14 +1,19 @@
-﻿using BookGen.CommandArguments;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023-2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.CommandArguments;
 using BookGen.Framework;
 
 namespace BookGen.Infrastructure;
 
 internal static class Extensions
 {
-    public static void CheckLockFileExistsAndExitWhenNeeded(this ILog log, string folder)
+    public static void CheckLockFileExistsAndExitWhenNeeded(this IMutexFolderLock folderLock, ILog log, string folder)
     {
         log.Info("Checking folder lock status...");
-        if (FolderLock.IsFolderLocked(folder))
+        if (folderLock.CheckAndLock(folder))
         {
             log.Critical("An other bookgen process is using this folder. Exiting...");
             Environment.Exit(Constants.FolderLocked);

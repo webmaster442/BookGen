@@ -1,11 +1,12 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
 
 using BookGen.CommandArguments;
+using BookGen.Framework;
 using BookGen.Infrastructure;
 using BookGen.ProjectHandling;
 
@@ -15,18 +16,20 @@ namespace BookGen.Commands;
 internal class TagsCommand : Command<TagsArguments>
 {
     private readonly ILog _log;
+    private readonly IMutexFolderLock _folderLock;
     private readonly ProgramInfo _programInfo;
 
-    public TagsCommand(ILog log, ProgramInfo programInfo)
+    public TagsCommand(ILog log, IMutexFolderLock folderLock, ProgramInfo programInfo)
     {
         _log = log;
+        _folderLock = folderLock;
         _programInfo = programInfo;
     }
 
     public override int Execute(TagsArguments arguments, string[] context)
     {
         _log.EnableVerboseLogingIfRequested(arguments);
-        _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
+        _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
         var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);
 

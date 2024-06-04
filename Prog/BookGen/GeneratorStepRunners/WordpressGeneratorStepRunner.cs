@@ -9,8 +9,8 @@ namespace BookGen.GeneratorStepRunners;
 
 internal sealed class WordpressGeneratorStepRunner : GeneratorStepRunner
 {
-    public WordpressGeneratorStepRunner(RuntimeSettings settings, ILog log, ShortCodeLoader loader)
-        : base(settings, log, loader)
+    public WordpressGeneratorStepRunner(RuntimeSettings settings, ILog log, IAppSetting appSetting)
+        : base(settings, log, appSetting)
     {
         var session = new GeneratorSteps.Wordpress.Session();
         AddStep(new GeneratorSteps.CreateOutputDirectory());
@@ -27,6 +27,6 @@ internal sealed class WordpressGeneratorStepRunner : GeneratorStepRunner
 
     protected override string ConfigureTemplateContent()
     {
-        return "<!--{content}-->";
+        return "{{content}}";
     }
 }

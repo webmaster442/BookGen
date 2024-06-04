@@ -112,8 +112,8 @@ internal sealed class ImageProcessor : IGeneratorStep
             fnmame = Path.ChangeExtension(file.ToString(), extensionOverride);
         }
 
-        string key = fnmame.Replace(settings.SourceDirectory.ToString(), settings.OutputDirectory.ToString());
-        settings.InlineImgCache.TryAdd(key, $"data:{mime};base64,{base64}");
+        string key = Path.GetFileName(fnmame);
+        settings.InlineImgCache.Add(key, $"data:{mime};base64,{base64}");
     }
 
     private static void SaveImage(FsPath file, FsPath targetdir, ILog log, SKData data, string? extensionOverride)

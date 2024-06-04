@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -15,7 +15,11 @@ internal class Log : ILog
 
     void ILog.Log(LogLevel logLevel, string format, params object[] args)
     {
-        string msg = string.Format(format, args);
+        string msg;
+        if (args.Length == 0)
+            msg = format;
+        else
+            msg = string.Format(format, args);
         OnLogWritten?.Invoke(this, new LogEventArgs(logLevel, msg));
     }
 }

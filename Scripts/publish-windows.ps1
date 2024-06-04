@@ -36,15 +36,21 @@ copy-item bin\bootstaper\Release\BookGen.Launcher.exe bin\Publish
 copy-item bin\bootstaper\Release\Bookgen.Win.dll bin\Publish
 copy-item bin\bootstaper\Release\Documents.html bin\Publish
 
-
 Write-Host "Creating installer..."
 cd Setup
 Write-Output "#define MyAppVersion ""$version""" | Out-File -FilePath "version.iss" -Encoding ASCII
 & 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup-web.iss
 cd ..
 
-Write-Host "Creating installer for ISO image..."
 cd bin\publish
+
+Write-Host "Getting powershell core..."
+$psCoreUrl = " https://github.com/PowerShell/PowerShell/releases/download/v7.4.2/PowerShell-7.4.2-win-x64.zip"
+Invoke-WebRequest -Uri $psCoreUrl -OutFile pwsh.zip
+Expand-Archive -Path pwsh.zip -DestinationPath "powershell"
+Remove-Item pwsh.zip
+
+Write-Host "Creating installer for ISO image..."
 $publishFiles=$(Get-ChildItem -Name -Recurse -Include *.*)
 cd ..\..
 cd Setup

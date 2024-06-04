@@ -66,6 +66,27 @@ internal sealed class ArgumentBag : IEnumerable<string>
         return null;
     }
 
+    public string[] GetSwitchValues(SwitchAttribute @switch)
+    {
+        List<string> values = new();
+        for (int i = 0; i < _arguments.Length; i++)
+        {
+            if (_arguments[i] == $"-{@switch.ShortName}"
+                || _arguments[i] == $"--{@switch.LongName}")
+            {
+                int nextIndex = i + 1;
+                if (nextIndex < _arguments.Length)
+                {
+                    string? returnValue = _arguments[nextIndex];
+                    _arguments[i] = null;
+                    _arguments[nextIndex] = null;
+                    values.Add(returnValue ?? string.Empty);
+                }
+            }
+        }
+        return values.ToArray();
+    }
+
     public string? GetArgument(ArgumentAttribute argument)
     {
         int notNullIndex = -1;

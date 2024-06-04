@@ -60,7 +60,7 @@ namespace BookGen.TestsSystem
                 Assert.That(contents, Does.Contain("</style>"));
 
                 Assert.That(contents, Does.Contain("<html>"));
-                Assert.That(contents, Does.EndWith("</html>"));
+                Assert.That(contents, Does.EndWith("</html>\r\n"));
             });
         }
 

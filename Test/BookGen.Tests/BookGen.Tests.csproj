@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
     <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.17">
       <PrivateAssets>all</PrivateAssets>
@@ -39,6 +39,7 @@
     <ProjectReference Include="..\..\Libs\BookGen.Contents\BookGen.Contents.csproj" />
     <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
     <ProjectReference Include="..\..\Libs\BookGen.Interfaces\BookGen.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Libs\BookGen.RenderEngine\BookGen.RenderEngine.csproj" />
     <ProjectReference Include="..\..\Prog\BookGen\BookGen.csproj" />
   </ItemGroup>
 

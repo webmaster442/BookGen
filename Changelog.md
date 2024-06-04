@@ -1,11 +1,16 @@
-# Next
+# 2024. 06. 04 (Pre release)
 
+* New: Added autocomplete in bookgen shell for basic git commands
+* New: ISO build now includes powershell core
+* New: Added table of contents support via the [toc] tag in markdown
+* New: JSON array support for subcommand configuration.
 * Change: Updated dependencies
-* Change: Cplipboard implementation replaced with TextCopy
+* Change: Cplipboard implementation replaced with TextCopy, now works multiplatform
 * Change: Linux distribution now uses a deb package for distribution
 * Change: SVG Passthrough implemented in md2html command
 * Change: md2thml is extended with templating and new options
 * Change: Various BookGen related settings now use a single .ZIP file for configuration
+* Change: Reworked templating engine
 * Fix: Various linux compatibility fixes
 * Fix: Various fixes in the Table of Contents generation
 * Fix: Template processor fixes

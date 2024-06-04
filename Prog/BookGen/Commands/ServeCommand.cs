@@ -1,9 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using BookGen.CommandArguments;
+using BookGen.Framework;
 using BookGen.Framework.Server;
 using BookGen.Infrastructure;
 
@@ -15,17 +16,19 @@ namespace BookGen.Commands;
 internal class ServeCommand : Command<BookGenArgumentBase>
 {
     private readonly ILog _log;
+    private readonly IMutexFolderLock _folderLock;
 
-    public ServeCommand(ILog log)
+    public ServeCommand(ILog log, IMutexFolderLock folderLock)
     {
         _log = log;
+        _folderLock = folderLock;
     }
 
     public override int Execute(BookGenArgumentBase arguments, string[] context)
     {
         _log.LogLevel = arguments.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
 
-        _log.CheckLockFileExistsAndExitWhenNeeded(arguments.Directory);
+        _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
         using (HttpServer? server = HttpServerFactory.CreateServerForServModule(_log, arguments.Directory))
         {

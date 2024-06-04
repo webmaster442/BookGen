@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+    <ProjectReference Include="..\BookGen.DomainServices\BookGen.DomainServices.csproj" />
+    <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />
+    <ProjectReference Include="..\BookGen.Interfaces\BookGen.Interfaces.csproj" />
+    <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
+  </ItemGroup>
+
+</Project>

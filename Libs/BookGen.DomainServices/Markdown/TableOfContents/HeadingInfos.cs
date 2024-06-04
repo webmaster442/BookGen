@@ -44,8 +44,7 @@ internal sealed class HeadingInfos : LevelList<HeadingInfos>
 
             if (!item.IsLocator)
             {
-                renderer.Write($"<a href='#{item.Id}'");
-                renderer.Write($">{item.Content}</a>");
+                renderer.Write($"<a href=\"#{item.Id}\">{item.Content}</a>");
             }
 
             item.RenderHtmlLint(renderer, options);

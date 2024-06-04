@@ -116,15 +116,12 @@ internal class GeneratorRunner
 
     #region Argument handlers
 
-    private void RunSteps<TBuilder>(Func<ShortCodeLoader, TBuilder> builderCreator, RuntimeSettings settings) where TBuilder : BookGen.Framework.GeneratorStepRunner
+    private void RunSteps<TBuilder>(Func<TBuilder> builderCreator, RuntimeSettings settings) where TBuilder : BookGen.Framework.GeneratorStepRunner
     {
-        using (var loader = new ShortCodeLoader(Log, settings, _appSettings, _timeProvider))
+        using (TBuilder instance = builderCreator())
         {
-            using (TBuilder instance = builderCreator(loader))
-            {
-                TimeSpan runTime = instance.Run();
-                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
-            }
+            TimeSpan runTime = instance.Run();
+            Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
         }
     }
 
@@ -136,7 +133,7 @@ internal class GeneratorRunner
 
         Log.Info("Building deploy configuration...");
 
-        RunSteps((loader) => new WebsiteGeneratorStepRunner(settings, Log, loader), settings);
+        RunSteps(() => new WebsiteGeneratorStepRunner(settings, Log, _appSettings), settings);
     }
 
     public void DoPrint()
@@ -147,7 +144,7 @@ internal class GeneratorRunner
 
         Log.Info("Building print configuration...");
 
-        RunSteps((loader) => new PrintGeneratorStepRunner(settings, Log, loader), settings);
+        RunSteps(() => new PrintGeneratorStepRunner(settings, Log, _appSettings), settings);
     }
 
     public void DoEpub()
@@ -158,7 +155,7 @@ internal class GeneratorRunner
 
         Log.Info("Building epub configuration...");
 
-        RunSteps((loader) => new EpubGeneratorStepRunner(settings, Log, loader), settings);
+        RunSteps(() => new EpubGeneratorStepRunner(settings, Log, _appSettings), settings);
     }
 
     public void DoWordpress()
@@ -169,7 +166,7 @@ internal class GeneratorRunner
 
         Log.Info("Building Wordpress configuration...");
 
-        RunSteps((loader) => new WordpressGeneratorStepRunner(settings, Log, loader), settings);
+        RunSteps(() => new WordpressGeneratorStepRunner(settings, Log, _appSettings), settings);
     }
 
     public void DoPostProcess()
@@ -180,7 +177,7 @@ internal class GeneratorRunner
 
         Log.Info("Building postprocess configuration...");
 
-        RunSteps((loader) => new PostProcessGenreratorStepRunner(settings, Log, loader), settings);
+        RunSteps(() => new PostProcessGenreratorStepRunner(settings, Log, _appSettings), settings);
     }
 
     public void DoTest()
@@ -193,30 +190,28 @@ internal class GeneratorRunner
 
         RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetWeb);
 
-        using (var loader = new ShortCodeLoader(Log, settings, _appSettings, _timeProvider))
+        var builder = new WebsiteGeneratorStepRunner(settings, Log, _appSettings);
+        TimeSpan runTime = builder.Run();
+
+        using (HttpServer? server = HttpServerFactory.CreateServerForTest(Log, Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory)))
         {
-            var builder = new WebsiteGeneratorStepRunner(settings, Log, loader);
-            TimeSpan runTime = builder.Run();
+            server.Start();
+            Log.Info("-------------------------------------------------");
+            Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
+            Log.Info("Test server running on: http://localhost:8090/");
+            Log.Info("To get QR code for another device visit: http://localhost:8090/qrcodelink");
+            Log.Info("Serving from: {0}", _projectLoader.Configuration.TargetWeb.OutPutDirectory);
 
-            using (HttpServer? server = HttpServerFactory.CreateServerForTest(Log, Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory)))
+            if (_appSettings.AutoStartWebserver)
             {
-                server.Start();
-                Log.Info("-------------------------------------------------");
-                Log.Info("Runtime: {0:0.000} ms", runTime.TotalMilliseconds);
-                Log.Info("Test server running on: http://localhost:8090/");
-                Log.Info("To get QR code for another device visit: http://localhost:8090/qrcodelink");
-                Log.Info("Serving from: {0}", _projectLoader.Configuration.TargetWeb.OutPutDirectory);
-
-                if (_appSettings.AutoStartWebserver)
-                {
-                    UrlOpener.OpenUrl(_projectLoader.Configuration.HostName);
-                }
-
-                Console.WriteLine(ExitString);
-                Console.ReadLine();
-                server.Stop();
+                UrlOpener.OpenUrl(_projectLoader.Configuration.HostName);
             }
+
+            Console.WriteLine(ExitString);
+            Console.ReadLine();
+            server.Stop();
         }
+
     }
 
     #endregion
