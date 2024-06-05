@@ -35,6 +35,7 @@ namespace BookGen.DomainServices.Markdown.Modifiers
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
             // Method intentionally left empty.
+            PipelineHelpers.SetupSyntaxRenderForWeb(renderer);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
