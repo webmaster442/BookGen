@@ -16,6 +16,7 @@ internal sealed class CdgSelector
     private bool _canRun;
 
     public string _currentPath;
+    private readonly bool _showHidden;
 
     private void SetDirectories(IEnumerable<SelectionItemDirectory> items)
     {
@@ -23,9 +24,10 @@ internal sealed class CdgSelector
         _directories.AddRange(items);
     }
 
-    public CdgSelector(string startDirectory)
+    public CdgSelector(string startDirectory, bool showHidden)
     {
         _currentPath = startDirectory;
+        _showHidden = showHidden;
         _directories = new List<SelectionItemDirectory>();
         _menuItems =
         [
@@ -101,11 +103,16 @@ internal sealed class CdgSelector
         ];
     }
 
-    private static bool CanAccess(string path, [NotNullWhen(true)] out string[]? subdirs)
+    private bool CanAccess(string path, [NotNullWhen(true)] out string[]? subdirs)
     {
         try
         {
-            subdirs = Directory.GetDirectories(path);
+            var items = new DirectoryInfo(path).GetDirectories();
+            if (_showHidden)
+            {
+                items = items.Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden)).ToArray();
+            }
+            subdirs = items.Select(x => x.FullName).ToArray();
             return true;
         }
         catch (Exception)

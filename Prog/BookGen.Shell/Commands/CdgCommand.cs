@@ -14,7 +14,7 @@ internal sealed class CdgCommand : AsyncCommand<CdgArguments>
 {
     public override async Task<int> Execute(CdgArguments arguments, string[] context)
     {
-        var menu = new Cdg.CdgSelector(arguments.Folder);
+        var menu = new Cdg.CdgSelector(arguments.Folder, arguments.ShowHidden);
         await menu.ShowMenu();
         return 0;
     }
