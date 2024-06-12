@@ -15,7 +15,7 @@ internal sealed class CdgSelector
     private readonly List<SelectionItemDirectory> _directories;
     private bool _canRun;
 
-    public string _currentPath { get; set; }
+    public string _currentPath;
 
     private void SetDirectories(IEnumerable<SelectionItemDirectory> items)
     {
@@ -27,8 +27,8 @@ internal sealed class CdgSelector
     {
         _currentPath = startDirectory;
         _directories = new List<SelectionItemDirectory>();
-        _menuItems = new SelectionItemAction[]
-        {
+        _menuItems =
+        [
             new SelectionItemAction
             {
                 DisplayString = "Select current directory",
@@ -98,7 +98,7 @@ internal sealed class CdgSelector
                 },
                 Color = Color.Fuchsia,
             },
-        };
+        ];
     }
 
     private static bool CanAccess(string path, [NotNullWhen(true)] out string[]? subdirs)
