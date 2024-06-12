@@ -29,8 +29,6 @@ public enum MainMenuAction
     PreviewServer,
     [Text("ID_Stat")]
     Stat,
-    [Text("ID_Update")]
-    Update,
     [Text("ID_Help")]
     Help,
     [Text("ID_Exit")]
