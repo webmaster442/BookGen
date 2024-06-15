@@ -12,8 +12,9 @@ namespace BookGen.Shell.Cdg;
 [DebuggerDisplay("{DisplayString}")]
 internal class SelectionItemBase
 {
-    public required string DisplayString { get; init; }
+    public string Id { get; init; } = string.Empty;
+    public required string DisplayString { get; set; }
     public required string Icon { get; init; }
     public required Color Color { get; init; }
-    public bool IsMenu { get; init; } = false;
+    public bool IsMenuHeader { get; init; } = false;
 }

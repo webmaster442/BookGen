@@ -5,6 +5,7 @@
 
 using Spectre.Console;
 
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace BookGen.Shell.Cdg;
@@ -16,7 +17,7 @@ internal sealed class CdgSelector
     private bool _canRun;
 
     public string _currentPath;
-    private readonly bool _showHidden;
+    private bool _showHidden;
 
     private void SetDirectories(IEnumerable<SelectionItemDirectory> items)
     {
@@ -40,6 +41,13 @@ internal sealed class CdgSelector
                     Environment.SetEnvironmentVariable("cdgPath", _currentPath, EnvironmentVariableTarget.User);
                     _canRun = false;
                 },
+                Color = Color.Red,
+            },
+            new SelectionItemAction 
+            {
+                DisplayString = "Open in file manager",
+                Icon = ":right_arrow:",
+                Action = OpenInFileExplorer,
                 Color = Color.Red,
             },
             new SelectionItemAction
@@ -100,7 +108,31 @@ internal sealed class CdgSelector
                 },
                 Color = Color.Fuchsia,
             },
+            new SelectionItemAction
+            {
+                Id = "ShowHide",
+                DisplayString =  _showHidden ? "Hide hidden files" : "Toggle hidden files",
+                Icon = ":eye: ",
+                Action = () => 
+                {
+                    var showHide = _menuItems?.First(m => m.Id == "ShowHide") ?? throw new InvalidOperationException(); 
+                    showHide.DisplayString = _showHidden ? "Show hidden files" : "Hide hidden files";
+                    _showHidden = !_showHidden;
+                },
+                Color = Color.Blue,
+            },
         ];
+    }
+
+    private void OpenInFileExplorer()
+    {
+        using var process = Process.Start(new ProcessStartInfo
+        {
+            FileName = _currentPath,
+            UseShellExecute = true,
+            Verb = "open"
+        });
+        _canRun = false;
     }
 
     private bool CanAccess(string path, [NotNullWhen(true)] out string[]? subdirs)
@@ -144,7 +176,7 @@ internal sealed class CdgSelector
     private static string Render(SelectionItemBase item)
     {
         string seperator = "  ";
-        if (item.IsMenu)
+        if (item.IsMenuHeader)
             seperator = " ";
 
         return $"{item.Icon}{seperator}[{item.Color.ToMarkup()}]{item.DisplayString.EscapeMarkup()}[/]";
@@ -156,7 +188,7 @@ internal sealed class CdgSelector
         {
             DisplayString = groupName,
             Icon = icon,
-            IsMenu = true,
+            IsMenuHeader = true,
             Color = Spectre.Console.Color.Red
         };
     }
