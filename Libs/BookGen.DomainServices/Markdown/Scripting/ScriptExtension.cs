@@ -5,6 +5,7 @@
 
 using Markdig;
 using Markdig.Renderers;
+using Markdig.Renderers.Html;
 
 namespace BookGen.DomainServices.Markdown.Scripting;
 
@@ -26,7 +27,10 @@ internal sealed class ScriptExtension : IMarkdownExtension
     {
         if (renderer is HtmlRenderer htmlRenderer)
         {
-            htmlRenderer.ObjectRenderers.AddIfNotAlready(new ScriptBlockRenderer(_scriptExecutor));
+            if (htmlRenderer.ObjectRenderers.Contains<CodeBlockRenderer>())
+                htmlRenderer.ObjectRenderers.InsertBefore<CodeBlockRenderer>(new ScriptBlockRenderer(_scriptExecutor));
+            else
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new ScriptBlockRenderer(_scriptExecutor));
         }
     }
 }

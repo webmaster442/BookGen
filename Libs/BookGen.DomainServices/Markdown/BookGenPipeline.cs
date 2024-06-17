@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.DomainServices.Markdown.Modifiers;
+using BookGen.DomainServices.Markdown.Scripting;
 using BookGen.DomainServices.Markdown.TableOfContents;
 using BookGen.Interfaces;
 using Markdig;
@@ -17,6 +18,7 @@ namespace BookGen.DomainServices.Markdown
             get => new MarkdownPipelineBuilder()
                 .UseAdvancedExtensions()
                 .UseTableOfContents()
+                .UseScripting()
                 .Use<WebModifier>()
                 .Build();
         }
@@ -26,6 +28,7 @@ namespace BookGen.DomainServices.Markdown
             get => new MarkdownPipelineBuilder()
                 .UseAdvancedExtensions()
                 .UseTableOfContents()
+                .UseScripting()
                 .Use<PrintModifier>()
                 .Build();
         }
@@ -41,6 +44,7 @@ namespace BookGen.DomainServices.Markdown
             get => new MarkdownPipelineBuilder()
                 .UseAdvancedExtensions()
                 .UseTableOfContents()
+                .UseScripting()
                 .Use<EpubModifier>()
                 .Build();
         }
@@ -50,6 +54,7 @@ namespace BookGen.DomainServices.Markdown
             get => new MarkdownPipelineBuilder()
                 .UseAdvancedExtensions()
                 .UseTableOfContents()
+                .UseScripting()
                 .Use<PreviewModifier>()
                 .Build();
         }
@@ -59,6 +64,7 @@ namespace BookGen.DomainServices.Markdown
             get => new MarkdownPipelineBuilder()
                 .UseAdvancedExtensions()
                 .UseTableOfContents()
+                .UseScripting()
                 .Use<WordpressModifier>()
                 .Build();
         }

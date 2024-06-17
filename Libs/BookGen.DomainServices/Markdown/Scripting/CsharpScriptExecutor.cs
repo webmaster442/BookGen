@@ -30,6 +30,7 @@ internal sealed class CsharpScriptExecutor
     {
         HashSet<Assembly> references =
         [
+            typeof(Console).Assembly,
             typeof(object).Assembly,
             typeof(List<>).Assembly,
             typeof(Enumerable).Assembly,

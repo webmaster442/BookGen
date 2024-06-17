@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using Markdig;
-using Markdig.Renderers;
 
 namespace BookGen.DomainServices.Markdown.Scripting;
 

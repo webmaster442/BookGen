@@ -13,7 +13,7 @@ internal sealed class ScriptBlockParser : FencedBlockParserBase<ScriptBlock>
 {
     public ScriptBlockParser()
     {
-        OpeningCharacters = new[] { '`' };
+        OpeningCharacters = new[] { '\'' };
         InfoPrefix = "script";
         InfoParser = ScriptInfoParser;
     }
@@ -38,7 +38,7 @@ internal sealed class ScriptBlockParser : FencedBlockParserBase<ScriptBlock>
         for (int i = line.Start; i <= line.End; i++)
         {
             c = line.Text[i];
-            if (c == '`')
+            if (c == '\'')
             {
                 return false;
             }
