@@ -67,7 +67,6 @@ internal sealed class CsharpScriptExecutor
             catch (Exception ex)
             {
                 writer.WriteLine(ex.Message);
-                writer.WriteLine(ex.StackTrace);
             }
             finally
             {

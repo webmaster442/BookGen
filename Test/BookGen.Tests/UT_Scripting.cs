@@ -46,4 +46,17 @@ public class UT_Scripting
         string result = Markdown.ToHtml(script, _pipeline);
         Assert.That(result, Is.EqualTo(expected));
     }
+
+    [Test]
+    public void TestConsoleReadThrows()
+    {
+       var script = """
+            '''script
+            Console.ReadLine();
+            '''
+            """;
+
+        string result = Markdown.ToHtml(script, _pipeline);
+        Assert.That(result, Is.EqualTo("Console Inputs is not supported in scripting\r\n"));
+    }
 }
