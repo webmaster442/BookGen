@@ -1,5 +1,7 @@
-# 2024. 06. 04 (Pre release)
+# 2024. 06. 
 
+* New: Added new command to create new files
+* New: C# scripting support in markdown files via the '''script ''' tag
 * New: Added autocomplete in bookgen shell for basic git commands
 * New: ISO build now includes powershell core
 * New: Added table of contents support via the [toc] tag in markdown
