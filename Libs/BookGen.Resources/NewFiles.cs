@@ -6,7 +6,7 @@
 using System.Text;
 
 namespace BookGen.Resources;
-internal class NewFiles
+public sealed class NewFiles
 {
     private readonly Dictionary<FileKey, string> _files;
 
