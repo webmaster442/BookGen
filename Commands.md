@@ -300,6 +300,14 @@ Arguments:
 Note: the command gets the data from the clipboard and the generated
 markdown is also written to the clipboard.
 
+# New
+
+Creates a new file with the given template. If no arguments are given, then
+it lists the available templates with descriptions.
+
+`Bookgen New {-t [template]} {-o [fileName]}`
+`Bookgen New {--template [template]} {--output [fileName]}`
+
 # Pack
 
 Pack / backup the bookgen related files of the current project into a 
