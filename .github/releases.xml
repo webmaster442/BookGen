@@ -29,7 +29,7 @@
         👁‍🗨 Change: Removed ZIP format release
         👁‍🗨 Change: Folder locking is now process based
         👁‍🗨 Change: Improved stat command
-        👁‍🗨 Change: HTTP server has favicons & last acces time is sent in header
+        👁‍🗨 Change: HTTP server has favicons &amp; last acces time is sent in header
         👁‍🗨 Change: Replaces File based folder locking wiht a process based one
         👁‍🗨 Change: Auto updater removed, because of multiple platform issues
         👁‍🗨 Change: Launcher file browser usability improvements
