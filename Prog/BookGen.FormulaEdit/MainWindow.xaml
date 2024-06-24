@@ -10,13 +10,18 @@
     Title="BookGen Formula editor"
     Width="1280"
     Height="720"
-    d:DataContext="{x:Type local:MainViewModel}"
     ResizeMode="CanMinimize"
     SnapsToDevicePixels="True"
     TitleCharacterCasing="Normal"
     UseLayoutRounding="True"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding OpenCommand}"/>
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding NewCommand}" />
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveCommand}"/>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding ExitCommand}"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="400" />
@@ -36,6 +41,11 @@
             </Menu.RenderTransform>
             <MenuItem Header="File">
                 <MenuItem
+                    Command="{Binding NewCommand}"
+                    Header="New"
+                    InputGestureText="Ctrl+N" />
+                <Separator />
+                <MenuItem
                     Command="{Binding OpenCommand}"
                     Header="Open..."
                     InputGestureText="Ctrl+O" />
@@ -51,20 +61,20 @@
             </MenuItem>
             <MenuItem Header="Rendering">
                 <MenuItem
-                    Command="{Binding RenderCommand}"
+                    Command="{Binding RenderCurrentCommand}"
                     CommandParameter="svg"
                     Header="Current to SVG..." />
                 <MenuItem
-                    Command="{Binding RenderCommand}"
+                    Command="{Binding RenderCurrentCommand}"
                     CommandParameter="png"
                     Header="Current to PNG..." />
                 <Separator />
                 <MenuItem
-                    Command="{Binding RenderCommand}"
+                    Command="{Binding RenderAllCommand}"
                     CommandParameter="svg-all"
                     Header="All to PNG..." />
                 <MenuItem
-                    Command="{Binding RenderCommand}"
+                    Command="{Binding RenderAllCommand}"
                     CommandParameter="png-all"
                     Header="All to SVG..." />
             </MenuItem>
@@ -82,8 +92,8 @@
             Grid.Column="0"
             Header="Formulas">
             <ListBox
-                SelectedIndex="{Binding SelectedIndex}"
-                ItemsSource="{Binding Formulas}">
+                ItemsSource="{Binding Formulas}"
+                SelectedIndex="{Binding SelectedIndex}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock
@@ -103,11 +113,13 @@
             Grid.ColumnSpan="2"
             Header="Preview">
             <wpfMathControls:FormulaControl
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Background="Transparent"
-                SnapsToDevicePixels="True"
-                SystemTextFontName="Arial"
                 Formula="{Binding CurrentFormula, NotifyOnValidationError=True}"
-                SelectionBrush="LightBlue"/>
+                SelectionBrush="LightBlue"
+                SnapsToDevicePixels="True"
+                SystemTextFontName="Arial" />
         </GroupBox>
         <GroupBox
             Grid.Row="2"
@@ -115,12 +127,12 @@
             Grid.ColumnSpan="2"
             Header="Formula">
             <TextBox
-                FontSize="18"
                 AcceptsReturn="True"
-                HorizontalScrollBarVisibility="Auto"
-                VerticalScrollBarVisibility="Auto"
                 FontFamily="Consolas"
-                Text="{Binding CurrentFormula, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
+                FontSize="18"
+                HorizontalScrollBarVisibility="Auto"
+                Text="{Binding CurrentFormula, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}"
+                VerticalScrollBarVisibility="Auto" />
         </GroupBox>
     </Grid>
 </mah:MetroWindow>

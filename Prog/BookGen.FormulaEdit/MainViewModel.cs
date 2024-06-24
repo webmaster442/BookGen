@@ -27,14 +27,27 @@ internal partial class MainViewModel : ObservableObject
         {
             CurrentFormula = Formulas[value];
         }
+        UpdateCommands();
+    }
+
+    private void UpdateCommands()
+    {
+        DeleteCommand.NotifyCanExecuteChanged();
+        AddCommand.NotifyCanExecuteChanged();
+        NewCommand.NotifyCanExecuteChanged();
+        SaveCommand.NotifyCanExecuteChanged();
+        RenderCurrentCommand.NotifyCanExecuteChanged();
+        RenderAllCommand.NotifyCanExecuteChanged();
     }
 
     partial void OnCurrentFormulaChanged(string value)
     {
         if (SelectedIndex > -1)
         {
+            int tempIndex = SelectedIndex;
             Formulas[SelectedIndex] = value;
             _isDirty = true;
+            SelectedIndex = tempIndex;
         }
     }
 
@@ -86,7 +99,7 @@ internal partial class MainViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(HasItems))]
     public void Save()
     {
         var fileName = _dialogs.SaveFile();
@@ -110,6 +123,10 @@ internal partial class MainViewModel : ObservableObject
         Application.Current.Shutdown();
     }
 
+    public bool HasSelection => SelectedIndex > -1;
+
+    public bool HasItems => Formulas.Count > 0;
+
     [RelayCommand]
     public void Add()
     {
@@ -118,7 +135,7 @@ internal partial class MainViewModel : ObservableObject
         _isDirty = true;
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(HasSelection))]
     public void Delete()
     {
         Formulas.RemoveAt(SelectedIndex);
@@ -126,8 +143,14 @@ internal partial class MainViewModel : ObservableObject
         _isDirty = true;
     }
 
-    [RelayCommand]
-    public void Render(string arg)
+    [RelayCommand(CanExecute = nameof(HasSelection))]
+    public void RenderCurrent(string arg)
+    {
+
+    }
+
+    [RelayCommand(CanExecute = nameof(HasItems))]
+    public void RenderAll(string arg)
     {
 
     }
