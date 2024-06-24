@@ -17,10 +17,22 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.InputBindings>
-        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding OpenCommand}"/>
-        <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding NewCommand}" />
-        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveCommand}"/>
-        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding ExitCommand}"/>
+        <KeyBinding
+            Key="O"
+            Command="{Binding OpenCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="N"
+            Command="{Binding NewCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="S"
+            Command="{Binding SaveCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="F4"
+            Command="{Binding ExitCommand}"
+            Modifiers="Alt" />
     </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -78,48 +90,74 @@
                     CommandParameter="png-all"
                     Header="All to SVG..." />
             </MenuItem>
-            <Separator />
-            <MenuItem
-                Command="{Binding AddCommand}"
-                Header="Add new formula..." />
-            <MenuItem
-                Command="{Binding DeleteCommand}"
-                Header="Delete selected..." />
         </Menu>
         <GroupBox
             Grid.Row="1"
             Grid.RowSpan="3"
             Grid.Column="0"
             Header="Formulas">
-            <ListBox
-                ItemsSource="{Binding Formulas}"
-                SelectedIndex="{Binding SelectedIndex}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock
-                            MaxWidth="390"
-                            Margin="0,5"
-                            FontFamily="Consolas"
-                            Text="{Binding}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="Wrap" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ListBox
+                    Grid.Row="0"
+                    ItemsSource="{Binding Formulas}"
+                    SelectedIndex="{Binding SelectedIndex}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                MaxWidth="390"
+                                Margin="0,5"
+                                FontFamily="Consolas"
+                                Text="{Binding}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Menu Grid.Row="1">
+                    <MenuItem
+                        Command="{Binding AddCommand}"
+                        Header="Add new formula..." />
+                    <Separator/>
+                    <MenuItem
+                        Command="{Binding DeleteCommand}"
+                        Header="Delete selected..." />
+                </Menu>
+            </Grid>
         </GroupBox>
         <GroupBox
             Grid.Row="1"
             Grid.Column="1"
             Grid.ColumnSpan="2"
             Header="Preview">
-            <wpfMathControls:FormulaControl
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="Transparent"
-                Formula="{Binding CurrentFormula, NotifyOnValidationError=True}"
-                SelectionBrush="LightBlue"
-                SnapsToDevicePixels="True"
-                SystemTextFontName="Arial" />
+            <Grid>
+                <wpfMathControls:FormulaControl
+                    x:Name="FormulaControl"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    Formula="{Binding CurrentFormula, NotifyOnValidationError=True}"
+                    SelectionBrush="LightBlue"
+                    SnapsToDevicePixels="True"
+                    SystemTextFontName="Arial"
+                    Visibility="{Binding ElementName=FormulaControl, Path=HasError, Converter={local:BooleanToVisibility}, ConverterParameter=negate}" />
+                <ItemsControl
+                    ItemsSource="{Binding ElementName=FormulaControl, Path=Errors}"
+                    Visibility="{Binding ElementName=FormulaControl, Path=HasError, Converter={local:BooleanToVisibility}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                FontFamily="Consolas"
+                                FontSize="18"
+                                Foreground="Red"
+                                Text="{Binding Message}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
         </GroupBox>
         <GroupBox
             Grid.Row="2"
