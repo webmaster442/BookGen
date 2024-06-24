@@ -19,7 +19,7 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition MaxWidth="400" />
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -81,10 +81,14 @@
             Grid.RowSpan="3"
             Grid.Column="0"
             Header="Formulas">
-            <ListBox ItemsSource="{Binding Formulas}">
+            <ListBox
+                SelectedIndex="{Binding SelectedIndex}"
+                ItemsSource="{Binding Formulas}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock
+                            MaxWidth="390"
+                            Margin="0,5"
                             FontFamily="Consolas"
                             Text="{Binding}"
                             TextTrimming="CharacterEllipsis"
@@ -100,7 +104,10 @@
             Header="Preview">
             <wpfMathControls:FormulaControl
                 Background="Transparent"
-                Formula="{Binding CurrentFormula}" />
+                SnapsToDevicePixels="True"
+                SystemTextFontName="Arial"
+                Formula="{Binding CurrentFormula, NotifyOnValidationError=True}"
+                SelectionBrush="LightBlue"/>
         </GroupBox>
         <GroupBox
             Grid.Row="2"
@@ -108,8 +115,12 @@
             Grid.ColumnSpan="2"
             Header="Formula">
             <TextBox
+                FontSize="18"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
                 FontFamily="Consolas"
-                Text="{Binding CurrentFormula}" />
+                Text="{Binding CurrentFormula, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
         </GroupBox>
     </Grid>
 </mah:MetroWindow>
