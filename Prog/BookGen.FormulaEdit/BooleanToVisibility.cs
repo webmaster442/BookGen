@@ -1,4 +1,9 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
