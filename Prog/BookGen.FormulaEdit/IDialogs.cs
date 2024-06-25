@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows;
+using System.Threading.Tasks;
 
 namespace BookGen.FormulaEdit;
 
@@ -7,6 +7,6 @@ internal interface IDialogs
 {
     string? OpenFile();
     string? SaveFile(string extension);
-    void Error(Exception ex);
-    bool Confirm(string message);
+    Task Error(Exception ex);
+    Task<bool> Confirm(string message);
 }

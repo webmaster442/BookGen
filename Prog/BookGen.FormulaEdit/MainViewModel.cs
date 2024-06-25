@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 
 using BookGen.FormulaEdit.AppLogic;
@@ -63,12 +64,12 @@ internal partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void New()
+    public async Task New()
     {
         if (_documentState.IsDirty && 
-            _dialogs.Confirm("Do you want to save the current file?"))
+            await _dialogs.Confirm("Do you want to save the current file?"))
         {
-            Save();
+            await Save();
             _documentState.NewCreated();
         }
         Formulas.Clear();
@@ -101,7 +102,7 @@ internal partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(HasItems))]
-    public void Save()
+    public async Task Save()
     {
         if (_documentState.HasFileName)
         {
@@ -112,17 +113,17 @@ internal partial class MainViewModel : ObservableObject
             }
             catch (Exception ex)
             {
-                _dialogs.Error(ex);
+                await _dialogs.Error(ex);
             }
         }
         else
         {
-            SaveAs();
+            await SaveAs();
         }
     }
 
     [RelayCommand(CanExecute = nameof(HasItems))]
-    public void SaveAs()
+    public async Task SaveAs()
     {
         var fileName = _dialogs.SaveFile("formulas");
         if (fileName != null)
@@ -134,7 +135,7 @@ internal partial class MainViewModel : ObservableObject
             }
             catch (Exception ex)
             {
-                _dialogs.Error(ex);
+                await _dialogs.Error(ex);
             }
         }
     }
@@ -166,7 +167,7 @@ internal partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(HasSelection))]
-    public void RenderCurrent(RenderFormat renderFormat)
+    public async Task RenderCurrent(RenderFormat renderFormat)
     {
         try
         {
@@ -178,7 +179,7 @@ internal partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            _dialogs.Error(ex);
+            await _dialogs.Error(ex);
         }
     }
 

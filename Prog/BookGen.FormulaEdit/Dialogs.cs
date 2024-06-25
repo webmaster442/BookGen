@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
+
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 using Microsoft.Win32;
 
@@ -7,14 +11,28 @@ namespace BookGen.FormulaEdit;
 
 internal sealed class Dialogs : IDialogs
 {
-    public bool Confirm(string message)
+    private readonly MetroWindow _metroWindow;
+    private readonly MetroDialogSettings _dialogsettings;
+
+    public Dialogs(MetroWindow metroWindow)
     {
-        return MessageBox.Show(message, "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
+        _metroWindow = metroWindow;
+        _dialogsettings = new MetroDialogSettings
+        {
+            ColorScheme = MetroDialogColorScheme.Inverted,
+            DefaultButtonFocus = MessageDialogResult.Affirmative,
+        };
     }
 
-    public void Error(Exception ex)
+    public async Task<bool> Confirm(string message)
     {
-        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        var resullt = await _metroWindow.ShowMessageAsync("Confirm", message, MessageDialogStyle.AffirmativeAndNegative, _dialogsettings);
+        return resullt == MessageDialogResult.Affirmative;
+    }
+
+    public async Task Error(Exception ex)
+    {
+        await _metroWindow.ShowMessageAsync("Error", ex.Message, MessageDialogStyle.Affirmative, _dialogsettings);
     }
 
     public string? OpenFile()
