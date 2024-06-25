@@ -124,7 +124,7 @@ internal partial class MainViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(HasItems))]
     public void SaveAs()
     {
-        var fileName = _dialogs.SaveFile();
+        var fileName = _dialogs.SaveFile("formulas");
         if (fileName != null)
         {
             try
@@ -168,7 +168,18 @@ internal partial class MainViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(HasSelection))]
     public void RenderCurrent(RenderFormat renderFormat)
     {
-
+        try
+        {
+            var fileName = _dialogs.SaveFile(renderFormat.GetExtension());
+            if (fileName != null)
+            {
+                Renderer.RenderTo(CurrentFormula, fileName, renderFormat);
+            }
+        }
+        catch (Exception ex)
+        {
+            _dialogs.Error(ex);
+        }
     }
 
     [RelayCommand(CanExecute = nameof(HasItems))]

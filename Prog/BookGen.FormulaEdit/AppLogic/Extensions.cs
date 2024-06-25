@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace BookGen.FormulaEdit.AppLogic;
@@ -15,5 +16,15 @@ internal static class Extensions
         }
         list.RaiseListChangedEvents = true;
         list.ResetBindings();
+    }
+
+    public static string GetExtension(this RenderFormat format)
+    {
+        return format switch
+        {
+            RenderFormat.Png => "png",
+            RenderFormat.Svg => "svg",
+            _ => throw new InvalidOperationException("Invalid render format"),
+        };
     }
 }

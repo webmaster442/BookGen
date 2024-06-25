@@ -33,14 +33,18 @@ internal sealed class Dialogs : IDialogs
         return null;
     }
 
-    public string? SaveFile()
+    public string? SaveFile(string extension)
     {
+        static string GetFilter(string extension)
+            => $"{extension}|*.{extension}";
+
         var sfd = new SaveFileDialog
         {
-            Filter = "Formulas|*.formulas",
+            Filter = GetFilter(extension),
             Title = "Save formulas file",
             OverwritePrompt = true,
         };
+
         if (sfd.ShowDialog() == true)
         {
             return sfd.FileName;

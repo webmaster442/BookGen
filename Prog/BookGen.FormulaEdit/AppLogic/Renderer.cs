@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Media.Imaging;
 
 using WpfMath.Converters;
@@ -42,6 +44,37 @@ internal static class Renderer
             writer.WriteLine("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" >");
             writer.WriteLine(svgPathText);
             writer.WriteLine("</svg>");
+        }
+    }
+
+    public static void RenderTo(string formula, string fileName, RenderFormat format)
+    {
+        switch (format)
+        {
+            case RenderFormat.Png:
+                using (var stream = File.Create(fileName))
+                {
+                    RenderPng(formula, stream);
+                }
+                break;
+            case RenderFormat.Svg:
+                using (var stream = File.Create(fileName))
+                {
+                    RenderSvg(formula, stream);
+                }
+                break;
+            default:
+                throw new InvalidOperationException("Invalid render format");
+        }
+    }
+
+    public static void RenderAllTo(string directory, string baseName, RenderFormat format, IEnumerable<string> formulas)
+    {
+        int counder = 0;
+        foreach (var formula in formulas)
+        {
+            var fileName = $"{baseName}_{counder++}.{format.GetExtension()}";
+            RenderTo(formula, fileName, format);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace BookGen.FormulaEdit;
 internal interface IDialogs
 {
     string? OpenFile();
-    string? SaveFile();
+    string? SaveFile(string extension);
     void Error(Exception ex);
     bool Confirm(string message);
 }
