@@ -10,9 +10,19 @@ namespace BookGen.FormulaEdit;
 /// </summary>
 public partial class MainWindow
 {
+    private readonly MainViewModel _viewModel;
+
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new MainViewModel(new Dialogs(this));
+        _viewModel = new MainViewModel(new Dialogs(this));
+        DataContext = _viewModel;
+    }
+
+    private async void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        e.Cancel = true;
+        await _viewModel.Closing();
+
     }
 }

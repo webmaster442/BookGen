@@ -209,4 +209,14 @@ internal partial class MainViewModel : ObservableObject
             }
         }
     }
+
+    public async Task Closing()
+    {
+        if (_documentState.IsDirty &&
+            await _dialogs.Confirm("Do you want to save the current file?"))
+        {
+            await Save();
+        }
+        Environment.Exit(0);
+    }
 }

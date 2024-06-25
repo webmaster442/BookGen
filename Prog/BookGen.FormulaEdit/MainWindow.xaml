@@ -15,6 +15,7 @@
     TitleCharacterCasing="Normal"
     UseLayoutRounding="True"
     WindowStartupLocation="CenterScreen"
+    Closing="MetroWindow_Closing"
     mc:Ignorable="d">
     <Window.InputBindings>
         <KeyBinding
