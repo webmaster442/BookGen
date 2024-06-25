@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows;
 
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -68,5 +67,12 @@ internal sealed class Dialogs : IDialogs
             return sfd.FileName;
         }
         return null;
+    }
+
+    public async Task<(string baseName, string folder)?> ExportDialog()
+    {
+        var dialog = new ExportDialog(_metroWindow);
+        await _metroWindow.ShowMetroDialogAsync(dialog);
+        return dialog.DialogResult ? (dialog.TbBaseName.Text, dialog.TbFolderPath.Text) : null;
     }
 }

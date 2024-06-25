@@ -66,7 +66,7 @@ internal partial class MainViewModel : ObservableObject
     [RelayCommand]
     public async Task New()
     {
-        if (_documentState.IsDirty && 
+        if (_documentState.IsDirty &&
             await _dialogs.Confirm("Do you want to save the current file?"))
         {
             await Save();
@@ -184,8 +184,24 @@ internal partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(HasItems))]
-    public void RenderAll(RenderFormat renderFormat)
+    public async Task RenderAll(RenderFormat renderFormat)
     {
-
+        var dialogData = await _dialogs.ExportDialog();
+        if (dialogData != null)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(dialogData.Value.baseName))
+                {
+                    await _dialogs.Error(new InvalidOperationException("Base name cannot be empty"));
+                    return;
+                }
+                Renderer.RenderAllTo(dialogData.Value.folder, dialogData.Value.baseName, renderFormat, Formulas);
+            }
+            catch (Exception ex)
+            {
+                await _dialogs.Error(ex);
+            }
+        }
     }
 }
