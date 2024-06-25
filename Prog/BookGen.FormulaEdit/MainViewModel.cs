@@ -12,7 +12,7 @@ namespace BookGen.FormulaEdit;
 internal partial class MainViewModel : ObservableObject
 {
     private readonly IDialogs _dialogs;
-    private bool _isDirty;
+    private readonly DocumentState _documentState;
 
     [ObservableProperty]
     private int _selectedIndex;
@@ -46,8 +46,8 @@ internal partial class MainViewModel : ObservableObject
         {
             int tempIndex = SelectedIndex;
             Formulas[SelectedIndex] = value;
-            _isDirty = true;
             SelectedIndex = tempIndex;
+            _documentState.Modifified();
         }
     }
 
@@ -55,7 +55,8 @@ internal partial class MainViewModel : ObservableObject
 
     public MainViewModel(IDialogs dialogs)
     {
-        Formulas = new BindingList<string>();
+        _documentState = new();
+        Formulas = [];
         _dialogs = dialogs;
         _selectedIndex = -1;
         _currentFormula = string.Empty;
@@ -64,16 +65,16 @@ internal partial class MainViewModel : ObservableObject
     [RelayCommand]
     public void New()
     {
-        if (_isDirty && 
+        if (_documentState.IsDirty && 
             _dialogs.Confirm("Do you want to save the current file?"))
         {
             Save();
+            _documentState.NewCreated();
         }
         Formulas.Clear();
         CurrentFormula = string.Empty;
         SelectedIndex = -1;
         OnPropertyChanged(nameof(Formulas));
-        _isDirty = false;
     }
 
     [RelayCommand]
@@ -90,7 +91,7 @@ internal partial class MainViewModel : ObservableObject
                 {
                     SelectedIndex = 0;
                 }
-                _isDirty = false;
+                _documentState.Opened(fileName);
             }
             catch (Exception ex)
             {
@@ -102,13 +103,34 @@ internal partial class MainViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(HasItems))]
     public void Save()
     {
+        if (_documentState.HasFileName)
+        {
+            try
+            {
+                FileManager.SaveFile(_documentState.CurrentFileName, Formulas);
+                _documentState.Saved();
+            }
+            catch (Exception ex)
+            {
+                _dialogs.Error(ex);
+            }
+        }
+        else
+        {
+            SaveAs();
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(HasItems))]
+    public void SaveAs()
+    {
         var fileName = _dialogs.SaveFile();
         if (fileName != null)
         {
             try
             {
                 FileManager.SaveFile(fileName, Formulas);
-                _isDirty = false;
+                _documentState.SavedAs(fileName);
             }
             catch (Exception ex)
             {
@@ -132,7 +154,7 @@ internal partial class MainViewModel : ObservableObject
     {
         Formulas.Add(string.Empty);
         SelectedIndex = Formulas.Count - 1;
-        _isDirty = true;
+        _documentState.Modifified();
     }
 
     [RelayCommand(CanExecute = nameof(HasSelection))]
@@ -140,17 +162,17 @@ internal partial class MainViewModel : ObservableObject
     {
         Formulas.RemoveAt(SelectedIndex);
         SelectedIndex = -1;
-        _isDirty = true;
+        _documentState.Modifified();
     }
 
     [RelayCommand(CanExecute = nameof(HasSelection))]
-    public void RenderCurrent(string arg)
+    public void RenderCurrent(RenderFormat renderFormat)
     {
 
     }
 
     [RelayCommand(CanExecute = nameof(HasItems))]
-    public void RenderAll(string arg)
+    public void RenderAll(RenderFormat renderFormat)
     {
 
     }

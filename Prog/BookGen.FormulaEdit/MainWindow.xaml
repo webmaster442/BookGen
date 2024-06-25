@@ -30,6 +30,10 @@
             Command="{Binding SaveCommand}"
             Modifiers="Ctrl" />
         <KeyBinding
+            Key="S"
+            Command="{Binding SaveAsCommand}"
+            Modifiers="Ctrl+Shift" />
+        <KeyBinding
             Key="F4"
             Command="{Binding ExitCommand}"
             Modifiers="Alt" />
@@ -65,6 +69,10 @@
                     Command="{Binding SaveCommand}"
                     Header="Save"
                     InputGestureText="Ctrl+S" />
+                <MenuItem
+                    Command="{Binding SaveAsCommand}"
+                    Header="Save as..."
+                    InputGestureText="Ctrl+Shift+S" />
                 <Separator />
                 <MenuItem
                     Command="{Binding ExitCommand}"
@@ -74,21 +82,21 @@
             <MenuItem Header="Rendering">
                 <MenuItem
                     Command="{Binding RenderCurrentCommand}"
-                    CommandParameter="svg"
+                    CommandParameter="{x:Static local:RenderFormat.Svg}"
                     Header="Current to SVG..." />
                 <MenuItem
                     Command="{Binding RenderCurrentCommand}"
-                    CommandParameter="png"
+                    CommandParameter="{x:Static local:RenderFormat.Png}"
                     Header="Current to PNG..." />
                 <Separator />
                 <MenuItem
                     Command="{Binding RenderAllCommand}"
-                    CommandParameter="svg-all"
-                    Header="All to PNG..." />
+                    CommandParameter="{x:Static local:RenderFormat.Svg}"
+                    Header="All to SVG..." />
                 <MenuItem
                     Command="{Binding RenderAllCommand}"
-                    CommandParameter="png-all"
-                    Header="All to SVG..." />
+                    CommandParameter="{x:Static local:RenderFormat.Png}"
+                    Header="All to PNG..." />
             </MenuItem>
         </Menu>
         <GroupBox
@@ -121,7 +129,7 @@
                     <MenuItem
                         Command="{Binding AddCommand}"
                         Header="Add new formula..." />
-                    <Separator/>
+                    <Separator />
                     <MenuItem
                         Command="{Binding DeleteCommand}"
                         Header="Delete selected..." />
