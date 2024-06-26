@@ -20,7 +20,7 @@ namespace Bookgen.Win
             catch (Exception ex) 
             {
 #if DEBUG
-                Debug.WriteLine(ex);
+                Trace.TraceError(ex.Message);
 #endif
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

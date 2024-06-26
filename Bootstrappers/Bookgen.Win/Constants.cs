@@ -9,6 +9,7 @@ namespace Bookgen.Win
     {
         public const string BookGen = "BookGen.exe";
         public const string BookGenLauncher = "BookGen.Launcher.exe";
+        public const string BookGenFormulaEditor = "BookGen.FormulaEdit.exe";
         public const string DataFolder = "Data";
         public const string WindowsTerminal = "wt.exe";
         public const string PowershellCore = "pwsh.exe";
