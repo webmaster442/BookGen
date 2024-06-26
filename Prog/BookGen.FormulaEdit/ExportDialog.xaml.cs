@@ -5,6 +5,7 @@
 
 using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -21,24 +22,27 @@ namespace BookGen.FormulaEdit
         private readonly MetroWindow _owner;
 
         public bool DialogResult { get; private set; }
+        public bool IsComplete { get; internal set; }
 
-        public ExportDialog(MetroWindow owner)
+        public ExportDialog(MetroWindow owner, string startLocation)
         {
             InitializeComponent();
             _owner = owner;
-            TbFolderPath.Text = AppContext.BaseDirectory;
+            TbFolderPath.Text = startLocation;
         }
 
         private async void BtnOk_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             DialogResult = true;
             await _owner.HideMetroDialogAsync(this);
+            IsComplete = true;
         }
 
         private async void BtnCancel_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             DialogResult = false;
             await _owner.HideMetroDialogAsync(this);
+            IsComplete = true;
         }
 
         private void BtnBrowse_Click(object sender, System.Windows.RoutedEventArgs e)

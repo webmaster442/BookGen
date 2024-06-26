@@ -14,5 +14,6 @@ internal interface IDialogs
     string? SaveFile(string extension);
     Task Error(Exception ex);
     Task<bool> Confirm(string message);
-    Task<(string baseName, string folder)?> ExportDialog();
+    Task<(string baseName, string folder)?> ExportDialog(string startLocation);
+    Task Information(string message);
 }

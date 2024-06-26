@@ -74,10 +74,19 @@ internal sealed class Dialogs : IDialogs
         return null;
     }
 
-    public async Task<(string baseName, string folder)?> ExportDialog()
+    public async Task<(string baseName, string folder)?> ExportDialog(string startLocation)
     {
-        var dialog = new ExportDialog(_metroWindow);
+        var dialog = new ExportDialog(_metroWindow, startLocation);
         await _metroWindow.ShowMetroDialogAsync(dialog);
+        while (!dialog.IsComplete)
+        {
+            await Task.Delay(100);
+        }
         return dialog.DialogResult ? (dialog.TbBaseName.Text, dialog.TbFolderPath.Text) : null;
+    }
+
+    public async Task Information(string message)
+    {
+        await _metroWindow.ShowMessageAsync("Information", message, MessageDialogStyle.Affirmative, _dialogsettings);
     }
 }

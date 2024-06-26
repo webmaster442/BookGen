@@ -73,13 +73,15 @@ internal static class Renderer
         }
     }
 
-    public static void RenderAllTo(string directory, string baseName, RenderFormat format, IEnumerable<string> formulas)
+    public static int RenderAllTo(string directory, string baseName, RenderFormat format, IEnumerable<string> formulas)
     {
-        int counder = 0;
+        int counter = 0;
         foreach (var formula in formulas)
         {
-            var fileName = $"{baseName}_{counder++}.{format.GetExtension()}";
+            var fileName = $"{baseName}_{counter++}.{format.GetExtension()}";
+            fileName = Path.Combine(directory, fileName);
             RenderTo(formula, fileName, format);
         }
+        return counter;
     }
 }

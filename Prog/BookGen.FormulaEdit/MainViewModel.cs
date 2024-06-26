@@ -5,6 +5,8 @@
 
 using System;
 using System.ComponentModel;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -192,7 +194,11 @@ internal partial class MainViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(HasItems))]
     public async Task RenderAll(RenderFormat renderFormat)
     {
-        var dialogData = await _dialogs.ExportDialog();
+        string location = _documentState.HasFileName
+            ? Path.GetDirectoryName(_documentState.CurrentFileName) ?? Environment.CurrentDirectory
+            : Environment.CurrentDirectory;
+
+        var dialogData = await _dialogs.ExportDialog(location);
         if (dialogData != null)
         {
             try
@@ -202,7 +208,8 @@ internal partial class MainViewModel : ObservableObject
                     await _dialogs.Error(new InvalidOperationException("Base name cannot be empty"));
                     return;
                 }
-                Renderer.RenderAllTo(dialogData.Value.folder, dialogData.Value.baseName, renderFormat, Formulas);
+                int count = Renderer.RenderAllTo(dialogData.Value.folder, dialogData.Value.baseName, renderFormat, Formulas);
+                await _dialogs.Information($"Rendered {count} files");
             }
             catch (Exception ex)
             {
