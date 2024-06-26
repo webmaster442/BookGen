@@ -33,6 +33,7 @@ cd ..
 
 copy-item bin\bootstaper\Release\BookGen.exe bin\Publish
 copy-item bin\bootstaper\Release\BookGen.Launcher.exe bin\Publish
+copy-item bin\bootstaper\Release\BookGen.FormulaEdit.exe bin\Publish
 copy-item bin\bootstaper\Release\Bookgen.Win.dll bin\Publish
 copy-item bin\bootstaper\Release\Documents.html bin\Publish
 
@@ -45,7 +46,7 @@ cd ..
 cd bin\publish
 
 Write-Host "Getting powershell core..."
-$psCoreUrl = " https://github.com/PowerShell/PowerShell/releases/download/v7.4.2/PowerShell-7.4.2-win-x64.zip"
+$psCoreUrl = " https://github.com/PowerShell/PowerShell/releases/download/v7.4.3/PowerShell-7.4.3-win-x64.zip"
 Invoke-WebRequest -Uri $psCoreUrl -OutFile pwsh.zip
 Expand-Archive -Path pwsh.zip -DestinationPath "powershell"
 Remove-Item pwsh.zip
