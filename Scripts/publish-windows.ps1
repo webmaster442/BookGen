@@ -52,7 +52,7 @@ Expand-Archive -Path pwsh.zip -DestinationPath "powershell"
 Remove-Item pwsh.zip
 
 Write-Host "Creating installer for ISO image..."
-$publishFiles=$(Get-ChildItem -Name -Recurse -Include *.*)
+$publishFiles=$(Get-ChildItem -Name -File -Recurse -Include *.*)
 cd ..\..
 cd Setup
 Write-Output "[Files]" | Out-File -FilePath "cdfiles.iss" -Encoding ASCII
