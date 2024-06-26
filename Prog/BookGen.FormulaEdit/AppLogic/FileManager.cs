@@ -5,40 +5,34 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Xml.Serialization;
+
+using BookGen.Domain;
+using BookGen.Domain.Formulas;
 
 namespace BookGen.FormulaEdit.AppLogic;
 
 internal static class FileManager
 {
-    private const string LineStart = "\\";
-
     public static IEnumerable<string> LoadFile(string path)
     {
-        string? line;
-        using var reader = File.OpenText(path);
-        while ((line = reader.ReadLine()) != null)
+        XmlSerializer xs = new XmlSerializer(typeof(Formulas));
+        using var f = File.OpenRead(path);
+        if (xs.Deserialize(f) is Formulas result)
         {
-            if (!string.IsNullOrWhiteSpace(line) && line.StartsWith(LineStart))
-            {
-                yield return line;
-            }
+            return result.Items.Select(i => i.Value);
         }
+        throw new InvalidDataException("File load failed");
     }
 
     public static void SaveFile(string path, IEnumerable<string> lines)
     {
-        using var writer = File.CreateText(path);
-        foreach (var line in lines)
+        XmlSerializer xs = new XmlSerializer(typeof(Formulas));
+        using var f = File.Create(path);
+        xs.Serialize(f, new Formulas
         {
-            if (line.StartsWith(LineStart))
-            {
-                writer.WriteLine(line);
-            }
-            else
-            {
-                writer.Write(LineStart);
-                writer.WriteLine(line);
-            }
-        }
+            Items = lines.Select(line => new CData(line)).ToArray()
+        });
     }
 }

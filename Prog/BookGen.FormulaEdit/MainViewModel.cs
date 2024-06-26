@@ -42,6 +42,7 @@ internal partial class MainViewModel : ObservableObject
         AddCommand.NotifyCanExecuteChanged();
         NewCommand.NotifyCanExecuteChanged();
         SaveCommand.NotifyCanExecuteChanged();
+        SaveAsCommand.NotifyCanExecuteChanged();
         RenderCurrentCommand.NotifyCanExecuteChanged();
         RenderAllCommand.NotifyCanExecuteChanged();
     }

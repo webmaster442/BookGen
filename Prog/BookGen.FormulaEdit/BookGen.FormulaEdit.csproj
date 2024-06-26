@@ -19,5 +19,9 @@
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="WpfMath" Version="2.1.0" />
 	</ItemGroup>
+  
+    <ItemGroup>
+      <ProjectReference Include="..\..\Libs\BookGen.Domain\BookGen.Domain.csproj" />
+    </ItemGroup>
 
 </Project>
