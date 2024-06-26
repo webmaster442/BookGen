@@ -5,7 +5,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 using WpfMath.Converters;
@@ -18,16 +20,18 @@ namespace BookGen.FormulaEdit.AppLogic;
 
 internal static class Renderer
 {
+    private const int Scale = 20;
+
     private static (TexFormula parsedFormula, TexEnvironment environment) Create(string formula, double scale)
     {
         TexFormula parsedFormula = WpfTeXFormulaParser.Instance.Parse(formula);
-        TexEnvironment environment = WpfTeXEnvironment.Create(style: TexStyle.Display, scale: 20.0, systemTextFontName: "Arial");
+        TexEnvironment environment = WpfTeXEnvironment.Create(style: TexStyle.Display, scale: scale, systemTextFontName: "Arial");
         return (parsedFormula, environment);
     }
 
     private static void RenderPng(string formula, Stream target)
     {
-        var (parsedFormula, environment) = Create(formula, 20);
+        var (parsedFormula, environment) = Create(formula, Scale);
 
         var bitmapSource = parsedFormula.RenderToBitmap(environment);
         PngBitmapEncoder encoder = new PngBitmapEncoder();
@@ -37,16 +41,20 @@ internal static class Renderer
 
     private static void RenderSvg(string formula, Stream target)
     {
-        var (parsedFormula, environment) = Create(formula, 20);
+        var (parsedFormula, environment) = Create(formula, Scale);
 
-        var geometry = parsedFormula.RenderToGeometry(environment, scale: 20);
+        var geometry = parsedFormula.RenderToGeometry(environment, scale: Scale);
         var converter = new SVGConverter();
+
+        var width = geometry.Bounds.Width.ToString(CultureInfo.InvariantCulture);
+        var height = geometry.Bounds.Height.ToString(CultureInfo.InvariantCulture);
+
         var svgPathText = converter.ConvertGeometry(geometry);
 
         using (var writer = new StreamWriter(target, leaveOpen: true))
         {
             writer.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-            writer.WriteLine("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" >");
+            writer.WriteLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"{width}\" height=\"{height}\" >");
             writer.WriteLine(svgPathText);
             writer.WriteLine("</svg>");
         }
