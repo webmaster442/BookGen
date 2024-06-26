@@ -83,7 +83,7 @@ internal static class Renderer
 
     public static int RenderAllTo(string directory, string baseName, RenderFormat format, IEnumerable<string> formulas)
     {
-        int counter = 0;
+        int counter = 1;
         foreach (var formula in formulas)
         {
             var fileName = $"{baseName}_{counter++}.{format.GetExtension()}";
