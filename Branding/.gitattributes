@@ -1,0 +1,8 @@
+icon-laucher.ico filter=lfs diff=lfs merge=lfs -text
+icon-shell.ico filter=lfs diff=lfs merge=lfs -text
+icon-bookgen.ico filter=lfs diff=lfs merge=lfs -text
+icon-formulaedit.ico filter=lfs diff=lfs merge=lfs -text
+icon-bookgen.png filter=lfs diff=lfs merge=lfs -text
+icon-formulaedit.png filter=lfs diff=lfs merge=lfs -text
+icon-launcher.png filter=lfs diff=lfs merge=lfs -text
+icon-shell.png filter=lfs diff=lfs merge=lfs -text
