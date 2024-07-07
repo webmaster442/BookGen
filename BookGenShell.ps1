@@ -13,13 +13,11 @@ function Test-NodeJs
         $nodeVersion = node --version
         if ($nodeVersion) 
         {
-            Write-Output "Node.js is available. Version: $nodeVersion"
             return $true
         }
     }
     catch 
     {
-        Write-Output "Node.js is not available in the system PATH. Continuing with bundled one"
         return $false
     }
 }
@@ -31,7 +29,8 @@ function Get-NodePath
     try 
     {
         $nodePath = (Get-Command node.exe -ErrorAction Stop).Source
-        return $nodePath
+        $nodeDir = Split-Path $nodePath
+        return $nodeDir
     } 
     catch 
     {
@@ -197,7 +196,8 @@ function intro()
 
     if (Test-NodeJs)
     {
-        node --version
+        $nodeVersion = node --version
+        Write-Host "Node version: $nodeVersion"
     }
 }
 
@@ -223,7 +223,7 @@ if (-not (Test-NodeJs)) {
             $env:NodeExe = $nodePath
 
             $env:Path += ";$($dir.FullName)"
-            Write-Output "Added $($dir.FullName) to PATH."
+            Write-Host "Added $($dir.FullName) to PATH."
             break
         }
     }
