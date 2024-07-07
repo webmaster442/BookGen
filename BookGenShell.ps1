@@ -1,8 +1,112 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 2.9.0
-# Last modified: 2024-05-20
+# Version 3.0
+# Last modified: 2024-07-07
 # -----------------------------------------------------------------------------
+
+# NodeJS install test
+function Test-NodeJs 
+{
+    try 
+    {
+        # Try to get the node version
+        $nodeVersion = node --version
+        if ($nodeVersion) 
+        {
+            Write-Output "Node.js is available. Version: $nodeVersion"
+            return $true
+        }
+    }
+    catch 
+    {
+        Write-Output "Node.js is not available in the system PATH. Continuing with bundled one"
+        return $false
+    }
+}
+
+# Node commands
+
+function Get-NodePath 
+{
+    try 
+    {
+        $nodePath = (Get-Command node.exe -ErrorAction Stop).Source
+        return $nodePath
+    } 
+    catch 
+    {
+        Write-Error "node.exe not found in the system PATH."
+    }
+}
+
+function npm {
+    param (
+        [string[]]$Args
+    )
+
+    $scriptPath = Get-NodePath
+    $nodeExe = Join-Path $scriptPath "node.exe"
+
+    if (-Not (Test-Path $nodeExe)) 
+    {
+        $nodeExe = "node"
+    }
+
+    $npmPrefixJs = Join-Path $scriptPath "node_modules/npm/bin/npm-prefix.js"
+    $npmCliJs = Join-Path $scriptPath "node_modules/npm/bin/npm-cli.js"
+
+    $npmPrefixNpmCliJs = & $nodeExe $npmPrefixJs
+    $npmPrefixNpmCliJsPath = Join-Path $npmPrefixNpmCliJs "node_modules/npm/bin/npm-cli.js"
+
+    if (Test-Path $npmPrefixNpmCliJsPath) 
+    {
+        $npmCliJs = $npmPrefixNpmCliJsPath
+    }
+
+    & $nodeExe $npmCliJs @Args
+}
+
+function npx {
+    param (
+        [string[]]$Args
+    )
+
+    $scriptPath = Get-NodePath
+    $nodeExe = Join-Path $scriptPath "node.exe"
+
+    if (-Not (Test-Path $nodeExe)) {
+        $nodeExe = "node"
+    }
+
+    $npmPrefixJs = Join-Path $scriptPath "node_modules/npm/bin/npm-prefix.js"
+    $npxCliJs = Join-Path $scriptPath "node_modules/npm/bin/npx-cli.js"
+
+    $npmPrefixNpxCliJsPath = & $nodeExe $npmPrefixJs
+    $npmPrefixNpxCliJs = Join-Path $npmPrefixNpxCliJsPath "node_modules/npm/bin/npx-cli.js"
+
+    if (Test-Path $npmPrefixNpxCliJs) {
+        $npxCliJs = $npmPrefixNpxCliJs
+    }
+
+    & $nodeExe $npxCliJs @Args
+}
+
+function corepack {
+    param (
+        [string[]]$Args
+    )
+
+    $scriptPath = Get-NodePath
+    $nodeExe = Join-Path $scriptPath "node.exe"
+    $corepackJs = Join-Path $scriptPath "node_modules/corepack/dist/corepack.js"
+
+    if (Test-Path $nodeExe) {
+        & $nodeExe $corepackJs @Args
+    } else {
+        $env:PATHEXT = $env:PATHEXT -replace ";.JS;", ";"
+        & node $corepackJs @Args
+    }
+}
 
 # cdg command
 function cdg
@@ -80,14 +184,21 @@ function intro()
 	Write-Host "      .( o )."
 
     Bookgen.exe terminalinstall -t
-    if ($LastExitCode -eq 0) {
+    if ($LastExitCode -eq 0) 
+    {
         Bookgen.exe terminalinstall -c
-        if ($LastExitCode -ne 0) {
+        if ($LastExitCode -ne 0) 
+        {
             Write-Host ""
             Write-Host "To install this shell as a windows terminal profile run:";
             Write-Host "Bookgen terminalinstall"
         }
-    } 
+    }
+
+    if (Test-NodeJs)
+    {
+        node --version
+    }
 }
 
 #Set UTF8 encoding
@@ -99,6 +210,24 @@ $env:BookGenPath = $PSScriptRoot
 
 # register scripts folder to the path
 $env:Path += ";$PSScriptRoot"
+
+if (-not (Test-NodeJs)) {
+    #check if it's bundled
+    $nodeDirs = Get-ChildItem -Path $PSScriptRoot -Directory | Where-Object { $_.Name -like "node-*" }
+    foreach ($dir in $nodeDirs)
+    {
+        $nodePath = Join-Path -Path $dir.FullName -ChildPath "node.exe"
+        if (Test-Path -Path $nodePath)
+        {
+            $env:NodeJsDir = "$($dir.FullName)"
+            $env:NodeExe = $nodePath
+
+            $env:Path += ";$($dir.FullName)"
+            Write-Output "Added $($dir.FullName) to PATH."
+            break
+        }
+    }
+}
 
 # set colors
 Set-PSReadLineOption -Colors @{
