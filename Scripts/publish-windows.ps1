@@ -37,12 +37,6 @@ copy-item bin\bootstaper\Release\BookGen.FormulaEdit.exe bin\Publish
 copy-item bin\bootstaper\Release\Bookgen.Win.dll bin\Publish
 copy-item bin\bootstaper\Release\Documents.html bin\Publish
 
-Write-Host "Creating installer..."
-cd Setup
-Write-Output "#define MyAppVersion ""$version""" | Out-File -FilePath "version.iss" -Encoding ASCII
-& 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup-web.iss
-cd ..
-
 cd bin\publish
 
 Write-Host "Getting powershell core..."
@@ -55,6 +49,7 @@ Write-Host "Creating installer for ISO image..."
 $publishFiles=$(Get-ChildItem -Name -File -Recurse -Include *.*)
 cd ..\..
 cd Setup
+Write-Output "#define MyAppVersion ""$version""" | Out-File -FilePath "version.iss" -Encoding ASCII
 Write-Output "[Files]" | Out-File -FilePath "cdfiles.iss" -Encoding ASCII
 foreach ($file in $publishFiles)
 {
