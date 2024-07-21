@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
 # Version 3.0
-# Last modified: 2024-07-07
+# Last modified: 2024-07-21
 # -----------------------------------------------------------------------------
 
 # NodeJS install test
@@ -270,7 +270,12 @@ Register-ArgumentCompleter -Native -CommandName git -ScriptBlock {
 # set prompt
 function prompt {
     $git = $(BookGen.Shell.exe "prompt" $(Get-Location).Path)
-    'PS ' +  $(Get-Location) + ' '+$git+ $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
+    if (-not [string]::IsNullOrWhiteSpace($git)) {
+        'PS ' +  $(Get-Location) + "`n"+$git+ $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
+    }
+    else {
+        'PS ' +  $(Get-Location) + $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
+    }
 }
 
 
