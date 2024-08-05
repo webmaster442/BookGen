@@ -1,11 +1,15 @@
-# 2024. 06. 
+# 2024. 08. 05 
 
+* New: Latex formula editor, that can export to SVG (Windows only)
 * New: Added new command to create new files
 * New: C# scripting support in markdown files via the '''script ''' tag
 * New: Added autocomplete in bookgen shell for basic git commands
 * New: ISO build now includes powershell core
 * New: Added table of contents support via the [toc] tag in markdown
 * New: JSON array support for subcommand configuration.
+* New: NodeJs is included in the ISO build and BookGen shell integrates it
+* Change: Only ISO build is available for Windows
+* Change: New icon and branding
 * Change: Updated dependencies
 * Change: Cplipboard implementation replaced with TextCopy, now works multiplatform
 * Change: Linux distribution now uses a deb package for distribution
@@ -13,6 +17,7 @@
 * Change: md2thml is extended with templating and new options
 * Change: Various BookGen related settings now use a single .ZIP file for configuration
 * Change: Reworked templating engine
+* Change: Reworked CDG command
 * Fix: Various linux compatibility fixes
 * Fix: Various fixes in the Table of Contents generation
 * Fix: Template processor fixes

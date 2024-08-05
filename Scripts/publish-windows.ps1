@@ -40,13 +40,13 @@ copy-item bin\bootstaper\Release\Documents.html bin\Publish
 cd bin\publish
 
 Write-Host "Getting powershell core..."
-$psCoreUrl = "https://github.com/PowerShell/PowerShell/releases/download/v7.4.3/PowerShell-7.4.3-win-x64.zip"
+$psCoreUrl = "https://github.com/PowerShell/PowerShell/releases/download/v7.4.4/PowerShell-7.4.4-win-x64.zip"
 Invoke-WebRequest -Uri $psCoreUrl -OutFile pwsh.zip
 Expand-Archive -Path pwsh.zip -DestinationPath "powershell"
 Remove-Item pwsh.zip
 
 Write-Host "Getting Node.js..."
-$nodeUrl = "https://nodejs.org/dist/v20.15.0/node-v20.15.0-win-x64.zip"
+$nodeUrl = "https://nodejs.org/dist/v20.16.0/node-v20.16.0-win-x64.zip"
 Invoke-WebRequest -Uri $nodeUrl -OutFile node.zip
 Expand-Archive -Path node.zip -DestinationPath data
 Remove-Item node.zip

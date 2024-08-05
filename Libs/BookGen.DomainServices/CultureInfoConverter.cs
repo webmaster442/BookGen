@@ -31,7 +31,7 @@ namespace BookGen.DomainServices
             return type == typeof(CultureInfo);
         }
 
-        public object? ReadYaml(IParser parser, Type type)
+        public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
         {
             if (parser.Current is YamlDotNet.Core.Events.Scalar scalar)
             {
@@ -40,7 +40,7 @@ namespace BookGen.DomainServices
             return null;
         }
 
-        public void WriteYaml(IEmitter emitter, object? value, Type type)
+        public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
         {
             if (value is CultureInfo cultureInfo)
             {
