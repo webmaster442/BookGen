@@ -178,6 +178,7 @@ csharp_style_prefer_local_over_anonymous_function = true:suggestion
 csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
 csharp_style_prefer_tuple_swap = true:suggestion
 csharp_style_prefer_utf8_string_literals = true:suggestion
+csharp_style_prefer_primary_constructors = true:suggestion
 
 #### Naming styles ####
 [*.{cs,vb}]
@@ -373,4 +374,5 @@ tab_width = 4
 indent_size = 4
 end_of_line = crlf
 dotnet_style_namespace_match_folder = true:suggestion
+dotnet_style_prefer_collection_expression = when_types_loosely_match:suggestion
 

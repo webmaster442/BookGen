@@ -41,6 +41,11 @@
 		<None Remove="JsCss\simplemde.min.css" />
 		<None Remove="JsCss\simplemde.min.js" />
 		<None Remove="JsCss\SinglePage.css" />
+		<None Remove="NewFiles\html.html" />
+		<None Remove="NewFiles\markdown.md" />
+		<None Remove="NewFiles\mvpcss.css" />
+		<None Remove="NewFiles\newcss.css" />
+		<None Remove="NewFiles\simple.css" />
 		<None Remove="Png\favicon-fs.png" />
 		<None Remove="Png\favicon-p.png" />
 		<None Remove="Png\favicon-t.png" />
@@ -73,6 +78,11 @@
 		<EmbeddedResource Include="JsCss\prism.js" />
 		<EmbeddedResource Include="JsCss\prism.print.css" />
 		<EmbeddedResource Include="JsCss\SinglePage.css" />
+		<EmbeddedResource Include="NewFiles\html.html" />
+		<EmbeddedResource Include="NewFiles\markdown.md" />
+		<EmbeddedResource Include="NewFiles\mvpcss.css" />
+		<EmbeddedResource Include="NewFiles\newcss.css" />
+		<EmbeddedResource Include="NewFiles\simple.css" />
 		<EmbeddedResource Include="Png\favicon-fs.png" />
 		<EmbeddedResource Include="Png\favicon-p.png" />
 		<EmbeddedResource Include="Png\favicon-t.png" />

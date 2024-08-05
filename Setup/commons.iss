@@ -1,10 +1,12 @@
 #define MyAppName "BookGen"
 #define MyAppPublisher "webmaster442"
 #define MyAppURL "https://github.com/webmaster442/BookGen"
-#define LauncherBootstrapper "BookGen.Launcher.exe"
 #define CliBootstrapper "BookGen.exe"
 #define CliIconName "BookGen shell"
+#define LauncherBootstrapper "BookGen.Launcher.exe"
 #define LauncherIconName "BookGen launcher"
+#define FormulaEditName "BookGen Formula editor"
+#define FormulaEditBootstrapper "BookGen.FormulaEdit.exe"
 
 [Setup]
 AppName={#MyAppName}
@@ -34,8 +36,9 @@ Name: "{group}\{#LauncherBootstrapper}"; Filename: "{app}\{#LauncherBootstrapper
 Name: "{group}\{#CliBootstrapper}"; Filename: "{app}\{#CliBootstrapper}"
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#CliIconName}"; Filename: "{app}\{#LauncherBootstrapper}"; Tasks: desktopicon
-Name: "{commondesktop}\{#LauncherIconName}"; Filename: "{app}\{#CliBootstrapper}"; Tasks: desktopicon
+Name: "{commondesktop}\{#CliIconName}"; Filename: "{app}\{#CliBootstrapper}"; Tasks: desktopicon
+Name: "{commondesktop}\{#LauncherIconName}"; Filename: "{app}\{#LauncherBootstrapper}"; Tasks: desktopicon
+Name: "{commondesktop}\{#FormulaEditName}"; Filename: "{app}\{#FormulaEditBootstrapper}"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\{#LauncherBootstrapper}"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"

@@ -1,8 +1,111 @@
 # -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 2.9.0
-# Last modified: 2024-05-20
+# Version 3.0
+# Last modified: 2024-07-21
 # -----------------------------------------------------------------------------
+
+# NodeJS install test
+function Test-NodeJs 
+{
+    try 
+    {
+        # Try to get the node version
+        $nodeVersion = node --version
+        if ($nodeVersion) 
+        {
+            return $true
+        }
+    }
+    catch 
+    {
+        return $false
+    }
+}
+
+# Node commands
+
+function Get-NodePath 
+{
+    try 
+    {
+        $nodePath = (Get-Command node.exe -ErrorAction Stop).Source
+        $nodeDir = Split-Path $nodePath
+        return $nodeDir
+    } 
+    catch 
+    {
+        Write-Error "node.exe not found in the system PATH."
+    }
+}
+
+function npm {
+    param (
+        [string[]]$Args
+    )
+
+    $scriptPath = Get-NodePath
+    $nodeExe = Join-Path $scriptPath "node.exe"
+
+    if (-Not (Test-Path $nodeExe)) 
+    {
+        $nodeExe = "node"
+    }
+
+    $npmPrefixJs = Join-Path $scriptPath "node_modules/npm/bin/npm-prefix.js"
+    $npmCliJs = Join-Path $scriptPath "node_modules/npm/bin/npm-cli.js"
+
+    $npmPrefixNpmCliJs = & $nodeExe $npmPrefixJs
+    $npmPrefixNpmCliJsPath = Join-Path $npmPrefixNpmCliJs "node_modules/npm/bin/npm-cli.js"
+
+    if (Test-Path $npmPrefixNpmCliJsPath) 
+    {
+        $npmCliJs = $npmPrefixNpmCliJsPath
+    }
+
+    & $nodeExe $npmCliJs @Args
+}
+
+function npx {
+    param (
+        [string[]]$Args
+    )
+
+    $scriptPath = Get-NodePath
+    $nodeExe = Join-Path $scriptPath "node.exe"
+
+    if (-Not (Test-Path $nodeExe)) {
+        $nodeExe = "node"
+    }
+
+    $npmPrefixJs = Join-Path $scriptPath "node_modules/npm/bin/npm-prefix.js"
+    $npxCliJs = Join-Path $scriptPath "node_modules/npm/bin/npx-cli.js"
+
+    $npmPrefixNpxCliJsPath = & $nodeExe $npmPrefixJs
+    $npmPrefixNpxCliJs = Join-Path $npmPrefixNpxCliJsPath "node_modules/npm/bin/npx-cli.js"
+
+    if (Test-Path $npmPrefixNpxCliJs) {
+        $npxCliJs = $npmPrefixNpxCliJs
+    }
+
+    & $nodeExe $npxCliJs @Args
+}
+
+function corepack {
+    param (
+        [string[]]$Args
+    )
+
+    $scriptPath = Get-NodePath
+    $nodeExe = Join-Path $scriptPath "node.exe"
+    $corepackJs = Join-Path $scriptPath "node_modules/corepack/dist/corepack.js"
+
+    if (Test-Path $nodeExe) {
+        & $nodeExe $corepackJs @Args
+    } else {
+        $env:PATHEXT = $env:PATHEXT -replace ";.JS;", ";"
+        & node $corepackJs @Args
+    }
+}
 
 # cdg command
 function cdg
@@ -80,14 +183,22 @@ function intro()
 	Write-Host "      .( o )."
 
     Bookgen.exe terminalinstall -t
-    if ($LastExitCode -eq 0) {
+    if ($LastExitCode -eq 0) 
+    {
         Bookgen.exe terminalinstall -c
-        if ($LastExitCode -ne 0) {
+        if ($LastExitCode -ne 0) 
+        {
             Write-Host ""
             Write-Host "To install this shell as a windows terminal profile run:";
             Write-Host "Bookgen terminalinstall"
         }
-    } 
+    }
+
+    if (Test-NodeJs)
+    {
+        $nodeVersion = node --version
+        Write-Host "Node version: $nodeVersion"
+    }
 }
 
 #Set UTF8 encoding
@@ -99,6 +210,24 @@ $env:BookGenPath = $PSScriptRoot
 
 # register scripts folder to the path
 $env:Path += ";$PSScriptRoot"
+
+if (-not (Test-NodeJs)) {
+    #check if it's bundled
+    $nodeDirs = Get-ChildItem -Path $PSScriptRoot -Directory | Where-Object { $_.Name -like "node-*" }
+    foreach ($dir in $nodeDirs)
+    {
+        $nodePath = Join-Path -Path $dir.FullName -ChildPath "node.exe"
+        if (Test-Path -Path $nodePath)
+        {
+            $env:NodeJsDir = "$($dir.FullName)"
+            $env:NodeExe = $nodePath
+
+            $env:Path += ";$($dir.FullName)"
+            Write-Host "Added $($dir.FullName) to PATH."
+            break
+        }
+    }
+}
 
 # set colors
 Set-PSReadLineOption -Colors @{
@@ -141,7 +270,12 @@ Register-ArgumentCompleter -Native -CommandName git -ScriptBlock {
 # set prompt
 function prompt {
     $git = $(BookGen.Shell.exe "prompt" $(Get-Location).Path)
-    'PS ' +  $(Get-Location) + ' '+$git+ $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
+    if (-not [string]::IsNullOrWhiteSpace($git)) {
+        'PS ' +  $(Get-Location) + "`n"+$git+ $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
+    }
+    else {
+        'PS ' +  $(Get-Location) + $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
+    }
 }
 
 

@@ -168,9 +168,6 @@
   <data name="ID_Stat" xml:space="preserve">
     <value>Statistics</value>
   </data>
-  <data name="ID_Update" xml:space="preserve">
-    <value>Check for updates</value>
-  </data>
   <data name="ID_ValidateConfig" xml:space="preserve">
     <value>Validate config</value>
   </data>

@@ -25,8 +25,8 @@ public class InputOutputArguments : ArgumentsBase
         if (!InputFile.IsExisting)
             result.AddIssue("Input file doesn't exist");
 
-        if (!FsPath.IsEmptyPath(OutputFile))
-            result.AddIssue("Output file must be specified");
+        if (FsPath.IsEmptyPath(OutputFile))
+            result.AddIssue("Output file/directory must be specified");
 
         return result;
     }

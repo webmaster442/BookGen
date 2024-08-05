@@ -214,15 +214,6 @@ namespace BookGen.Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check for updates.
-        /// </summary>
-        internal static string ID_Update {
-            get {
-                return ResourceManager.GetString("ID_Update", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Validate config.
         /// </summary>
         internal static string ID_ValidateConfig {

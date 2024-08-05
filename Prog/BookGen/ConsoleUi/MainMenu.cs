@@ -81,17 +81,6 @@ internal sealed class MainMenu : MenuBase
         return true;
     }
 
-    private bool LaunchUpdater()
-    {
-        using (var p = new Process())
-        {
-            p.StartInfo.WorkingDirectory = AppContext.BaseDirectory;
-            p.StartInfo.FileName = "BookGen.Update.exe";
-            p.Start();
-        }
-        return true;
-    }
-
     private bool DoAction(MainMenuAction selection, Renderer renderer)
     {
         renderer.Clear();
@@ -108,7 +97,6 @@ internal sealed class MainMenu : MenuBase
             MainMenuAction.Serve => StartModuleInWorkdir("serve"),
             MainMenuAction.PreviewServer => StartModuleInWorkdir("preview"),
             MainMenuAction.Stat => StartModuleInWorkdir("stat"),
-            MainMenuAction.Update => LaunchUpdater(),
             MainMenuAction.Help => ToggleHelp(),
             MainMenuAction.Exit => false,
             _ => throw new InvalidOperationException("Unknown command"),

@@ -1,4 +1,6 @@
-﻿//-----------------------------------------------------------------------------
+﻿//#define DEBUGGING
+
+//-----------------------------------------------------------------------------
 // (c) 2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
@@ -25,6 +27,20 @@ internal class GitAutoCompleteCommand : Command
             && !string.IsNullOrEmpty(context[1]))
         {
             var candidates = ShellAutoCompleteFilter.DoFilter(items, context[1], index);
+
+#if DEBUGGING
+            var json = System.Text.Json.JsonSerializer.Serialize(new
+            {
+                items = items,
+                context = context,
+                candidates = candidates.ToArray(),
+            },
+            new System.Text.Json.JsonSerializerOptions
+            {
+                WriteIndented = true,
+            });
+            File.WriteAllText($"gitcomplete-{DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.json", json);
+#endif
 
             foreach (var candidate in candidates)
             {

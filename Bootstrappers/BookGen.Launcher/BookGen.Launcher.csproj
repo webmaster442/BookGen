@@ -6,7 +6,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <OutputPath>..\..\bin\bootstaper\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <ApplicationIcon>..\..\Icon.ico</ApplicationIcon>
+    <ApplicationIcon>..\..\Branding\icon-laucher.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

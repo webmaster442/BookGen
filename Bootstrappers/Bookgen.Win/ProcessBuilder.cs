@@ -7,8 +7,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-using Bookgen.Win.Properties;
-
 namespace Bookgen.Win
 {
     public sealed class ProcessBuilder

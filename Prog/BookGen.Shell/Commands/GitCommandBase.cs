@@ -55,40 +55,35 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         return null;
     }
 
-    protected void PrintLongStatus(GitStatus? status)
-    {
-        if (status is null)
-        {
-            return;
-        }
-        _console.MarkupLine($"[green]Branch:            {status.BranchName.EscapeMarkup()}[/]");
-        _console.MarkupLine($"[magenta]Incomming commits: {status.IncommingCommits}[/]");
-        _console.MarkupLine($"[yellow]Outgoing commits:  {status.OutGoingCommits}[/]");
-        _console.MarkupLine($"[cyan]Modified:          {status.NotCommitedChanges}[/]");
-    }
-
     protected void PrintStatus(GitStatus? status)
     {
         if (status is null)
         {
             return;
         }
-        string text = new TerminalStringBuilder()
-            .BackgroundGreen()
-            .Text($"({status.BranchName}) ")
-            .ForegroundBlack()
-            .BackgroundMagenta()
-            .Text("↓: ")
-            .Text(status.IncommingCommits)
-            .BackgroundYellow()
-            .Text(" ↑: ")
-            .Text(status.OutGoingCommits)
-            .BackgroundCyan()
-            .Text(" M: ")
-            .Text(status.NotCommitedChanges)
-            .Default()
-            .ToString();
 
-        _console.WriteLine(text);
+        var builder = new TerminalOutputBuilder()
+            .Append(TerminalOutputBuilder.ForegroundColor.Default, TerminalOutputBuilder.BackgroundColor.Green, $"({status.BranchName}) ");
+
+        if (status.IncommingCommits > 0)
+        {
+            builder.Append(TerminalOutputBuilder.ForegroundColor.Black,
+                           TerminalOutputBuilder.BackgroundColor.Magenta,
+                           $"↓: {status.IncommingCommits}");
+        }
+        if (status.OutGoingCommits > 0)
+        {
+           builder.Append(TerminalOutputBuilder.ForegroundColor.Black,
+                          TerminalOutputBuilder.BackgroundColor.Yellow,
+                          $" ↑: {status.OutGoingCommits}");
+        }
+        if (status.NotCommitedChanges > 0)
+        {
+            builder.Append(TerminalOutputBuilder.ForegroundColor.Black,
+                           TerminalOutputBuilder.BackgroundColor.Cyan,
+                           $" M: {status.NotCommitedChanges}");
+        }
+
+        _console.WriteLine(builder.ToString());
     }
 }

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ namespace BookGen.Resources
             return assembly.GetManifestResourceStream(resourceName);
         }
 
-        private static string GetResourceFile(string file)
+        internal static string GetResourceFile(string file)
         {
             using (Stream? stream = GetResourceStream<KnownFile>(file))
             {
@@ -67,7 +67,7 @@ namespace BookGen.Resources
             return GetResourceFile(location);
         }
 
-        public static Stream GetFileStream(KnownFile file) 
+        public static Stream GetFileStream(KnownFile file)
         {
             string? location = KnownFileMap.Map[file];
             return GetResourceStream<KnownFile>(location) ?? throw new InvalidOperationException();

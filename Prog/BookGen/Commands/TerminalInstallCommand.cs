@@ -25,7 +25,10 @@ internal sealed class TerminalInstallCommand : Command<TerminalInstallArguments>
         if (arguments.CheckInstall)
         {
             bool installed = Directory.Exists(TerminalProfileInstaller.TerminalFragmentPath);
-            installed &= Directory.GetFiles(TerminalProfileInstaller.TerminalFragmentPath, "*.json").Length > 0;
+            if (installed)
+            {
+                installed &= Directory.GetFiles(TerminalProfileInstaller.TerminalFragmentPath, "*.json").Length > 0;
+            }
             return installed ? Constants.Succes : Constants.GeneralError;
         }
 
