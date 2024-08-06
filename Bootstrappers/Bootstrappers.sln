@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookgen.Win", "Bookgen.Win\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.FormulaEdit", "BookGen.FormulaEdit\BookGen.FormulaEdit.csproj", "{9C1A7AB7-8703-4CAD-8A7E-13A753F25778}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrityCheck", "IntegrityCheck\IntegrityCheck.csproj", "{C04FF2C4-C2E0-479E-9828-D3943B5738D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9C1A7AB7-8703-4CAD-8A7E-13A753F25778}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C1A7AB7-8703-4CAD-8A7E-13A753F25778}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C1A7AB7-8703-4CAD-8A7E-13A753F25778}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C04FF2C4-C2E0-479E-9828-D3943B5738D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04FF2C4-C2E0-479E-9828-D3943B5738D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04FF2C4-C2E0-479E-9828-D3943B5738D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04FF2C4-C2E0-479E-9828-D3943B5738D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

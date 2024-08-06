@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Bookgen.Win
 {
-    public sealed class IntegrityCheck
+    public static class IntegrityCheck
     {
-        public async Task<List<IntegrityItem>> Create(string folder,
-                                                      ICountProgress countProgress,
-                                                      CancellationToken cancellationToken)
+        public static async Task<List<IntegrityItem>> Create(string folder,
+                                                             ICountProgress countProgress,
+                                                             CancellationToken cancellationToken)
         {
             var result = new List<IntegrityItem>();
 
@@ -38,10 +38,10 @@ namespace Bookgen.Win
             return result;
         }
 
-        public async Task Verify(string folder,
-                                 IReadOnlyList<IntegrityItem> items,
-                                 IResultProgrss resultProgrss,
-                                 CancellationToken cancellationToken)
+        public static async Task Verify(string folder,
+                                        IReadOnlyList<IntegrityItem> items,
+                                        IResultProgrss resultProgrss,
+                                        CancellationToken cancellationToken)
         {
             int count = 0;
 
