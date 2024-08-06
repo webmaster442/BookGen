@@ -39,6 +39,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        lfs: true
+        submodules: recursive
 
     #https://github.com/actions/setup-dotnet/blob/main/README.md
     - name: Setup .NET
