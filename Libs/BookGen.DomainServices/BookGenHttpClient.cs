@@ -1,10 +1,12 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 2022-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Interfaces;
+
+using Microsoft.Extensions.Logging;
+
 using System.Net;
 
 namespace BookGen.DomainServices
@@ -34,7 +36,7 @@ namespace BookGen.DomainServices
             }
         }
 
-        public async Task<HttpStatusCode> DownloadToFile(Uri url, FsPath output, ILog log)
+        public async Task<HttpStatusCode> DownloadToFile(Uri url, FsPath output, ILogger log)
         {
             using HttpResponseMessage? response = await _client.GetAsync(url);
             if (response.IsSuccessStatusCode)

@@ -1,11 +1,11 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2023 Ruzsinszki Gábor
+// Copyright (c) 2021-2024 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
 using System.Net.Sockets;
 
-using BookGen.Api;
+using Microsoft.Extensions.Logging;
 
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Internal;
@@ -17,7 +17,7 @@ namespace Webmaster442.HttpServerFramework;
 /// </summary>
 public sealed class HttpServer : IDisposable
 {
-    private readonly ILog? _log;
+    private readonly ILogger _log;
     private readonly HttpServerConfiguration _configuration;
     private readonly List<IRequestHandler> _handlers;
 
@@ -36,7 +36,7 @@ public sealed class HttpServer : IDisposable
     /// </summary>
     /// <param name="configuration">Server configuration</param>
     /// <param name="log">logger to use</param>
-    public HttpServer(HttpServerConfiguration configuration, ILog? log = null)
+    public HttpServer(HttpServerConfiguration configuration, ILogger log)
     {
         ConfigurationValidator.ValidateAndTrhowExceptions(configuration);
 
@@ -99,11 +99,11 @@ public sealed class HttpServer : IDisposable
             {
                 if (ClientFilteringPredicate != null)
                 {
-                    _log?.Info("Running {0} ...", nameof(ClientFilteringPredicate));
+                    _log.LogInformation("Running client filtering {predicate}", nameof(ClientFilteringPredicate));
                     bool canHandle = ClientFilteringPredicate.Invoke(client);
                     if (!canHandle)
                     {
-                        _log?.Warning("{0} returned false. Refusing client connection", nameof(ClientFilteringPredicate));
+                        _log.LogWarning("{predicate} returned false. Refusing client connection", nameof(ClientFilteringPredicate));
                         client?.Dispose();
                         continue;
                     }
@@ -118,12 +118,12 @@ public sealed class HttpServer : IDisposable
                 else
                 {
                     client?.Dispose();
-                    _log?.Warning("Maximum number of clients ({0}) reached. Refusing connection", _configuration.MaxClients);
+                    _log.LogWarning("Maximum number of clients ({clients}) reached. Refusing connection", _configuration.MaxClients);
                 }
             }
             catch (Exception ex)
             {
-                _log?.Critical(ex);
+                _log.LogCritical(ex, "Critical issue");
             }
         }
     }
@@ -170,13 +170,13 @@ public sealed class HttpServer : IDisposable
         {
             if (ex is ServerException serverException)
             {
-                _log?.Warning(serverException.Message);
+                _log.LogWarning(serverException, serverException.Message);
                 await ServeErrorHandler(response, serverException.ResponseCode);
 
             }
             else
             {
-                _log?.Critical(ex);
+                _log.LogCritical(ex, "Critical issue");
                 await ServeInternalServerError(response, ex);
             }
         }

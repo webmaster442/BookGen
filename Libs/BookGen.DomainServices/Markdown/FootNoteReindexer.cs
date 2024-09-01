@@ -1,9 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021 Ruzsinszki Gábor
+// (c) 2021-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
+using Microsoft.Extensions.Logging;
+
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -13,7 +14,7 @@ namespace BookGen.DomainServices.Markdown
     {
         private readonly StringBuilder _footnotes;
         private readonly StringBuilder _regulartext;
-        private readonly ILog _log;
+        private readonly ILogger _log;
         private readonly bool _appendLineBreakbeforeDefs;
         private int _counter;
 
@@ -25,7 +26,7 @@ namespace BookGen.DomainServices.Markdown
         private static partial Regex FootNoteDef();
 
 
-        public FootNoteReindexer(ILog log, bool appendLineBreakbeforeDefs = false)
+        public FootNoteReindexer(ILogger log, bool appendLineBreakbeforeDefs = false)
         {
             _regulartext = new StringBuilder(8096);
             _footnotes = new StringBuilder(4096);
@@ -66,7 +67,7 @@ namespace BookGen.DomainServices.Markdown
 
                 if (currentDocLimit != referenceMatches.Count)
                 {
-                    _log.Warning("Expected {0} footnotes. Found: {0}", currentDocLimit, referenceMatches.Count);
+                    _log.LogWarning("Expected {limit} footnotes. Found: {count}", currentDocLimit, referenceMatches.Count);
                     return;
                 }
             }

@@ -3,8 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using System.Reflection;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Resources
 {
@@ -73,7 +74,7 @@ namespace BookGen.Resources
             return GetResourceStream<KnownFile>(location) ?? throw new InvalidOperationException();
         }
 
-        public static void ExtractKnownFile(KnownFile file, string targetDir, ILog log)
+        public static void ExtractKnownFile(KnownFile file, string targetDir, ILogger log)
         {
             string? location = KnownFileMap.Map[file];
             string? filename = Path.GetFileName(KnownFileMap.Map[file]);
@@ -94,7 +95,7 @@ namespace BookGen.Resources
                         Directory.CreateDirectory(targetDir);
                     }
 
-                    log.Detail("Extracting {0} to {1}", location, targetName);
+                    log.LogDebug("Extracting {location} to {target}", location, targetName);
 
                     using (FileStream? target = File.Create(targetName))
                     {
@@ -104,7 +105,7 @@ namespace BookGen.Resources
             }
             catch (Exception ex)
             {
-                log.Warning(ex);
+                log.LogWarning(ex, "ExtractKnownFile failed");
             }
         }
     }

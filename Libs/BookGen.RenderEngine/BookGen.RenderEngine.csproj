@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
     <ProjectReference Include="..\BookGen.DomainServices\BookGen.DomainServices.csproj" />
-    <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />
     <ProjectReference Include="..\BookGen.Interfaces\BookGen.Interfaces.csproj" />
     <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
   </ItemGroup>

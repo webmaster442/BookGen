@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,8 +10,9 @@ using System.Text.Json;
 using System.Text.Unicode;
 using System.Xml.Serialization;
 
-using BookGen.Api;
 using BookGen.Interfaces;
+
+using Microsoft.Extensions.Logging;
 
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -20,11 +21,11 @@ namespace BookGen.DomainServices
 {
     public static class FsUtils
     {
-        public static bool CreateDir(this FsPath path, ILog log)
+        public static bool CreateDir(this FsPath path, ILogger log)
         {
             try
             {
-                log.Detail("Creating directory: {0}", path);
+                log.LogDebug("Creating directory: {path}", path);
                 if (!FsPath.IsEmptyPath(path))
                 {
                     Directory.CreateDirectory(path.ToString());
@@ -32,25 +33,24 @@ namespace BookGen.DomainServices
                 }
                 else
                 {
-                    log.Warning("CreateDir called with empty input path");
+                    log.LogWarning("CreateDir called with empty input path");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                log.Warning("CreateDir failed: {0}", path);
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "CreateDir failed: {path}", path);
                 return false;
             }
         }
 
-        public static bool CopyDirectory(this FsPath sourceDirectory, FsPath targetDir, ILog log)
+        public static bool CopyDirectory(this FsPath sourceDirectory, FsPath targetDir, ILogger log)
         {
             try
             {
                 if (!Directory.Exists(targetDir.ToString()))
                 {
-                    log.Detail("Creating directory: {0}", targetDir);
+                    log.LogDebug("Creating directory: {directory}", targetDir);
                     Directory.CreateDirectory(targetDir.ToString());
                 }
 
@@ -59,12 +59,12 @@ namespace BookGen.DomainServices
                     SearchOption.AllDirectories))
                 {
                     string? targetfile = newPath.Replace(sourceDirectory.ToString(), targetDir.ToString());
-                    log.Detail("Copy file: {0} to {1}", newPath, targetfile);
+                    log.LogDebug("Copy file: {newpath} to {targetfile}", newPath, targetfile);
 
                     string? targetDirString = Path.GetDirectoryName(targetfile);
                     if (targetDirString != null && !Directory.Exists(targetDirString))
                     {
-                        log.Detail("Creating directory: {0}", targetDirString);
+                        log.LogDebug("Creating directory: {directory}", targetDirString);
                         Directory.CreateDirectory(targetDirString);
                     }
 
@@ -74,26 +74,25 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("CopyDirectory failed: {0} to {1}", sourceDirectory, targetDir);
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "CopyDirectory failed: {sourceDirectory} to {targetDir}", sourceDirectory, targetDir);
                 return false;
             }
         }
 
-        public static bool Copy(this FsPath source, FsPath target, ILog log)
+        public static bool Copy(this FsPath source, FsPath target, ILogger log)
         {
             try
             {
                 if (!source.IsExisting)
                 {
-                    log.Warning("Source doesn't exist, skipping: {0}");
+                    log.LogWarning("Source doesn't exist, skipping: {source}", source);
                     return false;
                 }
 
                 string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
                 if (!Directory.Exists(dir))
                 {
-                    log.Detail("Creating directory: {0}", dir);
+                    log.LogDebug("Creating directory: {dir}", dir);
                     Directory.CreateDirectory(dir);
                 }
 
@@ -103,26 +102,25 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("Copy failed: {0} to {1}", source, target);
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "Copy failed: {source} to {target}", source, target);
                 return false;
             }
         }
 
-        public static bool Move(this FsPath source, FsPath target, ILog log)
+        public static bool Move(this FsPath source, FsPath target, ILogger log)
         {
             try
             {
                 if (!source.IsExisting)
                 {
-                    log.Warning("Source doesn't exist, skipping: {0}");
+                    log.LogDebug("Source doesn't exist, skipping: {source}", source);
                     return false;
                 }
 
                 string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
                 if (!Directory.Exists(dir))
                 {
-                    log.Detail("Creating directory: {0}", dir);
+                    log.LogDebug("Creating directory: {dir}", dir);
                     Directory.CreateDirectory(dir);
                 }
 
@@ -132,8 +130,7 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("Move failed: {0} to {1}", source, target);
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "Move failed: {source} to {target}", source, target);
                 return false;
             }
         }
@@ -143,37 +140,37 @@ namespace BookGen.DomainServices
             return File.OpenRead(target.ToString());
         }
 
-        public static FileStream CreateStream(this FsPath target, ILog log)
+        public static FileStream CreateStream(this FsPath target, ILogger log)
         {
             string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
             if (!Directory.Exists(dir))
             {
-                log.Detail("Creating directory: {0}", dir);
+                log.LogDebug("Creating directory: {dir}", dir);
                 Directory.CreateDirectory(dir);
             }
 
             return File.Create(target.ToString());
         }
 
-        public static StreamWriter CreateStreamWriter(this FsPath target, ILog log)
+        public static StreamWriter CreateStreamWriter(this FsPath target, ILogger log)
         {
             string? dir = Path.GetDirectoryName(target.ToString()) ?? string.Empty;
             if (!Directory.Exists(dir))
             {
-                log.Detail("Creating directory: {0}", dir);
+                log.LogDebug("Creating directory: {dir}", dir);
                 Directory.CreateDirectory(dir);
             }
 
             return File.CreateText(target.ToString());
         }
 
-        public static bool CreateBackup(this FsPath source, ILog log)
+        public static bool CreateBackup(this FsPath source, ILogger log)
         {
             try
             {
                 if (!source.IsExisting)
                 {
-                    log.Detail("Source doesn't exist, skipping: {0}");
+                    log.LogDebug("Source doesn't exist, skipping: {source}", source);
                     return false;
                 }
                 string targetname = $"{source}_backup";
@@ -194,13 +191,12 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("CreateBackup failed: {0}", source);
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "CreateBackup failed: {source}", source);
                 return false;
             }
         }
 
-        public static bool WriteFile(this FsPath target, ILog log, params string[] contents)
+        public static bool WriteFile(this FsPath target, ILogger log, params string[] contents)
         {
             try
             {
@@ -221,13 +217,12 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("WriteFile failed: {0}", target);
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "WriteFile failed: {target}", target);
                 return false;
             }
         }
 
-        public static string ReadFile(this FsPath path, ILog log, bool appendExtraLine = false)
+        public static string ReadFile(this FsPath path, ILogger log, bool appendExtraLine = false)
         {
             try
             {
@@ -245,13 +240,12 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("ReadFile failed: {0}", path);
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "ReadFile failed: {path}", path);
                 return string.Empty;
             }
         }
 
-        public static IList<string> ReadFileLines(this FsPath path, ILog log)
+        public static IList<string> ReadFileLines(this FsPath path, ILogger log)
         {
             try
             {
@@ -273,13 +267,12 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("ReadFile failed: {0}", path);
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "ReadFile failed: {path}", path);
                 return Array.Empty<string>();
             }
         }
 
-        public static void ProtectDirectory(this FsPath directory, ILog log)
+        public static void ProtectDirectory(this FsPath directory, ILogger log)
         {
             FsPath? outp = directory.Combine("index.html");
             var sb = new StringBuilder(4096);
@@ -299,7 +292,7 @@ namespace BookGen.DomainServices
             }
         }
 
-        public static bool SerializeXml<T>(this FsPath path, T obj, ILog log, IReadOnlyList<(string prefix, string namespac)>? nslist = null) where T : class
+        public static bool SerializeXml<T>(this FsPath path, T obj, ILogger log, IReadOnlyList<(string prefix, string namespac)>? nslist = null) where T : class
         {
             try
             {
@@ -331,13 +324,12 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("SerializeXml failed: {0} type: {1}", path, typeof(T));
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "SerializeXml failed: {path} type: {type}", path, typeof(T));
                 return false;
             }
         }
 
-        public static bool SerializeJson<T>(this FsPath path, T obj, ILog log, bool indent = true) where T : class, new()
+        public static bool SerializeJson<T>(this FsPath path, T obj, ILogger log, bool indent = true) where T : class, new()
         {
             try
             {
@@ -362,13 +354,12 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("SerializeJson failed: {0} type: {1}", path, typeof(T));
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "SerializeJson failed: {path} type: {type}", path, typeof(T));
                 return false;
             }
         }
 
-        public static T? DeserializeJson<T>(this FsPath path, ILog log) where T : class, new()
+        public static T? DeserializeJson<T>(this FsPath path, ILogger log) where T : class, new()
         {
             try
             {
@@ -386,13 +377,12 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("DeserializeJson failed: {0} type: {1}", path, typeof(T));
-                log.Critical(ex);
+                log.LogWarning(ex, "DeserializeJson failed: {path} type: {type}", path, typeof(T));
                 return default;
             }
         }
 
-        public static bool SerializeYaml<T>(this FsPath path, T obj, ILog log) where T : class, new()
+        public static bool SerializeYaml<T>(this FsPath path, T obj, ILogger log) where T : class, new()
         {
             try
             {
@@ -414,13 +404,12 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("SerializeYaml failed: {0} type: {1}", path, typeof(T));
-                log.Detail(ex.Message);
+                log.LogWarning(ex, "SerializeYaml failed: {path} type: {type}", path, typeof(T));
                 return false;
             }
         }
 
-        public static T? DeserializeYaml<T>(this FsPath path, ILog log) where T : class, new()
+        public static T? DeserializeYaml<T>(this FsPath path, ILogger log) where T : class, new()
         {
             try
             {
@@ -438,8 +427,7 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("DeserializeYaml failed: {0} type: {1}", path, typeof(T));
-                log.Critical(ex);
+                log.LogWarning(ex, "DeserializeYaml failed: {path} type: {type}", path, typeof(T));
                 return default;
             }
         }
@@ -525,7 +513,7 @@ namespace BookGen.DomainServices
             return new FsPath(x);
         }
 
-        public static bool Delete(this FsPath path, ILog log)
+        public static bool Delete(this FsPath path, ILogger log)
         {
             try
             {
@@ -534,8 +522,7 @@ namespace BookGen.DomainServices
             }
             catch (Exception ex)
             {
-                log.Warning("File detlete failed: {0}", path);
-                log.Critical(ex);
+                log.LogWarning(ex, "File detlete failed: {path}", path);
                 return false;
             }
         }

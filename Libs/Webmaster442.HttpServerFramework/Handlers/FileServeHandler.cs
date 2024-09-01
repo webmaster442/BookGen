@@ -1,9 +1,9 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2023 Ruzsinszki Gábor
+// Copyright (c) 2021-2024 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
-using BookGen.Api;
+using Microsoft.Extensions.Logging;
 
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Internal;
@@ -70,7 +70,7 @@ public class FileServeHandler : IRequestHandler
 
 
     /// <inheritdoc/>
-    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILogger logger, HttpRequest request, HttpResponse response)
     {
         if (request.Method != RequestMethod.Get)
         {
@@ -93,7 +93,7 @@ public class FileServeHandler : IRequestHandler
 
             if (Directory.Exists(fileOnDisk) && _listFolders)
             {
-                await RenderFolder(fileOnDisk, request.Url, log, response);
+                await RenderFolder(fileOnDisk, request.Url, logger, response);
                 return true;
             }
 
@@ -102,7 +102,8 @@ public class FileServeHandler : IRequestHandler
                 DateTime lastModifiedDate = File.GetLastWriteTimeUtc(fileOnDisk);
                 using (var stream = File.OpenRead(fileOnDisk))
                 {
-                    log?.Info("Serving {0}...", request.Url);
+                    logger.LogInformation("Serving {url}...", request.Url);
+
                     response.LastModified = _sendLastAccesTime ? lastModifiedDate : DateTime.UtcNow;
                     response.ContentType = MimeTypes.GetMimeTypeForFile(fileOnDisk);
                     response.ResponseCode = HttpResponseCode.Ok;
@@ -114,9 +115,9 @@ public class FileServeHandler : IRequestHandler
         return false;
     }
 
-    private async ValueTask RenderFolder(string folder, string url, ILog? log, HttpResponse response)
+    private async ValueTask RenderFolder(string folder, string url, ILogger logger, HttpResponse response)
     {
-        log?.Info("Rendering file list for: {0}...", folder);
+        logger.LogInformation("Rendering file list for: {folder}...", folder);
         string title = $"Index of {url}";
 
         HtmlBuilder builder = new HtmlBuilder(title);

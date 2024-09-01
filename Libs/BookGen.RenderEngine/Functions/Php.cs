@@ -3,16 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Interfaces;
 using BookGen.RenderEngine.Internals;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.RenderEngine.Functions;
 
 internal sealed class Php : Function, IInjectable
 {
     private IAppSetting _appSetting = null!;
-    private ILog _log = null!;
+    private ILogger _log = null!;
     private ScriptProcess _scriptProcess = null!;
 
     public void Inject(FunctionServices functionServices)
@@ -43,7 +44,7 @@ internal sealed class Php : Function, IInjectable
     public override string Execute(FunctionArguments arguments)
     {
         string? file = arguments.GetArgumentOrThrow<string>("file");
-        _log.Info("Trying to execute PHP CGI script: {0} ...", file);
+        _log.LogInformation("Trying to execute PHP CGI script: {file} ...", file);
         return _scriptProcess.ExecuteScriptProcess("php-cgi", _appSetting.PhpPath, file, _appSetting.PhpTimeout);
     }
 }

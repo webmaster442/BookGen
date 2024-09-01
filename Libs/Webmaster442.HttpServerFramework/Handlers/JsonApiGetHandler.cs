@@ -1,9 +1,9 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2023 Ruzsinszki Gábor
+// Copyright (c) 2021-2024 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
-using BookGen.Api;
+using Microsoft.Extensions.Logging;
 
 using Webmaster442.HttpServerFramework.Domain;
 
@@ -31,14 +31,14 @@ public abstract class JsonApiGetHandler<TResponse> : IRequestHandler
     }
 
     /// <inheritdoc/>
-    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILogger logger, HttpRequest request, HttpResponse response)
     {
         if (!CanProcess(request.Url))
         {
             return false;
         }
 
-        bool result = await TryProcessRequest(log, request.Url, request.Parameters, out TResponse responseObject);
+        bool result = await TryProcessRequest(logger, request.Url, request.Parameters, out TResponse responseObject);
 
         if (result)
         {
@@ -53,12 +53,12 @@ public abstract class JsonApiGetHandler<TResponse> : IRequestHandler
     /// Tries to process the request.
     /// If request can't be processed return false.
     /// </summary>
-    /// <param name="log">Log object, that can be used to log</param>
+    /// <param name="logger">Log object, that can be used to log</param>
     /// <param name="url">Request url</param>
     /// <param name="parameters">Request parameters</param>
     /// <param name="responseObject">Response object that will be JSON serialized</param>
     /// <returns>True, if processing was succesfull, false if not</returns>
-    protected abstract Task<bool> TryProcessRequest(ILog? log, string url, IReadOnlyDictionary<string, string> parameters, out TResponse responseObject);
+    protected abstract Task<bool> TryProcessRequest(ILogger logger, string url, IReadOnlyDictionary<string, string> parameters, out TResponse responseObject);
 
     /// <summary>
     /// Determines if the specified url can be processed by this handler

@@ -3,15 +3,16 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Cli.ArgumentParsing;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Cli;
 public class ArgumentParser<TArgs> where TArgs : ArgumentsBase, new()
 {
     private readonly ArgumentParser _internalParser;
 
-    public ArgumentParser(ILog log)
+    public ArgumentParser(ILogger log)
     {
         _internalParser = new ArgumentParser(typeof(TArgs), log);
     }

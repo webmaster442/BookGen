@@ -5,8 +5,9 @@
 
 using System.Reflection;
 
-using BookGen.Api;
 using BookGen.Cli.Annotations;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Cli.ArgumentParsing;
 
@@ -16,9 +17,9 @@ internal class ArgumentParser
     private readonly List<PropertyInfo> _switchPropertyInfos;
 
     private readonly Type _argumentType;
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
-    public ArgumentParser(Type argumentType, ILog log)
+    public ArgumentParser(Type argumentType, ILogger log)
     {
         _argumentPropertyInfos = new List<PropertyInfo>();
         _switchPropertyInfos = new List<PropertyInfo>();
@@ -62,7 +63,7 @@ internal class ArgumentParser
 
         var notProcessesd = string.Join(' ', argBag.GetNotProcessed());
         if (!string.IsNullOrEmpty(notProcessesd))
-            _log.Warning("Not processed arguments: {0}", notProcessesd);
+            _log.LogWarning("Not processed arguments: {0}", notProcessesd);
 
         return (ArgumentsBase)argumentsClass;
     }

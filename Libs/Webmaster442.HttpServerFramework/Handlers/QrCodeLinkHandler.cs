@@ -1,5 +1,5 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2023 Ruzsinszki Gábor
+// Copyright (c) 2023-2024 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Web;
 
-using BookGen.Api;
+using Microsoft.Extensions.Logging;
 
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Internal;
@@ -53,7 +53,7 @@ public class QrCodeLinkHandler : IRequestHandler
     }
 
     /// <inheritdoc/>
-    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILogger logger, HttpRequest request, HttpResponse response)
     {
         if (request.Method != RequestMethod.Get
             || request.Url != "/qrcodelink")

@@ -5,15 +5,16 @@
 
 using System.Reflection;
 
-using BookGen.Api;
 using BookGen.DomainServices;
 using BookGen.Interfaces;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.AssemblyDocumenter;
 
 public static class XmlDocValidator
 {
-    public static bool ValidateXml(FsPath xml, ILog log)
+    public static bool ValidateXml(FsPath xml, ILogger log)
     {
         int errors = 0;
         try
@@ -29,7 +30,7 @@ public static class XmlDocValidator
                     {
                         if (e.Severity == XmlSeverityType.Error)
                         {
-                            log.Warning(e.Message);
+                            log.LogWarning("XMl validation error: {error}", e.Message);
                             ++errors;
                         }
                     });
@@ -39,7 +40,7 @@ public static class XmlDocValidator
         }
         catch (Exception ex)
         {
-            log.Critical(ex);
+            log.LogCritical(ex, "ValidateXml failed");
             return false;
         }
     }

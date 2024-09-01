@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using BookGen.Api;
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.DomainServices
 {
@@ -15,7 +15,7 @@ namespace BookGen.DomainServices
     {
         private readonly string _tidyPath;
         private readonly Dictionary<string, string> _tagreplacements;
-        private readonly ILog _log;
+        private readonly ILogger _log;
 
         private const string TidyName = "tidy.exe";
         private const int TimeOut = 10;
@@ -23,7 +23,7 @@ namespace BookGen.DomainServices
         [GeneratedRegex("Tidy found ([0-9]+) warnings and ([0-9]+) errors!", RegexOptions.None, 5000)]
         private static partial Regex GetWarningAndErrorRegex();
 
-        public HtmlTidy(ILog log)
+        public HtmlTidy(ILogger log)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -98,12 +98,12 @@ namespace BookGen.DomainServices
 
                 if (warnings > 0)
                 {
-                    _log.Warning("Tidy found {0} warnings", warnings);
+                    _log.LogWarning("Tidy found {warnings} warnings", warnings);
                 }
 
                 if (errors > 0)
                 {
-                    _log.Critical("Creating of XTML failed, Tidy found errors. See output file for details");
+                    _log.LogCritical("Creating of XTML failed, Tidy found errors. See output file for details");
                     return $"<pre>{result.stdErr}</pre>";
                 }
             }

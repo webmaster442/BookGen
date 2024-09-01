@@ -6,15 +6,16 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-using BookGen.Api;
 using BookGen.Interfaces;
 using BookGen.RenderEngine.Internals;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.RenderEngine;
 
 public partial class TemplateRenderer : ITemplateRenderer
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly StringBuilder _buffer;
     private readonly Dictionary<string, Function> _functions;
 
@@ -70,7 +71,7 @@ public partial class TemplateRenderer : ITemplateRenderer
             }
             else
             {
-                _log.Warning("Unknown function: {0}", functionName);
+                _log.LogWarning("Unknown function: {functionName}", functionName);
             }
         }
         return line;
@@ -89,7 +90,7 @@ public partial class TemplateRenderer : ITemplateRenderer
             }
             else
             {
-                _log.Warning("Unknown parameter: {0}", parameterName);
+                _log.LogWarning("Unknown parameter: {parameterName}", parameterName);
             }
         }
         return line;

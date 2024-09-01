@@ -3,8 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Interfaces;
+
+using Microsoft.Extensions.Logging;
 
 using SkiaSharp;
 
@@ -161,7 +162,7 @@ namespace BookGen.DomainServices
             return LoadImage(input);
         }
 
-        public static bool ConvertImageFile(ILog log, FsPath input, FsPath output, int quality, int? width, int? height, string? format = null)
+        public static bool ConvertImageFile(ILogger log, FsPath input, FsPath output, int quality, int? width, int? height, string? format = null)
         {
             SKEncodedImageFormat targetFormat;
             using (SKBitmap image = LoadForConvert(input, width, height))
@@ -186,7 +187,7 @@ namespace BookGen.DomainServices
                         }
                         catch (Exception ex)
                         {
-                            log.Warning(ex);
+                            log.LogWarning(ex, "ConvertImageFile failed");
                             return false;
                         }
                     }

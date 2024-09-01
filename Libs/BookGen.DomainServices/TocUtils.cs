@@ -1,12 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿//-----------------------------------------------------------------------------
+// (c) 2023-2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
 
-using BookGen.Api;
+using System.Diagnostics.CodeAnalysis;
+
 using BookGen.Interfaces;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.DomainServices;
 public static class TocUtils
 {
-    public static IEnumerable<Link> GetLinks(FsPath directory, IEnumerable<string> exclude, ILog log)
+    public static IEnumerable<Link> GetLinks(FsPath directory, IEnumerable<string> exclude, ILogger log)
     {
         var contents = directory.GetAllFiles(true, "*.md");
 

@@ -3,20 +3,21 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.RenderEngine.Internals;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.RenderEngine.Functions;
 
 internal sealed class InlineFile : Function, IInjectable
 {
-    private ILog _log = null!;
+    private ILogger _log = null!;
 
     public override string Execute(FunctionArguments arguments)
     {
         string? name = arguments.GetArgumentOrThrow<string>("file");
 
-        _log.Detail("Inlineing {0}...", name);
+        _log.LogDebug("Inlineing {name}...", name);
 
         return File.ReadAllText(name);
     }

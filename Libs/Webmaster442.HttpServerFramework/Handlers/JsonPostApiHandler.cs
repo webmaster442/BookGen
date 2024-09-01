@@ -1,11 +1,11 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2023 Ruzsinszki Gábor
+// Copyright (c) 2021-2024 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
 using System.Text.Json;
 
-using BookGen.Api;
+using Microsoft.Extensions.Logging;
 
 using Webmaster442.HttpServerFramework.Domain;
 
@@ -43,7 +43,7 @@ namespace Webmaster442.HttpServerFramework.Handlers
         }
 
         /// <inheritdoc/>
-        public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
+        public async Task<bool> Handle(ILogger logger, HttpRequest request, HttpResponse response)
         {
             if (request.Url != Url)
             {
@@ -53,10 +53,10 @@ namespace Webmaster442.HttpServerFramework.Handlers
             var requestObject = JsonSerializer.Deserialize<TRequest>(request.RequestContent);
             if (requestObject == null)
             {
-                log?.Warning("Request deserialize failed");
+                logger.LogWarning("Request deserialize failed");
                 throw new ServerException(HttpResponseCode.InternalServerError);
             }
-            bool result = await TryProcessRequest(log, requestObject, out TResponse responseObject);
+            bool result = await TryProcessRequest(logger, requestObject, out TResponse responseObject);
 
             if (result)
             {
@@ -70,10 +70,10 @@ namespace Webmaster442.HttpServerFramework.Handlers
         /// Tries to process the request.
         /// If request can't be processed return false.
         /// </summary>
-        /// <param name="log">Log object, that can be used to log</param>
+        /// <param name="logger">Log object, that can be used to log</param>
         /// <param name="requestObject">Request JSON deserialized object</param>
         /// <param name="responseObject">Response object that will be JSON serialized</param>
         /// <returns>True, if processing was succesfull, false if not</returns>
-        protected abstract Task<bool> TryProcessRequest(ILog? log, TRequest requestObject, out TResponse responseObject);
+        protected abstract Task<bool> TryProcessRequest(ILogger logger, TRequest requestObject, out TResponse responseObject);
     }
 }

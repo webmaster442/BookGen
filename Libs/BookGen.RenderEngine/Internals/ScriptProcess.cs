@@ -5,16 +5,17 @@
 
 using System.Runtime.InteropServices;
 
-using BookGen.Api;
 using BookGen.DomainServices;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.RenderEngine.Internals;
 
 internal sealed class ScriptProcess
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
-    public ScriptProcess(ILog log)
+    public ScriptProcess(ILogger log)
     {
         _log = log;
     }
@@ -76,7 +77,7 @@ internal sealed class ScriptProcess
 
         if (programPath == null)
         {
-            _log.Warning("{0} was not found on path.", program);
+            _log.LogWarning("{program} was not found on path.", program);
             return $"{program} was not found on path";
         }
 
@@ -86,8 +87,8 @@ internal sealed class ScriptProcess
 
             if (exitcode != 0)
             {
-                _log.Warning("Script run failed. Exit code: {0}", exitcode);
-                _log.Detail("Script output: {0}", output);
+                _log.LogWarning("Script run failed. Exit code: {exitcode}", exitcode);
+                _log.LogDebug("Script output: {output}", output);
                 return $"Script run failed: {fileToExecute}";
             }
             else
@@ -97,8 +98,7 @@ internal sealed class ScriptProcess
         }
         catch (Exception ex)
         {
-            _log.Warning("Script run failed with Exception: {0}", ex.Message);
-            _log.Detail("Stack Trace: {0}", ex.StackTrace ?? "");
+            _log.LogWarning(ex, "Script run failed with Exception.");
             return $"Script run failed with Exception: {ex.Message}";
         }
     }

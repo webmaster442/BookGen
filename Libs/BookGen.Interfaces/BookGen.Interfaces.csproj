@@ -10,10 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.37.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
   </ItemGroup>
 
 </Project>

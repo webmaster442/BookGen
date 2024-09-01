@@ -1,9 +1,9 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2023 Ruzsinszki Gábor
+// Copyright (c) 2021-2024 Ruzsinszki Gábor
 // This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
 // -----------------------------------------------------------------------------------------------
 
-using BookGen.Api;
+using Microsoft.Extensions.Logging;
 
 using Webmaster442.HttpServerFramework.Domain;
 
@@ -35,7 +35,7 @@ public sealed class FaviconHandler : IRequestHandler, IDisposable
     }
 
     /// <inheritdoc/>
-    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILogger logger, HttpRequest request, HttpResponse response)
     {
         if (request.Method != RequestMethod.Get
             || request.Url != "/favicon.ico")
@@ -43,7 +43,7 @@ public sealed class FaviconHandler : IRequestHandler, IDisposable
             return false;
         }
 
-        log?.Info("Serving favicon...");
+        logger.LogInformation("Serving favicon...");
 
         _iconStream.Seek(0, SeekOrigin.Begin);
         response.ContentType = _mime;
