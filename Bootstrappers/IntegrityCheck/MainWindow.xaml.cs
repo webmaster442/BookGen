@@ -13,12 +13,20 @@ namespace IntegrityCheck
     public partial class MainWindow : Window, IResultProgrss
     {
         private readonly CancellationTokenSource _cancellationTokenSource;
+        private readonly string _integrityFile;
+        private readonly string _dataFolder;
         private bool _isRunning;
 
         public MainWindow()
         {
             InitializeComponent();
             _cancellationTokenSource = new CancellationTokenSource();
+            _integrityFile = Path.Combine(AppContext.BaseDirectory, "integrity.xml");
+            _dataFolder = Path.Combine(AppContext.BaseDirectory, "data");
+            if (!Directory.Exists(_dataFolder))
+            {
+                _dataFolder = AppContext.BaseDirectory;
+            }
         }
 
         private void Exit(bool calledByCancel)
@@ -36,7 +44,7 @@ namespace IntegrityCheck
         private void WriteXml(List<IntegrityItem> results)
         {
             XmlSerializer xs = new XmlSerializer(typeof(List<IntegrityItem>));
-            using (var stream = File.Create(Path.Combine(AppContext.BaseDirectory, "integrity.xml")))
+            using (var stream = File.Create(_integrityFile))
             {
                 xs.Serialize(stream, results);
             }
@@ -45,7 +53,7 @@ namespace IntegrityCheck
         private List<IntegrityItem> ReadXml()
         {
             XmlSerializer xs = new XmlSerializer(typeof(List<IntegrityItem>));
-            using (var stream = File.OpenRead(Path.Combine(AppContext.BaseDirectory, "integrity.xml")))
+            using (var stream = File.OpenRead(_integrityFile))
             {
                 return (List<IntegrityItem>)xs.Deserialize(stream);
             }
@@ -61,17 +69,23 @@ namespace IntegrityCheck
         {
             var args = Environment.GetCommandLineArgs();
             _isRunning = true;
-            if (args.Length == 1
-                && args[0] == "compute")
+            if (args.Length == 2
+                && args[1] == "/compute")
             {
-                var results = await Bookgen.Win.IntegrityCheck.Create("data", this, _cancellationTokenSource.Token);
+                var results = await Bookgen.Win.IntegrityCheck.Create(_dataFolder, this, _cancellationTokenSource.Token);
                 WriteXml(results);
+            }
+            else if (File.Exists(_integrityFile))
+            {
+                var items = ReadXml();
+                _isRunning = await Bookgen.Win.IntegrityCheck.Verify(_dataFolder, items, this, _cancellationTokenSource.Token);
             }
             else
             {
-                var items = ReadXml();
-                await Bookgen.Win.IntegrityCheck.Verify("data", items, this, _cancellationTokenSource.Token);
+                MessageBox.Show("Integrity file not found. Please resinstall program.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
             }
+
             _isRunning = false;
             BtnCancel.Content = "Exit";
         }

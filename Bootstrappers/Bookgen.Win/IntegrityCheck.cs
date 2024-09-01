@@ -15,7 +15,7 @@ namespace Bookgen.Win
         {
             var result = new List<IntegrityItem>();
 
-            string[] files = Directory.GetFiles(folder, "*.*");
+            string[] files = Directory.GetFiles(folder, "*.*", SearchOption.AllDirectories);
             countProgress.SetMaximum(files.Length);
 
             int count = 0;
@@ -27,7 +27,8 @@ namespace Bookgen.Win
                 result.Add(new IntegrityItem
                 {
                     FileName = GetRelativePath(folder, file),
-                    Hash = await GetFileHash(file, cancellationToken)
+                    Hash = await GetFileHash(file, cancellationToken),
+                    DateHash = GetFileDate(file)
                 });
 
                 ++count;
@@ -38,37 +39,45 @@ namespace Bookgen.Win
             return result;
         }
 
-        public static async Task Verify(string folder,
-                                        IReadOnlyList<IntegrityItem> items,
-                                        IResultProgrss resultProgrss,
-                                        CancellationToken cancellationToken)
+        private static string GetFileDate(string file)
+        {
+            var d =  BitConverter.GetBytes(File.GetLastWriteTime(file).ToBinary());
+            return Convert.ToBase64String(d);
+        }
+
+        public static async Task<bool> Verify(string folder,
+                                              IReadOnlyList<IntegrityItem> items,
+                                              IResultProgrss resultProgrss,
+                                              CancellationToken cancellationToken)
         {
             int count = 0;
 
+            resultProgrss.SetMaximum(items.Count);
+
             foreach (IntegrityItem item in items)
             {
-
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var fileName = Path.Combine(folder, item.FileName);
                 if (!File.Exists(fileName))
                 {
                     resultProgrss.ReportFailed(fileName);
-                    resultProgrss.Report(count);
-                    ++count;
                     continue;
                 }
 
                 var hash = await GetFileHash(fileName, cancellationToken);
-                if (hash != item.Hash)
+                var date = GetFileDate(fileName);
+                if (hash != item.Hash
+                    || date != item.DateHash)
                 {
                     resultProgrss.ReportFailed(fileName);
                 }
                 ++count;
                 resultProgrss.Report(count);
             }
-        }
 
+            return true;
+        }
 
         private const int BufferSize = 16 * 1024;
 

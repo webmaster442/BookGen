@@ -12,5 +12,8 @@ namespace Bookgen.Win
 
         [XmlAttribute(AttributeName = "h")]
         public string Hash { get; set; }
+
+        [XmlAttribute(AttributeName = "d")]
+        public string DateHash { get; set; }
     }
 }
