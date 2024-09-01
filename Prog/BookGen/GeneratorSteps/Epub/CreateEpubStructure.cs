@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -9,14 +9,14 @@ namespace BookGen.GeneratorSteps.Epub;
 
 internal sealed class CreateEpubStructure : IGeneratorStep
 {
-    private static void CreateMimeTypeFile(IReadonlyRuntimeSettings settings, ILog log)
+    private static void CreateMimeTypeFile(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Detail("Creating mimetype file...");
+        log.LogDebug("Creating mimetype file...");
         FsPath? mime = settings.OutputDirectory.Combine("epubtemp\\mimetype");
         mime.WriteFile(log, "application/epub+zip");
     }
 
-    private static void CreateFolderStructure(IReadonlyRuntimeSettings settings, ILog log)
+    private static void CreateFolderStructure(IReadonlyRuntimeSettings settings, ILogger log)
     {
         string[] directories = { "epubtemp\\META-INF", "epubtemp\\OPS" };
 
@@ -27,9 +27,9 @@ internal sealed class CreateEpubStructure : IGeneratorStep
         }
     }
 
-    private static void CreateContainerXML(IReadonlyRuntimeSettings settings, ILog log)
+    private static void CreateContainerXML(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Creating META-INF/container.xml");
+        log.LogInformation("Creating META-INF/container.xml");
 
         var container = new Container
         {
@@ -56,9 +56,9 @@ internal sealed class CreateEpubStructure : IGeneratorStep
     }
 
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Creating epub structure...");
+        log.LogInformation("Creating epub structure...");
 
         CreateMimeTypeFile(settings, log);
         CreateFolderStructure(settings, log);

@@ -16,14 +16,14 @@ namespace BookGen.Commands;
 [CommandName("externallinks")]
 internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
     private readonly ProgramInfo _programInfo;
 
     [GeneratedRegex(@"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?")]
     private partial Regex Links();
 
-    public ExternalLinksCommand(ILog log, IMutexFolderLock folderLock, ProgramInfo programInfo)
+    public ExternalLinksCommand(ILogger log, IMutexFolderLock folderLock, ProgramInfo programInfo)
     {
         _log = log;
         _folderLock = folderLock;
@@ -58,7 +58,7 @@ internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
         return Constants.GeneralError;
     }
 
-    private string ExtractLinksToMdFile(RuntimeSettings settings, ILog log)
+    private string ExtractLinksToMdFile(RuntimeSettings settings, ILogger log)
     {
         var links = new ConcurrentBag<string>();
         var results = new StringBuilder();

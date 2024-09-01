@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -9,9 +9,9 @@ namespace BookGen.GeneratorSteps.Epub;
 
 internal sealed class CreateEpubPack : IGeneratorStep
 {
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Creating epub file from contents...");
+        log.LogInformation("Creating epub file from contents...");
         FsPath output = settings.OutputDirectory.Combine("book.epub");
         FsPath input = settings.OutputDirectory.Combine("epubtemp");
 

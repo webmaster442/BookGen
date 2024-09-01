@@ -11,9 +11,9 @@ namespace BookGen.Commands;
 [CommandName("projectconvert")]
 internal class ProjectConvertCommand : Command<ProjectConvertArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
-    public ProjectConvertCommand(ILog log)
+    public ProjectConvertCommand(ILogger log)
     {
         _log = log;
     }
@@ -25,7 +25,7 @@ internal class ProjectConvertCommand : Command<ProjectConvertArguments>
 
         if (json.IsFile && yml.IsFile)
         {
-            _log.Warning("Configuration exists in both formats. Can't continue");
+            _log.LogWarning("Configuration exists in both formats. Can't continue");
             return Constants.GeneralError;
         }
         else if (json.IsFile)
@@ -42,7 +42,7 @@ internal class ProjectConvertCommand : Command<ProjectConvertArguments>
         }
     }
 
-    private static bool ConvertYmlToJson(FsPath yml, FsPath json, ILog log, bool backup)
+    private static bool ConvertYmlToJson(FsPath yml, FsPath json, ILogger log, bool backup)
     {
         Config? config = yml.DeserializeYaml<Config>(log);
         if (config == null)
@@ -57,7 +57,7 @@ internal class ProjectConvertCommand : Command<ProjectConvertArguments>
             && json.SerializeJson(config, log, true);
     }
 
-    private static bool ConvertToYml(FsPath json, FsPath yml, ILog log, bool backup)
+    private static bool ConvertToYml(FsPath json, FsPath yml, ILogger log, bool backup)
     {
         Config? config = json.DeserializeJson<Config>(log);
         if (config == null)

@@ -14,7 +14,7 @@ var argumentList = args.ToList();
 ProgramConfigurator.AttachDebugger(argumentList);
 ProgramConfigurator.WaitForDebugger(argumentList);
 
-ILog log = ProgramConfigurator.ConfigureLog(argumentList);
+ILogger log = ProgramConfigurator.ConfigureLog(argumentList);
 ProgramInfo info = new();
 
 var timeProvider = new TimeProviderImplementation();

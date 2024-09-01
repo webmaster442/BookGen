@@ -14,7 +14,7 @@ namespace BookGen.Commands;
 [CommandName("md2html")]
 internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
     private const string TitleTag = "{{title}}";
     private const string CssTag = "{{css}}";
@@ -22,7 +22,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
 
     private readonly TemplateRenderer _renderer;
 
-    public Md2HtmlCommand(ILog log, IAppSetting appSetting, TimeProvider timeProvider)
+    public Md2HtmlCommand(ILogger log, IAppSetting appSetting, TimeProvider timeProvider)
     {
         _log = log;
         _renderer = new TemplateRenderer(new FunctionServices
@@ -104,19 +104,19 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
         bool returnValue = true;
         if (!pageTemplate.Contains(TitleTag))
         {
-            _log.Critical("Template doesn't contain tag: {0}", TitleTag);
+            _log.LogCritical("Template doesn't contain tag: {tag}", TitleTag);
             returnValue = false;
         }
 
         if (!pageTemplate.Contains(CssTag))
         {
-            _log.Critical("Template doesn't contain tag: {0}", CssTag);
+            _log.LogCritical("Template doesn't contain tag: {tag}", CssTag);
             returnValue = false;
         }
 
         if (!pageTemplate.Contains(ContentTag))
         {
-            _log.Critical("Template doesn't contain tag: {0}", ContentTag);
+            _log.LogCritical("Template doesn't contain tag: {tag}", ContentTag);
             returnValue = false;
         }
 

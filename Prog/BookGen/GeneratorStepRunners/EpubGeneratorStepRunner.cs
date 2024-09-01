@@ -10,7 +10,7 @@ namespace BookGen.GeneratorStepRunners;
 
 internal sealed class EpubGeneratorStepRunner : GeneratorStepRunner
 {
-    public EpubGeneratorStepRunner(RuntimeSettings settings, ILog log, IAppSetting appSetting)
+    public EpubGeneratorStepRunner(RuntimeSettings settings, ILogger log, IAppSetting appSetting)
         : base(settings, log, appSetting)
     {
         var session = new GeneratorSteps.Epub.EpubSession();

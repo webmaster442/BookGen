@@ -10,7 +10,7 @@ namespace BookGen.Tests
     public class UT_FootNoteReindexer
     {
         private FootNoteReindexer _sut;
-        private ILog _logMock;
+        private ILogger _logMock;
 
         [SetUp]
         public void Setup()

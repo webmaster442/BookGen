@@ -13,9 +13,9 @@ namespace BookGen.Commands;
 [CommandName("qrcode")]
 internal class QrCodeCommand : AsyncCommand<QrCodeArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
-    public QrCodeCommand(ILog log)
+    public QrCodeCommand(ILogger log)
     {
         _log = log;
     }
@@ -31,12 +31,12 @@ internal class QrCodeCommand : AsyncCommand<QrCodeArguments>
 
         using (var client = new BookGenHttpClient())
         {
-            _log.Info("Downloading from {0}...", GoQrMeParams.ApiUrl);
+            _log.LogInformation("Downloading from {url}...", GoQrMeParams.ApiUrl);
             HttpStatusCode result = await client.DownloadToFile(uri, arguments.Output, _log);
 
             if (!BookGenHttpClient.IsSuccessfullRequest(result))
             {
-                _log.Warning("Download failed. Error: {0}", result);
+                _log.LogWarning("Download failed. Error: {error}", result);
                 return Constants.GeneralError;
             }
 

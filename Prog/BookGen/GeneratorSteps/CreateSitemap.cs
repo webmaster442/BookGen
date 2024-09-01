@@ -9,7 +9,7 @@ namespace BookGen.GeneratorSteps;
 
 internal sealed class CreateSitemap : IGeneratorStep
 {
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         log.Info("Creating sitemap.xml...");
 

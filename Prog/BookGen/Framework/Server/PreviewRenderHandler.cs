@@ -18,12 +18,12 @@ namespace BookGen.Framework.Server;
 internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
 {
     private readonly string _directory;
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly TemplateProcessor _processor;
     private readonly PreviewIndexBuilder _indexBuilder;
     private BookGenPipeline? _mdpipeline;
 
-    public PreviewRenderHandler(string directory, ILog log, IAppSetting appSetting)
+    public PreviewRenderHandler(string directory, ILogger log, IAppSetting appSetting)
     {
         _directory = directory;
         _log = log;
@@ -70,13 +70,13 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
         }
     }
 
-    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILogger log, HttpRequest request, HttpResponse response)
     {
         response.Headers.Add("Cache-Control", "no-store");
         response.ContentType = "text/html";
         if (request.Url == "/")
         {
-            _log.Info("Serving index...");
+            _log.LogInformation("Serving index...");
             _processor.TemplateContent = ResourceHandler.GetFile(KnownFile.PreviewHtml);
             _processor.Content = _indexBuilder.RenderIndex();
             _processor.Title = "Preview";
@@ -120,7 +120,7 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
         string content = HttpUtility.UrlDecode(requestContent, Encoding.UTF8);
         if (!content.StartsWith(fieldCheck))
         {
-            _log.Warning("Failed to save file: {0}", fileToSave);
+            _log.LogWarning("Failed to save file: {file}", fileToSave);
             return;
         }
 
@@ -131,6 +131,6 @@ internal sealed class PreviewRenderHandler : IRequestHandler, IDisposable
             return;
         }
 
-        _log.Info("Requested file save, but content hasn't been changed for: {0}", fileToSave);
+        _log.LogInformation("Requested file save, but content hasn't been changed for: {file}", fileToSave);
     }
 }

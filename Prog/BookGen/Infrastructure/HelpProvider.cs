@@ -8,12 +8,12 @@ using BookGen.Resources;
 namespace BookGen.Infrastructure;
 internal class HelpProvider : IHelpProvider
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IModuleApi _api;
     private readonly Dictionary<string, string[]> _helpData;
     private readonly Dictionary<string, Func<string>> _callbackTable;
 
-    public HelpProvider(ILog log, IModuleApi api)
+    public HelpProvider(ILogger log, IModuleApi api)
     {
         _log = log;
         _api = api;

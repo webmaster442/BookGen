@@ -97,7 +97,7 @@ internal static class ProgramConfigurator
         }
     }
 
-    internal static ILog ConfigureLog(IList<string> arguments)
+    internal static ILogger ConfigureLog(IList<string> arguments)
     {
         if (GetSwitch(arguments, JsonLogShort, JsonLogLong))
         {

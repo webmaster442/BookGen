@@ -14,7 +14,7 @@ internal static class InitializerMethods
     private const string PrintTemplateLocation = ".bookgen\\Templates\\TemplatePrint.html";
     private const string WebTemplate = ".bookgen\\Templates\\TemplateWeb.html";
 
-    internal static void CreateConfig(ILog log,
+    internal static void CreateConfig(ILogger log,
                                       FsPath workDir,
                                       bool configInYaml,
                                       bool createMdFiles,
@@ -70,7 +70,7 @@ internal static class InitializerMethods
     }
 
 
-    public static void DoCreateMdFiles(ILog log, FsPath workdir)
+    public static void DoCreateMdFiles(ILogger log, FsPath workdir)
     {
         log.Info("Creating index.md...");
         ResourceHandler.ExtractKnownFile(KnownFile.IndexMd, workdir.ToString(), log);
@@ -78,7 +78,7 @@ internal static class InitializerMethods
         ResourceHandler.ExtractKnownFile(KnownFile.SummaryMd, workdir.ToString(), log);
     }
 
-    public static void ExtractTemplates(ILog log, FsPath workdir)
+    public static void ExtractTemplates(ILogger log, FsPath workdir)
     {
         string? templatedir = workdir.Combine(".bookgen\\Templates").ToString();
         string? assetsdir = workdir.Combine(".bookgen\\Templates\\Assets").ToString();

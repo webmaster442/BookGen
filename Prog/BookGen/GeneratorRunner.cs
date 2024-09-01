@@ -35,10 +35,10 @@ internal class GeneratorRunner
         get;
     }
 
-    public ILog Log { get; }
+    public ILogger Log { get; }
     public bool NoWait { get; internal set; }
 
-    public GeneratorRunner(ILog log,
+    public GeneratorRunner(ILogger log,
                            IModuleApi moduleApi,
                            IAppSetting appSettings,
                            ProgramInfo programInfo,

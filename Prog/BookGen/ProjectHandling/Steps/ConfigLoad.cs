@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 2022-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -9,7 +9,7 @@ namespace BookGen.ProjectHandling.Steps;
 
 internal sealed class ConfigLoad : LoadStep
 {
-    public ConfigLoad(LoadState state, ILog log) : base(state, log)
+    public ConfigLoad(LoadState state, ILogger log) : base(state, log)
     {
     }
 
@@ -17,7 +17,7 @@ internal sealed class ConfigLoad : LoadStep
     {
         if (_configYaml.IsExisting && _configJson.IsExisting)
         {
-            Log.Critical("both bookgen.json and bookgen.yml present. Decicde config format by deleting one of them");
+            Log.LogCritical("both bookgen.json and bookgen.yml present. Decicde config format by deleting one of them");
             return false;
         }
 
@@ -35,7 +35,7 @@ internal sealed class ConfigLoad : LoadStep
 
         if (State.Config == null)
         {
-            Log.Critical("bookgen.json or boookgen.yml deserialize error. Invalid config file");
+            Log.LogCritical("bookgen.json or boookgen.yml deserialize error. Invalid config file");
         }
 
         return State.Config != null;

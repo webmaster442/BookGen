@@ -17,13 +17,13 @@ internal abstract class GeneratorStepRunner : IDisposable
     private readonly List<string> _redirectedLogMessages;
     private bool _logListen;
 
-    protected readonly ILog _log;
+    protected readonly ILogger _log;
 
     protected RuntimeSettings Settings { get; }
 
     private readonly FunctionServices _functionServices;
 
-    protected GeneratorStepRunner(RuntimeSettings settings, ILog log, IAppSetting appSetting)
+    protected GeneratorStepRunner(RuntimeSettings settings, ILogger log, IAppSetting appSetting)
     {
         Settings = settings;
         _redirectedLogMessages = [];
@@ -39,21 +39,6 @@ internal abstract class GeneratorStepRunner : IDisposable
 
         _steps = [];
         _log = log;
-        _log.OnLogWritten += OnLogWritten;
-    }
-
-    private void OnLogWritten(object? sender, LogEventArgs e)
-    {
-        if (!_logListen)
-            return;
-
-        switch (e.LogLevel)
-        {
-            case LogLevel.Warning:
-            case LogLevel.Critical:
-                _redirectedLogMessages.Add(e.Message);
-                break;
-        }
     }
 
     private TemplateProcessor CreateTemplateProcessor()
@@ -109,8 +94,7 @@ internal abstract class GeneratorStepRunner : IDisposable
         {
             _logListen = false;
             progressbar.SwitchBuffers();
-            _log.Critical("Critical exception while running: {0}", stepName);
-            _log.Critical(ex);
+            _log.LogCritical(ex, "Critical exception while running: {stepName}", stepName);
 #if DEBUG
             Debugger.Break();
 #endif
@@ -124,7 +108,6 @@ internal abstract class GeneratorStepRunner : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        _log.OnLogWritten -= OnLogWritten;
         _logListen = false;
     }
 

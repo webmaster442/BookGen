@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,15 +16,15 @@ internal sealed class CopyAssets : IGeneratorStep
         _target = target;
     }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Processing assets...");
+        log.LogInformation("Processing assets...");
 
         foreach (Asset? asset in _target.TemplateAssets)
         {
             if (string.IsNullOrEmpty(asset.Source) || string.IsNullOrEmpty(asset.Target))
             {
-                log.Warning("Skipping Asset, because no source or target defined");
+                log.LogWarning("Skipping Asset, because no source or target defined");
                 continue;
             }
 

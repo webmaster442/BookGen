@@ -6,9 +6,9 @@ namespace BookGen.Commands;
 [CommandName("download")]
 internal class DownloadCommand : AsyncCommand<DownloadArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
-    public DownloadCommand(ILog log)
+    public DownloadCommand(ILogger log)
     {
         _log = log;
     }
@@ -23,14 +23,14 @@ internal class DownloadCommand : AsyncCommand<DownloadArguments>
             {
                 Uri uri = new(arguments.Url, UriKind.RelativeOrAbsolute);
                 FsPath targetFile = GetFileName(arguments.Directory, uri);
-                _log.Info("Downloading to {0}...", targetFile);
+                _log.LogInformation("Downloading to {targetFile}...", targetFile);
                 await client.DownloadToFile(uri, targetFile, _log);
 
                 return Constants.Succes;
             }
             catch (Exception ex) 
             {
-                _log.Critical(ex);
+                _log.LogCritical(ex, "Critical Error");
                 return Constants.GeneralError;
             }
         }

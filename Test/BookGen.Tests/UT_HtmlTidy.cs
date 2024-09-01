@@ -11,7 +11,7 @@ namespace BookGen.Tests
     internal class UT_HtmlTidy
     {
         private HtmlTidy _sut;
-        private ILog _log;
+        private ILogger _log;
 
         [SetUp]
         public void Setup()

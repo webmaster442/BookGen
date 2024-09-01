@@ -17,10 +17,10 @@ namespace BookGen.Commands;
 [CommandName("assemblydocument")]
 internal class AssemblyDocumentCommand : Command<AssemblyDocumentArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
 
-    public AssemblyDocumentCommand(ILog log, IMutexFolderLock folderLock)
+    public AssemblyDocumentCommand(ILogger log, IMutexFolderLock folderLock)
     {
         _log = log;
         _folderLock = folderLock;
@@ -30,7 +30,7 @@ internal class AssemblyDocumentCommand : Command<AssemblyDocumentArguments>
     {
         foreach (string? msg in messages)
         {
-            _log.Detail(msg);
+            _log.LogDebug("AssemblyDoc: {msg}", msg);
         }
     }
 

@@ -15,12 +15,12 @@ namespace BookGen.Commands;
 [CommandName("stat")]
 internal class StatCommand : Command<StatArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly ITerminal _terminal;
     private readonly IMutexFolderLock _folderLock;
     private readonly ProgramInfo _programInfo;
 
-    public StatCommand(ILog log,
+    public StatCommand(ILogger log,
                        ITerminal terminal,
                        IMutexFolderLock folderLock,
                        ProgramInfo programInfo)

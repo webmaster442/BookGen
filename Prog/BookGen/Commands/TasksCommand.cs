@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -17,9 +17,9 @@ namespace BookGen.Commands;
 internal class TasksCommand : AsyncCommand<TasksArgument>
 {
     private readonly BookGenTaskRunner _taskRunner;
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
-    public TasksCommand(BookGenTaskRunner taskRunner, ILog log)
+    public TasksCommand(BookGenTaskRunner taskRunner, ILogger log)
     {
         _taskRunner = taskRunner;
         _log = log;
@@ -39,8 +39,8 @@ internal class TasksCommand : AsyncCommand<TasksArgument>
             }
             else
             {
-                _log.Warning("project doesn't contain a tasks.xml. Exiting");
-                _log.Info("To create a sample tasks.xml run this command with the -c option");
+                _log.LogWarning("project doesn't contain a tasks.xml. Exiting");
+                _log.LogInformation("To create a sample tasks.xml run this command with the -c option");
                 return Constants.GeneralError;
             }
         }
@@ -51,7 +51,7 @@ internal class TasksCommand : AsyncCommand<TasksArgument>
         BookGenTasks? tasks = serializer.Deserialize(stream) as BookGenTasks;
         if (tasks == null)
         {
-            _log.Warning("tasks.xml is empty or corrupted");
+            _log.LogWarning("tasks.xml is empty or corrupted");
             return Constants.GeneralError;
         }
 

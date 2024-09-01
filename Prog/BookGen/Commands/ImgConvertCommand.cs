@@ -10,9 +10,9 @@ namespace BookGen.Commands;
 [CommandName("imgconvert")]
 internal class ImgConvertCommand : Command<ImgConvertArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
-    public ImgConvertCommand(ILog log)
+    public ImgConvertCommand(ILogger log)
     {
         _log = log;
     }

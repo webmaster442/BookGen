@@ -19,7 +19,7 @@ namespace BookGen.Tests.Environment
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Environment");
         }
 
-        public static ILog GetMockedLog()
+        public static ILogger GetMockedLog()
         {
             var mock = Substitute.For<ILog>();
             return mock;

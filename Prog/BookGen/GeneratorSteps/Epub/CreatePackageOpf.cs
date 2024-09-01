@@ -16,7 +16,7 @@ internal sealed class CreatePackageOpf : IGeneratorStep
         _session = session;
     }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         log.Info("Creating OPS/package.opf...");
 

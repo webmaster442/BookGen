@@ -15,11 +15,11 @@ namespace BookGen.Commands;
 [CommandName("tags")]
 internal class TagsCommand : Command<TagsArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
     private readonly ProgramInfo _programInfo;
 
-    public TagsCommand(ILog log, IMutexFolderLock folderLock, ProgramInfo programInfo)
+    public TagsCommand(ILogger log, IMutexFolderLock folderLock, ProgramInfo programInfo)
     {
         _log = log;
         _folderLock = folderLock;
@@ -56,7 +56,7 @@ internal class TagsCommand : Command<TagsArguments>
 
             SerializeTagCollection(arguments.Directory, _log, tagUtils.TagCollection.OrderBy(x => Array.IndexOf(procectFiles, x)).ToDictionary());
 
-            _log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
+            _log.LogInformation("Total runtime: {runtime}ms", stopwatch.ElapsedMilliseconds);
 
             return Constants.Succes;
         }
@@ -64,14 +64,14 @@ internal class TagsCommand : Command<TagsArguments>
         return Constants.GeneralError;
     }
 
-    private static void PrintStats(ILog log, TagUtils tagUtils)
+    private static void PrintStats(ILogger log, TagUtils tagUtils)
     {
-        log.Info("Total tags: {0}", tagUtils.TotalTagCount);
-        log.Info("Total unique tags: {0}", tagUtils.UniqueTagCount);
-        log.Info("Files without tags: {0}", tagUtils.FilesWithOutTags);
+        log.LogInformation("Total tags: {tags}", tagUtils.TotalTagCount);
+        log.LogInformation("Total unique tags: {unique}", tagUtils.UniqueTagCount);
+        log.LogInformation("Files without tags: {without}", tagUtils.FilesWithOutTags);
     }
 
-    private static void SerializeTagCollection(string directory, ILog log, Dictionary<string, string[]> tagCollection)
+    private static void SerializeTagCollection(string directory, ILogger log, Dictionary<string, string[]> tagCollection)
     {
         var tags = new FsPath(directory, ".bookgen/tags.json");
         tags.SerializeJson(tagCollection, log, true);

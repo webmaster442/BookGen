@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -14,10 +14,10 @@ namespace BookGen.Commands;
 [CommandName("preview")]
 internal class PreviewCommand : Command<BookGenArgumentBase>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IAppSetting _appSettings;
 
-    public PreviewCommand(ILog log, IAppSetting appSettings)
+    public PreviewCommand(ILogger log, IAppSetting appSettings)
     {
         _log = log;
         _appSettings = appSettings;
@@ -32,10 +32,10 @@ internal class PreviewCommand : Command<BookGenArgumentBase>
         using (HttpServer? server = HttpServerFactory.CreateServerForPreview(_log, _appSettings, arguments.Directory))
         {
             server.Start();
-            _log.Info("-------------------------------------------------");
-            _log.Info("Test server running on: {0}", url);
-            _log.Info($"To get QR code for another device visit: {url}/qrcodelink");
-            _log.Info("Serving from: {0}", arguments.Directory);
+            _log.LogInformation("-------------------------------------------------");
+            _log.LogInformation("Test server running on: {url}", url);
+            _log.LogInformation("To get QR code for another device visit: {url}", $"{url}/qrcodelink");
+            _log.LogInformation("Serving from: {dir}", arguments.Directory);
 
             if (_appSettings.AutoStartWebserver)
             {

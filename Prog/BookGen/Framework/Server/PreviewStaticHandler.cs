@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2021-2023 Ruzsinszki Gábor
+// (c) 2021-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -31,11 +31,11 @@ internal sealed class PreviewStaticHandler : IRequestHandler
         return _table.ContainsKey(AbsoluteUri);
     }
 
-    public async Task<bool> Handle(ILog? log, HttpRequest request, HttpResponse response)
+    public async Task<bool> Handle(ILogger log, HttpRequest request, HttpResponse response)
     {
         if (CanServe(request.Url))
         {
-            log?.Info("Serving: {0}...", request.Url);
+            log.LogInformation("Serving: {url}...", request.Url);
             string? file = ResourceHandler.GetFile(_table[request.Url]);
             response.ContentType = MimeTypes.GetMimeTypeForFile(request.Url);
             await response.WriteAsync(file);

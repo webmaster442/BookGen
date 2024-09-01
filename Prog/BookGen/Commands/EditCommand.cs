@@ -10,10 +10,10 @@ namespace BookGen.Commands;
 [CommandName("edit")]
 internal class EditCommand : Command
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IAppSetting _appSetting;
 
-    public EditCommand(ILog log, IAppSetting appSetting)
+    public EditCommand(ILogger log, IAppSetting appSetting)
     {
         _log = log;
         _appSetting = appSetting;
@@ -52,7 +52,7 @@ internal class EditCommand : Command
         }
         catch (Exception ex)
         {
-            _log.Critical(ex);
+            _log.LogCritical(ex, "Critical Error");
             return Constants.GeneralError;
         }
     }

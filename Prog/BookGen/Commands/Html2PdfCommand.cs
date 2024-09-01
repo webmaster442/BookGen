@@ -7,11 +7,11 @@ namespace BookGen.Commands;
 [CommandName("html2pdf")]
 internal class Html2PdfCommand : AsyncCommand<Html2PdfArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
     public override Cli.SupportedOs SupportedOs => Cli.SupportedOs.Windows;
 
-    public Html2PdfCommand(ILog log)
+    public Html2PdfCommand(ILogger log)
     {
         _log = log;
     }
@@ -45,9 +45,9 @@ internal class Html2PdfCommand : AsyncCommand<Html2PdfArguments>
             }
             return Constants.Succes;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            _log.Critical(e);
+            _log.LogCritical(ex, "Critical Error");
             return Constants.GeneralError;
         }
     }

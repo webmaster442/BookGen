@@ -12,11 +12,11 @@ namespace BookGen.Commands;
 [CommandName("build")]
 internal class BuildCommand : Command<BuildArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
     private readonly IModuleApi _moduleApi;
 
-    public BuildCommand(ILog log, IMutexFolderLock folderLock,  IModuleApi moduleApi)
+    public BuildCommand(ILogger log, IMutexFolderLock folderLock,  IModuleApi moduleApi)
     {
         _log = log;
         _folderLock = folderLock;
@@ -58,7 +58,6 @@ internal class BuildCommand : Command<BuildArguments>
                 break;
         }
 
-        _log.Flush();
         return Constants.Succes;
     }
 }

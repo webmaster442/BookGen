@@ -15,10 +15,10 @@ namespace BookGen.Commands;
 [CommandName("serve")]
 internal class ServeCommand : Command<BookGenArgumentBase>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
 
-    public ServeCommand(ILog log, IMutexFolderLock folderLock)
+    public ServeCommand(ILogger log, IMutexFolderLock folderLock)
     {
         _log = log;
         _folderLock = folderLock;
@@ -26,17 +26,17 @@ internal class ServeCommand : Command<BookGenArgumentBase>
 
     public override int Execute(BookGenArgumentBase arguments, string[] context)
     {
-        _log.LogLevel = arguments.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
+        _log.EnableVerboseLogingIfRequested(arguments);
 
         _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
         using (HttpServer? server = HttpServerFactory.CreateServerForServModule(_log, arguments.Directory))
         {
             server.Start();
-            _log.Info("Serving: {0}", arguments.Directory);
-            _log.Info("Server running on http://localhost:8081");
-            _log.Info("To get QR code for another device visit: http://localhost:8081/qrcodelink");
-            _log.Info("Press a key to exit...");
+            _log.LogInformation("Serving: {directory}", arguments.Directory);
+            _log.LogInformation("Server running on http://localhost:8081");
+            _log.LogInformation("To get QR code for another device visit: http://localhost:8081/qrcodelink");
+            _log.LogInformation("Press a key to exit...");
             Console.ReadLine();
             server.Stop();
         }

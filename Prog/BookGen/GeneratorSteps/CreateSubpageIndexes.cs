@@ -14,7 +14,7 @@ internal sealed class CreateSubpageIndexes : ITemplatedStep
     public ITemplateProcessor? Template { get; set; }
     public List<Link>? Chapters { get; private set; }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         if (Content == null)
             throw new DependencyException(nameof(Content));

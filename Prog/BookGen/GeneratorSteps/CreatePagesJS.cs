@@ -7,7 +7,7 @@ namespace BookGen.GeneratorSteps;
 
 internal sealed class CreatePagesJS : IGeneratorStep
 {
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         log.Info("Generating pages.js...");
         var pages = new List<string>();

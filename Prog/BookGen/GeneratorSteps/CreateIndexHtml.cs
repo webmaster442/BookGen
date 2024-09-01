@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ internal sealed class CreateIndexHtml : ITemplatedStep
     public IContent? Content { get; set; }
     public ITemplateProcessor? Template { get; set; }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         if (Content == null)
             throw new DependencyException(nameof(Content));
@@ -21,7 +21,7 @@ internal sealed class CreateIndexHtml : ITemplatedStep
         if (Template == null)
             throw new DependencyException(nameof(Template));
 
-        log.Info("Generating Index file...");
+        log.LogInformation("Generating Index file...");
         FsPath? input = settings.SourceDirectory.Combine(settings.Configuration.Index);
         FsPath? target = settings.OutputDirectory.Combine("index.html");
 

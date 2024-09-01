@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -9,9 +9,9 @@ namespace BookGen.GeneratorSteps;
 
 internal sealed class CreateMetadata : IGeneratorStep
 {
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Generating metadata for pages...");
+        log.LogInformation("Generating metadata for pages...");
 
         foreach (string? chapter in settings.TocContents.Chapters)
         {
@@ -39,7 +39,7 @@ internal sealed class CreateMetadata : IGeneratorStep
         return meta;
     }
 
-    private static string GetDescription(ILog log, FsPath file)
+    private static string GetDescription(ILogger log, FsPath file)
     {
         using (var pipeline = new BookGenPipeline(BookGenPipeline.Plain))
         {

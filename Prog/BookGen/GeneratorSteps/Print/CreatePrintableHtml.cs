@@ -15,7 +15,7 @@ internal sealed class CreatePrintableHtml : ITemplatedStep
     public ITemplateProcessor? Template { get; set; }
     public IContent? Content { get; set; }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         if (Content == null)
             throw new DependencyException(nameof(Content));

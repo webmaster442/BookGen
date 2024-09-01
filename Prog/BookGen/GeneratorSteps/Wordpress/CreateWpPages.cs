@@ -124,7 +124,7 @@ internal sealed class CreateWpPages : ITemplatedStep
         return builder.ToString();
     }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         if (Content == null)
             throw new DependencyException(nameof(Content));

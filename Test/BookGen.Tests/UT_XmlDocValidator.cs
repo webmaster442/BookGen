@@ -10,7 +10,7 @@ namespace BookGen.Tests
     [TestFixture]
     public class UT_XmlDocValidator
     {
-        private ILog _logMock;
+        private ILogger _logMock;
 
         [SetUp]
         public void Setup()

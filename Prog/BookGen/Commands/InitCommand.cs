@@ -14,11 +14,11 @@ namespace BookGen.Commands;
 internal sealed class InitCommand : AsyncCommand<BookGenArgumentBase>, IDisposable
 {
     private InitMenu? _initMenu;
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
     private readonly ProgramInfo _programInfo;
 
-    public InitCommand(ILog log, IMutexFolderLock folderLock, ProgramInfo programInfo)
+    public InitCommand(ILogger log, IMutexFolderLock folderLock, ProgramInfo programInfo)
     {
         _log = log;
         _folderLock = folderLock;

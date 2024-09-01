@@ -7,12 +7,12 @@ namespace BookGen.Infrastructure;
 
 internal sealed class ModuleApi : IModuleApi
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IAppSetting _setting;
     private readonly ProgramInfo _programInfo;
     private readonly TimeProvider _timeProvider;
 
-    public ModuleApi(ILog log,
+    public ModuleApi(ILogger log,
                      IAppSetting setting,
                      ProgramInfo programInfo,
                      TimeProvider timeProvider)

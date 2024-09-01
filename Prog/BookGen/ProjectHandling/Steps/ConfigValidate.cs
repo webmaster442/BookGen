@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 2022-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ namespace BookGen.ProjectHandling.Steps;
 
 internal sealed class ConfigValidate : LoadStep
 {
-    public ConfigValidate(LoadState state, ILog log) : base(state, log)
+    public ConfigValidate(LoadState state, ILogger log) : base(state, log)
     {
     }
 
@@ -19,15 +19,15 @@ internal sealed class ConfigValidate : LoadStep
 
         if (!validator.IsValid)
         {
-            Log.Critical("Errors found in configuration: ");
+            Log.LogCritical("Errors found in configuration: ");
             foreach (string? error in validator.Errors)
             {
-                Log.Warning(error);
+                Log.LogWarning("Config error: {error}", error);
             }
             return false;
         }
 
-        Log.Info("Config file doesn't contain any errors");
+        Log.LogInformation("Config file doesn't contain any errors");
         return true;
     }
 }

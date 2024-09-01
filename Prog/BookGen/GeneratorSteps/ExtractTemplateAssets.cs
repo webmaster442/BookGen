@@ -16,7 +16,7 @@ public sealed class ExtractTemplateAssets : IGeneratorStep
         Assets = new (KnownFile file, string targetPath)[0];
     }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         if (Assets.Length < 1)
         {
