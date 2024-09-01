@@ -3,16 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
-using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+
+using NUnit.Framework;
 
 namespace BookGen.TestsSystem
 {
@@ -20,15 +17,15 @@ namespace BookGen.TestsSystem
     {
         private readonly string _workDir;
 
-        public List<LogEntry> LastLog { get; private set; }
+        protected string LastLog { get; private set; }
 
-        public TestEnvironment Environment { get; }
+        protected TestEnvironment Environment { get; }
 
         protected SystemTestBase(string workDir)
         {
             _workDir = Path.Combine(AppContext.BaseDirectory, workDir);
             Environment = new TestEnvironment(_workDir);
-            LastLog = [];
+            LastLog = string.Empty;
         }
 
         protected void EnsureRunWithoutException(int expectedExitCode, string commandLine)
@@ -43,30 +40,11 @@ namespace BookGen.TestsSystem
             process.Start();
             string st = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
-            LastLog = GetLog(st);
+            LastLog = st;
             if ((int)expectedExitCode != process.ExitCode)
             {
                 string? logmsg = GetLastLogMsg();
                 Assert.Fail(logmsg+$"\r\nExit code: {process.ExitCode}");
-            }
-        }
-
-        private static List<LogEntry> GetLog(string output)
-        {
-            try
-            {
-                var options = new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                };
-                options.Converters.Add(new JsonStringEnumConverter());
-
-                List<LogEntry>? list = JsonSerializer.Deserialize<List<LogEntry>>(output, options);
-                return list ?? [];
-            }
-            catch (Exception)
-            {
-                return [];
             }
         }
 
@@ -75,8 +53,9 @@ namespace BookGen.TestsSystem
             if (LastLog?.Any() != true)
                 return "No log can be shown. Log was empty";
 
-            LogEntry? entry = LastLog.OrderByDescending(l => l.TimeStamp).First();
-            return entry.Message;
+            var lines = LastLog.Split('\n');
+
+            return lines.LastOrDefault() ?? "No log can be shown. Log was empty";
         }
 
         protected abstract void CleanFiles();

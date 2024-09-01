@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\BookGen.Api\BookGen.Api.csproj" />
     <ProjectReference Include="..\..\Prog\BookGen\BookGen.csproj" />
   </ItemGroup>
 

@@ -14,7 +14,6 @@ internal sealed class FileLoggerProvider : ILoggerProvider
     {
         private readonly string _name;
         private readonly string _filePath;
-        private readonly LogLevel _minLevel;
 
         public FileLogger(string name)
         {
