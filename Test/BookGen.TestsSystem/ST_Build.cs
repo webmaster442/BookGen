@@ -1,5 +1,4 @@
-﻿using BookGen.Api;
-using BookGen.Domain;
+﻿using BookGen.Domain;
 
 using NUnit.Framework;
 

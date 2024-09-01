@@ -19,10 +19,4 @@ internal static class Extensions
             Environment.Exit(Constants.FolderLocked);
         }
     }
-
-    public static void EnableVerboseLogingIfRequested(this ILogger log, BookGenArgumentBase argumentBase)
-    {
-        if (argumentBase.Verbose)
-            log.LogLevel = LogLevel.Detail;
-    }
 }

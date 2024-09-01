@@ -21,7 +21,7 @@ internal sealed class CreatePages : ITemplatedStep
         if (Template == null)
             throw new DependencyException(nameof(Template));
 
-        log.Info("Generating Sub Markdown Files...");
+        log.LogInformation("Generating Sub Markdown Files...");
 
         using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
         pipeline.InjectRuntimeConfig(settings);
@@ -36,7 +36,7 @@ internal sealed class CreatePages : ITemplatedStep
             FsPath? input = settings.SourceDirectory.Combine(file);
             result.target = settings.OutputDirectory.Combine(Path.ChangeExtension(file, ".html"));
 
-            log.Detail("Processing file: {0}", input);
+            log.LogDebug("Processing file: {file}", input);
 
             string? inputContent = input.ReadFile(log);
 
@@ -44,7 +44,7 @@ internal sealed class CreatePages : ITemplatedStep
 
             if (string.IsNullOrEmpty(result.title))
             {
-                log.Warning("No title found in document: {0}", file);
+                log.LogWarning("No title found in document: {file}", file);
                 result.title = file;
             }
 
@@ -55,7 +55,7 @@ internal sealed class CreatePages : ITemplatedStep
 
         });
 
-        log.Info("Writing files to disk...");
+        log.LogInformation("Writing files to disk...");
         foreach ((string source, FsPath target, string title, string content) in bag)
         {
             Content.Title = title;

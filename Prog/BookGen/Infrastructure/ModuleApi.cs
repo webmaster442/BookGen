@@ -53,7 +53,7 @@ internal sealed class ModuleApi : IModuleApi
 
     public GeneratorRunner CreateRunner(bool verbose, string workDir)
     {
-        _log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
+        _programInfo.EableVerboseLogging(verbose);
         return new GeneratorRunner(_log, this, _setting, _programInfo, _timeProvider, workDir);
     }
 }

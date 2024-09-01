@@ -11,7 +11,7 @@ internal sealed class CreateSitemap : IGeneratorStep
 {
     public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Creating sitemap.xml...");
+        log.LogInformation("Creating sitemap.xml...");
 
         var sitemap = new UrlSet();
 
@@ -25,7 +25,7 @@ internal sealed class CreateSitemap : IGeneratorStep
         {
             string? reallink = $"{settings.Configuration.HostName}{page.Replace("\\", "/")}";
             sitemap.Url.Add(CreateEntry(reallink));
-            log.Detail("Creating sitemap entry for: {0}", page);
+            log.LogDebug("Creating sitemap entry for: {page}", page);
         }
 
         FsPath? output = settings.OutputDirectory.Combine("sitemap.xml");

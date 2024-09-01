@@ -16,7 +16,7 @@ internal sealed class CreateToCForWebsite : IGeneratorContentFillStep
         if (Content == null)
             throw new DependencyException(nameof(Content));
 
-        log.Info("Generating Table of Contents...");
+        log.LogInformation("Generating Table of Contents...");
         var toc = new StringBuilder();
         foreach (string? chapter in settings.TocContents.Chapters)
         {

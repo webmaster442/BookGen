@@ -27,7 +27,7 @@ internal sealed class InitCommand : AsyncCommand<BookGenArgumentBase>, IDisposab
 
     public override async Task<int> Execute(BookGenArgumentBase arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 

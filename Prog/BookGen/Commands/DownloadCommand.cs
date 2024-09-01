@@ -7,15 +7,17 @@ namespace BookGen.Commands;
 internal class DownloadCommand : AsyncCommand<DownloadArguments>
 {
     private readonly ILogger _log;
+    private readonly ProgramInfo _programInfo;
 
-    public DownloadCommand(ILogger log)
+    public DownloadCommand(ILogger log, ProgramInfo programInfo)
     {
         _log = log;
+        _programInfo = programInfo;
     }
 
     public override async Task<int> Execute(DownloadArguments arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         using (var client = new BookGenHttpClient())
         {

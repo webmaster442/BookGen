@@ -18,16 +18,18 @@ internal class TasksCommand : AsyncCommand<TasksArgument>
 {
     private readonly BookGenTaskRunner _taskRunner;
     private readonly ILogger _log;
+    private readonly ProgramInfo _programInfo;
 
-    public TasksCommand(BookGenTaskRunner taskRunner, ILogger log)
+    public TasksCommand(BookGenTaskRunner taskRunner, ILogger log, ProgramInfo programInfo)
     {
         _taskRunner = taskRunner;
         _log = log;
+        _programInfo = programInfo;
     }
 
     public override async Task<int> Execute(TasksArgument arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         ProjectFiles files = ProjectFilesLocator.Locate(new FsPath(arguments.Directory));
         if (!files.TasksXml.IsExisting)

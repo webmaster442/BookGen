@@ -132,7 +132,7 @@ internal sealed class CreateWpPages : ITemplatedStep
         if (Template == null)
             throw new DependencyException(nameof(Template));
 
-        log.Info("Generating Wordpress export content...");
+        log.LogInformation("Generating Wordpress export content...");
         _session.CurrentChannel.Item = [];
 
         string? host = settings.CurrentBuildConfig.TemplateOptions[TemplateOptions.WordpressTargetHost];
@@ -171,7 +171,7 @@ internal sealed class CreateWpPages : ITemplatedStep
 
             foreach (string? file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
             {
-                log.Detail("Processing {0}...", file);
+                log.LogDebug("Processing {file}...", file);
                 FsPath? input = settings.SourceDirectory.Combine(file);
                 string? raw = input.ReadFile(log);
                 Content.Content = pipeline.RenderMarkdown(raw);

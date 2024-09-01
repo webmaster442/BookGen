@@ -9,7 +9,7 @@ internal sealed class CreatePagesJS : IGeneratorStep
 {
     public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Generating pages.js...");
+        log.LogInformation("Generating pages.js...");
         var pages = new List<string>();
         foreach (string? file in settings.TocContents.Files)
         {

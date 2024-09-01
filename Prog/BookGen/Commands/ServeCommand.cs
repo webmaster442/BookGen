@@ -17,16 +17,18 @@ internal class ServeCommand : Command<BookGenArgumentBase>
 {
     private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
+    private readonly ProgramInfo _programInfo;
 
-    public ServeCommand(ILogger log, IMutexFolderLock folderLock)
+    public ServeCommand(ILogger log, IMutexFolderLock folderLock, ProgramInfo programInfo)
     {
         _log = log;
         _folderLock = folderLock;
+        _programInfo = programInfo;
     }
 
     public override int Execute(BookGenArgumentBase arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 

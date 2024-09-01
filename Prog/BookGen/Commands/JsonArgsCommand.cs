@@ -15,16 +15,18 @@ internal sealed class JsonArgsCommand : Command<JsonArgsArguments>
 {
     private readonly HashSet<string> _commandNames;
     private readonly ILogger _log;
+    private readonly ProgramInfo _programInfo;
 
-    public JsonArgsCommand(IModuleApi api, ILogger log)
+    public JsonArgsCommand(IModuleApi api, ILogger log, ProgramInfo programInfo)
     {
         _commandNames = new HashSet<string>(api.GetCommandNames());
         _log = log;
+        _programInfo = programInfo;
     }
 
     public override int Execute(JsonArgsArguments arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         if (!_commandNames.Contains(arguments.CommandName))
         {

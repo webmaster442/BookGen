@@ -28,7 +28,7 @@ internal class TagsCommand : Command<TagsArguments>
 
     public override int Execute(TagsArguments arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
         _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
         var loader = new ProjectLoader(arguments.Directory, _log, _programInfo);

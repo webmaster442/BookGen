@@ -23,7 +23,7 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
 
     public override int Execute(BookGenArgumentBase arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         ProjectLoader loader = new(arguments.Directory, _log, _programInfo);
         bool hasToc = true;
@@ -73,7 +73,7 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
         {
             using (var stream = filePath.CreateStreamWriter(_log))
             {
-                _log.LogInformation("Writing toc Info to: {0}", filePath);
+                _log.LogInformation("Writing toc Info to: {file}", filePath);
                 WriteItems(stream, files, _log, "Not found in toc:");
             }
         }

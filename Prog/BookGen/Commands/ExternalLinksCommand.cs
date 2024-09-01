@@ -32,7 +32,7 @@ internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
 
     public override int Execute(ExternalLinksArguments arguments, string[] context)
     {
-        _log.LogLevel = arguments.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
@@ -50,7 +50,7 @@ internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
             arguments.OutputFile.WriteFile(_log, content);
 
             stopwatch.Stop();
-            _log.Info("Total runtime: {0}ms", stopwatch.ElapsedMilliseconds);
+            _log.LogInformation("Total runtime: {runtime}ms", stopwatch.ElapsedMilliseconds);
 
             return Constants.Succes;
         }
@@ -65,7 +65,7 @@ internal partial class ExternalLinksCommand : Command<ExternalLinksArguments>
 
         foreach (string? chapter in settings.TocContents.Chapters)
         {
-            log.Info("Processing chapter: {0}", chapter);
+            log.LogInformation("Processing chapter: {chapter}", chapter);
             results.AppendFormat("## {0}\r\n\r\n", chapter);
             links.Clear();
 

@@ -27,7 +27,7 @@ internal class PackCommand : Command<PackArguments>
 
     public override int Execute(PackArguments arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         ProjectLoader loader = new(arguments.Directory, _log, _programInfo);
 
@@ -51,7 +51,7 @@ internal class PackCommand : Command<PackArguments>
 
         projectFiles.AddToPackListIfExist(filesToPack);
 
-        ConsoleProgressbar progressbar = new(0, filesToPack.Count, _log is not JsonLog);
+        ConsoleProgressbar progressbar = new(0, filesToPack.Count, !_programInfo.JsonLogging);
 
         try
         {

@@ -18,7 +18,7 @@ internal class Html2PdfCommand : AsyncCommand<Html2PdfArguments>
 
     public override async Task<int> Execute(Html2PdfArguments arguments, string[] context)
     {
-        _log.Info("Rendering {0} to pdf..", arguments.InputFile.Filename);
+        _log.LogInformation("Rendering {file} to pdf..", arguments.InputFile.Filename);
 
         string[] edgeArguments = new[]
         {

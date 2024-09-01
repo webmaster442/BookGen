@@ -20,7 +20,7 @@ public sealed class ExtractTemplateAssets : IGeneratorStep
     {
         if (Assets.Length < 1)
         {
-            log.Warning("External template used, skipping asset extract");
+            log.LogWarning("External template used, skipping asset extract");
             return;
         }
 

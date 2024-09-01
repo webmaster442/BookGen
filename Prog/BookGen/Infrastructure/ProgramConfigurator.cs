@@ -97,14 +97,13 @@ internal static class ProgramConfigurator
         }
     }
 
-    internal static ILogger ConfigureLog(IList<string> arguments)
+    internal static void ConfigureLog(ProgramInfo info, IList<string> arguments)
     {
         if (GetSwitch(arguments, JsonLogShort, JsonLogLong))
         {
-            return new JsonLog();
+            info.JsonLogging = true;
         }
 
-        bool logFile = GetSwitch(arguments, LogFileShort, LogFileLong);
-        return new TerminalLog(logFile);
+        info.LogToFile = GetSwitch(arguments, LogFileShort, LogFileLong);
     }
 }

@@ -68,7 +68,7 @@ internal class HelpProvider : IHelpProvider
         {
             if (!_helpData.ContainsKey(name))
             {
-                _log.Warning("No help was found for command: {0}", name);
+                _log.LogWarning("No help was found for command: {command}", name);
 #if DEBUG
                 System.Diagnostics.Debugger.Break();
 #endif

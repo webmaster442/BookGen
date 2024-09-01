@@ -8,8 +8,8 @@ namespace BookGen.GeneratorStepRunners;
 
 internal sealed class PostProcessGenreratorStepRunner : GeneratorStepRunner
 {
-    public PostProcessGenreratorStepRunner(RuntimeSettings settings, ILogger log, IAppSetting appSetting)
-        : base(settings, log, appSetting)
+    public PostProcessGenreratorStepRunner(RuntimeSettings settings, ILogger log, IAppSetting appSetting, ProgramInfo programInfo)
+        : base(settings, log, appSetting, programInfo)
     {
         AddStep(new GeneratorSteps.CreateOutputDirectory());
         AddStep(new GeneratorSteps.ImageProcessor());

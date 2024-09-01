@@ -16,18 +16,20 @@ internal class PreviewCommand : Command<BookGenArgumentBase>
 {
     private readonly ILogger _log;
     private readonly IAppSetting _appSettings;
+    private readonly ProgramInfo _programInfo;
 
-    public PreviewCommand(ILogger log, IAppSetting appSettings)
+    public PreviewCommand(ILogger log, IAppSetting appSettings, ProgramInfo programInfo)
     {
         _log = log;
         _appSettings = appSettings;
+        _programInfo = programInfo;
     }
 
     public override int Execute(BookGenArgumentBase arguments, string[] context)
     {
         const string url = "http://localhost:8082/";
 
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         using (HttpServer? server = HttpServerFactory.CreateServerForPreview(_log, _appSettings, arguments.Directory))
         {

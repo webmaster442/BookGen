@@ -63,7 +63,7 @@ internal class ArgumentParser
 
         var notProcessesd = string.Join(' ', argBag.GetNotProcessed());
         if (!string.IsNullOrEmpty(notProcessesd))
-            _log.LogWarning("Not processed arguments: {0}", notProcessesd);
+            _log.LogWarning("Not processed arguments: {notprocessed}", notProcessesd);
 
         return (ArgumentsBase)argumentsClass;
     }

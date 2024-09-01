@@ -5,6 +5,8 @@
 
 using System.IO;
 
+using Microsoft.Extensions.Logging;
+
 namespace BookGen.Tests
 {
     [TestFixture]
@@ -16,8 +18,8 @@ namespace BookGen.Tests
         [SetUp]
         public void Setup()
         {
-            _log = Substitute.For<ILog>();
-            _sut= new HtmlTidy(_log);
+            _log = TestEnvironment.GetMockedLog();
+            _sut = new HtmlTidy(_log);
         }
 
         [TestCase("<figure>foo</figure>", "<div>foo</div>")]

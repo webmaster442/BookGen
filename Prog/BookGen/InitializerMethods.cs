@@ -72,9 +72,9 @@ internal static class InitializerMethods
 
     public static void DoCreateMdFiles(ILogger log, FsPath workdir)
     {
-        log.Info("Creating index.md...");
+        log.LogInformation("Creating index.md...");
         ResourceHandler.ExtractKnownFile(KnownFile.IndexMd, workdir.ToString(), log);
-        log.Info("Creating Summary.md...");
+        log.LogInformation("Creating Summary.md...");
         ResourceHandler.ExtractKnownFile(KnownFile.SummaryMd, workdir.ToString(), log);
     }
 

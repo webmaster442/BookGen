@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using System.Net.Http;
+
+using Microsoft.Extensions.Logging;
+
 using Webmaster442.HttpServerFramework;
 using Webmaster442.HttpServerFramework.Domain;
 using Webmaster442.HttpServerFramework.Handlers;
@@ -40,7 +43,7 @@ namespace BookGen.Tests
         [SetUp]
         public void Setup()
         {
-            _log = Substitute.For<ILog>();
+            _log = TestEnvironment.GetMockedLog();
             _server = new HttpServer(new HttpServerConfiguration
             {
                 Port = 8080,

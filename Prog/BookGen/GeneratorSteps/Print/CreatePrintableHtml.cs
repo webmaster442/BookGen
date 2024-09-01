@@ -23,7 +23,7 @@ internal sealed class CreatePrintableHtml : ITemplatedStep
         if (Template == null)
             throw new DependencyException(nameof(Template));
 
-        log.Info("Generating Printable html...");
+        log.LogInformation("Generating Printable html...");
         FsPath target = settings.OutputDirectory.Combine("print.html");
 
         using var pipeline = new BookGenPipeline(BookGenPipeline.Print);
@@ -33,11 +33,11 @@ internal sealed class CreatePrintableHtml : ITemplatedStep
 
         foreach (string? chapter in settings.TocContents.Chapters)
         {
-            log.Info("Processing: {0}...", chapter);
+            log.LogInformation("Processing: {chapter}...", chapter);
             reindexer.AddHtml($"<h1>{chapter}</h1>\r\n\r\n");
             foreach (string? file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
             {
-                log.Detail("Processing file for print output: {0}", file);
+                log.LogDebug("Processing file for print output: {file}", file);
                 FsPath? input = settings.SourceDirectory.Combine(file);
 
                 string? inputContent = input.ReadFile(log, true);

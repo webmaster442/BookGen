@@ -11,11 +11,32 @@ using BookGen.Infrastructure;
 
 var argumentList = args.ToList();
 
+ProgramInfo info = new();
+
 ProgramConfigurator.AttachDebugger(argumentList);
 ProgramConfigurator.WaitForDebugger(argumentList);
+ProgramConfigurator.ConfigureLog(info, argumentList);
 
-ILogger log = ProgramConfigurator.ConfigureLog(argumentList);
-ProgramInfo info = new();
+ILogger log = LoggerFactory
+    .Create(builder =>
+    {
+        builder.ClearProviders();
+        if (info.JsonLogging)
+        {
+            builder.AddJsonConsole();
+        }
+        else
+        {
+            builder.AddConsole();
+        }
+        if (info.LogToFile)
+        {
+            builder.AddProvider(new FileLoggerProvider());
+        }
+        builder.AddFilter((_, level) => level >= info.LogLevel);
+    })
+    .CreateLogger("BookGen");
+
 
 var timeProvider = new TimeProviderImplementation();
 

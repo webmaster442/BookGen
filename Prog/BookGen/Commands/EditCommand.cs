@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -23,13 +23,13 @@ internal class EditCommand : Command
     {
         if (context.Length != 1)
         {
-            _log.Warning("No file name given");
+            _log.LogWarning("No file name given");
             return Constants.ArgumentsError;
         }
 
         if (string.IsNullOrEmpty(_appSetting.EditorPath))
         {
-            _log.Warning("No Editor configured");
+            _log.LogWarning("No Editor configured");
             return Constants.ArgumentsError;
         }
 
@@ -37,7 +37,7 @@ internal class EditCommand : Command
 
         if (!EditorHelper.IsSupportedFile(file))
         {
-            _log.Warning("Unsupported file type");
+            _log.LogWarning("Unsupported file type");
             return Constants.ArgumentsError;
         }
 
