@@ -68,7 +68,7 @@ public sealed partial class SettingsManager
 
         using (var zipFile = File.OpenRead(_fileName))
         {
-            using (var archive = new ZipArchive(zipFile, ZipArchiveMode.Update))
+            using (var archive = new ZipArchive(zipFile, ZipArchiveMode.Read))
             {
                 var entry = archive.GetEntry(key);
                 if (entry == null)
@@ -90,7 +90,7 @@ public sealed partial class SettingsManager
         if (!KeyValidator().IsMatch(key))
             throw new ArgumentException("key must only contain letters, numbers and the _ symbol");
 
-        using (var zipFile = File.OpenWrite(key))
+        using (var zipFile = File.Open(_fileName, FileMode.OpenOrCreate))
         {
             using (var archive = new ZipArchive(zipFile, ZipArchiveMode.Update))
             {

@@ -10,12 +10,12 @@
     Title="BookGen Formula editor"
     Width="1280"
     Height="720"
+    Closing="MetroWindow_Closing"
     ResizeMode="CanMinimize"
     SnapsToDevicePixels="True"
     TitleCharacterCasing="Normal"
     UseLayoutRounding="True"
     WindowStartupLocation="CenterScreen"
-    Closing="MetroWindow_Closing"
     mc:Ignorable="d">
     <Window.InputBindings>
         <KeyBinding
@@ -126,15 +126,28 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Menu Grid.Row="1">
-                    <MenuItem
-                        Command="{Binding AddCommand}"
-                        Header="Add new formula..." />
-                    <Separator />
-                    <MenuItem
-                        Command="{Binding DeleteCommand}"
-                        Header="Delete selected..." />
-                </Menu>
+                <Border
+                    Height="35"
+                    Grid.Row="1"
+                    BorderBrush="White"
+                    BorderThickness="0,1,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Margin="2,0"
+                            Grid.Column="0"
+                            Command="{Binding AddCommand}"
+                            Content="Add new formula..." />
+                        <Button
+                            Margin="2,0"
+                            Grid.Column="1"
+                            Command="{Binding DeleteCommand}"
+                            Content="Delete selected..." />
+                    </Grid>
+                </Border>
             </Grid>
         </GroupBox>
         <GroupBox
