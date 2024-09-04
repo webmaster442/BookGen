@@ -146,7 +146,8 @@ Arguments:
 
 # Html2Pdf
 
-Converts a HTML file to a printable PDF using edges headless mode.
+Converts a HTML file to a png using edges or chromes headless mode.
+The tool will use chrome, if it's installed, otherwise it will use edge.
 
 `BookGen Html2Pdf -i [input] -o [output]`
 `BookGen Html2Pdf --input [input] --output [output]`
@@ -156,6 +157,26 @@ Converts a HTML file to a printable PDF using edges headless mode.
 
 -o, --output:
     Output PDF file.
+
+# Html2PPng
+
+Converts a HTML file to a png using edges or chromes headless mode.
+The tool will use chrome, if it's installed, otherwise it will use edge.
+
+`BookGen Html2Png -i [input] -o [output] {-w [width]} {-h [height]}`
+`BookGen Html2Png --input [input] --output [output] {--width [width]} {--height [height]}`
+
+-i, --input:
+    Input html file with extension of .htm or .html
+
+-o, --output:
+    Output PNG file.
+
+-w, --width:
+    Optional argument. Specifies the width of the output image in pixels.
+
+-h, --height:
+    Optional argument. Specifies the height of the output image in pixels.
 
 # ImgConvert
 
