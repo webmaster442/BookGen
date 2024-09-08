@@ -158,7 +158,7 @@ The tool will use chrome, if it's installed, otherwise it will use edge.
 -o, --output:
     Output PDF file.
 
-# Html2PPng
+# Html2Png
 
 Converts a HTML file to a png using edges or chromes headless mode.
 The tool will use chrome, if it's installed, otherwise it will use edge.
