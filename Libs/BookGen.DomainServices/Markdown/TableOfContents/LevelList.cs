@@ -14,6 +14,7 @@ namespace BookGen.DomainServices.Markdown.TableOfContents;
 /// <typeparam name="T">LevelList`T</typeparam>
 internal class LevelList<T> where T : LevelList<T>, new()
 {
+    private object _lock = new();
 
     /// <summary>
     /// Current item for append
@@ -61,8 +62,12 @@ internal class LevelList<T> where T : LevelList<T>, new()
     public void Clear()
     {
         _current = null;
-        foreach (var item in _data)
+        for (int i = 0; i < _data.Count; i++)
+        {
+            T? item = _data[i];
             item.Parent = null;
+        }
+
         _data.Clear();
     }
 
@@ -196,7 +201,7 @@ internal class LevelList<T> where T : LevelList<T>, new()
                 if (start == end - 1)
                     emtpy._current = item;
             }
-            if (end - start > 1 
+            if (end - start > 1
                 && parent._data.Count > 0)
             {
                 parent._data.RemoveRange(start + 1, end - start - 1);
