@@ -8,16 +8,34 @@ namespace BookGen.DomainServices.Markdown.TableOfContents;
 
 internal sealed class TocState
 {
-    internal HeadingInfos Headings { get; }
+    private readonly object _lock;
+    private readonly HeadingInfos _headings;
+
+    internal HeadingInfos Headings
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _headings;
+            }
+        }
+    }
 
     internal int MaxLevel { get; set; }
 
     public TocState()
     {
-        Headings = new HeadingInfos() { IsLocator = true, Level = -1 };
+        _lock = new object();
+        _headings = new HeadingInfos() { IsLocator = true, Level = -1 };
         MaxLevel = int.MaxValue;
     }
 
     internal void AddHeading(HeadingInfo info)
-        => Headings.Append(HeadingInfos.FromHeading(info));
+    {
+        lock (_lock)
+        {
+            Headings.Append(HeadingInfos.FromHeading(info));
+        }
+    }
 }

@@ -28,6 +28,7 @@ internal sealed class CreateIndexHtml : ITemplatedStep
         using (var pipeline = new BookGenPipeline(BookGenPipeline.Web))
         {
             pipeline.InjectRuntimeConfig(settings);
+            pipeline.SetSvgPasstroughTo(settings.Configuration.TargetWeb.ImageOptions.SvgPassthru);
 
             Content.Content = pipeline.RenderMarkdown(input.ReadFile(log));
         }

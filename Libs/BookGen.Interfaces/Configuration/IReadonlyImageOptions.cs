@@ -46,5 +46,10 @@ namespace BookGen.Interfaces.Configuration
         /// Inline images, that are smaller the given limit in bytes
         /// </summary>
         long InlineImageSizeLimit { get; }
+
+        /// <summary>
+        /// If set to true, then SVG images will be passed thrue, without reencoding
+        /// </summary>
+        bool SvgPassthru { get; set; }
     }
 }

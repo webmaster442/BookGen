@@ -3,7 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Buffers.Text;
+using System.Xml.Linq;
+
 using BookGen.Interfaces.Configuration;
+
+using ExCSS;
 
 using SkiaSharp;
 
@@ -40,15 +45,26 @@ internal sealed class ImageProcessor : IGeneratorStep
 
         if (ImageUtils.IsSvg(file))
         {
+            if (options.SvgPassthru)
+            {
+                log.LogDebug("Passing SVG: {file}", file);
+                SvgInlineOrSave(file, targetdir, log, settings);
+                return;
+            }
+
             log.LogDebug("Rendering SVG: {file}", file);
             SKEncodedImageFormat format = SKEncodedImageFormat.Png;
+            string extension = ".png";
 
             if (options.EncodeSvgAsWebp)
+            {
                 format = SKEncodedImageFormat.Webp;
+                extension = ".webp";
+            }
 
             using (SKData? data = ImageUtils.EncodeSvg(file, options.MaxWidth, options.MaxHeight, format))
             {
-                InlineOrSave(file, targetdir, log, settings, data, ".png");
+                InlineOrSave(file, targetdir, log, settings, data, extension);
                 return;
             }
         }
@@ -79,6 +95,22 @@ internal sealed class ImageProcessor : IGeneratorStep
                     InlineOrSave(file, targetdir, log, settings, data);
                 }
             }
+        }
+    }
+
+    private static void SvgInlineOrSave(FsPath file, FsPath targetdir, ILogger log, IReadonlyRuntimeSettings settings)
+    {
+        var content = file.ReadFile(log);
+        if (content.Length < settings.CurrentBuildConfig.ImageOptions.InlineImageSizeLimit)
+        {
+            log.LogDebug("Inlining: {file}", file);
+            settings.InlineImgCache.Add(file.Filename, content);
+        }
+        else
+        {
+            var target = targetdir.Combine(file.Filename);
+            log.LogDebug("Saving image: {target}", target);
+            target.WriteFile(log, content);
         }
     }
 

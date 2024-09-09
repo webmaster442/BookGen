@@ -3,8 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+
 using BookGen;
 using BookGen.Commands;
+using BookGen.Domain.Rss;
 using BookGen.Framework;
 using BookGen.Gui;
 using BookGen.Infrastructure;
@@ -28,12 +31,13 @@ ILogger log = LoggerFactory
         else
         {
             builder.AddConsole();
+            builder.AddProvider(new DebugLoggerProvider()).AddFilter((Category, level) => level == LogLevel.Debug);
         }
         if (info.LogToFile)
         {
             builder.AddProvider(new FileLoggerProvider());
         }
-        builder.AddFilter((_, level) => level >= info.LogLevel);
+        builder.AddFilter((Category, level) => level >= info.LogLevel);
     })
     .CreateLogger("BookGen");
 

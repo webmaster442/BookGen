@@ -25,6 +25,7 @@ internal sealed class CreatePages : ITemplatedStep
 
         using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
         pipeline.InjectRuntimeConfig(settings);
+        pipeline.SetSvgPasstroughTo(settings.Configuration.TargetWeb.ImageOptions.SvgPassthru);
 
         var bag = new ConcurrentBag<(string source, FsPath target, string title, string content)>();
 

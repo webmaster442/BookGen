@@ -33,6 +33,9 @@ namespace BookGen.Domain.Configuration
         [Doc("If set to true, then SVG images will be converted to WebP format", IsOptional = true)]
         public bool EncodeSvgAsWebp { get; set; }
 
+        [Doc("If set to true, then SVG images will be passed thrue, without reencoding", IsOptional = true)]
+        public bool SvgPassthru { get; set; }
+
         public ImageOptions()
         {
             EnableResize = true;

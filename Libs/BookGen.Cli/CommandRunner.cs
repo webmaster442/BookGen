@@ -251,6 +251,7 @@ public sealed class CommandRunner
         catch (Exception ex)
         {
 #if DEBUG
+            
             Debugger.Break();
 #endif
             ExceptionHandlerDelegate.Invoke(ex);
