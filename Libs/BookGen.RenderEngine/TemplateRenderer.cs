@@ -78,8 +78,8 @@ public partial class TemplateRenderer : ITemplateRenderer
     }
 
     private string ReplaceIdentifiers(string line,
-                                             IReadOnlyList<Match> identifiers,
-                                             TemplateParameters templateParameters)
+                                      IReadOnlyList<Match> identifiers,
+                                      TemplateParameters templateParameters)
     {
         foreach (Match match in identifiers)
         {

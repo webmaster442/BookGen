@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain.Epub;
+using BookGen.Domain.Rss;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 
@@ -30,11 +32,20 @@ internal sealed class CreateIndexHtml : ITemplatedStep
             pipeline.InjectRuntimeConfig(settings);
             pipeline.SetSvgPasstroughTo(settings.Configuration.TargetWeb.ImageOptions.SvgPassthru);
 
+            Content.Metadata = GetMetaData(settings, settings.Configuration.Index);
+            Content.Title = $"{settings.Configuration.Metadata.Title}";
             Content.Content = pipeline.RenderMarkdown(input.ReadFile(log));
         }
 
         string? html = Template.Render();
 
         target.WriteFile(log, html);
+    }
+
+    private static string GetMetaData(IReadonlyRuntimeSettings settings, string fileName)
+    {
+        if (settings.MetataCache.ContainsKey(fileName))
+            return settings.MetataCache[fileName];
+        return string.Empty;
     }
 }

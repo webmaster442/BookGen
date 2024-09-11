@@ -59,7 +59,7 @@ internal sealed class CreatePages : ITemplatedStep
         log.LogInformation("Writing files to disk...");
         foreach ((string source, FsPath target, string title, string content) in bag)
         {
-            Content.Title = title;
+            Content.Title = $"{settings.Configuration.Metadata.Title} - {title}";
             Content.Metadata = GetMetaData(settings, source);
             Content.Content = content;
             target.WriteFile(log, Template.Render());
