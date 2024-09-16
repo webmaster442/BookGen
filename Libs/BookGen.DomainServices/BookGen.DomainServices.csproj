@@ -22,7 +22,7 @@
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.8" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.8" />
     <PackageReference Include="Svg.Skia" Version="2.0.0.1" />
-    <PackageReference Include="YamlDotNet" Version="16.0.0" />
+    <PackageReference Include="YamlDotNet" Version="16.1.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.11.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />

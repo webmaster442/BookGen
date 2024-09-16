@@ -15,7 +15,7 @@
   </PropertyGroup>
   
     <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.1" />
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="WpfMath" Version="2.1.0" />
 	</ItemGroup>
