@@ -9,6 +9,12 @@ internal sealed class CreateInlinedXhtml : IGeneratorStep
 {
     public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
+        if (settings.CurrentBuildConfig.ImageOptions.SvgPassthru)
+        {
+            log.LogInformation("Skipping xhtml generation, because svg passthrough is enabled...");
+            return;
+        }
+
         log.LogInformation("Creating XHTML version of render...");
 
         log.LogDebug("Reading generated html5...");

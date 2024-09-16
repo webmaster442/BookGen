@@ -12,7 +12,11 @@ using Markdig.Syntax.Inlines;
 
 namespace BookGen.DomainServices.Markdown.Modifiers
 {
-    internal sealed class PrintModifier : IMarkdownExtensionWithRuntimeConfig, IMarkdownExtensionWithSyntaxToggle, IDisposable
+    internal sealed class PrintModifier : 
+        IMarkdownExtensionWithRuntimeConfig,
+        IMarkdownExtensionWithSyntaxToggle,
+        IMarkdownExtensionWithSvgPassthoughToggle,
+        IDisposable
     {
         private MarkdownPipelineBuilder? _pipeline;
         private JavaScriptInterop? _interop;
@@ -29,6 +33,8 @@ namespace BookGen.DomainServices.Markdown.Modifiers
             get { return SyntaxRenderer.Enabled; }
             set { SyntaxRenderer.Enabled = value; }
         }
+
+        public bool SvgPasstrough { get; set; }
 
         public void Dispose()
         {
@@ -56,6 +62,7 @@ namespace BookGen.DomainServices.Markdown.Modifiers
                 throw new InvalidOperationException();
 
             PipelineHelpers.SetupSyntaxRenderForPreRender(renderer, _interop);
+            PipelineHelpers.SetupLinkInlineRendererWithSvgSupport(renderer);
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
@@ -76,9 +83,14 @@ namespace BookGen.DomainServices.Markdown.Modifiers
                 {
                     ++heading.Level;
                 }
-                else if (node is LinkInline link && link.IsImage)
+                else if (node is LinkInline link 
+                    && link.IsImage 
+                    && !string.IsNullOrEmpty(link.Url))
                 {
-                    link.Url = RewiteToHostUrl(link.Url);
+                    if (!SvgPasstrough)
+                    {
+                        link.Url = RewiteToHostUrl(link.Url);
+                    }
                 }
             }
         }

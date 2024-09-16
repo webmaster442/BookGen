@@ -28,8 +28,12 @@ internal sealed class CreatePrintableHtml : ITemplatedStep
 
         using var pipeline = new BookGenPipeline(BookGenPipeline.Print);
         pipeline.InjectRuntimeConfig(settings);
+        pipeline.SetSvgPasstroughTo(settings.CurrentBuildConfig.ImageOptions.SvgPassthru);
 
         FootNoteReindexer reindexer = new(log, appendLineBreakbeforeDefs: true);
+
+        FsPath indexFile = settings.SourceDirectory.Combine(settings.Configuration.Index);
+        reindexer.AddMarkdown(indexFile.ReadFile(log, true));
 
         foreach (string? chapter in settings.TocContents.Chapters)
         {

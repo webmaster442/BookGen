@@ -28,8 +28,8 @@ namespace BookGen.DomainServices.Markdown
 
         public FootNoteReindexer(ILogger log, bool appendLineBreakbeforeDefs = false)
         {
-            _regulartext = new StringBuilder(8096);
-            _footnotes = new StringBuilder(4096);
+            _regulartext = new StringBuilder(64*1024);
+            _footnotes = new StringBuilder(8*1024);
             _counter = 0;
             _log = log;
             _appendLineBreakbeforeDefs = appendLineBreakbeforeDefs;

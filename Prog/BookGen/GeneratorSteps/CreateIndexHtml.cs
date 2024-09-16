@@ -30,7 +30,7 @@ internal sealed class CreateIndexHtml : ITemplatedStep
         using (var pipeline = new BookGenPipeline(BookGenPipeline.Web))
         {
             pipeline.InjectRuntimeConfig(settings);
-            pipeline.SetSvgPasstroughTo(settings.Configuration.TargetWeb.ImageOptions.SvgPassthru);
+            pipeline.SetSvgPasstroughTo(settings.CurrentBuildConfig.ImageOptions.SvgPassthru);
 
             Content.Metadata = GetMetaData(settings, settings.Configuration.Index);
             Content.Title = $"{settings.Configuration.Metadata.Title}";
