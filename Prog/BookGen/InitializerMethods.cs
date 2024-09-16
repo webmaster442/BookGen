@@ -51,24 +51,23 @@ internal static class InitializerMethods
             configuration.TargetEpub.TemplateFile = EpubTemplateLocation;
             configuration.TargetPrint.TemplateFile = PrintTemplateLocation;
             configuration.TargetWeb.TemplateFile = WebTemplate;
-            configuration.TargetWeb.TemplateAssets = new List<Asset>
-            {
-                new Asset
-                {
+            configuration.TargetWeb.TemplateAssets =
+            [
+                new() {
                     Source = ".bookgen\\Templates\\Assets\\prism.css",
-                    Target = "Assets\\prism.css"
+                    Target = "Assets\\prism.css",
+                    Minify = false,
                 },
-                new Asset
-                {
+                new() {
                     Source = ".bookgen\\Templates\\Assets\\prism.js",
-                    Target = "Assets\\prism.js"
+                    Target = "Assets\\prism.js",
+                    Minify = false,
                 }
-            };
+            ];
         }
 
         return configuration;
     }
-
 
     public static void DoCreateMdFiles(ILogger log, FsPath workdir)
     {

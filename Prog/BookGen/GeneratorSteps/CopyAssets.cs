@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Domain.Configuration;
+using BookGen.Domain.Rss;
 
 namespace BookGen.GeneratorSteps;
 
@@ -31,10 +32,28 @@ internal sealed class CopyAssets : IGeneratorStep
             FsPath source = settings.SourceDirectory.Combine(asset.Source);
             FsPath target = settings.OutputDirectory.Combine(asset.Target);
 
-            if (source.IsExisting
-                && source.Extension != ".md")
+            if (source.Extension == ".md")
             {
-                source.Copy(target, log);
+                log.LogWarning("Skipping markdown file: {file}", source);
+                continue;
+            }
+
+            if (source.IsExisting)
+            {
+                if (asset.Minify
+                    && Minify.TryMinify(source, log, out string? minified))
+                {
+                    target.WriteFile(log, minified);
+                }
+                else
+                {
+                    source.Copy(target, log);
+                }
+            }
+            else
+            {
+                log.LogWarning("Asset not found: {file}", source);
+                continue;
             }
         }
     }

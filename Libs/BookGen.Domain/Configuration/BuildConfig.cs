@@ -18,7 +18,7 @@ namespace BookGen.Domain.Configuration
         public string TemplateFile { get; set; }
 
         [Doc("List of assets required by the template", true)]
-        public List<Asset> TemplateAssets { get; set; }
+        public Asset[] TemplateAssets { get; set; }
 
         [Doc("CSS classes that will be aplied to generated html elements")]
         public StyleClasses StyleClasses { get; set; }

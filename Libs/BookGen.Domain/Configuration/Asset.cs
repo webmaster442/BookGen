@@ -23,10 +23,18 @@ namespace BookGen.Domain.Configuration
             set;
         }
 
+        [Doc("If set to true, then the asset is tried to be minified. Works for html, css and js files")]
+        public bool Minify
+        {
+            get;
+            set;
+        }
+
         public Asset()
         {
             Source = string.Empty;
             Target = string.Empty;
+            Minify = false;
         }
     }
 }

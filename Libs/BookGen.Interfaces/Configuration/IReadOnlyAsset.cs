@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2020-2023 Ruzsinszki Gábor
+// (c) 2020-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -18,5 +18,9 @@ namespace BookGen.Interfaces.Configuration
         /// Target path not containing the target root folder
         /// </summary>
         string Target { get; }
+        /// <summary>
+        /// If true, the asset should be minified
+        /// </summary>
+        bool Minify { get; }
     }
 }

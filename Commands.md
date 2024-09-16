@@ -259,6 +259,22 @@ Arguments:
 
 Note: This module to work requires internet connection.
 
+# Minify
+
+Minifies css, javascript or html files
+
+`BookGen Minify -i [input.css|js|html] -o [output.css|js|html]`
+`BookGen Minify --input [input.css|js|html] --output [output.css|js|html]`
+
+Arguments:
+
+-i, --input: 
+    Input file to minify. Must have extension of .css or .js or .htm or .html
+
+-o, --output: 
+    Output file name.
+
+
 # Md2HTML
 
 Renders a single markdown file to an HTML file
