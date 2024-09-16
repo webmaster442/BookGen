@@ -23,14 +23,13 @@ internal sealed class CreatePages : ITemplatedStep
 
         log.LogInformation("Generating Sub Markdown Files...");
 
-        using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
-        pipeline.InjectRuntimeConfig(settings);
-        pipeline.SetSvgPasstroughTo(settings.Configuration.TargetWeb.ImageOptions.SvgPassthru);
-
         var bag = new ConcurrentBag<(string source, FsPath target, string title, string content)>();
 
         Parallel.ForEach(settings.TocContents.Files, file =>
         {
+            using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
+            pipeline.InjectRuntimeConfig(settings);
+            pipeline.SetSvgPasstroughTo(settings.Configuration.TargetWeb.ImageOptions.SvgPassthru);
 
             (string source, FsPath target, string title, string content) result;
 
