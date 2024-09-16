@@ -62,6 +62,26 @@ internal static class InitializerMethods
                     Source = ".bookgen\\Templates\\Assets\\prism.js",
                     Target = "Assets\\prism.js",
                     Minify = false,
+                },
+                new() {
+                    Source = ".bookgen\\Templates\\Assets\\bootstrap.min.css",
+                    Target = "Assets\\bootstrap.min.css",
+                    Minify = false,
+                },
+                new() {
+                    Source = ".bookgen\\Templates\\Assets\\jquery.min.js",
+                    Target = "Assets\\jquery.min.js",
+                    Minify = false,
+                },
+                new() {
+                    Source = ".bookgen\\Templates\\Assets\\popper.min.js",
+                    Target = "Assets\\popper.min.js",
+                    Minify = false,
+                },
+                new() {
+                    Source = ".bookgen\\Templates\\Assets\\bootstrap.min.js",
+                    Target = "Assets\\bootstrap.min.js",
+                    Minify = false,
                 }
             ];
         }
