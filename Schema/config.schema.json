@@ -8,7 +8,7 @@
     "BookLanguage"
   ],
   "properties": {
-    "Schema": {
+    "$schema": {
       "type": "string"
     },
     "TOCFile": {
@@ -111,6 +111,9 @@
         },
         "Target": {
           "type": "string"
+        },
+        "Minify": {
+          "type": "boolean"
         }
       }
     },
@@ -192,6 +195,9 @@
           "type": "boolean"
         },
         "EncodeSvgAsWebp": {
+          "type": "boolean"
+        },
+        "SvgPassthru": {
           "type": "boolean"
         }
       }

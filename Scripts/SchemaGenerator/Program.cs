@@ -7,7 +7,7 @@ using NJsonSchema.Generation.TypeMappers;
 
 static async Task WriteSchemaToFile<T>(string output)
 {
-    var schema = JsonSchema.FromType<T>(new NJsonSchema.Generation.JsonSchemaGeneratorSettings
+    var schema = JsonSchema.FromType<T>(new NJsonSchema.Generation.SystemTextJsonSchemaGeneratorSettings
     {
         TypeMappers = new ITypeMapper[]
         {
