@@ -11,4 +11,5 @@ public interface ICurrentSession
 {
     FsPath StartDirectory { get; }
     FsPath AppDirectory { get; }
+    Version Version { get; }
 }

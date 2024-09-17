@@ -1,9 +1,9 @@
 using System.Net.Mime;
 
+using BookGen.Cli;
 using BookGen.Resources;
+using BookGen.WebGui;
 using BookGen.WebGui.Services;
-
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,13 +15,17 @@ static async Task ServeKnown(HttpContext context, KnownFile knownFile, string mi
     await stream.CopyToAsync(context.Response.Body);
 }
 
+var current = new CurrentSession();
+
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<ICurrentSession>(new CurrentSession(Environment.CurrentDirectory));
+builder.Services.AddSingleton<ICurrentSession>(current);
 builder.Services.AddScoped<IMarkdownRenderer, MarkdownRenderer>();
 builder.Services.AddScoped<IDocumentProvider, DocumentProvider>();
 
 var app = builder.Build();
+ArgumentParser<Arguments> parser = new ArgumentParser<Arguments>(app.Logger);
+current.StartDirectory = new BookGen.Interfaces.FsPath(parser.Parse(args).Directory);
 
 if (!app.Environment.IsDevelopment())
 {

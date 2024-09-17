@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.WebGui.Domain;
+
 namespace BookGen.WebGui.Services;
 
 public interface IDocumentProvider

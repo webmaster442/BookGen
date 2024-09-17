@@ -5,18 +5,19 @@
 
 using BookGen.DomainServices;
 using BookGen.Interfaces;
+using BookGen.WebGui.Domain;
 
 
 namespace BookGen.WebGui.Services;
 
 internal sealed class DocumentProvider : IDocumentProvider
 {
-    private readonly ILogger _logger;
+    private readonly ILogger<DocumentProvider> _logger;
     private readonly ICurrentSession _currentSession;
 
-    public DocumentProvider(ILoggerFactory logger, ICurrentSession currentSession)
+    public DocumentProvider(ILogger<DocumentProvider> logger, ICurrentSession currentSession)
     {
-        _logger = logger.CreateLogger(nameof(DocumentProvider));
+        _logger = logger;
         _currentSession = currentSession;
     }
 
@@ -25,7 +26,7 @@ internal sealed class DocumentProvider : IDocumentProvider
         FsPath path = _currentSession.AppDirectory.Combine(file);
         if (!path.IsExisting)
         {
-            return $"File not found - {file}";
+            return $"<h1 class=\"text-danger\">File not found - {file}</h1>";
         }
         return path.ReadFile(_logger);
     }

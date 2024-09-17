@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.WebGui.Services;
+namespace BookGen.WebGui.Domain;
 
 public enum Document
 {

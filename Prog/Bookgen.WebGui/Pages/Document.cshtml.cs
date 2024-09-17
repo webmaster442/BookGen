@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.WebGui.Domain;
 using BookGen.WebGui.Services;
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
