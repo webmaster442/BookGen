@@ -1,16 +1,16 @@
-﻿// ------------------------------------------------------------------------------------------------
-// Copyright (c) 2021-2023 Ruzsinszki Gábor
-// This is free software under the terms of the MIT License. https://opensource.org/licenses/MIT
-// -----------------------------------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------------
+// (c) 2021-2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
 
-namespace Webmaster442.HttpServerFramework;
+namespace BookGen.Web;
 
 /// <summary>
 /// Provides mime type resolving functions
 /// </summary>
 public static class MimeTypes
 {
-    private static readonly Dictionary<string, string> _db =
+    private static readonly Dictionary<string, string> Db =
         new(StringComparer.InvariantCultureIgnoreCase)
         {
             { ".123", "application/vnd.lotus-1-2-3" },
@@ -927,8 +927,8 @@ public static class MimeTypes
     /// <returns>mime type string, if known. For unknown file types application/octet-stream is returned</returns>
     public static string GetMimeForExtension(string extension)
     {
-        return _db.ContainsKey(extension) 
-            ? _db[extension] 
+        return Db.ContainsKey(extension) 
+            ? Db[extension] 
             : "application/octet-stream";
     }
 

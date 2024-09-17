@@ -62,7 +62,7 @@
 	  <ProjectReference Include="..\..\Libs\BookGen.RenderEngine\BookGen.RenderEngine.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Resources\BookGen.Resources.csproj" />
 	  <ProjectReference Include="..\..\Libs\BookGen.Settings\BookGen.Settings.csproj" />
-	  <ProjectReference Include="..\..\Libs\Webmaster442.HttpServerFramework\Webmaster442.HttpServerFramework.csproj" />
+	  <ProjectReference Include="..\..\Libs\BookGen.Web\BookGen.Web.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Properties\Resources.Designer.cs">

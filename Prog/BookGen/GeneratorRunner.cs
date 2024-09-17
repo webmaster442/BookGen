@@ -5,13 +5,14 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-using BookGen.Framework.Server;
+using AngleSharp.Html;
+
 using BookGen.GeneratorStepRunners;
 using BookGen.GeneratorSteps;
 using BookGen.Infrastructure;
 using BookGen.ProjectHandling;
+using BookGen.Web;
 
-using Webmaster442.HttpServerFramework;
 
 namespace BookGen;
 
@@ -73,11 +74,11 @@ internal class GeneratorRunner
             throw new InvalidOperationException("Tags is null");
     }
 
-    public bool InitializeAndExecute(Action<GeneratorRunner> actionToExecute)
+    public async Task<bool> InitializeAndExecute(AsyncAction<GeneratorRunner> actionToExecute)
     {
         if (Initialize())
         {
-            actionToExecute.Invoke(this);
+            await actionToExecute.Invoke(this);
             return true;
         }
         else
@@ -104,12 +105,13 @@ internal class GeneratorRunner
         return ret;
     }
 
-    public void DoClean()
+    public Task DoClean()
     {
         CreateOutputDirectory.CleanDirectory(new FsPath(_projectLoader.Configuration.TargetWeb.OutPutDirectory), Log);
         CreateOutputDirectory.CleanDirectory(new FsPath(_projectLoader.Configuration.TargetPrint.OutPutDirectory), Log);
         CreateOutputDirectory.CleanDirectory(new FsPath(_projectLoader.Configuration.TargetEpub.OutPutDirectory), Log);
         CreateOutputDirectory.CleanDirectory(new FsPath(_projectLoader.Configuration.TargetWordpress.OutPutDirectory), Log);
+        return Task.CompletedTask;
     }
     #endregion
 
@@ -124,7 +126,7 @@ internal class GeneratorRunner
         }
     }
 
-    public void DoBuild()
+    public Task DoBuild()
     {
         ThrowIfInvalidState();
 
@@ -133,9 +135,11 @@ internal class GeneratorRunner
         Log.LogInformation("Building deploy configuration...");
 
         RunSteps(() => new WebsiteGeneratorStepRunner(settings, Log, _appSettings, _programInfo), settings);
+
+        return Task.CompletedTask;
     }
 
-    public void DoPrint()
+    public Task DoPrint()
     {
         ThrowIfInvalidState();
 
@@ -144,9 +148,11 @@ internal class GeneratorRunner
         Log.LogInformation("Building print configuration...");
 
         RunSteps(() => new PrintGeneratorStepRunner(settings, Log, _appSettings, _programInfo), settings);
+
+        return Task.CompletedTask;
     }
 
-    public void DoEpub()
+    public Task DoEpub()
     {
         ThrowIfInvalidState();
 
@@ -155,9 +161,11 @@ internal class GeneratorRunner
         Log.LogInformation("Building epub configuration...");
 
         RunSteps(() => new EpubGeneratorStepRunner(settings, Log, _appSettings, _programInfo), settings);
+
+        return Task.CompletedTask;
     }
 
-    public void DoWordpress()
+    public Task DoWordpress()
     {
         ThrowIfInvalidState();
 
@@ -166,9 +174,11 @@ internal class GeneratorRunner
         Log.LogInformation("Building Wordpress configuration...");
 
         RunSteps(() => new WordpressGeneratorStepRunner(settings, Log, _appSettings, _programInfo), settings);
+
+        return Task.CompletedTask;
     }
 
-    public void DoPostProcess()
+    public Task DoPostProcess()
     {
         ThrowIfInvalidState();
 
@@ -177,9 +187,11 @@ internal class GeneratorRunner
         Log.LogInformation("Building postprocess configuration...");
 
         RunSteps(() => new PostProcessGenreratorStepRunner(settings, Log, _appSettings, _programInfo), settings);
+
+        return Task.CompletedTask;
     }
 
-    public void DoTest()
+    public async Task DoTest()
     {
         ThrowIfInvalidState();
 
@@ -192,13 +204,17 @@ internal class GeneratorRunner
         var builder = new WebsiteGeneratorStepRunner(settings, Log, _appSettings, _programInfo);
         TimeSpan runTime = builder.Run();
 
-        using (HttpServer? server = HttpServerFactory.CreateServerForTest(Log, Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory)))
+        using (var consoleCancellation = new ConsoleCancellationSource())
         {
-            server.Start();
+            var server = ServerFactory.CreateServerForTesting(Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory));
+
+            var serverurls = string.Join(',', server.GetListenUrls());
+            var qrcodes = string.Join(',', server.GetListenUrls().Select(x => $"{x}/qrcodelink"));
+
             Log.LogInformation("-------------------------------------------------");
             Log.LogInformation("Runtime: {runtime} ms", runTime.TotalMilliseconds);
-            Log.LogInformation("Test server running on: http://localhost:8090/");
-            Log.LogInformation("To get QR code for another device visit: http://localhost:8090/qrcodelink");
+            Log.LogInformation("Server running on {urls}", serverurls);
+            Log.LogInformation("To get QR code for another device visit: {qrcodes}", qrcodes);
             Log.LogInformation("Serving from: {directory}", _projectLoader.Configuration.TargetWeb.OutPutDirectory);
 
             if (_appSettings.AutoStartWebserver)
@@ -206,9 +222,7 @@ internal class GeneratorRunner
                 UrlOpener.OpenUrl(_projectLoader.Configuration.HostName);
             }
 
-            Console.WriteLine(ExitString);
-            Console.ReadLine();
-            server.Stop();
+            await server.StartAsync(consoleCancellation.Token);
         }
 
     }

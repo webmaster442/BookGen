@@ -7,6 +7,7 @@ using System.Buffers.Text;
 using System.Xml.Linq;
 
 using BookGen.Interfaces.Configuration;
+using BookGen.Web;
 
 using ExCSS;
 
@@ -135,12 +136,12 @@ internal sealed class ImageProcessor : IGeneratorStep
     private static void InlineImage(FsPath file, IReadonlyRuntimeSettings settings, SKData data, string? extensionOverride)
     {
         string base64 = Convert.ToBase64String(data.ToArray());
-        string mime = Webmaster442.HttpServerFramework.MimeTypes.GetMimeForExtension(file.Extension);
+        string mime = MimeTypes.GetMimeForExtension(file.Extension);
         string fnmame = file.ToString();
 
         if (extensionOverride != null)
         {
-            mime = Webmaster442.HttpServerFramework.MimeTypes.GetMimeForExtension(extensionOverride);
+            mime = MimeTypes.GetMimeForExtension(extensionOverride);
             fnmame = Path.ChangeExtension(file.ToString(), extensionOverride);
         }
 

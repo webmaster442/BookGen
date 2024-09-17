@@ -10,7 +10,7 @@ using BookGen.Infrastructure;
 namespace BookGen.Commands;
 
 [CommandName("build")]
-internal class BuildCommand : Command<BuildArguments>
+internal class BuildCommand : AsyncCommand<BuildArguments>
 {
     private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
@@ -23,7 +23,7 @@ internal class BuildCommand : Command<BuildArguments>
         _moduleApi = moduleApi;
     }
 
-    public override int Execute(BuildArguments arguments, string[] context)
+    public override async Task<int> Execute(BuildArguments arguments, string[] context)
     {
         _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
@@ -33,25 +33,25 @@ internal class BuildCommand : Command<BuildArguments>
         switch (arguments.Action)
         {
             case BuildAction.BuildWeb:
-                runner.InitializeAndExecute(x => x.DoBuild());
+                await runner.InitializeAndExecute(x => x.DoBuild());
                 break;
             case BuildAction.Clean:
-                runner.InitializeAndExecute(x => x.DoClean());
+                await runner.InitializeAndExecute(x => x.DoClean());
                 break;
             case BuildAction.Test:
-                runner.InitializeAndExecute(x => x.DoTest());
+                await runner.InitializeAndExecute(x => x.DoTest());
                 break;
             case BuildAction.BuildPrint:
-                runner.InitializeAndExecute(x => x.DoPrint());
+                await runner.InitializeAndExecute(x => x.DoPrint());
                 break;
             case BuildAction.BuildWordpress:
-                runner.InitializeAndExecute(x => x.DoWordpress());
+                await runner.InitializeAndExecute(x => x.DoWordpress());
                 break;
             case BuildAction.BuildEpub:
-                runner.InitializeAndExecute(x => x.DoEpub());
+                await runner.InitializeAndExecute(x => x.DoEpub());
                 break;
             case BuildAction.BuildPostprocess:
-                runner.InitializeAndExecute(x => x.DoPostProcess());
+                await runner.InitializeAndExecute(x => x.DoPostProcess());
                 break;
             case BuildAction.ValidateConfig:
                 runner.Initialize();

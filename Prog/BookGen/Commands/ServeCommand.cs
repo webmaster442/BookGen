@@ -5,15 +5,13 @@
 
 using BookGen.CommandArguments;
 using BookGen.Framework;
-using BookGen.Framework.Server;
 using BookGen.Infrastructure;
-
-using Webmaster442.HttpServerFramework;
+using BookGen.Web;
 
 namespace BookGen.Commands;
 
 [CommandName("serve")]
-internal class ServeCommand : Command<BookGenArgumentBase>
+internal class ServeCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
@@ -26,21 +24,23 @@ internal class ServeCommand : Command<BookGenArgumentBase>
         _programInfo = programInfo;
     }
 
-    public override int Execute(BookGenArgumentBase arguments, string[] context)
+    public override async Task<int> Execute(BookGenArgumentBase arguments, string[] context)
     {
         _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
-        using (HttpServer? server = HttpServerFactory.CreateServerForServModule(_log, arguments.Directory))
+        using (var cancellation = new ConsoleCancellationSource())
         {
-            server.Start();
+            var server = ServerFactory.CreateServerForDirectoryHosting(arguments.Directory);
+            var serverurls = string.Join(',', server.GetListenUrls());
+            var qrcodes = string.Join(',', server.GetListenUrls().Select(x => $"{x}/qrcodelink"));
+
             _log.LogInformation("Serving: {directory}", arguments.Directory);
-            _log.LogInformation("Server running on http://localhost:8081");
-            _log.LogInformation("To get QR code for another device visit: http://localhost:8081/qrcodelink");
-            _log.LogInformation("Press a key to exit...");
-            Console.ReadLine();
-            server.Stop();
+            _log.LogInformation("Server running on {urls}", serverurls);
+            _log.LogInformation("To get QR code for another device visit: {qrcodes}", qrcodes);
+
+            await server.StartAsync(cancellation.Token);
         }
 
         return Constants.Succes;

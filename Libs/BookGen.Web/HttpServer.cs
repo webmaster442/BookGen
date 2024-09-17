@@ -1,4 +1,9 @@
-﻿using System.Net;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
@@ -28,7 +33,7 @@ internal sealed class HttpServer : IHttpServer
 
         _app.UseStatusCodePages(async statusCodeContext =>
         {
-            var content = ErrorPageFactory.GetErrorPage(statusCodeContext.HttpContext.Response.StatusCode, "");
+            var content = PageFactory.GetErrorPage(statusCodeContext.HttpContext.Response.StatusCode, "");
             statusCodeContext.HttpContext.Response.ContentType = "text/html";
             await statusCodeContext.HttpContext.Response.WriteAsync(content);
         });
@@ -38,7 +43,7 @@ internal sealed class HttpServer : IHttpServer
             exceptionHandlerApp.Run(async context =>
             {
                 context.Response.StatusCode = 500;
-                var content = ErrorPageFactory.GetErrorPage(context.Response.StatusCode, "Internal server error");
+                var content = PageFactory.GetErrorPage(context.Response.StatusCode, "Internal server error");
                 context.Response.ContentType = "text/html";
                 await context.Response.WriteAsync(content);
             });
@@ -58,46 +63,54 @@ internal sealed class HttpServer : IHttpServer
     {
         foreach (var file in files)
         {
-            _app.MapGet(file.Key.Path, async context =>
-            {
-                context.Response.ContentType = file.Key.MimeType;
-                context.Response.ContentLength = file.Value.Length;
-                context.Response.StatusCode = StatusCodes.Status200OK;
-                await context.Response.Body.WriteAsync(file.Value);
-            });
+            AddMemoryFile(file.Key, file.Value);
         }
     }
+
+    public void AddMemoryFile(UrlMetaData metaData, byte[] content)
+    {
+        _app.MapGet(metaData.Path, async context =>
+        {
+            context.Response.ContentType = metaData.MimeType;
+            context.Response.ContentLength = content.Length;
+            context.Response.StatusCode = StatusCodes.Status200OK;
+            await context.Response.Body.WriteAsync(content);
+        });
+    }
+
+    public void AddRoute(ApiMetaData metaData, RequestDelegate handler)
+    {
+        switch (metaData.Method)
+        {
+            case ApiMethod.Get:
+                _app.MapGet(metaData.Path, async context => await handler(context));
+                break;
+            case ApiMethod.Post:
+                _app.MapPost(metaData.Path, async context => await handler(context));
+                break;
+            case ApiMethod.Put:
+                _app.MapPut(metaData.Path, async context => await handler(context));
+                break;
+            case ApiMethod.Delete:
+                _app.MapDelete(metaData.Path, async context => await handler(context));
+                break;
+            case ApiMethod.Patch:
+                _app.MapPatch(metaData.Path, async context => await handler(context));
+                break;
+            case ApiMethod.Head:
+            case ApiMethod.Options:
+            case ApiMethod.Trace:
+                _app.Map(metaData.Path, async context => await handler(context));
+                break;
+        }
+    }
+
 
     public void AddRoutes(IReadOnlyDictionary<ApiMetaData, RequestDelegate> routes)
     {
         foreach (var route in routes)
         {
-            var meta = route.Key;
-            var handler = route.Value;
-
-            switch (meta.Method)
-            {
-                case ApiMethod.Get:
-                    _app.MapGet(meta.Path, async context => await handler(context));
-                    break;
-                case ApiMethod.Post:
-                    _app.MapPost(meta.Path, async context => await handler(context));
-                    break;
-                case ApiMethod.Put:
-                    _app.MapPut(meta.Path, async context => await handler(context));
-                    break;
-                case ApiMethod.Delete:
-                    _app.MapDelete(meta.Path, async context => await handler(context));
-                    break;
-                case ApiMethod.Patch:
-                    _app.MapPatch(meta.Path, async context => await handler(context));
-                    break;
-                case ApiMethod.Head:
-                case ApiMethod.Options:
-                case ApiMethod.Trace:
-                    _app.Map(meta.Path, async context => await handler(context));
-                    break;
-            }
+            AddRoute(route.Key, route.Value);
         }
     }
 
