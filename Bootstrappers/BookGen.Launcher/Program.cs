@@ -21,7 +21,7 @@ namespace BookGen.Launcher
                 InstallVerify.ThrowIfNotExist();
                 using (var process =
                     new ProcessBuilder()
-                    .SetProgram(AppDomain.CurrentDomain.BaseDirectory, Constants.DataFolder, Constants.BookGenLauncher)
+                    .SetProgram(AppDomain.CurrentDomain.BaseDirectory, Constants.DataFolder, Constants.BookGen)
                     .SetWorkDir(AppDomain.CurrentDomain.BaseDirectory, Constants.DataFolder)
                     .SetArguments(args)
                     .Build())

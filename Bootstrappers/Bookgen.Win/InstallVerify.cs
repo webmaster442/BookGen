@@ -16,7 +16,6 @@ namespace Bookgen.Win
         {
             var files = new[]
             {
-                Path.Combine(AppContext.BaseDirectory, Constants.DataFolder, Constants.BookGenLauncher),
                 Path.Combine(AppContext.BaseDirectory, Constants.DataFolder, Constants.BookGen)
             };
             foreach (var file in files) 
