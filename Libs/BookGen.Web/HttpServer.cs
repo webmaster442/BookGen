@@ -10,6 +10,8 @@ using System.Net.Sockets;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 
@@ -31,6 +33,15 @@ internal sealed class HttpServer : IHttpServer
         _app = builder.Build();
         Port = port;
 
+        var options = new DefaultFilesOptions();
+        options.DefaultFileNames.Add("index.xml");
+        options.DefaultFileNames.Add("index.json");
+        options.DefaultFileNames.Add("index.txt");
+        options.DefaultFileNames.Add("default.xml");
+        options.DefaultFileNames.Add("default.json");
+        options.DefaultFileNames.Add("default.txt");
+        _app.UseDefaultFiles(options);
+
         _app.UseStatusCodePages(async statusCodeContext =>
         {
             var content = PageFactory.GetErrorPage(statusCodeContext.HttpContext.Response.StatusCode, "");
@@ -50,13 +61,24 @@ internal sealed class HttpServer : IHttpServer
         });
     }
 
-    public void AddStaticFiles(string directory, string requestPath)
+    public void AddStaticFiles(string directory, string requestPath, bool directoryBrowseEnabled)
     {
-        _app.UseStaticFiles(new StaticFileOptions
+        var options = new FileServerOptions
         {
             FileProvider = new PhysicalFileProvider(directory),
-            RequestPath = requestPath
-        });
+            RequestPath = requestPath,
+            EnableDefaultFiles = true,
+            EnableDirectoryBrowsing = directoryBrowseEnabled,
+        };
+        options.StaticFileOptions.ContentTypeProvider = new FileExtensionContentTypeProvider();
+        options.DefaultFilesOptions.DefaultFileNames.Add("index.xml");
+        options.DefaultFilesOptions.DefaultFileNames.Add("index.json");
+        options.DefaultFilesOptions.DefaultFileNames.Add("index.txt");
+        options.DefaultFilesOptions.DefaultFileNames.Add("default.xml");
+        options.DefaultFilesOptions.DefaultFileNames.Add("default.json");
+        options.DefaultFilesOptions.DefaultFileNames.Add("default.txt");
+
+        _app.UseFileServer(options);
     }
 
     public void AddMemoryFiles(IReadOnlyDictionary<UrlMetaData, byte[]> files)
@@ -105,7 +127,6 @@ internal sealed class HttpServer : IHttpServer
         }
     }
 
-
     public void AddRoutes(IReadOnlyDictionary<ApiMetaData, RequestDelegate> routes)
     {
         foreach (var route in routes)
@@ -114,9 +135,12 @@ internal sealed class HttpServer : IHttpServer
         }
     }
 
-    public ICollection<string> GetListenUrls()
+    public IEnumerable<string> GetListenUrls()
     {
-        return _app.Urls;
+        foreach (var (adress, _) in GetIpAdresses())
+        {
+            yield return $"http://{adress}:{Port}";
+        }
     }
 
     public static IEnumerable<(IPAddress adress, IPAddress mask)> GetIpAdresses()
@@ -136,6 +160,9 @@ internal sealed class HttpServer : IHttpServer
         }
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
-        => await _app.StartAsync(cancellationToken);
+    public async Task StartAsync()
+        => await _app.StartAsync();
+
+    public async Task StopAsync()
+        => await _app.StopAsync();
 }

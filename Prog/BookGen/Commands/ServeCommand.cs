@@ -30,17 +30,18 @@ internal class ServeCommand : AsyncCommand<BookGenArgumentBase>
 
         _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
-        using (var cancellation = new ConsoleCancellationSource())
+        var server = ServerFactory.CreateServerForDirectoryHosting(arguments.Directory);
+
+        using (var runner = new ConsoleHttpServerRunner(server))
         {
-            var server = ServerFactory.CreateServerForDirectoryHosting(arguments.Directory);
-            var serverurls = string.Join(',', server.GetListenUrls());
-            var qrcodes = string.Join(',', server.GetListenUrls().Select(x => $"{x}/qrcodelink"));
+            var serverurls = string.Join(' ', server.GetListenUrls());
+            var qrcodes = string.Join(' ', server.GetListenUrls().Select(x => $"{x}/qrcodelink"));
 
             _log.LogInformation("Serving: {directory}", arguments.Directory);
             _log.LogInformation("Server running on {urls}", serverurls);
             _log.LogInformation("To get QR code for another device visit: {qrcodes}", qrcodes);
 
-            await server.StartAsync(cancellation.Token);
+            await runner.RunServer();
         }
 
         return Constants.Succes;

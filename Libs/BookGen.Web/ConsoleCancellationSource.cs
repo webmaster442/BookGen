@@ -5,30 +5,30 @@
 
 namespace BookGen.Web;
 
-public sealed class ConsoleCancellationSource : IDisposable
+public sealed class ConsoleHttpServerRunner : IDisposable
 {
-    private readonly CancellationTokenSource _tonenSource;
+    private readonly CancellationTokenSource _tokenSource;
+    private readonly IHttpServer _server;
     private bool _disposed;
 
-    public ConsoleCancellationSource()
+    public ConsoleHttpServerRunner(IHttpServer server)
     {
-        _tonenSource = new();
+        _tokenSource = new();
+        _server = server;
     }
 
     public void Dispose()
     {
         if (_disposed) return;
-        _tonenSource.Dispose();
+        _tokenSource.Dispose();
         _disposed = true;
     }
 
-    public CancellationToken Token
-        => _tonenSource.Token;
-
-    public void Wait()
+    public async Task RunServer()
     {
+        await _server.StartAsync();
         Console.WriteLine("Press any key to stop the server...");
         Console.ReadKey();
-        _tonenSource.Cancel();
+        await _server.StopAsync();
     }
 }

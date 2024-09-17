@@ -204,12 +204,11 @@ internal class GeneratorRunner
         var builder = new WebsiteGeneratorStepRunner(settings, Log, _appSettings, _programInfo);
         TimeSpan runTime = builder.Run();
 
-        using (var consoleCancellation = new ConsoleCancellationSource())
+        var server = ServerFactory.CreateServerForTesting(Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory));
+        using (var runner = new ConsoleHttpServerRunner(server))
         {
-            var server = ServerFactory.CreateServerForTesting(Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory));
-
-            var serverurls = string.Join(',', server.GetListenUrls());
-            var qrcodes = string.Join(',', server.GetListenUrls().Select(x => $"{x}/qrcodelink"));
+            var serverurls = string.Join(' ', server.GetListenUrls());
+            var qrcodes = string.Join(' ', server.GetListenUrls().Select(x => $"{x}/qrcodelink"));
 
             Log.LogInformation("-------------------------------------------------");
             Log.LogInformation("Runtime: {runtime} ms", runTime.TotalMilliseconds);
@@ -222,9 +221,8 @@ internal class GeneratorRunner
                 UrlOpener.OpenUrl(_projectLoader.Configuration.HostName);
             }
 
-            await server.StartAsync(consoleCancellation.Token);
+            await runner.RunServer();
         }
-
     }
 
     #endregion

@@ -8,6 +8,7 @@ namespace BookGen.Web;
 public interface IHttpServer
 {
     int Port { get; }
-    ICollection<string> GetListenUrls();
-    Task StartAsync(CancellationToken cancellationToken);
+    IEnumerable<string> GetListenUrls();
+    Task StartAsync();
+    Task StopAsync();
 }

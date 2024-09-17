@@ -18,7 +18,7 @@ public static class ServerFactory
     public static IHttpServer CreateServerForDirectoryHosting(string directoryToServe)
     {
         var server = new HttpServer(HostingPort);
-        server.AddStaticFiles(directoryToServe, "");
+        server.AddStaticFiles(directoryToServe, "", true);
         server.AddMemoryFile(new UrlMetaData("/favicon.ico", MediaTypeNames.Image.Icon), StreamToByteArray(ResourceHandler.GetFileStream(KnownFile.FaviconFs)));
         server.AddRoute(new ApiMetaData("/qrcodelink", MediaTypeNames.Text.Html), async context =>
         {
@@ -32,7 +32,7 @@ public static class ServerFactory
     public static IHttpServer CreateServerForTesting(string directoryToServe)
     {
         var server = new HttpServer(TestingPort);
-        server.AddStaticFiles(directoryToServe, "");
+        server.AddStaticFiles(directoryToServe, "", false);
         server.AddRoute(new ApiMetaData("/qrcodelink", MediaTypeNames.Text.Html), async context =>
         {
             context.Response.StatusCode = 200;
