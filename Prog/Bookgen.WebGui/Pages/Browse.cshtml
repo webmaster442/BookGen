@@ -1,0 +1,33 @@
+﻿@page
+@using BookGen.WebGui.Extensions;
+@model BookGen.WebGui.Pages.BrowseModel
+@{
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Extension</th>
+            <th scope="col">Size</th>
+            <th scope="col">Last modified</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var file in Model.Items)
+        {
+            <tr>
+                <td>
+                    <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="64" height="64" rx="10" ry="10" fill="@file.Extension.ToHlslColorString()" />
+                        <text fill="black" stroke="white" font-weight="bold" font-size="26" x="0" y="40" font-family="monospace">.ICO</text>
+                    </svg>
+                </td>
+                <td><a href="#">@file.Name</a></td>
+                <td>@file.Extension</td>
+                <td>@file.Size.ToHumanReadableSize()</td>
+                <td>@file.LastModified</td>
+            </tr>
+        }
+    </tbody>
+</table>
