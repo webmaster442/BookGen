@@ -12,24 +12,22 @@ internal class FileService : IFileService
         {
             list.Add(new BrowserItem
             {
-                Extension = "",
+                Extension = "DIR",
                 FullPath = directory.FullName,
                 LastModified = directory.LastWriteTime,
                 Name = directory.Name,
                 Size = 0,
-                IsDirectory = true,
             });
         }
         foreach (var file in parent.GetFiles())
         {
             list.Add(new BrowserItem
             {
-                Extension = file.Extension,
+                Extension = file.Extension.ToUpper(),
                 FullPath = file.FullName,
                 LastModified = file.LastWriteTime,
                 Name = file.Name,
                 Size = file.Length,
-                IsDirectory = false,
             });
         }
         return list;
