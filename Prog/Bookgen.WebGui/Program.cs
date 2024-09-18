@@ -20,9 +20,9 @@ var current = new CurrentSession();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICurrentSession>(current);
+builder.Services.AddSingleton<IFileItemProvider, FileItemProvider>();
 builder.Services.AddScoped<IMarkdownRenderer, MarkdownRenderer>();
 builder.Services.AddScoped<IDocumentProvider, DocumentProvider>();
-builder.Services.AddScoped<IFileService, FileService>();
 
 var app = builder.Build();
 ArgumentParser<Arguments> parser = new ArgumentParser<Arguments>(app.Logger);

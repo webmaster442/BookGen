@@ -8,21 +8,20 @@ namespace BookGen.WebGui.Pages
 {
     public class BrowseModel : PageModel
     {
-        private readonly IFileService _fileService;
+        private readonly IFileItemProvider _itemprovider;
         private readonly ICurrentSession _currentSession;
 
-        public BrowseModel(IFileService fileService, ICurrentSession currentSession)
+        public BrowseModel(IFileItemProvider fileItemProvider, ICurrentSession currentSession)
         {
-            _fileService = fileService;
+            _itemprovider = fileItemProvider;
             _currentSession = currentSession;
-            Items = _fileService.GetFiles(_currentSession.StartDirectory.ToString());
         }
 
-        public IList<BrowserItem> Items { get; }
+        public IList<BrowserItem> Items { get; private set; } = null!;
 
-        public void OnGet()
+        public void OnGet(string id)
         {
-
+            Items = _itemprovider.GetFiles(id);
         }
     }
 }

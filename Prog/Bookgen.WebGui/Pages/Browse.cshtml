@@ -3,6 +3,27 @@
 @model BookGen.WebGui.Pages.BrowseModel
 @{
 }
+<style type="text/css">
+    .icon {
+        width: 64px;
+        height: 64px;
+        display: block;
+    }
+
+    .icontext {
+        font-family: monospace;
+        font-size: 16pt;
+        text-align: center;
+        padding-top: 10pt;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 64px;
+    }
+
+    td {
+        vertical-align: middle;
+    }
+</style>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -18,12 +39,18 @@
         {
             <tr>
                 <td>
-                    <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="64" height="64" rx="10" ry="10" fill="@file.Extension.ToHlslColorString()" />
-                        <text fill="black" stroke="white" font-weight="bold" font-size="26" x="0" y="40" font-family="monospace">.ICO</text>
-                    </svg>
+                    <div class="icon" style="background-color: @file.Extension.ToHlslColorString()">
+                        <p title="@file.Extension" class="icontext">@file.Extension</p>
+                    </div>
                 </td>
-                <td><a href="#">@file.Name</a></td>
+                @if (file.IsDirectory)
+                {
+                    <td><a href="Browse?id=@file.Id">@file.Name</a></td>
+                }
+                else
+                {
+                    <td>@file.Name</td>                    
+                }
                 <td>@file.Extension</td>
                 <td>@file.Size.ToHumanReadableSize()</td>
                 <td>@file.LastModified</td>
