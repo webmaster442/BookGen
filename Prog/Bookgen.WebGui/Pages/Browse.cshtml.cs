@@ -1,27 +1,31 @@
+//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
 using BookGen.WebGui.Domain;
 using BookGen.WebGui.Services;
 
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BookGen.WebGui.Pages
 {
     public class BrowseModel : PageModel
     {
-        private readonly IFileService _itemprovider;
-        private readonly ICurrentSession _currentSession;
+        private readonly IFileService _files;
 
-        public BrowseModel(IFileService fileItemProvider, ICurrentSession currentSession)
+        public bool CanPreview(string id) => _files.IsPreviewSupported(id);
+
+        public BrowseModel(IFileService fileService)
         {
-            _itemprovider = fileItemProvider;
-            _currentSession = currentSession;
+            _files = fileService;
         }
 
         public IList<BrowserItem> Items { get; private set; } = null!;
 
         public void OnGet(string id)
         {
-            Items = _itemprovider.GetFiles(id);
+            Items = _files.GetFiles(id);
         }
     }
 }

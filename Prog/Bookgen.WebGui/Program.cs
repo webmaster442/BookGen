@@ -10,6 +10,8 @@ using BookGen.Resources;
 using BookGen.WebGui;
 using BookGen.WebGui.Services;
 
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 static async Task ServeKnown(HttpContext context, KnownFile knownFile, string mime)
@@ -40,6 +42,15 @@ if (!app.Environment.IsDevelopment())
 
 app.MapGet("/bootstrap.css", async context => await ServeKnown(context, KnownFile.BootstrapMinCss, MediaTypeNames.Text.Css));
 app.MapGet("/bootstrap.js", async context => await ServeKnown(context, KnownFile.BootstrapMinJs, MediaTypeNames.Text.Css));
+
+app.MapGet("/Raw", async ([FromServices]IFileService files, string id, HttpContext context) =>
+{
+    await using var content = files.GetContent(id);
+    context.Response.ContentType = files.GetMimeTypeOf(id);
+    context.Response.StatusCode = StatusCodes.Status200OK;
+    await content.CopyToAsync(context.Response.Body);
+});
+
 
 app.UseRouting();
 

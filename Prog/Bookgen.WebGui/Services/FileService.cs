@@ -7,7 +7,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;
 
+using BookGen.Interfaces;
 using BookGen.WebGui.Domain;
+using BookGen.Web;
 
 namespace BookGen.WebGui.Services;
 
@@ -15,11 +17,13 @@ internal sealed class FileService : IFileService
 {
     private Dictionary<string, string> _directories;
     private Dictionary<string, string> _files;
+    private readonly HashSet<string> _previewables;
     private readonly ICurrentSession _currentSession;
     private readonly string _startDirId;
 
     public FileService(ICurrentSession currentSession)
     {
+        _previewables = [".md", ".txt", ".ps", ".cmd", ".json", ".yaml"];
         _currentSession = currentSession;
         _startDirId = GetId(_currentSession.StartDirectory.ToString());
         RefreshDirectories();
@@ -48,6 +52,21 @@ internal sealed class FileService : IFileService
         _files = Directory
             .GetFiles(_currentSession.StartDirectory.ToString(), "*.*", options)
             .ToDictionary(x => GetId(x), x => x);
+    }
+
+    public bool IsPreviewSupported(string id)
+    {
+        string file = _files[id];
+
+        var extension = Path.GetExtension(file).ToLower();
+
+        return _previewables.Contains(extension);
+    }
+
+    public Stream GetContent(string id)
+    {
+        string file = _files[id];
+        return File.OpenRead(file);
     }
 
     public IList<BrowserItem> GetFiles(string id)
@@ -104,4 +123,39 @@ internal sealed class FileService : IFileService
 
     private static string GetId(string x)
         => Convert.ToHexString(SHA1.HashData(Encoding.UTF8.GetBytes(x)));
+
+    public bool IsMarkdown(string id)
+    {
+        string file = _files[id];
+        return Path.GetExtension(file).Equals(".md", StringComparison.CurrentCultureIgnoreCase);
+    }
+
+    public string GetTextContent(string id)
+    {
+        string file = _files[id];
+        return File.ReadAllText(file);
+    }
+
+    public FsPath GetDirectoryOf(string id)
+    {
+        string file = _files[id];
+        var path = Path.GetDirectoryName(file);
+
+        if (string.IsNullOrEmpty(path))
+            return _currentSession.StartDirectory;
+
+        return new FsPath(path);
+    }
+
+    public string GetFileNameOf(string id)
+    {
+        string file = _files[id];
+        return Path.GetFileName(file);
+    }
+
+    public string GetMimeTypeOf(string id)
+    {
+        string file = _files[id];
+        return MimeTypes.GetMimeTypeForFile(file);
+    }
 }

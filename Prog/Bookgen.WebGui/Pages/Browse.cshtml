@@ -2,6 +2,7 @@
 @using BookGen.WebGui.Extensions;
 @model BookGen.WebGui.Pages.BrowseModel
 @{
+    ViewData["Title"] = "File Browser";
 }
 <style type="text/css">
     .icon {
@@ -43,14 +44,23 @@
                         <p title="@file.Extension" class="icontext">@file.Extension</p>
                     </div>
                 </td>
-                @if (file.IsDirectory)
-                {
-                    <td><a href="Browse?id=@file.Id">@file.Name</a></td>
-                }
-                else
-                {
-                    <td>@file.Name</td>                    
-                }
+                <td>
+                    @if (file.IsDirectory)
+                    {
+                        <a href="Browse?id=@file.Id">@file.Name</a>
+                    }
+                    else
+                    {
+                        if (Model.CanPreview(file.Id))
+                        {
+                            <a target="_blank" href="Preview?id=@file.Id">@file.Name</a>
+                        }
+                        else
+                        {
+                            <a target="_blank" href="Raw?id=@file.Id">@file.Name</a>
+                        }
+                    }
+                </td>
                 <td>@file.Extension</td>
                 <td>@file.Size.ToHumanReadableSize()</td>
                 <td>@file.LastModified</td>
