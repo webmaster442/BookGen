@@ -8,10 +8,10 @@ namespace BookGen.WebGui.Pages
 {
     public class BrowseModel : PageModel
     {
-        private readonly IFileItemProvider _itemprovider;
+        private readonly IFileService _itemprovider;
         private readonly ICurrentSession _currentSession;
 
-        public BrowseModel(IFileItemProvider fileItemProvider, ICurrentSession currentSession)
+        public BrowseModel(IFileService fileItemProvider, ICurrentSession currentSession)
         {
             _itemprovider = fileItemProvider;
             _currentSession = currentSession;

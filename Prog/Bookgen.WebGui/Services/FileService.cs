@@ -1,23 +1,24 @@
-﻿
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 
 using BookGen.WebGui.Domain;
 
 namespace BookGen.WebGui.Services;
 
-internal sealed class FileItemProvider : IFileItemProvider
+internal sealed class FileService : IFileService
 {
     private Dictionary<string, string> _directories;
     private Dictionary<string, string> _files;
     private readonly ICurrentSession _currentSession;
     private readonly string _startDirId;
 
-    public FileItemProvider(ICurrentSession currentSession)
+    public FileService(ICurrentSession currentSession)
     {
         _currentSession = currentSession;
         _startDirId = GetId(_currentSession.StartDirectory.ToString());

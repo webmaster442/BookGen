@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
 using System.Net.Mime;
 
 using BookGen.Cli;
@@ -20,7 +25,7 @@ var current = new CurrentSession();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICurrentSession>(current);
-builder.Services.AddSingleton<IFileItemProvider, FileItemProvider>();
+builder.Services.AddSingleton<IFileService, FileService>();
 builder.Services.AddScoped<IMarkdownRenderer, MarkdownRenderer>();
 builder.Services.AddScoped<IDocumentProvider, DocumentProvider>();
 
