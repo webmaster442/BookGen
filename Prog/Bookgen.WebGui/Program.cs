@@ -42,6 +42,7 @@ if (!app.Environment.IsDevelopment())
 
 app.MapGet("/bootstrap.css", async context => await ServeKnown(context, KnownFile.BootstrapMinCss, MediaTypeNames.Text.Css));
 app.MapGet("/bootstrap.js", async context => await ServeKnown(context, KnownFile.BootstrapMinJs, MediaTypeNames.Text.Css));
+app.MapGet("/tex-svg-full.js", async context => await ServeKnown(context, KnownFile.MathJax, MediaTypeNames.Text.JavaScript));
 
 app.MapGet("/Raw", async ([FromServices]IFileService files, string id, HttpContext context) =>
 {

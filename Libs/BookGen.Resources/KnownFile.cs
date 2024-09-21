@@ -33,5 +33,6 @@ namespace BookGen.Resources
         FaviconP,
         FaviconT,
         TerminalRenderingHtml,
+        MathJax,
     }
 }
