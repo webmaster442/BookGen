@@ -20,6 +20,17 @@ namespace BookGen.DomainServices
             return RunProcess(programPath, new string[] { argument }, timeOutSeconds, workdir);
         }
 
+        public static void RunProcess(string program, string arguments)
+        {
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = program;
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.UseShellExecute = false;
+                process.Start();
+            }
+        }
+
         private static void RunShell(string shell, string arguments, ILogger log)
         {
             try
@@ -157,11 +168,6 @@ namespace BookGen.DomainServices
         {
             foreach (var arg in arguments)
                 startInfo.ArgumentList.Add(arg);
-        }
-
-        public static void RunProcess(string v, object value, string workdir, object onReportProgress)
-        {
-            throw new NotImplementedException();
         }
     }
 }

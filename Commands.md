@@ -561,3 +561,7 @@ Listst all available subcommands
 # Wiki
 
 Opens the BookGen Wiki page
+
+# Webgui
+
+Opens the WebGui in the default browser.
