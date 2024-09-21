@@ -6,8 +6,12 @@
 <script type="text/javascript">
     function convert() {
         var input = document.getElementById("input").value.trim();
-        var button = document.getElementById("render");
-        output = document.getElementById('output');
+
+        var renderButton = document.getElementById("render");
+        var saveButton = document.getElementById("save");
+        renderButton.disabled = true;
+        saveButton.disabled = true;
+        var output = document.getElementById('output');
         output.innerHTML = '';
         MathJax.texReset();
         var options = MathJax.getMetricsFor(output);
@@ -19,9 +23,23 @@
         }).catch(function (err) {
             output.appendChild(document.createElement('pre')).appendChild(document.createTextNode(err.message));
         }).then(function () {
-            button.disabled = false;
+            renderButton.disabled = false;
+            saveButton.disabled = false;
         });
     }
+
+    function save() {
+        var svgElement = document.getElementById('output').firstChild.firstChild;
+        var svgData = new XMLSerializer().serializeToString(svgElement);
+        var svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+        var downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(svgBlob);
+        downloadLink.download = "image.svg";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
     window.onload = convert;
 </script>
 <div class="container">
@@ -30,6 +48,8 @@
             <textarea style="width: 100%; font-family: monospace;" rows="10" id="input">x = {-b \pm \sqrt{b^2-4ac} \over 2a}.</textarea>
             <hr />
             <button type="button" id="render" onclick="convert()" class="btn btn-primary">Render TeX</button>
+            <button type="button" id="save" onclick="save()" class="btn btn-success">Save rendered svg...</button>
+            <a role="button" class="btn btn-info" target="_blank" href="https://tilburgsciencehub.com/topics/research-skills/templates-dynamic-content/templates/amsmath-latex-cheatsheet/">LaTeX cheatsheet...</a>
         </div>
         <div class="col-6 col-md-4">
             <div id="output" class="text-center"></div>
