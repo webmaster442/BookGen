@@ -1,21 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="ArgumentParsing\**" />
     <EmbeddedResource Remove="ArgumentParsing\**" />
     <None Remove="ArgumentParsing\**" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Interfaces\BookGen.Interfaces.csproj" />
   </ItemGroup>
-
 </Project>

@@ -1,17 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.37.0" />
   </ItemGroup>
-  
   <ItemGroup>
     <EmbeddedResource Include="stopwords\af.json" />
     <EmbeddedResource Include="stopwords\ar.json" />
@@ -64,5 +61,4 @@
     <EmbeddedResource Include="stopwords\zh.json" />
     <EmbeddedResource Include="stopwords\zu.json" />
   </ItemGroup>
-
 </Project>
