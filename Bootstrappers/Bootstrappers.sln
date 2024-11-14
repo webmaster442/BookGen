@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen", "BookGen\BookGen.csproj", "{45095BC4-0F34-4087-A859-1227763AFA0E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Launcher", "BookGen.Launcher\BookGen.Launcher.csproj", "{D6228E0E-AD04-443A-B177-671FFBC58E21}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookgen.Win", "Bookgen.Win\Bookgen.Win.csproj", "{9832DC6D-3F44-4221-BB59-2FF64D650C56}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrityCheck", "IntegrityCheck\IntegrityCheck.csproj", "{C04FF2C4-C2E0-479E-9828-D3943B5738D1}"
@@ -21,10 +19,6 @@ Global
 		{45095BC4-0F34-4087-A859-1227763AFA0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45095BC4-0F34-4087-A859-1227763AFA0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45095BC4-0F34-4087-A859-1227763AFA0E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6228E0E-AD04-443A-B177-671FFBC58E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6228E0E-AD04-443A-B177-671FFBC58E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6228E0E-AD04-443A-B177-671FFBC58E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6228E0E-AD04-443A-B177-671FFBC58E21}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9832DC6D-3F44-4221-BB59-2FF64D650C56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9832DC6D-3F44-4221-BB59-2FF64D650C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9832DC6D-3F44-4221-BB59-2FF64D650C56}.Release|Any CPU.ActiveCfg = Release|Any CPU

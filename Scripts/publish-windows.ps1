@@ -32,21 +32,20 @@ dotnet build -c Release
 cd ..
 
 copy-item bin\bootstaper\Release\BookGen.exe bin\Publish
-copy-item bin\bootstaper\Release\BookGen.Launcher.exe bin\Publish
-copy-item bin\bootstaper\Release\BookGen.FormulaEdit.exe bin\Publish
+copy-item bin\bootstaper\Release\IntegrityCheck.exe bin\Publish
 copy-item bin\bootstaper\Release\Bookgen.Win.dll bin\Publish
 copy-item bin\bootstaper\Release\Documents.html bin\Publish
 
 cd bin\publish
 
 Write-Host "Getting powershell core..."
-$psCoreUrl = "https://github.com/PowerShell/PowerShell/releases/download/v7.4.4/PowerShell-7.4.4-win-x64.zip"
+$psCoreUrl = "https://github.com/PowerShell/PowerShell/releases/download/v7.4.6/PowerShell-7.4.6-win-x64.zip"
 Invoke-WebRequest -Uri $psCoreUrl -OutFile pwsh.zip
 Expand-Archive -Path pwsh.zip -DestinationPath "powershell"
 Remove-Item pwsh.zip
 
 Write-Host "Getting Node.js..."
-$nodeUrl = "https://nodejs.org/dist/v20.16.0/node-v20.16.0-win-x64.zip"
+$nodeUrl = "https://nodejs.org/dist/v22.11.0/node-v22.11.0-win-x64.zip"
 Invoke-WebRequest -Uri $nodeUrl -OutFile node.zip
 Expand-Archive -Path node.zip -DestinationPath data
 Remove-Item node.zip
@@ -64,6 +63,11 @@ foreach ($file in $publishFiles)
 }
 & 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup-iso.iss
 cd..
+
+cd bin\Publish
+Write-Host "Creating Integrity file..."
+.\IntegrityCheck.exe /compute
+cd ..\..
 
 Write-Host "Creating ISO..."
 copy-item autorun.inf bin\Publish
