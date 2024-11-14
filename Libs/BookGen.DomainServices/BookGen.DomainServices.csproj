@@ -10,19 +10,19 @@
     <InternalsVisibleTo Include="BookGen.Tests" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.37.0" />
+    <PackageReference Include="Markdig" Version="0.38.0" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.4.5" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.4.5" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.4.5" />
-    <PackageReference Include="NUglify" Version="1.21.9" />
-    <PackageReference Include="SkiaSharp" Version="2.88.8" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.8" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.8" />
-    <PackageReference Include="Svg.Skia" Version="2.0.0.1" />
-    <PackageReference Include="YamlDotNet" Version="16.1.2" />
+    <PackageReference Include="NUglify" Version="1.21.10" />
+    <PackageReference Include="SkiaSharp" Version="2.88.9" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.9" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.9" />
+    <PackageReference Include="Svg.Skia" Version="2.0.0.2" />
+    <PackageReference Include="YamlDotNet" Version="16.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.11.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />

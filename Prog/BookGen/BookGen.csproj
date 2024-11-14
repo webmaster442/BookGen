@@ -34,17 +34,17 @@
     <EmbeddedResource Include="..\..\Commands.md" Link="Resources\Commands.md" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.37.0" />
+    <PackageReference Include="Markdig" Version="0.38.0" />
     <PackageReference Include="PreMailer.Net" Version="2.6.0" />
-    <PackageReference Include="SkiaSharp" Version="2.88.8" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.8" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.8" />
-    <PackageReference Include="Svg.Skia" Version="2.0.0.1" />
+    <PackageReference Include="SkiaSharp" Version="2.88.9" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.9" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.9" />
+    <PackageReference Include="Svg.Skia" Version="2.0.0.2" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
     <PackageReference Include="XmlDocMarkdown.Core" Version="2.9.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
     <AssemblyAttribute Include="BookGen.AssemblyBuildDateAttribute">
