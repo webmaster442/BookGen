@@ -64,10 +64,6 @@ foreach ($file in $publishFiles)
 & 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup-iso.iss
 cd..
 
-cd bin\Publish
-Write-Host "Creating Integrity file..."
-.\IntegrityCheck.exe /compute
-cd ..\..
 
 Write-Host "Creating ISO..."
 copy-item autorun.inf bin\Publish
