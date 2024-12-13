@@ -16,7 +16,7 @@ internal class MessageTarget
 
     public bool IsAlive => _clientReference.IsAlive;
 
-    public void Invoke<TMessage>(TMessage message, object lockObject) where TMessage : MessageBase
+    public void Invoke<TMessage>(TMessage message, Lock lockObject) where TMessage : MessageBase
     {
         if (_clientReference.Target is IMessageClient<TMessage> client)
         {

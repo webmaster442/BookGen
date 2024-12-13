@@ -8,11 +8,11 @@ namespace BookGen.Cli.MessageBus;
 public sealed class MessageBus : IMessageBus
 {
     private readonly Dictionary<Guid, MessageTarget> _clients;
-    private readonly object _lock;
+    private readonly Lock _lock;
 
     public MessageBus()
     {
-        _lock = new object();
+        _lock = new Lock();
         _clients = new Dictionary<Guid, MessageTarget>();
     }
 
