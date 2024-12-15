@@ -9,6 +9,7 @@
     <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <ApplicationIcon>..\..\Branding\icon-webfrontend.ico</ApplicationIcon>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\BookGen.Cli\BookGen.Cli.csproj" />
