@@ -1,14 +1,14 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Interfaces
 {
     public interface IGeneratorStep
     {
-        void RunStep(IReadonlyRuntimeSettings settings, ILog log);
+        void RunStep(IReadonlyRuntimeSettings settings, ILogger log);
     }
 }

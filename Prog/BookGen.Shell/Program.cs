@@ -3,23 +3,26 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Cli;
 using BookGen.Shell.Commands;
 using BookGen.Shell.Infrastructure;
 
+using Microsoft.Extensions.Logging;
+
 using Spectre.Console;
 
-ILog log = new Log();
+ILogger logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger("BookGen.Shell");
+
+
 CommandNameProvider commandNameProvider = new();
 
 using SimpleIoC ioc = new();
 ioc.RegisterSingleton<IAnsiConsole>(AnsiConsole.Console);
 ioc.RegisterSingleton(commandNameProvider);
-ioc.RegisterSingleton(log);
+ioc.RegisterSingleton(logger);
 ioc.Build();
 
-CommandRunner runner = new(ioc, log, new CommandRunnerSettings
+CommandRunner runner = new(ioc, logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,

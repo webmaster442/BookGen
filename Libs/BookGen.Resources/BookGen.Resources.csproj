@@ -1,96 +1,90 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<Product>BookGen</Product>
-		<OutputPath>..\..\bin\$(Configuration)\</OutputPath>
-		<Nullable>enable</Nullable>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Product>BookGen</Product>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
+    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Powershell\**" />
-	  <EmbeddedResource Remove="Powershell\**" />
-	  <None Remove="Powershell\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Remove="Etc\index.md" />
-		<None Remove="Etc\summary.md" />
-		<None Remove="Html\CookieWarning.html" />
-		<None Remove="Html\Index.html" />
-		<None Remove="Html\Searchform.html" />
-		<None Remove="Html\TemplateEdit.html" />
-		<None Remove="Html\TemplateEpub.html" />
-		<None Remove="Html\TemplatePreview.html" />
-		<None Remove="Html\TemplatePrint.html" />
-		<None Remove="Html\TemplateSinglePage.html" />
-		<None Remove="Html\TemplateWeb.html" />
-		<None Remove="Html\TerminalRendering.html" />
-		<None Remove="JsCss\bootstrap.min.css" />
-		<None Remove="JsCss\bootstrap.min.js" />
-		<None Remove="JsCss\edit.css" />
-		<None Remove="JsCss\jquery.min.js" />
-		<None Remove="JsCss\PageToc.js" />
-		<None Remove="JsCss\popper.min.js" />
-		<None Remove="JsCss\preview.css" />
-		<None Remove="JsCss\prism.css" />
-		<None Remove="JsCss\prism.js" />
-		<None Remove="JsCss\prism.print.css" />
-		<None Remove="JsCss\simplemde.min.css" />
-		<None Remove="JsCss\simplemde.min.js" />
-		<None Remove="JsCss\SinglePage.css" />
-		<None Remove="NewFiles\html.html" />
-		<None Remove="NewFiles\markdown.md" />
-		<None Remove="NewFiles\mvpcss.css" />
-		<None Remove="NewFiles\newcss.css" />
-		<None Remove="NewFiles\simple.css" />
-		<None Remove="Png\favicon-fs.png" />
-		<None Remove="Png\favicon-p.png" />
-		<None Remove="Png\favicon-t.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Include="Html\TemplateEdit.html" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="Etc\index.md" />
-		<EmbeddedResource Include="Etc\summary.md" />
-		<EmbeddedResource Include="Html\CookieWarning.html" />
-		<EmbeddedResource Include="Html\Index.html" />
-		<EmbeddedResource Include="Html\Searchform.html" />
-		<EmbeddedResource Include="Html\TemplateEpub.html" />
-		<EmbeddedResource Include="Html\TemplatePreview.html" />
-		<EmbeddedResource Include="Html\TemplatePrint.html" />
-		<EmbeddedResource Include="Html\TemplateSinglePage.html" />
-		<EmbeddedResource Include="Html\TemplateWeb.html" />
-		<EmbeddedResource Include="Html\TerminalRendering.html" />
-		<EmbeddedResource Include="JsCss\bootstrap.min.css" />
-		<EmbeddedResource Include="JsCss\bootstrap.min.js" />
-		<EmbeddedResource Include="JsCss\edit.css" />
-		<EmbeddedResource Include="JsCss\jquery.min.js" />
-		<EmbeddedResource Include="JsCss\PageToc.js" />
-		<EmbeddedResource Include="JsCss\popper.min.js" />
-		<EmbeddedResource Include="JsCss\preview.css" />
-		<EmbeddedResource Include="JsCss\prism.css" />
-		<EmbeddedResource Include="JsCss\prism.js" />
-		<EmbeddedResource Include="JsCss\prism.print.css" />
-		<EmbeddedResource Include="JsCss\SinglePage.css" />
-		<EmbeddedResource Include="NewFiles\html.html" />
-		<EmbeddedResource Include="NewFiles\markdown.md" />
-		<EmbeddedResource Include="NewFiles\mvpcss.css" />
-		<EmbeddedResource Include="NewFiles\newcss.css" />
-		<EmbeddedResource Include="NewFiles\simple.css" />
-		<EmbeddedResource Include="Png\favicon-fs.png" />
-		<EmbeddedResource Include="Png\favicon-p.png" />
-		<EmbeddedResource Include="Png\favicon-t.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
-	</ItemGroup>
-
-
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Powershell\**" />
+    <EmbeddedResource Remove="Powershell\**" />
+    <None Remove="Powershell\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Etc\index.md" />
+    <None Remove="Etc\summary.md" />
+    <None Remove="Html\CookieWarning.html" />
+    <None Remove="Html\Index.html" />
+    <None Remove="Html\Searchform.html" />
+    <None Remove="Html\TemplateEdit.html" />
+    <None Remove="Html\TemplateEpub.html" />
+    <None Remove="Html\TemplatePreview.html" />
+    <None Remove="Html\TemplatePrint.html" />
+    <None Remove="Html\TemplateSinglePage.html" />
+    <None Remove="Html\TemplateWeb.html" />
+    <None Remove="Html\TerminalRendering.html" />
+    <None Remove="JsCss\bootstrap.min.css" />
+    <None Remove="JsCss\bootstrap.min.js" />
+    <None Remove="JsCss\edit.css" />
+    <None Remove="JsCss\jquery.min.js" />
+    <None Remove="JsCss\PageToc.js" />
+    <None Remove="JsCss\popper.min.js" />
+    <None Remove="JsCss\preview.css" />
+    <None Remove="JsCss\prism.css" />
+    <None Remove="JsCss\prism.js" />
+    <None Remove="JsCss\prism.print.css" />
+    <None Remove="JsCss\simplemde.min.css" />
+    <None Remove="JsCss\simplemde.min.js" />
+    <None Remove="JsCss\SinglePage.css" />
+    <None Remove="JsCss\tex-svg-full.js" />
+    <None Remove="NewFiles\html.html" />
+    <None Remove="NewFiles\markdown.md" />
+    <None Remove="NewFiles\mvpcss.css" />
+    <None Remove="NewFiles\newcss.css" />
+    <None Remove="NewFiles\simple.css" />
+    <None Remove="Png\favicon-fs.png" />
+    <None Remove="Png\favicon-p.png" />
+    <None Remove="Png\favicon-t.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Html\TemplateEdit.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Etc\index.md" />
+    <EmbeddedResource Include="Etc\summary.md" />
+    <EmbeddedResource Include="Html\CookieWarning.html" />
+    <EmbeddedResource Include="Html\Index.html" />
+    <EmbeddedResource Include="Html\Searchform.html" />
+    <EmbeddedResource Include="Html\TemplateEpub.html" />
+    <EmbeddedResource Include="Html\TemplatePreview.html" />
+    <EmbeddedResource Include="Html\TemplatePrint.html" />
+    <EmbeddedResource Include="Html\TemplateSinglePage.html" />
+    <EmbeddedResource Include="Html\TemplateWeb.html" />
+    <EmbeddedResource Include="Html\TerminalRendering.html" />
+    <EmbeddedResource Include="JsCss\bootstrap.min.css" />
+    <EmbeddedResource Include="JsCss\bootstrap.min.js" />
+    <EmbeddedResource Include="JsCss\edit.css" />
+    <EmbeddedResource Include="JsCss\jquery.min.js" />
+    <EmbeddedResource Include="JsCss\PageToc.js" />
+    <EmbeddedResource Include="JsCss\popper.min.js" />
+    <EmbeddedResource Include="JsCss\preview.css" />
+    <EmbeddedResource Include="JsCss\prism.css" />
+    <EmbeddedResource Include="JsCss\prism.js" />
+    <EmbeddedResource Include="JsCss\prism.print.css" />
+    <EmbeddedResource Include="JsCss\SinglePage.css" />
+    <EmbeddedResource Include="JsCss\tex-svg-full.js" />
+    <EmbeddedResource Include="NewFiles\html.html" />
+    <EmbeddedResource Include="NewFiles\markdown.md" />
+    <EmbeddedResource Include="NewFiles\mvpcss.css" />
+    <EmbeddedResource Include="NewFiles\newcss.css" />
+    <EmbeddedResource Include="NewFiles\simple.css" />
+    <EmbeddedResource Include="Png\favicon-fs.png" />
+    <EmbeddedResource Include="Png\favicon-p.png" />
+    <EmbeddedResource Include="Png\favicon-t.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+  </ItemGroup>
 </Project>

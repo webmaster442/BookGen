@@ -23,7 +23,7 @@ public class UT_TemplateRenderer
 
         _sut = new TemplateRenderer(new FunctionServices
         {
-            Log = Substitute.For<ILog>(),
+            Log = TestEnvironment.GetMockedLog(),
             TimeProvider = _timeProvider,
             AppSetting = Substitute.For<IAppSetting>(),
             RuntimeSettings = TestEnvironment.GetMockedRuntimeSettings(),

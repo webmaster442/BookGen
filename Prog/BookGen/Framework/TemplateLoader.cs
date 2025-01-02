@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ public static class TemplateLoader
 {
     public static string LoadTemplate(FsPath workingDirectory,
                                       BuildConfig buildConfig,
-                                      ILog log,
+                                      ILogger log,
                                       string FallBackTemplate)
     {
         if (string.IsNullOrEmpty(buildConfig.TemplateFile))
@@ -21,8 +21,8 @@ public static class TemplateLoader
 
         if (!templatePath.IsExisting)
         {
-            log.Warning("Template not found: {0}", buildConfig.TemplateFile);
-            log.Info("Switching to built-in template.");
+            log.LogWarning("Template not found: {file}", buildConfig.TemplateFile);
+            log.LogInformation("Switching to built-in template.");
             return FallBackTemplate;
         }
 

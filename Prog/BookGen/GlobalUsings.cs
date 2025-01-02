@@ -13,7 +13,8 @@ global using System.Text;
 global using System.Text.RegularExpressions;
 global using System.Threading.Tasks;
 
-global using BookGen.Api;
+global using Microsoft.Extensions.Logging;
+
 global using BookGen.Cli;
 global using BookGen.Cli.Annotations;
 global using BookGen.Domain;

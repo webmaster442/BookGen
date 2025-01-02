@@ -99,12 +99,16 @@ namespace BookGen.DomainServices.Markdown
         {
             foreach (MarkdownObject? node in document.Descendants())
             {
-                if (node is LinkInline link && link.IsImage)
+                if (node is LinkInline link
+                    && link.IsImage
+                    && !string.IsNullOrEmpty(link.Url))
                 {
-                    link.Url = FixExtension(link.Url, runtimeConfig.CurrentBuildConfig.ImageOptions.RecodeJpegToWebp);
+                    link.Url = FixExtension(link.Url, runtimeConfig.CurrentBuildConfig.ImageOptions);
                     if (runtimeConfig.InlineImgCache?.Count > 0)
                     {
-                        string? inlinekey = Path.GetFileName(link.Url);
+                        string? inlinekey = Path.GetFileName(link.Url)
+                            ?? throw new InvalidOperationException($"Couldn't get file name for: {link.Url}");
+
                         if (runtimeConfig.InlineImgCache.TryGetValue(inlinekey, out string? value))
                         {
                             link.Url = value;
@@ -114,7 +118,7 @@ namespace BookGen.DomainServices.Markdown
             }
         }
 
-        private static string FixExtension(string? url, bool jpegtoWebp)
+        private static string? FixExtension(string? url, IReadonlyImageOptions imageOptions)
         {
             if (string.IsNullOrEmpty(url))
                 return string.Empty;
@@ -122,9 +126,16 @@ namespace BookGen.DomainServices.Markdown
             string extension = Path.GetExtension(url);
             if (extension == ".svg")
             {
+                if (imageOptions.SvgPassthru)
+                    return url;
+
                 return Path.ChangeExtension(url, ".png");
             }
-            else if ((extension == ".jpg" || extension == ".jpeg") && jpegtoWebp)
+            else if (extension == ".png" && imageOptions.RecodePngToWebp)
+            {
+                return Path.ChangeExtension(url, ".webp");
+            }
+            else if ((extension == ".jpg" || extension == ".jpeg") && imageOptions.RecodeJpegToWebp)
             {
                 return Path.ChangeExtension(url, ".webp");
             }

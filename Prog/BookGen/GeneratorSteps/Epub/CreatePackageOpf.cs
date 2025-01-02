@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,9 +16,9 @@ internal sealed class CreatePackageOpf : IGeneratorStep
         _session = session;
     }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Creating OPS/package.opf...");
+        log.LogInformation("Creating OPS/package.opf...");
 
         var package = new Package
         {

@@ -5,40 +5,43 @@
 
 using BookGen.CommandArguments;
 using BookGen.Framework;
-using BookGen.Framework.Server;
 using BookGen.Infrastructure;
-
-using Webmaster442.HttpServerFramework;
+using BookGen.Web;
 
 namespace BookGen.Commands;
 
 [CommandName("serve")]
-internal class ServeCommand : Command<BookGenArgumentBase>
+internal class ServeCommand : AsyncCommand<BookGenArgumentBase>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
+    private readonly ProgramInfo _programInfo;
 
-    public ServeCommand(ILog log, IMutexFolderLock folderLock)
+    public ServeCommand(ILogger log, IMutexFolderLock folderLock, ProgramInfo programInfo)
     {
         _log = log;
         _folderLock = folderLock;
+        _programInfo = programInfo;
     }
 
-    public override int Execute(BookGenArgumentBase arguments, string[] context)
+    public override async Task<int> Execute(BookGenArgumentBase arguments, string[] context)
     {
-        _log.LogLevel = arguments.Verbose ? Api.LogLevel.Detail : Api.LogLevel.Info;
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
-        using (HttpServer? server = HttpServerFactory.CreateServerForServModule(_log, arguments.Directory))
+        var server = ServerFactory.CreateServerForDirectoryHosting(arguments.Directory);
+
+        using (var runner = new ConsoleHttpServerRunner(server))
         {
-            server.Start();
-            _log.Info("Serving: {0}", arguments.Directory);
-            _log.Info("Server running on http://localhost:8081");
-            _log.Info("To get QR code for another device visit: http://localhost:8081/qrcodelink");
-            _log.Info("Press a key to exit...");
-            Console.ReadLine();
-            server.Stop();
+            var serverurls = string.Join(' ', server.GetListenUrls());
+            var qrcodes = string.Join(' ', server.GetListenUrls().Select(x => $"{x}/qrcodelink"));
+
+            _log.LogInformation("Serving: {directory}", arguments.Directory);
+            _log.LogInformation("Server running on {urls}", serverurls);
+            _log.LogInformation("To get QR code for another device visit: {qrcodes}", qrcodes);
+
+            await runner.RunServer();
         }
 
         return Constants.Succes;

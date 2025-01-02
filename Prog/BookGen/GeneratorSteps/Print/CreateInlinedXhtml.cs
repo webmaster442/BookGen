@@ -7,23 +7,29 @@ namespace BookGen.GeneratorSteps.Print;
 
 internal sealed class CreateInlinedXhtml : IGeneratorStep
 {
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Creating XHTML version of render...");
+        if (settings.CurrentBuildConfig.ImageOptions.SvgPassthru)
+        {
+            log.LogInformation("Skipping xhtml generation, because svg passthrough is enabled...");
+            return;
+        }
 
-        log.Detail("Reading generated html5...");
+        log.LogInformation("Creating XHTML version of render...");
+
+        log.LogDebug("Reading generated html5...");
         FsPath source = settings.OutputDirectory.Combine("print.html");
 
         string content = source.ReadFile(log);
 
-        log.Detail("Inlining CSS...");
+        log.LogDebug("Inlining CSS...");
         var htmlTidy = new HtmlTidy(log);
 
         var xhtml = htmlTidy.HtmlToXhtml(content);
 
         var result = PreMailer.Net.PreMailer.MoveCssInline(xhtml, removeStyleElements: true);
 
-        log.Info("Writing target file...");
+        log.LogInformation("Writing target file...");
         FsPath target = settings.OutputDirectory.Combine("print_xhtml.html");
         target.WriteFile(log, result.Html);
     }

@@ -1,9 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Domain;
 using BookGen.Interfaces;
 
@@ -12,6 +11,8 @@ using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 
+using Microsoft.Extensions.Logging;
+
 namespace BookGen.DomainServices
 {
     public static class MarkdownUtils
@@ -19,7 +20,7 @@ namespace BookGen.DomainServices
         /// <summary>
         /// List files to process
         /// </summary>
-        /// <param name="summaryFile">SUMMARY.md content</param>
+        /// <param name="content">SUMMARY.md content</param>
         /// <returns>List of files</returns>
         public static ToC ParseToc(string content)
         {
@@ -66,7 +67,7 @@ namespace BookGen.DomainServices
         /// </summary>
         /// <param name="markDownContent">markdown content</param>
         /// <returns>Title of page</returns>
-        public static string GetDocumentTitle(string markDownContent, ILog log, FsPath fileName)
+        public static string GetDocumentTitle(string markDownContent, ILogger log, FsPath fileName)
         {
             using (var reader = new StringReader(markDownContent))
             {
@@ -79,33 +80,33 @@ namespace BookGen.DomainServices
                     }
                     else if (line.StartsWith("## "))
                     {
-                        log.Warning("Found 2nd level title as the document title: {0}, File: {1}", line, fileName);
+                        log.LogWarning("Found 2nd level title as the document title: {line}, File: {fileName}", line, fileName);
                         return line[3..];
                     }
                     else if (line.StartsWith("### "))
                     {
-                        log.Warning("Found 3rd level title as the document title: {0}, File: {1}", line, fileName);
+                        log.LogWarning("Found 3rd level title as the document title: {line}, File: {fileName}", line, fileName);
                         return line[4..];
                     }
                     else if (line.StartsWith("#### "))
                     {
-                        log.Warning("Found 4th level title as the document title: {0}, File: {1}", line, fileName);
+                        log.LogWarning("Found 4th level title as the document title: {line}, File: {fileName}", line, fileName);
                         return line[5..];
                     }
                     else if (line.StartsWith("##### "))
                     {
-                        log.Warning("Found 5th level title as the document title: {0}, File: {1}", line, fileName);
+                        log.LogWarning("Found 5th level title as the document title: {line}, File: {fileName}", line, fileName);
                         return line[6..];
                     }
                     else if (line.StartsWith("###### "))
                     {
-                        log.Warning("Found 6th level title as the document title: {0}, File: {1}", line, fileName);
+                        log.LogWarning("Found 6th level title as the document title: {line}, File: {fileName}", line, fileName);
                         return line[7..];
                     }
                 }
             }
 
-            log.Warning("Found no document title : {0}", fileName);
+            log.LogWarning("Found no document title : {fileName}", fileName);
             return string.Empty;
         }
     }

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022-2023 Ruzsinszki Gábor
+// (c) 2022-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -12,10 +12,10 @@ internal sealed class ProjectLoader
 {
     private readonly LoadStep[] _loadSteps;
     private readonly LoadState _state;
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private bool _loaded;
 
-    public ProjectLoader(string workDir, ILog log, ProgramInfo programInfo)
+    public ProjectLoader(string workDir, ILogger log, ProgramInfo programInfo)
     {
         _state = new LoadState(workDir, programInfo.ConfigVersion);
         _log = log;
@@ -70,12 +70,12 @@ internal sealed class ProjectLoader
         {
             if (!step.CanExecute())
             {
-                _log.Detail("Skipping load step: {0}", step.GetType().Name);
+                _log.LogDebug("Skipping load step: {stepname}", step.GetType().Name);
                 continue;
             }
             if (!step.Execute())
             {
-                _log.Critical("Project load failed at step: {0}", step.GetType().Name);
+                _log.LogCritical("Project load failed at step: {stepname}", step.GetType().Name);
                 _loaded = false;
                 return false;
             }

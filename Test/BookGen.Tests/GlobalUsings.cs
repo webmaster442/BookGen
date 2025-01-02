@@ -1,9 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022-2023 Ruzsinszki Gábor
+// (c) 2022-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-global using BookGen.Api;
 global using BookGen.Domain.Configuration;
 global using BookGen.DomainServices;
 global using BookGen.Interfaces;

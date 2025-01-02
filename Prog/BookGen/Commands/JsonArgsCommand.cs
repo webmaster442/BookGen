@@ -14,21 +14,23 @@ namespace BookGen.Commands;
 internal sealed class JsonArgsCommand : Command<JsonArgsArguments>
 {
     private readonly HashSet<string> _commandNames;
-    private readonly ILog _log;
+    private readonly ILogger _log;
+    private readonly ProgramInfo _programInfo;
 
-    public JsonArgsCommand(IModuleApi api, ILog log)
+    public JsonArgsCommand(IModuleApi api, ILogger log, ProgramInfo programInfo)
     {
         _commandNames = new HashSet<string>(api.GetCommandNames());
         _log = log;
+        _programInfo = programInfo;
     }
 
     public override int Execute(JsonArgsArguments arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         if (!_commandNames.Contains(arguments.CommandName))
         {
-            _log.Critical("Command not found: {0}", arguments.CommandName);
+            _log.LogCritical("Command not found: {commandname}", arguments.CommandName);
             return Constants.ArgumentsError;
         }
 
@@ -41,7 +43,7 @@ internal sealed class JsonArgsCommand : Command<JsonArgsArguments>
             }
         };
 
-        _log.Info("Creating json file for {0} command...", arguments.CommandName);
+        _log.LogInformation("Creating json file for {command} command...", arguments.CommandName);
         var fileName = Path.Combine(arguments.Directory, $"{arguments.CommandName}.json");
         var json = JsonSerializer.Serialize(empty, new JsonSerializerOptions
         {

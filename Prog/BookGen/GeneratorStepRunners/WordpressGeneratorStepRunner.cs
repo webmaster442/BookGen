@@ -9,8 +9,8 @@ namespace BookGen.GeneratorStepRunners;
 
 internal sealed class WordpressGeneratorStepRunner : GeneratorStepRunner
 {
-    public WordpressGeneratorStepRunner(RuntimeSettings settings, ILog log, IAppSetting appSetting)
-        : base(settings, log, appSetting)
+    public WordpressGeneratorStepRunner(RuntimeSettings settings, ILogger log, IAppSetting appSetting, ProgramInfo programInfo)
+        : base(settings, log, appSetting, programInfo)
     {
         var session = new GeneratorSteps.Wordpress.Session();
         AddStep(new GeneratorSteps.CreateOutputDirectory());

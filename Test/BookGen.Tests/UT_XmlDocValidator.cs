@@ -5,17 +5,19 @@
 
 using BookGen.AssemblyDocumenter;
 
+using Microsoft.Extensions.Logging;
+
 namespace BookGen.Tests
 {
     [TestFixture]
     public class UT_XmlDocValidator
     {
-        private ILog _logMock;
+        private ILogger _logMock;
 
         [SetUp]
         public void Setup()
         {
-            _logMock = Substitute.For<ILog>();
+            _logMock = TestEnvironment.GetMockedLog();
         }
 
         [Test]

@@ -14,7 +14,7 @@ internal sealed class CreateSubpageIndexes : ITemplatedStep
     public ITemplateProcessor? Template { get; set; }
     public List<Link>? Chapters { get; private set; }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         if (Content == null)
             throw new DependencyException(nameof(Content));
@@ -22,7 +22,7 @@ internal sealed class CreateSubpageIndexes : ITemplatedStep
         if (Template == null)
             throw new DependencyException(nameof(Template));
 
-        log.Info("Generating index files for sub content folders...");
+        log.LogInformation("Generating index files for sub content folders...");
 
         using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
         pipeline.InjectRuntimeConfig(settings);
@@ -43,7 +43,7 @@ internal sealed class CreateSubpageIndexes : ITemplatedStep
                 Content.Metadata = "";
                 string? html = Template.Render();
 
-                log.Detail("Creating file: {0}", target);
+                log.LogDebug("Creating file: {target}", target);
                 target.WriteFile(log, html);
             }
         }

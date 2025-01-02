@@ -19,5 +19,7 @@ internal sealed class TocState
     }
 
     internal void AddHeading(HeadingInfo info)
-        => Headings.Append(HeadingInfos.FromHeading(info));
+    {
+        Headings.Append(HeadingInfos.FromHeading(info));
+    }
 }

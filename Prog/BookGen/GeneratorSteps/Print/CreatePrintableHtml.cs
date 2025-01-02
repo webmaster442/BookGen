@@ -15,7 +15,7 @@ internal sealed class CreatePrintableHtml : ITemplatedStep
     public ITemplateProcessor? Template { get; set; }
     public IContent? Content { get; set; }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         if (Content == null)
             throw new DependencyException(nameof(Content));
@@ -23,21 +23,25 @@ internal sealed class CreatePrintableHtml : ITemplatedStep
         if (Template == null)
             throw new DependencyException(nameof(Template));
 
-        log.Info("Generating Printable html...");
+        log.LogInformation("Generating Printable html...");
         FsPath target = settings.OutputDirectory.Combine("print.html");
 
         using var pipeline = new BookGenPipeline(BookGenPipeline.Print);
         pipeline.InjectRuntimeConfig(settings);
+        pipeline.SetSvgPasstroughTo(settings.CurrentBuildConfig.ImageOptions.SvgPassthru);
 
         FootNoteReindexer reindexer = new(log, appendLineBreakbeforeDefs: true);
 
+        FsPath indexFile = settings.SourceDirectory.Combine(settings.Configuration.Index);
+        reindexer.AddMarkdown(indexFile.ReadFile(log, true));
+
         foreach (string? chapter in settings.TocContents.Chapters)
         {
-            log.Info("Processing: {0}...", chapter);
+            log.LogInformation("Processing: {chapter}...", chapter);
             reindexer.AddHtml($"<h1>{chapter}</h1>\r\n\r\n");
             foreach (string? file in settings.TocContents.GetLinksForChapter(chapter).Select(l => l.Url))
             {
-                log.Detail("Processing file for print output: {0}", file);
+                log.LogDebug("Processing file for print output: {file}", file);
                 FsPath? input = settings.SourceDirectory.Combine(file);
 
                 string? inputContent = input.ReadFile(log, true);

@@ -12,7 +12,7 @@ internal class SettingsCommand : AsyncCommand
 {
     private readonly Dictionary<string, Type> _knownsettings;
     private readonly AppSetting _settings;
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
     private Dictionary<string, Type> FillKnownSettings()
     {
@@ -21,7 +21,7 @@ internal class SettingsCommand : AsyncCommand
             .ToDictionary(x => x.Name, x => x.PropertyType);
     }
 
-    public SettingsCommand(AppSetting settings, ILog log)
+    public SettingsCommand(AppSetting settings, ILogger log)
     {
         _settings = settings;
         _log = log;
@@ -101,7 +101,7 @@ internal class SettingsCommand : AsyncCommand
             }
             catch (Exception)
             {
-                _log.Warning("Can't convert {0} to type {1}", value, prop.PropertyType);
+                _log.LogWarning("Can't convert {value} to type {type}", value, prop.PropertyType);
             }
         }
     }

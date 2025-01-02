@@ -10,11 +10,11 @@ namespace BookGen.ConsoleUi;
 
 internal sealed class InitMenu : MenuBase
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly FsPath _workDir;
     private readonly ProgramInfo _programInfo;
 
-    public InitMenu(ILog log, FsPath WorkDir, ProgramInfo programInfo)
+    public InitMenu(ILogger log, FsPath WorkDir, ProgramInfo programInfo)
     {
         _log = log;
         _workDir = WorkDir;

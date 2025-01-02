@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -64,7 +64,7 @@ internal sealed class MainMenu : MenuBase
                 renderer.BlankLine();
 
                 var selection = await renderer.SelectionMenu("Select acion:", GetEnumItems<MainMenuAction>());
-                shouldRun = DoAction(selection, renderer);
+                shouldRun = await DoAction(selection, renderer);
                 if (shouldRun && !_inHelpMode)
                     await renderer.WaitKey();
             }
@@ -81,19 +81,19 @@ internal sealed class MainMenu : MenuBase
         return true;
     }
 
-    private bool DoAction(MainMenuAction selection, Renderer renderer)
+    private async Task<bool> DoAction(MainMenuAction selection, Renderer renderer)
     {
         renderer.Clear();
         return selection switch
         {
             MainMenuAction.ValidateConfig => _runner.Initialize(),
-            MainMenuAction.ClearOutputDirectory => _runner.InitializeAndExecute(x => x.DoClean()),
-            MainMenuAction.BuildTest => _runner.InitializeAndExecute(x => x.DoTest()),
-            MainMenuAction.BuildRelease => _runner.InitializeAndExecute(x => x.DoBuild()),
-            MainMenuAction.BuildPrint => _runner.InitializeAndExecute(x => x.DoPrint()),
-            MainMenuAction.BuildEpub => _runner.InitializeAndExecute(x => x.DoEpub()),
-            MainMenuAction.BuildWordpress => _runner.InitializeAndExecute(x => x.DoWordpress()),
-            MainMenuAction.BuildPostProc => _runner.InitializeAndExecute(x => x.DoPostProcess()),
+            MainMenuAction.ClearOutputDirectory => await _runner.InitializeAndExecute(x => x.DoClean()),
+            MainMenuAction.BuildTest => await _runner.InitializeAndExecute(x => x.DoTest()),
+            MainMenuAction.BuildRelease => await _runner.InitializeAndExecute(x => x.DoBuild()),
+            MainMenuAction.BuildPrint => await _runner.InitializeAndExecute(x => x.DoPrint()),
+            MainMenuAction.BuildEpub => await _runner.InitializeAndExecute(x => x.DoEpub()),
+            MainMenuAction.BuildWordpress => await _runner.InitializeAndExecute(x => x.DoWordpress()),
+            MainMenuAction.BuildPostProc => await _runner.InitializeAndExecute(x => x.DoPostProcess()),
             MainMenuAction.Serve => StartModuleInWorkdir("serve"),
             MainMenuAction.PreviewServer => StartModuleInWorkdir("preview"),
             MainMenuAction.Stat => StartModuleInWorkdir("stat"),

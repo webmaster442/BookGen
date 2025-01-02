@@ -8,9 +8,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
-using BookGen.Api;
 using BookGen.Cli.Annotations;
 using BookGen.Cli.ArgumentParsing;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Cli;
 
@@ -19,7 +20,7 @@ public sealed class CommandRunner
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly Dictionary<string, Type> _commands;
     private readonly IResolver _resolver;
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly CommandRunnerSettings _settings;
     private readonly SupportedOs _currentOs;
     private string? _defaultCommandName;
@@ -58,7 +59,7 @@ public sealed class CommandRunner
 
     private void DefaultExceptionHandler(Exception obj)
     {
-        _log.Critical(obj);
+        _log.LogCritical(obj, obj.Message);
     }
 
     private ICommand CreateCommand(string commandName)
@@ -81,7 +82,7 @@ public sealed class CommandRunner
     }
 
     public CommandRunner(IResolver resolver,
-                         ILog log,
+                         ILogger log,
                          CommandRunnerSettings settings)
     {
         _serializerOptions = new JsonSerializerOptions
@@ -196,7 +197,7 @@ public sealed class CommandRunner
     {
         if (!_commands.TryGetValue(commandName, out Type? value))
         {
-            _log.Critical(_settings.UnknownCommandCodeAndMessage.message);
+            _log.LogCritical(_settings.UnknownCommandCodeAndMessage.message);
             return _settings.UnknownCommandCodeAndMessage.code;
         }
 
@@ -205,7 +206,7 @@ public sealed class CommandRunner
 
         if (!command.SupportedOs.HasFlag(_currentOs))
         {
-            _log.Critical($"{commandName} is not supported on {_currentOs}");
+            _log.LogCritical("{commandName} is not supported on {currentOs}", commandName, _currentOs);
             return _settings.PlatformNotSupportedExitCode;
         }
 
@@ -219,7 +220,7 @@ public sealed class CommandRunner
         if (argsToParse.Length < 1
             && File.Exists(argsJson))
         {
-            _log.Info("Loading arguments from {0}...", jsonFileName);
+            _log.LogInformation("Loading arguments from {filename}...", jsonFileName);
             var items = await LoadFromJsonFile(argsJson);
 
             return await ExecuteMultiple(items, argumentType, command);
@@ -239,7 +240,7 @@ public sealed class CommandRunner
 
             if (!validationResult.IsOk)
             {
-                _log.Critical(validationResult.ToString());
+                _log.LogCritical(validationResult.ToString());
                 return _settings.BadParametersExitCode;
             }
 
@@ -250,6 +251,7 @@ public sealed class CommandRunner
         catch (Exception ex)
         {
 #if DEBUG
+            
             Debugger.Break();
 #endif
             ExceptionHandlerDelegate.Invoke(ex);
@@ -261,11 +263,11 @@ public sealed class CommandRunner
     {
         foreach (var item in items)
         {
-            _log.Info($"Executing {item.Name} from json file...");
+            _log.LogInformation("Executing {name} from json file...", item.Name);
             int exitcode = await ExecuteSingle(item.Arguments, argumentType, command);
             if (exitcode != 0)
             {
-                _log.Critical($"Failed to execute {item.Name}. Exit code: {exitcode}");
+                _log.LogCritical("Failed to execute {name}. Exit code: {exitcode}", item.Name, exitcode);
                 return exitcode;
             }
         }

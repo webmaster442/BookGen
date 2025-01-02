@@ -15,15 +15,15 @@ internal abstract class GeneratorStepRunner : IDisposable
     private readonly List<IGeneratorStep> _steps;
     private readonly StaticTemplateContent _staticContent;
     private readonly List<string> _redirectedLogMessages;
-    private bool _logListen;
 
-    protected readonly ILog _log;
+    protected readonly ILogger _log;
+    private readonly ProgramInfo _programInfo;
 
     protected RuntimeSettings Settings { get; }
 
     private readonly FunctionServices _functionServices;
 
-    protected GeneratorStepRunner(RuntimeSettings settings, ILog log, IAppSetting appSetting)
+    protected GeneratorStepRunner(RuntimeSettings settings, ILogger log, IAppSetting appSetting, ProgramInfo programInfo)
     {
         Settings = settings;
         _redirectedLogMessages = [];
@@ -39,21 +39,7 @@ internal abstract class GeneratorStepRunner : IDisposable
 
         _steps = [];
         _log = log;
-        _log.OnLogWritten += OnLogWritten;
-    }
-
-    private void OnLogWritten(object? sender, LogEventArgs e)
-    {
-        if (!_logListen)
-            return;
-
-        switch (e.LogLevel)
-        {
-            case LogLevel.Warning:
-            case LogLevel.Critical:
-                _redirectedLogMessages.Add(e.Message);
-                break;
-        }
+        _programInfo = programInfo;
     }
 
     private TemplateProcessor CreateTemplateProcessor()
@@ -72,13 +58,12 @@ internal abstract class GeneratorStepRunner : IDisposable
     {
         Settings.OutputDirectory = ConfigureOutputDirectory(Settings.SourceDirectory);
         var sw = new Stopwatch();
-        ConsoleProgressbar progressbar = new(0, _steps.Count, _log is not JsonLog);
+        ConsoleProgressbar progressbar = new(0, _steps.Count, !_programInfo.JsonLogging);
         sw.Start();
         string stepName = string.Empty;
         try
         {
             progressbar.SwitchBuffers();
-            _logListen = _log is not JsonLog;
             int stepCounter = 1;
             foreach (IGeneratorStep? step in _steps)
             {
@@ -101,16 +86,13 @@ internal abstract class GeneratorStepRunner : IDisposable
                 ++stepCounter;
             }
             progressbar.SwitchBuffers();
-            _logListen = false;
             progressbar.Report(_redirectedLogMessages);
             _redirectedLogMessages.Clear();
         }
         catch (Exception ex)
         {
-            _logListen = false;
             progressbar.SwitchBuffers();
-            _log.Critical("Critical exception while running: {0}", stepName);
-            _log.Critical(ex);
+            _log.LogCritical(ex, "Critical exception while running: {stepName}", stepName);
 #if DEBUG
             Debugger.Break();
 #endif
@@ -124,8 +106,7 @@ internal abstract class GeneratorStepRunner : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        _log.OnLogWritten -= OnLogWritten;
-        _logListen = false;
+        //empty
     }
 
     public void Dispose()

@@ -5,17 +5,19 @@
 
 using BookGen.DomainServices.Markdown;
 
+using Microsoft.Extensions.Logging;
+
 namespace BookGen.Tests
 {
     public class UT_FootNoteReindexer
     {
         private FootNoteReindexer _sut;
-        private ILog _logMock;
+        private ILogger _logMock;
 
         [SetUp]
         public void Setup()
         {
-            _logMock = Substitute.For<ILog>();
+            _logMock = TestEnvironment.GetMockedLog();
             _sut = new FootNoteReindexer(_logMock);
         }
 

@@ -22,7 +22,7 @@ internal sealed class CreateEpubPages : ITemplatedStep
     public ITemplateProcessor? Template { get; set; }
     public IContent? Content { get; set; }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         if (Content == null)
             throw new DependencyException(nameof(Content));
@@ -30,7 +30,7 @@ internal sealed class CreateEpubPages : ITemplatedStep
         if (Template == null)
             throw new DependencyException(nameof(Template));
 
-        log.Info("Generating epub pages...");
+        log.LogInformation("Generating epub pages...");
 
         int index = 1;
 
@@ -47,7 +47,7 @@ internal sealed class CreateEpubPages : ITemplatedStep
 
             FsPath? target = settings.OutputDirectory.Combine($"epubtemp\\OPS\\page_{index:D3}.xhtml");
 
-            log.Detail("Processing file for epub output: {0}", file);
+            log.LogDebug("Processing file for epub output: {file}", file);
             FsPath? input = settings.SourceDirectory.Combine(file);
 
             string? inputContent = input.ReadFile(log);
@@ -75,7 +75,7 @@ internal sealed class CreateEpubPages : ITemplatedStep
         }
         else
         {
-            log.Warning("HtmlTidy not found, skipping tidy step");
+            log.LogWarning("HtmlTidy not found, skipping tidy step");
             Parallel.ForEach(tidyCache, options, toTidy =>
             {
                 string replaced = tidy.ConvertHtml5TagsToXhtmlCompatible(toTidy.Value);

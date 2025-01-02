@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -13,9 +13,9 @@ internal sealed class CreateEpubToc : ITemplatedStep
     public ITemplateProcessor? Template { get; set; }
     public IContent? Content { get; set; }
 
-    private void GenerateTocNcx(IReadonlyRuntimeSettings settings, ILog log)
+    private void GenerateTocNcx(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Creating epub toc.ncx...");
+        log.LogInformation("Creating epub toc.ncx...");
         FsPath? output = settings.OutputDirectory.Combine("epubtemp\\OPS\\toc.ncx");
         var toc = new Ncx
         {
@@ -88,9 +88,9 @@ internal sealed class CreateEpubToc : ITemplatedStep
         return navPoint;
     }
 
-    private void GenerateHtmlToc(IReadonlyRuntimeSettings settings, ILog log)
+    private void GenerateHtmlToc(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Generating epub TOC...");
+        log.LogInformation("Generating epub TOC...");
 
         var buffer = new StringBuilder(4096);
 
@@ -120,7 +120,7 @@ internal sealed class CreateEpubToc : ITemplatedStep
         target.WriteFile(log, html);
     }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         if (Content == null)
             throw new DependencyException(nameof(Content));

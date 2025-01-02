@@ -4,11 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
-using System.Reflection.Metadata;
 using System.Text;
 
-using BookGen.Api;
-using BookGen.Domain.Epub.Ncx;
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.DomainServices
 {
@@ -22,7 +20,18 @@ namespace BookGen.DomainServices
             return RunProcess(programPath, new string[] { argument }, timeOutSeconds, workdir);
         }
 
-        private static void RunShell(string shell, string arguments, ILog log)
+        public static void RunProcess(string program, string arguments)
+        {
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = program;
+                process.StartInfo.Arguments = arguments;
+                process.StartInfo.UseShellExecute = false;
+                process.Start();
+            }
+        }
+
+        private static void RunShell(string shell, string arguments, ILogger log)
         {
             try
             {
@@ -35,14 +44,14 @@ namespace BookGen.DomainServices
             }
             catch (Exception e) 
             {
-                log.Warning(e);
+                log.LogWarning(e, e.Message);
             }
         }
 
-        public static void RunCmdScript(string shellScript, ILog log)
+        public static void RunCmdScript(string shellScript, ILogger log)
             => RunShell("cmd.exe", $"\"{shellScript}\"", log);
 
-        public static void RunPowershellScript(string shellScript, ILog log)
+        public static void RunPowershellScript(string shellScript, ILogger log)
         {
             var installStatus = InstallDetector.GetInstallStatus();
             if (installStatus.IsPsCoreInstalled)
@@ -159,11 +168,6 @@ namespace BookGen.DomainServices
         {
             foreach (var arg in arguments)
                 startInfo.ArgumentList.Add(arg);
-        }
-
-        public static void RunProcess(string v, object value, string workdir, object onReportProgress)
-        {
-            throw new NotImplementedException();
         }
     }
 }

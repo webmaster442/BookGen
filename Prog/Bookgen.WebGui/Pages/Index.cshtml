@@ -1,0 +1,12 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<h1>Session information</h1>
+<ul>
+    <li>Current Folder: <span class="text-info">@Model.CurrentDirectory</span></li>
+    <li>App directory: <span class="text-info">@Model.AppDirectory</span></li>
+    <li>App version: <span class="text-info">@Model.Version</span></li>
+</ul>

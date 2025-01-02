@@ -11,7 +11,7 @@ internal abstract class LoadStep
     protected readonly FsPath _configYaml;
     protected readonly FsPath _tagsJson;
 
-    protected LoadStep(LoadState state, ILog log)
+    protected LoadStep(LoadState state, ILogger log)
     {
         State = state;
         Log = log;
@@ -25,7 +25,7 @@ internal abstract class LoadStep
 
     public LoadState State { get; }
 
-    public ILog Log { get; }
+    public ILogger Log { get; }
 
     public virtual bool CanExecute() => true;
 

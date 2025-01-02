@@ -10,19 +10,13 @@ namespace BookGen.Infrastructure;
 
 internal static class Extensions
 {
-    public static void CheckLockFileExistsAndExitWhenNeeded(this IMutexFolderLock folderLock, ILog log, string folder)
+    public static void CheckLockFileExistsAndExitWhenNeeded(this IMutexFolderLock folderLock, ILogger log, string folder)
     {
-        log.Info("Checking folder lock status...");
+        log.LogInformation("Checking folder lock status...");
         if (folderLock.CheckAndLock(folder))
         {
-            log.Critical("An other bookgen process is using this folder. Exiting...");
+            log.LogCritical("An other bookgen process is using this folder. Exiting...");
             Environment.Exit(Constants.FolderLocked);
         }
-    }
-
-    public static void EnableVerboseLogingIfRequested(this ILog log, BookGenArgumentBase argumentBase)
-    {
-        if (argumentBase.Verbose)
-            log.LogLevel = LogLevel.Detail;
     }
 }

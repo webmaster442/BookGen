@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,10 +16,10 @@ namespace BookGen.Commands;
 [CommandName("pack")]
 internal class PackCommand : Command<PackArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly ProgramInfo _programInfo;
 
-    public PackCommand(ILog log, ProgramInfo programInfo)
+    public PackCommand(ILogger log, ProgramInfo programInfo)
     {
         _log = log;
         _programInfo = programInfo;
@@ -27,7 +27,7 @@ internal class PackCommand : Command<PackArguments>
 
     public override int Execute(PackArguments arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         ProjectLoader loader = new(arguments.Directory, _log, _programInfo);
 
@@ -51,7 +51,7 @@ internal class PackCommand : Command<PackArguments>
 
         projectFiles.AddToPackListIfExist(filesToPack);
 
-        ConsoleProgressbar progressbar = new(0, filesToPack.Count, _log is not JsonLog);
+        ConsoleProgressbar progressbar = new(0, filesToPack.Count, !_programInfo.JsonLogging);
 
         try
         {
@@ -75,10 +75,10 @@ internal class PackCommand : Command<PackArguments>
         catch (Exception ex)
         {
             progressbar.SwitchBuffers();
-            _log.Critical(ex);
+            _log.LogCritical(ex, "Critical Error");
         }
 
-        _log.Info("Pack finished. Result file: {0}", arguments.OutputFile);
+        _log.LogInformation("Pack finished. Result file: {file}", arguments.OutputFile);
         
         return Constants.Succes;
     }

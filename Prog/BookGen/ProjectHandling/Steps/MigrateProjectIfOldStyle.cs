@@ -11,7 +11,7 @@ internal sealed class MigrateProjectIfOldStyle : LoadStep
     private readonly FsPath _OldconfigYaml;
     private readonly FsPath _Oldtags;
 
-    public MigrateProjectIfOldStyle(LoadState state, ILog log) : base(state, log)
+    public MigrateProjectIfOldStyle(LoadState state, ILogger log) : base(state, log)
     {
         _OldconfigJson = state.WorkDir.Combine("bookgen.json");
         _OldconfigYaml = state.WorkDir.Combine("bookgen.yml");

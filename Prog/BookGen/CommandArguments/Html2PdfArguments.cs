@@ -1,5 +1,11 @@
-﻿namespace BookGen.CommandArguments;
-internal class Html2PdfArguments : ArgumentsBase
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.CommandArguments;
+
+internal sealed class Html2PdfArguments : ArgumentsBase
 {
     [Switch("i", "input")]
     public FsPath InputFile { get; set; }

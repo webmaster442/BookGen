@@ -25,7 +25,7 @@ internal sealed class GenerateSearchPage : ITemplatedStep
         _spaces = new Regex(@"\s+", RegexOptions.Compiled);
     }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         if (Content == null)
             throw new DependencyException(nameof(Content));
@@ -35,7 +35,7 @@ internal sealed class GenerateSearchPage : ITemplatedStep
 
         Content.Metadata = FillMeta(settings.Configuration);
 
-        log.Info("Generating search page...");
+        log.LogInformation("Generating search page...");
         GenerateSearchContents(settings, log);
         _buffer.Append(ResourceHandler.GetFile(KnownFile.SearchformHtml));
 
@@ -56,7 +56,7 @@ internal sealed class GenerateSearchPage : ITemplatedStep
         return meta.GetHtmlMeta();
     }
 
-    private void GenerateSearchContents(IReadonlyRuntimeSettings settings, ILog log)
+    private void GenerateSearchContents(IReadonlyRuntimeSettings settings, ILogger log)
     {
         _buffer.WriteElement(HtmlElement.Div, "searchcontents", "nodisplay");
 
@@ -66,7 +66,7 @@ internal sealed class GenerateSearchPage : ITemplatedStep
         {
             foreach (Link? link in settings.TocContents.GetLinksForChapter(chapter))
             {
-                log.Detail("Processing file for search index: {0}", link.Url);
+                log.LogDebug("Processing file for search index: {url}", link.Url);
                 string? fileContent = settings.SourceDirectory.Combine(link.Url).ReadFile(log);
 
                 string? rendered = pipeline.RenderMarkdown(fileContent);

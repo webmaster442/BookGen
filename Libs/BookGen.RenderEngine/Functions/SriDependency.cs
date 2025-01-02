@@ -3,16 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.DomainServices;
 using BookGen.Interfaces;
 using BookGen.RenderEngine.Internals;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.RenderEngine.Functions;
 internal sealed class SriDependency : Function, IInjectable
 {
     private IReadonlyRuntimeSettings _settings = null!;
-    private ILog _log = null!;
+    private ILogger _log = null!;
 
     public void Inject(FunctionServices functionServices)
     {
@@ -32,24 +33,24 @@ internal sealed class SriDependency : Function, IInjectable
 
         if (path.Extension == ".js")
         {
-            _log.Detail("Creating SRI script tag for: {0}", path);
+            _log.LogDebug("Creating SRI script tag for: {path}", path);
             return $"<script src=\"{file}\" integrity=\"{sri}\" crossorigin=\"anonymous\"></script>";
         }
         else if (path.Extension == ".css")
         {
-            _log.Detail("Creating SRI css tag for: {0}", path);
+            _log.LogDebug("Creating SRI css tag for: {path}", path);
             return $"<link rel=\"stylesheet\" href=\"{file}\" integrity=\"{sri}\" crossorigin=\"anonymous\"/>";
         }
         else
         {
-            _log.Warning("Unsupprted file type for SRI linking: {0}", path.Extension);
+            _log.LogWarning("Unsupprted file type for SRI linking: {extension}", path.Extension);
         }
 
         return string.Empty;
     }
     private string ComputeSRI(FsPath filePath)
     {
-        _log.Detail("Computing SRI and caching results for {0}...", filePath);
+        _log.LogDebug("Computing SRI and caching results for {filePath}...", filePath);
         return CryptoUitils.GetSRI(filePath);
     }
 

@@ -146,7 +146,8 @@ Arguments:
 
 # Html2Pdf
 
-Converts a HTML file to a printable PDF using edges headless mode.
+Converts a HTML file to a png using edges or chromes headless mode.
+The tool will use chrome, if it's installed, otherwise it will use edge.
 
 `BookGen Html2Pdf -i [input] -o [output]`
 `BookGen Html2Pdf --input [input] --output [output]`
@@ -156,6 +157,26 @@ Converts a HTML file to a printable PDF using edges headless mode.
 
 -o, --output:
     Output PDF file.
+
+# Html2Png
+
+Converts a HTML file to a png using edges or chromes headless mode.
+The tool will use chrome, if it's installed, otherwise it will use edge.
+
+`BookGen Html2Png -i [input] -o [output] {-w [width]} {-h [height]}`
+`BookGen Html2Png --input [input] --output [output] {--width [width]} {--height [height]}`
+
+-i, --input:
+    Input html file with extension of .htm or .html
+
+-o, --output:
+    Output PNG file.
+
+-w, --width:
+    Optional argument. Specifies the width of the output image in pixels.
+
+-h, --height:
+    Optional argument. Specifies the height of the output image in pixels.
 
 # ImgConvert
 
@@ -237,6 +258,22 @@ Arguments:
     Output directory path
 
 Note: This module to work requires internet connection.
+
+# Minify
+
+Minifies css, javascript or html files
+
+`BookGen Minify -i [input.css|js|html] -o [output.css|js|html]`
+`BookGen Minify --input [input.css|js|html] --output [output.css|js|html]`
+
+Arguments:
+
+-i, --input: 
+    Input file to minify. Must have extension of .css or .js or .htm or .html
+
+-o, --output: 
+    Output file name.
+
 
 # Md2HTML
 
@@ -321,22 +358,6 @@ Arguments:
 -o, --output:
     Required. Specifies the destination zip file. Note: if specified 
     file extension differs from zip, then zip will be enforced.
-
--d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
-
--v, --verbose: 
-    Optional argument, turns on detailed logging. Usefull for locating issues
-
-# Preview
-
-Launch a browser that allows markdown file previewing
-
-`BookGen preview {-v} {-d [directory]}`
-`BookGen preview {--verbose} {--dir [directory]}`
-
-Arguments:
 
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then
@@ -540,3 +561,7 @@ Listst all available subcommands
 # Wiki
 
 Opens the BookGen Wiki page
+
+# Webgui
+
+Opens the WebGui in the default browser.

@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Bookgen.Win
 {
-    public static  class InstallDetector
+    public static class InstallDetector
     {
         public static bool IsWindowsTerminalPortalbeInstalled(out string portablePath)
         {

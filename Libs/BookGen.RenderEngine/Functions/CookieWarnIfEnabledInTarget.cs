@@ -3,17 +3,19 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
 using BookGen.Domain.Configuration;
 using BookGen.Interfaces;
 using BookGen.Interfaces.Configuration;
 using BookGen.RenderEngine.Internals;
 using BookGen.Resources;
 
+using Microsoft.Extensions.Logging;
+
 namespace BookGen.RenderEngine.Functions;
+
 internal sealed class CookieWarnIfEnabledInTarget : Function, IInjectable
 {
-    private ILog _log = null!;
+    private ILogger _log = null!;
     private IReadonlyRuntimeSettings _settings = null!;
 
     public override string Execute(FunctionArguments arguments)
@@ -22,12 +24,12 @@ internal sealed class CookieWarnIfEnabledInTarget : Function, IInjectable
 
         if (currentconfig.TemplateOptions.TryGetOption(TemplateOptions.CookieDisplayBannerEnabled, out bool value) && value)
         {
-            _log.Detail("Cookies enabled for current target. Generating Code...");
+            _log.LogDebug("Cookies enabled for current target. Generating Code...");
             return ResourceHandler.GetFile(KnownFile.CookieWarningHtml);
         }
         else
         {
-            _log.Detail("Cookies not enalbed for current target.");
+            _log.LogDebug("Cookies not enalbed for current target.");
             return string.Empty;
         }
     }

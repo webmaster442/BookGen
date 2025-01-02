@@ -3,19 +3,44 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+
 using BookGen;
 using BookGen.Commands;
+using BookGen.Domain.Rss;
 using BookGen.Framework;
 using BookGen.Gui;
 using BookGen.Infrastructure;
 
 var argumentList = args.ToList();
 
+ProgramInfo info = new();
+
 ProgramConfigurator.AttachDebugger(argumentList);
 ProgramConfigurator.WaitForDebugger(argumentList);
+ProgramConfigurator.ConfigureLog(info, argumentList);
 
-ILog log = ProgramConfigurator.ConfigureLog(argumentList);
-ProgramInfo info = new();
+ILogger log = LoggerFactory
+    .Create(builder =>
+    {
+        builder.ClearProviders();
+        if (info.JsonLogging)
+        {
+            builder.AddJsonConsole();
+        }
+        else
+        {
+            builder.AddConsole();
+            builder.AddProvider(new DebugLoggerProvider()).AddFilter((Category, level) => level == LogLevel.Debug);
+        }
+        if (info.LogToFile)
+        {
+            builder.AddProvider(new FileLoggerProvider());
+        }
+        builder.AddFilter((Category, level) => level >= info.LogLevel);
+    })
+    .CreateLogger("BookGen");
+
 
 var timeProvider = new TimeProviderImplementation();
 

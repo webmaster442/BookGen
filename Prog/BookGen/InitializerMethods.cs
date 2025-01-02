@@ -14,7 +14,7 @@ internal static class InitializerMethods
     private const string PrintTemplateLocation = ".bookgen\\Templates\\TemplatePrint.html";
     private const string WebTemplate = ".bookgen\\Templates\\TemplateWeb.html";
 
-    internal static void CreateConfig(ILog log,
+    internal static void CreateConfig(ILogger log,
                                       FsPath workDir,
                                       bool configInYaml,
                                       bool createMdFiles,
@@ -51,34 +51,53 @@ internal static class InitializerMethods
             configuration.TargetEpub.TemplateFile = EpubTemplateLocation;
             configuration.TargetPrint.TemplateFile = PrintTemplateLocation;
             configuration.TargetWeb.TemplateFile = WebTemplate;
-            configuration.TargetWeb.TemplateAssets = new List<Asset>
-            {
-                new Asset
-                {
+            configuration.TargetWeb.TemplateAssets =
+            [
+                new() {
                     Source = ".bookgen\\Templates\\Assets\\prism.css",
-                    Target = "Assets\\prism.css"
+                    Target = "Assets\\prism.css",
+                    Minify = false,
                 },
-                new Asset
-                {
+                new() {
                     Source = ".bookgen\\Templates\\Assets\\prism.js",
-                    Target = "Assets\\prism.js"
+                    Target = "Assets\\prism.js",
+                    Minify = false,
+                },
+                new() {
+                    Source = ".bookgen\\Templates\\Assets\\bootstrap.min.css",
+                    Target = "Assets\\bootstrap.min.css",
+                    Minify = false,
+                },
+                new() {
+                    Source = ".bookgen\\Templates\\Assets\\jquery.min.js",
+                    Target = "Assets\\jquery.min.js",
+                    Minify = false,
+                },
+                new() {
+                    Source = ".bookgen\\Templates\\Assets\\popper.min.js",
+                    Target = "Assets\\popper.min.js",
+                    Minify = false,
+                },
+                new() {
+                    Source = ".bookgen\\Templates\\Assets\\bootstrap.min.js",
+                    Target = "Assets\\bootstrap.min.js",
+                    Minify = false,
                 }
-            };
+            ];
         }
 
         return configuration;
     }
 
-
-    public static void DoCreateMdFiles(ILog log, FsPath workdir)
+    public static void DoCreateMdFiles(ILogger log, FsPath workdir)
     {
-        log.Info("Creating index.md...");
+        log.LogInformation("Creating index.md...");
         ResourceHandler.ExtractKnownFile(KnownFile.IndexMd, workdir.ToString(), log);
-        log.Info("Creating Summary.md...");
+        log.LogInformation("Creating Summary.md...");
         ResourceHandler.ExtractKnownFile(KnownFile.SummaryMd, workdir.ToString(), log);
     }
 
-    public static void ExtractTemplates(ILog log, FsPath workdir)
+    public static void ExtractTemplates(ILogger log, FsPath workdir)
     {
         string? templatedir = workdir.Combine(".bookgen\\Templates").ToString();
         string? assetsdir = workdir.Combine(".bookgen\\Templates\\Assets").ToString();

@@ -17,7 +17,7 @@ internal sealed class CreateWpChannel : IGeneratorStep
         _session = session;
     }
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
         _session.CurrentChannel = new Channel
         {

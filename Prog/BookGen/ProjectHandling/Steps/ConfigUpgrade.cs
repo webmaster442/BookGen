@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 2022-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ namespace BookGen.ProjectHandling.Steps;
 
 internal sealed class ConfigUpgrade : LoadStep
 {
-    public ConfigUpgrade(LoadState state, ILog log) : base(state, log)
+    public ConfigUpgrade(LoadState state, ILogger log) : base(state, log)
     {
     }
 
@@ -44,8 +44,8 @@ internal sealed class ConfigUpgrade : LoadStep
             }
         }
 
-        Log.Info("Configuration file migrated to new version.");
-        Log.Info("Review configuration then run program again");
+        Log.LogInformation("Configuration file migrated to new version.");
+        Log.LogInformation("Review configuration then run program again");
         return false;
     }
 }

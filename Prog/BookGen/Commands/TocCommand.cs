@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -12,10 +12,10 @@ namespace BookGen.Commands;
 [CommandName("toc")]
 internal sealed class TocCommand : Command<BookGenArgumentBase>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly ProgramInfo _programInfo;
 
-    public TocCommand(ILog log, ProgramInfo programInfo)
+    public TocCommand(ILogger log, ProgramInfo programInfo)
     {
         _log = log;
         _programInfo = programInfo;
@@ -23,7 +23,7 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
 
     public override int Execute(BookGenArgumentBase arguments, string[] context)
     {
-        _log.EnableVerboseLogingIfRequested(arguments);
+        _programInfo.EnableVerboseLogingIfRequested(arguments);
 
         ProjectLoader loader = new(arguments.Directory, _log, _programInfo);
         bool hasToc = true;
@@ -31,7 +31,7 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
         if (!loader.LoadProject())
         {
             hasToc = false;
-            _log.Warning("Bookgen project load failed, defaulting to file based search");
+            _log.LogWarning("Bookgen project load failed, defaulting to file based search");
         }
 
         var filePath = new FsPath(arguments.Directory, "toc_scratch.md");
@@ -64,7 +64,7 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
 
             using (var stream = filePath.CreateStreamWriter(_log))
             {
-                _log.Info("Writing toc Info to: {0}", filePath);
+                _log.LogInformation("Writing toc Info to: {filePath}", filePath);
                 WriteItems(stream, byTarget, _log, "Not found in toc:");
                 WriteItems(stream, byTitle, _log, "\r\nFound, but with differtent title:");
             }
@@ -73,7 +73,7 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
         {
             using (var stream = filePath.CreateStreamWriter(_log))
             {
-                _log.Info("Writing toc Info to: {0}", filePath);
+                _log.LogInformation("Writing toc Info to: {file}", filePath);
                 WriteItems(stream, files, _log, "Not found in toc:");
             }
         }
@@ -83,7 +83,7 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
 
     private static void WriteItems(StreamWriter stream,
                                    IEnumerable<Link> items,
-                                   ILog _log,
+                                   ILogger _log,
                                    string title)
     {
         int count = 0;
@@ -94,6 +94,6 @@ internal sealed class TocCommand : Command<BookGenArgumentBase>
             stream.WriteLine(TocUtils.ToMarkdownLink(item));
             ++count;
         }
-        _log.Info("Wrote {0} items into file", count);
+        _log.LogInformation("Wrote {count} items into file", count);
     }
 }

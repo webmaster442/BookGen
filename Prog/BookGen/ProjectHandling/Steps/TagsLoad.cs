@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 2022-224 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ namespace BookGen.ProjectHandling.Steps;
 
 internal class TagsLoad : LoadStep
 {
-    public TagsLoad(LoadState state, ILog log) : base(state, log)
+    public TagsLoad(LoadState state, ILogger log) : base(state, log)
     {
     }
 
@@ -23,13 +23,13 @@ internal class TagsLoad : LoadStep
             }
             else
             {
-                Log.Critical("Invalid tags.json file.");
+                Log.LogCritical("Invalid tags.json file.");
                 return false;
             }
         }
         else
         {
-            Log.Warning("tags.json not found, continuing with empty collection");
+            Log.LogWarning("tags.json not found, continuing with empty collection");
             return true;
         }
     }

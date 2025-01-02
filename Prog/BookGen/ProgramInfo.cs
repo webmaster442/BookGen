@@ -5,6 +5,8 @@
 
 using System.Reflection;
 
+using BookGen.CommandArguments;
+
 namespace BookGen;
 
 internal sealed class ProgramInfo
@@ -15,6 +17,10 @@ internal sealed class ProgramInfo
     public DateTime BuildDateUtc { get; }
     public string ProgramDirectory { get; }
     public int ConfigVersion { get; }
+
+    public LogLevel LogLevel { get; private set; }
+    public bool LogToFile { get; set; }
+    public bool JsonLogging { get; set; }
 
     private static DateTime GetProgramDate()
     {
@@ -30,6 +36,12 @@ internal sealed class ProgramInfo
         return new DateTime();
     }
 
+    internal void EableVerboseLogging(bool verbose)
+        => LogLevel = verbose ? LogLevel.Debug : LogLevel.Information;
+
+    internal void EnableVerboseLogingIfRequested(BookGenArgumentBase argumentBase) 
+        => EableVerboseLogging(argumentBase.Verbose);
+
     public ProgramInfo()
     {
         var asm = Assembly.GetAssembly(typeof(ProgramInfo));
@@ -38,5 +50,4 @@ internal sealed class ProgramInfo
         BuildDateUtc = GetProgramDate();
         ProgramDirectory = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
     }
-
 }

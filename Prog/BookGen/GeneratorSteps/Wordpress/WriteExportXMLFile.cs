@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -17,9 +17,9 @@ internal sealed class WriteExportXmlFile : IGeneratorStep
     }
 
 
-    public void RunStep(IReadonlyRuntimeSettings settings, ILog log)
+    public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        log.Info("Writing wordpressExport.xml file...");
+        log.LogInformation("Writing wordpressExport.xml file...");
         FsPath outFile = settings.OutputDirectory.Combine("wordpressExport.xml");
 
         var namespaces = new List<(string, string)>

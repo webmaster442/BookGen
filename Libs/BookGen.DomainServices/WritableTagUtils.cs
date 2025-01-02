@@ -1,21 +1,23 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022 Ruzsinszki Gábor
+// (c) 2022-2024 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Api;
+using System.Globalization;
+
 using BookGen.Domain;
 using BookGen.Interfaces;
 using BookGen.RakeEngine;
-using System.Globalization;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.DomainServices
 {
     public class WritableTagUtils : TagUtils
     {
-        private readonly ILog _log;
+        private readonly ILogger _log;
 
-        public WritableTagUtils(Dictionary<string, string[]> loadedTags, CultureInfo culture, ILog log)
+        public WritableTagUtils(Dictionary<string, string[]> loadedTags, CultureInfo culture, ILogger log)
             : base(loadedTags, culture)
         {
             _log = log;
@@ -23,7 +25,7 @@ namespace BookGen.DomainServices
 
         public void DeleteNoLongerExisting(ToC toc)
         {
-            _log.Info("Scanning no longer existing entries...");
+            _log.LogInformation("Scanning no longer existing entries...");
             var tocItems = toc.Files.ToHashSet();
             Stack<string> toDelete = new();
             foreach (string? file in _loadedTags.Keys)
@@ -32,7 +34,7 @@ namespace BookGen.DomainServices
                     toDelete.Push(file);
             }
 
-            _log.Info("Found {0} items to remove...", toDelete.Count);
+            _log.LogInformation("Found {count} items to remove...", toDelete.Count);
             while (toDelete.Count > 0)
             {
                 _loadedTags.Remove(toDelete.Pop());
@@ -41,7 +43,7 @@ namespace BookGen.DomainServices
 
         public void CreateNotYetExisting(ToC toc)
         {
-            _log.Info("Scanning not yet existing entries...");
+            _log.LogInformation("Scanning not yet existing entries...");
             int count = 0;
             foreach (string? file in toc.Files)
             {
@@ -51,12 +53,12 @@ namespace BookGen.DomainServices
                     ++count;
                 }
             }
-            _log.Info("Created {0} new tag entries. Please fill them.", count);
+            _log.LogInformation("Created {count} new tag entries. Please fill them.", count);
         }
 
         public void AutoGenerate(ToC toc, int keywordCount)
         {
-            _log.Info("Auto Generating tags...");
+            _log.LogInformation("Auto Generating tags...");
             Rake rake = new Rake(
                 stopWordCulture: _culture,
                 minCharLength: 3,

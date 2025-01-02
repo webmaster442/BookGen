@@ -12,11 +12,16 @@ using Markdig.Syntax.Inlines;
 
 namespace BookGen.DomainServices.Markdown.Modifiers
 {
-    internal sealed class WebModifier : IMarkdownExtensionWithRuntimeConfig, IDisposable
+    internal sealed class WebModifier 
+        : IMarkdownExtensionWithRuntimeConfig,
+        IMarkdownExtensionWithSvgPassthoughToggle,
+        IDisposable
     {
         private MarkdownPipelineBuilder? _pipeline;
 
         public IReadonlyRuntimeSettings? RuntimeConfig { get; set; }
+
+        public bool SvgPasstrough { get; set; }
 
         public void Dispose()
         {
@@ -36,6 +41,7 @@ namespace BookGen.DomainServices.Markdown.Modifiers
         public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
             PipelineHelpers.SetupSyntaxRenderForWeb(renderer);
+            PipelineHelpers.SetupLinkInlineRendererWithSvgSupport(renderer);
         }
 
         private static bool IsOffHostLink(LinkInline link, IReadonlyRuntimeSettings RuntimeConfig)

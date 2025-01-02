@@ -7,12 +7,12 @@ namespace BookGen.Infrastructure;
 
 internal sealed class ModuleApi : IModuleApi
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IAppSetting _setting;
     private readonly ProgramInfo _programInfo;
     private readonly TimeProvider _timeProvider;
 
-    public ModuleApi(ILog log,
+    public ModuleApi(ILogger log,
                      IAppSetting setting,
                      ProgramInfo programInfo,
                      TimeProvider timeProvider)
@@ -53,7 +53,7 @@ internal sealed class ModuleApi : IModuleApi
 
     public GeneratorRunner CreateRunner(bool verbose, string workDir)
     {
-        _log.LogLevel = verbose ? LogLevel.Detail : LogLevel.Info;
+        _programInfo.EableVerboseLogging(verbose);
         return new GeneratorRunner(_log, this, _setting, _programInfo, _timeProvider, workDir);
     }
 }

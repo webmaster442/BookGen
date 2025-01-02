@@ -13,7 +13,7 @@ namespace BookGen.Commands;
 [CommandName("gui")]
 internal class GuiCommand : AsyncCommand<BookGenArgumentBase>, IDisposable
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
     private readonly IModuleApi _api;
     private readonly IHelpProvider _helpProvider;
     private readonly IMutexFolderLock _folderLock;
@@ -22,7 +22,7 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>, IDisposable
     private MainMenu? _mainMenu;
     private GeneratorRunner? _runner;
 
-    public GuiCommand(ILog log,
+    public GuiCommand(ILogger log,
                       IModuleApi api,
                       IHelpProvider helpProvider,
                       IMutexFolderLock folderLock,

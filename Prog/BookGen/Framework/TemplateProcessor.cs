@@ -48,19 +48,19 @@ internal sealed class TemplateProcessor : ITemplateProcessor
     public string Title
     {
         get => _parameters.Title;
-        set => _parameters.Content = value;
+        set => _parameters.Title = value;
     }
 
     public string TableOfContents
     {
         get => _parameters.Toc;
-        set => _parameters.Content = value;
+        set => _parameters.Toc = value;
     }
 
     public string Metadata
     {
         get => _parameters.Metadata;
-        set => _parameters.Content = value;
+        set => _parameters.Metadata = value;
     }
 
     public string HostUrl => _parameters.Host;
@@ -68,7 +68,7 @@ internal sealed class TemplateProcessor : ITemplateProcessor
     public string PrecompiledHeader
     {
         get => _parameters.PrecompiledHeader;
-        set => _parameters.Content = value;
+        set => _parameters.PrecompiledHeader = value;
     }
 
     public string Render()

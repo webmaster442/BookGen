@@ -21,6 +21,7 @@ namespace BookGen.Resources
             { KnownFile.PreviewCss, "/JsCss/preview.css" },
             { KnownFile.SinglePageCss, "/JsCss/SinglePage.css"  },
             { KnownFile.EditCss, "/JsCss/edit.css" },
+            { KnownFile.MathJax, "/JsCss/tex-svg-full.js" },
 
             //html files
             { KnownFile.CookieWarningHtml, "/Html/CookieWarning.html" },

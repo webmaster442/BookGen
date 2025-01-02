@@ -10,8 +10,8 @@ namespace BookGen.GeneratorStepRunners;
 
 internal sealed class WebsiteGeneratorStepRunner : GeneratorStepRunner
 {
-    public WebsiteGeneratorStepRunner(RuntimeSettings settings, ILog log, IAppSetting appSetting)
-        : base(settings, log, appSetting)
+    public WebsiteGeneratorStepRunner(RuntimeSettings settings, ILogger log, IAppSetting appSetting, ProgramInfo programInfo)
+        : base(settings, log, appSetting, programInfo)
     {
         AddStep(new GeneratorSteps.CreateOutputDirectory());
         AddStep(CreateAssets());

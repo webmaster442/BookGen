@@ -11,9 +11,9 @@ namespace BookGen.Commands;
 [CommandName("mdtable")]
 internal class MdTableCommand : Command<MdTableArguments>
 {
-    private readonly ILog _log;
+    private readonly ILogger _log;
 
-    public MdTableCommand(ILog log)
+    public MdTableCommand(ILogger log)
     {
         _log = log;
     }
@@ -23,19 +23,19 @@ internal class MdTableCommand : Command<MdTableArguments>
         string? content = TextCopy.ClipboardService.GetText();
         if (string.IsNullOrEmpty(content))
         {
-            _log.Warning("Clipboard doesn't contain string data");
+            _log.LogWarning("Clipboard doesn't contain string data");
             return Constants.GeneralError;
         }
 
         if (MarkdownTableConverter.TryConvertToMarkdownTable(content, arguments.Delimiter, out string markdown))
         {
-            _log.Info("Table formatted & copied to clipboard");
+            _log.LogInformation("Table formatted & copied to clipboard");
             TextCopy.ClipboardService.SetText(markdown);
             return Constants.Succes;
         }
         else
         {
-            _log.Warning("Table format failed");
+            _log.LogWarning("Table format failed");
             return Constants.GeneralError;
         }
     }

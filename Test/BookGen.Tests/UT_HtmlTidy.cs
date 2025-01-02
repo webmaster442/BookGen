@@ -5,19 +5,21 @@
 
 using System.IO;
 
+using Microsoft.Extensions.Logging;
+
 namespace BookGen.Tests
 {
     [TestFixture]
     internal class UT_HtmlTidy
     {
         private HtmlTidy _sut;
-        private ILog _log;
+        private ILogger _log;
 
         [SetUp]
         public void Setup()
         {
-            _log = Substitute.For<ILog>();
-            _sut= new HtmlTidy(_log);
+            _log = TestEnvironment.GetMockedLog();
+            _sut = new HtmlTidy(_log);
         }
 
         [TestCase("<figure>foo</figure>", "<div>foo</div>")]
