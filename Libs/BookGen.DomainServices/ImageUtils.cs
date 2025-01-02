@@ -90,7 +90,7 @@ namespace BookGen.DomainServices
             {
                 using (var canvas = new SKCanvas(bitmap))
                 {
-                    canvas.DrawPicture(svg.Picture, ref matrix);
+                    canvas.DrawPicture(svg.Picture, matrix);
                     canvas.Flush();
                 }
 
@@ -119,15 +119,13 @@ namespace BookGen.DomainServices
 
             (int renderWidth, int renderHeight, float scale) = CalcNewSize(new SKRect(0, 0, input.Width, input.Height), w, h);
 
-            return input.Resize(new SKImageInfo(renderWidth, renderHeight), SKFilterQuality.High);
+            return input.Resize(new SKImageInfo(renderWidth, renderHeight), SKSamplingOptions.Default);
         }
 
         public static SKData EncodeToFormat(SKBitmap bitmap, SKEncodedImageFormat format, int quality = 100)
         {
-            using (var image = SKImage.FromBitmap(bitmap))
-            {
-                return image.Encode(format, quality);
-            }
+            using var image = SKImage.FromBitmap(bitmap);
+            return image.Encode(format, quality);
         }
 
         public static SKBitmap LoadForConvert(FsPath input, int? maxWidth, int? maxHeight)
@@ -152,7 +150,7 @@ namespace BookGen.DomainServices
                 var bitmap = new SKBitmap(renderWidth, renderHeight);
                 using (var canvas = new SKCanvas(bitmap))
                 {
-                    canvas.DrawPicture(svg.Picture, ref matrix);
+                    canvas.DrawPicture(svg.Picture, matrix);
                     canvas.Flush();
                 }
 

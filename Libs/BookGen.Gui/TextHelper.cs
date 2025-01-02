@@ -57,7 +57,8 @@ internal static class TextHelper
                                                           targetWidth,
                                                           targetHeight);
 
-        return image.Resize(new SKImageInfo(renderWidth, renderHeight), SKFilterQuality.High);
+
+        return image.Resize(new SKImageInfo(renderWidth, renderHeight), SKSamplingOptions.Default);
     }
 
     private static (int renderWidth, int renderHeight) CalcNewSize(SKRect inputSize, int maxwidth, int maxHeight)
