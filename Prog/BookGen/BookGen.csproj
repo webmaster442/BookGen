@@ -34,7 +34,7 @@
     <EmbeddedResource Include="..\..\Commands.md" Link="Resources\Commands.md" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.38.0" />
+    <PackageReference Include="Markdig" Version="0.39.1" />
     <PackageReference Include="PreMailer.Net" Version="2.6.0" />
     <PackageReference Include="SkiaSharp" Version="3.116.1" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.116.1" />

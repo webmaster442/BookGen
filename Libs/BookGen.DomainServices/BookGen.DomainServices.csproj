@@ -10,7 +10,7 @@
     <InternalsVisibleTo Include="BookGen.Tests" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.38.0" />
+    <PackageReference Include="Markdig" Version="0.39.1" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.4.5" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.4.5" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.4.5" />
@@ -19,7 +19,7 @@
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.116.1" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="3.116.1" />
     <PackageReference Include="Svg.Skia" Version="2.0.0.4" />
-    <PackageReference Include="YamlDotNet" Version="16.2.1" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.12.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
