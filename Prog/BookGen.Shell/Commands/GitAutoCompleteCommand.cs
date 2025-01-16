@@ -1,7 +1,7 @@
 ﻿//#define DEBUGGING
 
 //-----------------------------------------------------------------------------
-// (c) 2024 Ruzsinszki Gábor
+// (c) 2024-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ using Spectre.Console;
 namespace BookGen.Shell.Commands;
 
 [CommandName("git-complete")]
-internal class GitAutoCompleteCommand : Command
+internal sealed class GitAutoCompleteCommand : Command
 {
     public override int Execute(string[] context)
     {

@@ -12,6 +12,19 @@ namespace BookGen.DomainServices
 {
     public static class ProcessRunner
     {
+        public static void OpenUrl(string url)
+        {
+            if (!url.StartsWith("http://") && !url.StartsWith("https://"))
+                throw new ArgumentException("invalid url", nameof(url));
+
+            using (var process = new Process())
+            {
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.FileName = url;
+                process.Start();
+            }
+        }
+
         public static (int exitcode, string output) RunProcess(string programPath,
                                                               string argument,
                                                               int timeOutSeconds,

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2024 Ruzsinszki Gábor
+// (c) 2024-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -34,15 +34,22 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
 
     protected bool TestIfGitDir(string workDir)
     {
-        var arguments = new string[] { "status", "2" };
+        string[] arguments = ["status", "2"];
 
         var (exitcode, _) = ProcessRunner.RunProcess("git", arguments, TimeOut, workDir);
         return exitcode == 0;
     }
 
+    protected string GetGitRemote(string workDirectory)
+    {
+        string[] gitArguments = ["config", "--get", "remote.origin.url"];
+        var (exitcode, output) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
+        return exitcode == 0 ? output : string.Empty;
+    }
+
     protected GitStatus? GetGitStatus(string workDirectory)
     {
-        var gitArguments = new string[] { "status", "-b", "-s", "--porcelain=2" };
+        string[] gitArguments = ["status", "-b", "-s", "--porcelain=2"];
 
         var (exitcode, output) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
         if (exitcode == 0)

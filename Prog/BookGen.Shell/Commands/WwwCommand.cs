@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
+// (c) 2023-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -9,6 +9,7 @@ using System.Web;
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Domain.Www;
+using BookGen.DomainServices;
 using BookGen.Shell.Www;
 
 using Spectre.Console;
@@ -40,19 +41,6 @@ internal class WwwCommand : AsyncCommand
             => _args.Length >= 2;
     }
 
-    private static void OpenUrl(string url)
-    {
-        if (!url.StartsWith("http://") && !url.StartsWith("https://"))
-            throw new ArgumentException("invalid url", nameof(url));
-
-        using (var process = new Process())
-        {
-            process.StartInfo.UseShellExecute = true;
-            process.StartInfo.FileName = url;
-            process.Start();
-        }
-    }
-
     private static void LaunchBangs(WwwBang[] bangs, string[] args)
     {
         var found = bangs.Where(bang => bang.Activator == args[0]
@@ -65,7 +53,7 @@ internal class WwwCommand : AsyncCommand
         foreach (var bang in found)
         {
             string url = string.Join(bang.Delimiter, args.Select(x => HttpUtility.UrlEncode(x)));
-            OpenUrl(url);
+            ProcessRunner.OpenUrl(url);
         }
     }
 
