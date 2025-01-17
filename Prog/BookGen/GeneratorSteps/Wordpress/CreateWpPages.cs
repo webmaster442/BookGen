@@ -126,11 +126,8 @@ internal sealed class CreateWpPages : ITemplatedStep
 
     public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        if (Content == null)
-            throw new DependencyException(nameof(Content));
-
-        if (Template == null)
-            throw new DependencyException(nameof(Template));
+        DependencyException.ThrowIfNull(Content);
+        DependencyException.ThrowIfNull(Template);
 
         log.LogInformation("Generating Wordpress export content...");
         _session.CurrentChannel.Item = [];

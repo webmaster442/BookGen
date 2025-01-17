@@ -70,18 +70,21 @@ internal class WwwCommand : AsyncCommand
             }
             else if (arguments.FirstParamIsUrl)
             {
-                OpenUrl(context[0]);
+                ProcessRunner.OpenUrl(context[0]);
             }
             else if (arguments.IsBangFormat)
             {
                 LaunchBangs(config.Bangs, context);
             }
-            else throw new UnreachableException("This shouldn't happen");
+            else
+            {
+                throw new UnreachableException("This shouldn't happen");
+            }
         }
         else
         {
             var menu = new FavoritesMenu(config.Favorites);
-            await menu.Run(AnsiConsole.Console, OpenUrl);
+            await menu.Run(AnsiConsole.Console, ProcessRunner.OpenUrl);
         }
 
         return 0;

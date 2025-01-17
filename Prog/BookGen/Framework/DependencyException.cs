@@ -1,8 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
-using System.Runtime.Serialization;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace BookGen.Framework;
 
@@ -12,15 +13,21 @@ namespace BookGen.Framework;
 [Serializable]
 public class DependencyException : Exception
 {
-    public DependencyException()
+    public DependencyException() : base()
     {
     }
 
-    public DependencyException(string? message) : base("Missing dependecy for: " + message)
+    public DependencyException(string? message) : base(message)
     {
     }
 
-    public DependencyException(string? message, Exception? innerException) : base("Missing dependecy for: " + message, innerException)
+    public DependencyException(string? message, Exception? innerException) : base(message, innerException)
     {
+    }
+
+    public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression("argument")] string? paramName = null)
+    {
+        if (argument == null)
+            throw new DependencyException($"{paramName} was not set");
     }
 }

@@ -1,13 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2024 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Diagnostics;
-
 using BookGen;
 using BookGen.Commands;
-using BookGen.Domain.Rss;
 using BookGen.Framework;
 using BookGen.Gui;
 using BookGen.Infrastructure;

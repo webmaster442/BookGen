@@ -17,11 +17,8 @@ internal sealed class CreatePrintableHtml : ITemplatedStep
 
     public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        if (Content == null)
-            throw new DependencyException(nameof(Content));
-
-        if (Template == null)
-            throw new DependencyException(nameof(Template));
+        DependencyException.ThrowIfNull(Content);
+        DependencyException.ThrowIfNull(Template);
 
         log.LogInformation("Generating Printable html...");
         FsPath target = settings.OutputDirectory.Combine("print.html");

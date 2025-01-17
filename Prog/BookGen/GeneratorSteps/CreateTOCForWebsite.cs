@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2022 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -13,8 +13,7 @@ internal sealed class CreateToCForWebsite : IGeneratorContentFillStep
 
     public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        if (Content == null)
-            throw new DependencyException(nameof(Content));
+        DependencyException.ThrowIfNull(Content);
 
         log.LogInformation("Generating Table of Contents...");
         var toc = new StringBuilder();

@@ -1,10 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2024 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain.Epub;
-using BookGen.Domain.Rss;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 
@@ -17,11 +15,8 @@ internal sealed class CreateIndexHtml : ITemplatedStep
 
     public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        if (Content == null)
-            throw new DependencyException(nameof(Content));
-
-        if (Template == null)
-            throw new DependencyException(nameof(Template));
+        DependencyException.ThrowIfNull(Content);
+        DependencyException.ThrowIfNull(Template);
 
         log.LogInformation("Generating Index file...");
         FsPath? input = settings.SourceDirectory.Combine(settings.Configuration.Index);

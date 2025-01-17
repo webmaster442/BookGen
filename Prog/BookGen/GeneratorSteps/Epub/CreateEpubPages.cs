@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2024 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -24,11 +24,8 @@ internal sealed class CreateEpubPages : ITemplatedStep
 
     public void RunStep(IReadonlyRuntimeSettings settings, ILogger log)
     {
-        if (Content == null)
-            throw new DependencyException(nameof(Content));
-
-        if (Template == null)
-            throw new DependencyException(nameof(Template));
+        DependencyException.ThrowIfNull(Content);
+        DependencyException.ThrowIfNull(Template);
 
         log.LogInformation("Generating epub pages...");
 
