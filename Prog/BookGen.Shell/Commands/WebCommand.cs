@@ -46,6 +46,9 @@ internal sealed partial class WebCommand : GitCommandBase
 
     public override int Execute(GitArguments arguments, string[] context)
     {
+        if (string.IsNullOrEmpty(arguments.WorkDirectory))
+            arguments.WorkDirectory = Environment.CurrentDirectory;
+
         if (!string.IsNullOrEmpty(arguments.WorkDirectory)
             && TestIfGitDir(arguments.WorkDirectory))
         {

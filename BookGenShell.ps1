@@ -1,4 +1,4 @@
-# -----------------------------------------------------------------------------
+﻿# -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
 # Version 3.0
 # Last modified: 2024-07-21
@@ -151,6 +151,20 @@ function organize
     }
 }
 
+# web command
+function web
+{
+    $argsAsString = $args -join ' '
+    if ([string]::IsNullOrWhiteSpace($argsAsString))
+    {
+        BookGen.Shell.exe "web"
+    }
+    else
+    {
+        BookGen.Shell.exe "web" "$argsAsString"
+    }
+}
+
 # info command
 function bookgen-info()
 {
@@ -158,29 +172,25 @@ function bookgen-info()
 	Get-Content $env:BookGenPath\getting-started.mdr | Out-Host -Paging
 }
 
-# lancher Command
-function launcher()
-{
-	BookGen.Launch.exe $(Get-Location).Path
-}
-
 # intro message
 function intro()
 {
 	clear
 	bookgen version
-	Write-Host " ____________________________________________________ "
-	Write-Host "/ To view the getting started doc type: bookgen-info  \"
-	Write-Host "| To get info on using bookgen type: Bookgen Help     |"
-	Write-Host "| To graphicaly select working directory type: cdg    |"
-	Write-Host "| To start the bookgen launcher type: launcher        |"
-	Write-Host "\ To redisplay this message type: intro               /"
-	Write-Host " ----------------------------------------------------- "
-	Write-Host "  \"
-	Write-Host "   \   \"
-	Write-Host "        \ /\"
-	Write-Host "        ( )"
-	Write-Host "      .( o )."
+    Write-Host "┌────────────────────────────────────────────────────────┐"
+    Write-Host "│ Added commands:                                        │"
+    Write-Host "│  intro: displays this message                          │"
+    Write-Host "│  bookgen-info: displays the getting  started guide     │"
+    Write-Host "│  www: web shortcuts                                    │"
+    Write-Host "│  web: open actual git repo website                     │"
+    Write-Host "│  cdg: menu driven change driectory                     │"
+    Write-Host "│  organize: organize current directory files to subdirs │"
+    Write-Host "└────────────────────────────────────────────────────────┘"
+    Write-Host "  \"
+    Write-Host "   \   \"
+    Write-Host "        \ /\"
+    Write-Host "        ( )"
+    Write-Host "      .( o )."
 
     Bookgen.exe terminalinstall -t
     if ($LastExitCode -eq 0) 
@@ -199,6 +209,9 @@ function intro()
         $nodeVersion = node --version
         Write-Host "Node version: $nodeVersion"
     }
+
+    Write-Host ""
+    Write-Host "─────────────────────────────────────────────────────────────────────"
 }
 
 #Set UTF8 encoding
