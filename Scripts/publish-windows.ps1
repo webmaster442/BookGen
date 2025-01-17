@@ -45,7 +45,7 @@ Expand-Archive -Path pwsh.zip -DestinationPath "powershell"
 Remove-Item pwsh.zip
 
 Write-Host "Getting Node.js..."
-$nodeUrl = "https://nodejs.org/dist/v22.11.0/node-v22.11.0-win-x64.zip"
+$nodeUrl = "https://nodejs.org/dist/v22.13.0/node-v22.13.0-win-x64.zip"
 Invoke-WebRequest -Uri $nodeUrl -OutFile node.zip
 Expand-Archive -Path node.zip -DestinationPath data
 Remove-Item node.zip
