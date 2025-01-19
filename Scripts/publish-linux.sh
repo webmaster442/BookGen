@@ -1,8 +1,6 @@
 #!/bin/bash
 cd ..
 cp BookGen.sln BookGen-Linux.sln
-dotnet sln BookGen-Linux.sln remove Prog/BookGen.Launcher
-dotnet sln BookGen-Linux.sln remove Prog/BookGen.FormulaEdit
 dotnet publish BookGen-Linux.sln -c Release -r linux-x64 -p:PublishReadyToRun=true --self-contained true -o bin/publish-linux
 
 cd bin/publish-linux

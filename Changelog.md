@@ -1,3 +1,15 @@
+# 2025. 01. 19
+
+* New: Based on .NET 9
+* New: Html2png command (Windows only)
+* New: SVG pass through support for print targets
+* Change: Logging is based on Microsoft.Extensions.Logging
+* Change: Updated dependencies
+* Change: Removed the GUI and added a web based one
+* Change: Formula editor removed, integrated into web gui
+* Change: Preview server is based on ASP.NET Kestrel
+* Fix: Various bugs fixed
+
 # 2024. 08. 05 
 
 * New: Latex formula editor, that can export to SVG (Windows only)

@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{287A3141
 		Scripts\publish-linux.sh = Scripts\publish-linux.sh
 		Scripts\publish-windows.ps1 = Scripts\publish-windows.ps1
 		README.md = README.md
-		.github\releases.xml = .github\releases.xml
-		.github\updates.json = .github\updates.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "s100_Lib", "s100_Lib", "{9C47BBFF-ACD8-40D8-9FB1-A3FA524B27C4}"

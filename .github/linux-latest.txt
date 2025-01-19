@@ -1,1 +1,0 @@
-https://github.com/webmaster442/BookGen/releases/download/2023-05-06/bookgen.2023.05.06-linux.tar.gz
