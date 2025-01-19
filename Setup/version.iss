@@ -1,1 +1,1 @@
-#define MyAppVersion "2024.08.05"
+#define MyAppVersion "2025.01.19"

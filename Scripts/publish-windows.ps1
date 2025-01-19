@@ -32,7 +32,6 @@ dotnet build -c Release
 cd ..
 
 copy-item bin\bootstaper\Release\BookGen.exe bin\Publish
-copy-item bin\bootstaper\Release\IntegrityCheck.exe bin\Publish
 copy-item bin\bootstaper\Release\Bookgen.Win.dll bin\Publish
 copy-item bin\bootstaper\Release\Documents.html bin\Publish
 
