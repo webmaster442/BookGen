@@ -56,6 +56,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.Web", "Libs\BookGen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookGen.WebGui", "Prog\Bookgen.WebGui\BookGen.WebGui.csproj", "{39883086-933B-4EAA-A024-710CA43B2723}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webmaster442.WindowsTerminal", "Libs\Webmaster442.WindowsTerminal\Webmaster442.WindowsTerminal.csproj", "{D40F2EED-6AC6-4E7C-B927-226AC89F6D6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,10 @@ Global
 		{39883086-933B-4EAA-A024-710CA43B2723}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39883086-933B-4EAA-A024-710CA43B2723}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39883086-933B-4EAA-A024-710CA43B2723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D40F2EED-6AC6-4E7C-B927-226AC89F6D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40F2EED-6AC6-4E7C-B927-226AC89F6D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D40F2EED-6AC6-4E7C-B927-226AC89F6D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D40F2EED-6AC6-4E7C-B927-226AC89F6D6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,6 +158,7 @@ Global
 		{4E7C4D96-32DD-4E72-8B28-F4DCDB74E177} = {9C47BBFF-ACD8-40D8-9FB1-A3FA524B27C4}
 		{7AAA1F74-A14B-4BB0-B6AB-8CE971154AA7} = {9C47BBFF-ACD8-40D8-9FB1-A3FA524B27C4}
 		{39883086-933B-4EAA-A024-710CA43B2723} = {05B69A0E-343B-4E7C-B77B-24E84B57D5D2}
+		{D40F2EED-6AC6-4E7C-B927-226AC89F6D6F} = {9C47BBFF-ACD8-40D8-9FB1-A3FA524B27C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {772515BA-79D4-4C5D-AF16-29DE649EC13E}

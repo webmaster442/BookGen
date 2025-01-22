@@ -7,6 +7,8 @@ using BookGen.Domain.Terminal;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using Webmaster442.WindowsTerminal;
+
 namespace BookGen.DomainServices;
 
 public static class TerminalProfileInstaller
@@ -17,17 +19,30 @@ public static class TerminalProfileInstaller
                                                                       "Fragments",
                                                                       "BookGen");
 
-    private static WindowsTerminalProfile CreateProfile(string title)
+    private static TerminalProfile CreateProfile(string title, bool isPsCoreAvailable)
     {
-        return new WindowsTerminalProfile
+        static string GetCommandLine(bool isPsCoreAvailable)
+        {
+            string shellScript = Path.Combine(AppContext.BaseDirectory, "BookGenShell.ps1");
+            if (isPsCoreAvailable)
+            {
+                return $"{InstallDetector.PowershellCoreExe} -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"";
+            }
+            else
+            {
+                return $"powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"";
+            }
+        }
+
+        return new TerminalProfile
         {
             StartingDirectory = "%userprofile%",
             Hidden = false,
             Icon = Path.Combine(AppContext.BaseDirectory, "icon-bookgen.png"),
             Name = title,
             TabTitle = title,
-            CommandLine = GetCommandLine(),
-            ColorScheme = WindowsTerminalScheme.DefaultShemeName,
+            CommandLine = GetCommandLine(isPsCoreAvailable),
+            ColorScheme = TerminalSchemes.PurplepeterShecme.Name,
             BackgroundImage = Path.Combine(AppContext.BaseDirectory, "background.png"),
             BackgroundImageStretchMode = TerminalBackgroundImageStretchMode.None,
             BackgroundImageAlignment = TerminalBackgroundImageAlignment.BottomRight,
@@ -36,54 +51,9 @@ public static class TerminalProfileInstaller
         };
     }
 
-    private static string GetCommandLine()
+    public static async Task<bool?> TryInstallAsync()
     {
-        string shellScript = Path.Combine(AppContext.BaseDirectory, "BookGenShell.ps1");
-        if (InstallDetector.GetInstallStatus().IsPsCoreInstalled)
-        {
-            return $"{InstallDetector.PowershellCoreExe} -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"";
-        }
-        else
-        {
-            return $"powershell.exe -ExecutionPolicy Bypass -NoExit -File \"{shellScript}\"";
-        }
-    }
-
-    private static bool Write(TerminalFragment fragment, string fileName)
-    {
-        try
-        {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-
-            };
-            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-
-            string? json = JsonSerializer.Serialize(fragment, options);
-            
-            if (string.IsNullOrEmpty(json))
-                return false;
-
-            
-            if (!Directory.Exists(TerminalFragmentPath))
-            {
-                Directory.CreateDirectory(TerminalFragmentPath);
-            }
-
-            File.WriteAllText(Path.Combine(TerminalFragmentPath, fileName), json);
-            return true;
-        }
-        catch (IOException)
-        {
-            return false;
-        }
-    }
-
-    public static bool? TryInstall()
-    {
-        InstallStatus? installStatus = InstallDetector.GetInstallStatus();
+        InstallResult installStatus = InstallDetector.GetInstallResult();
         if (!installStatus.IsWindowsTerminalInstalled)
             return null;
 
@@ -94,9 +64,9 @@ public static class TerminalProfileInstaller
         fileName = "bookgen.dev.json";
 #endif
         var fragment = new TerminalFragment();
-        fragment.Profiles.Add(CreateProfile(title));
-        fragment.Schemes.Add(new WindowsTerminalScheme());
+        fragment.Profiles.Add(CreateProfile(title, installStatus.IsPsCoreInstalled));
+        fragment.Schemes.Add(TerminalSchemes.PurplepeterShecme);
 
-        return Write(fragment, fileName);
+        return await WindowsTerminal.TryInstallFragmentAsync("BookGen", fileName, fragment);
     }
 }

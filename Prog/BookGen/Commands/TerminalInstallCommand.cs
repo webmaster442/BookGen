@@ -6,10 +6,12 @@
 using BookGen.CommandArguments;
 using BookGen.Domain.Terminal;
 
+using Webmaster442.WindowsTerminal;
+
 namespace BookGen.Commands;
 
 [CommandName("terminalinstall")]
-internal sealed class TerminalInstallCommand : Command<TerminalInstallArguments>
+internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallArguments>
 {
     private readonly ILogger _log;
 
@@ -18,13 +20,13 @@ internal sealed class TerminalInstallCommand : Command<TerminalInstallArguments>
         _log = log;
     }
 
-    public override int Execute(TerminalInstallArguments arguments, string[] context)
+    public override async Task<int> Execute(TerminalInstallArguments arguments, string[] context)
     {
 
         if (arguments.CheckTerminalInstall)
         {
-            InstallStatus installStatus = InstallDetector.GetInstallStatus();
-            return installStatus.IsWindowsTerminalInstalled ? Constants.Succes : Constants.GeneralError;
+            var installReult = InstallDetector.GetInstallResult();
+            return installReult.IsWindowsTerminalInstalled ? Constants.Succes : Constants.GeneralError;
         }
 
         if (arguments.CheckInstall)
@@ -37,7 +39,7 @@ internal sealed class TerminalInstallCommand : Command<TerminalInstallArguments>
             return installed ? Constants.Succes : Constants.GeneralError;
         }
 
-        var result = TerminalProfileInstaller.TryInstall();
+        var result = await TerminalProfileInstaller.TryInstallAsync();
 
         if (result == null)
         {

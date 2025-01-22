@@ -28,5 +28,6 @@
     <ProjectReference Include="..\BookGen.Domain\BookGen.Domain.csproj" />
     <ProjectReference Include="..\BookGen.RakeEngine\BookGen.RakeEngine.csproj" />
     <ProjectReference Include="..\BookGen.Resources\BookGen.Resources.csproj" />
+    <ProjectReference Include="..\Webmaster442.WindowsTerminal\Webmaster442.WindowsTerminal.csproj" />
   </ItemGroup>
 </Project>

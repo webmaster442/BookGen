@@ -8,6 +8,8 @@ using System.Text;
 
 using Microsoft.Extensions.Logging;
 
+using Webmaster442.WindowsTerminal;
+
 namespace BookGen.DomainServices
 {
     public static class ProcessRunner
@@ -66,8 +68,8 @@ namespace BookGen.DomainServices
 
         public static void RunPowershellScript(string shellScript, ILogger log)
         {
-            var installStatus = InstallDetector.GetInstallStatus();
-            if (installStatus.IsPsCoreInstalled)
+            var installResult = InstallDetector.GetInstallResult();
+            if (installResult.IsPsCoreInstalled)
                 RunShell(InstallDetector.PowershellCoreExe, $"-ExecutionPolicy Bypass -File \"{shellScript}\"", log);
             else
                 RunShell("powershell.exe", $"-ExecutionPolicy Bypass -File \"{shellScript}\"", log);

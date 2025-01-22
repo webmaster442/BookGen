@@ -23,19 +23,27 @@ public static class WindowsTerminal
     public static string[] GetLocalFragments()
         => Directory.GetFiles(_localFragments, "*.json", SearchOption.AllDirectories);
 
-    public static async Task InstallFragment(string appName, string fragmentName, TerminalFragment terminalFragment)
+    public static async Task<bool> TryInstallFragmentAsync(string appName, string fragmentName, TerminalFragment terminalFragment)
     {
-        var fragmentFolder = Path.Combine(_localFragments, appName);
-        if (!Directory.Exists(fragmentFolder))
+        try
         {
-            Directory.CreateDirectory(fragmentFolder);
+            var fragmentFolder = Path.Combine(_localFragments, appName);
+            if (!Directory.Exists(fragmentFolder))
+            {
+                Directory.CreateDirectory(fragmentFolder);
+            }
+            var filePath = Path.Combine(fragmentFolder, Path.ChangeExtension(fragmentName, ".json"));
+            using var stream = File.Create(filePath);
+            await JsonSerializer.SerializeAsync(stream, terminalFragment, _serializerOptions);
+            return true;
         }
-        var filePath = Path.Combine(fragmentFolder, Path.ChangeExtension(fragmentName, ".json"));
-        using var stream = File.Create(filePath);
-        await JsonSerializer.SerializeAsync(stream, terminalFragment, _serializerOptions);
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
-    public static async Task<TerminalFragment?> ReadFragment(string appName, string fragmentName)
+    public static async Task<TerminalFragment?> ReadFragmentAsync(string appName, string fragmentName)
     {
         var filePath = Path.Combine(_localFragments, appName, Path.ChangeExtension(fragmentName, ".json"));
         if (!File.Exists(filePath))
