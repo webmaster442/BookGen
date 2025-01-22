@@ -2,6 +2,10 @@
 using System.Text.Json.Serialization;
 
 namespace Webmaster442.WindowsTerminal;
+
+/// <summary>
+/// Windows terminal interaction class
+/// </summary>
 public static class WindowsTerminal
 {
     private static readonly string _localFragments = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows Terminal", "Fragments");
@@ -20,9 +24,20 @@ public static class WindowsTerminal
         return options;
     }
 
+    /// <summary>
+    /// Get all local fragment files
+    /// </summary>
+    /// <returns>an array of terminal json fragments present in the LocalApplicationData</returns>
     public static string[] GetLocalFragments()
         => Directory.GetFiles(_localFragments, "*.json", SearchOption.AllDirectories);
 
+    /// <summary>
+    /// Try to install a terminal fragment in the LocalApplicationData
+    /// </summary>
+    /// <param name="appName">App name</param>
+    /// <param name="fragmentName">fragment json file name</param>
+    /// <param name="terminalFragment">terminal fragment data</param>
+    /// <returns>true, if installation was successfull</returns>
     public static async Task<bool> TryInstallFragmentAsync(string appName, string fragmentName, TerminalFragment terminalFragment)
     {
         try
@@ -43,6 +58,12 @@ public static class WindowsTerminal
         }
     }
 
+    /// <summary>
+    /// Read a terminal fragment from the LocalApplicationData
+    /// </summary>
+    /// <param name="appName">App name</param>
+    /// <param name="fragmentName">fragment json file name</param>
+    /// <returns>Terminal fragment data</returns>
     public static async Task<TerminalFragment?> ReadFragmentAsync(string appName, string fragmentName)
     {
         var filePath = Path.Combine(_localFragments, appName, Path.ChangeExtension(fragmentName, ".json"));

@@ -1,9 +1,21 @@
 ﻿namespace Webmaster442.WindowsTerminal;
 
+/// <summary>
+/// Detects installed applications
+/// </summary>
 public static class InstallDetector
 {
+    /// <summary>
+    /// The name of the Windows Terminal executable
+    /// </summary>
     public const string WindowsTerminalExe = "wt.exe";
+    /// <summary>
+    /// The name of the Powershell Core executable
+    /// </summary>
     public const string PowershellCoreExe = "pwsh.exe";
+    /// <summary>
+    /// The name of the Visual Studio Code executable
+    /// </summary>
     public const string VsCodeExe = "code.cmd";
 
     private static void IfNotSetCheck(ref string? varable, string path, string exeName)
@@ -17,6 +29,10 @@ public static class InstallDetector
         }
     }
 
+    /// <summary>
+    /// Gets the installation status of various applications
+    /// </summary>
+    /// <returns>An InstallResult</returns>
     public static InstallResult GetInstallResult()
     {
         string? terminalPath = null;

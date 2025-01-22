@@ -5,12 +5,33 @@
 /// </summary>
 public static class TerminalSchemes
 {
+    /// <summary>
+    /// Campbell scheme
+    /// </summary>
     public const string Campbell = "Campbell";
+    /// <summary>
+    /// Campbell Powershell scheme
+    /// </summary>
     public const string CampbellPowershell = "Campbell Powershell";
+    /// <summary>
+    /// One Half Dark scheme
+    /// </summary>
     public const string OneHalfDark = "One Half Dark";
+    /// <summary>
+    /// One Half Light scheme
+    /// </summary>
     public const string OneHalfLight = "One Half Light";
+    /// <summary>
+    /// Vintage scheme
+    /// </summary>
     public const string Vintage = "Vintage";
+    /// <summary>
+    /// Tango Dark scheme
+    /// </summary>
     public const string TangoDark = "Tango Dark";
+    /// <summary>
+    /// Tango Light scheme
+    /// </summary>
     public const string TangoLight = "Tango Light";
 
     /// <summary>

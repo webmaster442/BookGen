@@ -104,6 +104,9 @@ public record class TerminalProfile
         init => field = value.Restrict(0, 100);
     }
 
+    /// <summary>
+    /// Creates a new instance of the TerminalProfile class.
+    /// </summary>
     public TerminalProfile()
     {
         StartingDirectory = string.Empty;
