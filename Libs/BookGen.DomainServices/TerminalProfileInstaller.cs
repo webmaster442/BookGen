@@ -67,6 +67,6 @@ public static class TerminalProfileInstaller
         fragment.Profiles.Add(CreateProfile(title, installStatus.IsPsCoreInstalled));
         fragment.Schemes.Add(TerminalSchemes.PurplepeterShecme);
 
-        return await WindowsTerminal.TryInstallFragmentAsync("BookGen", fileName, fragment);
+        return await WindowsTerminal.FragmentExtensions.TryInstallFragmentAsync("BookGen", fileName, fragment);
     }
 }
