@@ -10,7 +10,11 @@ using BookGen.Resources;
 using BookGen.WebGui;
 using BookGen.WebGui.Services;
 
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Mvc;
+
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,4 +61,25 @@ app.UseRouting();
 
 app.MapRazorPages();
 
-app.Run();
+void PrintUrlInfos()
+{
+    Console.WriteLine("Webserver started.");
+    var server = app.Services.GetRequiredService<IServer>();
+    var serverAddressesFeature = server.Features.Get<IServerAddressesFeature>();
+
+    if (serverAddressesFeature != null)
+    {
+        foreach (var address in serverAddressesFeature.Addresses)
+        {
+            Console.WriteLine($"Application is listening on: {address}");
+        }
+    }
+
+    Console.WriteLine("Press Ctrl+C to stop the application.");
+}
+
+app.Start();
+
+PrintUrlInfos();
+
+await app.WaitForShutdownAsync();
