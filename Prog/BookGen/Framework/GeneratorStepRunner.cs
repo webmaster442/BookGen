@@ -1,10 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2024 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
 
+using BookGen.Cli.Mediator;
 using BookGen.Gui;
 using BookGen.RenderEngine;
 
@@ -17,13 +18,18 @@ internal abstract class GeneratorStepRunner : IDisposable
     private readonly List<string> _redirectedLogMessages;
 
     protected readonly ILogger _log;
+    private readonly IMediator _mediator;
     private readonly ProgramInfo _programInfo;
 
     protected RuntimeSettings Settings { get; }
 
     private readonly FunctionServices _functionServices;
 
-    protected GeneratorStepRunner(RuntimeSettings settings, ILogger log, IAppSetting appSetting, ProgramInfo programInfo)
+    protected GeneratorStepRunner(RuntimeSettings settings,
+                                  ILogger log,
+                                  IMediator mediator,
+                                  IAppSetting appSetting,
+                                  ProgramInfo programInfo)
     {
         Settings = settings;
         _redirectedLogMessages = [];
@@ -39,6 +45,7 @@ internal abstract class GeneratorStepRunner : IDisposable
 
         _steps = [];
         _log = log;
+        _mediator = mediator;
         _programInfo = programInfo;
     }
 
@@ -58,7 +65,7 @@ internal abstract class GeneratorStepRunner : IDisposable
     {
         Settings.OutputDirectory = ConfigureOutputDirectory(Settings.SourceDirectory);
         var sw = new Stopwatch();
-        ConsoleProgressbar progressbar = new(0, _steps.Count, !_programInfo.JsonLogging);
+        ConsoleProgressbar progressbar = new(_steps.Count, !_programInfo.JsonLogging, _mediator);
         sw.Start();
         string stepName = string.Empty;
         try
@@ -81,12 +88,11 @@ internal abstract class GeneratorStepRunner : IDisposable
                         break;
                 }
 
-                progressbar.Report(stepCounter, "Step {0} of {1}", stepCounter, _steps.Count);
+                progressbar.Report(stepCounter);
                 step.RunStep(Settings, _log);
                 ++stepCounter;
             }
             progressbar.SwitchBuffers();
-            progressbar.Report(_redirectedLogMessages);
             _redirectedLogMessages.Clear();
         }
         catch (Exception ex)

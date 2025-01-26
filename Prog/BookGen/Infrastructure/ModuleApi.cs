@@ -3,21 +3,26 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Cli.Mediator;
+
 namespace BookGen.Infrastructure;
 
 internal sealed class ModuleApi : IModuleApi
 {
     private readonly ILogger _log;
+    private readonly IMediator _mediator;
     private readonly IAppSetting _setting;
     private readonly ProgramInfo _programInfo;
     private readonly TimeProvider _timeProvider;
 
     public ModuleApi(ILogger log,
+                     IMediator mediator,
                      IAppSetting setting,
                      ProgramInfo programInfo,
                      TimeProvider timeProvider)
     {
         _log = log;
+        _mediator = mediator;
         _setting = setting;
         _programInfo = programInfo;
         _timeProvider = timeProvider;
@@ -54,6 +59,6 @@ internal sealed class ModuleApi : IModuleApi
     public GeneratorRunner CreateRunner(bool verbose, string workDir)
     {
         _programInfo.EableVerboseLogging(verbose);
-        return new GeneratorRunner(_log, this, _setting, _programInfo, _timeProvider, workDir);
+        return new GeneratorRunner(_log, this, _setting, _programInfo, _timeProvider, _mediator, workDir);
     }
 }

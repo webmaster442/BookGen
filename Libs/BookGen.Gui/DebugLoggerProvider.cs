@@ -1,17 +1,16 @@
-﻿using System.Diagnostics;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
 
-namespace BookGen.Infrastructure;
+using System.Diagnostics;
 
-internal sealed class DebugLoggerProvider : ILoggerProvider
+using Microsoft.Extensions.Logging;
+
+namespace BookGen.Gui;
+
+public sealed class DebugLoggerProvider : ILoggerProvider
 {
-    internal sealed class DumyScope : IDisposable
-    {
-        public void Dispose()
-        {
-            //empty
-        }
-    }
-
     internal sealed class DebugLogger : ILogger
     {
         private readonly string _name;
@@ -23,7 +22,7 @@ internal sealed class DebugLoggerProvider : ILoggerProvider
 
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         {
-            return new DumyScope();
+            return new DumyLogScope();
         }
 
         public bool IsEnabled(LogLevel logLevel)

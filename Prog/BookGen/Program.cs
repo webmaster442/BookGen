@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen;
+using BookGen.Cli.Mediator;
 using BookGen.Commands;
 using BookGen.Framework;
 using BookGen.Gui;
@@ -17,6 +18,8 @@ ProgramConfigurator.AttachDebugger(argumentList);
 ProgramConfigurator.WaitForDebugger(argumentList);
 ProgramConfigurator.ConfigureLog(info, argumentList);
 
+using Mediator mediator = new();
+
 ILogger log = LoggerFactory
     .Create(builder =>
     {
@@ -27,7 +30,7 @@ ILogger log = LoggerFactory
         }
         else
         {
-            builder.AddConsole();
+            builder.AddProvider(new BookGen.Gui.ConsoleLogProvider(mediator));
             builder.AddProvider(new DebugLoggerProvider()).AddFilter((Category, level) => level == LogLevel.Debug);
         }
         if (info.LogToFile)
@@ -42,7 +45,8 @@ ILogger log = LoggerFactory
 var timeProvider = new TimeProviderImplementation();
 
 AppSetting settings = await AppSettingHandler.LoadAppSettingsAsync();
-var api = new ModuleApi(log, settings, info, timeProvider);
+
+var api = new ModuleApi(log, mediator, settings, info, timeProvider);
 
 using SimpleIoC ioc = new();
 ioc.RegisterSingleton<ITerminal, Terminal>();
@@ -50,6 +54,7 @@ ioc.RegisterSingleton<IMutexFolderLock, MutexFolderLock>();
 ioc.RegisterSingleton(log);
 ioc.RegisterSingleton(info);
 ioc.RegisterSingleton(settings);
+ioc.RegisterSingleton<IMediator>(mediator);
 ioc.RegisterSingleton<IAppSetting>(settings);
 ioc.RegisterSingleton<IModuleApi>(api);
 ioc.RegisterSingleton<TimeProvider>(timeProvider);

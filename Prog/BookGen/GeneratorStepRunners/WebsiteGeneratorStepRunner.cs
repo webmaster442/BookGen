@@ -1,8 +1,9 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Cli.Mediator;
 using BookGen.Framework;
 using BookGen.Resources;
 
@@ -10,8 +11,8 @@ namespace BookGen.GeneratorStepRunners;
 
 internal sealed class WebsiteGeneratorStepRunner : GeneratorStepRunner
 {
-    public WebsiteGeneratorStepRunner(RuntimeSettings settings, ILogger log, IAppSetting appSetting, ProgramInfo programInfo)
-        : base(settings, log, appSetting, programInfo)
+    public WebsiteGeneratorStepRunner(RuntimeSettings settings, ILogger log, IMediator mediator, IAppSetting appSetting, ProgramInfo programInfo)
+        : base(settings, log, mediator, appSetting, programInfo)
     {
         AddStep(new GeneratorSteps.CreateOutputDirectory());
         AddStep(CreateAssets());

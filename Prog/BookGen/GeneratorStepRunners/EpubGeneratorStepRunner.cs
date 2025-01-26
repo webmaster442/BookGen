@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Cli.Mediator;
 using BookGen.Framework;
 using BookGen.Resources;
 
@@ -10,8 +11,8 @@ namespace BookGen.GeneratorStepRunners;
 
 internal sealed class EpubGeneratorStepRunner : GeneratorStepRunner
 {
-    public EpubGeneratorStepRunner(RuntimeSettings settings, ILogger log, IAppSetting appSetting, ProgramInfo programInfo)
-        : base(settings, log, appSetting, programInfo)
+    public EpubGeneratorStepRunner(RuntimeSettings settings, ILogger log, IMediator mediator, IAppSetting appSetting, ProgramInfo programInfo)
+        : base(settings, log, mediator, appSetting, programInfo)
     {
         var session = new GeneratorSteps.Epub.EpubSession();
 

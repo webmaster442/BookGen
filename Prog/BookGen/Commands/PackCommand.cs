@@ -5,6 +5,7 @@
 
 using System.IO.Compression;
 
+using BookGen.Cli.Mediator;
 using BookGen.CommandArguments;
 using BookGen.Framework;
 using BookGen.Gui;
@@ -17,11 +18,13 @@ namespace BookGen.Commands;
 internal class PackCommand : Command<PackArguments>
 {
     private readonly ILogger _log;
+    private readonly IMediator _mediator;
     private readonly ProgramInfo _programInfo;
 
-    public PackCommand(ILogger log, ProgramInfo programInfo)
+    public PackCommand(ILogger log, IMediator mediator, ProgramInfo programInfo)
     {
         _log = log;
+        _mediator = mediator;
         _programInfo = programInfo;
     }
 
@@ -51,7 +54,7 @@ internal class PackCommand : Command<PackArguments>
 
         projectFiles.AddToPackListIfExist(filesToPack);
 
-        ConsoleProgressbar progressbar = new(0, filesToPack.Count, !_programInfo.JsonLogging);
+        ConsoleProgressbar progressbar = new(filesToPack.Count, !_programInfo.JsonLogging, _mediator);
 
         try
         {
@@ -66,7 +69,7 @@ internal class PackCommand : Command<PackArguments>
                         ++index;
                         string entryName = Path.GetRelativePath(arguments.Directory, file);
                         archive.CreateEntryFromFile(file, entryName, CompressionLevel.Optimal);
-                        progressbar.Report(index, "Packing: {0}", entryName);
+                        progressbar.Report(index);
                     }
                 }
             }

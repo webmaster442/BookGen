@@ -1,12 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics.CodeAnalysis;
 
-using AngleSharp.Html;
-
+using BookGen.Cli.Mediator;
 using BookGen.GeneratorStepRunners;
 using BookGen.GeneratorSteps;
 using BookGen.Infrastructure;
@@ -28,6 +27,7 @@ internal class GeneratorRunner
     private readonly IAppSetting _appSettings;
     private readonly ProgramInfo _programInfo;
     private readonly TimeProvider _timeProvider;
+    private readonly IMediator _mediator;
 
     public FsPath ConfigFile { get; }
 
@@ -44,6 +44,7 @@ internal class GeneratorRunner
                            IAppSetting appSettings,
                            ProgramInfo programInfo,
                            TimeProvider timeProvider,
+                           IMediator mediator,
                            string workDir)
     {
         _moduleApi = moduleApi;
@@ -51,6 +52,7 @@ internal class GeneratorRunner
         _appSettings = appSettings;
         _programInfo = programInfo;
         _timeProvider = timeProvider;
+        _mediator = mediator;
         _projectLoader = new ProjectLoader(workDir, log, programInfo);
         _projectLoadSuccess = _projectLoader.LoadProject();
         WorkDirectory = workDir;
@@ -134,7 +136,7 @@ internal class GeneratorRunner
 
         Log.LogInformation("Building deploy configuration...");
 
-        RunSteps(() => new WebsiteGeneratorStepRunner(settings, Log, _appSettings, _programInfo), settings);
+        RunSteps(() => new WebsiteGeneratorStepRunner(settings, Log, _mediator, _appSettings, _programInfo), settings);
 
         return Task.CompletedTask;
     }
@@ -147,7 +149,7 @@ internal class GeneratorRunner
 
         Log.LogInformation("Building print configuration...");
 
-        RunSteps(() => new PrintGeneratorStepRunner(settings, Log, _appSettings, _programInfo), settings);
+        RunSteps(() => new PrintGeneratorStepRunner(settings, Log, _mediator, _appSettings, _programInfo), settings);
 
         return Task.CompletedTask;
     }
@@ -160,7 +162,7 @@ internal class GeneratorRunner
 
         Log.LogInformation("Building epub configuration...");
 
-        RunSteps(() => new EpubGeneratorStepRunner(settings, Log, _appSettings, _programInfo), settings);
+        RunSteps(() => new EpubGeneratorStepRunner(settings, Log, _mediator, _appSettings, _programInfo), settings);
 
         return Task.CompletedTask;
     }
@@ -173,7 +175,7 @@ internal class GeneratorRunner
 
         Log.LogInformation("Building Wordpress configuration...");
 
-        RunSteps(() => new WordpressGeneratorStepRunner(settings, Log, _appSettings, _programInfo), settings);
+        RunSteps(() => new WordpressGeneratorStepRunner(settings, Log, _mediator, _appSettings, _programInfo), settings);
 
         return Task.CompletedTask;
     }
@@ -186,7 +188,7 @@ internal class GeneratorRunner
 
         Log.LogInformation("Building postprocess configuration...");
 
-        RunSteps(() => new PostProcessGenreratorStepRunner(settings, Log, _appSettings, _programInfo), settings);
+        RunSteps(() => new PostProcessGenreratorStepRunner(settings, Log, _mediator, _appSettings, _programInfo), settings);
 
         return Task.CompletedTask;
     }
@@ -201,7 +203,7 @@ internal class GeneratorRunner
 
         RuntimeSettings? settings = _projectLoader.CreateRuntimeSettings(_projectLoader.Configuration.TargetWeb);
 
-        var builder = new WebsiteGeneratorStepRunner(settings, Log, _appSettings, _programInfo);
+        var builder = new WebsiteGeneratorStepRunner(settings, Log, _mediator, _appSettings, _programInfo);
         TimeSpan runTime = builder.Run();
 
         var server = ServerFactory.CreateServerForTesting(Path.Combine(WorkDirectory, _projectLoader.Configuration.TargetWeb.OutPutDirectory));
