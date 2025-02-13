@@ -58,6 +58,8 @@ public sealed class ConsoleProgressbar : IProgress<int>
 
     private void DoReport(int value)
     {
+        AnsiConsole.Clear();
+
         int position = (Console.WindowHeight - 3) / 2;
         Console.SetCursorPosition(0, position);
         int percent = (int)Math.Ceiling(((double)value / Maximum) * 100);
