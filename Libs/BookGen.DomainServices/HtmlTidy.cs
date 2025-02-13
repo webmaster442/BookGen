@@ -38,14 +38,27 @@ namespace BookGen.DomainServices
 
             _tagreplacements = new Dictionary<string, string>()
             {
-                { "figure", "div" },
+                { "abbr", "span" },
+                { "acronym", "span" },
+                { "address", "div" },
                 { "article", "div" },
+                { "aside", "div" },
+                { "canvas", "div" },
+                { "cite", "span" },
+                { "dd", "span" },
                 { "details", "div" },
+                { "dfn", "span" },
+                { "dl", "div" },
+                { "dt", "span" },
+                { "figcaption", "p" },
+                { "figure", "div" },
                 { "footer", "div" },
                 { "header", "div" },
+                { "kbd", "span" },
                 { "nav", "div" },
+                { "samp", "span" },
                 { "section", "div" },
-                { "figcaption", "p" }
+                { "var", "span" },
             };
             _log = log;
         }
