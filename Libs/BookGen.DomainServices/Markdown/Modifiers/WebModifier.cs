@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Text.RegularExpressions;
+
 using BookGen.Interfaces;
 using Markdig;
 using Markdig.Renderers;
@@ -12,7 +14,7 @@ using Markdig.Syntax.Inlines;
 
 namespace BookGen.DomainServices.Markdown.Modifiers
 {
-    internal sealed class WebModifier 
+    internal sealed partial class WebModifier 
         : IMarkdownExtensionWithRuntimeConfig,
         IMarkdownExtensionWithSvgPassthoughToggle,
         IDisposable
@@ -44,12 +46,18 @@ namespace BookGen.DomainServices.Markdown.Modifiers
             PipelineHelpers.SetupLinkInlineRendererWithSvgSupport(renderer);
         }
 
+        [GeneratedRegex("^(\\w)+://")]
+        private static partial Regex ProtocollRegex();
+
         private static bool IsOffHostLink(LinkInline link, IReadonlyRuntimeSettings RuntimeConfig)
         {
-            if (RuntimeConfig.Configuration != null)
-                return !link.Url?.StartsWith(RuntimeConfig.Configuration.HostName) ?? false;
-            else
+            if (RuntimeConfig.Configuration == null)
                 return true;
+
+            if (!ProtocollRegex().IsMatch(link.Url ?? string.Empty))
+                return false;
+
+            return !link.Url?.StartsWith(RuntimeConfig.Configuration.HostName) ?? false;
         }
 
         private void PipelineOnDocumentProcessed(MarkdownDocument document)
