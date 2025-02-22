@@ -25,6 +25,7 @@ namespace BookGen.DomainServices
         public static ToC ParseToc(string content)
         {
             var parsed = new ToC();
+            parsed.RawMarkdown = content;
             MarkdownPipeline? pipeline = new MarkdownPipelineBuilder().UseAutoIdentifiers(AutoIdentifierOptions.GitHub).Build();
             var doc = Markdig.Markdown.Parse(content, pipeline);
 

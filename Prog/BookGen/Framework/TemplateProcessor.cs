@@ -1,9 +1,8 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2024 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Domain.Configuration;
 using BookGen.RenderEngine;
 
 namespace BookGen.Framework;
@@ -15,8 +14,6 @@ internal sealed class TemplateProcessor : ITemplateProcessor
 
     public string TemplateContent { get; set; }
 
-
-
     public TemplateProcessor(FunctionServices functionServices,
                              StaticTemplateContent? staticContent = null)
     {
@@ -24,6 +21,7 @@ internal sealed class TemplateProcessor : ITemplateProcessor
         var hostname = functionServices.RuntimeSettings.Configuration.HostName;
         _parameters = new TemplateParameters
         {
+            TocHtml = staticContent != null ? staticContent.TableOfContentsHtml : string.Empty,
             Toc = staticContent != null ? staticContent.TableOfContents : string.Empty,
             Title = staticContent != null ? staticContent.Title : string.Empty,
             Content = staticContent != null ? staticContent.Content : string.Empty,
@@ -55,6 +53,12 @@ internal sealed class TemplateProcessor : ITemplateProcessor
     {
         get => _parameters.Toc;
         set => _parameters.Toc = value;
+    }
+
+    public string TableOfContentsHtml
+    {
+        get => _parameters.TocHtml;
+        set => _parameters.TocHtml = value;
     }
 
     public string Metadata

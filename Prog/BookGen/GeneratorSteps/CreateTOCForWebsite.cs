@@ -3,7 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Domain.Epub.Ncx;
+using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
+
+using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 
 namespace BookGen.GeneratorSteps;
 
@@ -36,6 +41,32 @@ internal sealed class CreateToCForWebsite : IGeneratorContentFillStep
                 toc.Append("</details>");
             }
         }
+
+
+
+
         Content.TableOfContents = toc.ToString();
+        Content.TableOfContentsHtml = GetRawToc(settings);
+    }
+
+    private static string GetRawToc(IReadonlyRuntimeSettings settings)
+    {
+        using var pipeline = new BookGenPipeline(BookGenPipeline.Web);
+        pipeline.InjectRuntimeConfig(settings);
+        pipeline.SetSvgPasstroughTo(settings.Configuration.TargetWeb.ImageOptions.SvgPassthru);
+
+        var doc = Markdig.Markdown.Parse(settings.TocContents.RawMarkdown, pipeline.MarkdownPipeline);
+
+        foreach (MarkdownObject item in doc.Descendants())
+        {
+            if (item is LinkInline link
+                    && !link.IsImage
+                    && link.FirstChild != null)
+            {
+                link.Url = $"{settings.Configuration.HostName}{Path.ChangeExtension(link.Url, ".html")}";
+            }
+        }
+
+        return Markdig.Markdown.ToHtml(doc, pipeline.MarkdownPipeline);
     }
 }

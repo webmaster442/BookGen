@@ -34,6 +34,7 @@ namespace BookGen.Domain
         public ToC()
         {
             _tocContents = [];
+            RawMarkdown = string.Empty;
         }
 
         public void AddChapter(string chapter, List<Link> files)
@@ -88,5 +89,7 @@ namespace BookGen.Domain
                 }
             }
         }
+
+        public string RawMarkdown { get; set; }
     }
 }

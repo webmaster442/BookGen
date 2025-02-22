@@ -88,9 +88,7 @@ internal sealed class ProjectLoader
     {
         EnsureThatLoaded();
 
-        var tagUtils = new TagUtils(_state.Tags, _state.Config!.BookLanguage);
-
-        var settings = new RuntimeSettings(tagUtils)
+        var settings = new RuntimeSettings()
         {
             SourceDirectory = _state.WorkDir,
             Configuration = _state.Config,
@@ -98,6 +96,7 @@ internal sealed class ProjectLoader
             MetataCache = new Dictionary<string, string>(100),
             InlineImgCache = new ConcurrentDictionary<string, string>(),
             CurrentBuildConfig = current,
+            Tags = new TagUtils(_state.Tags, _state.Config!.BookLanguage),
         };
 
         if (string.IsNullOrEmpty(_state.Config.ImageDir))

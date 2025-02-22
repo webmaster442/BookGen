@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -14,13 +14,13 @@ namespace BookGen.Domain
     public sealed class RuntimeSettings : IReadonlyRuntimeSettings
     {
         public FsPath OutputDirectory { get; set; }
-        public FsPath SourceDirectory { get; init; }
+        public required FsPath SourceDirectory { get; init; }
         public FsPath ImageDirectory { get; set; }
-        public ITableOfContents TocContents { get; init; }
-        public Config Configuration { get; init; }
+        public required ITableOfContents TocContents { get; init; }
+        public required Config Configuration { get; init; }
         public Dictionary<string, string> MetataCache { get; init; }
         public ConcurrentDictionary<string, string> InlineImgCache { get; init; }
-        public BuildConfig CurrentBuildConfig { get; init; }
+        public required BuildConfig CurrentBuildConfig { get; init; }
 
         IReadOnlyConfig IReadonlyRuntimeSettings.Configuration => Configuration;
 
@@ -30,19 +30,14 @@ namespace BookGen.Domain
 
         IReadOnlyBuildConfig IReadonlyRuntimeSettings.CurrentBuildConfig => CurrentBuildConfig;
 
-        public ITagUtils Tags { get; }
+        public required ITagUtils Tags { get; init; }
 
-        public RuntimeSettings(ITagUtils tags)
+        public RuntimeSettings()
         {
             OutputDirectory = FsPath.Empty;
-            SourceDirectory = FsPath.Empty;
             ImageDirectory = FsPath.Empty;
-            TocContents = new ToC();
-            Configuration = new Config();
             MetataCache = [];
             InlineImgCache = new ConcurrentDictionary<string, string>();
-            CurrentBuildConfig = new BuildConfig();
-            Tags = tags;
         }
     }
 }

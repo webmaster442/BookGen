@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2023 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -26,5 +26,10 @@ namespace BookGen.Interfaces
         /// <param name="chapter">chapter name. Can be null. If null, all links returned from the TOC</param>
         /// <returns>Enumerable collection of HTMLLinks</returns>
         IEnumerable<Link> GetLinksForChapter(string? chapter = null);
+
+        /// <summary>
+        /// Raw markdown of the TOC
+        /// </summary>
+        string RawMarkdown { get; }
     }
 }

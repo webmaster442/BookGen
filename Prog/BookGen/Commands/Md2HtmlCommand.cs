@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.CommandArguments;
+using BookGen.Domain.Configuration;
 using BookGen.DomainServices.Markdown;
 using BookGen.Framework;
 using BookGen.RenderEngine;
@@ -30,7 +31,16 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
             AppSetting = appSetting,
             Log = log,
             TimeProvider = timeProvider,
-            RuntimeSettings = new RuntimeSettings(new EmptyTagUtils()),
+            RuntimeSettings = new RuntimeSettings()
+            {
+                SourceDirectory = FsPath.Empty,
+                Configuration = new Config(),
+                TocContents = new ToC(),
+                MetataCache = new Dictionary<string, string>(),
+                InlineImgCache = new ConcurrentDictionary<string, string>(),
+                CurrentBuildConfig = new BuildConfig(),
+                Tags = new EmptyTagUtils()
+            }
         });
     }
 

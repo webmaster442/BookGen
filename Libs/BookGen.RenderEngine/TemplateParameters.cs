@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2024 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ public sealed class TemplateParameters
 
     public TemplateParameters()
     {
-        _protectedParameters = ["toc", "title", "content", "host", "metadata", "precompiledheader"];
+        _protectedParameters = ["toc", "tochtml", "title", "content", "host", "metadata", "precompiledheader"];
         _parameters = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         AddProtecteds();
     }
@@ -29,6 +29,12 @@ public sealed class TemplateParameters
     {
         get => _parameters["toc"];
         set => _parameters["toc"] = value;
+    }
+
+    public string TocHtml
+    {
+        get => _parameters["tochtml"];
+        set => _parameters["tochtml"] = value;
     }
 
     public string Title
