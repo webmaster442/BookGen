@@ -12,6 +12,8 @@ using BookGen.Gui;
 using BookGen.Infrastructure;
 using BookGen.ProjectHandling;
 
+using Webmaster442.WindowsTerminal.Wigets;
+
 namespace BookGen.Commands;
 
 [CommandName("pack")]
@@ -54,12 +56,13 @@ internal class PackCommand : Command<PackArguments>
 
         projectFiles.AddToPackListIfExist(filesToPack);
 
-        ConsoleProgressbar progressbar = new(filesToPack.Count, !_programInfo.JsonLogging, _mediator);
+
+        var progressbar = new ConsoleProgressbar(_mediator);
 
         try
         {
             int index = 1;
-            progressbar.SwitchBuffers();
+            progressbar.Show(useAlternateBuffer: true);
             using (var stream = File.Create(arguments.OutputFile))
             {
                 using (ZipArchive archive = new(stream, ZipArchiveMode.Create))
@@ -69,15 +72,17 @@ internal class PackCommand : Command<PackArguments>
                         ++index;
                         string entryName = Path.GetRelativePath(arguments.Directory, file);
                         archive.CreateEntryFromFile(file, entryName, CompressionLevel.Optimal);
-                        progressbar.Report(index);
+                        
+                        double percent = (double)index / filesToPack.Count;
+                        progressbar.Report(percent);
                     }
                 }
             }
-            progressbar.SwitchBuffers();
+            progressbar.Hide();
         }
         catch (Exception ex)
         {
-            progressbar.SwitchBuffers();
+            progressbar.Hide();
             _log.LogCritical(ex, "Critical Error");
         }
 

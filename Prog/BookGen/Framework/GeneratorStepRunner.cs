@@ -65,12 +65,12 @@ internal abstract class GeneratorStepRunner : IDisposable
     {
         Settings.OutputDirectory = ConfigureOutputDirectory(Settings.SourceDirectory);
         var sw = new Stopwatch();
-        ConsoleProgressbar progressbar = new(_steps.Count, !_programInfo.JsonLogging, _mediator);
+        ConsoleProgressbar progressbar = new(_mediator);
         sw.Start();
         string stepName = string.Empty;
         try
         {
-            progressbar.SwitchBuffers();
+            progressbar.Show(useAlternateBuffer: true);
             int stepCounter = 1;
             foreach (IGeneratorStep? step in _steps)
             {
@@ -88,16 +88,17 @@ internal abstract class GeneratorStepRunner : IDisposable
                         break;
                 }
 
-                progressbar.Report(stepCounter);
+                double percent = (double)stepCounter / _steps.Count;
+                progressbar.Report(percent);
                 step.RunStep(Settings, _log);
                 ++stepCounter;
             }
-            progressbar.SwitchBuffers();
+            progressbar.Hide();
             _redirectedLogMessages.Clear();
         }
         catch (Exception ex)
         {
-            progressbar.SwitchBuffers();
+            progressbar.Hide();
             _log.LogCritical(ex, "Critical exception while running: {stepName}", stepName);
 #if DEBUG
             Debugger.Break();
