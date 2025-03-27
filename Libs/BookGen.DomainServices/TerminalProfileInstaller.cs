@@ -1,11 +1,7 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2022-2023 Ruzsinszki Gábor
+// (c) 2022-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
-
-using BookGen.Domain.Terminal;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 using Webmaster442.WindowsTerminal;
 
@@ -13,12 +9,6 @@ namespace BookGen.DomainServices;
 
 public static class TerminalProfileInstaller
 {
-    public static readonly string TerminalFragmentPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                                                                      "Microsoft",
-                                                                      "Windows Terminal",
-                                                                      "Fragments",
-                                                                      "BookGen");
-
     private static TerminalProfile CreateProfile(string title, bool isPsCoreAvailable)
     {
         static string GetCommandLine(bool isPsCoreAvailable)
@@ -51,6 +41,13 @@ public static class TerminalProfileInstaller
         };
     }
 
+#if DEBUG
+    private const string fileName = "bookgen.dev.json";
+#else
+    private const string fileName = "bookgen.json";
+#endif
+
+
     public static async Task<bool?> TryInstallAsync()
     {
         InstallResult installStatus = InstallDetector.GetInstallResult();
@@ -58,15 +55,27 @@ public static class TerminalProfileInstaller
             return null;
 
         string title = "BookGen Shell";
-        string fileName = "bookgen.json";
 #if DEBUG
         title = "BookGen Shell (Dev version)";
-        fileName = "bookgen.dev.json";
 #endif
         var fragment = new TerminalFragment();
         fragment.Profiles.Add(CreateProfile(title, installStatus.IsPsCoreInstalled));
         fragment.Schemes.Add(TerminalSchemes.PurplepeterShecme);
+        fragment.Schemes.Add(TerminalSchemes.Dracula);
+        fragment.Actions.Add(new TerminalAction
+        {
+            Command = TerminalCommand.SetColorScheme(TerminalSchemes.PurplepeterShecme.Name),
+            Id = "User.SetSchemeToPurplepeter",
+        });
+        fragment.Actions.Add(new TerminalAction
+        {
+            Command = TerminalCommand.SetColorScheme(TerminalSchemes.Dracula.Name),
+            Id = "User.SetSchemeToDracula",
+        });
 
         return await WindowsTerminal.FragmentExtensions.TryInstallFragmentAsync("BookGen", fileName, fragment);
     }
+
+    public static bool IsInstalled()
+        => WindowsTerminal.FragmentExtensions.IsFragmentInstalled("BookGen", fileName);
 }

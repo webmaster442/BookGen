@@ -31,11 +31,7 @@ internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallArgum
 
         if (arguments.CheckInstall)
         {
-            bool installed = Directory.Exists(TerminalProfileInstaller.TerminalFragmentPath);
-            if (installed)
-            {
-                installed &= Directory.GetFiles(TerminalProfileInstaller.TerminalFragmentPath, "*.json").Length > 0;
-            }
+            bool installed = TerminalProfileInstaller.IsInstalled();
             return installed ? Constants.Succes : Constants.GeneralError;
         }
 
