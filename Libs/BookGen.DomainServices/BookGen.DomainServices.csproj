@@ -10,7 +10,7 @@
     <InternalsVisibleTo Include="BookGen.Tests" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Webmaster442.WindowsTerminal" Version="3.0.0" />
+    <PackageReference Include="Webmaster442.WindowsTerminal" Version="3.0.1" />
     <PackageReference Include="Markdig" Version="0.40.0" />
     <PackageReference Include="Microsoft.ClearScript" Version="7.5.0" />
     <PackageReference Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.5.0" />
