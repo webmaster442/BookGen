@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Reflection.Emit;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.VFS;
 using Bookgen.Lib.Internals;
-using System.Security.Cryptography.X509Certificates;
+using Bookgen.Lib.VFS;
 
 namespace Bookgen.Lib;
 
@@ -22,11 +13,17 @@ internal static class Constants
 public sealed class BookGenEnvironment
 {
     private readonly IFolder _folder;
+    private Config? _config;
+    private TocEntry? _toc;
 
     public BookGenEnvironment(IFolder soruceFolder)
     {
         _folder = soruceFolder;
     }
+
+    public Config Configuration => _config ?? throw new InvalidOperationException();
+
+    public TocEntry TocEntry => _toc ?? throw new InvalidOperationException();
 
     public async Task<EnvironmentStatus> Initialize()
     {
@@ -34,15 +31,15 @@ public sealed class BookGenEnvironment
 
         if (!_folder.Exists(Constants.ConfigFile))
         {
-            status.AddIssue($"No {Constants.ConfigFile} found in folder {_folder.FullPath}");
+            status.Add($"No {Constants.ConfigFile} found in folder {_folder.FullPath}");
             return status;
         }
 
         Config? config = await _folder.DeserializeAsync<Config>(Constants.ConfigFile);
 
-        if ( config== null)
+        if (config == null)
         {
-            status.AddIssue("Config file load failed");
+            status.Add("Config file load failed");
             return status;
         }
 
@@ -51,11 +48,35 @@ public sealed class BookGenEnvironment
         if (config.VersionTag < defaultConfig.VersionTag)
         {
             await _folder.SerializeAsync(Constants.ConfigFile, config);
-            status.AddIssue($"Config from version {config.VersionTag} was updated to {defaultConfig.VersionTag}. Check settings and re-execute");
+            status.Add($"Config from version {config.VersionTag} was updated to {defaultConfig.VersionTag}. Check settings and re-execute");
             return status;
         }
 
+        if (!SerializedObjectValidator.Validate(config, _folder, status))
+        {
+            return status;
+        }
 
+        if (!_folder.Exists(config.TocFile))
+        {
+            status.Add($"No {config.TocFile} found in folder {_folder.FullPath}");
+            return status;
+        }
+
+        TocEntry? toc = await _folder.DeserializeAsync<TocEntry>(config.TocFile);
+        if (toc == null)
+        {
+            status.Add($"{config.TocFile} file load failed");
+            return status;
+        }
+
+        if (!SerializedObjectValidator.Validate(toc, _folder, status))
+        {
+            return status;
+        }
+
+        _config = config;
+        _toc = toc;
 
         return status;
     }

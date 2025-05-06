@@ -6,7 +6,7 @@ using Bookgen.Lib.VFS;
 using SkiaSharp;
 
 namespace Bookgen.Lib.ImageService;
-public class ImgService
+public sealed class ImgService : IImgService
 {
     private readonly IFolder _sourceFolder;
     private readonly ImageConfig _imageConfig;
@@ -39,20 +39,7 @@ public class ImgService
         };
     }
 
-    public static SKEncodedImageFormat GetSkiaImageFormat(string extension)
-    {
-        return extension.ToLower() switch
-        {
-            ".png" or "png" => SKEncodedImageFormat.Png,
-            ".jpg" or "jpg" or ".jpeg" or "jpeg" => SKEncodedImageFormat.Jpeg,
-            ".gif" or "gif" => SKEncodedImageFormat.Gif,
-            ".webp" or "webp" => SKEncodedImageFormat.Webp,
-            _ => throw new InvalidOperationException("Unknown file type"),
-        };
-    }
-
-
-    public virtual (string base64data, ImageType imageType) GetImageEmbedData(string path)
+    public (string base64data, ImageType imageType) GetImageEmbedData(string path)
     {
         static ImageType GetImateType(SvgRecodeOption recodeOption)
         {

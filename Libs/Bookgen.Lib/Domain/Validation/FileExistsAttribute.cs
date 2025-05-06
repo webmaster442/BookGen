@@ -13,12 +13,24 @@ internal sealed class FileExistsAttribute : ValidationAttribute
     {
         var folder = validationContext.GetRequiredService<IFolder>();
 
-        if (value is not string @string)
-            throw new InvalidOperationException($"{nameof(NotNullOrWhiteSpaceAttribute)} works with {typeof(string)} properties");
+        if (value is string[] files)
+        {
+            foreach (var file in files)
+            {
+                if (!folder.Exists(file))
+                    return new($"{file} file doesn't exist");
+            }
 
-        if (!folder.Exists(@string))
-            return new($"{@string} file doesn't exist");
+            return ValidationResult.Success;
+        }
+        else if (value is string file)
+        {
+            if (!folder.Exists(file))
+                return new($"{file} file doesn't exist");
 
-        return ValidationResult.Success;
+            return ValidationResult.Success;
+        }
+        
+        throw new InvalidOperationException($"{nameof(NotNullOrWhiteSpaceAttribute)} works with {typeof(string)} properties");
     }
 }

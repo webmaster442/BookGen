@@ -2,7 +2,7 @@
 
 namespace Bookgen.Lib.Domain;
 
-internal sealed class SourceFile
+public sealed class SourceFile
 {
     public required FrontMatter FrontMatter { get; init; }
     public required string Content { get; init; }

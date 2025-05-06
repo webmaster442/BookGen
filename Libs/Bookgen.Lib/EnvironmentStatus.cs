@@ -2,7 +2,7 @@
 
 namespace Bookgen.Lib;
 
-public sealed class EnvironmentStatus : IEnumerable<string>
+public sealed class EnvironmentStatus : ICollection<string>
 {
     private readonly List<string> _issues;
 
@@ -11,14 +11,30 @@ public sealed class EnvironmentStatus : IEnumerable<string>
         _issues = new List<string>();
     }
 
-    public void AddIssue(string message)
+    public void Add(string message)
         => _issues.Add(message);
 
     public bool IsOk => _issues.Count < 1;
 
-    public IEnumerator<string> GetEnumerator() 
+    public int Count => _issues.Count;
+
+    public bool IsReadOnly => false;
+
+    public IEnumerator<string> GetEnumerator()
         => _issues.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator()
         => GetEnumerator();
+
+    public void Clear()
+        => _issues.Clear();
+
+    public bool Contains(string item)
+        => _issues.Contains(item);
+
+    public void CopyTo(string[] array, int arrayIndex)
+        => _issues.CopyTo(array, arrayIndex);
+
+    public bool Remove(string item)
+        => _issues.Remove(item);
 }

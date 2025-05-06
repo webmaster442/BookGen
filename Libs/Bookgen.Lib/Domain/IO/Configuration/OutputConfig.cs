@@ -10,9 +10,13 @@ public abstract class OutputConfig
     [Required]
     public CssClasses CssClasses { get; init; }
 
+    [Required]
+    public bool PreRenderCode {  get; init; }
+
     public OutputConfig()
     {
         Images = new ImageConfig();
         CssClasses = new CssClasses();
+        PreRenderCode = false;
     }
 }
