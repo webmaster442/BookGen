@@ -34,10 +34,17 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
 
     protected bool TestIfGitDir(string workDir)
     {
-        string[] arguments = ["status", "2"];
+        try
+        {
+            string[] arguments = ["status", "2"];
 
-        var (exitcode, _) = ProcessRunner.RunProcess("git", arguments, TimeOut, workDir);
-        return exitcode == 0;
+            var (exitcode, _) = ProcessRunner.RunProcess("git", arguments, TimeOut, workDir);
+            return exitcode == 0;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
     protected string GetGitRemote(string workDirectory)
@@ -49,17 +56,24 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
 
     protected GitStatus? GetGitStatus(string workDirectory)
     {
-        string[] gitArguments = ["status", "-b", "-s", "--porcelain=2"];
-
-        var (exitcode, output) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
-        if (exitcode == 0)
+        try
         {
-            var status = GitParser.ParseStatus(output);
+            string[] gitArguments = ["status", "-b", "-s", "--porcelain=2"];
 
-            return status;
+            var (exitcode, output) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
+            if (exitcode == 0)
+            {
+                var status = GitParser.ParseStatus(output);
+
+                return status;
+            }
+
+            return null;
         }
-
-        return null;
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     protected void PrintStatus(GitStatus? status)
