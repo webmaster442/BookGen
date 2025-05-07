@@ -14,6 +14,9 @@
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.0" />
     <PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="3.119.0" />
     <PackageReference Include="Svg.Skia" Version="3.0.2" />
+    <PackageReference Include="Microsoft.ClearScript" Version="7.5.0" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.5.0" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.5.0" />
   </ItemGroup>
 
 </Project>

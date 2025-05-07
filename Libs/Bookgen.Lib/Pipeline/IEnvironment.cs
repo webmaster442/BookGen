@@ -4,7 +4,7 @@ using Bookgen.Lib.VFS;
 
 namespace Bookgen.Lib.Pipeline;
 
-public interface IEnvironment : IDisposable
+public interface IEnvironment : IAssetSource, IDisposable
 {
     Config Configuration { get; }
     TableOfContents TableOfContents { get; }

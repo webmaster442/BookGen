@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
@@ -17,13 +18,15 @@ internal static class Constants
 public sealed class BookGenEnvironment : IEnvironment
 {
     private readonly IFolder _folder;
+    private readonly IAssetSource[] _assets;
     private Config? _config;
     private TableOfContents? _toc;
     private bool _isInitialized;
 
-    public BookGenEnvironment(IFolder soruceFolder)
+    public BookGenEnvironment(IFolder soruceFolder, params IAssetSource[] assets)
     {
         _folder = soruceFolder;
+        _assets = assets;
     }
 
     public Config Configuration => _config ?? throw new InvalidOperationException();
@@ -34,6 +37,12 @@ public sealed class BookGenEnvironment : IEnvironment
 
     public void Dispose()
     {
+        foreach (var asset in _assets)
+        {
+            if (asset is IDisposable disposable)
+                disposable.Dispose();
+        }
+
         if (_isInitialized && _folder.Exists(Constants.LockFile))
         {
             _folder.Delete(Constants.LockFile);
@@ -107,5 +116,19 @@ public sealed class BookGenEnvironment : IEnvironment
         _isInitialized = true;
 
         return status;
+    }
+
+    public bool TryGetAsset(string name, [MaybeNullWhen(false)] out string? content)
+    {
+        foreach (var assetsource in _assets)
+        {
+            if (assetsource.TryGetAsset(name, out content))
+            {
+                return true;
+            }
+        }
+
+        content = null;
+        return false;
     }
 }
