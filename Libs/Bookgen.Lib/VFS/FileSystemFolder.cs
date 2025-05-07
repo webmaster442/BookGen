@@ -1,6 +1,7 @@
-﻿namespace Bookgen.Lib.VFS;
+﻿
+namespace Bookgen.Lib.VFS;
 
-public sealed class FileSystemFolder : IFolder
+public sealed class FileSystemFolder : IFolder, IReadOnlyFolder
 {
     private readonly string _rootFolder;
 
@@ -62,5 +63,17 @@ public sealed class FileSystemFolder : IFolder
     {
         string actualPath = GetFullPath(path);
         return File.Create(actualPath);
+    }
+
+    public void Delete(string path)
+    {
+        string actualPath = GetFullPath(path);
+        File.Delete(actualPath);
+    }
+
+    public async Task WriteTextAsync(string path, string content)
+    {
+        string actualPath = GetFullPath(path);
+        await File.WriteAllTextAsync(actualPath, content);
     }
 }

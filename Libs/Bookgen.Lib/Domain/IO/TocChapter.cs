@@ -4,7 +4,7 @@ using Bookgen.Lib.Domain.Validation;
 
 namespace Bookgen.Lib.Domain.IO;
 
-public sealed class TocEntry
+public sealed class TocChapter
 {
     [NotNullOrWhiteSpace]
     [Required]
@@ -15,13 +15,10 @@ public sealed class TocEntry
     [FileExists]
     public string[] Files { get; init; }
 
-    public TocEntry[] Entries { get; init; }
-
-    public TocEntry()
+    public TocChapter()
     {
         Title = string.Empty;
         SubTitle = string.Empty;
-        Entries = Array.Empty<TocEntry>();
         Files = Array.Empty<string>();
     }
 }

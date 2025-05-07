@@ -1,12 +1,9 @@
-﻿namespace Bookgen.Lib.VFS;
+﻿
+namespace Bookgen.Lib.VFS;
 
-public interface IFolder
+public interface IFolder : IReadOnlyFolder
 {
-    string FullPath { get; }
-    TextReader OpenText(string path);
-    Stream OpenStream(string path);
-    bool Exists(string path);
-    DateTime GetLastModifiedUtc(string path);
-    string GetText(string path);
     Stream CreateStream(string path);
+    void Delete(string path);
+    Task WriteTextAsync(string path, string content);
 }

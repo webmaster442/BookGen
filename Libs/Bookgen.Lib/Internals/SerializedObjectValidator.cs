@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Runtime.InteropServices.Marshalling;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 using Bookgen.Lib.VFS;
 
@@ -32,11 +25,11 @@ internal static class SerializedObjectValidator
     }
 
 
-    public static bool Validate<T>(T @object, IFolder folder, ICollection<string> issues) where T : class
+    public static bool Validate<T>(T @object, IReadOnlyFolder folder, ICollection<string> issues) where T : class
     {
 
         ValidationServiceProvider provider = new();
-        provider.Add<IFolder>(folder);
+        provider.Add<IReadOnlyFolder>(folder);
 
         ValidationContext context = new ValidationContext(instance: @object,
                                                           serviceProvider: provider,

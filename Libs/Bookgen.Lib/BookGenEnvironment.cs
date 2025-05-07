@@ -1,6 +1,9 @@
-﻿using Bookgen.Lib.Domain.IO;
+﻿using System.Diagnostics;
+
+using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Internals;
+using Bookgen.Lib.Pipeline;
 using Bookgen.Lib.VFS;
 
 namespace Bookgen.Lib;
@@ -8,13 +11,15 @@ namespace Bookgen.Lib;
 internal static class Constants
 {
     public const string ConfigFile = "bookgen.json";
+    public const string LockFile = "bookgen.lock";
 }
 
-public sealed class BookGenEnvironment
+public sealed class BookGenEnvironment : IEnvironment
 {
     private readonly IFolder _folder;
     private Config? _config;
-    private TocEntry? _toc;
+    private TableOfContents? _toc;
+    private bool _isInitialized;
 
     public BookGenEnvironment(IFolder soruceFolder)
     {
@@ -23,10 +28,25 @@ public sealed class BookGenEnvironment
 
     public Config Configuration => _config ?? throw new InvalidOperationException();
 
-    public TocEntry TocEntry => _toc ?? throw new InvalidOperationException();
+    public TableOfContents TableOfContents => _toc ?? throw new InvalidOperationException();
+
+    public IFolder Source => _isInitialized ? _folder : throw new InvalidOperationException();
+
+    public void Dispose()
+    {
+        if (_isInitialized && _folder.Exists(Constants.LockFile))
+        {
+            _folder.Delete(Constants.LockFile);
+        }
+    }
 
     public async Task<EnvironmentStatus> Initialize()
     {
+        if (_isInitialized)
+        {
+            throw new InvalidOperationException();
+        }
+
         EnvironmentStatus status = new EnvironmentStatus();
 
         if (!_folder.Exists(Constants.ConfigFile))
@@ -63,7 +83,7 @@ public sealed class BookGenEnvironment
             return status;
         }
 
-        TocEntry? toc = await _folder.DeserializeAsync<TocEntry>(config.TocFile);
+        TableOfContents? toc = await _folder.DeserializeAsync<TableOfContents>(config.TocFile);
         if (toc == null)
         {
             status.Add($"{config.TocFile} file load failed");
@@ -78,7 +98,14 @@ public sealed class BookGenEnvironment
         _config = config;
         _toc = toc;
 
+        if (!_folder.Exists(Constants.LockFile))
+        {
+            var id = Process.GetCurrentProcess().Id.ToString();
+            await _folder.WriteTextAsync(Constants.LockFile, id);
+        }
+
+        _isInitialized = true;
+
         return status;
     }
-
 }

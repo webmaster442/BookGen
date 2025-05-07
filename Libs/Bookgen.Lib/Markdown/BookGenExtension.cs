@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Bookgen.Lib.ImageService;
+﻿using Bookgen.Lib.ImageService;
 
 using Markdig;
 using Markdig.Renderers;

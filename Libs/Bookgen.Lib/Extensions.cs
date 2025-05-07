@@ -12,7 +12,7 @@ using YamlDotNet.Serialization;
 namespace Bookgen.Lib;
 public static class Extensions
 {
-    public static SourceFile[] GetSourceFiles(this TocEntry tocEntry, IFolder folder, ILogger logger)
+    public static SourceFile[] GetSourceFiles(this TocChapter tocEntry, IFolder folder, ILogger logger)
     {
         SourceFile[] results = new SourceFile[tocEntry.Files.Length];
         for (int i=0; i<tocEntry.Files.Length; i++)
