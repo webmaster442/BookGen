@@ -7,26 +7,30 @@ namespace Bookgen.Lib.Domain.IO.Configuration;
 public sealed class Config
 {
     [Range(0, int.MaxValue)]
-    public required int VersionTag { get; init; }
+    public int VersionTag { get; init; }
 
     [FileExists]
-    public required string TocFile { get; init; }
+    public string TocFile { get; init; }
 
-    public required StaticWebsiteConfig StaticWebsiteConfig { get; init; }
+    [NotNullOrWhiteSpace]
+    public string OutputFolder { get; init; }
 
-    public required WordpressConfig WordpressConfig { get; init; }
+    [Required]
+    public StaticWebsiteConfig StaticWebsiteConfig { get; init; }
 
-    public required PrintConfig PrintConfig { get; init; }
+    [Required]
+    public WordpressConfig WordpressConfig { get; init; }
 
-    public static Config GetDefault()
+    [Required]
+    public PrintConfig PrintConfig { get; init; }
+
+    public Config()
     {
-        return new Config
-        {
-            TocFile = string.Empty,
-            VersionTag = 250506,
-            StaticWebsiteConfig = new StaticWebsiteConfig(),
-            PrintConfig = new PrintConfig(),
-            WordpressConfig = new WordpressConfig(),
-        };
+        VersionTag = 250506;
+        TocFile = string.Empty;
+        StaticWebsiteConfig = new StaticWebsiteConfig();
+        PrintConfig = new PrintConfig();
+        WordpressConfig = new WordpressConfig();
+        OutputFolder = string.Empty;
     }
 }

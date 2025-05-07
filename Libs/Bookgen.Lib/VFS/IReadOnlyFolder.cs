@@ -8,4 +8,6 @@ public interface IReadOnlyFolder
     DateTime GetLastModifiedUtc(string path);
     string GetText(string path);
     bool Exists(string path);
+    IEnumerable<string> GetFiles(bool recursive);
+    IEnumerable<string> GetDirectories(bool recursive);
 }

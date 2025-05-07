@@ -12,11 +12,15 @@ public sealed class StaticWebsiteConfig : OutputConfig
     [NotNullOrWhiteSpace]
     public string DeployHost { get; set; }
 
+    [FileExists]
+    public List<string> AssetsToCopy { get; init; }
+
     public StaticWebsiteConfig()
     {
         DeployHost = string.Empty;
         CssClasses = new CssClasses();
         Images = new ImageConfig();
         OpenLinksOutsideHostOnNewTab = false;
+        AssetsToCopy = new List<string>();
     }
 }

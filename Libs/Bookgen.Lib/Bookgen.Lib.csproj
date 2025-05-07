@@ -19,4 +19,9 @@
     <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pipeline\Wordpress\" />
+    <Folder Include="Pipeline\Print\" />
+  </ItemGroup>
+
 </Project>

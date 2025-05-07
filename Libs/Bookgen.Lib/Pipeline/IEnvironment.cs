@@ -9,4 +9,5 @@ public interface IEnvironment : IAssetSource, IDisposable
     Config Configuration { get; }
     TableOfContents TableOfContents { get; }
     IFolder Source { get; }
+    IFolder Output { get; }
 }

@@ -13,7 +13,7 @@ internal sealed class FileExistsAttribute : ValidationAttribute
     {
         var folder = validationContext.GetRequiredService<IReadOnlyFolder>();
 
-        if (value is string[] files)
+        if (value is IEnumerable<string> files)
         {
             foreach (var file in files)
             {

@@ -1,4 +1,5 @@
 ﻿
+
 namespace Bookgen.Lib.VFS;
 
 public sealed class FileSystemFolder : IFolder, IReadOnlyFolder
@@ -76,4 +77,32 @@ public sealed class FileSystemFolder : IFolder, IReadOnlyFolder
         string actualPath = GetFullPath(path);
         await File.WriteAllTextAsync(actualPath, content);
     }
+
+    public async Task CopyTo(string path, IFolder destination)
+    {
+        string sourcePath = GetFullPath(path);
+        Validate(sourcePath);
+
+        string destinationPath = Path.Combine(destination.FullPath, Path.GetFileName(sourcePath));
+        await using FileStream sourceStream = File.OpenRead(sourcePath);
+        await using FileStream destinationStream = File.Create(destinationPath);
+
+        await sourceStream.CopyToAsync(destinationStream);
+
+    }
+
+    public void CreateIfNotExist()
+    {
+        if (Directory.Exists(FullPath))
+            return;
+
+        Directory.CreateDirectory(FullPath);
+    }
+
+    public IEnumerable<string> GetFiles(bool recursive)
+        => Directory.EnumerateFiles(FullPath, "*.*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+    
+
+    public IEnumerable<string> GetDirectories(bool recursive)
+        => Directory.EnumerateDirectories(FullPath, "*.*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
 }
