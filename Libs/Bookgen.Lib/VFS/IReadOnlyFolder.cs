@@ -6,7 +6,7 @@ public interface IReadOnlyFolder
     TextReader OpenText(string path);
     Stream OpenStream(string path);
     DateTime GetLastModifiedUtc(string path);
-    string GetText(string path);
+    string ReadText(string path);
     bool Exists(string path);
     IEnumerable<string> GetFiles(bool recursive);
     IEnumerable<string> GetDirectories(bool recursive);

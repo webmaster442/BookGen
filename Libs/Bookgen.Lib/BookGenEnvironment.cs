@@ -7,6 +7,8 @@ using Bookgen.Lib.Internals;
 using Bookgen.Lib.Pipeline;
 using Bookgen.Lib.VFS;
 
+using Microsoft.Extensions.Logging;
+
 namespace Bookgen.Lib;
 
 internal static class Constants
@@ -111,14 +113,31 @@ public sealed class BookGenEnvironment : IEnvironment
         _config = config;
         _toc = toc;
 
+        using Process currentProcess = Process.GetCurrentProcess();
+
         if (!_source.Exists(Constants.LockFile))
         {
-            var id = Process.GetCurrentProcess().Id.ToString();
+            var id = currentProcess.Id.ToString();
             await _source.WriteTextAsync(Constants.LockFile, id);
+        }
+        else
+        {
+            if (!int.TryParse(_source.ReadText(Constants.LockFile), out int id))
+            {
+                id = -1;
+            }
+            if (currentProcess.Id == id)
+            {
+                status.Add($"{_source.FullPath} is locked by an other running BookGen process");
+                return status;
+            }
+            else
+            {
+                _source.Delete(Constants.LockFile);
+            }
         }
 
         _isInitialized = true;
-
         _output = new FileSystemFolder(config.OutputFolder);
 
         return status;

@@ -53,7 +53,7 @@ public sealed class FileSystemFolder : IFolder, IReadOnlyFolder
         return File.GetLastWriteTimeUtc(actualPath);
     }
 
-    public string GetText(string path)
+    public string ReadText(string path)
     {
         string actualPath = GetFullPath(path);
         Validate(actualPath);

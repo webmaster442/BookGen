@@ -60,7 +60,7 @@ public sealed class ImgService : IImgService
         if (string.Equals(Path.GetExtension(path), ".svg", StringComparison.CurrentCultureIgnoreCase))
         {
             if (_imageConfig.SvgRecode == SvgRecodeOption.Passtrough)
-                return (_sourceFolder.GetText(path), ImageType.Svg);
+                return (_sourceFolder.ReadText(path), ImageType.Svg);
 
             using SKData rendered = Utils.RenderSvg(fileData,
                                                     _imageConfig.ResizeWith,
