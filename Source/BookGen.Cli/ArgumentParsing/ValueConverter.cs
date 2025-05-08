@@ -7,8 +7,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-using BookGen.Interfaces;
-
 namespace BookGen.Cli.ArgumentParsing;
 
 internal static class ValueConverter
@@ -34,11 +32,6 @@ internal static class ValueConverter
             && Enum.TryParse(currenttype, value, true, out object? parsed))
         {
             return parsed;
-        }
-
-        if (currenttype == typeof(FsPath))
-        {
-            return new FsPath(Path.GetFullPath(value));
         }
 
         try
