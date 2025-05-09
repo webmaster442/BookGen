@@ -6,12 +6,14 @@
 
 using System.Runtime.CompilerServices;
 
+using BookGen.DomainServices.Markdown.TableOfContents;
+
 using Markdig;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 
-namespace BookGen.DomainServices.Markdown.TableOfContents;
+namespace Bookgen.Lib.Markdown.TableOfContents;
 
 /// <summary>
 /// Table of content extension

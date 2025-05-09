@@ -6,7 +6,7 @@
 
 using System.Diagnostics;
 
-namespace BookGen.DomainServices.Markdown.TableOfContents;
+namespace Bookgen.Lib.Markdown.TableOfContents;
 
 /// <summary>
 /// Sort and merge with level

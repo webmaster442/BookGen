@@ -4,15 +4,18 @@
 // Based on work of Alexandre Mutel. https://github.com/leisn/MarkdigToc
 //-----------------------------------------------------------------------------
 
-using Markdig.Parsers;
-using Markdig.Syntax;
+namespace Bookgen.Lib.Markdown.TableOfContents;
 
-namespace BookGen.DomainServices.Markdown.TableOfContents;
-
-internal sealed class TocBlock : HeadingBlock
+internal sealed record class HeadingInfo
 {
-    public TocBlock(BlockParser parser) : base(parser)
+    public string Content { get; }
+    public string Id { get; }
+    public int Level { get; }
+
+    public HeadingInfo(int level, string id, string content)
     {
-        ProcessInlines = true;
+        Content = content;
+        Id = id;
+        Level = level;
     }
 }

@@ -4,7 +4,7 @@
 // Based on work of Alexandre Mutel. https://github.com/leisn/MarkdigToc
 //-----------------------------------------------------------------------------
 
-namespace BookGen.DomainServices.Markdown.TableOfContents;
+namespace Bookgen.Lib.Markdown.TableOfContents;
 
 internal sealed class TocState
 {

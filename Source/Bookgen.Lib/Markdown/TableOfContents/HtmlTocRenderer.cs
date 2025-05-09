@@ -7,7 +7,7 @@
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 
-namespace BookGen.DomainServices.Markdown.TableOfContents;
+namespace Bookgen.Lib.Markdown.TableOfContents;
 
 internal sealed class HtmlTocRenderer : HtmlObjectRenderer<TocBlock>
 {

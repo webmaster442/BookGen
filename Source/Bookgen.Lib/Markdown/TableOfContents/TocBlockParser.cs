@@ -6,6 +6,8 @@
 
 using System.Text.RegularExpressions;
 
+using Bookgen.Lib.Markdown.TableOfContents;
+
 using Markdig.Helpers;
 using Markdig.Parsers;
 using Markdig.Syntax;

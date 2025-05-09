@@ -4,5 +4,5 @@ namespace Bookgen.Lib.VFS;
 
 public interface IAssetSource
 {
-    bool TryGetAsset(string name, [MaybeNullWhen(false)] out string? content);
+    bool TryGetAsset(string name, [NotNullWhen(true)] out string? content);
 }

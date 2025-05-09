@@ -6,7 +6,7 @@
 
 using Markdig.Extensions.AutoIdentifiers;
 
-namespace BookGen.DomainServices.Markdown.TableOfContents;
+namespace Bookgen.Lib.Markdown.TableOfContents;
 
 /// <summary>
 /// Delegate for handle custom heading id generate.

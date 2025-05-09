@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 using Markdig.Renderers;
 
-namespace BookGen.DomainServices.Markdown.TableOfContents;
+namespace Bookgen.Lib.Markdown.TableOfContents;
 
 [DebuggerDisplay("Level: {Level} Content: {Content}")]
 internal sealed class HeadingInfos : LevelList<HeadingInfos>

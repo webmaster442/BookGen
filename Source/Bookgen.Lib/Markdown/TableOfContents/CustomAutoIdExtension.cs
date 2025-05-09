@@ -13,7 +13,7 @@ using Markdig.Renderers.Html;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 
-namespace BookGen.DomainServices.Markdown.TableOfContents;
+namespace Bookgen.Lib.Markdown.TableOfContents;
 
 /// <summary>
 /// Custom auto indentifier, add some custom options by <see cref="AutoIdentifierExtension"/>.<br/>

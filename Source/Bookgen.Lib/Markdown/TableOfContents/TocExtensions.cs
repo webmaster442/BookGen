@@ -4,11 +4,13 @@
 // Based on work of Alexandre Mutel. https://github.com/leisn/MarkdigToc
 //-----------------------------------------------------------------------------
 
+using BookGen.DomainServices.Markdown.TableOfContents;
+
 using Markdig;
 using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Extensions.GenericAttributes;
 
-namespace BookGen.DomainServices.Markdown.TableOfContents;
+namespace Bookgen.Lib.Markdown.TableOfContents;
 
 internal static class TocExtensions
 {
