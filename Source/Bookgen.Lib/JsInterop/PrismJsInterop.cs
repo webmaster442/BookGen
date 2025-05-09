@@ -2,7 +2,7 @@
 
 namespace Bookgen.Lib.JsInterop;
 
-internal sealed class PrismJsInterop : JavascriptInterop
+public sealed class PrismJsInterop : JavascriptInterop
 {
     private const string PrismJs = "prism.js";
 

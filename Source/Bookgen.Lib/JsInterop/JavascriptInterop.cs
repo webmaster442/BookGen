@@ -2,7 +2,7 @@
 
 namespace Bookgen.Lib.JsInterop;
 
-internal abstract class JavascriptInterop : IDisposable
+public abstract class JavascriptInterop : IDisposable
 {
     protected readonly V8ScriptEngine _engine;
     private bool _disposed;
