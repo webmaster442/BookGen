@@ -2,6 +2,9 @@
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
+/// <summary>
+/// Copy assets specified in configuration to output directory
+/// </summary>
 internal class CopyAssets : IPipeLineStep
 {
     public async Task<StepResult> ExecuteAsync(IEnvironment environment, ILogger logger, CancellationToken cancellationToken)

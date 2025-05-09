@@ -13,7 +13,7 @@ namespace Bookgen.Lib.Markdown.Renderers;
 internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposable
 {
     private readonly CodeBlockRenderer _originalRenderer;
-    private readonly PrismJsInterop _prism;
+    private readonly PrismJsInterop? _prism;
     private readonly HashSet<string> _supportedLanguages;
     public const string Terminallanguage = "terminal";
 
@@ -24,9 +24,9 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
         </div>
         """;
 
-    public bool PreRender { get; set; }
+    public bool PreRender => _prism != null;
 
-    public SyntaxRenderer(CodeBlockRenderer underlyingRenderer, PrismJsInterop prism)
+    public SyntaxRenderer(CodeBlockRenderer underlyingRenderer, PrismJsInterop? prism)
     {
         _originalRenderer = underlyingRenderer ?? new CodeBlockRenderer();
         _prism = prism;
@@ -132,13 +132,13 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
     {
         var sb = new StringBuilder();
         sb.AppendFormat("<pre><code class=\"language-{0}\">", languageMoniker);
-        sb.AppendLine(_prism.PrismSyntaxHighlight(code, languageMoniker));
+        sb.AppendLine(_prism?.PrismSyntaxHighlight(code, languageMoniker));
         sb.AppendLine("</code></pre>");
         return sb.ToString();
     }
 
     public void Dispose()
     {
-        _prism.Dispose();
+        _prism?.Dispose();
     }
 }

@@ -14,7 +14,7 @@ internal sealed class CachedImageService : IImgService
         _cache = new Dictionary<string, (string base64data, ImageType imageType)>();
     }
 
-    public (string base64data, ImageType imageType) GetImageEmbedData(string path)
+    public (string data, ImageType imageType) GetImageEmbedData(string path)
     {
         if (_cache.ContainsKey(path))
             return _cache[path];

@@ -39,7 +39,7 @@ public sealed class ImgService : IImgService
         };
     }
 
-    public (string base64data, ImageType imageType) GetImageEmbedData(string path)
+    public (string data, ImageType imageType) GetImageEmbedData(string path)
     {
         static ImageType GetImateType(SvgRecodeOption recodeOption)
         {

@@ -2,5 +2,5 @@
 
 public interface IImgService
 {
-    (string base64data, ImageType imageType) GetImageEmbedData(string path);
+    (string data, ImageType imageType) GetImageEmbedData(string path);
 }
