@@ -22,7 +22,7 @@ internal sealed class ZipAssetSoruce : IAssetSource, IDisposable
         _disposed = true;
     }
 
-    public bool TryGetAsset(string name, [MaybeNullWhen(false)] out string? content)
+    public bool TryGetAsset(string name, [NotNullWhen(true)] out string? content)
     {
         if (_disposed)
             throw new ObjectDisposedException(nameof(_zip));

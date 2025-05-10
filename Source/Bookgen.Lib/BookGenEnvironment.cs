@@ -143,7 +143,7 @@ public sealed class BookGenEnvironment : IEnvironment
         return status;
     }
 
-    public bool TryGetAsset(string name, [MaybeNullWhen(false)] out string? content)
+    public bool TryGetAsset(string name, [NotNullWhen(true)] out string? content)
     {
         foreach (var assetsource in _assets)
         {

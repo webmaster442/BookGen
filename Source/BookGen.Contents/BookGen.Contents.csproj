@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\..\Branding\background.png" Link="background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Branding\icon-bookgen.png" Link="icon-bookgen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Update="autorun.inf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BookGenShell.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="getting-started.mdr">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="tidy.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <UsingTask
+   TaskName="ZipDirectory"
+   TaskFactory="CodeTaskFactory"
+   AssemblyName="Microsoft.Build.Tasks.Core">
+    <ParameterGroup>
+      <SourceFolder ParameterType="System.String" Required="true" />
+      <OutputZip ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.IO.Compression" />
+      <Reference Include="System.IO.Compression.FileSystem" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.IO.Compression" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+          if (File.Exists(OutputZip))
+            File.Delete(OutputZip);
+          ZipFile.CreateFromDirectory(SourceFolder, OutputZip);
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="ZipDirectory" AfterTargets="Build">
+    <ZipDirectory SourceFolder="..\..\BundledAssets" OutputZip="..\..\bin\$(Configuration)\assets.zip" />
+  </Target>
+  
+</Project>
