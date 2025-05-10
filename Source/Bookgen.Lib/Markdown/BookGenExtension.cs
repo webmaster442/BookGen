@@ -1,8 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
-using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown.Renderers;
 
 using Markdig;
@@ -15,15 +13,6 @@ using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 
 namespace Bookgen.Lib.Markdown;
-
-public sealed class RenderSettings
-{
-    public required string? HostUrl { get; init; }
-    public required PrismJsInterop? PrismJsInterop { get; init; }
-    public required CssClasses CssClasses { get; init; }
-    public required bool DeleteFirstH1 { get; init; }
-    public int OffsetHeadingsBy { get; init; } = 0;
-}
 
 internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
 {
@@ -63,10 +52,10 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
 
         if (renderer is TextRendererBase<HtmlRenderer> htmlRenderer)
         {
-            var linkRenderer = htmlRenderer.ObjectRenderers.FindExact<LinkInlineRenderer>();
-            if (linkRenderer != null)
+            var linkInLineRenderer = htmlRenderer.ObjectRenderers.FindExact<LinkInlineRenderer>();
+            if (linkInLineRenderer != null)
             {
-                htmlRenderer.ObjectRenderers.Remove(linkRenderer);
+                htmlRenderer.ObjectRenderers.Remove(linkInLineRenderer);
                 htmlRenderer.ObjectRenderers.Add(new LinkInlineRendererWithSvgSupport());
             }
             CodeBlockRenderer? codeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
@@ -120,7 +109,7 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
                         AddStyleClass(node, _settings.CssClasses.H1);
                         break;
                     case 2:
-                        AddStyleClass(node, _settings.CssClasses.H1);
+                        AddStyleClass(node, _settings.CssClasses.H2);
                         break;
                     case 3:
                         AddStyleClass(node, _settings.CssClasses.H3);

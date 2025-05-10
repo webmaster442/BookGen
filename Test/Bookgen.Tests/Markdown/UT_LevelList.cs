@@ -1,15 +1,17 @@
-﻿using BookGen.DomainServices.Markdown.TableOfContents;
+﻿using System.Text;
 
-namespace BookGen.Tests;
+using Bookgen.Lib.Markdown.TableOfContents;
+
+namespace Bookgen.Tests.Markdown;
 
 [TestFixture]
 public class UT_LevelList
 {
     private class TestLevelList : LevelList<TestLevelList>
     {
-        public string Content { get; set; }
+        public string? Content { get; set; }
 
-        public string ToFormatedString(string prefix = "", StringBuilder sb = null)
+        public string ToFormatedString(string prefix = "", StringBuilder? sb = null)
         {
             if (sb == null)
                 sb = new StringBuilder();
@@ -33,15 +35,15 @@ public class UT_LevelList
     [SetUp]
     public void Setup()
     {
-        _root = new TestLevelList 
-        { 
+        _root = new TestLevelList
+        {
             IsLocator = true,
-            Content = "Root" 
+            Content = "Root"
         };
     }
 
     [Test]
-    public void TestNormalList()
+    public void EnsureThat_NormalListWorks()
     {
         _root.Clear();
 
@@ -76,7 +78,7 @@ public class UT_LevelList
 
 
     [Test]
-    public void TestEmtpyNode()
+    public void EnsureThat_EmptyNodesWork()
     {
         _root.Clear();
 
@@ -97,7 +99,7 @@ public class UT_LevelList
     }
 
     [Test]
-    public void TestToFormattedString_Five_to_One()
+    public void EnsureThat_ToFormattedString_Five_to_One()
     {
         _root.Clear();
         _root.Append(new TestLevelList { Level = 5, Content = "# t5" });
@@ -126,7 +128,7 @@ public class UT_LevelList
     }
 
     [Test]
-    public void TestToFormattedString_One_To_Five()
+    public void EnsureThat_ToFormattedString__One_To_Five()
     {
         _root.Clear();
         _root.Append(new TestLevelList { Level = 1, Content = "# t1" });
@@ -156,7 +158,7 @@ public class UT_LevelList
     }
 
     [Test]
-    public void TestPatternX()
+    public void EnsureThat_ToFormattedString_PatternX()
     {
         _root.Clear();
         _root.Append(new TestLevelList { Level = 1, Content = "# t1" });

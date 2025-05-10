@@ -15,6 +15,7 @@ public sealed class MarkdownToHtml : IDisposable
             .UseAdvancedExtensions()
             .UseTableOfContents()
             .UseMathematics()
+            .UseYamlFrontMatter()
             .Use<BookGenExtension>();
 
         foreach (var extension in configuration.Extensions)

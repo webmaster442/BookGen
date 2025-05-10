@@ -52,6 +52,7 @@
 
   <Target Name="ZipDirectory" AfterTargets="Build">
     <ZipDirectory SourceFolder="..\..\BundledAssets" OutputZip="..\..\bin\$(Configuration)\assets.zip" />
+    <ZipDirectory SourceFolder="..\..\BundledAssets" OutputZip="..\..\bin\Test\$(Configuration)\assets.zip" />
   </Target>
   
 </Project>

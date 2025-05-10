@@ -26,4 +26,8 @@
     <Folder Include="Pipeline\Print\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Bookgen.Tests"/>
+  </ItemGroup>
+
 </Project>
