@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.DomainServices;
+namespace BookGen.Shell.Shared;
 public sealed class BrowserInteract
 {
     private readonly string? _chromePath;
