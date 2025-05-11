@@ -2,6 +2,8 @@
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Markdown;
 
+using Markdig;
+
 using Moq;
 
 namespace Bookgen.Tests.Lib;
@@ -177,4 +179,343 @@ internal class UT_MarkdownToHtml
         Assert.That(result, Is.EqualTo(expected).Using(comparer));
     }
 
+    [Test]
+    public void EnsureThat_Toc_NormalCase_RendersCorrectly()
+    {
+        using var settings = new RenderSettings
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+        };
+
+        using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
+
+        string input = """
+            [toc]
+
+            # t1
+
+            ## t1.1
+
+            ## 1.2
+
+            # t2
+
+            ## t2.1
+
+            ### t2.1.1
+
+            ### t2.1.2
+
+            ### t2.1.3
+
+            ## t2.2
+
+            # t3
+
+            ## t3.1
+
+            ## t3.2
+
+            ### t3.2.1
+
+            ### t3.2.2
+
+            # t4
+
+            """;
+
+        string expected = """
+            <nav id="toc"><ul>
+            <li>
+            <a href="#t1">t1</a><ul>
+            <li>
+            <a href="#t1.1">t1.1</a></li>
+            <li>
+            <a href="#section">1.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2">t2</a><ul>
+            <li>
+            <a href="#t2.1">t2.1</a><ul>
+            <li>
+            <a href="#t2.1.1">t2.1.1</a></li>
+            <li>
+            <a href="#t2.1.2">t2.1.2</a></li>
+            <li>
+            <a href="#t2.1.3">t2.1.3</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2.2">t2.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t3">t3</a><ul>
+            <li>
+            <a href="#t3.1">t3.1</a></li>
+            <li>
+            <a href="#t3.2">t3.2</a><ul>
+            <li>
+            <a href="#t3.2.1">t3.2.1</a></li>
+            <li>
+            <a href="#t3.2.2">t3.2.2</a></li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t4">t4</a></li>
+            </ul>
+            </nav>
+            <h1 id="t1">t1</h1>
+            <h2 id="t1.1">t1.1</h2>
+            <h2 id="section">1.2</h2>
+            <h1 id="t2">t2</h1>
+            <h2 id="t2.1">t2.1</h2>
+            <h3 id="t2.1.1">t2.1.1</h3>
+            <h3 id="t2.1.2">t2.1.2</h3>
+            <h3 id="t2.1.3">t2.1.3</h3>
+            <h2 id="t2.2">t2.2</h2>
+            <h1 id="t3">t3</h1>
+            <h2 id="t3.1">t3.1</h2>
+            <h2 id="t3.2">t3.2</h2>
+            <h3 id="t3.2.1">t3.2.1</h3>
+            <h3 id="t3.2.2">t3.2.2</h3>
+            <h1 id="t4">t4</h1>
+            
+            """;
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+    [Test]
+    public void EnsureThat_Toc_WithTitle_RendersCorrectly()
+    {
+        using var settings = new RenderSettings
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+        };
+
+        using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
+
+        string input = """
+            [toc] TOC*-*Title
+
+
+
+            # t1
+
+            ## t1.1
+
+            ## 1.2
+
+            # t2
+
+            ## t2.1
+
+            ### t2.1.1
+
+            ### t2.1.2
+
+            ### t2.1.3
+
+            ## t2.2
+
+            # t3
+
+            ## t3.1
+
+            ## t3.2
+
+            ### t3.2.1
+
+            ### t3.2.2
+
+            # t4
+
+            
+            """;
+
+        string expected = """
+            <nav id="toc"><h1 class="toc-title">TOC<em>-</em>Title</h1><ul>
+            <li>
+            <a href="#t1">t1</a><ul>
+            <li>
+            <a href="#t1.1">t1.1</a></li>
+            <li>
+            <a href="#section">1.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2">t2</a><ul>
+            <li>
+            <a href="#t2.1">t2.1</a><ul>
+            <li>
+            <a href="#t2.1.1">t2.1.1</a></li>
+            <li>
+            <a href="#t2.1.2">t2.1.2</a></li>
+            <li>
+            <a href="#t2.1.3">t2.1.3</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2.2">t2.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t3">t3</a><ul>
+            <li>
+            <a href="#t3.1">t3.1</a></li>
+            <li>
+            <a href="#t3.2">t3.2</a><ul>
+            <li>
+            <a href="#t3.2.1">t3.2.1</a></li>
+            <li>
+            <a href="#t3.2.2">t3.2.2</a></li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t4">t4</a></li>
+            </ul>
+            </nav>
+            <h1 id="t1">t1</h1>
+            <h2 id="t1.1">t1.1</h2>
+            <h2 id="section">1.2</h2>
+            <h1 id="t2">t2</h1>
+            <h2 id="t2.1">t2.1</h2>
+            <h3 id="t2.1.1">t2.1.1</h3>
+            <h3 id="t2.1.2">t2.1.2</h3>
+            <h3 id="t2.1.3">t2.1.3</h3>
+            <h2 id="t2.2">t2.2</h2>
+            <h1 id="t3">t3</h1>
+            <h2 id="t3.1">t3.1</h2>
+            <h2 id="t3.2">t3.2</h2>
+            <h3 id="t3.2.1">t3.2.1</h3>
+            <h3 id="t3.2.2">t3.2.2</h3>
+            <h1 id="t4">t4</h1>
+            
+            """;
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+
+    [Test]
+    public void EnsureThat_Toc_Limited_RendersCorrectly()
+    {
+        using var settings = new RenderSettings
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+        };
+
+        using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
+
+        string input = """
+            [toc maxlevel="2"] Title
+
+            # t1
+
+            ## t1.1
+
+            ## 1.2
+
+            # t2
+
+            ## t2.1
+
+            ### t2.1.1
+
+            ### t2.1.2
+
+            ### t2.1.3
+
+            ## t2.2
+
+            # t3
+
+            ## t3.1
+
+            ## t3.2
+
+            ### t3.2.1
+
+            ### t3.2.2
+
+            # t4
+
+            
+            """;
+
+        string expected = """
+            <nav id="toc"><h1 class="toc-title">Title</h1><ul>
+            <li>
+            <a href="#t1">t1</a><ul>
+            <li>
+            <a href="#t1.1">t1.1</a></li>
+            <li>
+            <a href="#section">1.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2">t2</a><ul>
+            <li>
+            <a href="#t2.1">t2.1</a><ul>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2.2">t2.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t3">t3</a><ul>
+            <li>
+            <a href="#t3.1">t3.1</a></li>
+            <li>
+            <a href="#t3.2">t3.2</a><ul>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t4">t4</a></li>
+            </ul>
+            </nav>
+            <h1 id="t1">t1</h1>
+            <h2 id="t1.1">t1.1</h2>
+            <h2 id="section">1.2</h2>
+            <h1 id="t2">t2</h1>
+            <h2 id="t2.1">t2.1</h2>
+            <h3 id="t2.1.1">t2.1.1</h3>
+            <h3 id="t2.1.2">t2.1.2</h3>
+            <h3 id="t2.1.3">t2.1.3</h3>
+            <h2 id="t2.2">t2.2</h2>
+            <h1 id="t3">t3</h1>
+            <h2 id="t3.1">t3.1</h2>
+            <h2 id="t3.2">t3.2</h2>
+            <h3 id="t3.2.1">t3.2.1</h3>
+            <h3 id="t3.2.2">t3.2.2</h3>
+            <h1 id="t4">t4</h1>
+            
+            """;
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
 }

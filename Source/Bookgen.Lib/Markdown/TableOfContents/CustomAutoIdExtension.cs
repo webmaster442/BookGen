@@ -225,10 +225,6 @@ internal sealed class CustomAutoIdExtension : IMarkdownExtension
     private sealed class StripRendererCache : ObjectCache<CacheHtmlRenderer>
     {
         protected override CacheHtmlRenderer NewInstance() => new CacheHtmlRenderer();
-        protected override void Reset(CacheHtmlRenderer instance)
-        {
-            instance.ResetThis();
-            instance.Dispose();
-        }
+        protected override void Reset(CacheHtmlRenderer instance) => instance.ResetThis();
     }
 }
