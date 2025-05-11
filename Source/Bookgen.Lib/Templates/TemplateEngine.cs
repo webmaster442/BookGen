@@ -1,8 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-using static SkiaSharp.HarfBuzz.SKShaper;
-
 namespace Bookgen.Lib.Templates;
 
 public sealed partial class TemplateEngine

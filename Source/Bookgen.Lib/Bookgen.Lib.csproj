@@ -27,7 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Bookgen.Tests"/>
+    <InternalsVisibleTo Include="Bookgen.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Shell.Shared\BookGen.Shell.Shared.csproj" />
   </ItemGroup>
 
 </Project>

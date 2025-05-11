@@ -11,9 +11,23 @@ public sealed class BookGenAppSettings : AppSettingsBase
     protected override void InitDefaults()
     {
         Editor = "notepad.exe";
+        PythonPath = string.Empty;
+        NodeJsPath = string.Empty;
     }
 
     public string Editor
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+
+    public string NodeJsPath
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+
+    public string PythonPath
     {
         get => Get<string>();
         set => Set(value);

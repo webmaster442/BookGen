@@ -5,11 +5,11 @@
 
 using System.Runtime.InteropServices;
 
-using BookGen.DomainServices;
+using BookGen.Shell.Shared;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.RenderEngine.Internals;
+namespace Bookgen.Lib.Templates;
 
 internal sealed class ScriptProcess
 {
