@@ -5,7 +5,9 @@ using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
 
-ILogger logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger("BookGen.Shell");
+using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+
+ILogger logger = loggerFactory.CreateLogger("BookGen.Shell");
 
 CommandNameProvider commandNameProvider = new();
 

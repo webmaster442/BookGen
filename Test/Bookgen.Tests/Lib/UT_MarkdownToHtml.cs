@@ -54,7 +54,7 @@ internal class UT_MarkdownToHtml
     [Test]
     public void EnsureThat_Css_ClassesAreAplied()
     {
-        var settings = new RenderSettings
+        using var settings = new RenderSettings
         {
             CssClasses = new CssClasses
             {
@@ -94,7 +94,7 @@ internal class UT_MarkdownToHtml
     [Test]
     public void EnsureThat_DeleteFirstH1_HostUrlTargeting_Works()
     {
-        var settings = new RenderSettings
+        using var settings = new RenderSettings
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = true,
@@ -128,7 +128,7 @@ internal class UT_MarkdownToHtml
     [Test]
     public void EnsureThat_SourceCode_Works()
     {
-        var settings = new RenderSettings
+        using var settings = new RenderSettings
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
@@ -154,12 +154,13 @@ internal class UT_MarkdownToHtml
     [Test]
     public void EnsureThat_SourceCode_PreRender_Works()
     {
+        using var testEnvironment = new TestEnvironment();
         using var settings = new RenderSettings
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
-            PrismJsInterop = new Bookgen.Lib.JsInterop.PrismJsInterop(new TestEnvironment()),
+            PrismJsInterop = new Bookgen.Lib.JsInterop.PrismJsInterop(testEnvironment),
         };
 
         using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);

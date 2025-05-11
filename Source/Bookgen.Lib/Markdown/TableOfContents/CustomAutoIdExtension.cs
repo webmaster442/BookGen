@@ -4,6 +4,8 @@
 // Based on work of Alexandre Mutel. https://github.com/leisn/MarkdigToc
 //-----------------------------------------------------------------------------
 
+using ExCSS;
+
 using Markdig;
 using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Helpers;
@@ -202,19 +204,31 @@ internal sealed class CustomAutoIdExtension : IMarkdownExtension
         }
     }
 
-    private sealed class CacheHtmlRenderer : HtmlRenderer
+    private sealed class CacheHtmlRenderer : HtmlRenderer, IDisposable
     {
+#pragma warning disable CA2000 // Dispose objects before losing scope
         public CacheHtmlRenderer() : base(new StringWriter())
+#pragma warning restore CA2000 // Dispose objects before losing scope
         {
             EnableHtmlForInline = false;
             EnableHtmlEscape = false;
         }
+
+        public void Dispose()
+        {
+            base.Writer.Dispose();
+        }
+
         public void ResetThis() => Reset();
     }
 
     private sealed class StripRendererCache : ObjectCache<CacheHtmlRenderer>
     {
         protected override CacheHtmlRenderer NewInstance() => new CacheHtmlRenderer();
-        protected override void Reset(CacheHtmlRenderer instance) => instance!.ResetThis();
+        protected override void Reset(CacheHtmlRenderer instance)
+        {
+            instance.ResetThis();
+            instance.Dispose();
+        }
     }
 }

@@ -56,7 +56,7 @@ internal static class Utils
 
     public static SKData RenderSvg(Stream stream, int width, int height, SvgRecodeOption svgRecode)
     {
-        var svg = new SKSvg();
+        using var svg = new SKSvg();
         svg.Load(stream);
 
         if (svg.Picture == null)
