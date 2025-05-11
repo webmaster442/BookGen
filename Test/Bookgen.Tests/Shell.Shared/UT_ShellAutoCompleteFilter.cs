@@ -3,7 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Tests;
+using BookGen.Shell.Shared;
+
+namespace BookGen.Tests.Shell.Shared;
 
 [TestFixture]
 public class UT_ShellAutoCompleteFilter

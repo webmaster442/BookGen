@@ -30,7 +30,7 @@ public static class ShellAutoCompleteFilter
         }
     }
 
-    internal static IEnumerable<(int start, int end)> GetWordPositions(string str)
+    public static IEnumerable<(int start, int end)> GetWordPositions(string str)
     {
         int start = 0;
         int pos = 0;

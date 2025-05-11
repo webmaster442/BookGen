@@ -32,10 +32,15 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Source\BookGen.Contents\BookGen.Contents.csproj" />
     <ProjectReference Include="..\..\Source\Bookgen.Lib\Bookgen.Lib.csproj" />
+    <ProjectReference Include="..\..\Source\BookGen.Shell.Shared\BookGen.Shell.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="NUnit.Framework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Shell.Shared\" />
   </ItemGroup>
 
 </Project>
