@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <ApplicationIcon>..\..\Branding\icon-shell.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
