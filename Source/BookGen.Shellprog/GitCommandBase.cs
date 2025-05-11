@@ -5,13 +5,12 @@
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Domain.Terminal;
-using BookGen.DomainServices;
-using BookGen.ShellHelper;
+using BookGen.Shell.Shared;
 
 using Spectre.Console;
 
-namespace BookGen.Shell.Commands;
+namespace BookGen.Shellprog;
+
 internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
 {
     protected const int TimeOut = 10;

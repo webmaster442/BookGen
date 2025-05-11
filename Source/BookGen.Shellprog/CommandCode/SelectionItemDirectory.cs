@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Shell.Cdg;
+namespace BookGen.Shellprog.CommandCode;
 
 internal sealed class SelectionItemDirectory : SelectionItemBase
 {

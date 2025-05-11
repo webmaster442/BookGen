@@ -7,12 +7,11 @@
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.DomainServices;
-using BookGen.Shell.GitAutocomplete;
+using BookGen.Shell.Shared;
 
 using Spectre.Console;
 
-namespace BookGen.Shell.Commands;
+namespace BookGen.Shellprog;
 
 [CommandName("git-complete")]
 internal sealed class GitAutoCompleteCommand : Command

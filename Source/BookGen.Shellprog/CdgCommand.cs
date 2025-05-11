@@ -5,16 +5,16 @@
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Shell.Cdg;
+using BookGen.Shellprog.CommandCode;
 
-namespace BookGen.Shell.Commands;
+namespace BookGen.Shellprog;
 
 [CommandName("cdg")]
 internal sealed class CdgCommand : AsyncCommand<CdgArguments>
 {
     public override async Task<int> Execute(CdgArguments arguments, string[] context)
     {
-        var menu = new Cdg.CdgSelector(arguments.Folder, arguments.ShowHidden);
+        var menu = new CdgSelector(arguments.Folder, arguments.ShowHidden);
         await menu.ShowMenu();
         return 0;
     }

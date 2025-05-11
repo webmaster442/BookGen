@@ -5,9 +5,9 @@
 
 using System.Text;
 
-namespace BookGen.ShellHelper;
+namespace BookGen.Shell.Shared;
 
-internal sealed class TerminalOutputBuilder
+public sealed class TerminalOutputBuilder
 {
     private readonly StringBuilder _builder;
 

@@ -3,12 +3,14 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Shell.Cdg;
+
 using Spectre.Console;
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace BookGen.Shell.Cdg;
+namespace BookGen.Shellprog.CommandCode;
 
 internal sealed class CdgSelector
 {
@@ -189,7 +191,7 @@ internal sealed class CdgSelector
             DisplayString = groupName,
             Icon = icon,
             IsMenuHeader = true,
-            Color = Spectre.Console.Color.Red
+            Color = Color.Red
         };
     }
 

@@ -5,11 +5,10 @@
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Shell.Infrastructure;
 
 using Spectre.Console;
 
-namespace BookGen.Shell.Commands;
+namespace BookGen.Shellprog;
 
 [CommandName("cmdlist")]
 internal class CommandListCommand : Command

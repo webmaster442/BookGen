@@ -7,9 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-using BookGen.Domain.Terminal;
-
-namespace BookGen.DomainServices;
+namespace BookGen.Shell.Shared;
 
 public static partial class GitParser
 {

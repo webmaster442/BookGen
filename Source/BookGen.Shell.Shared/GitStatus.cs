@@ -1,4 +1,4 @@
-﻿namespace BookGen.Domain.Terminal;
+﻿namespace BookGen.Shell.Shared;
 
 public record GitStatus
 {

@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
+using BookGen.Shellprog.CommandCode;
+
 namespace BookGen.Shell.Cdg;
 
 internal static partial class SelectionItemFactory

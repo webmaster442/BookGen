@@ -7,7 +7,7 @@ using BookGen.Cli.Annotations;
 
 using Spectre.Console;
 
-namespace BookGen.Shell.Commands;
+namespace BookGen.Shellprog;
 
 [CommandName("prompt")]
 internal sealed class PromptCommand : GitCommandBase

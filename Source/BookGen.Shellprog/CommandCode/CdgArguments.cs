@@ -6,7 +6,7 @@
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 
-namespace BookGen.Shell.Cdg;
+namespace BookGen.Shellprog.CommandCode;
 
 internal sealed class CdgArguments : ArgumentsBase
 {
