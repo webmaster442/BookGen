@@ -14,6 +14,9 @@ public sealed class FrontMatter
     [NotNullOrWhiteSpace]
     public required string Tags { get; init; }
 
+    [YamlMember(Alias = "template")]
+    public string? Template { get; init; }
+
     [YamlMember(Alias = "data")]
     public Dictionary<string, string> Data { get; init; } = new();
 

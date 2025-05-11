@@ -5,4 +5,5 @@
   <Project Path="Source/BookGen.Cli/BookGen.Cli.csproj" />
   <Project Path="Source/BookGen.Contents/BookGen.Contents.csproj" />
   <Project Path="Source/Bookgen.Lib/Bookgen.Lib.csproj" />
+  <Project Path="Source/BookGen.Shellprog/BookGen.Shellprog.csproj" />
 </Solution>
