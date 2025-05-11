@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 using Moq;
 
-namespace Bookgen.Tests.Markdown;
+namespace Bookgen.Tests.Lib;
 internal class UT_FootNoteReindexer
 {
     private FootNoteReindexer _sut;

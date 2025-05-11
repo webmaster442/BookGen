@@ -2,7 +2,7 @@
 
 using Bookgen.Lib.Markdown.TableOfContents;
 
-namespace Bookgen.Tests.Markdown;
+namespace Bookgen.Tests.Lib;
 
 [TestFixture]
 public class UT_LevelList

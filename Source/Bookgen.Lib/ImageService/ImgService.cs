@@ -8,10 +8,10 @@ using SkiaSharp;
 namespace Bookgen.Lib.ImageService;
 public sealed class ImgService : IImgService
 {
-    private readonly IFolder _sourceFolder;
+    private readonly IReadOnlyFolder _sourceFolder;
     private readonly ImageConfig _imageConfig;
 
-    public ImgService(IFolder sourceFolder, ImageConfig imageConfig)
+    public ImgService(IReadOnlyFolder sourceFolder, ImageConfig imageConfig)
     {
         _sourceFolder = sourceFolder;
         _imageConfig = imageConfig;

@@ -6,9 +6,6 @@ public sealed class ImageConfig
 {
     public SvgRecodeOption SvgRecode { get; init; }
 
-    [Range(0, long.MaxValue)]
-    public long InlineImageSize { get; init; }
-
     [Range(-1, int.MaxValue)]
     public int ResizeWith { get; init; }
 
@@ -24,7 +21,6 @@ public sealed class ImageConfig
     {
         WebpQuality = 90;
         SvgRecode = SvgRecodeOption.Passtrough;
-        InlineImageSize = long.MaxValue;
         ResizeAndRecodeImagesToWebp = false;
         ResizeWith = -1;
         ResizeHeight = -1;

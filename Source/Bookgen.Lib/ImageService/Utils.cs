@@ -15,6 +15,12 @@ internal static class Utils
                                                                                 int maxwidth,
                                                                                 int maxHeight)
     {
+        if (maxwidth < 0)
+            maxwidth = (int)size.Width;
+
+        if (maxHeight < 0)
+            maxHeight = (int)size.Height;
+
         float scale = 1.0f;
 
         if (size.Height > maxHeight && maxwidth <= (int)size.Width)

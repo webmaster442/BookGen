@@ -1,6 +1,6 @@
 ﻿using Bookgen.Lib.Templates;
 
-namespace Bookgen.Tests.Templates;
+namespace Bookgen.Tests.Lib;
 
 [TestFixture]
 internal class UT_TemplateEngine

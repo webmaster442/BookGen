@@ -4,7 +4,7 @@ using Bookgen.Lib.Markdown;
 
 using Moq;
 
-namespace Bookgen.Tests.Markdown;
+namespace Bookgen.Tests.Lib;
 internal class UT_MarkdownToHtml
 {
     private Mock<IImgService> _imgServiceMock;
@@ -159,7 +159,7 @@ internal class UT_MarkdownToHtml
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
-            PrismJsInterop = new Lib.JsInterop.PrismJsInterop(new TestEnvironment()),
+            PrismJsInterop = new Bookgen.Lib.JsInterop.PrismJsInterop(new TestEnvironment()),
         };
 
         using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
