@@ -1,4 +1,5 @@
 ﻿using BookGen.Cli;
+using BookGen.Shell.Commands;
 using BookGen.Shellprog;
 
 using Microsoft.Extensions.Logging;
@@ -28,7 +29,8 @@ runner
     .AddDefaultCommand<CommandListCommand>()
     .AddCommand<PromptCommand>()
     .AddCommand<CdgCommand>()
-    .AddCommand<GitAutoCompleteCommand>();
+    .AddCommand<GitAutoCompleteCommand>()
+    .AddCommand<OrganizeCommand>();
 
 commandNameProvider.CommandNames = runner.CommandNames;
 
