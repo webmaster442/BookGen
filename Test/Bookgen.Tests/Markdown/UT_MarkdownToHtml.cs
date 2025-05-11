@@ -10,6 +10,7 @@ internal class UT_MarkdownToHtml
     private Mock<IImgService> _imgServiceMock;
     private string _markdown;
     private string _soruceCode;
+    private readonly IEqualityComparer<string?> comparer = new LineEndingIgnoreConverter();
 
     [SetUp]
     public void Setup()
@@ -87,7 +88,7 @@ internal class UT_MarkdownToHtml
 
         string result = sut.RenderMarkdownToHtml(_markdown);
 
-        Assert.That(result, Is.EqualTo(expected.Replace("\r\n", "\n")));
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
     }
 
     [Test]
@@ -121,7 +122,7 @@ internal class UT_MarkdownToHtml
 
         string result = sut.RenderMarkdownToHtml(_markdown);
 
-        Assert.That(result, Is.EqualTo(expected.Replace("\r\n", "\n")));
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
     }
 
     [Test]
@@ -146,7 +147,7 @@ internal class UT_MarkdownToHtml
 
         string result = sut.RenderMarkdownToHtml(_soruceCode);
 
-        Assert.That(result, Is.EqualTo(expected.Replace("\r\n", "\n")));
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
     }
 
 
@@ -171,8 +172,8 @@ internal class UT_MarkdownToHtml
             """;
 
         string result = sut.RenderMarkdownToHtml(_soruceCode);
-
-        Assert.That(result, Is.EqualTo(expected.Replace("\r\n", "\n")));
+        
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
     }
 
 }

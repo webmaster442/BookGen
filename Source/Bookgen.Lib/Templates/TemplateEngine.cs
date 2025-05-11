@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
+using static SkiaSharp.HarfBuzz.SKShaper;
+
 namespace Bookgen.Lib.Templates;
 
 public sealed partial class TemplateEngine
@@ -26,17 +28,20 @@ public sealed partial class TemplateEngine
     [GeneratedRegex(@"\b([\w\-]+)\s*\(\s*(?:""([^""]*)""(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?)?\s*\)")]
     private static partial Regex FunctionRegex();
 
-    [GeneratedRegex(@"\{\{([\w\-]+)\}\}")]
+    [GeneratedRegex(@"\{\{([\w-\(\)\""\, -_])+\}\}")]
     private static partial Regex TemplatePartRegex();
 
 
     public string Render<TData>(string template, TData viewData) where TData : ViewData
     {
-        var dataTavble = viewData.GetDataTable();
+        var dataTable = viewData.GetDataTable();
 
         StringBuilder rendered = new(template.Length + viewData.Content.Length + viewData.Title.Length);
+        StringBuilder lineBuffer = new(120);
+
         using StringReader reader = new(template);
         string? line;
+
         while ((line = reader.ReadLine()) != null)
         {
             var templatePartsInLine = TemplatePartRegex().Matches(line);
@@ -47,16 +52,35 @@ public sealed partial class TemplateEngine
                 continue;
             }
 
+            
+            int lastIndex = 0;
+            lineBuffer.Clear();
+
             foreach (Match templatePart in templatePartsInLine)
             {
+                lineBuffer.Append(line, lastIndex, templatePart.Index - lastIndex);
                 if (FunctionRegex().IsMatch(templatePart.Value))
                 {
-                    string[] functionCall = FunctionRegex().Split(templatePart.Value);
+                    string[] templateFunction = FunctionRegex().Split(templatePart.Value);
+                    string functionName = templateFunction.Skip(1).First();
+                    string[] arguments = templateFunction.Skip(2).TakeWhile(f => f != "}}").ToArray();
+                    string result = _lambdaTable[functionName].Invoke(arguments);
+                    lineBuffer.Append(result);
                 }
                 else
                 {
+                    string key = templatePart.Value[2..^2];
+                    lineBuffer.Append(dataTable[key]);
                     
                 }
+                lastIndex = templatePart.Index + templatePart.Length;
+            }
+            lineBuffer.Append(line, lastIndex, line.Length - lastIndex);
+
+            if (lineBuffer.Length > 0)
+            {
+                rendered.Append(lineBuffer);
+                rendered.AppendLine();
             }
         }
 
