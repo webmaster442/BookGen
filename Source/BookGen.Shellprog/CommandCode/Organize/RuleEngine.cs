@@ -5,11 +5,9 @@
 
 using System.Text.RegularExpressions;
 
-using BookGen.Domain.Organize;
-
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Shell.Organize;
+namespace BookGen.Shellprog.CommandCode.Organize;
 internal class RuleEngine
 {
     private readonly Dictionary<Regex, string> _loadedRules;

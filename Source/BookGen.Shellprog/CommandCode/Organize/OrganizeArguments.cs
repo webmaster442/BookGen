@@ -6,7 +6,7 @@
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 
-namespace BookGen.Shell.Organize;
+namespace BookGen.Shellprog.CommandCode.Organize;
 internal class OrganizeArguments : ArgumentsBase
 {
     [Argument(0, IsOptional = true)]

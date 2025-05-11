@@ -7,7 +7,7 @@ using Spectre.Console;
 
 using System.Diagnostics;
 
-namespace BookGen.Shellprog.CommandCode;
+namespace BookGen.Shellprog.CommandCode.Cdg;
 
 [DebuggerDisplay("{DisplayString}")]
 internal class SelectionItemBase

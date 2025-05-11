@@ -10,7 +10,7 @@ using Spectre.Console;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace BookGen.Shellprog.CommandCode;
+namespace BookGen.Shellprog.CommandCode.Cdg;
 
 internal sealed class CdgSelector
 {

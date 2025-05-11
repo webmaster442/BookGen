@@ -5,11 +5,11 @@
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Shell.Organize;
+using BookGen.Shellprog.CommandCode.Organize;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Shell.Commands;
+namespace BookGen.Shellprog;
 
 [CommandName("organize")]
 internal class OrganizeCommand : Command<OrganizeArguments>

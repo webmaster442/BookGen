@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
-using BookGen.Shellprog.CommandCode;
+using BookGen.Shellprog.CommandCode.Cdg;
 
 namespace BookGen.Shell.Cdg;
 

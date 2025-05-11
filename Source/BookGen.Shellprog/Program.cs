@@ -1,5 +1,4 @@
 ﻿using BookGen.Cli;
-using BookGen.Shell.Commands;
 using BookGen.Shellprog;
 
 using Microsoft.Extensions.Logging;

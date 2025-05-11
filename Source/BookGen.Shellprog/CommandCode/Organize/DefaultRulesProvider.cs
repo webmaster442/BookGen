@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Domain.Organize;
+namespace BookGen.Shellprog.CommandCode.Organize;
 
 public static class DefaultRulesProvider
 {

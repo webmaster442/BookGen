@@ -6,9 +6,7 @@
 using System.Diagnostics;
 using System.Text.Json;
 
-using BookGen.Domain.Organize;
-
-namespace BookGen.Shell.Organize;
+namespace BookGen.Shellprog.CommandCode.Organize;
 
 internal sealed class RuleLoader
 {

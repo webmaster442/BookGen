@@ -5,7 +5,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace BookGen.Domain.Organize;
+namespace BookGen.Shellprog.CommandCode.Organize;
 
 public sealed class OrganizeRule
 {

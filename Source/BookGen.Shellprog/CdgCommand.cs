@@ -6,6 +6,7 @@
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Shellprog.CommandCode;
+using BookGen.Shellprog.CommandCode.Cdg;
 
 namespace BookGen.Shellprog;
 
