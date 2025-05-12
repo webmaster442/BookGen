@@ -20,9 +20,9 @@ internal class OrganizeArguments : ArgumentsBase
         Folder = Environment.CurrentDirectory;
     }
 
-    public override ValidationResult Validate()
+    public override ValidationResult Validate(IValidationContext context)
     {
-        return string.IsNullOrEmpty(Folder) || !Directory.Exists(Folder)
+        return string.IsNullOrEmpty(Folder) || !context.FileSystem.DirectoryExists(Folder)
             ? ValidationResult.Error($"Folder doesn't exist: {Folder}")
             : ValidationResult.Ok();
     }

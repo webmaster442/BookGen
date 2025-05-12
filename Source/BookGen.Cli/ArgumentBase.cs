@@ -14,7 +14,7 @@ public abstract class ArgumentsBase
     /// Performs validation of the settings.
     /// </summary>
     /// <returns>The validation result.</returns>
-    public virtual ValidationResult Validate()
+    public virtual ValidationResult Validate(IValidationContext context)
     {
         return ValidationResult.Ok();
     }

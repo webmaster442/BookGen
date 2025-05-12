@@ -33,6 +33,8 @@ public sealed class CommandRunner
             ?? throw new InvalidOperationException($"Command {t.FullName} is missing a {nameof(CommandNameAttribute)}");
     }
 
+    public IValidationContext ValidationContext { get; set; }
+
     private static SupportedOs GetCurrentOs()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -97,6 +99,9 @@ public sealed class CommandRunner
         _settings = settings;
         ExceptionHandlerDelegate = DefaultExceptionHandler;
         _currentOs = GetCurrentOs();
+
+        ValidationContext = new IoCValidationContext(_resolver);
+
         ConfigureUtfSupport(_settings.EnableUtf8Output);
     }
 
@@ -236,7 +241,7 @@ public sealed class CommandRunner
             ArgumentParser parser = new(argumentType, _log);
             args = parser.Fill(argsToParse);
 
-            var validationResult = args.Validate();
+            var validationResult = args.Validate(ValidationContext);
 
             if (!validationResult.IsOk)
             {
