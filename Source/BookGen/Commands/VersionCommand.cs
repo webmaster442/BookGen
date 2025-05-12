@@ -3,37 +3,18 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.CommandArguments;
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
 
 namespace BookGen.Commands;
 
 [CommandName("version")]
-internal class VersionCommand : Command<VersionArguments>
+internal sealed class VersionCommand : Command
 {
-    private readonly ProgramInfo _programInfo;
-
-    public VersionCommand(ProgramInfo programInfo)
+    public override int Execute(string[] context)
     {
-        _programInfo = programInfo;
-    }
-
-    public override int Execute(VersionArguments arguments, string[] context)
-    {
-        if (arguments.IsDefault)
-        {
-            Console.WriteLine("BookGen Build date (UTC): {0:yyyy.MM.dd}", _programInfo.BuildDateUtc.Date);
-            Console.WriteLine("Build timestamp (UTC): {0:HH:mm:ss}", _programInfo.BuildDateUtc);
-            Console.WriteLine("Config API version: {0}", _programInfo.ProgramVersion);
-        }
-        if (arguments.BuildDate)
-        {
-            Console.WriteLine("{0:yyyy.MM.dd}", _programInfo.BuildDateUtc.Date);
-        }
-        if (arguments.ApiVersion)
-        {
-            Console.WriteLine("{0}", _programInfo.ProgramVersion);
-        }
-
-        return Constants.Succes;
+        Version? version = typeof(VersionCommand).Assembly.GetName().Version;
+        Console.WriteLine(version);
+        return ExitCodes.Succes;
     }
 }
