@@ -11,10 +11,17 @@ namespace BookGen.Commands;
 [CommandName("version")]
 internal sealed class VersionCommand : Command
 {
+    private readonly ProgramInfo _programInfo;
+
+    public VersionCommand(ProgramInfo programInfo)
+    {
+        _programInfo = programInfo;
+    }
+
     public override int Execute(string[] context)
     {
-        Version? version = typeof(VersionCommand).Assembly.GetName().Version;
-        Console.WriteLine(version);
+        Console.WriteLine($"Version: {_programInfo.ProgramVersion}");
+        Console.WriteLine($"Config version: {_programInfo.ConfigVersion}");
         return ExitCodes.Succes;
     }
 }

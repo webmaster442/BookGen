@@ -1,18 +1,25 @@
-﻿//-----------------------------------------------------------------------------
-// (c) 2022-2024 Ruzsinszki Gábor
-// This code is licensed under MIT license (see LICENSE for details)
-//-----------------------------------------------------------------------------
+﻿using BookGen.Cli;
+using BookGen.Cli.Annotations;
+using BookGen.Shell.Shared;
 
-using BookGen.CommandArguments;
-using BookGen.Domain.Terminal;
+using Microsoft.Extensions.Logging;
 
 using Webmaster442.WindowsTerminal;
 
 namespace BookGen.Commands;
 
 [CommandName("terminalinstall")]
-internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallArguments>
+internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallCommand.TerminalInstallArguments>
 {
+    internal sealed class TerminalInstallArguments : ArgumentsBase
+    {
+        [Switch("c", "checkinstall")]
+        public bool CheckInstall { get; set; }
+
+        [Switch("t", "checkterminalinstall")]
+        public bool CheckTerminalInstall { get; set; }
+    }
+
     private readonly ILogger _log;
 
     public TerminalInstallCommand(ILogger log)
@@ -26,13 +33,13 @@ internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallArgum
         if (arguments.CheckTerminalInstall)
         {
             var installReult = InstallDetector.GetInstallResult();
-            return installReult.IsWindowsTerminalInstalled ? Constants.Succes : Constants.GeneralError;
+            return installReult.IsWindowsTerminalInstalled ? ExitCodes.Succes : ExitCodes.GeneralError;
         }
 
         if (arguments.CheckInstall)
         {
             bool installed = TerminalProfileInstaller.IsInstalled();
-            return installed ? Constants.Succes : Constants.GeneralError;
+            return installed ? ExitCodes.Succes : ExitCodes.GeneralError;
         }
 
         var result = await TerminalProfileInstaller.TryInstallAsync();
@@ -40,15 +47,15 @@ internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallArgum
         if (result == null)
         {
             _log.LogWarning("Windows terminal is not installed, can't proceed");
-            return Constants.GeneralError;
+            return ExitCodes.GeneralError;
         }
         else if (result == false)
         {
             _log.LogCritical("Terminal profile install failed");
-            return Constants.GeneralError;
+            return ExitCodes.GeneralError;
         }
 
         _log.LogInformation("Successfully installed windows terminal profile");
-        return Constants.Succes;
+        return ExitCodes.Succes;
     }
 }

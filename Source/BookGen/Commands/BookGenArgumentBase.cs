@@ -3,7 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.CommandArguments;
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
+
+namespace BookGen.Commands;
 
 public class BookGenArgumentBase : ArgumentsBase
 {

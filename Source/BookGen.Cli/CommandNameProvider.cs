@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Shellprog;
+namespace BookGen.Cli;
 
-internal class CommandNameProvider
+public sealed class CommandNameProvider
 {
     private IEnumerable<string>? _commandNames;
 

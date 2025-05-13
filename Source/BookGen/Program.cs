@@ -1,2 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using BookGen.Cli.Mediator;
+using BookGen.Infrastructure;
+
+using Microsoft.Extensions.Logging;
+
+var argumentList = args.ToList();

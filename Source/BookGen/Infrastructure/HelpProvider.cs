@@ -3,20 +3,25 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Resources;
+using Bookgen.Lib;
+
+using BookGen.Cli;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Infrastructure;
+
 internal class HelpProvider : IHelpProvider
 {
     private readonly ILogger _log;
-    private readonly IModuleApi _api;
+    private readonly CommandNameProvider _commandNameProvider;
     private readonly Dictionary<string, string[]> _helpData;
     private readonly Dictionary<string, Func<string>> _callbackTable;
 
-    public HelpProvider(ILogger log, IModuleApi api)
+    public HelpProvider(ILogger log, CommandNameProvider nameProvider)
     {
         _log = log;
-        _api = api;
+        _commandNameProvider = nameProvider;
         _helpData = new Dictionary<string, string[]>();
         _callbackTable = new Dictionary<string, Func<string>>();
 
@@ -63,8 +68,7 @@ internal class HelpProvider : IHelpProvider
 
     public void VerifyHelpData()
     {
-        var names = _api.GetCommandNames();
-        foreach (var name in names)
+        foreach (var name in _commandNameProvider.CommandNames)
         {
             if (!_helpData.ContainsKey(name))
             {

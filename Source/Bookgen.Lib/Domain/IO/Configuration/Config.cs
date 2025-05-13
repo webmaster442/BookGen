@@ -24,9 +24,11 @@ public sealed class Config
     [Required]
     public PrintConfig PrintConfig { get; init; }
 
+    public const int CurrentVersionTag = 250506;
+
     public Config()
     {
-        VersionTag = 250506;
+        VersionTag = CurrentVersionTag;
         TocFile = string.Empty;
         StaticWebsiteConfig = new StaticWebsiteConfig();
         PrintConfig = new PrintConfig();

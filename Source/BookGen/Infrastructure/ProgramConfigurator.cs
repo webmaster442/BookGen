@@ -3,12 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Data;
 using System.Diagnostics;
-using System.Threading;
-
-using BookGen.Framework;
-using BookGen.Gui;
 
 namespace BookGen.Infrastructure;
 

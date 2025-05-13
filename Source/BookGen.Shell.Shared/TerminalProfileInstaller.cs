@@ -5,7 +5,7 @@
 
 using Webmaster442.WindowsTerminal;
 
-namespace BookGen.DomainServices;
+namespace BookGen.Shell.Shared;
 
 public static class TerminalProfileInstaller
 {
