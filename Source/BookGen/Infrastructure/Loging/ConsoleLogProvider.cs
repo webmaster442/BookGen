@@ -11,9 +11,9 @@ using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
 
-using static BookGen.Gui.MessageTypes;
+using static BookGen.MessageTypes;
 
-namespace BookGen.Gui;
+namespace BookGen.Infrastructure.Loging;
 
 public sealed class ConsoleLogProvider : ILoggerProvider
 {

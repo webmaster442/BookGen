@@ -5,6 +5,8 @@
 
 using System.Diagnostics;
 
+using Spectre.Console;
+
 namespace BookGen.Infrastructure;
 
 internal static class ProgramConfigurator
@@ -58,8 +60,8 @@ internal static class ProgramConfigurator
     {
         if (GetSwitch(arguments, DebuggerShort, DebuggerLong))
         {
-            Console.WriteLine("Waiting for debugger to be attached...");
-            Console.WriteLine("ESC to cancel & contine execution...");
+            AnsiConsole.WriteLine("Waiting for debugger to be attached...");
+            AnsiConsole.WriteLine("ESC to cancel & contine execution...");
             while (!Debugger.IsAttached)
             {
                 if (Console.KeyAvailable)
@@ -84,7 +86,7 @@ internal static class ProgramConfigurator
     {
         if (GetSwitch(arguments, DebuggerStartShort, DebuggerStartLong))
         {
-            Console.WriteLine("Attaching debugger...");
+            AnsiConsole.WriteLine("Attaching debugger...");
             if (!Debugger.IsAttached)
             {
                 Debugger.Launch();

@@ -1,5 +1,8 @@
-﻿using BookGen.Gui;
+﻿using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Infrastructure;
+
+using Spectre.Console;
 
 namespace BookGen.Commands;
 
@@ -9,10 +12,10 @@ internal class HelpCommand : Command
     private readonly IHelpProvider _helpProvider;
     private readonly HashSet<string> _commandNames;
 
-    public HelpCommand(IHelpProvider helpProvider, IModuleApi api)
+    public HelpCommand(IHelpProvider helpProvider, CommandNameProvider nameProvider)
     {
         _helpProvider = helpProvider;
-        _commandNames = api.GetCommandNames().ToHashSet();
+        _commandNames = nameProvider.CommandNames.ToHashSet();
     }
 
     public override int Execute(string[] context)
@@ -20,18 +23,18 @@ internal class HelpCommand : Command
         if (context.Length == 0) 
         {
             HelpRenderer.RenderHelp(_helpProvider.GetCommandHelp("help"));
-            return Constants.Succes;
+            return ExitCodes.Succes;
         }
 
         string command = context[0].ToLower();
         if (!_commandNames.Contains(command))
         {
-            Console.WriteLine("Unknown Command: {0}", command);
-            return Constants.GeneralError;
+            AnsiConsole.WriteLine("Unknown Command: {0}", command);
+            return ExitCodes.GeneralError;
         }
 
         HelpRenderer.RenderHelp(_helpProvider.GetCommandHelp(command));
-        return Constants.Succes;
+        return ExitCodes.Succes;
 
     }
 }

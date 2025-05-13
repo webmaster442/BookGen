@@ -5,7 +5,7 @@
 
 using Spectre.Console;
 
-namespace BookGen.Gui;
+namespace BookGen.Infrastructure;
 
 public static class HelpRenderer
 {
@@ -15,6 +15,7 @@ public static class HelpRenderer
         IReadOnlyList<string> reWraped = DoReWrap(article, pageSize, Console.WindowWidth);
         return reWraped.Chunk(pageSize).ToArray();
     }
+
     public static void RenderPage(string[] pageContent)
     {
         foreach (var line in pageContent)

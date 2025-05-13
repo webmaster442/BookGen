@@ -3,8 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Runtime.InteropServices.Marshalling;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+
+using Spectre.Console;
 
 namespace BookGen.Commands;
 
@@ -20,8 +24,8 @@ internal sealed class VersionCommand : Command
 
     public override int Execute(string[] context)
     {
-        Console.WriteLine($"Version: {_programInfo.ProgramVersion}");
-        Console.WriteLine($"Config version: {_programInfo.ConfigVersion}");
+        AnsiConsole.WriteLine($"Version: {_programInfo.ProgramVersion}");
+        AnsiConsole.WriteLine($"Config version: {_programInfo.ConfigVersion}");
         return ExitCodes.Succes;
     }
 }

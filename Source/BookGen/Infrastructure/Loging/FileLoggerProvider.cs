@@ -1,4 +1,6 @@
-﻿namespace BookGen.Infrastructure;
+﻿using Microsoft.Extensions.Logging;
+
+namespace BookGen.Infrastructure.Loging;
 
 internal sealed class FileLoggerProvider : ILoggerProvider
 {

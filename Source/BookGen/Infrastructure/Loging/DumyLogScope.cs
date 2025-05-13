@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Gui;
+namespace BookGen.Infrastructure.Loging;
 
 internal sealed class DumyLogScope : IDisposable
 {

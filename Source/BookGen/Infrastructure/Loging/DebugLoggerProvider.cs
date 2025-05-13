@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Gui;
+namespace BookGen.Infrastructure.Loging;
 
 public sealed class DebugLoggerProvider : ILoggerProvider
 {
