@@ -12,7 +12,7 @@ public abstract class AppSettingsBase
 
     public AppSettingsBase(string fileName)
     {
-        _fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), fileName);
+        _fileName = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile), fileName);
         _storage = new Dictionary<string, string>();
         _options = new JsonSerializerOptions()
         {

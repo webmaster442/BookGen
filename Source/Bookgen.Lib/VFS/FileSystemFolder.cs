@@ -10,7 +10,7 @@ public sealed class FileSystemFolder : IFolder, IReadOnlyFolder
 
     private static string GetFullPath(string file)
     {
-        return Environment.OSVersion.Platform == PlatformID.Unix
+        return System.Environment.OSVersion.Platform == PlatformID.Unix
             ? Path.GetFullPath(file.Replace('\\', '/'))
             : Path.GetFullPath(file.Replace('/', '\\'));
     }

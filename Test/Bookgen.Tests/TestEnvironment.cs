@@ -16,6 +16,8 @@ internal class TestEnvironment : IEnvironment
 
     public IFolder Output => throw new NotImplementedException();
 
+    public ICache Cache => throw new NotImplementedException();
+
     public void Dispose()
     {
         _assetSoruce.Dispose();

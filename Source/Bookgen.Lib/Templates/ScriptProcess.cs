@@ -22,7 +22,7 @@ internal sealed class ScriptProcess
 
     private static string? ResolveProgramFullPath(string programName, string additional = "")
     {
-        string? pathVar = Environment.GetEnvironmentVariable("path");
+        string? pathVar = System.Environment.GetEnvironmentVariable("path");
 
         if (pathVar == null)
             return null;

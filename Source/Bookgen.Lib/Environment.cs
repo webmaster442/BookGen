@@ -7,17 +7,9 @@ using Bookgen.Lib.Internals;
 using Bookgen.Lib.Pipeline;
 using Bookgen.Lib.VFS;
 
-using Microsoft.Extensions.Logging;
-
 namespace Bookgen.Lib;
 
-internal static class Constants
-{
-    public const string ConfigFile = "bookgen.json";
-    public const string LockFile = "bookgen.lock";
-}
-
-public sealed class BookGenEnvironment : IEnvironment
+public sealed class Environment : IEnvironment
 {
     private readonly IFolder _source;
     private readonly IAssetSource[] _assets;
@@ -27,10 +19,11 @@ public sealed class BookGenEnvironment : IEnvironment
     private IFolder? _output;
     private bool _isInitialized;
 
-    public BookGenEnvironment(IFolder soruceFolder, params IAssetSource[] assets)
+    public Environment(IFolder soruceFolder, params IAssetSource[] assets)
     {
         _source = soruceFolder;
         _assets = assets;
+        Cache = new Cache();
     }
 
     public Config Configuration => _config ?? throw new InvalidOperationException();
@@ -41,8 +34,12 @@ public sealed class BookGenEnvironment : IEnvironment
 
     public IFolder Output => _output ?? throw new InvalidOperationException();
 
+    public ICache Cache { get; }
+
     public void Dispose()
     {
+        Cache.Clear();
+
         foreach (var asset in _assets)
         {
             if (asset is IDisposable disposable)
@@ -139,6 +136,7 @@ public sealed class BookGenEnvironment : IEnvironment
 
         _isInitialized = true;
         _output = new FileSystemFolder(config.OutputFolder);
+        Cache.Clear();
 
         return status;
     }
