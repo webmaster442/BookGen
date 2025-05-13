@@ -5,7 +5,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace BookGen.Web;
+namespace Bookgen.Lib.Http;
 
 internal sealed record class ApiMetaData : UrlMetaData
 {

@@ -3,12 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Web;
+namespace Bookgen.Lib.Http;
 
-public interface IHttpServer
+internal enum ApiMethod
 {
-    int Port { get; }
-    IEnumerable<string> GetListenUrls();
-    Task StartAsync();
-    Task StopAsync();
+    Get,
+    Post,
+    Put,
+    Delete,
+    Patch,
+    Options,
+    Head,
+    Connect,
+    Trace
 }

@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Web;
 
-namespace BookGen.Web;
+namespace Bookgen.Lib.Http;
 
 internal static class PageFactory
 {
@@ -24,7 +24,7 @@ internal static class PageFactory
 
     public static string GetErrorPage(int code, string message)
     {
-        var page = GetResource("BookGen.Web.ErrorPageTemplate.html");
+        var page = GetResource($"Bookgen.Lib.Http.ErrorPageTemplate.html");
         return page.Replace("{{code}}", code.ToString()).Replace("{{message}}", message);
     }
 
@@ -39,6 +39,6 @@ internal static class PageFactory
             qrcodes.AppendLine("</figure>");
         }
 
-        return GetResource("BookGen.Web.QRCodeTemplate.html").Replace("{{links}}", qrcodes.ToString());
+        return GetResource("Bookgen.Lib.Http.QRCodeTemplate.html").Replace("{{links}}", qrcodes.ToString());
     }
 }

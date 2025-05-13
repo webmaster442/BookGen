@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.AspNetCore.StaticFiles;
 
-namespace BookGen.Web;
+namespace Bookgen.Lib.Http;
 
 /// <summary>
 /// Provides mime type resolving functions
