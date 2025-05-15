@@ -3,29 +3,33 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.CommandArguments;
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
+
+namespace BookGen.Commands;
 
 public class InputOutputArguments : ArgumentsBase
 {
     [Switch("i", "input")]
-    public FsPath InputFile { get; set; }
+    public string InputFile { get; set; }
 
     [Switch("o", "output")]
-    public FsPath OutputFile { get; set; }
+    public string OutputFile { get; set; }
 
     public InputOutputArguments()
     {
-        InputFile = FsPath.Empty;
-        OutputFile = FsPath.Empty;
+        InputFile = string.Empty;
+        OutputFile = string.Empty;
     }
 
-    public override ValidationResult Validate()
+    public override ValidationResult Validate(IValidationContext context)
     {
         ValidationResult result = new();
-        if (!InputFile.IsExisting)
+
+        if (!File.Exists(InputFile))
             result.AddIssue("Input file doesn't exist");
 
-        if (FsPath.IsEmptyPath(OutputFile))
+        if (string.IsNullOrEmpty(OutputFile))
             result.AddIssue("Output file/directory must be specified");
 
         return result;

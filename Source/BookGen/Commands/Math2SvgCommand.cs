@@ -5,6 +5,7 @@
 
 using System.Net;
 
+using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Web;
 
@@ -24,12 +25,12 @@ internal class Math2SvgCommand : AsyncCommand<InputOutputArguments>
 
     public override async Task<int> Execute(InputOutputArguments arguments, string[] context)
     {
-        IList<string>? input = arguments.InputFile.ReadFileLines(_log);
+        var input = File.ReadAllLines(arguments.InputFile);
 
         UrlParameterBuilder builder = new(MathVercelParams.ApiUrl);
         using (var client = new BookGenHttpClient())
         {
-            for (int i = 0; i < input.Count; i++)
+            for (int i = 0; i < input.Length; i++)
             {
                 if (!input[i].StartsWith('\\'))
                 {
@@ -45,8 +46,9 @@ internal class Math2SvgCommand : AsyncCommand<InputOutputArguments>
 
                 if (BookGenHttpClient.IsSuccessfullRequest(code))
                 {
-                    FsPath output = arguments.OutputFile.Combine(arguments.InputFile.Filename + $"-{i}.svg");
-                    output.WriteFile(_log, resultString);
+                    var output = Path.Combine(arguments.OutputFile, Path.GetFileName(arguments.InputFile) + $"-{i}.svg");
+
+                    File.WriteAllText(output, resultString);
                 }
                 else
                 {
