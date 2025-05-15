@@ -1,0 +1,75 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2022-2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Net;
+
+using Microsoft.Extensions.Logging;
+
+namespace BookGen.Infrastructure.Web;
+
+public sealed class BookGenHttpClient : IDisposable
+{
+    private readonly HttpClient _client;
+    private bool _disposed;
+
+    public BookGenHttpClient()
+    {
+        _client = new HttpClient();
+    }
+
+    public async Task<(HttpStatusCode code, string resultString)> TryDownload(Uri url)
+    {
+        using HttpResponseMessage? response = await _client.GetAsync(url);
+
+        if (response.IsSuccessStatusCode)
+        {
+            string content = await response.Content.ReadAsStringAsync();
+            return (response.StatusCode, content);
+        }
+        else
+        {
+            return (response.StatusCode, string.Empty);
+        }
+    }
+
+    public async Task<HttpStatusCode> DownloadToFile(Uri url, string output, ILogger log)
+    {
+        using HttpResponseMessage? response = await _client.GetAsync(url);
+        if (response.IsSuccessStatusCode)
+        {
+            using var stream = await response.Content.ReadAsStreamAsync();
+            using var outStream = CreateStream(output, log);
+            await stream.CopyToAsync(outStream);
+        }
+        return response.StatusCode;
+    }
+
+    public static bool IsSuccessfullRequest(HttpStatusCode code)
+    {
+        int c = (int)code;
+        return c >= 200 && c <= 300;
+    }
+
+    private static FileStream CreateStream(string target, ILogger log)
+    {
+        string? dir = Path.GetDirectoryName(target) ?? string.Empty;
+        if (!Directory.Exists(dir))
+        {
+            log.LogDebug("Creating directory: {dir}", dir);
+            Directory.CreateDirectory(dir);
+        }
+
+        return File.Create(target);
+    }
+
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            _client.Dispose();
+            _disposed = true;
+        }
+    }
+}

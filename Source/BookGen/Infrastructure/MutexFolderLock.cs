@@ -3,9 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Threading;
+using System.Text;
 
-namespace BookGen.Framework;
+using Microsoft.Extensions.Logging;
+
+namespace BookGen.Infrastructure;
 
 internal sealed class MutexFolderLock : IDisposable, IMutexFolderLock
 {
@@ -32,6 +34,16 @@ internal sealed class MutexFolderLock : IDisposable, IMutexFolderLock
 
         _lockMutex = new Mutex(true, mutexId);
         return false;
+    }
+
+    public void CheckLockFileExistsAndExitWhenNeeded(ILogger log, string folder)
+    {
+        log.LogInformation("Checking folder lock status...");
+        if (CheckAndLock(folder))
+        {
+            log.LogCritical("An other bookgen process is using this folder. Exiting...");
+            Environment.Exit(ExitCodes.FolderLocked);
+        }
     }
 
     public void Dispose()

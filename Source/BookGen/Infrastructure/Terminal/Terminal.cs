@@ -2,19 +2,15 @@
 
 using Spectre.Console;
 
-namespace BookGen.Gui;
-public class Terminal : ITerminal
+namespace BookGen.Infrastructure.Terminal;
+
+public static class Terminal
 {
-    private readonly Palette _palette;
+    private static readonly Palette _palette = new();
 
-    public Terminal()
-    {
-        _palette = new Palette();
-    }
-
-    public void Table<T>(IDictionary<string, T> rows,
-                         string keyColumnName = "",
-                         string valueColumnName = "")
+    public static void Table<T>(IDictionary<string, T> rows,
+                                string keyColumnName = "",
+                                string valueColumnName = "")
     {
         var table = new Table();
         table.AddColumn(keyColumnName);
@@ -28,7 +24,7 @@ public class Terminal : ITerminal
         AnsiConsole.Write(table);
     }
 
-    public void Table<T>(IEnumerable<T> rows)
+    public static void Table<T>(IEnumerable<T> rows)
     {
         var table = new Table();
         var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -45,7 +41,7 @@ public class Terminal : ITerminal
         AnsiConsole.Write(table);
     }
 
-    public void BarChart(IDictionary<string, double> items, string title = "")
+    public static void BarChart(IDictionary<string, double> items, string title = "")
     {
         var chart = new BarChart()
             .Width(Console.WindowWidth)
@@ -62,7 +58,7 @@ public class Terminal : ITerminal
         AnsiConsole.Write(chart);
     }
 
-    public void BreakDownChart(IDictionary<string, double> items, string title = "")
+    public static void BreakDownChart(IDictionary<string, double> items, string title = "")
     {
         var rule = new Rule(title).Centered();
         AnsiConsole.Write(rule);
@@ -80,14 +76,14 @@ public class Terminal : ITerminal
         AnsiConsole.Write(chart);
     }
 
-    public void Header(string title)
+    public static void Header(string title)
     {
         AnsiConsole.WriteLine(title);
         AnsiConsole.WriteLine("".PadLeft(Console.WindowWidth, '-'));
         AnsiConsole.WriteLine();
     }
 
-    public bool Confirm(string message)
+    public static bool Confirm(string message)
     {
         var prompt = new ConfirmationPrompt(message);
         return prompt.Show(AnsiConsole.Console);

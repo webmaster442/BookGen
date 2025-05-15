@@ -5,8 +5,10 @@
 
 using System.Net;
 
-using BookGen.CommandArguments;
-using BookGen.DomainServices.WebServices;
+using BookGen.Cli.Annotations;
+using BookGen.Infrastructure.Web;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands;
 
@@ -29,7 +31,7 @@ internal class Math2SvgCommand : AsyncCommand<InputOutputArguments>
         {
             for (int i = 0; i < input.Count; i++)
             {
-                if (!input[i].StartsWith("\\"))
+                if (!input[i].StartsWith('\\'))
                 {
                     _log.LogWarning("Not a formula (not starting with \\), Skipping line: {line}", input[i]);
                     continue;
@@ -49,10 +51,10 @@ internal class Math2SvgCommand : AsyncCommand<InputOutputArguments>
                 else
                 {
                     _log.LogWarning("Download failed. Error: {error}", code);
-                    return Constants.GeneralError;
+                    return ExitCodes.GeneralError;
                 }
             }
         }
-        return Constants.Succes;
+        return ExitCodes.Succes;
     }
 }

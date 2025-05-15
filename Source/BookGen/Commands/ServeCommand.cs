@@ -3,10 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.CommandArguments;
-using BookGen.Framework;
+using Bookgen.Lib.Http;
+
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Infrastructure;
-using BookGen.Web;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands;
 
@@ -44,6 +47,6 @@ internal class ServeCommand : AsyncCommand<BookGenArgumentBase>
             await runner.RunServer();
         }
 
-        return Constants.Succes;
+        return ExitCodes.Succes;
     }
 }

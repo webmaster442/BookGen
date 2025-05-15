@@ -5,8 +5,12 @@
 
 using System.Net;
 
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.CommandArguments;
-using BookGen.DomainServices.WebServices;
+using BookGen.Infrastructure.Web;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands;
 
@@ -37,10 +41,10 @@ internal class QrCodeCommand : AsyncCommand<QrCodeArguments>
             if (!BookGenHttpClient.IsSuccessfullRequest(result))
             {
                 _log.LogWarning("Download failed. Error: {error}", result);
-                return Constants.GeneralError;
+                return ExitCodes.GeneralError;
             }
 
-            return Constants.Succes;
+            return ExitCodes.Succes;
         }
 
     }

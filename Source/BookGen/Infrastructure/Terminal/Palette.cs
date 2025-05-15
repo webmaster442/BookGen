@@ -5,7 +5,7 @@
 
 using Spectre.Console;
 
-namespace BookGen.Gui;
+namespace BookGen.Infrastructure.Terminal;
 
 internal class Palette
 {

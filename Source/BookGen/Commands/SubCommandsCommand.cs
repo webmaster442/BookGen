@@ -3,8 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Gui;
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Infrastructure;
+using BookGen.Infrastructure.Terminal;
+
+using Spectre.Console;
 
 namespace BookGen.Commands;
 
@@ -12,28 +16,26 @@ namespace BookGen.Commands;
 internal class SubCommandsCommand : Command
 {
     private readonly IEnumerable<IGrouping<char, string>> _commands;
-    private readonly ITerminal _terminal;
 
-    public SubCommandsCommand(IModuleApi api, ITerminal terminal)
+    public SubCommandsCommand(CommandNameProvider provider)
     {
-        _terminal = terminal;
-        _commands = api
-            .GetCommandNames()
+        _commands = provider
+            .CommandNames
             .Order()
-            .GroupBy(x => x[0]);
+            .GroupBy(cmd => cmd[0]);
     }
 
     public override int Execute(string[] context)
     {
-        _terminal.Header("Available sub commands:");
+        Terminal.Header("Available sub commands:");
         foreach (var commandGroup in _commands)
         {
-            Console.WriteLine(commandGroup.Key);
+            AnsiConsole.WriteLine(commandGroup.Key);
             foreach (var command in commandGroup)
             {
-                Console.WriteLine($"  {command}");
+                AnsiConsole.WriteLine($"  {command}");
             }
         }
-        return Constants.Succes;
+        return ExitCodes.Succes;
     }
 }
