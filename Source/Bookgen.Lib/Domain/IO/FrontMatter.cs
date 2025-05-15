@@ -18,7 +18,7 @@ public sealed class FrontMatter
     public string? Template { get; init; }
 
     [YamlMember(Alias = "data")]
-    public Dictionary<string, string> Data { get; init; } = new();
+    public Dictionary<string, string>? Data { get; init; }
 
     [YamlIgnore]
     public string[] TagArray

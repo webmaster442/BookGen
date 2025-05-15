@@ -7,10 +7,6 @@ This config file can be created with the following command:
 
 `BookGen Init`
 
-To get information regarding the configuration file bookgen.json file run:
-
-`Bookgen ConfigHelp`
-
 To Get more help about a subcommand type:
 
 `BookGen Help [module]`
@@ -237,6 +233,22 @@ Arguments:
 -c, --command:
     Required argument. Specifies the command for which the json template
     will be created.
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+# NewPage
+
+Creates a new markdown page.
+
+`BookGen NewPage -n [file] {-d [directory]}` 
+`BookGen NewPage --name [file] {-dir [directory]}` 
+
+Arguments:
+
+-n, --name:
+    File name. Specifies new file name
 
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then

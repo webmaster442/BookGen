@@ -37,7 +37,7 @@ public static class Extensions
 
     private static (string content, FrontMatter frontMatter) GetFileContents(IFolder folder, string file, ILogger logger)
     {
-        IDeserializer yamlDeserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().Build();
+        IDeserializer yamlDeserializer = YamlSerializerFactory.CreateDeserializer();
         StringBuilder content = new StringBuilder();
         StringBuilder yaml = new StringBuilder();
 
