@@ -17,10 +17,12 @@ namespace BookGen.Commands;
 internal class Math2SvgCommand : AsyncCommand<InputOutputArguments>
 {
     private readonly ILogger _log;
+    private readonly IFileSystem _fileSystem;
 
-    public Math2SvgCommand(ILogger log)
+    public Math2SvgCommand(ILogger log, IFileSystem fileSystem)
     {
         _log = log;
+        _fileSystem = fileSystem;
     }
 
     public override async Task<int> Execute(InputOutputArguments arguments, string[] context)
@@ -48,7 +50,7 @@ internal class Math2SvgCommand : AsyncCommand<InputOutputArguments>
                 {
                     var output = Path.Combine(arguments.OutputFile, Path.GetFileName(arguments.InputFile) + $"-{i}.svg");
 
-                    File.WriteAllText(output, resultString);
+                    _fileSystem.WriteAllText(output, resultString);
                 }
                 else
                 {

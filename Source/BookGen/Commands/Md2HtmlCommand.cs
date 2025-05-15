@@ -3,18 +3,92 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.CommandArguments;
-using BookGen.Domain.Configuration;
-using BookGen.DomainServices.Markdown;
-using BookGen.Framework;
-using BookGen.RenderEngine;
-using BookGen.Resources;
+using System.Text;
+
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands;
 
 [CommandName("md2html")]
-internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
+internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
 {
+    internal sealed class Md2HtmlArguments : ArgumentsBase
+    {
+        [Switch("i", "input")]
+        public string[] InputFiles { get; set; }
+
+        [Switch("o", "output")]
+        public string OutputFile { get; set; }
+
+        [Switch("c", "css")]
+        public string Css { get; set; }
+
+        [Switch("tf", "template")]
+        public string Template { get; set; }
+
+        [Switch("ns", "no-syntax")]
+        public bool NoSyntax { get; set; }
+
+        [Switch("r", "raw")]
+        public bool RawHtml { get; set; }
+
+        [Switch("nc", "no-css")]
+        public bool NoCss { get; set; }
+
+        [Switch("s", "svg")]
+        public bool SvgPassthrough { get; set; }
+
+        [Switch("t", "title")]
+        public string Title { get; set; }
+
+
+        public Md2HtmlArguments()
+        {
+            Css = string.Empty;
+            Template = string.Empty;
+            Title = "Markdown document";
+            InputFiles = [];
+            OutputFile = string.Empty;
+        }
+
+        public override ValidationResult Validate(IValidationContext context)
+        {
+            ValidationResult result = new();
+
+            if (!string.IsNullOrEmpty(Template))
+            {
+                if (!context.FileSystem.FileExists(Template))
+                    result.AddIssue("Template file doesn't exist");
+            }
+
+            if (!string.IsNullOrEmpty(Css))
+            {
+                if (!context.FileSystem.FileExists(Css))
+                    result.AddIssue("css file doesn't exist");
+            }
+
+            if (string.IsNullOrEmpty(OutputFile))
+                result.AddIssue("Output file must be specified");
+
+            if (!InputFiles.Any())
+                result.AddIssue("An Input file must be specified");
+
+            foreach (var inputfile in InputFiles)
+            {
+                if (!context.FileSystem.FileExists(inputfile))
+                    result.AddIssue($"Input file: {inputfile} doesn't exist");
+            }
+
+            if (string.IsNullOrWhiteSpace(Title))
+                result.AddIssue("Title can't be only whitespaces or empty");
+
+            return result;
+        }
+    }
+
     private readonly ILogger _log;
 
     private const string TitleTag = "{{title}}";
@@ -23,9 +97,11 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
 
     private readonly TemplateRenderer _renderer;
 
-    public Md2HtmlCommand(ILogger log, IAppSetting appSetting, TimeProvider timeProvider)
+    public Md2HtmlCommand(ILogger log, TimeProvider timeProvider)
     {
         _log = log;
+
+
         _renderer = new TemplateRenderer(new FunctionServices
         {
             AppSetting = appSetting,
@@ -96,7 +172,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlArguments>
         return Constants.Succes;
     }
 
-    private string ReadInputFiles(FsPath[] inputFiles)
+    private string ReadInputFiles(string inputFiles)
     {
         StringBuilder md = new(inputFiles.Length * 1024);
         foreach (var inputFile in inputFiles)

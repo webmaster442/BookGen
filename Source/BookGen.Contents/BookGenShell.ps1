@@ -1,7 +1,7 @@
 ﻿# -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 3.0
-# Last modified: 2024-07-21
+# Version 3.1
+# Last modified: 2025-05-15
 # -----------------------------------------------------------------------------
 
 # NodeJS install test
@@ -112,29 +112,15 @@ function cdg
 {
     $argsAsString = $args -join ' '
     if ([string]::IsNullOrWhiteSpace($argsAsString))
-	{
-		BookGen.Shell.exe "cdg"
-	}
-	else
-	{
-		BookGen.Shell.exe "cdg" "$argsAsString"
-	}
+    {
+        BookGen.Shell.exe "cdg"
+    }
+    else
+    {
+        BookGen.Shell.exe "cdg" "$argsAsString"
+    }
     $location = [Environment]::GetEnvironmentVariable('cdgPath', 'User')
     Push-Location $location
-}
-
-# www command
-function www
-{
-    $argsAsString = $args -join ' '
-    if ([string]::IsNullOrWhiteSpace($argsAsString))
-	{
-		BookGen.Shell.exe "www"
-	}
-	else
-	{
-		BookGen.Shell.exe "www" "$argsAsString"
-	}
 }
 
 # organize command
@@ -151,38 +137,22 @@ function organize
     }
 }
 
-# web command
-function web
-{
-    $argsAsString = $args -join ' '
-    if ([string]::IsNullOrWhiteSpace($argsAsString))
-    {
-        BookGen.Shell.exe "web"
-    }
-    else
-    {
-        BookGen.Shell.exe "web" "$argsAsString"
-    }
-}
-
 # info command
 function bookgen-info()
 {
-	Clear-Host
-	Get-Content $env:BookGenPath\getting-started.mdr | Out-Host -Paging
+    Clear-Host
+    Get-Content $env:BookGenPath\getting-started.mdr | Out-Host -Paging
 }
 
 # intro message
 function intro()
 {
-	clear
-	bookgen version
+    clear
+    bookgen version
     Write-Host "┌────────────────────────────────────────────────────────┐"
     Write-Host "│ Added commands:                                        │"
     Write-Host "│  intro: displays this message                          │"
     Write-Host "│  bookgen-info: displays the getting  started guide     │"
-    Write-Host "│  www: web shortcuts                                    │"
-    Write-Host "│  web: open actual git repo website                     │"
     Write-Host "│  cdg: menu driven change driectory                     │"
     Write-Host "│  organize: organize current directory files to subdirs │"
     Write-Host "└────────────────────────────────────────────────────────┘"
@@ -251,33 +221,33 @@ Set-PSReadLineOption -Colors @{
 
 # PowerShell parameter completion shim for BookGen
 Register-ArgumentCompleter -Native -CommandName BookGen -ScriptBlock {
-	param($commandName, $wordToComplete, $cursorPosition)
-		BookGen.exe "Shell" "$wordToComplete" | ForEach-Object {
-			[System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-	 }
+    param($commandName, $wordToComplete, $cursorPosition)
+        BookGen.exe "Shell" "$wordToComplete" | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+     }
 }
 # Case invariant registration
 Register-ArgumentCompleter -Native -CommandName bookgen -ScriptBlock {
-	param($commandName, $wordToComplete, $cursorPosition)
-		BookGen.exe "Shell" "$wordToComplete" | ForEach-Object {
-			[System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-	 }
+    param($commandName, $wordToComplete, $cursorPosition)
+        BookGen.exe "Shell" "$wordToComplete" | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+     }
 }
 
 # PowerShell parameter completion shim for the dotnet CLI
 Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
-	param($commandName, $wordToComplete, $cursorPosition)
-		dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
-			[System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-	 }
+    param($commandName, $wordToComplete, $cursorPosition)
+        dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+     }
 }
 
 # PowerShell parameter completion shim for git
 Register-ArgumentCompleter -Native -CommandName git -ScriptBlock {
-	param($commandName, $wordToComplete, $cursorPosition)
-		BookGen.Shell.exe "git-complete" $cursorPosition "$wordToComplete" | ForEach-Object {
-			[System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-	 }
+    param($commandName, $wordToComplete, $cursorPosition)
+        BookGen.Shell.exe "git-complete" $cursorPosition "$wordToComplete" | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+     }
 }
 
 # set prompt
@@ -294,7 +264,7 @@ function prompt {
 
 # if argument given set to startup folder
 if ($args.Count -eq 1) {
-	Set-Location $args[0]
+    Set-Location $args[0]
 }
 
 # welcome message

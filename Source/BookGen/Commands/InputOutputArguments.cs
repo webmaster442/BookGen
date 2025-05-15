@@ -26,7 +26,7 @@ public class InputOutputArguments : ArgumentsBase
     {
         ValidationResult result = new();
 
-        if (!File.Exists(InputFile))
+        if (!context.FileSystem.FileExists(InputFile))
             result.AddIssue("Input file doesn't exist");
 
         if (string.IsNullOrEmpty(OutputFile))

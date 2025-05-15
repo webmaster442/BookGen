@@ -45,6 +45,7 @@ ioc.RegisterSingleton(logger);
 ioc.RegisterSingleton(info);
 ioc.RegisterSingleton(commandNameProvider);
 ioc.RegisterSingleton<IMediator>(mediator);
+ioc.RegisterSingleton<IFileSystem>(new FileSystem());
 
 ioc.Build();
 

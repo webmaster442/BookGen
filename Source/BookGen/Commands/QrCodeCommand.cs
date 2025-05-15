@@ -60,10 +60,12 @@ internal class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
 
 
     private readonly ILogger _log;
+    private readonly IFileSystem _fileSystem;
 
-    public QrCodeCommand(ILogger log)
+    public QrCodeCommand(ILogger log, IFileSystem fileSystem)
     {
         _log = log;
+        _fileSystem = fileSystem;
     }
 
     public override async Task<int> Execute(QrCodeArguments arguments, string[] context)
@@ -78,7 +80,10 @@ internal class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
         using (var client = new BookGenHttpClient())
         {
             _log.LogInformation("Downloading from {url}...", GoQrMeParams.ApiUrl);
-            HttpStatusCode result = await client.DownloadToFile(uri, arguments.Output, _log);
+
+            using var output = _fileSystem.CreateStream(arguments.Output);
+
+            HttpStatusCode result = await client.DownloadTo(uri, output);
 
             if (!BookGenHttpClient.IsSuccessfullRequest(result))
             {

@@ -5,8 +5,6 @@
 
 using System.Net;
 
-using Microsoft.Extensions.Logging;
-
 namespace BookGen.Infrastructure.Web;
 
 public sealed class BookGenHttpClient : IDisposable
@@ -34,14 +32,13 @@ public sealed class BookGenHttpClient : IDisposable
         }
     }
 
-    public async Task<HttpStatusCode> DownloadToFile(Uri url, string output, ILogger log)
+    public async Task<HttpStatusCode> DownloadTo(Uri url, Stream target)
     {
         using HttpResponseMessage? response = await _client.GetAsync(url);
         if (response.IsSuccessStatusCode)
         {
             using var stream = await response.Content.ReadAsStreamAsync();
-            using var outStream = CreateStream(output, log);
-            await stream.CopyToAsync(outStream);
+            await stream.CopyToAsync(target);
         }
         return response.StatusCode;
     }
@@ -50,18 +47,6 @@ public sealed class BookGenHttpClient : IDisposable
     {
         int c = (int)code;
         return c >= 200 && c <= 300;
-    }
-
-    private static FileStream CreateStream(string target, ILogger log)
-    {
-        string? dir = Path.GetDirectoryName(target) ?? string.Empty;
-        if (!Directory.Exists(dir))
-        {
-            log.LogDebug("Creating directory: {dir}", dir);
-            Directory.CreateDirectory(dir);
-        }
-
-        return File.Create(target);
     }
 
     public void Dispose()

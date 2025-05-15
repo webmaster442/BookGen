@@ -32,10 +32,12 @@ internal class NewPageCommand : Command<NewPageCommand.Arguments>
     }
 
     private readonly ILogger _logger;
+    private readonly IFileSystem _fileSystem;
 
-    public NewPageCommand(ILogger logger)
+    public NewPageCommand(ILogger logger, IFileSystem fileSystem)
     {
         _logger = logger;
+        _fileSystem = fileSystem;
     }
 
     public override int Execute(Arguments arguments, string[] context)
@@ -61,7 +63,7 @@ internal class NewPageCommand : Command<NewPageCommand.Arguments>
 
         var fileName = Path.Combine(arguments.Directory, arguments.Name);
 
-        File.WriteAllText(fileName, content);
+        _fileSystem.WriteAllText(fileName, content);
         _logger.LogInformation("Created new page at {fileName}", fileName);
 
         return ExitCodes.Succes;
