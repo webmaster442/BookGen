@@ -161,8 +161,8 @@ Note: This module to work requires internet connection.
 
 Renders a single markdown file to an HTML file
 
-`BookGen Md2HTML -i [input.md] -o [output.html] {-c [cssfile.css]}`
-`BookGen Md2HTML --input [input.md] --output [output.html] {--css [cssfile.css]}`
+`BookGen Md2HTML -i [input.md] -o [output.html]`
+`BookGen Md2HTML --input [input.md] --output [output.html]`
 
 Arguments:
 
@@ -171,13 +171,6 @@ Arguments:
 
 -o, --output: 
     Output html file path. If file name is "con", outputs to console.
-
--c. --css:
-    Optional argument. Specifies the css file to be aplied to the html.
-    If not specified built in styles get aplied.
-
--nc, --no-css
-    Optional argument. If specified, built in styles don't get aplied.
 
 -ns, --no-syntax
     Optional argument. Disables syntax highlight

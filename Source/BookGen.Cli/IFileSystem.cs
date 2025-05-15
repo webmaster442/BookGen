@@ -13,6 +13,7 @@ public interface IFileSystem
     bool FileExists(string path);
     void WriteAllText(string file, string content);
     Stream CreateStream(string target);
+    string ReadAllText(string inputFile);
 }
 
 public sealed class FileSystem : IFileSystem
@@ -35,4 +36,7 @@ public sealed class FileSystem : IFileSystem
         }
         return File.Create(target);
     }
+
+    public string ReadAllText(string inputFile)
+        => File.ReadAllText(inputFile);
 }
