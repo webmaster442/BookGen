@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 using Bookgen.Lib.Domain.Validation;
 
@@ -6,14 +7,17 @@ namespace Bookgen.Lib.Domain.IO.Configuration;
 
 public sealed class StaticWebsiteConfig : OutputConfig
 {
+    [Description("When enabled, links that point outside of host are opened in a new tab")]
     [Required]
     public bool OpenLinksOutsideHostOnNewTab { get; init; }
 
+    [Description("Deploy host name")]
     [NotNullOrWhiteSpace]
     public string DeployHost { get; set; }
 
+    [Description("Files to copy to the output directory")]
     [FileExists]
-    public List<string> AssetsToCopy { get; init; }
+    public List<string> CopyToOutput { get; init; }
 
     public StaticWebsiteConfig()
     {
@@ -21,6 +25,6 @@ public sealed class StaticWebsiteConfig : OutputConfig
         CssClasses = new CssClasses();
         Images = new ImageConfig();
         OpenLinksOutsideHostOnNewTab = false;
-        AssetsToCopy = new List<string>();
+        CopyToOutput = new List<string>();
     }
 }

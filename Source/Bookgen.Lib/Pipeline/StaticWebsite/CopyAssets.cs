@@ -9,7 +9,7 @@ internal class CopyAssets : IPipeLineStep
 {
     public async Task<StepResult> ExecuteAsync(IEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        foreach (var asset in environment.Configuration.StaticWebsiteConfig.AssetsToCopy)
+        foreach (var asset in environment.Configuration.StaticWebsiteConfig.CopyToOutput)
         {
             if (cancellationToken.IsCancellationRequested)
             {

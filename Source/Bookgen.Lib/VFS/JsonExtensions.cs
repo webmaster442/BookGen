@@ -1,11 +1,11 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Schema;
 using System.Text.Json.Serialization;
 
-using Bookgen.Lib.VFS;
+namespace Bookgen.Lib.VFS;
 
-namespace Bookgen.Lib.Internals;
-
-internal static class JsonExtensions
+public static class JsonExtensions
 {
     private readonly static JsonSerializerOptions _options = new JsonSerializerOptions
     {
@@ -27,6 +27,14 @@ internal static class JsonExtensions
     public static async Task SerializeAsync<T>(this IFolder folder, string path, T value)
     {
         await using var stream = folder.CreateStream(path);
-        await JsonSerializer.SerializeAsync<T>(stream, value, _options);
+        await JsonSerializer.SerializeAsync(stream, value, _options);
+    }
+
+    public static async Task WriteSchema<T>(this IFolder folder, string path)
+    {
+        await using var stream = folder.CreateStream(path);
+        JsonNode schema = _options.GetJsonSchemaAsNode(typeof(T));
+        using var writer = new StreamWriter(stream);
+        await writer.WriteAsync(schema.ToJsonString());
     }
 }
