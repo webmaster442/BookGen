@@ -34,15 +34,18 @@ internal class NewPageCommand : Command<NewPageCommand.Arguments>
 
     private readonly ILogger _logger;
     private readonly IWritableFileSystem _fileSystem;
+    private readonly ProgramInfo _programInfo;
 
-    public NewPageCommand(ILogger logger, IWritableFileSystem fileSystem)
+    public NewPageCommand(ILogger logger, IWritableFileSystem fileSystem, ProgramInfo programInfo)
     {
         _logger = logger;
         _fileSystem = fileSystem;
+        _programInfo = programInfo;
     }
 
     public override int Execute(Arguments arguments, string[] context)
     {
+        _programInfo.EableVerboseLogging(arguments.Verbose);
         FrontMatter frontMatter = new()
         {
             Title = "New page",

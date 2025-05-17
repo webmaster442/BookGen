@@ -33,6 +33,9 @@ internal sealed class Html2PdfCommand : AsyncCommand<Html2PdfCommand.Html2PdfArg
             if (!context.FileSystem.FileExists(InputFile))
                 return ValidationResult.Error($"File doesn't exist: {InputFile}");
 
+            if (string.IsNullOrEmpty(OutputFile))
+                return ValidationResult.Error("Output file not specified");
+
             var extension = Path.GetExtension(InputFile).ToLower();
 
             if (extension != ".htm" && extension != ".html")

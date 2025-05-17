@@ -38,7 +38,7 @@ public sealed class BookEnvironment : IBookEnvironment
     public ICache Cache { get; }
 
     public static bool IsBookGenFolder(string folder)
-        => File.Exists(Path.Combine(folder, Constants.ConfigFile));
+        => File.Exists(Path.Combine(folder, FileNameConstants.ConfigFile));
 
     public void Dispose()
     {
@@ -50,9 +50,9 @@ public sealed class BookEnvironment : IBookEnvironment
                 disposable.Dispose();
         }
 
-        if (_isInitialized && _source.FileExists(Constants.LockFile))
+        if (_isInitialized && _source.FileExists(FileNameConstants.LockFile))
         {
-            _source.Delete(Constants.LockFile);
+            _source.Delete(FileNameConstants.LockFile);
         }
     }
 
@@ -65,13 +65,13 @@ public sealed class BookEnvironment : IBookEnvironment
 
         EnvironmentStatus status = new EnvironmentStatus();
 
-        if (!_source.FileExists(Constants.ConfigFile))
+        if (!_source.FileExists(FileNameConstants.ConfigFile))
         {
-            status.Add($"No {Constants.ConfigFile} found in folder {_source.Scope}");
+            status.Add($"No {FileNameConstants.ConfigFile} found in folder {_source.Scope}");
             return status;
         }
 
-        Config? config = await _source.DeserializeAsync<Config>(Constants.ConfigFile);
+        Config? config = await _source.DeserializeAsync<Config>(FileNameConstants.ConfigFile);
 
         if (config == null)
         {
@@ -83,7 +83,7 @@ public sealed class BookEnvironment : IBookEnvironment
 
         if (config.VersionTag < defaultConfig.VersionTag)
         {
-            await _source.SerializeAsync(Constants.ConfigFile, config);
+            await _source.SerializeAsync(FileNameConstants.ConfigFile, config);
             status.Add($"Config from version {config.VersionTag} was updated to {defaultConfig.VersionTag}. Check settings and re-execute");
             return status;
         }
@@ -116,14 +116,14 @@ public sealed class BookEnvironment : IBookEnvironment
 
         using Process currentProcess = Process.GetCurrentProcess();
 
-        if (!_source.FileExists(Constants.LockFile))
+        if (!_source.FileExists(FileNameConstants.LockFile))
         {
             var id = currentProcess.Id.ToString();
-            await _source.WriteAllTextAsync(Constants.LockFile, id);
+            await _source.WriteAllTextAsync(FileNameConstants.LockFile, id);
         }
         else
         {
-            if (!int.TryParse(_source.ReadAllText(Constants.LockFile), out int id))
+            if (!int.TryParse(_source.ReadAllText(FileNameConstants.LockFile), out int id))
             {
                 id = -1;
             }
@@ -134,7 +134,7 @@ public sealed class BookEnvironment : IBookEnvironment
             }
             else
             {
-                _source.Delete(Constants.LockFile);
+                _source.Delete(FileNameConstants.LockFile);
             }
         }
 

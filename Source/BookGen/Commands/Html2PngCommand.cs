@@ -41,6 +41,9 @@ internal sealed class Html2PngCommand : AsyncCommand<Html2PngCommand.Html2PngArg
             if (!context.FileSystem.FileExists(InputFile))
                 return ValidationResult.Error($"File doesn't exist: {InputFile}");
 
+            if (string.IsNullOrEmpty(OutputFile))
+                return ValidationResult.Error("Output file not specified");
+
             var extension = Path.GetExtension(InputFile).ToLower();
 
             if (extension != ".htm" && extension != ".html")

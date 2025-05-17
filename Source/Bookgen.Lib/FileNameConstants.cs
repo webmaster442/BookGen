@@ -1,8 +1,9 @@
 ﻿namespace Bookgen.Lib;
 
-internal static class Constants
+public static class FileNameConstants
 {
     public const string ConfigFile = "bookgen.json";
     public const string LockFile = "bookgen.lock";
     public const string ZipAsset = "assets.zip";
+    public const string TableOfContents = "bookgen.toc.json";
 }

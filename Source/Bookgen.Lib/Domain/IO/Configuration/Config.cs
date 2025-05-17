@@ -36,7 +36,7 @@ public sealed class Config
     public Config()
     {
         VersionTag = CurrentVersionTag;
-        TocFile = string.Empty;
+        TocFile = FileNameConstants.TableOfContents;
         StaticWebsiteConfig = new StaticWebsiteConfig();
         PrintConfig = new PrintConfig();
         WordpressConfig = new WordpressConfig();
