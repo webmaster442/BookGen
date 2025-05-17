@@ -4,12 +4,10 @@ namespace Bookgen.Lib.JsInterop;
 
 public sealed class PrismJsInterop : JavascriptInterop
 {
-    private const string PrismJs = "prism.js";
-
     public PrismJsInterop(IEnvironment environment)
     {
-        if (!environment.TryGetAsset(PrismJs, out string? prismjs))
-            throw new InvalidOperationException($"{PrismJs} not found");
+        if (!environment.TryGetAsset(BundledAssets.PrismJs, out string? prismjs))
+            throw new InvalidOperationException($"{BundledAssets.PrismJs} not found");
 
         Execute(prismjs);
     }

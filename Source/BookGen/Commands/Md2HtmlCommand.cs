@@ -5,6 +5,7 @@
 
 using System.Text;
 
+using Bookgen.Lib;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Markdown;
@@ -106,7 +107,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         string? pageTemplate = string.Empty;
 
         if (string.IsNullOrEmpty(arguments.Template))
-            pageTemplate = _assetSource.GetAsset("md2html.html");
+            pageTemplate = _assetSource.GetAsset(BundledAssets.TemplateSinglePage);
         else
             pageTemplate = _fileSystem.ReadAllText(arguments.Template);
 
@@ -126,7 +127,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             PrismJsInterop = null
-        });
+        };
 
         using var mdToHtml = new MarkdownToHtml(imgService, settings);
 
@@ -164,7 +165,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             string content = _fileSystem.ReadAllText(inputFile);
             md.Append(content);
             if (!content.EndsWith('\n'))
-                md.Append(Environment.NewLine);
+                md.Append(System.Environment.NewLine);
         }
         return md.ToString();
     }
