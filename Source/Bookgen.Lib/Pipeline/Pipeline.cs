@@ -42,6 +42,8 @@ public sealed class Pipeline : IEnumerable<IPipeLineStep>
         return new Pipeline
         {
             new CopyAssets(),
+            new ExtractTemplateAssets(),
+            new CreateEmptyIndexPagesForFolders(),
         };
     }
 }

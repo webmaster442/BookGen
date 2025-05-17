@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Globalization;
+
+using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
@@ -9,7 +11,7 @@ internal class CopyAssets : IPipeLineStep
 {
     public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        foreach (var asset in environment.Configuration.StaticWebsiteConfig.CopyToOutput)
+        foreach (var fileToCopy in environment.Configuration.StaticWebsiteConfig.CopyToOutput)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -17,7 +19,9 @@ internal class CopyAssets : IPipeLineStep
                 return StepResult.Failure;
             }
 
-            await environment.Source.CopyToAsync(asset, environment.Output.Scope)
+            logger.LogInformation("Copying {file} to {target}...", fileToCopy, environment.Output.Scope);
+
+            await environment.Source.CopyToAsync(fileToCopy, environment.Output.Scope)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 

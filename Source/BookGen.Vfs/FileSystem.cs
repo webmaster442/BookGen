@@ -155,5 +155,14 @@ public sealed class FileSystem : IReadOnlyFileSystem, IWritableFileSystem
         }
     }
 
-    public string Scope { get; set; }
+    public string Scope
+    {
+        get => field;
+        set
+        {
+            field = string.IsNullOrEmpty(value)
+                ? value
+                : Path.GetFullPath(value);
+        }
+    }
 }
