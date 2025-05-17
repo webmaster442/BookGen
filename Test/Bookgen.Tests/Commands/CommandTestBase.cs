@@ -7,7 +7,6 @@ using Moq;
 
 namespace Bookgen.Tests.Commands;
 
-[TestFixture]
 internal abstract class CommandTestBase<TCommand> where TCommand : ICommand
 {
     protected readonly Mock<IWritableFileSystem> FileSystemMock = new Mock<IWritableFileSystem>(MockBehavior.Strict);
