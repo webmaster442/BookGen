@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Bookgen.Lib.VFS;
+namespace BookGen.Vfs;
 
 public interface IAssetSource
 {

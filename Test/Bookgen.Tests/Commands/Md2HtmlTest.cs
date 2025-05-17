@@ -51,4 +51,32 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
                                   Times.Once);
         });
     }
+
+    [Test]
+    public async Task EnsureThat_GenerateHtml_Works()
+    {
+        var arguments = new Md2HtmlCommand.Md2HtmlArguments
+        {
+            InputFiles = ["test.md"],
+            NoSyntax = false,
+            OutputFile = "out.html",
+            RawHtml = false,
+            SvgPassthrough = true,
+            Title = "Document title"
+        };
+
+        int exitCode = await Command.Execute(arguments, Array.Empty<string>());
+
+        string expectedContent = "<h1>Document title</h1><p>test</p>\n";
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(exitCode, Is.EqualTo(0));
+            FileSystemMock.Verify(fs => fs.ReadAllText("test.md"), Times.Once);
+            FileSystemMock.Verify(fs => fs.WriteAllText(
+                                            "out.html",
+                                            expectedContent),
+                                  Times.Once);
+        });
+    }
 }

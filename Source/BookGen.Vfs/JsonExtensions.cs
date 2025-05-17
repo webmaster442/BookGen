@@ -3,7 +3,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Schema;
 using System.Text.Json.Serialization;
 
-namespace Bookgen.Lib.VFS;
+namespace BookGen.Vfs;
 
 public static class JsonExtensions
 {

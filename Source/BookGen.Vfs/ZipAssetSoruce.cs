@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 
-namespace Bookgen.Lib.VFS;
+namespace BookGen.Vfs;
 
 internal sealed class ZipAssetSoruce : IAssetSource, IDisposable
 {

@@ -7,5 +7,6 @@
   <Project Path="Source/Bookgen.Lib/Bookgen.Lib.csproj" />
   <Project Path="Source/BookGen.Shell.Shared/BookGen.Shell.Shared.csproj" />
   <Project Path="Source/BookGen.Shellprog/BookGen.Shellprog.csproj" />
+  <Project Path="Source/BookGen.Vfs/BookGen.Vfs.csproj" />
   <Project Path="Source/BookGen/BookGen.csproj" />
 </Solution>
