@@ -1,5 +1,6 @@
 ﻿using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.VFS;
+
+using BookGen.Vfs;
 
 namespace Bookgen.Lib.ImageService;
 
@@ -8,7 +9,7 @@ internal sealed class CachedImageService : IImgService
     private readonly Dictionary<string, (string base64data, ImageType imageType)> _cache;
     private readonly ImgService _imgService;
 
-    public CachedImageService(IFolder sourceFolder, ImageConfig imageConfig)
+    public CachedImageService(IReadOnlyFileSystem sourceFolder, ImageConfig imageConfig)
     {
         _imgService = new(sourceFolder, imageConfig);
         _cache = new Dictionary<string, (string base64data, ImageType imageType)>();

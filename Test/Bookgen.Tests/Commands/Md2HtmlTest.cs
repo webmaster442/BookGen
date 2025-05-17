@@ -1,6 +1,7 @@
 ﻿using Bookgen.Lib;
 
 using BookGen.Commands;
+using BookGen.Vfs;
 
 using Moq;
 
@@ -16,6 +17,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
     {
         AssetSourceMock.Setup(a => a.GetAsset(BundledAssets.TemplateSinglePage)).Returns("<h1>{{Title}}</h1>{{Content}}");
         FileSystemMock.Setup(fs => fs.ReadAllText("test.md")).Returns("test");
+        FileSystemMock.As<IReadOnlyFileSystem>().Setup(fs => fs.ReadAllText("test.md")).Returns("test");
         FileSystemMock.Setup(fs => fs.WriteAllText("out.html", It.IsAny<string>()));
     }
 

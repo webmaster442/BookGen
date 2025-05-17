@@ -3,7 +3,8 @@ using System.Text;
 
 using Bookgen.Lib.Domain;
 using Bookgen.Lib.Domain.IO;
-using Bookgen.Lib.VFS;
+
+using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
@@ -12,7 +13,7 @@ using YamlDotNet.Serialization;
 namespace Bookgen.Lib;
 public static class Extensions
 {
-    public static SourceFile[] GetSourceFiles(this TocChapter tocEntry, IFolder folder, ILogger logger)
+    public static SourceFile[] GetSourceFiles(this TocChapter tocEntry, IReadOnlyFileSystem folder, ILogger logger)
     {
         SourceFile[] results = new SourceFile[tocEntry.Files.Length];
         for (int i=0; i<tocEntry.Files.Length; i++)
@@ -22,7 +23,7 @@ public static class Extensions
         return results;
     }
 
-    private static SourceFile GetSourceFiles(IFolder folder, string file, ILogger logger)
+    private static SourceFile GetSourceFiles(IReadOnlyFileSystem folder, string file, ILogger logger)
     {
         (string content, FrontMatter frontMatter) = GetFileContents(folder, file, logger);
 
@@ -35,13 +36,13 @@ public static class Extensions
         };
     }
 
-    private static (string content, FrontMatter frontMatter) GetFileContents(IFolder folder, string file, ILogger logger)
+    private static (string content, FrontMatter frontMatter) GetFileContents(IReadOnlyFileSystem folder, string file, ILogger logger)
     {
         IDeserializer yamlDeserializer = YamlSerializerFactory.CreateDeserializer();
         StringBuilder content = new StringBuilder();
         StringBuilder yaml = new StringBuilder();
 
-        using var reader = folder.OpenText(file);
+        using var reader = folder.OpenTextReader(file);
 
         string? line;
         bool inYaml = false;

@@ -5,21 +5,22 @@ using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.Pipeline;
-using Bookgen.Lib.VFS;
+
+using BookGen.Vfs;
 
 namespace Bookgen.Lib;
 
 public sealed class Environment : IEnvironment
 {
-    private readonly IFolder _source;
+    private readonly IWritableFileSystem _source;
     private readonly IAssetSource[] _assets;
 
     private Config? _config;
     private TableOfContents? _toc;
-    private IFolder? _output;
+    private IWritableFileSystem? _output;
     private bool _isInitialized;
 
-    public Environment(IFolder soruceFolder, params IAssetSource[] assets)
+    public Environment(IWritableFileSystem soruceFolder, params IAssetSource[] assets)
     {
         _source = soruceFolder;
         _assets = assets;
@@ -30,9 +31,9 @@ public sealed class Environment : IEnvironment
 
     public TableOfContents TableOfContents => _toc ?? throw new InvalidOperationException();
 
-    public IFolder Source => _isInitialized ? _source : throw new InvalidOperationException();
+    public IWritableFileSystem Source => _isInitialized ? _source : throw new InvalidOperationException();
 
-    public IFolder Output => _output ?? throw new InvalidOperationException();
+    public IWritableFileSystem Output => _output ?? throw new InvalidOperationException();
 
     public ICache Cache { get; }
 
@@ -46,7 +47,7 @@ public sealed class Environment : IEnvironment
                 disposable.Dispose();
         }
 
-        if (_isInitialized && _source.Exists(Constants.LockFile))
+        if (_isInitialized && _source.FileExists(Constants.LockFile))
         {
             _source.Delete(Constants.LockFile);
         }
@@ -61,9 +62,9 @@ public sealed class Environment : IEnvironment
 
         EnvironmentStatus status = new EnvironmentStatus();
 
-        if (!_source.Exists(Constants.ConfigFile))
+        if (!_source.FileExists(Constants.ConfigFile))
         {
-            status.Add($"No {Constants.ConfigFile} found in folder {_source.FullPath}");
+            status.Add($"No {Constants.ConfigFile} found in folder {_source.Scope}");
             return status;
         }
 
@@ -89,9 +90,9 @@ public sealed class Environment : IEnvironment
             return status;
         }
 
-        if (!_source.Exists(config.TocFile))
+        if (!_source.FileExists(config.TocFile))
         {
-            status.Add($"No {config.TocFile} found in folder {_source.FullPath}");
+            status.Add($"No {config.TocFile} found in folder {_source.Scope}");
             return status;
         }
 
@@ -112,20 +113,20 @@ public sealed class Environment : IEnvironment
 
         using Process currentProcess = Process.GetCurrentProcess();
 
-        if (!_source.Exists(Constants.LockFile))
+        if (!_source.FileExists(Constants.LockFile))
         {
             var id = currentProcess.Id.ToString();
-            await _source.WriteTextAsync(Constants.LockFile, id);
+            await _source.WriteAllTextAsync(Constants.LockFile, id);
         }
         else
         {
-            if (!int.TryParse(_source.ReadText(Constants.LockFile), out int id))
+            if (!int.TryParse(_source.ReadAllText(Constants.LockFile), out int id))
             {
                 id = -1;
             }
             if (currentProcess.Id == id)
             {
-                status.Add($"{_source.FullPath} is locked by an other running BookGen process");
+                status.Add($"{_source.Scope} is locked by an other running BookGen process");
                 return status;
             }
             else
@@ -135,7 +136,7 @@ public sealed class Environment : IEnvironment
         }
 
         _isInitialized = true;
-        _output = new Folder(config.OutputFolder);
+        _output = new FileSystem(config.OutputFolder);
         Cache.Clear();
 
         return status;

@@ -3,7 +3,7 @@ using System.IO.Compression;
 
 namespace BookGen.Vfs;
 
-internal sealed class ZipAssetSoruce : IAssetSource, IDisposable
+public sealed class ZipAssetSoruce : IAssetSource, IDisposable
 {
     private readonly ZipArchive _zip;
     private bool _disposed;

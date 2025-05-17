@@ -1,6 +1,7 @@
 ﻿using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.VFS;
+
+using BookGen.Vfs;
 
 namespace Bookgen.Lib.Pipeline;
 
@@ -9,6 +10,6 @@ public interface IEnvironment : IAssetSource, IDisposable
     Config Configuration { get; }
     TableOfContents TableOfContents { get; }
     ICache Cache { get; }
-    IFolder Source { get; }
-    IFolder Output { get; }
+    IWritableFileSystem Source { get; }
+    IWritableFileSystem Output { get; }
 }

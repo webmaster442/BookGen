@@ -1,17 +1,18 @@
 ﻿using System.Diagnostics;
 
 using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.VFS;
+
+using BookGen.Vfs;
 
 using SkiaSharp;
 
 namespace Bookgen.Lib.ImageService;
 public sealed class ImgService : IImgService
 {
-    private readonly IReadOnlyFolder _sourceFolder;
+    private readonly IReadOnlyFileSystem _sourceFolder;
     private readonly ImageConfig _imageConfig;
 
-    public ImgService(IReadOnlyFolder sourceFolder, ImageConfig imageConfig)
+    public ImgService(IReadOnlyFileSystem sourceFolder, ImageConfig imageConfig)
     {
         _sourceFolder = sourceFolder;
         _imageConfig = imageConfig;
@@ -55,12 +56,12 @@ public sealed class ImgService : IImgService
         if (!IsImage(path))
             throw new InvalidOperationException($"{path} is not an image");
 
-        using Stream fileData = _sourceFolder.OpenStream(path);
+        using Stream fileData = _sourceFolder.OpenReadStream(path);
 
         if (string.Equals(Path.GetExtension(path), ".svg", StringComparison.CurrentCultureIgnoreCase))
         {
             if (_imageConfig.SvgRecode == SvgRecodeOption.Passtrough)
-                return (_sourceFolder.ReadText(path), ImageType.Svg);
+                return (_sourceFolder.ReadAllText(path), ImageType.Svg);
 
             using SKData rendered = Utils.RenderSvg(fileData,
                                                     _imageConfig.ResizeWith,

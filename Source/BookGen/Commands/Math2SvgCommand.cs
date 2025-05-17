@@ -8,6 +8,7 @@ using System.Net;
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Web;
+using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
@@ -17,9 +18,9 @@ namespace BookGen.Commands;
 internal class Math2SvgCommand : AsyncCommand<InputOutputArguments>
 {
     private readonly ILogger _log;
-    private readonly IFileSystem _fileSystem;
+    private readonly IWritableFileSystem _fileSystem;
 
-    public Math2SvgCommand(ILogger log, IFileSystem fileSystem)
+    public Math2SvgCommand(ILogger log, IWritableFileSystem fileSystem)
     {
         _log = log;
         _fileSystem = fileSystem;

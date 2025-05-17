@@ -3,6 +3,7 @@ using Bookgen.Lib.Domain.IO;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
@@ -32,9 +33,9 @@ internal class NewPageCommand : Command<NewPageCommand.Arguments>
     }
 
     private readonly ILogger _logger;
-    private readonly IFileSystem _fileSystem;
+    private readonly IWritableFileSystem _fileSystem;
 
-    public NewPageCommand(ILogger logger, IFileSystem fileSystem)
+    public NewPageCommand(ILogger logger, IWritableFileSystem fileSystem)
     {
         _logger = logger;
         _fileSystem = fileSystem;

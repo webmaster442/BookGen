@@ -45,8 +45,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookGen.Cli\BookGen.Cli.csproj" />
     <ProjectReference Include="..\BookGen.Shell.Shared\BookGen.Shell.Shared.csproj" />
+    <ProjectReference Include="..\BookGen.Vfs\BookGen.Vfs.csproj" />
   </ItemGroup>
 
 </Project>

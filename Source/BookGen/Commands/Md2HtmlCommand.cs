@@ -10,10 +10,10 @@ using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
-using Bookgen.Lib.VFS;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
@@ -85,14 +85,14 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
     }
 
     private readonly ILogger _log;
-    private readonly IFileSystem _fileSystem;
+    private readonly IWritableFileSystem _fileSystem;
     private readonly IAssetSource _assetSource;
     private const string TitleTag = "{{Title}}";
     private const string ContentTag = "{{Content}}";
 
     private readonly TemplateEngine _templateEngine;
 
-    public Md2HtmlCommand(ILogger log, IFileSystem fileSystem, IAssetSource assetSource)
+    public Md2HtmlCommand(ILogger log, IWritableFileSystem fileSystem, IAssetSource assetSource)
     {
         _log = log;
         _fileSystem = fileSystem;
@@ -114,7 +114,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         if (!ValidateTemplate(pageTemplate))
             return ExitCodes.GeneralError;
 
-        var imgService = new ImgService(new FileSystemFolder(_fileSystem), new ImageConfig
+        var imgService = new ImgService(_fileSystem, new ImageConfig
         {
             SvgRecode = arguments.SvgPassthrough ? SvgRecodeOption.Passtrough : SvgRecodeOption.AsWebp,
             WebpQuality = 90,

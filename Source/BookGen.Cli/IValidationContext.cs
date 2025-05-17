@@ -3,13 +3,15 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Vfs;
+
 namespace BookGen.Cli;
 
 public interface IValidationContext : IServiceProvider
 {
     TType Resolve<TType>();
 
-    IFileSystem FileSystem => new FileSystem();
+    IReadOnlyFileSystem FileSystem => new FileSystem();
 
     ValidationResult ValidateWithAttributes(object @object);
 }

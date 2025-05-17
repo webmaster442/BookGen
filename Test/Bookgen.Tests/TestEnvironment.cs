@@ -3,7 +3,8 @@
 using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Pipeline;
-using Bookgen.Lib.VFS;
+
+using BookGen.Vfs;
 
 namespace Bookgen.Tests;
 internal class TestEnvironment : IEnvironment
@@ -12,9 +13,9 @@ internal class TestEnvironment : IEnvironment
 
     public TableOfContents TableOfContents => throw new NotImplementedException();
 
-    public IFolder Source => throw new NotImplementedException();
+    public IWritableFileSystem Source => throw new NotImplementedException();
 
-    public IFolder Output => throw new NotImplementedException();
+    public IWritableFileSystem Output => throw new NotImplementedException();
 
     public ICache Cache => throw new NotImplementedException();
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Bookgen.Lib.Domain.IO.Configuration;
+﻿using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
 
 namespace Bookgen.Tests.Lib;
@@ -12,12 +6,12 @@ namespace Bookgen.Tests.Lib;
 [TestFixture]
 internal class UT_ImgService
 {
-    private EmbeddedTestFolder _testFolder;
+    private EmbeddedTestFileSystem _testFolder;
 
     [SetUp]
     public void Setup()
     {
-        _testFolder = new EmbeddedTestFolder();
+        _testFolder = new EmbeddedTestFileSystem();
     }
 
     [Test]

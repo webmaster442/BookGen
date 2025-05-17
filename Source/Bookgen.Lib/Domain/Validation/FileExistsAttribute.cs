@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Bookgen.Lib.VFS;
+using BookGen.Vfs;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,13 +11,13 @@ internal sealed class FileExistsAttribute : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        var folder = validationContext.GetRequiredService<IReadOnlyFolder>();
+        var folder = validationContext.GetRequiredService<IReadOnlyFileSystem>();
 
         if (value is IEnumerable<string> files)
         {
             foreach (var file in files)
             {
-                if (!folder.Exists(file))
+                if (!folder.FileExists(file))
                     return new($"{file} file doesn't exist");
             }
 
@@ -25,7 +25,7 @@ internal sealed class FileExistsAttribute : ValidationAttribute
         }
         else if (value is string file)
         {
-            if (!folder.Exists(file))
+            if (!folder.FileExists(file))
                 return new($"{file} file doesn't exist");
 
             return ValidationResult.Success;

@@ -17,7 +17,8 @@ internal class CopyAssets : IPipeLineStep
                 return StepResult.Failure;
             }
 
-            await environment.Source.CopyTo(asset, environment.Output).ConfigureAwait(continueOnCapturedContext: false);
+            await environment.Source.CopyToAsync(asset, environment.Output.Scope)
+                .ConfigureAwait(continueOnCapturedContext: false);
         }
 
         return StepResult.Success;

@@ -9,4 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BookGen.Vfs\BookGen.Vfs.csproj" />
+  </ItemGroup>
 </Project>

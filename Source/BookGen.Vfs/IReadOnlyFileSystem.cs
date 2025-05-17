@@ -2,11 +2,12 @@
 
 public interface IReadOnlyFileSystem
 {
-    string Scope { get; }
-    TextReader OpenText(string path);
-    Stream OpenStream(string path);
+    string Scope { get; set; }
+    TextReader OpenTextReader(string path);
+    Stream OpenReadStream(string path);
     DateTime GetLastModifiedUtc(string path);
     string ReadAllText(string path);
+    Task<string> ReadAllTextAsync(string path);
     bool FileExists(string path);
     bool DirectoryExists(string path);
     IEnumerable<string> GetFiles(string path, bool recursive);

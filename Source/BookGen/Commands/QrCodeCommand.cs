@@ -8,6 +8,7 @@ using System.Net;
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Web;
+using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
@@ -60,9 +61,9 @@ internal class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
 
 
     private readonly ILogger _log;
-    private readonly IFileSystem _fileSystem;
+    private readonly IWritableFileSystem _fileSystem;
 
-    public QrCodeCommand(ILogger log, IFileSystem fileSystem)
+    public QrCodeCommand(ILogger log, IWritableFileSystem fileSystem)
     {
         _log = log;
         _fileSystem = fileSystem;
@@ -81,7 +82,7 @@ internal class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
         {
             _log.LogInformation("Downloading from {url}...", GoQrMeParams.ApiUrl);
 
-            using var output = _fileSystem.CreateStream(arguments.Output);
+            using var output = _fileSystem.CreateWriteStream(arguments.Output);
 
             HttpStatusCode result = await client.DownloadTo(uri, output);
 

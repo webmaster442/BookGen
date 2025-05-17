@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using Bookgen.Lib.VFS;
+using BookGen.Vfs;
 
 namespace Bookgen.Lib.Internals;
 
@@ -25,11 +25,11 @@ internal static class SerializedObjectValidator
     }
 
 
-    public static bool Validate<T>(T @object, IReadOnlyFolder folder, ICollection<string> issues) where T : class
+    public static bool Validate<T>(T @object, IReadOnlyFileSystem folder, ICollection<string> issues) where T : class
     {
 
         ValidationServiceProvider provider = new();
-        provider.Add<IReadOnlyFolder>(folder);
+        provider.Add<IReadOnlyFileSystem>(folder);
 
         ValidationContext context = new ValidationContext(instance: @object,
                                                           serviceProvider: provider,

@@ -4,6 +4,7 @@ using BookGen.Cli.Mediator;
 using BookGen.Commands;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
+using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
@@ -45,7 +46,8 @@ ioc.RegisterSingleton(logger);
 ioc.RegisterSingleton(info);
 ioc.RegisterSingleton(commandNameProvider);
 ioc.RegisterSingleton<IMediator>(mediator);
-ioc.RegisterSingleton<IFileSystem>(new FileSystem());
+ioc.Register<IWritableFileSystem, FileSystem>();
+ioc.Register<IReadOnlyFileSystem, FileSystem>();
 
 ioc.Build();
 
