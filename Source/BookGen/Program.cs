@@ -5,7 +5,6 @@ using BookGen.Cli.Mediator;
 using BookGen.Commands;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
-using BookGen.Infrastructure.Terminal;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
