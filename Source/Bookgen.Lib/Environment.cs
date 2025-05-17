@@ -135,7 +135,7 @@ public sealed class Environment : IEnvironment
         }
 
         _isInitialized = true;
-        _output = new FileSystemFolder(config.OutputFolder);
+        _output = new Folder(config.OutputFolder);
         Cache.Clear();
 
         return status;

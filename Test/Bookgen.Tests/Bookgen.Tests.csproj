@@ -30,9 +30,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\BookGen.Cli\BookGen.Cli.csproj" />
     <ProjectReference Include="..\..\Source\BookGen.Contents\BookGen.Contents.csproj" />
     <ProjectReference Include="..\..\Source\Bookgen.Lib\Bookgen.Lib.csproj" />
     <ProjectReference Include="..\..\Source\BookGen.Shell.Shared\BookGen.Shell.Shared.csproj" />
+    <ProjectReference Include="..\..\Source\BookGen\BookGen.csproj" />
   </ItemGroup>
 
   <ItemGroup>

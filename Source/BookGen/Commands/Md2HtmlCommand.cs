@@ -114,7 +114,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         if (!ValidateTemplate(pageTemplate))
             return ExitCodes.GeneralError;
 
-        var imgService = new ImgService(new FileSystemFolder(string.Empty), new ImageConfig
+        var imgService = new ImgService(new FileSystemFolder(_fileSystem), new ImageConfig
         {
             SvgRecode = arguments.SvgPassthrough ? SvgRecodeOption.Passtrough : SvgRecodeOption.AsWebp,
             WebpQuality = 90,

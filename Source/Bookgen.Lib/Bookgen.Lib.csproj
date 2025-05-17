@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.41.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
     <PackageReference Include="YamlDotNet" Version="16.3.0" />
     <PackageReference Include="SkiaSharp" Version="3.119.0" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.0" />
@@ -45,6 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BookGen.Cli\BookGen.Cli.csproj" />
     <ProjectReference Include="..\BookGen.Shell.Shared\BookGen.Shell.Shared.csproj" />
   </ItemGroup>
 
