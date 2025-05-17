@@ -22,15 +22,9 @@
     <None Update="getting-started.mdr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="tidy.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
-  <UsingTask
-   TaskName="ZipDirectory"
-   TaskFactory="CodeTaskFactory"
-   AssemblyName="Microsoft.Build.Tasks.Core">
+  <UsingTask TaskName="ZipDirectory" TaskFactory="CodeTaskFactory" AssemblyName="Microsoft.Build.Tasks.Core">
     <ParameterGroup>
       <SourceFolder ParameterType="System.String" Required="true" />
       <OutputZip ParameterType="System.String" Required="true" />

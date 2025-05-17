@@ -37,7 +37,6 @@
 
   <ItemGroup>
     <Folder Include="Pipeline\Wordpress\" />
-    <Folder Include="Pipeline\Print\" />
   </ItemGroup>
 
   <ItemGroup>
