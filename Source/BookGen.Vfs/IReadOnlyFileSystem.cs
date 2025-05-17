@@ -10,6 +10,6 @@ public interface IReadOnlyFileSystem
     Task<string> ReadAllTextAsync(string path);
     bool FileExists(string path);
     bool DirectoryExists(string path);
-    IEnumerable<string> GetFiles(string path, bool recursive);
+    IEnumerable<string> GetFiles(string path, string filter, bool recursive);
     IEnumerable<string> GetDirectories(string path, bool recursive);
 }

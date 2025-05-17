@@ -5,11 +5,13 @@ using BookGen.Vfs;
 
 namespace Bookgen.Lib.Pipeline;
 
-public interface IEnvironment : IAssetSource, IDisposable
+public interface IBookEnvironment : IAssetSource, IDisposable
 {
     Config Configuration { get; }
     TableOfContents TableOfContents { get; }
     ICache Cache { get; }
     IWritableFileSystem Source { get; }
     IWritableFileSystem Output { get; }
+
+    public abstract static bool IsBookGenFolder(string folder);
 }

@@ -10,7 +10,7 @@ using BookGen.Vfs;
 
 namespace Bookgen.Lib;
 
-public sealed class Environment : IEnvironment
+public sealed class BookEnvironment : IBookEnvironment
 {
     private readonly IWritableFileSystem _source;
     private readonly IAssetSource[] _assets;
@@ -20,7 +20,7 @@ public sealed class Environment : IEnvironment
     private IWritableFileSystem? _output;
     private bool _isInitialized;
 
-    public Environment(IWritableFileSystem soruceFolder, params IAssetSource[] assets)
+    public BookEnvironment(IWritableFileSystem soruceFolder, params IAssetSource[] assets)
     {
         _source = soruceFolder;
         _assets = assets;
@@ -36,6 +36,9 @@ public sealed class Environment : IEnvironment
     public IWritableFileSystem Output => _output ?? throw new InvalidOperationException();
 
     public ICache Cache { get; }
+
+    public static bool IsBookGenFolder(string folder)
+        => File.Exists(Path.Combine(folder, Constants.ConfigFile));
 
     public void Dispose()
     {

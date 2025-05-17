@@ -7,7 +7,7 @@ using Bookgen.Lib.Pipeline;
 using BookGen.Vfs;
 
 namespace Bookgen.Tests;
-internal class TestEnvironment : IEnvironment
+internal class TestEnvironment : IBookEnvironment
 {
     public Config Configuration => throw new NotImplementedException();
 
@@ -35,4 +35,7 @@ internal class TestEnvironment : IEnvironment
     {
         return _assetSoruce.TryGetAsset(name, out content);
     }
+
+    public static bool IsBookGenFolder(string folder)
+        => false;
 }

@@ -24,7 +24,7 @@ public sealed class Pipeline : IEnumerable<IPipeLineStep>
     IEnumerator IEnumerable.GetEnumerator()
         => _steps.GetEnumerator();
 
-    public async Task<bool> ExecuteAsync(IEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public async Task<bool> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         foreach (var step in _steps)
         {

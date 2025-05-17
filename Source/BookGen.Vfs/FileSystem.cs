@@ -63,10 +63,10 @@ public sealed class FileSystem : IReadOnlyFileSystem, IWritableFileSystem
         return Directory.Exists(actualPath);
     }
 
-    public IEnumerable<string> GetFiles(string path, bool recursive)
+    public IEnumerable<string> GetFiles(string path, string filter, bool recursive)
     {
         var actualPath = GetAndValidateFullNameInScope(path);
-        return Directory.EnumerateFiles(actualPath, "*.*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        return Directory.EnumerateFiles(actualPath, filter, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
     }
 
     public IEnumerable<string> GetDirectories(string path, bool recursive)

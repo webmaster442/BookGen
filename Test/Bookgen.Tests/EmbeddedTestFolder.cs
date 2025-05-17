@@ -28,7 +28,7 @@ internal class EmbeddedTestFileSystem : IReadOnlyFileSystem
     public IEnumerable<string> GetDirectories(string path, bool recursive)
         => Enumerable.Empty<string>();
 
-    public IEnumerable<string> GetFiles(string path, bool recursive)
+    public IEnumerable<string> GetFiles(string path, string filter, bool recursive)
         => _table.Keys;
 
     public DateTime GetLastModifiedUtc(string path)
