@@ -1,12 +1,16 @@
-﻿using BookGen;
+﻿
+using BookGen;
 using BookGen.Cli;
 using BookGen.Cli.Mediator;
 using BookGen.Commands;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
+using BookGen.Infrastructure.Terminal;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
+
+using Spectre.Console;
 
 var argumentList = args.ToList();
 
@@ -46,6 +50,7 @@ ioc.RegisterSingleton(logger);
 ioc.RegisterSingleton(info);
 ioc.RegisterSingleton(commandNameProvider);
 ioc.RegisterSingleton<IMediator>(mediator);
+ioc.RegisterSingleton<IHelpProvider>(new HelpProvider(logger, commandNameProvider));
 ioc.Register<IWritableFileSystem, FileSystem>();
 ioc.Register<IReadOnlyFileSystem, FileSystem>();
 
@@ -59,6 +64,8 @@ CommandRunner runner = new CommandRunner(ioc, logger, new CommandRunnerSettings
     PlatformNotSupportedExitCode = 4,
 });
 
+runner.ExceptionHandlerDelegate = OnException;
+
 runner
     .AddDefaultCommand<HelpCommand>()
     .AddCommandsFrom(typeof(HelpCommand).Assembly);
@@ -69,3 +76,12 @@ HelpProvider helpProvider = new(logger, commandNameProvider);
 helpProvider.VerifyHelpData();
 
 return await runner.Run(argumentList);
+
+void OnException(Exception exception)
+{
+    logger.LogCritical(exception.Message);
+    CrashDumpFactory.TryCreateCrashDump(exception);
+#if DEBUG
+    AnsiConsole.WriteException(exception);
+#endif
+}

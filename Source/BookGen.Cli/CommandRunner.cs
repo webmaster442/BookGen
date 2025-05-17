@@ -171,24 +171,36 @@ public sealed class CommandRunner
         return Array.Empty<string>();
     }
 
-    public Task<int> Run(IReadOnlyList<string> args)
+    public async Task<int> Run(IReadOnlyList<string> args)
     {
-        string commandName;
-        if (args.Count > 0)
+        try
         {
-            commandName = args[0].ToLower();
+            string commandName;
+            if (args.Count > 0)
+            {
+                commandName = args[0].ToLower();
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(_defaultCommandName))
+                    throw new InvalidOperationException("Default command hasn't been setup");
+
+                commandName = _defaultCommandName;
+            }
+
+            var argsToParse = args.Skip(1).ToArray();
+
+            return await RunCommand(commandName, argsToParse);
         }
-        else
+        catch (Exception ex)
         {
-            if (string.IsNullOrEmpty(_defaultCommandName))
-                throw new InvalidOperationException("Default command hasn't been setup");
+#if DEBUG
 
-            commandName = _defaultCommandName;
+            Debugger.Break();
+#endif
+            ExceptionHandlerDelegate.Invoke(ex);
+            return _settings.ExcptionExitCode;
         }
-
-        var argsToParse = args.Skip(1).ToArray();
-
-        return RunCommand(commandName, argsToParse);
     }
 
     private async Task<ArgumentJsonItem[]> LoadFromJsonFile(string jsonFile)
@@ -235,33 +247,21 @@ public sealed class CommandRunner
 
     private async Task<int> ExecuteSingle(string[] argsToParse, Type argumentType, ICommand command)
     {
-        try
+        ArgumentsBase args = new EmptyArgs();
+        ArgumentParser parser = new(argumentType, _log);
+        args = parser.Fill(argsToParse);
+
+        var validationResult = args.Validate(ValidationContext);
+
+        if (!validationResult.IsOk)
         {
-            ArgumentsBase args = new EmptyArgs();
-            ArgumentParser parser = new(argumentType, _log);
-            args = parser.Fill(argsToParse);
-
-            var validationResult = args.Validate(ValidationContext);
-
-            if (!validationResult.IsOk)
-            {
-                _log.LogCritical(validationResult.ToString());
-                return _settings.BadParametersExitCode;
-            }
-
-            args.ModifyAfterValidation();
-
-            return await command.Execute(args, argsToParse);
+            _log.LogCritical(validationResult.ToString());
+            return _settings.BadParametersExitCode;
         }
-        catch (Exception ex)
-        {
-#if DEBUG
-            
-            Debugger.Break();
-#endif
-            ExceptionHandlerDelegate.Invoke(ex);
-            return _settings.ExcptionExitCode;
-        }
+
+        args.ModifyAfterValidation();
+
+        return await command.Execute(args, argsToParse);
     }
 
     private async Task<int> ExecuteMultiple(ArgumentJsonItem[] items, Type argumentType, ICommand command)
