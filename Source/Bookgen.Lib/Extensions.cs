@@ -11,19 +11,10 @@ using Microsoft.Extensions.Logging;
 using YamlDotNet.Serialization;
 
 namespace Bookgen.Lib;
+
 public static class Extensions
 {
-    public static SourceFile[] GetSourceFiles(this TocChapter tocEntry, IReadOnlyFileSystem folder, ILogger logger)
-    {
-        SourceFile[] results = new SourceFile[tocEntry.Files.Length];
-        for (int i=0; i<tocEntry.Files.Length; i++)
-        {
-            results[i] = GetSourceFiles(folder, tocEntry.Files[i], logger);
-        }
-        return results;
-    }
-
-    private static SourceFile GetSourceFiles(IReadOnlyFileSystem folder, string file, ILogger logger)
+    public static SourceFile GetSourceFile(this IReadOnlyFileSystem folder, string file, ILogger logger)
     {
         (string content, FrontMatter frontMatter) = GetFileContents(folder, file, logger);
 

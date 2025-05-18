@@ -7,6 +7,7 @@ using BookGen.Vfs;
 using SkiaSharp;
 
 namespace Bookgen.Lib.ImageService;
+
 public sealed class ImgService : IImgService
 {
     private readonly IReadOnlyFileSystem _sourceFolder;

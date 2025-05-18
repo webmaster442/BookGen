@@ -43,6 +43,7 @@ public sealed class Pipeline : IEnumerable<IPipeLineStep>
         {
             new CopyAssets(),
             new ExtractTemplateAssets(),
+            new RenderPages(),
             new CreateEmptyIndexPagesForFolders(),
         };
     }

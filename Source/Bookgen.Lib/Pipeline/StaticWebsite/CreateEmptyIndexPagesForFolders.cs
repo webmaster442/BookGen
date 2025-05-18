@@ -14,6 +14,12 @@ internal sealed class CreateEmptyIndexPagesForFolders : IPipeLineStep
 
         foreach (var folder in folders)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                logger.LogWarning("Cancellation requested. Stoping...");
+                return StepResult.Failure;
+            }
+
             var filename = "index.html";
             logger.LogDebug("creating index.html in {folder}...", folder);
             await environment.Output.WriteAllTextAsync(filename, protect);

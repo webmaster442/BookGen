@@ -1,28 +1,25 @@
-﻿using Bookgen.Lib.Domain.IO.Configuration;
-
-using BookGen.Vfs;
+﻿using System.Collections.Concurrent;
 
 namespace Bookgen.Lib.ImageService;
 
-internal sealed class CachedImageService : IImgService
+public sealed class CachedImageService : IImgService
 {
-    private readonly Dictionary<string, (string base64data, ImageType imageType)> _cache;
-    private readonly ImgService _imgService;
+    private readonly IImgService _service;
+    private readonly ConcurrentDictionary<string, (string data, ImageType imageType)> _cache;
 
-    public CachedImageService(IReadOnlyFileSystem sourceFolder, ImageConfig imageConfig)
+    public CachedImageService(IImgService service)
     {
-        _imgService = new(sourceFolder, imageConfig);
-        _cache = new Dictionary<string, (string base64data, ImageType imageType)>();
+        _service = service;
+        _cache = new ConcurrentDictionary<string, (string data, ImageType imageType)>();
     }
 
     public (string data, ImageType imageType) GetImageEmbedData(string path)
     {
-        if (_cache.ContainsKey(path))
-            return _cache[path];
+        if (_cache.TryGetValue(path, out var data))
+            return data;
 
-        var data = _imgService.GetImageEmbedData(path);
-        _cache.Add(path, data);
-
-        return data;
+        var result = _service.GetImageEmbedData(path);
+        _cache.TryAdd(path, result);
+        return result;
     }
 }
