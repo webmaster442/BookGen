@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.AccessControl;
 
 using BookGen.Vfs;
 
+using YamlDotNet.Serialization.BufferedDeserialization;
+
 namespace Bookgen.Lib.Internals;
 
-internal static class SerializedObjectValidator
+internal class SerializedObjectValidator
 {
     internal sealed class ValidationServiceProvider : IServiceProvider
     {
@@ -24,15 +27,31 @@ internal static class SerializedObjectValidator
             => _instances[serviceType];
     }
 
+    private readonly ValidationServiceProvider _provider;
 
-    public static bool Validate<T>(T @object, IReadOnlyFileSystem folder, ICollection<string> issues) where T : class
+    public SerializedObjectValidator(IReadOnlyFileSystem readOnlyFileSystem)
     {
+        _provider = new();
+        _provider.Add<IReadOnlyFileSystem>(readOnlyFileSystem);
+    }
 
-        ValidationServiceProvider provider = new();
-        provider.Add<IReadOnlyFileSystem>(folder);
+    public bool Validate<T>(T @object, ICollection<string> issues) where T : class
+    {
+        static void AddIssues(ICollection<string> target, string prefix, IEnumerable<ValidationResult> results)
+        {
+            foreach (var validationResult in results)
+            {
+                var names = string.Join(',', validationResult.MemberNames);
+
+                if (!string.IsNullOrEmpty(prefix))
+                    names = string.Join(',', validationResult.MemberNames.Select(n => $"{prefix}.{n}"));
+
+                target.Add($"{names}: {validationResult.ErrorMessage}");
+            }
+        }
 
         ValidationContext context = new ValidationContext(instance: @object,
-                                                          serviceProvider: provider,
+                                                          serviceProvider: _provider,
                                                           items: null);
 
         var validationResults = new List<ValidationResult>();
@@ -42,17 +61,42 @@ internal static class SerializedObjectValidator
                                                   validationResults: validationResults,
                                                   validateAllProperties: true);
 
+        bool returnvalue = true;
+
         if (!result)
         {
-            foreach (var validationResult in validationResults)
+            returnvalue = false;
+            AddIssues(issues, "", validationResults);
+        }
+
+        var properties = @object
+            .GetType()
+            .GetProperties()
+            .Where(p => p.CanRead 
+                     && p.GetIndexParameters().Length == 0
+                     && !p.PropertyType.IsValueType
+                     && p.PropertyType != typeof(string));
+
+        validationResults.Clear();
+
+        foreach (var property in properties)
+        {
+            var value = property.GetValue(@object);
+            if (value == null) continue;
+
+            bool propresult = Validator.TryValidateObject(instance: value,
+                                                          validationContext: new ValidationContext(value, _provider, null),
+                                                          validationResults: validationResults,
+                                                          validateAllProperties: true);
+
+            if (!propresult)
             {
-                foreach (var memberName in validationResult.MemberNames)
-                {
-                    issues.Add($"{memberName}: {validationResult.ErrorMessage}");
-                }
+                returnvalue = false;
+                AddIssues(issues, property.Name, validationResults);
+                validationResults.Clear();
             }
         }
 
-        return result;
+        return returnvalue;
     }
 }

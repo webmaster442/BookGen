@@ -63,6 +63,8 @@ public sealed class BookEnvironment : IBookEnvironment
             throw new InvalidOperationException();
         }
 
+        var validator = new SerializedObjectValidator(_source);
+
         EnvironmentStatus status = new EnvironmentStatus();
 
         if (!_source.FileExists(FileNameConstants.ConfigFile))
@@ -88,7 +90,7 @@ public sealed class BookEnvironment : IBookEnvironment
             return status;
         }
 
-        if (!SerializedObjectValidator.Validate(config, _source, status))
+        if (!validator.Validate(config, status))
         {
             return status;
         }
@@ -106,7 +108,7 @@ public sealed class BookEnvironment : IBookEnvironment
             return status;
         }
 
-        if (!SerializedObjectValidator.Validate(toc, _source, status))
+        if (!validator.Validate(toc, status))
         {
             return status;
         }

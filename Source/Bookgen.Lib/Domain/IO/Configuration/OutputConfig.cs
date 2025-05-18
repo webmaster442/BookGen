@@ -20,7 +20,7 @@ public abstract class OutputConfig
     public bool PreRenderCode {  get; init; }
 
     [Description("Default template file name")]
-    [NotNullOrWhiteSpace]
+    [WhenNotEmptyFileMustExist]
     public string DefaultTempate { get; init; }
 
     public OutputConfig()
