@@ -9,7 +9,6 @@ public interface IBookEnvironment : IAssetSource, IDisposable
 {
     Config Configuration { get; }
     TableOfContents TableOfContents { get; }
-    ICache Cache { get; }
     IWritableFileSystem Source { get; }
     IWritableFileSystem Output { get; }
 

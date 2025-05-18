@@ -1,32 +1,16 @@
-﻿using System.Collections;
-
-using Bookgen.Lib.Pipeline.StaticWebsite;
+﻿using Bookgen.Lib.Pipeline.StaticWebsite;
 
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline;
 
-public sealed class Pipeline : IEnumerable<IPipeLineStep>
+public abstract class Pipeline
 {
-    private readonly List<IPipeLineStep> _steps;
-
-    public Pipeline()
-    {
-        _steps = new List<IPipeLineStep>();
-    }
-
-    public void Add(IPipeLineStep step)
-        => _steps.Add(step);
-
-    public IEnumerator<IPipeLineStep> GetEnumerator()
-        => _steps.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator()
-        => _steps.GetEnumerator();
+    protected abstract IEnumerable<IPipeLineStep> Steps { get; }
 
     public async Task<bool> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        foreach (var step in _steps)
+        foreach (var step in Steps)
         {
             var result = await step.ExecuteAsync(environment, logger, cancellationToken);
             if (result == StepResult.Failure)
@@ -39,12 +23,11 @@ public sealed class Pipeline : IEnumerable<IPipeLineStep>
 
     public static Pipeline CreateWebPipeLine()
     {
-        return new Pipeline
-        {
+        return new SimplePipeLine(
             new CopyAssets(),
             new ExtractTemplateAssets(),
             new RenderPages(),
-            new CreateEmptyIndexPagesForFolders(),
-        };
+            new CreateEmptyIndexPagesForFolders()
+        );
     }
 }

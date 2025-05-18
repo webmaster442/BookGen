@@ -24,7 +24,6 @@ public sealed class BookEnvironment : IBookEnvironment
     {
         _source = soruceFolder;
         _assets = assets;
-        Cache = new Cache();
     }
 
     public Config Configuration => _config ?? throw new InvalidOperationException();
@@ -34,8 +33,6 @@ public sealed class BookEnvironment : IBookEnvironment
     public IWritableFileSystem Source => _isInitialized ? _source : throw new InvalidOperationException();
 
     public IWritableFileSystem Output => _output ?? throw new InvalidOperationException();
-
-    public ICache Cache { get; }
 
     public static bool IsBookGenFolder(string folder)
         => File.Exists(Path.Combine(folder, FileNameConstants.ConfigFile));
