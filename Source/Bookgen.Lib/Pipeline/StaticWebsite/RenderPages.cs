@@ -2,6 +2,8 @@
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
 
+using BookGen.Vfs;
+
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
@@ -28,6 +30,8 @@ internal sealed class RenderPages : IPipeLineStep
 
         await Parallel.ForEachAsync(files, cancellationToken, async (file, token) =>
         {
+            if (token.IsCancellationRequested) return;
+
             var sourceData = environment.Source.GetSourceFile(file, logger);
             var tempate = await GetTemplate(sourceData.FrontMatter.Template, environment);
 
@@ -39,8 +43,9 @@ internal sealed class RenderPages : IPipeLineStep
 
             string finalContent = renderer.Render(tempate, viewData);
 
-            //get output file
-            //write output file
+            var outputName = environment.Source.GetFileNameInTargetFolder(environment.Output, file);
+
+            await environment.Output.WriteAllTextAsync(outputName, finalContent);
         });
 
         return StepResult.Success;
