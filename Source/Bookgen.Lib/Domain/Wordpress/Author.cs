@@ -7,15 +7,20 @@ namespace Bookgen.Lib.Domain.Wordpress;
 public sealed class Author
 {
     [XmlElement(ElementName = "author_id", Namespace = "http://wordpress.org/export/1.2/")]
-    public string? Author_id { get; set; }
+    public required string AuthorId { get; init; }
+
     [XmlElement(ElementName = "author_login", Namespace = "http://wordpress.org/export/1.2/")]
-    public CData? Author_login { get; set; }
+    public required CData AuthorLogin { get; init; }
+
     [XmlElement(ElementName = "author_email", Namespace = "http://wordpress.org/export/1.2/")]
-    public CData? Author_email { get; set; }
+    public required CData AuthorEmail { get; init; }
+
     [XmlElement(ElementName = "author_display_name", Namespace = "http://wordpress.org/export/1.2/")]
-    public CData? Author_display_name { get; set; }
+    public required CData AuthorDisplayName { get; init; }
+
     [XmlElement(ElementName = "author_first_name", Namespace = "http://wordpress.org/export/1.2/")]
-    public CData? Author_first_name { get; set; }
+    public required CData AuthorFirstName { get; init; }
+
     [XmlElement(ElementName = "author_last_name", Namespace = "http://wordpress.org/export/1.2/")]
-    public CData? Author_last_name { get; set; }
+    public required CData AuthorLastName { get; init; }
 }

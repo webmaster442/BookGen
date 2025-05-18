@@ -36,10 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pipeline\Wordpress\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <InternalsVisibleTo Include="Bookgen.Tests" />
   </ItemGroup>
 

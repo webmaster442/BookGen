@@ -1,6 +1,6 @@
 ﻿namespace Bookgen.Lib.Pipeline;
 
-public interface IPipeLineStep<out TState> : IPipeLineStep
+public interface IPipeLineStep<TState> : IPipeLineStep
 {
     TState State { get; }
 }

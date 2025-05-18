@@ -7,25 +7,35 @@ namespace Bookgen.Lib.Domain.Wordpress;
 public sealed class Channel
 {
     [XmlElement(ElementName = "title")]
-    public string? Title { get; set; }
+    public required string Title { get; init; }
+
     [XmlElement(ElementName = "link")]
-    public string? Link { get; set; }
+    public required string Link { get; init; }
+
     [XmlElement(ElementName = "description")]
-    public string? Description { get; set; }
+    public required string Description { get; init; }
+
     [XmlElement(ElementName = "pubDate")]
-    public string? PubDate { get; set; }
+    public required string PubDate { get; init; }
+
     [XmlElement(ElementName = "language")]
-    public string? Language { get; set; }
+    public required string Language { get; init; }
+
     [XmlElement(ElementName = "wxr_version", Namespace = "http://wordpress.org/export/1.2/")]
-    public string? Wxr_version { get; set; }
+    public required string WxrVersion { get; init; }
+
     [XmlElement(ElementName = "base_site_url", Namespace = "http://wordpress.org/export/1.2/")]
-    public string? Base_site_url { get; set; }
+    public required string BaseSiteUrl { get; init; }
+
     [XmlElement(ElementName = "base_blog_url", Namespace = "http://wordpress.org/export/1.2/")]
-    public string? Base_blog_url { get; set; }
+    public required string BaseBlogUrl { get; init; }
+
     [XmlElement(ElementName = "author", Namespace = "http://wordpress.org/export/1.2/")]
-    public Author? Author { get; set; }
+    public required Author Author { get; init; }
+
     [XmlElement(ElementName = "generator")]
-    public string? Generator { get; set; }
+    public required string Generator { get; init; }
+
     [XmlElement(ElementName = "item")]
-    public List<Item>? Item { get; set; }
+    public required List<Item> Item { get; init; }
 }

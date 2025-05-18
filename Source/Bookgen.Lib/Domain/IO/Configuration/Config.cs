@@ -15,6 +15,10 @@ public sealed class Config
     [FileExists]
     public string TocFile { get; init; }
 
+    [Description("Book title")]
+    [NotNullOrWhiteSpace]
+    public string BookTitle { get; init; }
+
     [Description("Output folder")]
     [NotNullOrWhiteSpace]
     public string OutputFolder { get; init; }
