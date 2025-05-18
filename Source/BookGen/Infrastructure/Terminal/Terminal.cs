@@ -8,34 +8,14 @@ public static class Terminal
 {
     private static readonly Palette _palette = new();
 
-    public static void Table<T>(IDictionary<string, T> rows,
-                                string keyColumnName = "",
-                                string valueColumnName = "")
+    public static void Table(string[] headers, IEnumerable<string[]> rows)
     {
         var table = new Table();
-        table.AddColumn(keyColumnName);
-        table.AddColumn(valueColumnName);
+        table.AddColumns(headers);
 
         foreach (var row in rows)
         {
-            table.AddRow(row.Key, row.Value?.ToString() ?? string.Empty);
-        }
-
-        AnsiConsole.Write(table);
-    }
-
-    public static void Table<T>(IEnumerable<T> rows)
-    {
-        var table = new Table();
-        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-        foreach (var property in properties)
-            table.AddColumn(property.Name);
-
-        foreach (var row in rows)
-        {
-            string[] values = properties.Select(x => x.GetValue(row)?.ToString() ?? string.Empty).ToArray();
-            table.AddRow(values);
+            table.AddRow(row);
         }
 
         AnsiConsole.Write(table);

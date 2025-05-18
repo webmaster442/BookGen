@@ -29,6 +29,19 @@ General arguments:
 `--json-log`
     Outputs log in JSON format. Usefull for interop purposes.
 
+# Config
+
+Get or set bookgen application specific settings
+
+`BookGen Config`
+    List all currently supported application wide settings
+
+`BookGen Config <key>`
+    Gets a setting value, prints it to output and exits.
+
+`BookGen Config <key> <value>`
+    Sets a setting value and exits
+
 # Edit
 
 Open a file for editing with configured editor.
@@ -249,19 +262,6 @@ Arguments:
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then
     the current directory will be used as working directory.
-
-# Settings
-
-Get or set bookgen application specific settings
-
-`BookGen Settings list`
-    List all currently supported application wide setting
-
-`BookGen Settings get <name>`
-    Gets a setting value, prints it to output and exits
-
-`BookGen Settings set <name> <value>`
-    Sets a setting value and exits
 
 # Terminalinstall
 

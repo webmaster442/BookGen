@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace BookGen.Vfs;
 
-public static class JsonExtensions
+public static class Extensions
 {
     private readonly static JsonSerializerOptions _options = new JsonSerializerOptions
     {
@@ -36,5 +36,16 @@ public static class JsonExtensions
         JsonNode schema = _options.GetJsonSchemaAsNode(typeof(T));
         using var writer = new StreamWriter(stream);
         await writer.WriteAsync(schema.ToJsonString());
+    }
+
+
+    public static string GetFileNameInTargetFolder(this IReadOnlyFileSystem sourceFolder, IReadOnlyFileSystem targetFolder, string file)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(sourceFolder.Scope);
+        ArgumentException.ThrowIfNullOrWhiteSpace(targetFolder.Scope);
+
+        var fullPath = Path.GetFullPath(file, sourceFolder.Scope);
+        var relativePart = fullPath.Replace(sourceFolder.Scope, "");
+        return Path.GetFullPath(relativePart, targetFolder.Scope);
     }
 }
