@@ -7,6 +7,7 @@ using Bookgen.Lib.Pipeline;
 using BookGen.Vfs;
 
 namespace Bookgen.Tests;
+
 internal class TestEnvironment : IBookEnvironment
 {
     public Config Configuration => throw new NotImplementedException();
@@ -16,8 +17,6 @@ internal class TestEnvironment : IBookEnvironment
     public IWritableFileSystem Source => throw new NotImplementedException();
 
     public IWritableFileSystem Output => throw new NotImplementedException();
-
-    public ICache Cache => throw new NotImplementedException();
 
     public void Dispose()
     {

@@ -39,8 +39,6 @@ public sealed class BookEnvironment : IBookEnvironment
 
     public void Dispose()
     {
-        Cache.Clear();
-
         foreach (var asset in _assets)
         {
             if (asset is IDisposable disposable)
@@ -139,7 +137,6 @@ public sealed class BookEnvironment : IBookEnvironment
 
         _isInitialized = true;
         _output = new FileSystem(config.OutputFolder);
-        Cache.Clear();
 
         return status;
     }

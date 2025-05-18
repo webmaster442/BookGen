@@ -12,6 +12,7 @@ public sealed class StaticWebsiteConfig : OutputConfig
     public bool OpenLinksOutsideHostOnNewTab { get; init; }
 
     [Description("Deploy host name")]
+    [ValidUrl(EndsWithSlash = true)]
     [NotNullOrWhiteSpace]
     public string DeployHost { get; set; }
 

@@ -39,6 +39,7 @@ public sealed class Config
 
     public Config()
     {
+        BookTitle = string.Empty;
         VersionTag = CurrentVersionTag;
         TocFile = FileNameConstants.TableOfContents;
         StaticWebsiteConfig = new StaticWebsiteConfig();

@@ -13,11 +13,15 @@ public sealed class WordpressConfig : OutputConfig
 
     [Description("Deploy host name")]
     [NotNullOrWhiteSpace]
+    [ValidUrl(EndsWithSlash = true)]
     public string DeployHost { get; set; }
 
-    [Description("Wordpress item type")]
+    [Description("Wordpress item type. Usually page, post or docs for WeDocs")]
     [NotNullOrWhiteSpace]
     public string ItemType { get; init; }
+
+    [Description("Enable or disable comments")]
+    public bool AllowComments { get; init; }
 
     public WordpressConfig()
     {
