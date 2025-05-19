@@ -1,4 +1,5 @@
 ﻿using Bookgen.Lib.Pipeline.StaticWebsite;
+using Bookgen.Lib.Pipeline.Wordpress;
 
 using Microsoft.Extensions.Logging;
 
@@ -28,6 +29,17 @@ public abstract class Pipeline
             new ExtractTemplateAssets(),
             new RenderPages(),
             new CreateEmptyIndexPagesForFolders()
+        );
+    }
+
+    public static Pipeline CreateWordpressPipeLine()
+    {
+        var state = new Session();
+
+        return new PipeLineWithState<Session>(
+            new CreateWpChannel(state),
+            new CreateWpPages(state),
+            new WriteExportFile(state)
         );
     }
 }
