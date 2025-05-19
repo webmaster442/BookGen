@@ -23,12 +23,17 @@ public sealed class WordpressConfig : OutputConfig
     [Description("Enable or disable comments")]
     public bool AllowComments { get; init; }
 
+    [Description("Wordpress tag category name. By default: post_tag")]
+    [NotNullOrWhiteSpace]
+    public string TagCategory { get; init; }
+
     public WordpressConfig()
     {
         CssClasses = new CssClasses();
         DeployHost = string.Empty;
         Images = new ImageConfig();
-        ItemType = string.Empty;
+        ItemType = "docs";
         OpenLinksOutsideHostOnNewTab = true;
+        TagCategory = "post_tag";
     }
 }

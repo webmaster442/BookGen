@@ -10,9 +10,9 @@ using Microsoft.Extensions.Logging;
 
 using YamlDotNet.Serialization;
 
-namespace Bookgen.Lib;
+namespace Bookgen.Lib.Internals;
 
-public static class Extensions
+internal static class IReadOnlyFileSystemExtensions
 {
     public static SourceFile GetSourceFile(this IReadOnlyFileSystem folder, string file, ILogger logger)
     {

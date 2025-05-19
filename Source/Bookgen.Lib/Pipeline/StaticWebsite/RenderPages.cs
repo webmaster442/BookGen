@@ -1,4 +1,5 @@
 ﻿using Bookgen.Lib.ImageService;
+using Bookgen.Lib.Internals;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
 

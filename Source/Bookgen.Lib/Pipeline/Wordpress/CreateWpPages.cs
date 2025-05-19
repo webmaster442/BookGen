@@ -44,6 +44,21 @@ internal sealed class CreateWpPages : IPipeLineStep<Session>
         return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
     }
 
+    private List<PostCategory>? CreateCategories(string[] tagArray, string tagCategory)
+    {
+        var result = new List<PostCategory>(tagArray.Length);
+        foreach (var tag in tagArray)
+        {
+            result.Add(new PostCategory
+            {
+                Domain = tagCategory,
+                Value = tag,
+                Nicename = tag.ToUrlNiceName()
+            });
+        }
+        return result;
+    }
+
     private Item CreateItem(int uid,
                             int parent,
                             int order,
@@ -118,16 +133,29 @@ internal sealed class CreateWpPages : IPipeLineStep<Session>
         int uid = 2000;
         int globalparent = 0;
 
-        string fillerPage = "";
         string title = environment.Configuration.BookTitle;
         string path = $"{environment.Configuration.WordpressConfig.DeployHost}{EncodeTitle(title)}";
-        Item parent = CreateItem(uid, 0, mainorder, fillerPage, title, path, environment);
+        Item parent = CreateItem(uid, 0, mainorder, string.Empty, title, path, environment);
         State.CurrentChannel!.Item.Add(parent);
         globalparent = uid;
         ++uid;
 
         foreach (var chapter in environment.TableOfContents.Chapters)
         {
+            int parent_uid = uid;
+
+            Item chapterParrent = CreateItem(uid: uid,
+                                             parent: globalparent,
+                                             order: mainorder,
+                                             content: string.Empty,
+                                             title: chapter.Title,
+                                             path: path,
+                                             environment: environment);
+
+            State.CurrentChannel.Item.Add(parent);
+            int suborder = 0;
+            uid++;
+
             foreach (var file in chapter.Files)
             {
                 logger.LogDebug("Processing file {File}...", file);
@@ -138,12 +166,24 @@ internal sealed class CreateWpPages : IPipeLineStep<Session>
                 }
 
                 var sourceData = environment.Source.GetSourceFile(file, logger);
+                string subpath = $"{environment.Configuration.WordpressConfig.DeployHost}{EncodeTitle(chapter.Title)}/{EncodeTitle(sourceData.FrontMatter.Title)}";
+                string content = markdown.RenderMarkdownToHtml(sourceData.Content);
 
-
-
+                Item item = CreateItem(uid: uid,
+                                       parent: parent_uid,
+                                       order: suborder,
+                                       content: content,
+                                       title: sourceData.FrontMatter.Title,
+                                       path: subpath,
+                                       environment: environment);
+                item.Category = CreateCategories(sourceData.FrontMatter.TagArray, environment.Configuration.WordpressConfig.TagCategory);
+                State.CurrentChannel.Item.Add(item);
+                ++suborder;
+                ++uid;
             }
-        }
 
+            ++mainorder;
+        }
 
         return Task.FromResult(StepResult.Success);
     }
