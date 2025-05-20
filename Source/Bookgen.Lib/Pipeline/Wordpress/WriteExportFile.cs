@@ -7,11 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Wordpress;
 
-internal sealed class WriteExportFile : IPipeLineStep<Session>
+internal sealed class WriteExportFile : IPipeLineStep<WpState>
 {
-    public Session State { get; }
+    public WpState State { get; }
 
-    public WriteExportFile(Session state)
+    public WriteExportFile(WpState state)
     {
         State = state;
     }

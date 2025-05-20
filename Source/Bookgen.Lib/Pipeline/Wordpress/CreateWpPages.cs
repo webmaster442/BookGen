@@ -12,15 +12,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Wordpress;
 
-internal sealed class CreateWpPages : IPipeLineStep<Session>
+internal sealed class CreateWpPages : IPipeLineStep<WpState>
 {
-    public Session State { get; }
+    public WpState State { get; }
 
 #if DEBUG
     private readonly HashSet<int> _usedids;
 #endif
 
-    public CreateWpPages(Session state)
+    public CreateWpPages(WpState state)
     {
         State = state;
 #if DEBUG

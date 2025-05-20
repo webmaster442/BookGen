@@ -6,11 +6,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Wordpress;
 
-internal sealed class CreateWpChannel : IPipeLineStep<Session>
+internal sealed class CreateWpChannel : IPipeLineStep<WpState>
 {
-    public Session State { get; }
+    public WpState State { get; }
 
-    public CreateWpChannel(Session state)
+    public CreateWpChannel(WpState state)
     {
         State = state;
     }

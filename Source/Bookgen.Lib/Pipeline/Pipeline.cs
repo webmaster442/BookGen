@@ -34,9 +34,9 @@ public abstract class Pipeline
 
     public static Pipeline CreateWordpressPipeLine()
     {
-        var state = new Session();
+        var state = new WpState();
 
-        return new PipeLineWithState<Session>(
+        return new PipeLineWithState<WpState>(
             new CreateWpChannel(state),
             new CreateWpPages(state),
             new WriteExportFile(state)
