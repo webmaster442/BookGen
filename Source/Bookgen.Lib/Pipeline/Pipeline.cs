@@ -24,11 +24,13 @@ public abstract class Pipeline
 
     public static Pipeline CreateWebPipeLine()
     {
+        var state = new StaticWebState();
+
         return new SimplePipeLine(
-            new CopyAssets(),
-            new ExtractTemplateAssets(),
-            new RenderPages(),
-            new CreateEmptyIndexPagesForFolders()
+            new CopyAssets(state),
+            new ExtractTemplateAssets(state),
+            new RenderPages(state),
+            new CreateEmptyIndexPagesForFolders(state)
         );
     }
 

@@ -9,8 +9,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
-internal sealed class RenderPages : IPipeLineStep
+internal sealed class RenderPages : IPipeLineStep<StaticWebState>
 {
+    public RenderPages(StaticWebState state)
+    {
+        State = state;
+    }
+
+    public StaticWebState State { get; }
+
     public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
