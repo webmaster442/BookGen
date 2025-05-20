@@ -18,6 +18,7 @@ public static class YamlSerializerFactory
         return new SerializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .WithYamlFormatter(YamlFormatter.Default)
+            .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
             .Build();
     }
 }

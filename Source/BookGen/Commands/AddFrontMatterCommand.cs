@@ -1,4 +1,6 @@
-﻿using Bookgen.Lib;
+﻿using System.Text;
+
+using Bookgen.Lib;
 using Bookgen.Lib.Domain.IO;
 
 using BookGen.Cli;
@@ -60,14 +62,15 @@ internal class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
                 Tags = string.Empty
             };
 
-            string toWrite = $"""
-                ---
-                {serializer.Serialize(frontMatter)}
-                ---
-                {content}
-                """;
+            const string divider = "---";
 
-            _writableFileSystem.WriteAllText(file, toWrite);
+            StringBuilder result = new();
+            result.AppendLine(divider)
+                  .Append(serializer.Serialize(frontMatter))
+                  .AppendLine(divider).AppendLine()
+                  .Append(content);
+
+            await _writableFileSystem.WriteAllTextAsync(file, result.ToString());
             ++modified;
         }
 
