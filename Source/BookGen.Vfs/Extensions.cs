@@ -30,15 +30,6 @@ public static class Extensions
         await JsonSerializer.SerializeAsync(stream, value, _options);
     }
 
-    public static async Task WriteSchema<T>(this IWritableFileSystem fs, string path)
-    {
-        await using var stream = fs.CreateWriteStream(path);
-        JsonNode schema = _options.GetJsonSchemaAsNode(typeof(T));
-        using var writer = new StreamWriter(stream);
-        await writer.WriteAsync(schema.ToJsonString());
-    }
-
-
     public static string GetFileNameInTargetFolder(this IReadOnlyFileSystem sourceFolder, IReadOnlyFileSystem targetFolder, string file)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(sourceFolder.Scope);

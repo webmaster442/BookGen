@@ -313,3 +313,20 @@ Autocompleter command, that is used by Powershell
 # Subcommands
 
 Listst all available subcommands
+
+# Schemas
+
+Creates a schemas.md documentation file, describing
+the various config schemas used by bookgen.
+
+`BookGen Schemas [-v] [-d [directory]]`
+`BookGen Schemas [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
