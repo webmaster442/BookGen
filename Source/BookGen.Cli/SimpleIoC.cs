@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Runtime.CompilerServices;
+
 using BookGen.Cli.Internals;
 
 namespace BookGen.Cli;
@@ -58,10 +60,20 @@ public sealed class SimpleIoC : IResolver, IDisposable
             ?? throw new InvalidOperationException($"{value.FullName} doesn't have a public constructor");
 
         var parameters = ctorToCall.GetParameters();
-        object[] parameterInstances = new object[parameters.Length];
+        object?[] parameterInstances = new object[parameters.Length];
 
         for (int i = 0; i < parameters.Length; i++)
         {
+            if (parameters[i].IsOptional)
+            {
+                parameterInstances[i] = parameters[i].DefaultValue;
+                continue;
+            }
+            else if (!CanResolve(parameters[i].ParameterType))
+            {
+                throw new InvalidOperationException($"{value} can't be created, since it's dependency type {parameters[i].ParameterType} isn't resolvable");
+            }
+
             parameterInstances[i] = Resolve(parameters[i].ParameterType);
         }
 
@@ -79,7 +91,7 @@ public sealed class SimpleIoC : IResolver, IDisposable
         _singletonTypes.Clear();
     }
 
-    public object Resolve(Type type)
+    public object Resolve(Type type, [CallerMemberName]string? caller = null)
     {
         if (_instanceTypes.TryGetValue(type, out Type? foundType))
             return CreateInstance(foundType);
@@ -87,7 +99,7 @@ public sealed class SimpleIoC : IResolver, IDisposable
         if (_singletons.TryGetValue(type, out object? instance))
             return instance;
 
-        throw new InvalidOperationException($"Don't know how to resolve: {type.FullName}");
+        throw new InvalidOperationException($"Don't know how to resolve: {type.FullName}. Call site: {caller}");
     }
 
     public void Dispose()

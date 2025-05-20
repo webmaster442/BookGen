@@ -29,6 +29,24 @@ General arguments:
 `--json-log`
     Outputs log in JSON format. Usefull for interop purposes.
 
+# Addfrontmatter
+
+Add a basic YAML frontmatter information to all markdown files located in the
+current folder and it's subfolders.
+
+`BookGen Addfrontmatter [-v] [-d [directory]]`
+`BookGen Addfrontmatter [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+
 # Config
 
 Get or set bookgen application specific settings
