@@ -13,6 +13,10 @@
     <Content Include="..\..\Branding\icon-bookgen.png" Link="icon-bookgen.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <None Update="autorun.inf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
