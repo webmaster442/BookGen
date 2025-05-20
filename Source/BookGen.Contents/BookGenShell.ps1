@@ -113,11 +113,11 @@ function cdg
     $argsAsString = $args -join ' '
     if ([string]::IsNullOrWhiteSpace($argsAsString))
     {
-        BookGen.Shell.exe "cdg"
+        BookGen.Shellprog.exe "cdg"
     }
     else
     {
-        BookGen.Shell.exe "cdg" "$argsAsString"
+        BookGen.Shellprog.exe "cdg" "$argsAsString"
     }
     $location = [Environment]::GetEnvironmentVariable('cdgPath', 'User')
     Push-Location $location
@@ -129,11 +129,11 @@ function organize
     $argsAsString = $args -join ' '
     if ([string]::IsNullOrWhiteSpace($argsAsString))
     {
-        BookGen.Shell.exe "organize"
+        BookGen.Shellprog.exe "organize"
     }
     else
     {
-        BookGen.Shell.exe "organize" "$argsAsString"
+        BookGen.Shellprog.exe "organize" "$argsAsString"
     }
 }
 
@@ -245,14 +245,14 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
 # PowerShell parameter completion shim for git
 Register-ArgumentCompleter -Native -CommandName git -ScriptBlock {
     param($commandName, $wordToComplete, $cursorPosition)
-        BookGen.Shell.exe "git-complete" $cursorPosition "$wordToComplete" | ForEach-Object {
+        BookGen.Shellprog.exe "git-complete" $cursorPosition "$wordToComplete" | ForEach-Object {
             [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
      }
 }
 
 # set prompt
 function prompt {
-    $git = $(BookGen.Shell.exe "prompt" $(Get-Location).Path)
+    $git = $(BookGen.Shellprog.exe "prompt" $(Get-Location).Path)
     if (-not [string]::IsNullOrWhiteSpace($git)) {
         'PS ' +  $(Get-Location) + "`n"+$git+ $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
     }

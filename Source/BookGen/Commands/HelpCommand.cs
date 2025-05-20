@@ -12,10 +12,10 @@ internal class HelpCommand : Command
     private readonly IHelpProvider _helpProvider;
     private readonly HashSet<string> _commandNames;
 
-    public HelpCommand(IHelpProvider helpProvider, CommandNameProvider nameProvider)
+    public HelpCommand(IHelpProvider helpProvider, CommandRunnerProxy runnerProxy)
     {
         _helpProvider = helpProvider;
-        _commandNames = nameProvider.CommandNames.ToHashSet();
+        _commandNames = [.. runnerProxy.CommandNames];
     }
 
     public override int Execute(string[] context)

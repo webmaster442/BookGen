@@ -9,11 +9,11 @@ using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 
 ILogger logger = loggerFactory.CreateLogger("BookGen.Shell");
 
-CommandNameProvider commandNameProvider = new();
+CommandRunnerProxy runnerProxy = new();
 
 using SimpleIoC ioc = new();
 ioc.RegisterSingleton<IAnsiConsole>(AnsiConsole.Console);
-ioc.RegisterSingleton(commandNameProvider);
+ioc.RegisterSingleton(runnerProxy);
 ioc.RegisterSingleton(logger);
 ioc.Build();
 
@@ -33,6 +33,6 @@ runner
     .AddCommand<GitAutoCompleteCommand>()
     .AddCommand<OrganizeCommand>();
 
-commandNameProvider.CommandNames = runner.CommandNames;
+runnerProxy.ConfigureWith(runner);
 
 return await runner.Run(args);

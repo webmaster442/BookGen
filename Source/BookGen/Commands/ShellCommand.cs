@@ -6,46 +6,51 @@
 using System.Diagnostics;
 
 using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Infrastructure;
+
+using Spectre.Console;
 
 namespace BookGen.Commands;
 
 [CommandName("shell")]
 internal class ShellCommand : Command
 {
-    private readonly IModuleApi _api;
+    private readonly CommandRunnerProxy _commandNameProider;
 
-    public ShellCommand(IModuleApi api)
+    private const string ProgramName = "BookGen";
+
+    public ShellCommand(CommandRunnerProxy commandNameProvider)
     {
-        _api = api;
+        _commandNameProider = commandNameProvider;
     }
 
     public override int Execute(string[] context)
     {
         foreach (string? item in DoComplete(context))
         {
-            Console.WriteLine(item);
+            AnsiConsole.WriteLine(item);
         }
-        return Constants.Succes;
+        return ExitCodes.Succes;
     }
 
     internal IEnumerable<string> DoComplete(string[] args)
     {
         if (args.Length == 0)
-            return _api.GetCommandNames();
+            return _commandNameProider.CommandNames;
 
         string request = args[0] ?? "";
 
-        if (request.StartsWith(Constants.ProgramName, StringComparison.OrdinalIgnoreCase))
+        if (request.StartsWith(ProgramName, StringComparison.OrdinalIgnoreCase))
         {
-            request = request[Constants.ProgramName.Length..];
+            request = request[ProgramName.Length..];
         }
         string[] words = request.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
         if (words.Length > 0)
         {
-            var commands = _api
-                .GetCommandNames()
+            var commands = _commandNameProider
+                .CommandNames
                 .Where(cmd => cmd.StartsWith(words[0], StringComparison.OrdinalIgnoreCase))
                 .ToArray();
 
@@ -58,7 +63,7 @@ internal class ShellCommand : Command
                 if (!string.Equals(words[0], commands[0], StringComparison.OrdinalIgnoreCase))
                     return commands;
 
-                string[] items = _api.GetAutoCompleteItems(commands[0]);
+                string[] items = _commandNameProider.GetAutoCompleteItems(commands[0]);
 
                 if (words.Length <= 1)
                     return items;
@@ -73,6 +78,6 @@ internal class ShellCommand : Command
             }
         }
 
-        return new string[] { Constants.ProgramName };
+        return new string[] { ProgramName };
     }
 }

@@ -5,7 +5,6 @@
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Infrastructure;
 using BookGen.Infrastructure.Terminal;
 
 using Spectre.Console;
@@ -17,9 +16,9 @@ internal class SubCommandsCommand : Command
 {
     private readonly IEnumerable<IGrouping<char, string>> _commands;
 
-    public SubCommandsCommand(CommandNameProvider provider)
+    public SubCommandsCommand(CommandRunnerProxy runnerProxy)
     {
-        _commands = provider
+        _commands = runnerProxy
             .CommandNames
             .Order()
             .GroupBy(cmd => cmd[0]);

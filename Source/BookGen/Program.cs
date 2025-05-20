@@ -42,14 +42,14 @@ using ILoggerFactory factory = LoggerFactory
     });
 
 ILogger logger = factory.CreateLogger("Bookgen");
-CommandNameProvider commandNameProvider = new();
+CommandRunnerProxy runnerProxy = new();
 
 using SimpleIoC ioc = new();
 ioc.RegisterSingleton(logger);
 ioc.RegisterSingleton(info);
-ioc.RegisterSingleton(commandNameProvider);
+ioc.RegisterSingleton(runnerProxy);
 ioc.RegisterSingleton<IMediator>(mediator);
-ioc.RegisterSingleton<IHelpProvider>(new HelpProvider(logger, commandNameProvider));
+ioc.RegisterSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
 ioc.Register<IWritableFileSystem, FileSystem>();
 ioc.Register<IReadOnlyFileSystem, FileSystem>();
 
@@ -69,9 +69,9 @@ runner
     .AddDefaultCommand<HelpCommand>()
     .AddCommandsFrom(typeof(HelpCommand).Assembly);
 
-commandNameProvider.CommandNames = runner.CommandNames;
+runnerProxy.ConfigureWith(runner);
 
-HelpProvider helpProvider = new(logger, commandNameProvider);
+HelpProvider helpProvider = new(logger, runnerProxy);
 helpProvider.VerifyHelpData();
 
 return await runner.Run(argumentList);

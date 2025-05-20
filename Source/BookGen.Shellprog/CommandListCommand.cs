@@ -13,9 +13,9 @@ namespace BookGen.Shellprog;
 [CommandName("cmdlist")]
 internal class CommandListCommand : Command
 {
-    private readonly CommandNameProvider _nameProvider;
+    private readonly CommandRunnerProxy _nameProvider;
 
-    public CommandListCommand(CommandNameProvider nameProvider)
+    public CommandListCommand(CommandRunnerProxy nameProvider)
     {
         _nameProvider = nameProvider;
     }
