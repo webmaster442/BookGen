@@ -4,9 +4,9 @@ internal sealed class MenuItem
 {
     private readonly string _icon;
     private readonly string _title;
-    private readonly Action _action;
+    private readonly Func<Task<int>> _action;
 
-    public MenuItem(string icon, string title, Action action)
+    public MenuItem(string icon, string title, Func<Task<int>> action)
     {
         _icon = icon;
         _title = title;
@@ -16,6 +16,6 @@ internal sealed class MenuItem
     public override string ToString()
         => $"{_icon} {_title}";
 
-    public void Execute()
-        => _action.Invoke();
+    public async Task<int> ExecuteAsync()
+        => await _action.Invoke();
 }
