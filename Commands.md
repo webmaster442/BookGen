@@ -330,3 +330,19 @@ Arguments:
 
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
+
+# Validate
+
+Validate the configuration files used by bookgen in the specified folder.
+
+`BookGen Validate [-v] [-d [directory]]`
+`BookGen Validate [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
