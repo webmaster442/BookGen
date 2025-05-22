@@ -33,7 +33,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
             Title = "Document title"
         };
 
-        int exitCode = await Command.Execute(arguments, Array.Empty<string>());
+        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>());
 
         const string expectedContent = "<p>test</p>\n";
 
@@ -58,7 +58,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
             Title = "Document title"
         };
 
-        int exitCode = await Command.Execute(arguments, Array.Empty<string>());
+        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>());
 
         const string expectedContent = "<h1>Document title</h1><p>test</p>\n\r\n";
 

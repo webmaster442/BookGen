@@ -27,7 +27,7 @@ internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallComma
         _log = log;
     }
 
-    public override async Task<int> Execute(TerminalInstallArguments arguments, string[] context)
+    public override async Task<int> ExecuteAsync(TerminalInstallArguments arguments, string[] context)
     {
 
         if (arguments.CheckTerminalInstall)

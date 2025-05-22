@@ -62,7 +62,7 @@ internal sealed class Html2PdfCommand : AsyncCommand<Html2PdfCommand.Html2PdfArg
         _browser = new BrowserInteract(log);
     }
 
-    public override async Task<int> Execute(Html2PdfArguments arguments, string[] context)
+    public override async Task<int> ExecuteAsync(Html2PdfArguments arguments, string[] context)
     {
         bool result = await _browser.Html2Pdf(arguments.InputFile,
                                               arguments.OutputFile);

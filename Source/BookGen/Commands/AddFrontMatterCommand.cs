@@ -28,7 +28,7 @@ internal class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
         _programInfo = programInfo;
     }
 
-    public override async Task<int> Execute(BookGenArgumentBase arguments, string[] context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, string[] context)
     {
         _programInfo.EableVerboseLogging(arguments.Verbose);
 

@@ -228,7 +228,7 @@ public sealed class CommandRunner
         }
 
         if (argumentType == null)
-            return await command.Execute(new EmptyArgs(), argsToParse);
+            return await command.ExecuteAsync(new EmptyArgs(), argsToParse);
 
         string jsonFileName = Path.ChangeExtension(commandName, ".json");
 
@@ -261,7 +261,7 @@ public sealed class CommandRunner
 
         args.ModifyAfterValidation();
 
-        return await command.Execute(args, argsToParse);
+        return await command.ExecuteAsync(args, argsToParse);
     }
 
     private async Task<int> ExecuteMultiple(ArgumentJsonItem[] items, Type argumentType, ICommand command)

@@ -14,7 +14,7 @@ public abstract class Command<TArguments> : ICommand
 {
     public abstract int Execute(TArguments arguments, string[] context);
 
-    Task<int> ICommand.Execute(ArgumentsBase arguments, string[] context)
+    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, string[] context)
     {
         return Task.FromResult(Execute((TArguments)arguments, context));
     }

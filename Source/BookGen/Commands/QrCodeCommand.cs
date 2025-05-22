@@ -69,7 +69,7 @@ internal class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
         _fileSystem = fileSystem;
     }
 
-    public override async Task<int> Execute(QrCodeArguments arguments, string[] context)
+    public override async Task<int> ExecuteAsync(QrCodeArguments arguments, string[] context)
     {
         UrlParameterBuilder builder = new(GoQrMeParams.ApiUrl);
         builder.AddParameter(GoQrMeParams.DataParam, arguments.Data);

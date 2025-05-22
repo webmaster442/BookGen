@@ -76,7 +76,7 @@ internal sealed class Html2PngCommand : AsyncCommand<Html2PngCommand.Html2PngArg
         _browser = new BrowserInteract(log);
     }
 
-    public override async Task<int> Execute(Html2PngArguments arguments, string[] context)
+    public override async Task<int> ExecuteAsync(Html2PngArguments arguments, string[] context)
     {
         bool result = await _browser.Html2Png(arguments.InputFile,
                                               arguments.OutputFile,
