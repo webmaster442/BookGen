@@ -34,6 +34,8 @@ internal sealed class ValidateCommand : AsyncCommand<BookGenArgumentBase>
             {
                 _logger.LogError(issue);
             }
+
+            return ExitCodes.ConfigError;
         }
 
         _logger.LogInformation("{folder} configuration is ok", arguments.Directory);
