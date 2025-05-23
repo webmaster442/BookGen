@@ -141,7 +141,8 @@ public sealed class CommandRunner
     {
         var commands = assembly
             .GetTypes()
-            .Where(t => t.IsAssignableTo(typeof(ICommand)));
+            .Where(t => t.IsAssignableTo(typeof(ICommand)))
+            .Where(t => !t.IsAbstract && !t.IsInterface);
 
         foreach (var command in commands)
         {

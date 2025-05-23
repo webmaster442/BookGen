@@ -49,8 +49,11 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
 
         MenuItem[] menu =
         [
-            new(Emoji.Known.RedQuestionMark, "Validate current configuration", OnValidate),
-            new(Emoji.Known.SpiderWeb, " Start a webserver in curent directory", OnServe),
+            new(Emoji.Known.RedQuestionMark, "Validate current configuration", async () => await Run("validate")),
+            new(Emoji.Known.SpiderWeb, " Start a webserver in curent directory", async () => await Run("serve")),
+            new(Emoji.Known.GlobeShowingAmericas, "Build static website", async () => await Run("buildweb")),
+            new(Emoji.Known.Printer, " Build printable html", async () => await Run("buildprint")),
+            new(Emoji.Known.FileCabinet, " Build wordpress export", async () => await Run("buildwp")),
             new(Emoji.Known.Door, "Exit", OnExit)
         ];
 
@@ -64,21 +67,14 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
         return await selected.ExecuteAsync();
     }
 
-    private async Task<int> OnValidate()
+    private async Task<int> Run(string cmd)
     {
         if (_currentArgs == null)
             throw new InvalidOperationException("Command not initialized");
 
-        return await _commandRunnerProxy.RunCommand("validate", _argsBuilder.New().Add(_currentArgs).Build());
+        return await _commandRunnerProxy.RunCommand(cmd, _argsBuilder.New().Add(_currentArgs).Build());
     }
 
-    private async Task<int> OnServe()
-    {
-        if (_currentArgs == null)
-            throw new InvalidOperationException("Command not initialized");
-
-        return await _commandRunnerProxy.RunCommand("serve", _argsBuilder.New().Add(_currentArgs).Build());
-    }
     private Task<int> OnExit()
     {
         Environment.Exit(ExitCodes.Succes);

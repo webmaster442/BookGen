@@ -46,6 +46,55 @@ Arguments:
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
+# BuildPrint
+
+Build a printable html & xhtml file from the book
+
+`BookGen BuildPrint [-v] [-d [directory]]`
+`BookGen BuildPrint [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+
+# BuildWeb
+
+Build a static website from the book
+
+`BookGen BuildWeb [-v] [-d [directory]]`
+`BookGen BuildWeb [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+# BuildWp
+
+Build a wordpress export file from the book.
+
+`BookGen BuildWp [-v] [-d [directory]]`
+`BookGen BuildWp [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
 
 # Config
 
