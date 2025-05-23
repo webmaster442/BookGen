@@ -16,7 +16,7 @@ internal class SubCommandsCommand : Command
 {
     private readonly IEnumerable<IGrouping<char, string>> _commands;
 
-    public SubCommandsCommand(CommandRunnerProxy runnerProxy)
+    public SubCommandsCommand(ICommandRunnerProxy runnerProxy)
     {
         _commands = runnerProxy
             .CommandNames

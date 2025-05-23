@@ -40,7 +40,7 @@ internal sealed class JsonArgsCommand : Command<JsonArgsCommand.JsonArgsArgument
     private readonly ILogger _log;
     private readonly ProgramInfo _programInfo;
 
-    public JsonArgsCommand(CommandRunnerProxy runnerProxy, ILogger log, ProgramInfo programInfo)
+    public JsonArgsCommand(ICommandRunnerProxy runnerProxy, ILogger log, ProgramInfo programInfo)
     {
         _commandNames = [.. runnerProxy.CommandNames];
         _log = log;

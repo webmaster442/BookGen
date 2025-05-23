@@ -14,11 +14,11 @@ namespace BookGen.Infrastructure;
 internal class HelpProvider : IHelpProvider
 {
     private readonly ILogger _log;
-    private readonly CommandRunnerProxy _commandNameProvider;
+    private readonly ICommandRunnerProxy _commandNameProvider;
     private readonly Dictionary<string, string[]> _helpData;
     private readonly Dictionary<string, Func<string>> _callbackTable;
 
-    public HelpProvider(ILogger log, CommandRunnerProxy nameProvider)
+    public HelpProvider(ILogger log, ICommandRunnerProxy nameProvider)
     {
         _log = log;
         _commandNameProvider = nameProvider;

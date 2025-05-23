@@ -7,9 +7,12 @@ using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 
 using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Vfs;
 
 namespace BookGen.Commands;
+
+[CommandName("schemas")]
 internal class SchemasCommand : Command<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;

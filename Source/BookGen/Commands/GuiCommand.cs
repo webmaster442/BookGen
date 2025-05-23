@@ -11,11 +11,11 @@ namespace BookGen.Commands;
 internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _fileSystem;
-    private readonly CommandRunnerProxy _commandRunnerProxy;
+    private readonly ICommandRunnerProxy _commandRunnerProxy;
 
     private BookGenArgumentBase? _currentArgs;
 
-    public GuiCommand(IWritableFileSystem writableFileSystem, CommandRunnerProxy commandRunnerProxy)
+    public GuiCommand(IWritableFileSystem writableFileSystem, ICommandRunnerProxy commandRunnerProxy)
     {
         _fileSystem = writableFileSystem;
         _commandRunnerProxy = commandRunnerProxy;

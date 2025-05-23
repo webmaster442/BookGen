@@ -12,7 +12,7 @@ internal class HelpCommand : Command
     private readonly IHelpProvider _helpProvider;
     private readonly HashSet<string> _commandNames;
 
-    public HelpCommand(IHelpProvider helpProvider, CommandRunnerProxy runnerProxy)
+    public HelpCommand(IHelpProvider helpProvider, ICommandRunnerProxy runnerProxy)
     {
         _helpProvider = helpProvider;
         _commandNames = [.. runnerProxy.CommandNames];

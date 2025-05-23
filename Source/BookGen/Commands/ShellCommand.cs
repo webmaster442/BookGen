@@ -16,11 +16,11 @@ namespace BookGen.Commands;
 [CommandName("shell")]
 internal class ShellCommand : Command
 {
-    private readonly CommandRunnerProxy _commandNameProider;
+    private readonly ICommandRunnerProxy _commandNameProider;
 
     private const string ProgramName = "BookGen";
 
-    public ShellCommand(CommandRunnerProxy commandNameProvider)
+    public ShellCommand(ICommandRunnerProxy commandNameProvider)
     {
         _commandNameProider = commandNameProvider;
     }

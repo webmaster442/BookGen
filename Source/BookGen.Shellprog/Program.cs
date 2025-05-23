@@ -13,7 +13,7 @@ CommandRunnerProxy runnerProxy = new();
 
 using SimpleIoC ioc = new();
 ioc.RegisterSingleton<IAnsiConsole>(AnsiConsole.Console);
-ioc.RegisterSingleton(runnerProxy);
+ioc.RegisterSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.RegisterSingleton(logger);
 ioc.Build();
 

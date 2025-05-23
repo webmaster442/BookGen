@@ -5,7 +5,7 @@
 
 namespace BookGen.Cli;
 
-public sealed class CommandRunnerProxy
+public sealed class CommandRunnerProxy : ICommandRunnerProxy
 {
     private IEnumerable<string>? _commandNames;
     private Func<string, string[]>? _autoComplete;

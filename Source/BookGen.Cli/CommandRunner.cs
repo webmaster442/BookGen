@@ -49,7 +49,11 @@ public sealed class CommandRunner
 
     private static Type? GetArgumentType(Type cmd)
     {
-        var method = cmd.GetMethod("Execute");
+        var method = cmd.GetMethod(nameof(AsyncCommand.ExecuteAsync))
+                     ?? cmd.GetMethod(nameof(Command.Execute));
+
+        if (method == null)
+            throw new InvalidOperationException($"Command {cmd.FullName} is missing Exetutable method");
 
         var parameter = method
             ?.GetParameters()

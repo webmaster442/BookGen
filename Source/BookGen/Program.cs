@@ -47,7 +47,7 @@ CommandRunnerProxy runnerProxy = new();
 using SimpleIoC ioc = new();
 ioc.RegisterSingleton(logger);
 ioc.RegisterSingleton(info);
-ioc.RegisterSingleton(runnerProxy);
+ioc.RegisterSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.RegisterSingleton<IMediator>(mediator);
 ioc.RegisterSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
 ioc.Register<IWritableFileSystem, FileSystem>();
