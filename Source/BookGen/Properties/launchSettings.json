@@ -1,0 +1,25 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "BookGen": {
+      "commandName": "Project",
+      "commandLineArgs": "Addfrontmatter ",
+      "workingDirectory": "G:\\HelloCsharp\\C"
+    },
+    "TerminalInstall -t": {
+      "commandName": "Project",
+      "commandLineArgs": "terminalinstall -t"
+    },
+    "Gui": {
+      "commandName": "Project",
+      "commandLineArgs": "Gui"
+    },
+    "Schemas": {
+      "commandName": "Project",
+      "commandLineArgs": "schemas"
+    }
+  }
+}
