@@ -8,6 +8,12 @@ public sealed class ZipAssetSoruce : IAssetSource, IDisposable
     private readonly ZipArchive _zip;
     private bool _disposed;
 
+    public static ZipAssetSoruce DefaultAssets()
+    {
+        var path = Path.Combine(AppContext.BaseDirectory, "assets.zip");
+        return new ZipAssetSoruce(path);
+    }
+
     public ZipAssetSoruce(string fileName)
     {
         _zip = ZipFile.OpenRead(fileName);

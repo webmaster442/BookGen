@@ -13,26 +13,30 @@ namespace Bookgen.Lib;
 public sealed class BookEnvironment : IBookEnvironment
 {
     private readonly IWritableFileSystem _source;
+    private readonly IWritableFileSystem _output;
     private readonly IAssetSource[] _assets;
 
     private Config? _config;
     private TableOfContents? _toc;
-    private IWritableFileSystem? _output;
+    
     private bool _isInitialized;
 
-    public BookEnvironment(IWritableFileSystem soruceFolder, params IAssetSource[] assets)
+    public BookEnvironment(IWritableFileSystem soruceFolder, IWritableFileSystem output, params IAssetSource[] assets)
     {
         _source = soruceFolder;
+        _output = output;
         _assets = assets;
     }
 
-    public Config Configuration => _config ?? throw new InvalidOperationException();
+    const string Error = $"{nameof(Initialize)} was not called";
 
-    public TableOfContents TableOfContents => _toc ?? throw new InvalidOperationException();
+    public Config Configuration => _config ?? throw new InvalidOperationException(Error);
 
-    public IWritableFileSystem Source => _isInitialized ? _source : throw new InvalidOperationException();
+    public TableOfContents TableOfContents => _toc ?? throw new InvalidOperationException(Error);
 
-    public IWritableFileSystem Output => _output ?? throw new InvalidOperationException();
+    public IWritableFileSystem Source => _isInitialized ? _source : throw new InvalidOperationException(Error);
+
+    public IWritableFileSystem Output => _isInitialized ? _output : throw new InvalidOperationException(Error);
 
     public static bool IsBookGenFolder(string folder)
         => File.Exists(Path.Combine(folder, FileNameConstants.ConfigFile));
@@ -135,8 +139,8 @@ public sealed class BookEnvironment : IBookEnvironment
             }
         }
 
+        Output.Scope = config.OutputFolder;
         _isInitialized = true;
-        _output = new FileSystem(config.OutputFolder);
 
         return status;
     }
