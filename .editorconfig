@@ -189,6 +189,8 @@ dotnet_diagnostic.CA1865.severity = error
 dotnet_diagnostic.CA1866.severity = error
 dotnet_diagnostic.CA1867.severity = error
 dotnet_diagnostic.CA2014.severity = error
+csharp_prefer_system_threading_lock = true:suggestion
+csharp_style_prefer_unbound_generic_type_in_nameof = true:suggestion
 
 #### Naming styles ####
 [*.{cs,vb}]

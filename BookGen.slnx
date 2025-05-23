@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/Misc/" Id="209479ab-f6dc-4e64-8458-43e805966b28">
+    <File Path=".editorconfig" />
+    <File Path="Changelog.md" />
+    <File Path="getting-started.md" />
+  </Folder>
   <Folder Name="/Tests/" Id="02ea681e-c7d8-13c7-8484-4ac65e1b71e8">
     <Project Path="Test/Bookgen.Tests/Bookgen.Tests.csproj" />
   </Folder>
