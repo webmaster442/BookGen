@@ -13,6 +13,7 @@ internal abstract class CommandTestBase<TCommand> where TCommand : ICommand
     protected readonly Mock<IValidationContext> ValidationContextMock = new Mock<IValidationContext>(MockBehavior.Strict);
     protected readonly Mock<ILogger> LoggerMock = new Mock<ILogger>(MockBehavior.Strict);
     protected readonly Mock<IAssetSource> AssetSourceMock = new Mock<IAssetSource>(MockBehavior.Strict);
+    protected readonly Mock<ICommandRunnerProxy> CommandRunnerProxyMock = new Mock<ICommandRunnerProxy>(MockBehavior.Strict);
 
     protected ICommand Command { get; private set; }
 

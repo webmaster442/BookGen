@@ -24,7 +24,6 @@ public sealed class CommandRunner
     private readonly CommandRunnerSettings _settings;
     private readonly SupportedOs _currentOs;
     private string? _defaultCommandName;
-    private class EmptyArgs : ArgumentsBase;
 
     private static string GetCommandName(Type t)
     {
@@ -232,7 +231,7 @@ public sealed class CommandRunner
         }
 
         if (argumentType == null)
-            return await command.ExecuteAsync(new EmptyArgs(), argsToParse);
+            return await command.ExecuteAsync(ArgumentsBase.Empty, argsToParse);
 
         string jsonFileName = Path.ChangeExtension(commandName, ".json");
 
@@ -251,7 +250,7 @@ public sealed class CommandRunner
 
     private async Task<int> ExecuteSingle(string[] argsToParse, Type argumentType, ICommand command)
     {
-        ArgumentsBase args = new EmptyArgs();
+        ArgumentsBase args = ArgumentsBase.Empty;
         ArgumentParser parser = new(argumentType, _log);
         args = parser.Fill(argsToParse);
 

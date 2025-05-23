@@ -10,6 +10,10 @@ namespace BookGen.Cli;
 /// </summary>
 public abstract class ArgumentsBase
 {
+    private class EmptyArgs : ArgumentsBase;
+
+    public static readonly ArgumentsBase Empty = new EmptyArgs();
+
     /// <summary>
     /// Performs validation of the settings.
     /// </summary>
