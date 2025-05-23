@@ -15,9 +15,9 @@ public abstract class Command : ICommand
     /// </summary>
     /// <param name="context">arguments passed to command</param>
     /// <returns>reurtn value to shell</returns>
-    public abstract int Execute(string[] context);
+    public abstract int Execute(IReadOnlyList<string> context);
 
-    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, string[] context)
+    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, IReadOnlyList<string> context)
     {
         return Task.FromResult(Execute(context));
     }

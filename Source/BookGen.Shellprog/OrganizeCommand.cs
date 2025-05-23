@@ -21,7 +21,7 @@ internal class OrganizeCommand : Command<OrganizeArguments>
         _log = log;
     }
 
-    public override int Execute(OrganizeArguments arguments, string[] context)
+    public override int Execute(OrganizeArguments arguments, IReadOnlyList<string> context)
     {
         try
         {

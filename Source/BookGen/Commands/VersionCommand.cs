@@ -22,7 +22,7 @@ internal sealed class VersionCommand : Command
         _programInfo = programInfo;
     }
 
-    public override int Execute(string[] context)
+    public override int Execute(IReadOnlyList<string> context)
     {
         AnsiConsole.WriteLine($"Version: {_programInfo.ProgramVersion}");
         AnsiConsole.WriteLine($"Config version: {_programInfo.ConfigVersion}");

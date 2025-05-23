@@ -43,7 +43,7 @@ internal class NewPageCommand : Command<NewPageCommand.Arguments>
         _programInfo = programInfo;
     }
 
-    public override int Execute(Arguments arguments, string[] context)
+    public override int Execute(Arguments arguments, IReadOnlyList<string> context)
     {
         _programInfo.EableVerboseLogging(arguments.Verbose);
         FrontMatter frontMatter = new()

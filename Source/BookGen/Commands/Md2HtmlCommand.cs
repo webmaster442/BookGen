@@ -100,7 +100,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         _templateEngine = new TemplateEngine();
     }
 
-    public override int Execute(Md2HtmlArguments arguments, string[] context)
+    public override int Execute(Md2HtmlArguments arguments, IReadOnlyList<string> context)
     {
         string md = ReadInputFiles(arguments.InputFiles);
 

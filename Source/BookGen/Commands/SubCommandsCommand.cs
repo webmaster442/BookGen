@@ -24,7 +24,7 @@ internal class SubCommandsCommand : Command
             .GroupBy(cmd => cmd[0]);
     }
 
-    public override int Execute(string[] context)
+    public override int Execute(IReadOnlyList<string> context)
     {
         Terminal.Header("Available sub commands:");
         foreach (var commandGroup in _commands)

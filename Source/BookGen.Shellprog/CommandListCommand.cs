@@ -20,7 +20,7 @@ internal class CommandListCommand : Command
         _nameProvider = nameProvider;
     }
 
-    public override int Execute(string[] context)
+    public override int Execute(IReadOnlyList<string> context)
     {
         AnsiConsole.WriteLine("BookGen Shell");
         AnsiConsole.WriteLine("Avaliable commands:");

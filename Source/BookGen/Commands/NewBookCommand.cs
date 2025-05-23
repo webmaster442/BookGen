@@ -24,7 +24,7 @@ internal sealed class NewBookCommand : AsyncCommand<BookGenArgumentBase>
         _programInfo = programInfo;
     }
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, string[] context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
         _programInfo.EableVerboseLogging(arguments.Verbose);
         _fileSystem.Scope = arguments.Directory;

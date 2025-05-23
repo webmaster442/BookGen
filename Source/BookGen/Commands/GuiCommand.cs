@@ -21,15 +21,34 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
         _commandRunnerProxy = commandRunnerProxy;
     }
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, string[] context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
+        AnsiConsole.Clear();
+
         _currentArgs = arguments;
         _fileSystem.Scope = arguments.Directory;
+
+        var figlet = new FigletText("BookGen");
+        figlet.Justification = Justify.Center;
+        AnsiConsole.Write(figlet);
+
+        var path = new TextPath(_fileSystem.Scope)
+            .RootColor(Color.Red)
+            .SeparatorColor(Color.Green)
+            .StemColor(Color.Blue)
+            .LeafColor(Color.Yellow);
+
+        path.Justification = Justify.Left;
+
+        AnsiConsole.Write("Work directory: ");
+        AnsiConsole.Write(path);
+        AnsiConsole.WriteLine();
+        AnsiConsole.WriteLine();
 
         MenuItem[] menu =
         [
             new(Emoji.Known.RedQuestionMark, "Validate current configuration", OnValidate),
-            new(Emoji.Known.SpiderWeb, "Start a webserver in curent directory", OnServe),
+            new(Emoji.Known.SpiderWeb, " Start a webserver in curent directory", OnServe),
             new(Emoji.Known.Door, "Exit", OnExit)
         ];
 

@@ -25,7 +25,7 @@ internal class ShellCommand : Command
         _commandNameProider = commandNameProvider;
     }
 
-    public override int Execute(string[] context)
+    public override int Execute(IReadOnlyList<string> context)
     {
         foreach (string? item in DoComplete(context))
         {
@@ -34,9 +34,9 @@ internal class ShellCommand : Command
         return ExitCodes.Succes;
     }
 
-    internal IEnumerable<string> DoComplete(string[] args)
+    internal IEnumerable<string> DoComplete(IReadOnlyList<string> args)
     {
-        if (args.Length == 0)
+        if (args.Count == 0)
             return _commandNameProider.CommandNames;
 
         string request = args[0] ?? "";

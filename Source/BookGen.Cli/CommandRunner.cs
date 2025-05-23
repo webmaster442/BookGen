@@ -213,7 +213,7 @@ public sealed class CommandRunner
             ?? throw new InvalidOperationException("Failed to load arguments from json");
     }
 
-    public async Task<int> RunCommand(string commandName, string[] argsToParse)
+    public async Task<int> RunCommand(string commandName, IReadOnlyList<string> argsToParse)
     {
         if (!_commands.TryGetValue(commandName, out Type? value))
         {
@@ -237,7 +237,7 @@ public sealed class CommandRunner
 
         string argsJson = Path.Combine(Environment.CurrentDirectory, jsonFileName);
 
-        if (argsToParse.Length < 1
+        if (argsToParse.Count < 1
             && File.Exists(argsJson))
         {
             _log.LogInformation("Loading arguments from {filename}...", jsonFileName);
@@ -248,7 +248,7 @@ public sealed class CommandRunner
         return await ExecuteSingle(argsToParse, argumentType, command);
     }
 
-    private async Task<int> ExecuteSingle(string[] argsToParse, Type argumentType, ICommand command)
+    private async Task<int> ExecuteSingle(IReadOnlyList<string> argsToParse, Type argumentType, ICommand command)
     {
         ArgumentsBase args = ArgumentsBase.Empty;
         ArgumentParser parser = new(argumentType, _log);

@@ -16,7 +16,7 @@ internal sealed class PromptCommand : GitCommandBase
     {
     }
 
-    public override int Execute(GitArguments arguments, string[] context)
+    public override int Execute(GitArguments arguments, IReadOnlyList<string> context)
     {
         if (!string.IsNullOrEmpty(arguments.WorkDirectory)
             && TestIfGitDir(arguments.WorkDirectory))

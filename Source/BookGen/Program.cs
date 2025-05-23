@@ -55,12 +55,13 @@ ioc.Register<IReadOnlyFileSystem, FileSystem>();
 
 ioc.Build();
 
-CommandRunner runner = new CommandRunner(ioc, logger, new CommandRunnerSettings
+CommandRunner runner = new(ioc, logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,
     ExcptionExitCode = -1,
     PlatformNotSupportedExitCode = 4,
+    EnableUtf8Output = true,
 });
 
 runner.ExceptionHandlerDelegate = OnException;

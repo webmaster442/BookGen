@@ -26,7 +26,7 @@ internal class Math2SvgCommand : AsyncCommand<InputOutputArguments>
         _fileSystem = fileSystem;
     }
 
-    public override async Task<int> ExecuteAsync(InputOutputArguments arguments, string[] context)
+    public override async Task<int> ExecuteAsync(InputOutputArguments arguments, IReadOnlyList<string> context)
     {
         var input = File.ReadAllLines(arguments.InputFile);
 

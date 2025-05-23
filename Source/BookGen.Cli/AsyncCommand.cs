@@ -10,9 +10,9 @@ namespace BookGen.Cli;
 /// </summary>
 public abstract class AsyncCommand : ICommand
 {
-    public abstract Task<int> ExecuteAsync(string[] context);
+    public abstract Task<int> ExecuteAsync(IReadOnlyList<string> context);
 
-    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, string[] context)
+    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, IReadOnlyList<string> context)
     {
         return ExecuteAsync(context);
     }

@@ -12,9 +12,9 @@ namespace BookGen.Cli;
 public abstract class AsyncCommand<TArguments> : ICommand
     where TArguments : ArgumentsBase
 {
-    public abstract Task<int> ExecuteAsync(TArguments arguments, string[] context);
+    public abstract Task<int> ExecuteAsync(TArguments arguments, IReadOnlyList<string> context);
 
-    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, string[] context)
+    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, IReadOnlyList<string> context)
     {
         return ExecuteAsync((TArguments)arguments, context);
     }

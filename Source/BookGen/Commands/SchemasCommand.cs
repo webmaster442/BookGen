@@ -32,7 +32,7 @@ internal class SchemasCommand : Command<BookGenArgumentBase>
         };
     }
 
-    public override int Execute(BookGenArgumentBase arguments, string[] context)
+    public override int Execute(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
         MarkdownBuilder markdownBuilder = new();
 

@@ -20,16 +20,16 @@ internal class ConfigCommand : Command
         _logger = logger;
     }
 
-    public override int Execute(string[] context)
+    public override int Execute(IReadOnlyList<string> context)
     {
         BookGenAppSettings appSettings = new();
 
         var data = typeof(BookGenAppSettings).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-        if (context.Length == 0)
+        if (context.Count == 0)
             return DisplayConfig(data, appSettings);
 
-        if (context.Length == 1)
+        if (context.Count == 1)
             return DisplaySpecific(data, appSettings, context[0]);
 
         appSettings.Set(context[1], context[0]);

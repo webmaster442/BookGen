@@ -44,9 +44,9 @@ internal class EditCommand : Command
         _appSetting = new();
     }
 
-    public override int Execute(string[] context)
+    public override int Execute(IReadOnlyList<string> context)
     {
-        if (context.Length != 1)
+        if (context.Count != 1)
         {
             _log.LogWarning("No file name given");
             return ExitCodes.ArgumentsError;

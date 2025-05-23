@@ -35,7 +35,7 @@ internal class UT_CommandRunner
             Dependency = spy;
         }
 
-        public override int Execute(Settings arguments, string[] context)
+        public override int Execute(Settings arguments, IReadOnlyList<string> context)
         {
             return arguments.Value * Dependency.Value;
         }

@@ -47,7 +47,7 @@ internal sealed class JsonArgsCommand : Command<JsonArgsCommand.JsonArgsArgument
         _programInfo = programInfo;
     }
 
-    public override int Execute(JsonArgsArguments arguments, string[] context)
+    public override int Execute(JsonArgsArguments arguments, IReadOnlyList<string> context)
     {
         _programInfo.EnableVerboseLogingIfRequested(arguments);
 

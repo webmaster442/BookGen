@@ -16,12 +16,12 @@ namespace BookGen.Shellprog;
 [CommandName("git-complete")]
 internal sealed class GitAutoCompleteCommand : Command
 {
-    public override int Execute(string[] context)
+    public override int Execute(IReadOnlyList<string> context)
     {
         var folder = Environment.CurrentDirectory;
         var items = GitCommandProvider.GetGitCommands(folder).Order().ToArray();
 
-        if (context.Length == 2
+        if (context.Count == 2
             && int.TryParse(context[0], out int index)
             && !string.IsNullOrEmpty(context[1]))
         {

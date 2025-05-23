@@ -18,9 +18,9 @@ internal class HelpCommand : Command
         _commandNames = [.. runnerProxy.CommandNames];
     }
 
-    public override int Execute(string[] context)
+    public override int Execute(IReadOnlyList<string> context)
     {
-        if (context.Length == 0) 
+        if (context.Count == 0) 
         {
             HelpRenderer.RenderHelp(_helpProvider.GetCommandHelp("help"));
             return ExitCodes.Succes;
