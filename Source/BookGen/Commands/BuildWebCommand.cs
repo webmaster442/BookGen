@@ -10,7 +10,11 @@ namespace BookGen.Commands;
 [CommandName("buildweb")]
 internal class BuildWebCommand : BuildCommandBase
 {
-    public BuildWebCommand(IWritableFileSystem soruce, IWritableFileSystem target, ILogger logger) : base(soruce, target, logger)
+    public BuildWebCommand(IWritableFileSystem soruce,
+                           IWritableFileSystem target,
+                           ILogger logger,
+                           IAssetSource assetSource)
+        : base(soruce, target, logger, assetSource)
     {
     }
 

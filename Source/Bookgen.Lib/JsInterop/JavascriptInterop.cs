@@ -34,6 +34,9 @@ public abstract class JavascriptInterop : IDisposable
 
     protected void Execute(string code)
     {
+        if (_disposed)
+            throw new ObjectDisposedException(nameof(_engine));
+
         _engine.Execute(code);
     }
 

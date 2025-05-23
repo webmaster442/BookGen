@@ -20,6 +20,10 @@
     "Schemas": {
       "commandName": "Project",
       "commandLineArgs": "schemas"
+    },
+    "md2html": {
+      "commandName": "Project",
+      "commandLineArgs": "md2html -i schemas.md -o output.html"
     }
   }
 }

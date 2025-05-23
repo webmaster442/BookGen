@@ -49,6 +49,7 @@ ioc.RegisterSingleton(logger);
 ioc.RegisterSingleton(info);
 ioc.RegisterSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.RegisterSingleton<IMediator>(mediator);
+ioc.RegisterSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
 ioc.RegisterSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
 ioc.Register<IWritableFileSystem, FileSystem>();
 ioc.Register<IReadOnlyFileSystem, FileSystem>();

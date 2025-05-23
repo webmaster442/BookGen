@@ -10,7 +10,11 @@ namespace BookGen.Commands;
 [CommandName("buildwp")]
 internal class BuildWordpressCommand : BuildCommandBase
 {
-    public BuildWordpressCommand(IWritableFileSystem soruce, IWritableFileSystem target, ILogger logger) : base(soruce, target, logger)
+    public BuildWordpressCommand(IWritableFileSystem soruce,
+                                 IWritableFileSystem target,
+                                 ILogger logger,
+                                 IAssetSource assetSource)
+        : base(soruce, target, logger, assetSource)
     {
     }
 

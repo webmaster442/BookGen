@@ -10,7 +10,11 @@ namespace BookGen.Commands;
 [CommandName("buildprint")]
 internal class BuildPrintCommand : BuildCommandBase
 {
-    public BuildPrintCommand(IWritableFileSystem soruce, IWritableFileSystem target, ILogger logger) : base(soruce, target, logger)
+    public BuildPrintCommand(IWritableFileSystem soruce,
+                             IWritableFileSystem target,
+                             ILogger logger,
+                             IAssetSource assetSource)
+        : base(soruce, target, logger, assetSource)
     {
     }
 

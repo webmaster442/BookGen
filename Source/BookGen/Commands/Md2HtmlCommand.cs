@@ -8,6 +8,7 @@ using System.Text;
 using Bookgen.Lib;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
+using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
 
@@ -126,7 +127,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             DeleteFirstH1 = false,
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
-            PrismJsInterop = null
+            PrismJsInterop = new PrismJsInterop(_assetSource)
         };
 
         using var mdToHtml = new MarkdownToHtml(imgService, settings);
