@@ -27,7 +27,7 @@ namespace BookGen
                 shellExe = pwshPath;
             }
 
-            string shellScript = Path.Combine(AppContext.BaseDirectory, Constants.DataFolder, "BookGenShell.ps1");
+            string shellScript = Path.Combine(AppContext.BaseDirectory, Constants.AppFolder, "BookGenShell.ps1");
 
             ExceptionHandler.Try(() =>
             {
