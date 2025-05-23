@@ -12,11 +12,13 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _fileSystem;
     private readonly ICommandRunnerProxy _commandRunnerProxy;
+    private readonly CommandArgsBuilder _argsBuilder;
 
     private BookGenArgumentBase? _currentArgs;
 
     public GuiCommand(IWritableFileSystem writableFileSystem, ICommandRunnerProxy commandRunnerProxy)
     {
+        _argsBuilder = new();
         _fileSystem = writableFileSystem;
         _commandRunnerProxy = commandRunnerProxy;
     }
@@ -67,7 +69,7 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
         if (_currentArgs == null)
             throw new InvalidOperationException("Command not initialized");
 
-        return await _commandRunnerProxy.RunCommand("validate", ["-d", _currentArgs.Directory]);
+        return await _commandRunnerProxy.RunCommand("validate", _argsBuilder.New().Add(_currentArgs).Build());
     }
 
     private async Task<int> OnServe()
@@ -75,7 +77,7 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
         if (_currentArgs == null)
             throw new InvalidOperationException("Command not initialized");
 
-        return await _commandRunnerProxy.RunCommand("serve", ["-d", _currentArgs.Directory]);
+        return await _commandRunnerProxy.RunCommand("serve", _argsBuilder.New().Add(_currentArgs).Build());
     }
     private Task<int> OnExit()
     {

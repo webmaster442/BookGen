@@ -11,5 +11,5 @@ public interface ICommandRunnerProxy
     IEnumerable<string> CommandNames { get; }
 
     string[] GetAutoCompleteItems(string commandName);
-    Task<int> RunCommand(string commandName, string[] argsToParse);
+    Task<int> RunCommand(string commandName, IReadOnlyList<string> argsToParse);
 }

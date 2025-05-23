@@ -9,7 +9,7 @@ public sealed class CommandRunnerProxy : ICommandRunnerProxy
 {
     private IEnumerable<string>? _commandNames;
     private Func<string, string[]>? _autoComplete;
-    private Func<string, string[], Task<int>>? _runCommand;
+    private Func<string, IReadOnlyList<string>, Task<int>>? _runCommand;
 
     public void ConfigureWith(CommandRunner runner)
     {
@@ -25,7 +25,7 @@ public sealed class CommandRunnerProxy : ICommandRunnerProxy
         => _autoComplete?.Invoke(commandName)
         ?? throw new InvalidOperationException("Provider hasn't been setup correctly");
 
-    public async Task<int> RunCommand(string commandName, string[] argsToParse)
+    public async Task<int> RunCommand(string commandName, IReadOnlyList<string> argsToParse)
     {
         if (_runCommand == null)
             throw new InvalidOperationException("Provider hasn't been setup correctly");
