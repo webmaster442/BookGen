@@ -12,7 +12,7 @@ $ErrorActionPreference = "Stop"
 
 clear
 
-cd ..
+cd .. # /
 
 Write-Host "Updating Getting started doc"
 Show-Markdown getting-started.md > Source\BookGen.Contents\getting-started.mdr
@@ -28,10 +28,13 @@ cd bin\publish\app
 .\BookGen.exe Md2HTML -i ..\..\..\Commands.md -o ..\Commands.html -t "BookGen Commands"
 del schemas.md
 
-cd ..\..\..\Bootstrappers
+cd ..\..\..\Bootstrappers # /bootstrappers
 dotnet build -c Release
-cd ..
+cd .. # /
 copy-item bin\bootstaper\Release\BookGen.exe bin\Publish
+copy-item bin\bootstaper\Release\Bookgen.Win.dll bin\Publish
+
+cd bin\publish # /bin/publish
 
 Write-Host "Getting powershell core..."
 Invoke-WebRequest -Uri $psCoreUrl -OutFile pwsh.zip
@@ -40,7 +43,7 @@ Remove-Item pwsh.zip
 
 Write-Host "Getting Node.js..."
 Invoke-WebRequest -Uri $nodeUrl -OutFile node.zip
-Expand-Archive -Path node.zip -DestinationPath data
+Expand-Archive -Path node.zip -DestinationPath app
 Remove-Item node.zip
 
-cd ..\..\..\scripts
+cd ..\..\scripts
