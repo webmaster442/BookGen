@@ -22,10 +22,6 @@ package manager or download from: https://www.html-tidy.org/
 
 `bookgen-info` - Displays this text
 
-`launcher` - Opens the bookgen launcher in the current working directory
-
-`www` - Web starting util for seaching
-
 `organize` - Organize files in the current working directory
 
 # Common BookGen commands
@@ -33,7 +29,5 @@ package manager or download from: https://www.html-tidy.org/
 `BookGen md2html -i input.md -o out.html` - Convert the input.md file to out.html
 
 `BookGen SubCommands` - Lists all available subcommands
-
-`BookGen Init` - Initialize folder as a new bookgen project
 
 `BookGen Gui` - Start in terminal gui mode. Only available, if folder contains a BookGen project.

@@ -1,3 +1,10 @@
+# 2025. 05. 
+* Change: Complete rework of program
+* Change: Removed possibility of generating e-pub, since code was untested
+* Change: Web gui removed
+* Change: Removed www subcommand
+* Change: Removed a lot of subcommands, that were a bit overkill
+
 # 2025. 01. 19
 
 * New: Based on .NET 9

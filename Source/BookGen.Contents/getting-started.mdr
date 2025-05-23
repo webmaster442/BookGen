@@ -20,10 +20,6 @@ Note: tidy is only bundled with the Windows release. On linux install it with yo
 
 [48;2;155;155;155;38;2;30;30;30mbookgen-info[0m - Displays this text
 
-[48;2;155;155;155;38;2;30;30;30mlauncher[0m - Opens the bookgen launcher in the current working directory
-
-[48;2;155;155;155;38;2;30;30;30mwww[0m - Web starting util for seaching
-
 [48;2;155;155;155;38;2;30;30;30morganize[0m - Organize files in the current working directory
 
 [7mCommon BookGen commands[0m
@@ -31,8 +27,6 @@ Note: tidy is only bundled with the Windows release. On linux install it with yo
 [48;2;155;155;155;38;2;30;30;30mBookGen md2html -i input.md -o out.html[0m - Convert the input.md file to out.html
 
 [48;2;155;155;155;38;2;30;30;30mBookGen SubCommands[0m - Lists all available subcommands
-
-[48;2;155;155;155;38;2;30;30;30mBookGen Init[0m - Initialize folder as a new bookgen project
 
 [48;2;155;155;155;38;2;30;30;30mBookGen Gui[0m - Start in terminal gui mode. Only available, if folder contains a BookGen project.
 

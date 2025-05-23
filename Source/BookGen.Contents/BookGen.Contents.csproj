@@ -17,6 +17,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <None Update="assets.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="autorun.inf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -27,30 +30,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <UsingTask TaskName="ZipDirectory" TaskFactory="CodeTaskFactory" AssemblyName="Microsoft.Build.Tasks.Core">
-    <ParameterGroup>
-      <SourceFolder ParameterType="System.String" Required="true" />
-      <OutputZip ParameterType="System.String" Required="true" />
-    </ParameterGroup>
-    <Task>
-      <Reference Include="System.IO.Compression" />
-      <Reference Include="System.IO.Compression.FileSystem" />
-      <Using Namespace="System.IO" />
-      <Using Namespace="System.IO.Compression" />
-      <Code Type="Fragment" Language="cs">
-        <![CDATA[
-          if (File.Exists(OutputZip))
-            File.Delete(OutputZip);
-          ZipFile.CreateFromDirectory(SourceFolder, OutputZip);
-        ]]>
-      </Code>
-    </Task>
-  </UsingTask>
-
-  <Target Name="ZipDirectory" AfterTargets="Build">
-    <ZipDirectory SourceFolder="..\..\BundledAssets" OutputZip="..\..\bin\$(Configuration)\assets.zip" />
-    <ZipDirectory SourceFolder="..\..\BundledAssets" OutputZip="..\..\bin\Test\$(Configuration)\assets.zip" />
-  </Target>
   
 </Project>
