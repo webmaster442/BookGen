@@ -1,4 +1,5 @@
-﻿using Bookgen.Lib.ImageService;
+﻿using Bookgen.Lib.Domain;
+using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
@@ -9,9 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
-internal sealed class RenderPages : IPipeLineStep<StaticWebState>
+internal sealed class RenderStaticPages : IPipeLineStep<StaticWebState>
 {
-    public RenderPages(StaticWebState state)
+    public RenderStaticPages(StaticWebState state)
     {
         State = state;
     }
@@ -40,13 +41,16 @@ internal sealed class RenderPages : IPipeLineStep<StaticWebState>
         {
             if (token.IsCancellationRequested) return;
 
-            var sourceData = environment.Source.GetSourceFile(file, logger);
-            var tempate = await GetTemplate(sourceData.FrontMatter.Template, environment);
+            SourceFile sourceData = environment.Source.GetSourceFile(file, logger);
+            string tempate = await environment.GetTemplate(frontMatterTemplate: sourceData.FrontMatter.Template,
+                                                           fallbackTemplate: BundledAssets.TemplateStaticWeb,
+                                                           defaultTemplateSelector: cfg => cfg.StaticWebsiteConfig.DefaultTempate);
 
             var viewData = new ViewData
             {
                 Content = markdown.RenderMarkdownToHtml(sourceData.Content),
                 Title = sourceData.FrontMatter.Title,
+                AdditionalData = sourceData.FrontMatter.Data ?? new(),
             };
 
             string finalContent = renderer.Render(tempate, viewData);
@@ -57,20 +61,5 @@ internal sealed class RenderPages : IPipeLineStep<StaticWebState>
         });
 
         return StepResult.Success;
-    }
-
-    private static async Task<string> GetTemplate(string? frontMatterTemplate, IBookEnvironment environment)
-    {
-        if (!string.IsNullOrEmpty(frontMatterTemplate))
-        {
-            return await environment.Source.ReadAllTextAsync(frontMatterTemplate);
-        }
-
-        if (!string.IsNullOrEmpty(environment.Configuration.StaticWebsiteConfig.DefaultTempate))
-        {
-            return await environment.Source.ReadAllTextAsync(environment.Configuration.StaticWebsiteConfig.DefaultTempate);
-        }
-
-        return environment.GetAsset(BundledAssets.TemplateStaticWeb);
     }
 }

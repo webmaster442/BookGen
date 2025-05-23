@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
+using Markdig.Extensions.TaskLists;
+
 namespace Bookgen.Lib.Templates;
 
 public sealed partial class TemplateEngine
@@ -29,12 +31,17 @@ public sealed partial class TemplateEngine
     [GeneratedRegex(@"\{\{([\w-\(\)\""\, -_])+\}\}")]
     private static partial Regex TemplatePartRegex();
 
-
     public string Render<TData>(string template, TData viewData) where TData : ViewData
+    {
+        using var stringWriter = new StringWriter(new StringBuilder(template.Length + viewData.Content.Length + viewData.Title.Length));
+        Render(stringWriter, template, viewData);
+        return stringWriter.ToString();
+    }
+
+    public void Render<TData>(TextWriter target, string template, TData viewData) where TData : ViewData
     {
         var dataTable = viewData.GetDataTable();
 
-        StringBuilder rendered = new(template.Length + viewData.Content.Length + viewData.Title.Length);
         StringBuilder lineBuffer = new(120);
 
         using StringReader reader = new(template);
@@ -46,11 +53,10 @@ public sealed partial class TemplateEngine
 
             if (templatePartsInLine.Count < 1)
             {
-                rendered.AppendLine(line);
+                target.WriteLine(line);
                 continue;
             }
 
-            
             int lastIndex = 0;
             lineBuffer.Clear();
 
@@ -77,11 +83,9 @@ public sealed partial class TemplateEngine
 
             if (lineBuffer.Length > 0)
             {
-                rendered.Append(lineBuffer);
-                rendered.AppendLine();
+                target.Write(lineBuffer);
+                target.WriteLine();
             }
         }
-
-        return rendered.ToString();
     }
 }

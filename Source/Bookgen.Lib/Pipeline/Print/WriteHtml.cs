@@ -1,0 +1,38 @@
+﻿using Bookgen.Lib.Templates;
+
+using Microsoft.Extensions.Logging;
+
+namespace Bookgen.Lib.Pipeline.Print;
+
+internal sealed class WriteHtml : IPipeLineStep<PrintState>
+{
+    public WriteHtml(PrintState state)
+    {
+        State = state;
+    }
+
+    public PrintState State { get; }
+
+    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Writing print html...");
+
+        string tempate = await environment.GetTemplate(frontMatterTemplate: null,
+                                               fallbackTemplate: BundledAssets.TemplatePrint,
+                                               defaultTemplateSelector: cfg => cfg.PrintConfig.DefaultTempate);
+
+        var renderer = new TemplateEngine();
+
+        var viewData = new ViewData
+        {
+            Content = State.Buffer.ToString(),
+            Title = environment.Configuration.BookTitle,
+            AdditionalData = new(),
+        };
+
+        using var writer = environment.Output.CreateTextWriter("print.html");
+        renderer.Render(writer, tempate, viewData);
+
+        return StepResult.Success;
+    }
+}

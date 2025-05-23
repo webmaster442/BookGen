@@ -1,4 +1,5 @@
-﻿using Bookgen.Lib.Pipeline.StaticWebsite;
+﻿using Bookgen.Lib.Pipeline.Print;
+using Bookgen.Lib.Pipeline.StaticWebsite;
 using Bookgen.Lib.Pipeline.Wordpress;
 
 using Microsoft.Extensions.Logging;
@@ -22,14 +23,25 @@ public abstract class Pipeline
         return true;
     }
 
+    public static Pipeline CratePrintPipeLine()
+    {
+        var state = new PrintState();
+
+        return new PipeLineWithState<PrintState>(
+            new RenderPages(state),
+            new WriteHtml(state),
+            new WriteXHtml(state)
+        );
+    }
+
     public static Pipeline CreateWebPipeLine()
     {
         var state = new StaticWebState();
 
-        return new SimplePipeLine(
+        return new PipeLineWithState<StaticWebState>(
             new CopyAssets(state),
             new ExtractTemplateAssets(state),
-            new RenderPages(state),
+            new RenderStaticPages(state),
             new CreateEmptyIndexPagesForFolders(state)
         );
     }
