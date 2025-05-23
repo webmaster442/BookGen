@@ -48,7 +48,7 @@ body {
 }
 
 main {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0px auto;
     padding: 2rem
 }
@@ -128,7 +128,7 @@ pre:hover {
 
 /*Aside nav*/
 .float {
-    position: absolute;
+    position: fixed;
     top: 10px;
     right: 10px;
     width: 52px;
