@@ -1,0 +1,30 @@
+﻿using BookGen.Vfs;
+
+using Microsoft.Extensions.Logging;
+
+namespace Bookgen.Lib.Migration;
+
+internal sealed class LoadLegacyConfig : IMigrationStep
+{
+    public async Task<bool> ExecuteAsync(IWritableFileSystem foler, MigrationState state, ILogger logger)
+    {
+        var file = Path.Combine(MigrationState.LegacyConfigFolder, MigrationState.LegacyConfigFileName);
+
+        if (!foler.FileExists(file))
+        {
+            logger.LogWarning("Legacy config file not found");
+            return false;
+        }
+
+        var config = await foler.DeserializeAsync<Domain.IO.Legacy.Config>(file);
+        if (config == null)
+        {
+            logger.LogError("Failed to load legacy config file");
+            return false;
+        }
+
+        state.LegacyConfig = config;
+
+        return true;
+    }
+}
