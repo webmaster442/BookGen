@@ -14,9 +14,9 @@ namespace Bookgen.Lib.Internals;
 
 internal static class IReadOnlyFileSystemExtensions
 {
-    public static SourceFile GetSourceFile(this IReadOnlyFileSystem folder, string file, ILogger logger)
+    public static async Task<SourceFile> GetSourceFile(this IReadOnlyFileSystem folder, string file, ILogger logger)
     {
-        (string content, FrontMatter frontMatter) = GetFileContents(folder, file, logger);
+        (string content, FrontMatter frontMatter) = await GetFileContents(folder, file, logger);
 
         return new SourceFile
         {
@@ -27,7 +27,7 @@ internal static class IReadOnlyFileSystemExtensions
         };
     }
 
-    private static (string content, FrontMatter frontMatter) GetFileContents(IReadOnlyFileSystem folder, string file, ILogger logger)
+    private static async Task<(string content, FrontMatter frontMatter)> GetFileContents(IReadOnlyFileSystem folder, string file, ILogger logger)
     {
         IDeserializer yamlDeserializer = YamlSerializerFactory.CreateDeserializer();
         StringBuilder content = new StringBuilder();
@@ -37,7 +37,7 @@ internal static class IReadOnlyFileSystemExtensions
 
         string? line;
         bool inYaml = false;
-        while ((line = reader.ReadLine()) != null)
+        while ((line = await reader.ReadLineAsync()) != null)
         {
             if (line == "---")
             {

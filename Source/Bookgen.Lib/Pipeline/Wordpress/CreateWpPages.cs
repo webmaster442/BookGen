@@ -109,7 +109,7 @@ internal sealed class CreateWpPages : IPipeLineStep<WpState>
         return result;
     }
 
-    public Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Creating pages...");
 
@@ -162,10 +162,10 @@ internal sealed class CreateWpPages : IPipeLineStep<WpState>
                 if (cancellationToken.IsCancellationRequested)
                 {
                     logger.LogWarning("Cancellation requested. Stoping...");
-                    return Task.FromResult(StepResult.Failure);
+                    return StepResult.Failure;
                 }
 
-                var sourceData = environment.Source.GetSourceFile(file, logger);
+                var sourceData = await environment.Source.GetSourceFile(file, logger);
                 string subpath = $"{environment.Configuration.WordpressConfig.DeployHost}{EncodeTitle(chapter.Title)}/{EncodeTitle(sourceData.FrontMatter.Title)}";
                 string content = markdown.RenderMarkdownToHtml(sourceData.Content);
 
@@ -185,6 +185,6 @@ internal sealed class CreateWpPages : IPipeLineStep<WpState>
             ++mainorder;
         }
 
-        return Task.FromResult(StepResult.Success);
+        return StepResult.Success;
     }
 }

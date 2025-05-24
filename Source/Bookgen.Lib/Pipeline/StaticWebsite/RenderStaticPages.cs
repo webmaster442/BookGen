@@ -41,7 +41,8 @@ internal sealed class RenderStaticPages : IPipeLineStep<StaticWebState>
         {
             if (token.IsCancellationRequested) return;
 
-            SourceFile sourceData = environment.Source.GetSourceFile(file, logger);
+            SourceFile sourceData = State.SourceFiles[file];
+
             string tempate = await environment.GetTemplate(frontMatterTemplate: sourceData.FrontMatter.Template,
                                                            fallbackTemplate: BundledAssets.TemplateStaticWeb,
                                                            defaultTemplateSelector: cfg => cfg.StaticWebsiteConfig.DefaultTempate);

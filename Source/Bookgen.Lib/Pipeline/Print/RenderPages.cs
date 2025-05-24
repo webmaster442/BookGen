@@ -17,7 +17,7 @@ internal sealed class RenderPages : IPipeLineStep<PrintState>
 
     public PrintState State { get; }
 
-    public Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);
@@ -45,18 +45,18 @@ internal sealed class RenderPages : IPipeLineStep<PrintState>
                 if (cancellationToken.IsCancellationRequested)
                 {
                     logger.LogWarning("Cancellation requested. Stoping...");
-                    return Task.FromResult(StepResult.Failure);
+                    return StepResult.Failure;
                 }
 
                 logger.LogDebug("Rendering {file}...", page);
 
-                SourceFile sourceData = environment.Source.GetSourceFile(page, logger);
+                SourceFile sourceData = await environment.Source.GetSourceFile(page, logger);
 
                 State.Buffer.Append(markdown.RenderMarkdownToHtml(sourceData.Content));
                 State.Buffer.AppendLine("</section>");
             }
         }
 
-        return Task.FromResult(StepResult.Success);
+        return StepResult.Success;
     }
 }

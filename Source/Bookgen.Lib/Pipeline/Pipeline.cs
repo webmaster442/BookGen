@@ -41,6 +41,7 @@ public abstract class Pipeline
         return new PipeLineWithState<StaticWebState>(
             new CopyAssets(state),
             new ExtractTemplateAssets(state),
+            new ReadInFiles(state),
             new RenderStaticPages(state),
             new CreateEmptyIndexPagesForFolders(state)
         );
