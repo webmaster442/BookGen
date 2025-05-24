@@ -1,0 +1,8 @@
+Package: BookGen
+Version: 2024.02.04
+Maintainer: webmaster442
+Architecture: amd64
+Description: A C# book generator, similar to GitBook, but better
+Depends: fontconfig, ttf-mscorefonts-installer, tidy
+Homepage: https://github.com/webmaster442/BookGen
+Website: https://github.com/webmaster442/BookGen
