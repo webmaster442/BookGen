@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Bookgen.Win/Bookgen.Win.csproj" />
+  <Project Path="BookGen/BookGen.csproj" />
+</Solution>
