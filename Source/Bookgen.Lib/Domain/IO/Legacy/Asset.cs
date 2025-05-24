@@ -3,38 +3,32 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Interfaces.Configuration;
+namespace Bookgen.Lib.Domain.IO.Legacy;
 
-namespace BookGen.Domain.Configuration
+public sealed class Asset
 {
-    public sealed class Asset : IReadOnlyAsset
+    public string Source
     {
-        [Doc("path relative to input directory", true)]
-        public string Source
-        {
-            get;
-            set;
-        }
+        get;
+        set;
+    }
 
-        [Doc("path relative to output directory", true)]
-        public string Target
-        {
-            get;
-            set;
-        }
+    public string Target
+    {
+        get;
+        set;
+    }
 
-        [Doc("If set to true, then the asset is tried to be minified. Works for html, css and js files")]
-        public bool Minify
-        {
-            get;
-            set;
-        }
+    public bool Minify
+    {
+        get;
+        set;
+    }
 
-        public Asset()
-        {
-            Source = string.Empty;
-            Target = string.Empty;
-            Minify = false;
-        }
+    public Asset()
+    {
+        Source = string.Empty;
+        Target = string.Empty;
+        Minify = false;
     }
 }

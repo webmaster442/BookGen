@@ -3,38 +3,33 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Interfaces.Configuration;
 
-namespace BookGen.Domain.Configuration
+namespace Bookgen.Lib.Domain.IO.Legacy;
+
+public sealed class Metadata
 {
-    public sealed class Metadata : IReadOnlyMetadata
+    public string Author
     {
-        [Doc("Author name")]
-        public string Author
-        {
-            get;
-            set;
-        }
+        get;
+        set;
+    }
 
-        [Doc("Cover image for social sites, etc..")]
-        public string CoverImage
-        {
-            get;
-            set;
-        }
+    public string CoverImage
+    {
+        get;
+        set;
+    }
 
-        [Doc("Title")]
-        public string Title
-        {
-            get;
-            set;
-        }
+    public string Title
+    {
+        get;
+        set;
+    }
 
-        public Metadata()
-        {
-            Author = "Place author name here";
-            CoverImage = "Place cover here";
-            Title = "Book title";
-        }
+    public Metadata()
+    {
+        Author = "Place author name here";
+        CoverImage = "Place cover here";
+        Title = "Book title";
     }
 }
