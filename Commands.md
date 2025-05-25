@@ -256,6 +256,22 @@ Arguments:
 
 Note: This module to work requires internet connection.
 
+# Migrate
+
+Migrate an old Bookgen book to the new format.
+
+`BookGen Migrate [-v] [-d [directory]]`
+`BookGen Migrate [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
 # Md2HTML
 
 Renders a single markdown file to an HTML file
