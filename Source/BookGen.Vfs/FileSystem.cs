@@ -84,19 +84,19 @@ public sealed class FileSystem : IReadOnlyFileSystem, IWritableFileSystem
     public Stream CreateWriteStream(string path)
     {
         var actualPath = GetAndValidateFullNameInScope(path);
-        return File.Create(path);
+        return File.Create(actualPath);
     }
 
     public void WriteAllText(string path, string content)
     {
         var actualPath = GetAndValidateFullNameInScope(path);
-        File.WriteAllText(path, content);
+        File.WriteAllText(actualPath, content);
     }
 
     public async Task WriteAllTextAsync(string path, string content)
     {
         var actualPath = GetAndValidateFullNameInScope(path);
-        await File.WriteAllTextAsync(path, content);
+        await File.WriteAllTextAsync(actualPath, content);
     }
 
     public void Delete(string path)

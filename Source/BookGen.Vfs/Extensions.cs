@@ -1,7 +1,9 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Schema;
+﻿using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
+
+using BookGen.Vfs.Internals;
 
 namespace BookGen.Vfs;
 
@@ -9,11 +11,12 @@ public static class Extensions
 {
     private readonly static JsonSerializerOptions _options = new JsonSerializerOptions
     {
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
         WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         Converters =
         {
-            new JsonStringEnumConverter()
+            new JsonStringEnumConverter(),
+            new CultureInfoConverter()
         }
     };
 

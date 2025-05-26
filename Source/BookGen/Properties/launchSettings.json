@@ -24,6 +24,10 @@
     "md2html": {
       "commandName": "Project",
       "commandLineArgs": "md2html -i schemas.md -o output.html"
+    },
+    "Migrate": {
+      "commandName": "Project",
+      "commandLineArgs": "migrate -d g:\\HelloCsharp\\C\\"
     }
   }
 }
