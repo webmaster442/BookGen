@@ -1,4 +1,6 @@
 ﻿
+using System.Diagnostics;
+
 using BookGen;
 using BookGen.Cli;
 using BookGen.Cli.Mediator;
@@ -76,7 +78,15 @@ runnerProxy.ConfigureWith(runner);
 HelpProvider helpProvider = new(logger, runnerProxy);
 helpProvider.VerifyHelpData();
 
-return await runner.Run(argumentList);
+Stopwatch stopwatch = Stopwatch.StartNew();
+
+int exitCode = await runner.Run(argumentList);
+
+stopwatch.Stop();
+
+logger.LogInformation("Execution finished in {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
+
+return exitCode;
 
 void OnException(Exception exception)
 {
