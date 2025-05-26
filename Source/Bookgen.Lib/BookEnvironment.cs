@@ -85,7 +85,7 @@ public sealed class BookEnvironment : IBookEnvironment
         if (config.VersionTag < defaultConfig.VersionTag)
         {
             _source.MoveFile(FileNameConstants.ConfigFile, FileNameConstants.ConfigFile + ".bak");
-            await _source.SerializeAsync(FileNameConstants.ConfigFile, config);
+            await _source.SerializeAsync(FileNameConstants.ConfigFile, config, writeSchema: true);
             status.Add($"Config from version {config.VersionTag} was updated to {defaultConfig.VersionTag}. Check settings and re-execute");
             return status;
         }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 using Bookgen.Lib.Domain.Validation;
 
@@ -7,6 +8,9 @@ namespace Bookgen.Lib.Domain.IO.Configuration;
 
 public sealed class Config
 {
+    [JsonPropertyName("$schema")]
+    public string Schema => "bookgen.schema.json";
+
     [Description("Configuration version")]
     [Range(0, int.MaxValue)]
     public int VersionTag { get; init; }

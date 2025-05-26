@@ -47,7 +47,7 @@ internal sealed class MigrateConfig : IMigrationStep
             }
         };
 
-        await foler.SerializeAsync(FileNameConstants.ConfigFile, config);
+        await foler.SerializeAsync(FileNameConstants.ConfigFile, config, writeSchema: true);
 
         return true;
     }

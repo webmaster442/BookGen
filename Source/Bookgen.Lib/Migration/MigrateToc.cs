@@ -28,7 +28,7 @@ internal sealed class MigrateToc : IMigrationStep
             Chapters = chapters.ToArray()
         };
 
-        await foler.SerializeAsync(FileNameConstants.TableOfContents, tableOfContents);
+        await foler.SerializeAsync(FileNameConstants.TableOfContents, tableOfContents, writeSchema: true);
 
         return true;
     }

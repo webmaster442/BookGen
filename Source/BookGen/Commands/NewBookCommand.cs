@@ -36,10 +36,10 @@ internal sealed class NewBookCommand : AsyncCommand<BookGenArgumentBase>
         }
 
         _logger.LogInformation("Creating {config}...", FileNameConstants.ConfigFile);
-        await _fileSystem.SerializeAsync(FileNameConstants.ConfigFile, new Config());
+        await _fileSystem.SerializeAsync(FileNameConstants.ConfigFile, new Config(), writeSchema: true);
 
         _logger.LogInformation("Creating {toc}...", FileNameConstants.TableOfContents);
-        await _fileSystem.SerializeAsync(FileNameConstants.TableOfContents, new TableOfContents());
+        await _fileSystem.SerializeAsync(FileNameConstants.TableOfContents, new TableOfContents(), writeSchema: true);
 
         return ExitCodes.Succes;
     }
