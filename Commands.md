@@ -50,10 +50,13 @@ Arguments:
 
 Build a printable html & xhtml file from the book
 
-`BookGen BuildPrint [-v] [-d [directory]]`
-`BookGen BuildPrint [--verbose] [--dir [directory]]`
+`BookGen BuildPrint -o <output> [-v] [-d [directory]]`
+`BookGen BuildPrint --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
+
+-o, --output:
+    Required argument. Specifies the output file name.
 
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then
@@ -67,10 +70,13 @@ Arguments:
 
 Build a static website from the book
 
-`BookGen BuildWeb [-v] [-d [directory]]`
-`BookGen BuildWeb [--verbose] [--dir [directory]]`
+`BookGen BuildWeb -o <output> [-v] [-d [directory]]`
+`BookGen BuildWeb --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
+
+-o, --output:
+    Required argument. Specifies the output file name.
 
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then
@@ -83,10 +89,13 @@ Arguments:
 
 Build a wordpress export file from the book.
 
-`BookGen BuildWp [-v] [-d [directory]]`
-`BookGen BuildWp [--verbose] [--dir [directory]]`
+`BookGen BuildWp -o <output> [-v] [-d [directory]]`
+`BookGen BuildWp --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
+
+-o, --output:
+    Required argument. Specifies the output file name.
 
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then

@@ -23,6 +23,12 @@ internal sealed class LoadLegacyConfig : IMigrationStep
             return false;
         }
 
+        if (config.Version != 1014)
+        {
+            logger.LogError("Legacy config file version {Version} is not supported", config.Version);
+            return false;
+        }
+
         state.LegacyConfig = config;
 
         return true;

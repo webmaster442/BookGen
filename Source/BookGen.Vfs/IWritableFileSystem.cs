@@ -8,5 +8,6 @@ public interface IWritableFileSystem : IReadOnlyFileSystem
     Task WriteAllTextAsync(string path, string content);
     void Delete(string path);
     Task CopyToAsync(string path, string destination);
+    void MoveFile(string path, string destination);
     void CreateDirectoryIfNotExist(string path);
 }

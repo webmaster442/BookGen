@@ -1,15 +1,20 @@
-﻿using Bookgen.Lib;
+﻿using System.Reflection.Emit;
+
+using Bookgen.Lib;
 using Bookgen.Lib.Pipeline;
 
 using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Commands;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
+using static BookGen.BuildCommandBase;
+
 namespace BookGen;
 
-internal abstract class BuildCommandBase : AsyncCommand<BookGenArgumentBase>
+internal abstract class BuildCommandBase : AsyncCommand<BuildCommandBase.BuildArguments>
 {
     protected readonly IWritableFileSystem _soruce;
     protected readonly IWritableFileSystem _target;
@@ -29,9 +34,22 @@ internal abstract class BuildCommandBase : AsyncCommand<BookGenArgumentBase>
 
     public abstract Pipeline GetPipeLine();
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    public sealed class BuildArguments : BookGenArgumentBase
     {
+        [Switch("o", "output")]
+        public string OutputDirectory { get; set; } = string.Empty;
+    }
+
+    public override async Task<int> ExecuteAsync(BuildArguments arguments, IReadOnlyList<string> context)
+    {
+        if (_target.DirectoryExists(arguments.OutputDirectory))
+        {
+            _target.Delete(arguments.OutputDirectory);
+        }
+        _target.CreateDirectoryIfNotExist(arguments.OutputDirectory);
+
         _soruce.Scope = arguments.Directory;
+        _target.Scope = arguments.OutputDirectory;
 
         using var env = new BookEnvironment(_soruce, _target, _assetSource);
         var status = await env.Initialize();
