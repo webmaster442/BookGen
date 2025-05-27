@@ -52,7 +52,7 @@ internal static class IReadOnlyFileSystemExtensions
             }
         }
 
-        FrontMatter frontMatter = yaml.Length > 0 ? CreateDefaultFrontMatter(file, logger) : yamlDeserializer.Deserialize<FrontMatter>(yaml.ToString());
+        FrontMatter frontMatter = yaml.Length > 0 ? yamlDeserializer.Deserialize<FrontMatter>(yaml.ToString()) : CreateDefaultFrontMatter(file, logger);
 
         return (content.ToString(), frontMatter);
     }
