@@ -18,19 +18,15 @@ internal class ServeCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly ILogger _log;
     private readonly IMutexFolderLock _folderLock;
-    private readonly ProgramInfo _programInfo;
 
-    public ServeCommand(ILogger log, IMutexFolderLock folderLock, ProgramInfo programInfo)
+    public ServeCommand(ILogger log, IMutexFolderLock folderLock)
     {
         _log = log;
         _folderLock = folderLock;
-        _programInfo = programInfo;
     }
 
     public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
-        _programInfo.EnableVerboseLogingIfRequested(arguments);
-
         _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
 
         var server = ServerFactory.CreateServerForDirectoryHosting(arguments.Directory);

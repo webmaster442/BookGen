@@ -68,6 +68,7 @@ CommandRunner runner = new(ioc, logger, new CommandRunnerSettings
 });
 
 runner.ExceptionHandlerDelegate = OnException;
+runner.BeforeRunHook = OnBeforeRun;
 
 runner
     .AddDefaultCommand<HelpCommand>()
@@ -87,6 +88,16 @@ stopwatch.Stop();
 logger.LogInformation("Execution finished in {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
 
 return exitCode;
+
+Task OnBeforeRun(ArgumentsBase @base, IReadOnlyList<string> list)
+{
+    if (@base is IVerbosablityToggle toggle)
+    {
+        info.LogLevel = toggle.Verbose ? LogLevel.Debug : LogLevel.Information;
+    }
+    return Task.CompletedTask;
+}
+
 
 void OnException(Exception exception)
 {

@@ -33,6 +33,7 @@ public sealed class CommandRunner
     }
 
     public IValidationContext ValidationContext { get; set; }
+    public Func<ArgumentsBase, IReadOnlyList<string>, Task>? BeforeRunHook { get; set; }
 
     private static SupportedOs GetCurrentOs()
     {
@@ -264,6 +265,9 @@ public sealed class CommandRunner
         }
 
         args.ModifyAfterValidation();
+
+        if (BeforeRunHook != null)
+            await BeforeRunHook.Invoke(args, argsToParse);
 
         return await command.ExecuteAsync(args, argsToParse);
     }

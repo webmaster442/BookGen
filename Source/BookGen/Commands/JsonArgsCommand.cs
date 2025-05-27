@@ -38,19 +38,15 @@ internal sealed class JsonArgsCommand : Command<JsonArgsCommand.JsonArgsArgument
 
     private readonly HashSet<string> _commandNames;
     private readonly ILogger _log;
-    private readonly ProgramInfo _programInfo;
 
-    public JsonArgsCommand(ICommandRunnerProxy runnerProxy, ILogger log, ProgramInfo programInfo)
+    public JsonArgsCommand(ICommandRunnerProxy runnerProxy, ILogger log)
     {
         _commandNames = [.. runnerProxy.CommandNames];
         _log = log;
-        _programInfo = programInfo;
     }
 
     public override int Execute(JsonArgsArguments arguments, IReadOnlyList<string> context)
     {
-        _programInfo.EnableVerboseLogingIfRequested(arguments);
-
         if (!_commandNames.Contains(arguments.CommandName))
         {
             _log.LogCritical("Command not found: {commandname}", arguments.CommandName);

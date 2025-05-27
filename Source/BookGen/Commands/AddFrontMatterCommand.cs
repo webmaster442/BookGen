@@ -19,19 +19,15 @@ internal class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;
     private readonly ILogger _logger;
-    private readonly ProgramInfo _programInfo;
 
-    public AddFrontMatterCommand(IWritableFileSystem writableFileSystem, ILogger logger, ProgramInfo programInfo)
+    public AddFrontMatterCommand(IWritableFileSystem writableFileSystem, ILogger logger)
     {
         _writableFileSystem = writableFileSystem;
         _logger = logger;
-        _programInfo = programInfo;
     }
 
     public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
-        _programInfo.EableVerboseLogging(arguments.Verbose);
-
         int modified = 0;
         _writableFileSystem.Scope = arguments.Directory;
         var files = _writableFileSystem.GetFiles(arguments.Directory, "*.md", true).ToArray();

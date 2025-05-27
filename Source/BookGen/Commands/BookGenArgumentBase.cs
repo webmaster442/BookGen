@@ -8,7 +8,7 @@ using BookGen.Cli.Annotations;
 
 namespace BookGen.Commands;
 
-public class BookGenArgumentBase : ArgumentsBase
+public class BookGenArgumentBase : ArgumentsBase, IVerbosablityToggle
 {
     [Switch("v", "verbose")]
     public bool Verbose { get; set; }

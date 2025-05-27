@@ -15,18 +15,15 @@ internal sealed class NewBookCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly ILogger _logger;
     private readonly IWritableFileSystem _fileSystem;
-    private readonly ProgramInfo _programInfo;
 
-    public NewBookCommand(ILogger logger, IWritableFileSystem writableFileSystem, ProgramInfo programInfo)
+    public NewBookCommand(ILogger logger, IWritableFileSystem writableFileSystem)
     {
         _logger = logger;
         _fileSystem = writableFileSystem;
-        _programInfo = programInfo;
     }
 
     public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
-        _programInfo.EableVerboseLogging(arguments.Verbose);
         _fileSystem.Scope = arguments.Directory;
 
         if (BookEnvironment.IsBookGenFolder(_fileSystem.Scope))
