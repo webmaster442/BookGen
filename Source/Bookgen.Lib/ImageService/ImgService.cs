@@ -54,6 +54,8 @@ public sealed class ImgService : IImgService
             };
         }
 
+        path = path.Replace("../", "");
+
         if (!IsImage(path))
             throw new InvalidOperationException($"{path} is not an image");
 

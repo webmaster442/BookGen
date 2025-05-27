@@ -18,7 +18,7 @@ public class ViewData
 
     public Dictionary<string, string> GetDataTable()
     {
-        Dictionary<string, string> result = new();
+        Dictionary<string, string> result = new(StringComparer.InvariantCultureIgnoreCase);
         var properties = GetType()
             .GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Where(p => p.Name != nameof(AdditionalData));

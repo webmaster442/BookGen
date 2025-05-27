@@ -22,14 +22,12 @@ internal sealed class RenderPages : IPipeLineStep<PrintState>
         var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);
 
-        using var prism = new PrismJsInterop(environment);
-
         using var settings = new RenderSettings
         {
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            PrismJsInterop = prism,
+            PrismJsInterop = new PrismJsInterop(environment),
             OffsetHeadingsBy = 1,
         };
 

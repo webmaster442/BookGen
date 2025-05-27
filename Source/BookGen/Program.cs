@@ -30,13 +30,11 @@ using ILoggerFactory factory = LoggerFactory
         else
         {
             builder.AddProvider(new ConsoleLogProvider(mediator));
-            builder.AddProvider(new DebugLoggerProvider()).AddFilter((Category, level) => level == LogLevel.Debug);
         }
         if (info.LogToFile)
         {
             builder.AddProvider(new FileLoggerProvider());
         }
-        builder.AddFilter((Category, level) => level >= info.LogLevel);
     });
 
 ILogger logger = factory.CreateLogger("Bookgen");

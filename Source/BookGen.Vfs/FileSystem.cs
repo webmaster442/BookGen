@@ -148,10 +148,9 @@ public sealed class FileSystem : IReadOnlyFileSystem, IWritableFileSystem
     public void CreateDirectoryIfNotExist(string path)
     {
         var actualPath = GetAndValidateFullNameInScope(path);
-        var directory = Path.GetDirectoryName(actualPath);
-        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+        if (!string.IsNullOrEmpty(actualPath) && !Directory.Exists(actualPath))
         {
-            Directory.CreateDirectory(directory);
+            Directory.CreateDirectory(actualPath);
         }
     }
 

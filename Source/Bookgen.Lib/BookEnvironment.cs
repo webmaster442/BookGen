@@ -43,12 +43,6 @@ public sealed class BookEnvironment : IBookEnvironment
 
     public void Dispose()
     {
-        foreach (var asset in _assets)
-        {
-            if (asset is IDisposable disposable)
-                disposable.Dispose();
-        }
-
         if (_isInitialized && _source.FileExists(FileNameConstants.LockFile))
         {
             _source.Delete(FileNameConstants.LockFile);
@@ -140,7 +134,7 @@ public sealed class BookEnvironment : IBookEnvironment
             }
         }
 
-        Output.Scope = config.OutputFolder;
+        _output.Scope = config.OutputFolder;
         _isInitialized = true;
 
         return status;

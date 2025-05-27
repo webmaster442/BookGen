@@ -32,7 +32,7 @@ internal sealed class ProgramInfo
         ProgramVersion = asm?.GetName()?.Version ?? new Version(1, 0);
         ConfigVersion = Config.CurrentVersionTag;
         ProgramDirectory = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
-        LogLevel = LogLevel.Information;
+        LogLevel = LogLevel.Debug; //DO NOT CHANGE. Filtering may not work
         PrintRuntime = false;
     }
 }

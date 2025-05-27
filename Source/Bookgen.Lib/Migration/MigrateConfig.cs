@@ -26,7 +26,7 @@ internal sealed class MigrateConfig : IMigrationStep
             StaticWebsiteConfig = new StaticWebsiteConfig
             {
                 DefaultTempate = state.LegacyConfig.TargetWeb.TemplateFile,
-                CopyToOutput = state.LegacyConfig.TargetWeb.TemplateAssets.Select(asset => asset.Source).ToList(),
+                CopyToOutput = state.LegacyConfig.TargetWeb.TemplateAssets.Select(asset => asset.Source).Where(asset => !string.IsNullOrEmpty(asset)).ToList(),
                 DeployHost = state.LegacyConfig.HostName,
                 Images = state.LegacyConfig.TargetWeb.ImageOptions.ToImageConfig(),
                 CssClasses = state.LegacyConfig.TargetWeb.StyleClasses.ToCssClasses(),
