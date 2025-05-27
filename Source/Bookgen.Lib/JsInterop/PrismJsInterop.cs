@@ -6,9 +6,7 @@ public sealed class PrismJsInterop : JavascriptInterop
 {
     public PrismJsInterop(IAssetSource assetSource)
     {
-        if (!assetSource.TryGetAsset(BundledAssets.PrismJs, out string? prismjs))
-            throw new InvalidOperationException($"{BundledAssets.PrismJs} not found");
-
+        string prismjs = assetSource.GetAsset(BundledAssets.PrismJs);
         Execute(prismjs);
     }
 

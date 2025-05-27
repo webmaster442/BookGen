@@ -16,6 +16,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
     protected override void SetupMocks()
     {
         AssetSourceMock.Setup(a => a.GetAsset(BundledAssets.TemplateSinglePage)).Returns("<h1>{{Title}}</h1>{{Content}}");
+        AssetSourceMock.Setup(a => a.GetAsset(BundledAssets.PrismJs)).Returns("");
         FileSystemMock.As<IReadOnlyFileSystem>().Setup(fs => fs.ReadAllText("test.md")).Returns("test");
         FileSystemMock.Setup(fs => fs.WriteAllText("out.html", It.IsAny<string>()));
     }
