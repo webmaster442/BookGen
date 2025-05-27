@@ -20,6 +20,8 @@ internal static class ProgramConfigurator
     private const string JsonLogLong = "--json-log";
     private const string LogFileShort = "-lf";
     private const string LogFileLong = "--log-file";
+    private const string NoRuntimeShort = "-nr";
+    private const string NoRuntimeLong = "--no-runtime";
 
     public static IEnumerable<string> GeneralArguments
     {
@@ -34,31 +36,56 @@ internal static class ProgramConfigurator
         }
     }
 
-    private static bool GetSwitch(IList<string> inputs, string shortName, string longName)
+    public static List<string> ParseGeneralArgs(string[] args, ProgramInfo info)
     {
-        bool result = false;
-        var removeIndexes = new Stack<int>();
-        for (int i = 0; i < inputs.Count; i++)
+        List<string> results = new List<string>(args.Length);
+        var removeIndexes = new HashSet<int>();
+
+        AttachDebugger(removeIndexes, args);
+        WaitForDebugger(removeIndexes, args);
+        ConfigureLog(removeIndexes, info, args);
+        ConfigureRuntimePrinting(removeIndexes, info, args);
+
+        for (int i = 0; i < args.Length; i++)
         {
-            if (inputs[i] == shortName
-                || inputs[i] == longName)
+            if (!removeIndexes.Contains(i))
             {
-                removeIndexes.Push(i);
-                result = true;
+                results.Add(args[i]);
             }
         }
-
-        while (removeIndexes.Count > 0)
-        {
-            inputs.RemoveAt(removeIndexes.Pop());
-        }
-
-        return result;
+        return results;
     }
 
-    public static void WaitForDebugger(IList<string> arguments)
+    private static bool GetSwitch(HashSet<int> state, IReadOnlyList<string> args, string shortName, string longName)
     {
-        if (GetSwitch(arguments, DebuggerShort, DebuggerLong))
+        bool found = false;
+        for (int i = 0; i < args.Count; i++)
+        {
+            if (args[i] == shortName || args[i] == longName)
+            {
+                state.Add(i);
+                found = true;
+            }
+        }
+        return found;
+    }
+
+
+    private static void AttachDebugger(HashSet<int> removeIndexes, IReadOnlyList<string> arguments)
+    {
+        if (GetSwitch(removeIndexes, arguments, DebuggerStartShort, DebuggerStartLong))
+        {
+            AnsiConsole.WriteLine("Attaching debugger...");
+            if (!Debugger.IsAttached)
+            {
+                Debugger.Launch();
+            }
+        }
+    }
+
+    private static void WaitForDebugger(HashSet<int> removeIndexes, IReadOnlyList<string> arguments)
+    {
+        if (GetSwitch(removeIndexes, arguments, DebuggerShort, DebuggerLong))
         {
             AnsiConsole.WriteLine("Waiting for debugger to be attached...");
             AnsiConsole.WriteLine("ESC to cancel & contine execution...");
@@ -82,25 +109,23 @@ internal static class ProgramConfigurator
         }
     }
 
-    public static void AttachDebugger(IList<string> arguments)
+    private static void ConfigureLog(HashSet<int> removeIndexes, ProgramInfo info, IReadOnlyList<string> arguments)
     {
-        if (GetSwitch(arguments, DebuggerStartShort, DebuggerStartLong))
-        {
-            AnsiConsole.WriteLine("Attaching debugger...");
-            if (!Debugger.IsAttached)
-            {
-                Debugger.Launch();
-            }
-        }
-    }
-
-    internal static void ConfigureLog(ProgramInfo info, IList<string> arguments)
-    {
-        if (GetSwitch(arguments, JsonLogShort, JsonLogLong))
+        if (GetSwitch(removeIndexes, arguments, JsonLogShort, JsonLogLong))
         {
             info.JsonLogging = true;
         }
 
-        info.LogToFile = GetSwitch(arguments, LogFileShort, LogFileLong);
+        info.LogToFile = GetSwitch(removeIndexes, arguments, LogFileShort, LogFileLong);
+    }
+
+    private static void ConfigureRuntimePrinting(HashSet<int> removeIndexes, ProgramInfo info, IReadOnlyList<string> arguments)
+    {
+        if (GetSwitch(removeIndexes, arguments, NoRuntimeShort, NoRuntimeLong))
+        {
+            info.PrintRuntime = false;
+            return;
+        }
+        info.PrintRuntime = true;
     }
 }

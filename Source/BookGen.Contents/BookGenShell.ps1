@@ -148,7 +148,7 @@ function bookgen-info()
 function intro()
 {
     clear
-    bookgen version
+    bookgen version -nr
     Write-Host "┌────────────────────────────────────────────────────────┐"
     Write-Host "│ Added commands:                                        │"
     Write-Host "│  intro: displays this message                          │"
@@ -162,10 +162,10 @@ function intro()
     Write-Host "        ( )"
     Write-Host "      .( o )."
 
-    Bookgen.exe terminalinstall -t
+    Bookgen.exe terminalinstall -t -nr
     if ($LastExitCode -eq 0) 
     {
-        Bookgen.exe terminalinstall -c
+        Bookgen.exe terminalinstall -c -nr
         if ($LastExitCode -ne 0) 
         {
             Write-Host ""
@@ -222,14 +222,14 @@ Set-PSReadLineOption -Colors @{
 # PowerShell parameter completion shim for BookGen
 Register-ArgumentCompleter -Native -CommandName BookGen -ScriptBlock {
     param($commandName, $wordToComplete, $cursorPosition)
-        BookGen.exe "Shell" "$wordToComplete" | ForEach-Object {
+        BookGen.exe "Shell" "-nr" "$wordToComplete" | ForEach-Object {
             [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
      }
 }
 # Case invariant registration
 Register-ArgumentCompleter -Native -CommandName bookgen -ScriptBlock {
     param($commandName, $wordToComplete, $cursorPosition)
-        BookGen.exe "Shell" "$wordToComplete" | ForEach-Object {
+        BookGen.exe "Shell" "-nr" "$wordToComplete" | ForEach-Object {
             [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
      }
 }

@@ -24,6 +24,7 @@ internal sealed class ProgramInfo
     public LogLevel LogLevel { get; set; }
     public bool LogToFile { get; set; }
     public bool JsonLogging { get; set; }
+    public bool PrintRuntime { get; set; }
 
     public ProgramInfo()
     {
@@ -32,5 +33,6 @@ internal sealed class ProgramInfo
         ConfigVersion = Config.CurrentVersionTag;
         ProgramDirectory = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
         LogLevel = LogLevel.Information;
+        PrintRuntime = false;
     }
 }

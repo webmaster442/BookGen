@@ -13,13 +13,9 @@ using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
 
-var argumentList = args.ToList();
-
 ProgramInfo info = new();
 
-ProgramConfigurator.AttachDebugger(argumentList);
-ProgramConfigurator.WaitForDebugger(argumentList);
-ProgramConfigurator.ConfigureLog(info, argumentList);
+var argumentList = ProgramConfigurator.ParseGeneralArgs(args, info);
 
 using Mediator mediator = new();
 
@@ -85,7 +81,8 @@ int exitCode = await runner.Run(argumentList);
 
 stopwatch.Stop();
 
-logger.LogInformation("Execution finished in {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
+if (info.PrintRuntime)
+    logger.LogInformation("Execution finished in {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
 
 return exitCode;
 
