@@ -1,7 +1,7 @@
 ﻿# -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 3.1
-# Last modified: 2025-05-15
+# Version 3.2
+# Last modified: 2025-05-28
 # -----------------------------------------------------------------------------
 
 # NodeJS install test
@@ -137,6 +137,12 @@ function organize
     }
 }
 
+# repoweb command
+function repoweb()
+{
+    BookGen.Shellprog.exe "repoweb" $(Get-Location).Path
+}
+
 # info command
 function bookgen-info()
 {
@@ -149,13 +155,14 @@ function intro()
 {
     clear
     bookgen version -nr
-    Write-Host "┌────────────────────────────────────────────────────────┐"
-    Write-Host "│ Added commands:                                        │"
-    Write-Host "│  intro: displays this message                          │"
-    Write-Host "│  bookgen-info: displays the getting  started guide     │"
-    Write-Host "│  cdg: menu driven change driectory                     │"
-    Write-Host "│  organize: organize current directory files to subdirs │"
-    Write-Host "└────────────────────────────────────────────────────────┘"
+    Write-Host "┌──────────────────────────────────────────────────────────┐"
+    Write-Host "│ Added commands:                                          │"
+    Write-Host "│  intro: displays this message                            │"
+    Write-Host "│  bookgen-info: displays the getting  started guide       │"
+    Write-Host "│  cdg: menu driven change driectory                       │"
+    Write-Host "│  organize: organize current directory files to subdirs   │"
+    Write-Host "│  repoweb: opens the current directory in the web browser │"
+    Write-Host "└──────────────────────────────────────────────────────────┘"
     Write-Host "  \"
     Write-Host "   \   \"
     Write-Host "        \ /\"

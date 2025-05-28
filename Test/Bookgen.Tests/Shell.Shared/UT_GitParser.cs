@@ -95,4 +95,16 @@ internal class UT_GitParser
             Assert.That(result, Does.Contain("next"));
         });
     }
+
+    [TestCase("https://bitbucket.org/user/projects.git", "https://bitbucket.org/user/projects")]
+    [TestCase("git@bitbucket.org:user/projects.git", "https://bitbucket.org/user/projects")]
+    [TestCase("https://gitlab.com/user/projects.git", "https://gitlab.com/user/projects")]
+    [TestCase("git@gitlab.com:user/projects.git", "https://gitlab.com/user/projects")]
+    [TestCase("https://github.com/user/projects.git", "https://github.com/user/projects")]
+    [TestCase("git@github.com:user/projects.git", "https://github.com/user/projects")]
+    public void EnsureThat_GetRepoWebUrl_ReturnsCorrect(string input, string expected)
+    {
+        string result = GitParser.GetRepoWebUrl(input);
+        Assert.That(result, Is.EqualTo(expected));
+    }
 }

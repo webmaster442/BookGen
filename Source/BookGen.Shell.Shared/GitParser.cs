@@ -7,6 +7,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
+using static System.Net.WebRequestMethods;
+
 namespace BookGen.Shell.Shared;
 
 public static partial class GitParser
@@ -29,6 +31,21 @@ public static partial class GitParser
             OutGoingCommits = int.Parse(inout[0]),
             NotCommitedChanges = notCommited
         };
+    }
+
+    public static string GetRepoWebUrl(string gitRemoteUrl)
+    {
+        if (gitRemoteUrl.StartsWith("http") && gitRemoteUrl.EndsWith(".git"))
+        {
+            return gitRemoteUrl[..^4]; //remove .git
+        }
+        else if (gitRemoteUrl.Contains('@'))
+        {
+            string hostAndPath = gitRemoteUrl.Split('@')[1].Replace(':', '/');
+            return $"https://{hostAndPath[..^4]}"; //remove .git
+        }
+        return string.Empty;
+
     }
 
     public static HashSet<string>ParseBranches(string branches)

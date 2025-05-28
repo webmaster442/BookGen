@@ -29,6 +29,7 @@ CommandRunner runner = new(ioc, logger, new CommandRunnerSettings
 runner
     .AddDefaultCommand<CommandListCommand>()
     .AddCommand<PromptCommand>()
+    .AddCommand<RepoWeb>()
     .AddCommand<CdgCommand>()
     .AddCommand<GitAutoCompleteCommand>()
     .AddCommand<OrganizeCommand>();
