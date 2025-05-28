@@ -29,6 +29,29 @@ General arguments:
 `--json-log`
     Outputs log in JSON format. Usefull for interop purposes.
 
+# Assembly-document
+
+Generates a markdown file(s) from a given .NET assembly and it's XML documentation file.
+
+`BookGen Assembly-document -i <input> -o <output> [-d] [-n]`
+`BookGen Assembly-document --input <input> --output <output> [--dry] [--namespace-pages]`
+
+Arguments:
+
+-i, --input:
+    Required argument. Specifies the input assembly file path. The file must be a .NET assembly.
+
+-o, --output:
+    Required argument. Specifies the output files path.
+
+-d, --dry:
+    Optional argument. If specified, the command will not write any files, 
+    but will only print the output to console.
+
+-n, --namespace-pages:
+    Optional argument. If specified, the command will create a separate markdown file for each namespace
+    in the assembly.
+
 # Addfrontmatter
 
 Add a basic YAML frontmatter information to all markdown files located in the
