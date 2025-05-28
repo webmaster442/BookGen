@@ -22,6 +22,9 @@ public sealed class TableOfContentsConfiguration
     [Description("The HTML element type for the items in the table of contents.")]
     public ItemContainer ItemContainer { get; init; }
 
+    [Description("If set to a file name, then the table of contents will be rendered as a standalone page")]
+    public string StandaloneFileName { get; init; }
+
     public TableOfContentsConfiguration()
     {
         ContainerId = "tableofcontents";
@@ -29,5 +32,6 @@ public sealed class TableOfContentsConfiguration
         ContainerClass = string.Empty;
         ChapterContainer = ContainerElement.Section;
         ItemContainer = ItemContainer.UnorderedList;
+        StandaloneFileName = "";
     }
 }
