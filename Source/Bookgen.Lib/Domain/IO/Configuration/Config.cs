@@ -39,7 +39,7 @@ public sealed class Config
     [Required]
     public PrintConfig PrintConfig { get; init; }
 
-    public const int CurrentVersionTag = 250506;
+    public const int CurrentVersionTag = 2002;
 
     public Config()
     {

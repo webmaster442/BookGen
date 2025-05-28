@@ -20,6 +20,9 @@ public sealed class StaticWebsiteConfig : OutputConfig
     [FileExists]
     public List<string> CopyToOutput { get; init; }
 
+    [Description("Table of contents rendering configuration")]
+    public TableOfContentsConfiguration TocConfiguration { get; init; }
+
     public StaticWebsiteConfig()
     {
         DeployHost = string.Empty;
@@ -27,5 +30,6 @@ public sealed class StaticWebsiteConfig : OutputConfig
         Images = new ImageConfig();
         OpenLinksOutsideHostOnNewTab = false;
         CopyToOutput = new List<string>();
+        TocConfiguration = new TableOfContentsConfiguration();
     }
 }

@@ -32,6 +32,14 @@ internal sealed class MigrateConfig : IMigrationStep
                 CssClasses = state.LegacyConfig.TargetWeb.StyleClasses.ToCssClasses(),
                 OpenLinksOutsideHostOnNewTab = state.LegacyConfig.LinksOutSideOfHostOpenNewTab,
                 PreRenderCode = false,
+                TocConfiguration = new TableOfContentsConfiguration
+                {
+                    ChapterContainer = ContainerElement.Section,
+                    ContainerElement = ContainerElement.Nav,
+                    ItemContainer = ItemContainer.UnorderedList,
+                    ContainerClass = "",
+                    ContainerId = "toc"
+                }
             },
             WordpressConfig = new WordpressConfig
             {
