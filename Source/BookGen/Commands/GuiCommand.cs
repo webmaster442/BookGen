@@ -51,9 +51,9 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
         [
             new(Emoji.Known.RedQuestionMark, "Validate current configuration", async () => await Run("validate")),
             new(Emoji.Known.SpiderWeb, " Start a webserver in curent directory", async () => await Run("serve")),
-            new(Emoji.Known.GlobeShowingAmericas, "Build static website", async () => await Run("buildweb")),
-            new(Emoji.Known.Printer, " Build printable html", async () => await Run("buildprint")),
-            new(Emoji.Known.FileCabinet, " Build wordpress export", async () => await Run("buildwp")),
+            new(Emoji.Known.GlobeShowingAmericas, "Build static website", async () => await Run("buildweb", "-o", "OutputWeb")),
+            new(Emoji.Known.Printer, " Build printable html", async () => await Run("buildprint", "-o", "OutputPrint")),
+            new(Emoji.Known.FileCabinet, " Build wordpress export", async () => await Run("buildwp", "-o", "OutputWp")),
             new(Emoji.Known.Door, "Exit", OnExit)
         ];
 
@@ -67,12 +67,12 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
         return await selected.ExecuteAsync();
     }
 
-    private async Task<int> Run(string cmd)
+    private async Task<int> Run(string cmd, params string[] additionals)
     {
         if (_currentArgs == null)
             throw new InvalidOperationException("Command not initialized");
 
-        return await _commandRunnerProxy.RunCommand(cmd, _argsBuilder.New().Add(_currentArgs).Build());
+        return await _commandRunnerProxy.RunCommand(cmd, _argsBuilder.New().Add(_currentArgs).Add(additionals).Build());
     }
 
     private Task<int> OnExit()

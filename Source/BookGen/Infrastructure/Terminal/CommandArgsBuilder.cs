@@ -30,6 +30,12 @@ internal sealed class CommandArgsBuilder
         return this;
     }
 
+    public CommandArgsBuilder Add(string[] strings)
+    {
+        _args.AddRange(strings);
+        return this;
+    }
+
     public IReadOnlyList<string> Build()
         => _args;
 }

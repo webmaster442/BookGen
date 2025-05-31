@@ -1,6 +1,5 @@
 ﻿using Bookgen.Lib.Domain;
 using Bookgen.Lib.ImageService;
-using Bookgen.Lib.Internals;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
 
@@ -47,11 +46,12 @@ internal sealed class RenderStaticPages : IPipeLineStep<StaticWebState>
                                                            fallbackTemplate: BundledAssets.TemplateStaticWeb,
                                                            defaultTemplateSelector: cfg => cfg.StaticWebsiteConfig.DefaultTempate);
 
-            var viewData = new ViewData
+            var viewData = new StaticViewData
             {
                 Content = markdown.RenderMarkdownToHtml(sourceData.Content),
                 Title = sourceData.FrontMatter.Title,
                 AdditionalData = sourceData.FrontMatter.Data ?? new(),
+                Toc = State.Toc,
             };
 
             string finalContent = renderer.Render(tempate, viewData);
