@@ -108,6 +108,26 @@ Arguments:
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
+# BuildExport
+
+Build a JSON file with schema for post processing of the book.
+
+`BookGen BuildExport -o <output> [-v] [-d [directory]]`
+`BookGen BuildExport --output <output> [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-o, --output:
+    Required argument. Specifies the output file name.
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+
 # BuildWp
 
 Build a wordpress export file from the book.

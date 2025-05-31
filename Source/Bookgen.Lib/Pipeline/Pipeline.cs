@@ -1,4 +1,5 @@
-﻿using Bookgen.Lib.Pipeline.Print;
+﻿using Bookgen.Lib.Pipeline.PostProcess;
+using Bookgen.Lib.Pipeline.Print;
 using Bookgen.Lib.Pipeline.StaticWebsite;
 using Bookgen.Lib.Pipeline.Wordpress;
 
@@ -34,6 +35,16 @@ public abstract class Pipeline
         );
     }
 
+    public static Pipeline CreatePostProcessPipeLine()
+    {
+        var state = new PostProcessState();
+
+        return new PipeLineWithState<PostProcessState>(
+            new RenderPagesForPostProcess(state),
+            new WriteFile(state)
+        );
+    }
+
     public static Pipeline CreateWebPipeLine()
     {
         var state = new StaticWebState();
@@ -42,7 +53,9 @@ public abstract class Pipeline
             new CopyAssets(state),
             new ExtractTemplateAssets(state),
             new ReadInFiles(state),
+            new RenderTableOfContents(state),
             new RenderStaticPages(state),
+            new RenderStabdaloneToc(state),
             new CreateEmptyIndexPagesForFolders(state)
         );
     }
