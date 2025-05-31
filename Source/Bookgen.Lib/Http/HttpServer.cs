@@ -81,14 +81,6 @@ internal sealed class HttpServer : IHttpServer
         _app.UseFileServer(options);
     }
 
-    public void AddMemoryFiles(IReadOnlyDictionary<UrlMetaData, byte[]> files)
-    {
-        foreach (var file in files)
-        {
-            AddMemoryFile(file.Key, file.Value);
-        }
-    }
-
     public void AddMemoryFile(UrlMetaData metaData, byte[] content)
     {
         _app.MapGet(metaData.Path, async context =>
