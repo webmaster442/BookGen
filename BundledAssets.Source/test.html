@@ -9,6 +9,43 @@
 
 <body>
 
+  <dialog id="tocdialog" class="dialog">
+    <div id="container">
+      <div id="dialogContent">
+
+        <p>So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body
+          held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest
+          visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration
+          at surrounded comparison. </p>
+
+        <p>Offered say visited elderly and. Waited period are played family man formed. He ye body or made on pain part
+          meet. You one delay nor begin our folly abode. By disposed replying mr me unpacked no. As moonlight of my
+          resolving unwilling. </p>
+
+        <p>So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body
+          held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest
+          visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration
+          at surrounded comparison. </p>
+
+        <p>Offered say visited elderly and. Waited period are played family man formed. He ye body or made on pain part
+          meet. You one delay nor begin our folly abode. By disposed replying mr me unpacked no. As moonlight of my
+          resolving unwilling. </p>
+
+        <p>So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body
+          held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest
+          visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration
+          at surrounded comparison. </p>
+
+        <p>Offered say visited elderly and. Waited period are played family man formed. He ye body or made on pain part
+          meet. You one delay nor begin our folly abode. By disposed replying mr me unpacked no. As moonlight of my
+          resolving unwilling. </p>
+      </div>
+      <div id="dialogBase">
+        <button id="close" autofocus>❌ Close</button>
+      </div>
+    </div>
+  </dialog>
+
   <main>
     <h1>H1</h1>
     <h2>H1</h2>
@@ -88,15 +125,11 @@
   </main>
 
   <aside class="float">
-    <button id="toggle-mode">Toggle Mode</button>
+    <button id="toggle-mode" onclick="darkModeToggle()">Toggle Mode</button>
+    <button id="open dialog" onclick="openDialog('tocdialog')">Open dialog</button>
   </aside>
 
-  <script>
-    const toggleBtn = document.getElementById('toggle-mode');
-    toggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-    });
-  </script>
+  <script src="bookgen.js"></script>
 </body>
 
 </html>

@@ -14,3 +14,12 @@ function scrollUp(speed = 30) {
 
     requestAnimationFrame(scrollStep);
 }
+
+function openDialog(id) {
+    const dialog = document.getElementById(id);
+    const closeButton = dialog.querySelector("#close");
+    closeButton.addEventListener("click", () => {
+        dialog.close();
+    });
+    dialog.showModal();
+}
