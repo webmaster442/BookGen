@@ -9,16 +9,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
-internal sealed class RenderStaticPages : IPipeLineStep<StaticWebState>
+internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 {
-    public RenderStaticPages(StaticWebState state)
+    public RenderStaticPages(StaticWebState state) : base(state)
     {
-        State = state;
     }
 
-    public StaticWebState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);

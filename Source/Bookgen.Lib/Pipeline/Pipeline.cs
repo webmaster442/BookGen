@@ -7,9 +7,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline;
 
-public abstract class Pipeline
+public sealed class Pipeline
 {
-    protected abstract IEnumerable<IPipeLineStep> Steps { get; }
+    public Pipeline(params IPipeLineStep[] steps)
+    {
+        Steps = steps;
+    }
+
+    private IEnumerable<IPipeLineStep> Steps { get; }
 
     public async Task<bool> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
@@ -28,7 +33,7 @@ public abstract class Pipeline
     {
         var state = new PrintState();
 
-        return new PipeLineWithState<PrintState>(
+        return new Pipeline(
             new RenderPages(state),
             new WriteHtml(state),
             new WriteXHtml(state)
@@ -39,7 +44,7 @@ public abstract class Pipeline
     {
         var state = new PostProcessState();
 
-        return new PipeLineWithState<PostProcessState>(
+        return new Pipeline(
             new RenderPagesForPostProcess(state),
             new WriteFile(state)
         );
@@ -49,7 +54,7 @@ public abstract class Pipeline
     {
         var state = new StaticWebState();
 
-        return new PipeLineWithState<StaticWebState>(
+        return new Pipeline(
             new CopyAssets(state),
             new ExtractTemplateAssets(state),
             new ReadInFiles(state),
@@ -64,7 +69,7 @@ public abstract class Pipeline
     {
         var state = new WpState();
 
-        return new PipeLineWithState<WpState>(
+        return new Pipeline(
             new CreateWpChannel(state),
             new CreateWpPages(state),
             new WriteExportFile(state)

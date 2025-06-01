@@ -6,16 +6,13 @@ using Microsoft.Extensions.Logging;
 
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
-internal class RenderStabdaloneToc : IPipeLineStep<StaticWebState>
+internal class RenderStabdaloneToc : PipeLineStep<StaticWebState>
 {
-    public RenderStabdaloneToc(StaticWebState staticWebState)
+    public RenderStabdaloneToc(StaticWebState staticWebState) : base(staticWebState)
     {
-        State = staticWebState;
     }
 
-    public StaticWebState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
 
         if (string.IsNullOrEmpty(environment.Configuration.StaticWebsiteConfig.TocConfiguration.StandaloneFileName))

@@ -4,16 +4,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.PostProcess;
 
-internal sealed class WriteFile : IPipeLineStep<PostProcessState>
+internal sealed class WriteFile : PipeLineStep<PostProcessState>
 {
-    public WriteFile(PostProcessState state)
+    public WriteFile(PostProcessState state) : base(state)
     {
-        State = state;
     }
 
-    public PostProcessState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         if (State.Export is null)
         {

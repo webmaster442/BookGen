@@ -12,17 +12,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Wordpress;
 
-internal sealed class CreateWpPages : IPipeLineStep<WpState>
+internal sealed class CreateWpPages : PipeLineStep<WpState>
 {
-    public WpState State { get; }
-
 #if DEBUG
     private readonly HashSet<int> _usedids;
 #endif
 
-    public CreateWpPages(WpState state)
+    public CreateWpPages(WpState state) : base(state)
     {
-        State = state;
 #if DEBUG
         _usedids = [];
 #endif
@@ -109,7 +106,7 @@ internal sealed class CreateWpPages : IPipeLineStep<WpState>
         return result;
     }
 
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Creating pages...");
 

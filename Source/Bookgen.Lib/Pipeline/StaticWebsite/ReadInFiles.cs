@@ -5,16 +5,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
-internal sealed class ReadInFiles : IPipeLineStep<StaticWebState>
+internal sealed class ReadInFiles : PipeLineStep<StaticWebState>
 {
-    public ReadInFiles(StaticWebState state)
+    public ReadInFiles(StaticWebState staticWebState) : base(staticWebState)
     {
-        State = state;
     }
 
-    public StaticWebState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Reading in files...");
         var files = environment.TableOfContents.Chapters.SelectMany(x => x.Files);

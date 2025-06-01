@@ -2,16 +2,13 @@
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
-internal sealed class CreateEmptyIndexPagesForFolders : IPipeLineStep<StaticWebState>
+internal sealed class CreateEmptyIndexPagesForFolders : PipeLineStep<StaticWebState>
 {
-    public CreateEmptyIndexPagesForFolders(StaticWebState staticWebState)
+    public CreateEmptyIndexPagesForFolders(StaticWebState staticWebState) : base(staticWebState)
     {
-        State = staticWebState;
     }
 
-    public StaticWebState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         var folders = environment.Output.GetDirectories(environment.Output.Scope, true);
 

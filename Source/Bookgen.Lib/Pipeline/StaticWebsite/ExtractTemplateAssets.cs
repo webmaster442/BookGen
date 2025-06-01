@@ -5,16 +5,13 @@ namespace Bookgen.Lib.Pipeline.StaticWebsite;
 /// <summary>
 /// Extract embedded assets if, no default template is given
 /// </summary>
-internal sealed class ExtractTemplateAssets : IPipeLineStep<StaticWebState>
+internal sealed class ExtractTemplateAssets : PipeLineStep<StaticWebState>
 {
-    public ExtractTemplateAssets(StaticWebState staticWebState)
+    public ExtractTemplateAssets(StaticWebState staticWebState) : base(staticWebState)
     {
-        State = staticWebState;
     }
 
-    public StaticWebState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         if (!string.IsNullOrEmpty(environment.Configuration.StaticWebsiteConfig.DefaultTempate))
         {

@@ -4,16 +4,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Print;
 
-internal sealed class WriteHtml : IPipeLineStep<PrintState>
+internal sealed class WriteHtml : PipeLineStep<PrintState>
 {
-    public WriteHtml(PrintState state)
+    public WriteHtml(PrintState state) : base(state)
     {
-        State = state;
     }
 
-    public PrintState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Writing print html...");
 

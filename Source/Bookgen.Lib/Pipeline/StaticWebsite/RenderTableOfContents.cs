@@ -11,16 +11,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
-internal class RenderTableOfContents : IPipeLineStep<StaticWebState>
+internal class RenderTableOfContents : PipeLineStep<StaticWebState>
 {
-    public RenderTableOfContents(StaticWebState staticWebState)
+    public RenderTableOfContents(StaticWebState staticWebState) : base(staticWebState)
     {
-        State = staticWebState;
     }
 
-    public StaticWebState State { get; }
-
-    public Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         TocRenderer toc = new(environment.Configuration.StaticWebsiteConfig.TocConfiguration);
         toc.BeginContainer();

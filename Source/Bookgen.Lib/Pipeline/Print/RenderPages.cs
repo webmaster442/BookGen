@@ -8,16 +8,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Print;
 
-internal sealed class RenderPages : IPipeLineStep<PrintState>
+internal sealed class RenderPages : PipeLineStep<PrintState>
 {
-    public RenderPages(PrintState state)
+    public RenderPages(PrintState state) : base(state) 
     {
-        State = state;
     }
 
-    public PrintState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);

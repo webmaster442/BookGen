@@ -1,22 +1,17 @@
-﻿using System.Globalization;
-
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
 /// <summary>
 /// Copy assets specified in configuration to output directory
 /// </summary>
-internal class CopyAssets : IPipeLineStep<StaticWebState>
+internal sealed class CopyAssets : PipeLineStep<StaticWebState>
 {
-    public CopyAssets(StaticWebState staticWebState)
+    public CopyAssets(StaticWebState staticWebState) : base(staticWebState)
     {
-        State = staticWebState;
     }
 
-    public StaticWebState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         foreach (var fileToCopy in environment.Configuration.StaticWebsiteConfig.CopyToOutput)
         {

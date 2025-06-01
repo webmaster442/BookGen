@@ -7,16 +7,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Wordpress;
 
-internal sealed class WriteExportFile : IPipeLineStep<WpState>
+internal sealed class WriteExportFile : PipeLineStep<WpState>
 {
-    public WpState State { get; }
-
-    public WriteExportFile(WpState state)
+    public WriteExportFile(WpState state) : base(state)
     {
-        State = state;
     }
 
-    public Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Writing wordpress xml export...");
 

@@ -10,16 +10,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.PostProcess;
 
-internal sealed class RenderPagesForPostProcess : IPipeLineStep<PostProcessState>
+internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
 {
-    public RenderPagesForPostProcess(PostProcessState state)
-    {
-        State = state;
-    }
+    public RenderPagesForPostProcess(PostProcessState state) : base(state) { }
 
-    public PostProcessState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         var imgService = new ImgService(environment.Source, new ImageConfig()
         {

@@ -4,13 +4,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Print;
 
-internal sealed class WriteXHtml : IPipeLineStep<PrintState>
+internal sealed class WriteXHtml : PipeLineStep<PrintState>
 {
     private readonly Dictionary<string, string> _tagreplacements;
 
-    public WriteXHtml(PrintState state)
+    public WriteXHtml(PrintState state) : base(state)
     {
-        State = state;
         _tagreplacements = new Dictionary<string, string>()
         {
             { "abbr", "span" },
@@ -37,9 +36,7 @@ internal sealed class WriteXHtml : IPipeLineStep<PrintState>
         };
     }
 
-    public PrintState State { get; }
-
-    public async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Writing print xhtml...");
 

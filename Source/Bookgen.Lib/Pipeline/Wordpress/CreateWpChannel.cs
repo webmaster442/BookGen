@@ -6,16 +6,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Wordpress;
 
-internal sealed class CreateWpChannel : IPipeLineStep<WpState>
+internal sealed class CreateWpChannel : PipeLineStep<WpState>
 {
-    public WpState State { get; }
 
-    public CreateWpChannel(WpState state)
+    public CreateWpChannel(WpState state) : base(state)
     {
-        State = state;
     }
 
-    public Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Creating channel...");
         State.CurrentChannel = new Channel
