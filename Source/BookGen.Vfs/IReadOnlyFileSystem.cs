@@ -6,6 +6,7 @@ public interface IReadOnlyFileSystem
     TextReader OpenTextReader(string path);
     Stream OpenReadStream(string path);
     DateTime GetLastModifiedUtc(string path);
+    long GetFileSize(string path);
     string ReadAllText(string path);
     Task<string> ReadAllTextAsync(string path);
     bool FileExists(string path);

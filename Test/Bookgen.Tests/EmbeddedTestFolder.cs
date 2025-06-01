@@ -31,6 +31,11 @@ internal class EmbeddedTestFileSystem : IReadOnlyFileSystem
     public IEnumerable<string> GetFiles(string path, string filter, bool recursive)
         => _table.Keys;
 
+    public long GetFileSize(string path)
+    {
+        throw new NotImplementedException();
+    }
+
     public DateTime GetLastModifiedUtc(string path)
         => DateTime.UtcNow;
 

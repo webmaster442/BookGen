@@ -52,7 +52,7 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildCommandBase.BuildAr
         _target.Scope = arguments.OutputDirectory;
 
         using var env = new BookEnvironment(_soruce, _target, _assetSource);
-        var status = await env.Initialize();
+        var status = await env.Initialize(autoUpgrade: true);
 
         if (!status.IsOk)
         {

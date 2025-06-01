@@ -161,6 +161,13 @@ public sealed class FileSystem : IReadOnlyFileSystem, IWritableFileSystem
         File.Move(actualPath, destinationPath);
     }
 
+    public long GetFileSize(string path)
+    {
+        var actualPath = GetAndValidateFullNameInScope(path);
+        FileInfo fileInfo = new FileInfo(actualPath);
+        return fileInfo.Length;
+    }
+
     public string Scope
     {
         get => field;

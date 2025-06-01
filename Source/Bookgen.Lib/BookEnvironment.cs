@@ -49,7 +49,7 @@ public sealed class BookEnvironment : IBookEnvironment
         }
     }
 
-    public async Task<EnvironmentStatus> Initialize()
+    public async Task<EnvironmentStatus> Initialize(bool autoUpgrade)
     {
         if (_isInitialized)
         {
@@ -76,7 +76,7 @@ public sealed class BookEnvironment : IBookEnvironment
 
         Config defaultConfig = new();
 
-        if (config.VersionTag < defaultConfig.VersionTag)
+        if (config.VersionTag < defaultConfig.VersionTag && autoUpgrade)
         {
             _source.MoveFile(FileNameConstants.ConfigFile, FileNameConstants.ConfigFile + ".bak");
             await _source.SerializeAsync(FileNameConstants.ConfigFile, config, writeSchema: true);
