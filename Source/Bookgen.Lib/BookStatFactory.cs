@@ -11,7 +11,7 @@ public static class BookStatFactory
     public static async Task<BookStat> CreateBookStat(IBookEnvironment environment, ILogger logger)
     {
         BookStat stat = new();
-        
+
         foreach (var chapter in environment.TableOfContents.Chapters)
         {
             stat.ChapterSizes[chapter.Title] = 0;
@@ -31,11 +31,11 @@ public static class BookStatFactory
         foreach (var file in environment.Source.GetFiles(environment.Source.Scope, "*.*", recursive: true))
         {
             var extension = Path.GetExtension(file);
-            stat.FileCountsByExtension[extension] = !stat.FileCountsByExtension.TryGetValue(extension, out int count)
+            stat.FileCountsByExtension[extension] = !stat.FileCountsByExtension.TryGetValue(extension, out double count)
                 ? 1
                 : count + 1;
 
-            stat.FileSizeByExtension[extension] = !stat.FileSizeByExtension.TryGetValue(extension, out long size) 
+            stat.FileSizeByExtension[extension] = !stat.FileSizeByExtension.TryGetValue(extension, out double size) 
                 ? 0 
                 : size + environment.Source.GetFileSize(file);
         }

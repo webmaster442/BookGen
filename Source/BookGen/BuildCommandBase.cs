@@ -1,16 +1,13 @@
-﻿using System.Reflection.Emit;
-
-using Bookgen.Lib;
+﻿using Bookgen.Lib;
 using Bookgen.Lib.Pipeline;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Commands;
+using BookGen.Infrastructure.Loging;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
-
-using static BookGen.BuildCommandBase;
 
 namespace BookGen;
 
@@ -52,15 +49,11 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildCommandBase.BuildAr
         _target.Scope = arguments.OutputDirectory;
 
         using var env = new BookEnvironment(_soruce, _target, _assetSource);
-        var status = await env.Initialize(autoUpgrade: true);
+        EnvironmentStatus status = await env.Initialize(autoUpgrade: true);
 
         if (!status.IsOk)
         {
-            foreach (var issue in status)
-            {
-                _logger.LogError(issue);
-            }
-
+            _logger.EnvironmentStatus(status);
             return ExitCodes.ConfigError;
         }
 
