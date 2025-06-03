@@ -31,40 +31,55 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         _console = console;
     }
 
-    protected bool TestIfGitDir(string workDir)
+    public enum GitDirectoryStatus
+    {
+        NotGitDirectory,
+        GitDirectory,
+        UntrustedGitDirectory
+    }
+
+    protected static GitDirectoryStatus TestIfGitDir(string workDir)
     {
         try
         {
-            string[] arguments = ["status", "2"];
+            string[] arguments = ["rev-parse", "--is-inside-work-tree"];
 
-            var (exitcode, _) = ProcessRunner.RunProcess("git", arguments, TimeOut, workDir);
-            return exitcode == 0;
+            var (exitcode, result, error) = ProcessRunner.RunProcess("git", arguments, TimeOut, workDir);
+
+            if (exitcode == 128 && error.Contains("detected dubious ownership"))
+            {
+                return GitDirectoryStatus.UntrustedGitDirectory;
+            }
+            else if (exitcode == 0)
+            {
+                return bool.TryParse(result, out bool parsed) && parsed ? GitDirectoryStatus.GitDirectory : GitDirectoryStatus.NotGitDirectory;
+            }
+
+            return GitDirectoryStatus.NotGitDirectory;
         }
         catch (Exception)
         {
-            return false;
+            return GitDirectoryStatus.NotGitDirectory;
         }
     }
 
-    protected string GetGitRemote(string workDirectory)
+    protected static string GetGitRemote(string workDirectory)
     {
         string[] gitArguments = ["config", "--get", "remote.origin.url"];
-        var (exitcode, output) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
-        return exitcode == 0 ? output : string.Empty;
+        var (exitcode, output, error) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
+        return exitcode == 0 && string.IsNullOrEmpty(error) ? output : string.Empty;
     }
 
-    protected GitStatus? GetGitStatus(string workDirectory)
+    protected static GitStatus? GetGitStatus(string workDirectory)
     {
         try
         {
             string[] gitArguments = ["status", "-b", "-s", "--porcelain=2"];
 
-            var (exitcode, output) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
+            var (exitcode, output, _) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
             if (exitcode == 0)
             {
-                var status = GitParser.ParseStatus(output);
-
-                return status;
+                return GitParser.ParseStatus(output);
             }
 
             return null;
@@ -73,6 +88,14 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         {
             return null;
         }
+    }
+
+    protected void PrintUntrusted()
+    {
+        var builder = new TerminalOutputBuilder()
+            .Append(TerminalOutputBuilder.ForegroundColor.Yellow, TerminalOutputBuilder.BackgroundColor.Black, "<untrusted>");
+
+        _console.WriteLine(builder.ToString());
     }
 
     protected void PrintStatus(GitStatus? status)

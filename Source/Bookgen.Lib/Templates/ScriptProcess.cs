@@ -83,7 +83,7 @@ internal sealed class ScriptProcess
 
         try
         {
-            (int exitcode, string output) = ProcessRunner.RunProcess(programPath, fileToExecute, timeout);
+            (int exitcode, string output, _) = ProcessRunner.RunProcess(programPath, fileToExecute, timeout);
 
             if (exitcode != 0)
             {

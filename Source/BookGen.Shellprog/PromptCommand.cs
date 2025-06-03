@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+
 using BookGen.Cli.Annotations;
 
 using Spectre.Console;
@@ -18,12 +19,20 @@ internal sealed class PromptCommand : GitCommandBase
 
     public override int Execute(GitArguments arguments, IReadOnlyList<string> context)
     {
-        if (!string.IsNullOrEmpty(arguments.WorkDirectory)
-            && TestIfGitDir(arguments.WorkDirectory))
+        if (!string.IsNullOrEmpty(arguments.WorkDirectory))
         {
-            var status = GetGitStatus(arguments.WorkDirectory);
-            PrintStatus(status);
+            var result = TestIfGitDir(arguments.WorkDirectory);
+            if (result == GitDirectoryStatus.GitDirectory)
+            {
+                var status = GetGitStatus(arguments.WorkDirectory);
+                PrintStatus(status);
+            }
+            else if (result == GitDirectoryStatus.UntrustedGitDirectory)
+            {
+                PrintUntrusted();
+            }
         }
+        
         return 0;
     }
 }

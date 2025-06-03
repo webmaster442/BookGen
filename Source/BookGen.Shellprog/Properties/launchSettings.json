@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "BookGen.Shellprog": {
+      "commandName": "Project"
+    },
+    "Prompt": {
+      "commandName": "Project",
+      "commandLineArgs": "prompt b:\\HelloCsharp\\C"
+    }
+  }
+}

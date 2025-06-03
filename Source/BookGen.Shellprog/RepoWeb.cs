@@ -20,7 +20,7 @@ internal sealed class RepoWeb : GitCommandBase
     public override int Execute(GitArguments arguments, IReadOnlyList<string> context)
     {
         if (!string.IsNullOrEmpty(arguments.WorkDirectory)
-            && TestIfGitDir(arguments.WorkDirectory))
+            && TestIfGitDir(arguments.WorkDirectory) == GitDirectoryStatus.GitDirectory)
         {
             var remote = GetGitRemote(arguments.WorkDirectory);
             var url = GitParser.GetRepoWebUrl(remote);

@@ -27,7 +27,7 @@ public static class ProcessRunner
         }
     }
 
-    public static (int exitcode, string output) RunProcess(string programPath,
+    public static (int exitcode, string output, string error) RunProcess(string programPath,
                                                           string argument,
                                                           int timeOutSeconds,
                                                           string? workdir = null)
@@ -76,10 +76,10 @@ public static class ProcessRunner
     }
 
 
-    public static (int exitcode, string output) RunProcess(string programPath,
-                                                           string[] arguments,
-                                                           int timeOutSeconds,
-                                                           string? workdir = null)
+    public static (int exitcode, string output, string error) RunProcess(string programPath,
+                                                                         string[] arguments,
+                                                                         int timeOutSeconds,
+                                                                         string? workdir = null)
     {
 
         using (var process = new Process())
@@ -88,6 +88,7 @@ public static class ProcessRunner
             SetArguments(process.StartInfo, arguments);
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
             process.StartInfo.CreateNoWindow = true;
             
             if (workdir != null)
@@ -96,13 +97,14 @@ public static class ProcessRunner
             Task timeout = Task.Delay(timeOutSeconds * 1000);
             process.Start();
             Task<string> read = process.StandardOutput.ReadToEndAsync();
-            if (Task.WaitAny(timeout, read) == 0)
+            Task<string> errorRead = process.StandardError.ReadToEndAsync();
+            if (Task.WaitAny(timeout, read, errorRead) == 0)
             {
-                return (-1, "Timeout");
+                return (-1, string.Empty, "Timeout");
             }
             else
             {
-                return (process.ExitCode, read.Result);
+                return (process.ExitCode, read.Result, errorRead.Result);
             }
         }
     }
