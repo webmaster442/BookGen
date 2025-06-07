@@ -23,6 +23,7 @@ using ILoggerFactory factory = LoggerFactory
     .Create(builder =>
     {
         builder.ClearProviders();
+        builder.AddFilter(level => level >= info.LogLevel);
         if (info.JsonLogging)
         {
             builder.AddJsonConsole();
@@ -88,7 +89,11 @@ Task OnBeforeRun(ArgumentsBase @base, IReadOnlyList<string> list)
 {
     if (@base is IVerbosablityToggle toggle)
     {
+#if DEBUG
+        info.LogLevel = toggle.Verbose || Debugger.IsAttached ? LogLevel.Debug : LogLevel.Information;
+#else
         info.LogLevel = toggle.Verbose ? LogLevel.Debug : LogLevel.Information;
+#endif
     }
     return Task.CompletedTask;
 }
