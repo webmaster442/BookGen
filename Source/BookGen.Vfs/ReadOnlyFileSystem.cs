@@ -48,7 +48,7 @@ public class ReadOnlyFileSystem : IReadOnlyFileSystem
     public IEnumerable<string> GetDirectories(string path, bool recursive)
     {
         var actualPath = GetAndValidateFullNameInScope(path);
-        return Directory.EnumerateFiles(actualPath, "*.*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        return Directory.EnumerateDirectories(actualPath, "*.*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
     }
 
     public IEnumerable<string> GetFiles(string path, string filter, bool recursive)

@@ -34,8 +34,6 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 
         using var markdown = new MarkdownToHtml(cached, settings);
 
-        var files = environment.TableOfContents.Chapters.SelectMany(x => x.Files);
-
         ParallelOptions options = new ParallelOptions
         {
             CancellationToken = cancellationToken,
@@ -48,7 +46,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
         }
 #endif
 
-        await Parallel.ForEachAsync(files, options, async (file, token) =>
+        await Parallel.ForEachAsync(environment.TableOfContents.GetFiles(), options, async (file, token) =>
         {
             if (token.IsCancellationRequested) return;
 

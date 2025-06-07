@@ -25,6 +25,7 @@ internal sealed class MigrateToc : IMigrationStep
 
         TableOfContents tableOfContents = new TableOfContents()
         {
+            IndexFile = state.LegacyConfig.Index,
             Chapters = chapters.ToArray()
         };
 

@@ -24,8 +24,8 @@ internal sealed class CreateEmptyIndexPagesForFolders : PipeLineStep<StaticWebSt
                 return StepResult.Failure;
             }
 
-            var filename = "index.html";
-            logger.LogDebug("creating index.html in {folder}...", folder);
+            var filename = Path.Combine(folder, "index.html");
+            logger.LogDebug("creating file {filename}", filename);
             await environment.Output.WriteAllTextAsync(filename, protect);
         }
 

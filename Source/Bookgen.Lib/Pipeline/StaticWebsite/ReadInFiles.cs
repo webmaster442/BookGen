@@ -14,8 +14,7 @@ internal sealed class ReadInFiles : PipeLineStep<StaticWebState>
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Reading in files...");
-        var files = environment.TableOfContents.Chapters.SelectMany(x => x.Files);
-        await Parallel.ForEachAsync(files, cancellationToken, async (file, token) =>
+        await Parallel.ForEachAsync(environment.TableOfContents.GetFiles(), cancellationToken, async (file, token) =>
         {
             if (token.IsCancellationRequested) return;
 
