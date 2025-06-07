@@ -11,7 +11,16 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen;
 
-internal abstract class BuildCommandBase : AsyncCommand<BuildCommandBase.BuildArguments>
+public sealed class BuildArguments : BookGenArgumentBase
+{
+    [Switch("o", "output")]
+    public string OutputDirectory { get; set; } = string.Empty;
+
+    [Switch("-h", "--host")]
+    public string HostOverride { get; set; } = string.Empty;
+}
+
+internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
 {
     protected readonly IWritableFileSystem _soruce;
     protected readonly IWritableFileSystem _target;
@@ -30,15 +39,6 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildCommandBase.BuildAr
     }
 
     public abstract Pipeline GetPipeLine();
-
-    public sealed class BuildArguments : BookGenArgumentBase
-    {
-        [Switch("o", "output")]
-        public string OutputDirectory { get; set; } = string.Empty;
-
-        [Switch("-h", "--host")]
-        public string HostOverride {  get; set; } = string.Empty;
-    }
 
     public override async Task<int> ExecuteAsync(BuildArguments arguments, IReadOnlyList<string> context)
     {

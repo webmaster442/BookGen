@@ -98,9 +98,10 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
         if (_currentArgs == null)
             return ExitCodes.GeneralError;
 
-        var folder = Path.Combine(_currentArgs.Directory, "Output", "Test");
-
         await Run("buildweb", "-o", "Output/Test", "-h", $"http://localhost:{ServerFactory.HostingPort}");
-        return await Run("serve", "--dir", folder);
+
+        _currentArgs.Directory = Path.Combine(_currentArgs.Directory, "Output", "Test");
+
+        return await Run("serve");
     }
 }

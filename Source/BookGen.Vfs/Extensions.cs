@@ -95,14 +95,8 @@ public static class Extensions
         ArgumentException.ThrowIfNullOrWhiteSpace(targetFolder.Scope);
 
         var fullPath = Path.GetFullPath(file, sourceFolder.Scope);
-        var relativePart = fullPath.Replace(sourceFolder.Scope, "");
 
-        // Remove leading backslash or slash if present
-        if (relativePart.StartsWith('\\'))
-            relativePart = relativePart[1..];
-        if (relativePart.StartsWith('/'))
-            relativePart = relativePart[1..];
-
+        var relativePart = Path.GetRelativePath(sourceFolder.Scope, fullPath);
 
         return Path.ChangeExtension(Path.GetFullPath(relativePart, targetFolder.Scope), newExtension);
     }

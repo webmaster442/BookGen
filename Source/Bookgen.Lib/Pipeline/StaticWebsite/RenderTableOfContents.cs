@@ -135,6 +135,7 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
         public void Render(string file, IWritableFileSystem output, SourceFile sourceFile)
         {
             var linkTarget = Path.ChangeExtension(Path.Combine(output.Scope, file), ".html");
+            linkTarget = Path.GetRelativePath(output.Scope, linkTarget).Replace("\\", "/");
             var linkTitle = sourceFile.FrontMatter.Title;
 
             _buffer
