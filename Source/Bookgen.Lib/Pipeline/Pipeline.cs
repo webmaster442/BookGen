@@ -60,6 +60,7 @@ public sealed class Pipeline
             new ReadInFiles(state),
             new RenderTableOfContents(state),
             new RenderStaticPages(state),
+            new RenderIndexPage(state),
             new RenderStabdaloneToc(state),
             new CreateEmptyIndexPagesForFolders(state)
         );

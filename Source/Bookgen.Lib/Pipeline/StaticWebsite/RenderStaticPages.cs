@@ -8,6 +8,7 @@ using Bookgen.Lib.Templates;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
@@ -33,27 +34,43 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 
         using var markdown = new MarkdownToHtml(cached, settings);
 
-        SourceFile sourceData = State.SourceFiles[environment.TableOfContents.IndexFile];
-
-        string tempate = await environment.GetTemplate(frontMatterTemplate: sourceData.FrontMatter.Template,
-                                                       fallbackTemplate: BundledAssets.TemplateStaticWeb,
-                                                       defaultTemplateSelector: cfg => cfg.StaticWebsiteConfig.DefaultTempate);
-
-        var viewData = new StaticViewData
+        ParallelOptions options = new ParallelOptions
         {
-            Host = environment.Configuration.StaticWebsiteConfig.DeployHost,
-            Content = markdown.RenderMarkdownToHtml(sourceData.Content),
-            Title = sourceData.FrontMatter.Title,
-            AdditionalData = sourceData.FrontMatter.Data ?? new(),
-            Toc = State.Toc,
+            CancellationToken = cancellationToken,
         };
 
-        string finalContent = renderer.Render(tempate, viewData);
+#if DEBUG
+        if (Debugger.IsAttached)
+        {
+            options.MaxDegreeOfParallelism = 1;
+        }
+#endif
 
-        var outputName = environment.Source.GetFileNameInTargetFolder(environment.Output, "index.html", ".html");
+        await Parallel.ForEachAsync(environment.TableOfContents.GetFiles(), options, async (file, token) =>
+        {
+            if (token.IsCancellationRequested) return;
 
-        await environment.Output.WriteAllTextAsync(outputName, finalContent);
+            SourceFile sourceData = State.SourceFiles[file];
 
+            string tempate = await environment.GetTemplate(frontMatterTemplate: sourceData.FrontMatter.Template,
+                                                           fallbackTemplate: BundledAssets.TemplateStaticWeb,
+                                                           defaultTemplateSelector: cfg => cfg.StaticWebsiteConfig.DefaultTempate);
+
+            var viewData = new StaticViewData
+            {
+                Host = environment.Configuration.StaticWebsiteConfig.DeployHost,
+                Content = markdown.RenderMarkdownToHtml(sourceData.Content),
+                Title = sourceData.FrontMatter.Title,
+                AdditionalData = sourceData.FrontMatter.Data ?? new(),
+                Toc = State.Toc,
+            };
+
+            string finalContent = renderer.Render(tempate, viewData);
+
+            var outputName = environment.Source.GetFileNameInTargetFolder(environment.Output, file, ".html");
+
+            await environment.Output.WriteAllTextAsync(outputName, finalContent);
+        });
 
         return StepResult.Success;
     }
