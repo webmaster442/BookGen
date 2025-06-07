@@ -143,6 +143,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         {
             var viewData = new ViewData
             {
+                Host = string.Empty,
                 Content = mdcontent,
                 Title = arguments.Title,
             };

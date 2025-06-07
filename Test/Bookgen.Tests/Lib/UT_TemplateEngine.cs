@@ -24,7 +24,7 @@ internal class UT_TemplateEngine
     [TestCase("{{MyFunction(\"Foo\", \"Bar\",\"Baz\", \"Banana\")}}", "Foo,Bar,Baz,Banana\r\n")]
     public void EnsureThat_Render_Works(string template, string expected)
     {
-        var viewData = new ViewData { Content = "This is content", Title = "title" };
+        var viewData = new ViewData { Content = "This is content", Title = "title", Host = string.Empty };
 
         string result = _sut.Render(template, viewData);
 

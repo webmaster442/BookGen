@@ -60,6 +60,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 
             var viewData = new StaticViewData
             {
+                Host = environment.Configuration.StaticWebsiteConfig.DeployHost,
                 Content = markdown.RenderMarkdownToHtml(sourceData.Content),
                 Title = sourceData.FrontMatter.Title,
                 AdditionalData = sourceData.FrontMatter.Data ?? new(),

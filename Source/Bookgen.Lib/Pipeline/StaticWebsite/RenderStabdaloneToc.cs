@@ -29,6 +29,7 @@ internal class RenderStabdaloneToc : PipeLineStep<StaticWebState>
 
         var viewData = new StaticViewData
         {
+            Host = environment.Configuration.StaticWebsiteConfig.DeployHost,
             Content = State.Toc,
             Title = environment.Configuration.BookTitle,
             AdditionalData = new(),

@@ -14,6 +14,11 @@ public class ViewData
     /// </summary>
     public required string Content { get; init; }
 
+    /// <summary>
+    /// Host url for links and images
+    /// </summary>
+    public required string Host { get; init; }
+
     public Dictionary<string, string> AdditionalData { get; init; } = new();
 
     public Dictionary<string, string> GetDataTable()

@@ -48,8 +48,4 @@
     <ProjectReference Include="..\BookGen.Vfs\BookGen.Vfs.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
