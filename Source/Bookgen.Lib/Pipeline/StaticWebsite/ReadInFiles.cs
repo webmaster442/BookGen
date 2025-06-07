@@ -22,6 +22,9 @@ internal sealed class ReadInFiles : PipeLineStep<StaticWebState>
             State.SourceFiles.TryAdd(file, sourceData);
         });
 
+        SourceFile sourceData = await environment.Source.GetSourceFile(environment.TableOfContents.IndexFile, logger);
+        State.SourceFiles.TryAdd(environment.TableOfContents.IndexFile, sourceData);
+
         return StepResult.Success;
     }
 }
