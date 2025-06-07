@@ -1,4 +1,6 @@
-﻿using Bookgen.Lib.Domain;
+﻿using System.Diagnostics;
+
+using Bookgen.Lib.Domain;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
@@ -6,6 +8,7 @@ using Bookgen.Lib.Templates;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
@@ -33,7 +36,19 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 
         var files = environment.TableOfContents.Chapters.SelectMany(x => x.Files);
 
-        await Parallel.ForEachAsync(files, cancellationToken, async (file, token) =>
+        ParallelOptions options = new ParallelOptions
+        {
+            CancellationToken = cancellationToken,
+        };
+
+#if DEBUG
+        if (Debugger.IsAttached)
+        {
+            options.MaxDegreeOfParallelism = 1;
+        }
+#endif
+
+        await Parallel.ForEachAsync(files, options, async (file, token) =>
         {
             if (token.IsCancellationRequested) return;
 
@@ -53,7 +68,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 
             string finalContent = renderer.Render(tempate, viewData);
 
-            var outputName = environment.Source.GetFileNameInTargetFolder(environment.Output, file);
+            var outputName = environment.Source.GetFileNameInTargetFolder(environment.Output, file, ".html");
 
             await environment.Output.WriteAllTextAsync(outputName, finalContent);
         });

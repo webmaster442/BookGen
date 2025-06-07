@@ -134,9 +134,7 @@ public sealed class BookEnvironment : IBookEnvironment
             }
         }
 
-        _output.Scope = config.OutputFolder;
         _isInitialized = true;
-
         return status;
     }
 

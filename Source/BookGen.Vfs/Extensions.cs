@@ -89,13 +89,21 @@ public static class Extensions
         await fs.WriteAllTextAsync(path, schemaString);
     }
 
-    public static string GetFileNameInTargetFolder(this IReadOnlyFileSystem sourceFolder, IReadOnlyFileSystem targetFolder, string file)
+    public static string GetFileNameInTargetFolder(this IReadOnlyFileSystem sourceFolder, IReadOnlyFileSystem targetFolder, string file, string newExtension)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(sourceFolder.Scope);
         ArgumentException.ThrowIfNullOrWhiteSpace(targetFolder.Scope);
 
         var fullPath = Path.GetFullPath(file, sourceFolder.Scope);
         var relativePart = fullPath.Replace(sourceFolder.Scope, "");
-        return Path.GetFullPath(relativePart, targetFolder.Scope);
+
+        // Remove leading backslash or slash if present
+        if (relativePart.StartsWith('\\'))
+            relativePart = relativePart[1..];
+        if (relativePart.StartsWith('/'))
+            relativePart = relativePart[1..];
+
+
+        return Path.ChangeExtension(Path.GetFullPath(relativePart, targetFolder.Scope), newExtension);
     }
 }

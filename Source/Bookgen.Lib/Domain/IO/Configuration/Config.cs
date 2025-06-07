@@ -23,10 +23,6 @@ public sealed class Config
     [NotNullOrWhiteSpace]
     public string BookTitle { get; init; }
 
-    [Description("Output folder")]
-    [NotNullOrWhiteSpace]
-    public string OutputFolder { get; init; }
-
     [Description("Static website settings")]
     [Required]
     public StaticWebsiteConfig StaticWebsiteConfig { get; init; }
@@ -49,6 +45,5 @@ public sealed class Config
         StaticWebsiteConfig = new StaticWebsiteConfig();
         PrintConfig = new PrintConfig();
         WordpressConfig = new WordpressConfig();
-        OutputFolder = string.Empty;
     }
 }

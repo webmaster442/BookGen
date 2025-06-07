@@ -43,6 +43,7 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildCommandBase.BuildAr
         {
             _target.Delete(arguments.OutputDirectory);
         }
+
         _target.CreateDirectoryIfNotExist(arguments.OutputDirectory);
 
         _soruce.Scope = arguments.Directory;

@@ -37,7 +37,7 @@ internal class RenderStabdaloneToc : PipeLineStep<StaticWebState>
 
         string finalContent = renderer.Render(tempate, viewData);
 
-        var outputName = environment.Source.GetFileNameInTargetFolder(environment.Output, environment.Configuration.StaticWebsiteConfig.TocConfiguration.StandaloneFileName);
+        var outputName = environment.Source.GetFileNameInTargetFolder(environment.Output, environment.Configuration.StaticWebsiteConfig.TocConfiguration.StandaloneFileName, ".html");
 
         await environment.Output.WriteAllTextAsync(outputName, finalContent);
 
