@@ -35,6 +35,9 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildCommandBase.BuildAr
     {
         [Switch("o", "output")]
         public string OutputDirectory { get; set; } = string.Empty;
+
+        [Switch("-h", "--host")]
+        public string HostOverride {  get; set; } = string.Empty;
     }
 
     public override async Task<int> ExecuteAsync(BuildArguments arguments, IReadOnlyList<string> context)
@@ -56,6 +59,12 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildCommandBase.BuildAr
         {
             _logger.EnvironmentStatus(status);
             return ExitCodes.ConfigError;
+        }
+
+        if (!string.IsNullOrEmpty(arguments.HostOverride))
+        {
+            env.Configuration.StaticWebsiteConfig.DeployHost = arguments.HostOverride;
+            env.Configuration.WordpressConfig.DeployHost = arguments.HostOverride;
         }
 
         Pipeline pipeline = GetPipeLine();

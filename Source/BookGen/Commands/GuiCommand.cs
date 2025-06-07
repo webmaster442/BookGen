@@ -1,9 +1,13 @@
-﻿using BookGen.Cli;
+﻿using Bookgen.Lib.Http;
+
+using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Terminal;
 using BookGen.Vfs;
 
 using Spectre.Console;
+
+using Webmaster442.WindowsTerminal;
 
 namespace BookGen.Commands;
 
@@ -25,6 +29,7 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
 
     public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
+        WindowsTerminal.SetWindowTitle("BookGen Gui");
         AnsiConsole.Clear();
 
         _currentArgs = arguments;
@@ -47,21 +52,27 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
         AnsiConsole.WriteLine();
         AnsiConsole.WriteLine();
 
-        MenuItem[] menu =
-        [
-            new(Emoji.Known.RedQuestionMark, "Validate current configuration", async () => await Run("validate")),
-            new(Emoji.Known.SpiderWeb, " Start a webserver in curent directory", async () => await Run("serve")),
-            new(Emoji.Known.GlobeShowingAmericas, "Build static website", async () => await Run("buildweb", "-o", "OutputWeb")),
-            new(Emoji.Known.Printer, " Build printable html", async () => await Run("buildprint", "-o", "OutputPrint")),
-            new(Emoji.Known.FileCabinet, " Build wordpress export", async () => await Run("buildwp", "-o", "OutputWp")),
-            new(Emoji.Known.Door, "Exit", OnExit)
-        ];
-
         var selector = new SelectionPrompt<MenuItem>()
             .Title("Select an action:")
-            .PageSize(10)
-            .AddChoices(menu)
-            .UseConverter(mi => mi.ToString());
+            .PageSize(20)
+            .UseConverter(mi => mi.ToString())
+            .AddChoiceGroup(MenuItem.GroupHeader("Folder operations"),
+            [
+                new(Emoji.Known.RedQuestionMark, "Validate current configuration", async () => await Run("validate")),
+                new(Emoji.Known.Information, " Statistics", async() => await Run("stats")),
+                new(Emoji.Known.SpiderWeb, " Start a webserver in curent directory", async () => await Run("serve")),
+            ])
+            .AddChoiceGroup(MenuItem.GroupHeader("Build"),
+            [
+                new(Emoji.Known.ExclamationQuestionMark, "Build test website", OnTest),
+                new(Emoji.Known.GlobeShowingAmericas, "Build static website", async () => await Run("buildweb", "-o", "Output/Web")),
+                new(Emoji.Known.Printer, " Build printable html", async () => await Run("buildprint", "-o", "Output/Print")),
+                new(Emoji.Known.FileCabinet, " Build wordpress export", async () => await Run("buildwp", "-o", "Output/Wp")),
+            ])
+            .AddChoiceGroup(MenuItem.GroupHeader("Other"),
+            [
+                new(Emoji.Known.Door, "Exit", OnExit)
+            ]);
 
         var selected = AnsiConsole.Prompt(selector);
         return await selected.ExecuteAsync();
@@ -77,7 +88,19 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
 
     private Task<int> OnExit()
     {
+        AnsiConsole.Clear();
         Environment.Exit(ExitCodes.Succes);
         return Task.FromResult(ExitCodes.Succes);
+    }
+
+    private async Task<int> OnTest()
+    {
+        if (_currentArgs == null)
+            return ExitCodes.GeneralError;
+
+        var folder = Path.Combine(_currentArgs.Directory, "Output", "Test");
+
+        await Run("buildweb", "-o", "Output/Test", "-h", $"http://localhost:{ServerFactory.HostingPort}");
+        return await Run("serve", "--dir", folder);
     }
 }

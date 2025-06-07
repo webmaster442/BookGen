@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 namespace Bookgen.Lib.Http;
 public static class ServerFactory
 {
-    private const int HostingPort = 8081;
+    public const int HostingPort = 8081;
 
     private static int ChoosePort(int @default = HostingPort)
     {

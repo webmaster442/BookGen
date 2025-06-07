@@ -18,4 +18,7 @@ internal sealed class MenuItem
 
     public async Task<int> ExecuteAsync()
         => await _action.Invoke();
+
+    internal static MenuItem GroupHeader(string title)
+        => new(string.Empty, title, () => Task.FromResult(0));
 }
