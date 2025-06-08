@@ -74,7 +74,13 @@ internal class ArgumentParser
         {
             var switchAttribute = property.GetCustomAttribute<SwitchAttribute>()
                 ?? throw new System.Diagnostics.UnreachableException();
-            
+
+            if (switchAttribute.ShortName.StartsWith('-'))
+                throw new InvalidOperationException($"Invalid switch name: {switchAttribute.ShortName}. Switch names cannot start with a dash.");
+
+            if (switchAttribute.LongName.StartsWith('-'))
+                throw new InvalidOperationException($"Invalid switch name: {switchAttribute.LongName}. Switch names cannot start with a dash.");
+
             if (property.PropertyType == typeof(bool))
             {
                 property.SetValue(argumentsClass, argBag.GetSwitch(switchAttribute));
