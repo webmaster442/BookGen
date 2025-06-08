@@ -8,4 +8,5 @@ public static class BundledAssets
     public const string ProtectHtml = "protect.html";
     public const string TemplateStaticWeb = "Static.html";
     public const string TemplatePrint = "Print.html";
+    public const string MathJax = "mathjax-bundled.js";
 }

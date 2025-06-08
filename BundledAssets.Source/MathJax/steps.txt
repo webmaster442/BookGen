@@ -1,0 +1,2 @@
+npm install
+node bundle-mathjax.js

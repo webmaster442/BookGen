@@ -40,6 +40,14 @@ public abstract class JavascriptInterop : IDisposable
         _engine.Execute(code);
     }
 
+    protected object Evaluate(string code)
+    {
+        if (_disposed)
+            throw new ObjectDisposedException(nameof(_engine));
+
+        return _engine.Evaluate(code);
+    }
+
     protected string ExecuteAndGetResult(string code)
     {
         if (_disposed)
