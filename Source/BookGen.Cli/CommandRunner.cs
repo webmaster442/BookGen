@@ -49,16 +49,46 @@ public sealed class CommandRunner
 
     private static Type? GetArgumentType(Type cmd)
     {
-        var method = cmd.GetMethod(nameof(AsyncCommand.ExecuteAsync))
-                     ?? cmd.GetMethod(nameof(Command.Execute));
+        Type originalType = cmd;
+
+        // Walk up the inheritance hierarchy to find Command<T> or AsyncCommand<T>
+        while (cmd != null && cmd != typeof(object))
+        {
+            if (cmd.IsGenericType)
+            {
+                Type baseGeneric = cmd.GetGenericTypeDefinition();
+
+                if (baseGeneric == typeof(Command<>) || baseGeneric == typeof(AsyncCommand<>))
+                {
+                    // Get the concrete TArguments
+                    Type tArguments = cmd.GetGenericArguments()[0];
+#if DEBUG
+                    Debug.WriteLine($"Via generics: {tArguments.FullName}");
+#endif
+                    return tArguments;
+                }
+            }
+            if (cmd.BaseType == null)
+            {
+                break;
+            }
+            cmd = cmd.BaseType;
+        }
+
+        var method = originalType.GetMethod(nameof(AsyncCommand.ExecuteAsync))
+                     ?? originalType.GetMethod(nameof(Command.Execute));
 
         if (method == null)
-            throw new InvalidOperationException($"Command {cmd.FullName} is missing Exetutable method");
+            throw new InvalidOperationException($"Command {originalType.FullName} is missing Exetutable method");
 
         var parameter = method
             ?.GetParameters()
             .FirstOrDefault(p => p.ParameterType.IsAssignableTo(typeof(ArgumentsBase)))
             ?.ParameterType;
+
+#if DEBUG
+        Debug.WriteLine($"Via methodinfo: {parameter?.FullName}");
+#endif
 
         return parameter;
     }
