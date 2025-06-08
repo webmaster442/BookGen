@@ -7,7 +7,6 @@ using Bookgen.Lib.Http;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Infrastructure;
 
 using Microsoft.Extensions.Logging;
 
@@ -17,24 +16,20 @@ namespace BookGen.Commands;
 internal class ServeCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly ILogger _log;
-    private readonly IMutexFolderLock _folderLock;
 
-    public ServeCommand(ILogger log, IMutexFolderLock folderLock)
+    public ServeCommand(ILogger log)
     {
         _log = log;
-        _folderLock = folderLock;
     }
 
     public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
-        _folderLock.CheckLockFileExistsAndExitWhenNeeded(_log, arguments.Directory);
-
-        var server = ServerFactory.CreateServerForDirectoryHosting(arguments.Directory);
-
-        using (var runner = new ConsoleHttpServerRunner(server))
+#pragma warning disable CA2000 // Dispose objects before losing scope
+        //runner is responsible for disposing the server
+        await using (var runner = new ConsoleHttpServerRunner(ServerFactory.CreateServerForDirectoryHosting(arguments.Directory)))
         {
-            var serverurls = string.Join(' ', server.GetListenUrls());
-            var qrcodes = string.Join(' ', server.GetListenUrls().Select(x => $"{x}/qrcodelink"));
+            var serverurls = string.Join(' ', runner.Server.GetListenUrls());
+            var qrcodes = string.Join(' ', runner.Server.GetListenUrls().Select(x => $"{x}/qrcodelink"));
 
             _log.LogInformation("Serving: {directory}", arguments.Directory);
             _log.LogInformation("Server running on {urls}", serverurls);
@@ -42,6 +37,7 @@ internal class ServeCommand : AsyncCommand<BookGenArgumentBase>
 
             await runner.RunServer();
         }
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
         return ExitCodes.Succes;
     }

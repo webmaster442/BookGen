@@ -157,4 +157,7 @@ internal sealed class HttpServer : IHttpServer
 
     public async Task StopAsync()
         => await _app.StopAsync();
+
+    public ValueTask DisposeAsync()
+        => _app.DisposeAsync();
 }

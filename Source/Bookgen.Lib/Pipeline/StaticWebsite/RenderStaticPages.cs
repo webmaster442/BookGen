@@ -8,7 +8,6 @@ using Bookgen.Lib.Templates;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 

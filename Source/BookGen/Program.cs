@@ -50,7 +50,6 @@ ioc.RegisterSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
 ioc.RegisterSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
 ioc.Register<IWritableFileSystem, FileSystem>();
 ioc.Register<IReadOnlyFileSystem, FileSystem>();
-ioc.Register<IMutexFolderLock, MutexFolderLock>();
 
 ioc.Build();
 

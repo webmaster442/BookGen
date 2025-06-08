@@ -5,7 +5,7 @@
 
 namespace Bookgen.Lib.Http;
 
-public interface IHttpServer
+public interface IHttpServer : IAsyncDisposable
 {
     int Port { get; }
     IEnumerable<string> GetListenUrls();

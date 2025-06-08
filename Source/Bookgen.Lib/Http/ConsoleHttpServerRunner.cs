@@ -5,30 +5,32 @@
 
 namespace Bookgen.Lib.Http;
 
-public sealed class ConsoleHttpServerRunner : IDisposable
+public sealed class ConsoleHttpServerRunner : IAsyncDisposable
 {
     private readonly CancellationTokenSource _tokenSource;
-    private readonly IHttpServer _server;
     private bool _disposed;
+
+    public IHttpServer Server { get; }
 
     public ConsoleHttpServerRunner(IHttpServer server)
     {
         _tokenSource = new();
-        _server = server;
+        Server = server;
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         if (_disposed) return;
         _tokenSource.Dispose();
+        await Server.StopAsync();
+        await Server.DisposeAsync();
         _disposed = true;
     }
 
     public async Task RunServer()
     {
-        await _server.StartAsync();
+        await Server.StartAsync();
         Console.WriteLine("Press any key to stop the server...");
         Console.ReadKey();
-        await _server.StopAsync();
     }
 }

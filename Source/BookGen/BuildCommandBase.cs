@@ -16,7 +16,7 @@ public sealed class BuildArguments : BookGenArgumentBase
     [Switch("o", "output")]
     public string OutputDirectory { get; set; } = string.Empty;
 
-    [Switch("-h", "--host")]
+    [Switch("h", "host")]
     public string HostOverride { get; set; } = string.Empty;
 }
 
