@@ -34354,13 +34354,12 @@ var MathJaxModule = (() => {
     InputJax: tex,
     OutputJax: svg
   });
-  function typeset(latex, scale = 1) {
-    const size = 16 * scale;
+  function typeset(latex) {
     const node = html.convert(latex, {
-      display: true,
-      em: size
+      display: true
     });
-    return adaptor.outerHTML(node);
+    const svgString = adaptor.innerHTML(node);
+    return svgString;
   }
   return __toCommonJS(mathjax_entry_exports);
 })();

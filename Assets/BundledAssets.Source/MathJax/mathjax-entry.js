@@ -16,11 +16,10 @@ const html = mathjax.document('', {
   OutputJax: svg
 });
 
-export function typeset(latex, scale = 1.0) {
-  const size = 16 * scale;
+export function typeset(latex) {
   const node = html.convert(latex, { 
     display: true,
-    em: size,
    });
-  return adaptor.outerHTML(node);
+  const svgString = adaptor.innerHTML(node);
+  return svgString;
 }

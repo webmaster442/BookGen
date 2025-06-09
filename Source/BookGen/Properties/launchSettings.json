@@ -28,6 +28,10 @@
     "Migrate": {
       "commandName": "Project",
       "commandLineArgs": "migrate -d g:\\HelloCsharp\\C\\"
+    },
+    "Math2Svg": {
+      "commandName": "Project",
+      "commandLineArgs": "math2svg -f \"e=m \\cdot c^2\" -o test.svg -s 15"
     }
   }
 }

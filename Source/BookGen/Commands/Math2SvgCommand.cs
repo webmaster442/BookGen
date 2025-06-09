@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Net;
+using Bookgen.Lib.JsInterop;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Infrastructure.Web;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
@@ -15,51 +14,59 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("math2svg")]
-internal class Math2SvgCommand : AsyncCommand<InputOutputArguments>
+internal class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArguments>
 {
     private readonly ILogger _log;
     private readonly IWritableFileSystem _fileSystem;
+    private readonly IAssetSource _assets;
 
-    public Math2SvgCommand(ILogger log, IWritableFileSystem fileSystem)
+    public sealed class Math2SvgArguments : ArgumentsBase
+    {
+        [Switch("f", "formula")]
+        public string Formula { get; set; } = string.Empty;
+
+        [Switch("o", "output")]
+        public string OutputFile { get; set; } = string.Empty;
+
+        [Switch("s", "scale")]
+        public double Scale { get; set; } = 1.0;
+
+        public override ValidationResult Validate(IValidationContext context)
+        {
+            ValidationResult result = new();
+
+            if (string.IsNullOrEmpty(Formula))
+                result.AddIssue("Formula can't be empty");
+
+            if (string.IsNullOrEmpty(OutputFile))
+                result.AddIssue("Output file/directory must be specified");
+
+            if (Scale <= 0.1 || Scale > 40)
+                result.AddIssue("Scale must be bigger than 0.1 and maximum 40");
+
+            return result;
+        }
+
+        public override void ModifyAfterValidation()
+        {
+            OutputFile = Path.ChangeExtension(OutputFile, ".svg");
+        }
+    }
+
+    public Math2SvgCommand(ILogger log, IWritableFileSystem fileSystem, IAssetSource assetSource)
     {
         _log = log;
         _fileSystem = fileSystem;
+        _assets = assetSource;
     }
 
-    public override async Task<int> ExecuteAsync(InputOutputArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Math2SvgArguments arguments, IReadOnlyList<string> context)
     {
-        var input = File.ReadAllLines(arguments.InputFile);
+        using var mathJax = new MathJaxInterop(_assets);
+        string svg = mathJax.RenderLatexToSvg(arguments.Formula, arguments.Scale);
 
-        UrlParameterBuilder builder = new(MathVercelParams.ApiUrl);
-        using (var client = new BookGenHttpClient())
-        {
-            for (int i = 0; i < input.Length; i++)
-            {
-                if (!input[i].StartsWith('\\'))
-                {
-                    _log.LogWarning("Not a formula (not starting with \\), Skipping line: {line}", input[i]);
-                    continue;
-                }
-                _log.LogInformation("Downloading from {url}...", MathVercelParams.ApiUrl);
+        await _fileSystem.WriteAllTextAsync(arguments.OutputFile, svg);
 
-                builder.AddParameter(MathVercelParams.FromPram, input[i]);
-                Uri uri = builder.Build();
-
-                (HttpStatusCode code, string resultString) = await client.TryDownload(uri);
-
-                if (BookGenHttpClient.IsSuccessfullRequest(code))
-                {
-                    var output = Path.Combine(arguments.OutputFile, Path.GetFileName(arguments.InputFile) + $"-{i}.svg");
-
-                    _fileSystem.WriteAllText(output, resultString);
-                }
-                else
-                {
-                    _log.LogWarning("Download failed. Error: {error}", code);
-                    return ExitCodes.GeneralError;
-                }
-            }
-        }
         return ExitCodes.Succes;
     }
 }
