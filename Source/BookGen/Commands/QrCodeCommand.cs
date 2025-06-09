@@ -3,11 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Net;
+using System.Text.RegularExpressions;
+
+using Bookgen.Lib.JsInterop;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Infrastructure.Web;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
@@ -15,15 +16,18 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("qrcode")]
-internal class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
+internal partial class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
 {
-    internal sealed class QrCodeArguments : ArgumentsBase
+    internal sealed partial class QrCodeArguments : ArgumentsBase
     {
+        [GeneratedRegex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")]
+        private static partial Regex ColorMatcher();
+
         [Switch("o", "output")]
         public string Output { get; set; }
 
-        [Switch("s", "size")]
-        public int Size { get; set; }
+        [Switch("c", "color")]
+        public string Color { get; set; }
 
         [Switch("d", "data")]
         public string Data { get; set; }
@@ -31,29 +35,22 @@ internal class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
         public QrCodeArguments()
         {
             Output = string.Empty;
-            Size = 200;
             Data = string.Empty;
+            Color = "#000000";
         }
 
         public override ValidationResult Validate(IValidationContext context)
         {
             ValidationResult result = new();
+
             if (string.IsNullOrEmpty(Data))
                 result.AddIssue("Data can't be empty");
 
-            if (Data?.Length < 1 || Data?.Length > 900)
-                result.AddIssue("Data must be at least 1 chars and max 900 chars");
-
             if (string.IsNullOrEmpty(Output))
-                result.AddIssue("Output can't be empty");
+                result.AddIssue("Output file must be specified");
 
-            if (Size < 10 || Size > 1000)
-                result.AddIssue("Size must be bigger than 10px and maximum 1000 pixels");
-
-            var extension = Path.GetExtension(Output);
-
-            if (extension != ".png" && extension != ".svg")
-                result.AddIssue("Output extension must be .png or .svg");
+            if (!ColorMatcher().IsMatch(Color))
+                result.AddIssue("Color must be a valid hex color code, like #000000 or #FFF");
 
             return result;
         }
@@ -62,37 +59,23 @@ internal class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
 
     private readonly ILogger _log;
     private readonly IWritableFileSystem _fileSystem;
+    private readonly IAssetSource _assetSource;
 
-    public QrCodeCommand(ILogger log, IWritableFileSystem fileSystem)
+    public QrCodeCommand(ILogger log, IWritableFileSystem fileSystem, IAssetSource assetSource)
     {
         _log = log;
         _fileSystem = fileSystem;
+        _assetSource = assetSource;
     }
 
     public override async Task<int> ExecuteAsync(QrCodeArguments arguments, IReadOnlyList<string> context)
     {
-        UrlParameterBuilder builder = new(GoQrMeParams.ApiUrl);
-        builder.AddParameter(GoQrMeParams.DataParam, arguments.Data);
-        builder.AddParameter(GoQrMeParams.SizeParam, $"{arguments.Size}x{arguments.Size}");
-        builder.AddParameter(GoQrMeParams.FormatParam, Path.GetExtension(arguments.Output));
+        using var qrCode = new QrCodeInterop(_assetSource);
 
-        var uri = builder.Build();
+        var svg = qrCode.GenerateQrCode(arguments.Data, arguments.Color);
 
-        using (var client = new BookGenHttpClient())
-        {
-            _log.LogInformation("Downloading from {url}...", GoQrMeParams.ApiUrl);
+        await _fileSystem.WriteAllTextAsync(arguments.Output, svg);
 
-            using var output = _fileSystem.CreateWriteStream(arguments.Output);
-
-            HttpStatusCode result = await client.DownloadTo(uri, output);
-
-            if (!BookGenHttpClient.IsSuccessfullRequest(result))
-            {
-                _log.LogWarning("Download failed. Error: {error}", result);
-                return ExitCodes.GeneralError;
-            }
-
-            return ExitCodes.Succes;
-        }
+        return ExitCodes.Succes;
     }
 }

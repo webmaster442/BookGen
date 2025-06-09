@@ -370,22 +370,20 @@ Arguments:
 
 Renders an url into a QRCode image
 
-`BookGen QrCode -d <url> -s <size> -o <output>`
-`BookGen QrCode --data <url> --size <size> --output <output>`
+`BookGen QrCode -d <url> -o <output> [-c [color]]`
+`BookGen QrCode --data <url> --output <output> [--color [color]]`
 
 Arguments:
 
 -d, --data: 
     Url data to encode. Minimum 1 byte, Maximum 900 bytes
 
--s, --size: 
-    Image size in pixels. Output image is square. 
-    Minimum 10 , maximum 1000
+-c, --color: 
+    Optional argument. Specifies the color of the QRCode. 
+    The color must be a valid hex color code, like #FF0000 or #F00.
 
 -o, --output
     Output file. Must have .png or .svg extension
-
-Note: This module to work requires internet connection.
 
 # Serve
 

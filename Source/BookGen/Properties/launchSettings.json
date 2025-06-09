@@ -32,6 +32,10 @@
     "Math2Svg": {
       "commandName": "Project",
       "commandLineArgs": "math2svg -f \"e=m \\cdot c^2\" -o test.svg -s 15"
+    },
+    "QrCode": {
+      "commandName": "Project",
+      "commandLineArgs": "qrcode -d test -o qrcode_test.svg -c #ff0000"
     }
   }
 }

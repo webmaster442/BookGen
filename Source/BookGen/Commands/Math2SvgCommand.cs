@@ -39,7 +39,7 @@ internal class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArguments>
                 result.AddIssue("Formula can't be empty");
 
             if (string.IsNullOrEmpty(OutputFile))
-                result.AddIssue("Output file/directory must be specified");
+                result.AddIssue("Output file must be specified");
 
             if (Scale <= 0.1 || Scale > 40)
                 result.AddIssue("Scale must be bigger than 0.1 and maximum 40");
