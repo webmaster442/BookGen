@@ -295,18 +295,20 @@ Arguments:
 
 Renders a single markdown file containing Tex formulas to svg files
 
-`BookGen Math2Svg -i <input.txt> -o <output dir>`
-`BookGen Math2Svg --input <input.txt> --output <output dir>`
+`BookGen Math2Svg -f <formula> -o <output.svg> [-s [scale]]`
+`BookGen Math2Svg --formula <formula> --output <output.svg> [--scale [scale]]`
 
 Arguments:
 
--i, --input: 
-    Input file containing tex formulas
+-f, --formula: 
+    Formula to render to svg. The formula must be a valid Tex formula.
 
 -o, --output: 
-    Output directory path
+    Output svg file.
 
-Note: This module to work requires internet connection.
+-s, --scale: 
+    Optional argument. Specifies the scale of the output svg file.
+    Default is 1.0. If not specified, then the default value will be used.
 
 # Migrate
 
