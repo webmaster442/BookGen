@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Webmaster442.WindowsTerminal;
+using Webmaster442.WindowsTerminal.Fragments;
 
 namespace BookGen.Shell.Shared;
 
@@ -73,9 +74,9 @@ public static class TerminalProfileInstaller
             Id = "User.SetSchemeToDracula",
         });
 
-        return await WindowsTerminal.FragmentExtensions.TryInstallFragmentAsync("BookGen", fileName, fragment);
+        return await Terminal.FragmentExtensions.TryInstallFragmentAsync("BookGen", fileName, fragment);
     }
 
     public static bool IsInstalled()
-        => WindowsTerminal.FragmentExtensions.IsFragmentInstalled("BookGen", fileName);
+        => Terminal.FragmentExtensions.IsFragmentInstalled("BookGen", fileName);
 }

@@ -7,7 +7,8 @@ using BookGen.Vfs;
 
 using Spectre.Console;
 
-using Webmaster442.WindowsTerminal;
+using Color = Spectre.Console.Color;
+using WinTerminal = Webmaster442.WindowsTerminal.Terminal;
 
 namespace BookGen.Commands;
 
@@ -29,7 +30,7 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
 
     public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
-        WindowsTerminal.SetWindowTitle("BookGen Gui");
+        WinTerminal.SetWindowTitle("BookGen Gui");
         AnsiConsole.Clear();
 
         _currentArgs = arguments;
