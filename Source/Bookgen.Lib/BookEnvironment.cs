@@ -15,7 +15,8 @@ public sealed class BookEnvironment : IBookEnvironment
     private readonly IWritableFileSystem _source;
     private readonly IWritableFileSystem _output;
     private readonly IAssetSource[] _assets;
-
+    
+    private FolderLock? _folderLock;
     private Config? _config;
     private TableOfContents? _toc;
     
@@ -43,9 +44,10 @@ public sealed class BookEnvironment : IBookEnvironment
 
     public void Dispose()
     {
-        if (_isInitialized && _source.FileExists(FileNameConstants.LockFile))
+        if (_folderLock != null)
         {
-            _source.Delete(FileNameConstants.LockFile);
+            _folderLock.Dispose();
+            _folderLock = null;
         }
     }
 
@@ -110,31 +112,9 @@ public sealed class BookEnvironment : IBookEnvironment
         _config = config;
         _toc = toc;
 
-        using Process currentProcess = Process.GetCurrentProcess();
+        _folderLock = new FolderLock(_source, FileNameConstants.LockFile);
 
-        if (!_source.FileExists(FileNameConstants.LockFile))
-        {
-            var id = currentProcess.Id.ToString();
-            await _source.WriteAllTextAsync(FileNameConstants.LockFile, id);
-        }
-        else
-        {
-            if (!int.TryParse(_source.ReadAllText(FileNameConstants.LockFile), out int id))
-            {
-                id = -1;
-            }
-            if (currentProcess.Id == id)
-            {
-                status.Add($"{_source.Scope} is locked by an other running BookGen process");
-                return status;
-            }
-            else
-            {
-                _source.Delete(FileNameConstants.LockFile);
-            }
-        }
-
-        _isInitialized = true;
+        _isInitialized = _folderLock.Initialize();
         return status;
     }
 
