@@ -52,7 +52,7 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
                                                        fallbackTemplate: BundledAssets.TemplatePrint,
                                                        defaultTemplateSelector: cfg => cfg.PrintConfig.DefaultTempate);
 
-        var renderer = new TemplateEngine();
+        var renderer = new TemplateEngine(logger, environment);
 
         var viewData = new ViewData
         {

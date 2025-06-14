@@ -10,4 +10,5 @@ public static class BundledAssets
     public const string TemplatePrint = "Print.html";
     public const string MathJax = "mathjax-bundled.js";
     public const string QrCodeJs = "qrcode.min.js";
+    public const string JsPageToc = "PageToc.js";
 }

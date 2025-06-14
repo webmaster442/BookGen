@@ -1,27 +1,35 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-using Markdig.Extensions.TaskLists;
+using BookGen.Vfs;
+
+using Microsoft.Extensions.Logging;
+
+using static SkiaSharp.HarfBuzz.SKShaper;
 
 namespace Bookgen.Lib.Templates;
 
 public sealed partial class TemplateEngine
 {
-    private readonly Dictionary<string, Func<string[], string>> _lambdaTable = new();
-
-    private static string BuildDate(string[] arguments)
-        => DateTime.Now.ToString("yy-MM-dd hh:mm:ss");
+    private readonly StringComparer _comparer;
+    private readonly Dictionary<string, Func<string[], string>> _lambdaTable;
+    private readonly ILogger _logger;
+    private readonly DefaultFunctions _functions;
 
     public void RegisterFunction(string name, Func<string[], string> function)
     {
         _lambdaTable.Add(name, function);
     }
 
-    public TemplateEngine()
+    public TemplateEngine(ILogger logger, IAssetSource assetSource)
     {
-        _lambdaTable = new Dictionary<string, Func<string[], string>>
+        _comparer = StringComparer.InvariantCultureIgnoreCase;
+        _logger = logger;
+        _functions = new DefaultFunctions(assetSource);
+        _lambdaTable = new Dictionary<string, Func<string[], string>>(_comparer)
         {
-            { "BuildDate", BuildDate }
+            { "BuildDate", _functions.BuildDate },
+            { "JSPageToc", _functions.JSPageToc },
         };
     }
 
@@ -40,7 +48,7 @@ public sealed partial class TemplateEngine
 
     public void Render<TData>(TextWriter target, string template, TData viewData) where TData : ViewData
     {
-        var dataTable = viewData.GetDataTable();
+        var dataTable = viewData.GetDataTable(_comparer);
 
         StringBuilder lineBuffer = new(120);
 
@@ -68,12 +76,27 @@ public sealed partial class TemplateEngine
                     string[] templateFunction = FunctionRegex().Split(templatePart.Value);
                     string functionName = templateFunction.Skip(1).First();
                     string[] arguments = templateFunction.Skip(2).TakeWhile(f => f != "}}").ToArray();
+
+                    if (!_lambdaTable.TryGetValue(functionName, out var function))
+                    {
+                        _logger.LogWarning("Function {FunctionName} is not registered.", functionName);
+                        lineBuffer.Append($"Function {functionName} is not registered.");
+                        continue;
+                    }
                     string result = _lambdaTable[functionName].Invoke(arguments);
                     lineBuffer.Append(result);
                 }
                 else
                 {
                     string key = templatePart.Value[2..^2];
+
+                    if (!dataTable.TryGetValue(key, out var value))
+                    {
+                        _logger.LogWarning("Key {Key} is not found in data table.", key);
+                        lineBuffer.Append($"Key {key} is not found in data table.");
+                        continue;
+                    }
+
                     lineBuffer.Append(dataTable[key]);
                     
                 }

@@ -21,7 +21,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
     {
         var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);
-        var renderer = new TemplateEngine();
+        var renderer = new TemplateEngine(logger, environment);
 
         using var settings = new RenderSettings
         {

@@ -21,7 +21,7 @@ internal class RenderStabdaloneToc : PipeLineStep<StaticWebState>
             return StepResult.Success;
         }
 
-        var renderer = new TemplateEngine();
+        var renderer = new TemplateEngine(logger, environment);
 
         string tempate = await environment.GetTemplate(frontMatterTemplate: string.Empty,
                                                        fallbackTemplate: BundledAssets.TemplateStaticWeb,

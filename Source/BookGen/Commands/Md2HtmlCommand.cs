@@ -98,7 +98,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         _log = log;
         _fileSystem = fileSystem;
         _assetSource = assetSource;
-        _templateEngine = new TemplateEngine();
+        _templateEngine = new TemplateEngine(log, assetSource);
     }
 
     public override int Execute(Md2HtmlArguments arguments, IReadOnlyList<string> context)
