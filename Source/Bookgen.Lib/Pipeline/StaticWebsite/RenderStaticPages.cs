@@ -31,8 +31,6 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
             PrismJsInterop = null,
         };
 
-        using var markdown = new MarkdownToHtml(cached, settings);
-
         ParallelOptions options = new ParallelOptions
         {
             CancellationToken = cancellationToken,
@@ -47,6 +45,8 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 
         await Parallel.ForEachAsync(environment.TableOfContents.GetFiles(), options, async (file, token) =>
         {
+            using var markdown = new MarkdownToHtml(cached, settings);
+
             if (token.IsCancellationRequested) return;
 
             SourceFile sourceData = State.SourceFiles[file];
