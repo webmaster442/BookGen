@@ -62,7 +62,8 @@ public sealed class Pipeline
             new RenderStaticPages(state),
             new RenderIndexPage(state),
             new RenderStabdaloneToc(state),
-            new CreateEmptyIndexPagesForFolders(state)
+            new CreateEmptyIndexPagesForFolders(state),
+            new GeneratePager(state)
         );
     }
 

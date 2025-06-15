@@ -8,4 +8,6 @@ internal sealed class StaticWebState
 {
     public ConcurrentDictionary<string, SourceFile> SourceFiles { get; } = new();
     public string Toc { get; set; } = string.Empty;
+
+    public List<string> TocLinks { get; } = new List<string>();
 }

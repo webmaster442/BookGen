@@ -26,8 +26,13 @@ public sealed class TableOfContents
         IndexFile = FileNameConstants.IndexFile;
     }
 
-    public IEnumerable<string> GetFiles()
+    public IEnumerable<string> GetFiles(bool withIndex = false)
     {
+        if (withIndex)
+        {
+            yield return IndexFile;
+        }
+
         foreach (var chapter in Chapters)
         {
             if (chapter.Files != null)

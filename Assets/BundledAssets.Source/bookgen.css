@@ -11,6 +11,7 @@ Version: 2025-05-17
     --blue: #003e8a;
     --brightBlue: #2e6cba;
     --selection: #CACACA;
+    --max-width: 1200px;
 }
 
 body.dark-mode {
@@ -48,7 +49,7 @@ body {
 }
 
 main {
-    max-width: 1200px;
+    max-width: var(--max-width);
     margin: 0px auto;
     padding: 2rem
 }
@@ -66,6 +67,7 @@ a:hover {
 table {
     border-collapse: collapse;
     width: 100%;
+    table-layout: fixed;
 }
 
 td,
@@ -184,6 +186,31 @@ dialog #container #dialogBase {
 
 #toc section {
     max-width: 250px;
+}
+
+/* Pager */
+
+.pager {
+    max-width: var(--max-width);
+    margin: 0px auto;
+    display: flex;
+    gap: 16px;
+}
+
+.pager a {
+    display: inline-block;
+    flex-grow: 1;
+    text-align: center;
+    height: 30px;
+    padding: 5px;
+    background: var(--selection);
+    color: var(--foreground);
+    text-decoration: none;
+}
+
+.pager a:hover {
+    background: var(--brightBlue);
+    color: var(--foreground);
 }
 
 @media print {

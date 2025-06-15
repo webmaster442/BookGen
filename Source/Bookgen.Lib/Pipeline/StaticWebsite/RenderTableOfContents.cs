@@ -27,7 +27,8 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
             toc.BeginOuterItemContainer();
             foreach (var file in chapter.Files)
             {
-                toc.Render(file, environment.Output, State.SourceFiles[file]);
+                string renderedLink = toc.Render(file, environment.Output, State.SourceFiles[file]);
+                State.TocLinks.Add(renderedLink);
             }
             toc.EndOuterItemContainer();
             toc.EndChapter();
@@ -130,23 +131,25 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
             }
         }
 
-        public void Render(string file, IWritableFileSystem output, SourceFile sourceFile)
+        public string Render(string file, IWritableFileSystem output, SourceFile sourceFile)
         {
-            var linkTarget = Path.ChangeExtension(Path.Combine(output.Scope, file), ".html");
+            string linkTarget = Path.ChangeExtension(Path.Combine(output.Scope, file), ".html");
             linkTarget = Path.GetRelativePath(output.Scope, linkTarget).Replace("\\", "/");
-            var linkTitle = sourceFile.FrontMatter.Title;
+            string linkTitle = sourceFile.FrontMatter.Title;
 
-            var host = _configuration.DeployHost;
+            string link = $"{_configuration.DeployHost}{linkTarget}";
 
             _buffer
                 .Append('<')
                 .Append(ToHtml(_configuration.TocConfiguration.ItemContainer))
                 .Append('>')
-                .Append($"<a href=\"{host}{linkTarget}\">{linkTitle}</a>")
+                .Append($"<a href=\"{link}\">{linkTitle}</a>")
                 .Append("</")
                 .Append(ToHtml(_configuration.TocConfiguration.ItemContainer))
                 .Append('>')
                 .AppendLine();
+
+            return link;
         }
 
         public void EndOuterItemContainer()
