@@ -14,7 +14,7 @@ namespace Bookgen.Lib.Http;
 /// </summary>
 public static class MimeTypes
 {
-    private static readonly Dictionary<string, string> Db =
+    public static readonly Dictionary<string, string> Db =
         new(StringComparer.InvariantCultureIgnoreCase)
         {
             { ".123", "application/vnd.lotus-1-2-3" },
@@ -320,6 +320,8 @@ public static class MimeTypes
             { ".imp", "application/vnd.accpac.simply.imp" },
             { ".ims", "application/vnd.ms-ims" },
             { ".in", "text/plain; charset=utf-8" },
+            { ".inf", "text/plain; charset=utf-8" },
+            { ".ini", "text/plain; charset=utf-8" },
             { ".ipfix", "application/ipfix" },
             { ".ipk", "application/vnd.shana.informed.package" },
             { ".irm", "application/vnd.ibm.rights-management" },
@@ -587,6 +589,7 @@ public static class MimeTypes
             { ".pre", "application/vnd.lotus-freelance" },
             { ".prf", "application/pics-rules" },
             { ".ps", "application/postscript" },
+            { ".ps1", "text/plain; charset=utf-8" },
             { ".psb", "application/vnd.3gpp.pic-bw-small" },
             { ".psd", "image/vnd.adobe.photoshop" },
             { ".psf", "application/x-font-linux-psf" },

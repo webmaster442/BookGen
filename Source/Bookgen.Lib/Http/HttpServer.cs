@@ -17,18 +17,34 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Http;
 
+internal sealed class LoggerProvider : ILoggerProvider
+{
+    private readonly ILogger _logger;
+
+    public LoggerProvider(ILogger logger)
+    {
+        _logger = logger;
+    }
+
+    public ILogger CreateLogger(string categoryName)
+        => _logger;
+
+    public void Dispose() { }
+}
+
 internal sealed class HttpServer : IHttpServer
 {
     private readonly WebApplication _app;
 
     public int Port { get; }
 
-    public HttpServer(int port)
+    public HttpServer(int port, ILogger logger)
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder();
         builder.Logging.ClearProviders();
-        builder.Logging.SetMinimumLevel(LogLevel.Error);
-        builder.Logging.AddConsole();
+#pragma warning disable CA2000 // Dispose objects before losing scope
+        builder.Logging.AddProvider(new LoggerProvider(logger));
+#pragma warning restore CA2000 // Dispose objects before losing scope
         builder.WebHost.ConfigureKestrel((context, serverOptions) => serverOptions.ListenAnyIP(port));
         _app = builder.Build();
         Port = port;
@@ -70,7 +86,9 @@ internal sealed class HttpServer : IHttpServer
             EnableDefaultFiles = true,
             EnableDirectoryBrowsing = directoryBrowseEnabled,
         };
-        options.StaticFileOptions.ContentTypeProvider = new FileExtensionContentTypeProvider();
+        options.StaticFileOptions.DefaultContentType = "application/octet-stream";
+        options.StaticFileOptions.ServeUnknownFileTypes = true;
+        options.StaticFileOptions.ContentTypeProvider = new FileExtensionContentTypeProvider(MimeTypes.Db);
         options.DefaultFilesOptions.DefaultFileNames.Add("index.xml");
         options.DefaultFilesOptions.DefaultFileNames.Add("index.json");
         options.DefaultFilesOptions.DefaultFileNames.Add("index.txt");

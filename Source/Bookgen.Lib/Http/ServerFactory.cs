@@ -7,6 +7,7 @@ using System.Net.Mime;
 using System.Net.NetworkInformation;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Http;
 public static class ServerFactory
@@ -48,9 +49,9 @@ public static class ServerFactory
 
     }
 
-    public static IHttpServer CreateServerForDirectoryHosting(string directoryToServe)
+    public static IHttpServer CreateServerForDirectoryHosting(string directoryToServe, ILogger logger)
     {
-        var server = new HttpServer(ChoosePort());
+        var server = new HttpServer(ChoosePort(), logger);
         server.AddStaticFiles(directory: directoryToServe, requestPath: "", directoryBrowseEnabled: true);
         server.AddRoute(new ApiMetaData("/qrcodelink", MediaTypeNames.Text.Html), async context =>
         {
