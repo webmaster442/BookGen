@@ -17,7 +17,10 @@ public static class ServerFactory
     {
         IPGlobalProperties ipProps = IPGlobalProperties.GetIPGlobalProperties();
 
+        var props = ipProps.GetActiveTcpConnections();
+
         IEnumerable<int> tcpConnections = ipProps.GetActiveTcpConnections()
+            .Where(c => c.State == TcpState.Listen)
             .Select(c => c.LocalEndPoint.Port);
 
         IEnumerable<int> tcpListeners = ipProps.GetActiveTcpListeners()

@@ -19,19 +19,17 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
 
     public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        TocRenderer toc = new(environment.Configuration.StaticWebsiteConfig.TocConfiguration);
+        TocRenderer toc = new(environment.Configuration.StaticWebsiteConfig);
         toc.BeginContainer();
         foreach (var chapter in environment.TableOfContents.Chapters)
         {
             toc.BeginChapter(chapter);
+            toc.BeginOuterItemContainer();
             foreach (var file in chapter.Files)
             {
-                toc.BeginOuterItemContainer();
-
                 toc.Render(file, environment.Output, State.SourceFiles[file]);
-
-                toc.EndOuterItemContainer();
             }
+            toc.EndOuterItemContainer();
             toc.EndChapter();
         }
         toc.EndContainer();
@@ -44,9 +42,9 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
     internal sealed class TocRenderer
     {
         private readonly StringBuilder _buffer;
-        private readonly TableOfContentsConfiguration _configuration;
+        private readonly StaticWebsiteConfig _configuration;
 
-        public TocRenderer(TableOfContentsConfiguration configuration)
+        public TocRenderer(StaticWebsiteConfig configuration)
         {
             _buffer = new StringBuilder(4096);
             _configuration = configuration;
@@ -78,21 +76,21 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
         {
             _buffer
             .Append('<')
-                .Append(ToHtml(_configuration.ContainerElement));
+                .Append(ToHtml(_configuration.TocConfiguration.ContainerElement));
 
-            if (!string.IsNullOrEmpty(_configuration.ContainerId))
+            if (!string.IsNullOrEmpty(_configuration.TocConfiguration.ContainerId))
             {
                 _buffer
                     .Append(" id=\"")
-                    .Append(_configuration.ContainerId)
+                    .Append(_configuration.TocConfiguration.ContainerId)
                     .Append('"');
             }
 
-            if (!string.IsNullOrEmpty(_configuration.ContainerClass))
+            if (!string.IsNullOrEmpty(_configuration.TocConfiguration.ContainerClass))
             {
                 _buffer
                     .Append(" class=\"")
-                    .Append(_configuration.ContainerClass)
+                    .Append(_configuration.TocConfiguration.ContainerClass)
                     .Append('"');
             }
 
@@ -102,7 +100,7 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
         public void BeginChapter(TocChapter chapter)
         {
             _buffer.Append('<')
-                .Append(ToHtml(_configuration.ChapterContainer))
+                .Append(ToHtml(_configuration.TocConfiguration.ChapterContainer))
                 .Append('>')
                 .Append("<h1>")
                 .Append(chapter.Title)
@@ -118,7 +116,7 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
 
         public void BeginOuterItemContainer()
         {
-            switch (_configuration.ItemContainer)
+            switch (_configuration.TocConfiguration.ItemContainer)
             {
                 case ItemContainer.UnorderedList:
                     _buffer.AppendLine("<ul>");
@@ -138,20 +136,22 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
             linkTarget = Path.GetRelativePath(output.Scope, linkTarget).Replace("\\", "/");
             var linkTitle = sourceFile.FrontMatter.Title;
 
+            var host = _configuration.DeployHost;
+
             _buffer
                 .Append('<')
-                .Append(ToHtml(_configuration.ItemContainer))
+                .Append(ToHtml(_configuration.TocConfiguration.ItemContainer))
                 .Append('>')
-                .Append($"<a href=\"{linkTarget}\">{linkTitle}</a>")
+                .Append($"<a href=\"{host}{linkTarget}\">{linkTitle}</a>")
                 .Append("</")
-                .Append(ToHtml(_configuration.ItemContainer))
+                .Append(ToHtml(_configuration.TocConfiguration.ItemContainer))
                 .Append('>')
                 .AppendLine();
         }
 
         public void EndOuterItemContainer()
         {
-            switch (_configuration.ItemContainer)
+            switch (_configuration.TocConfiguration.ItemContainer)
             {
                 case ItemContainer.UnorderedList:
                     _buffer.AppendLine("</ul>");
@@ -169,7 +169,7 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
         public void EndChapter()
         {
             _buffer.Append("</")
-                .Append(ToHtml(_configuration.ChapterContainer))
+                .Append(ToHtml(_configuration.TocConfiguration.ChapterContainer))
                 .Append('>')
                 .AppendLine();
         }
@@ -178,7 +178,7 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
         {
             _buffer
                 .Append("</")
-                .Append(ToHtml(_configuration.ContainerElement))
+                .Append(ToHtml(_configuration.TocConfiguration.ContainerElement))
                 .Append('>')
                 .AppendLine();
         }

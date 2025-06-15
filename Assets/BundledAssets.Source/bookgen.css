@@ -175,6 +175,17 @@ dialog #container #dialogBase {
     grid-row: 0;
 }
 
+/*Toc*/
+#toc {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#toc section {
+    max-width: 250px;
+}
+
 @media print {
 
     body {
