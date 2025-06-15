@@ -45,6 +45,7 @@ internal sealed class RenderIndexPage : PipeLineStep<StaticWebState>
             Content = markdown.RenderMarkdownToHtml(sourceData.Content),
             Title = sourceData.FrontMatter.Title,
             AdditionalData = sourceData.FrontMatter.Data ?? new(),
+            LastModified = sourceData.LastModified,
             Toc = State.Toc,
         };
 

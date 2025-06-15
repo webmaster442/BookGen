@@ -34,6 +34,7 @@ internal class RenderStabdaloneToc : PipeLineStep<StaticWebState>
             Title = environment.Configuration.BookTitle,
             AdditionalData = new(),
             Toc = string.Empty,
+            LastModified = DateTime.UtcNow
         };
 
         string finalContent = renderer.Render(tempate, viewData);

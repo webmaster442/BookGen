@@ -58,6 +58,7 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
         {
             Host = "",
             Content = State.Buffer.ToString(),
+            LastModified = DateTime.UtcNow,
             Title = environment.Configuration.BookTitle,
             AdditionalData = new(),
         };

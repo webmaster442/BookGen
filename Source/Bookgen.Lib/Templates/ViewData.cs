@@ -19,6 +19,11 @@ public class ViewData
     /// </summary>
     public required string Host { get; init; }
 
+    /// <summary>
+    /// Last modified date of the document
+    /// </summary>
+    public required DateTime LastModified { get; init; }
+
     public Dictionary<string, string> AdditionalData { get; init; } = new();
 
     public Dictionary<string, string> GetDataTable(StringComparer comparer)

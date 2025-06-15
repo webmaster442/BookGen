@@ -103,7 +103,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
 
     public override int Execute(Md2HtmlArguments arguments, IReadOnlyList<string> context)
     {
-        string md = ReadInputFiles(arguments.InputFiles);
+        (string md, DateTime lastmodified) = ReadInputFiles(arguments.InputFiles);
 
         string? pageTemplate = string.Empty;
 
@@ -146,6 +146,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
                 Host = string.Empty,
                 Content = mdcontent,
                 Title = arguments.Title,
+                LastModified = lastmodified,
             };
 
             rendered = _templateEngine.Render(pageTemplate, viewData);
@@ -159,17 +160,24 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         return ExitCodes.Succes;
     }
 
-    private string ReadInputFiles(string[] inputFiles)
+    private (string content, DateTime lastmodified) ReadInputFiles(string[] inputFiles)
     {
         StringBuilder md = new(inputFiles.Length * 1024);
+        DateTime lastmodified = DateTime.MinValue;
         foreach (var inputFile in inputFiles)
         {
             string content = _fileSystem.ReadAllText(inputFile);
+            DateTime date = _fileSystem.GetLastModifiedUtc(inputFile);
+            
+            if (date > lastmodified)
+                lastmodified = date;
+
             md.Append(content);
+
             if (!content.EndsWith('\n'))
                 md.Append(System.Environment.NewLine);
         }
-        return md.ToString();
+        return (md.ToString(), lastmodified);
     }
 
     private bool ValidateTemplate(string pageTemplate)

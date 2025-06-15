@@ -34,7 +34,13 @@ internal class UT_TemplateEngine
     [TestCase("{{MyFunction(\"Foo\", \"Bar\",\"Baz\", \"Banana\")}}", "Foo,Bar,Baz,Banana\r\n")]
     public void EnsureThat_Render_Works(string template, string expected)
     {
-        var viewData = new ViewData { Content = "This is content", Title = "title", Host = string.Empty };
+        var viewData = new ViewData
+        {
+            Content = "This is content",
+            Title = "title",
+            Host = string.Empty,
+            LastModified = new DateTime(1987, 10, 11)
+        };
 
         string result = _sut.Render(template, viewData);
 
@@ -45,7 +51,13 @@ internal class UT_TemplateEngine
     [Test]
     public void EnsureThat_Render_Warns_Unrecognized_Template_Parts()
     {
-        var viewData = new ViewData { Content = "This is content", Title = "title", Host = string.Empty };
+        var viewData = new ViewData
+        {
+            Content = "This is content",
+            Title = "title",
+            Host = string.Empty,
+            LastModified = new DateTime(1987, 10, 11)
+        };
         string template = "<h1>{{Title}}</h1><p>{{UnrecognizedPart}}</p>";
 
         _sut.Render(template, viewData);
@@ -56,7 +68,13 @@ internal class UT_TemplateEngine
     [Test]
     public void EnsureThat_Render_Warns_Unrecognized_Functions()
     {
-        var viewData = new ViewData { Content = "This is content", Title = "title", Host = string.Empty };
+        var viewData = new ViewData
+        {
+            Content = "This is content",
+            Title = "title",
+            Host = string.Empty,
+            LastModified = new DateTime(1987, 10, 11)
+        };
         string template = "<h1>{{Title}}</h1><p>{{UnrecognizedFunction()}}</p>";
         _sut.Render(template, viewData);
         Assert.That(_logger.Warnings, Is.EqualTo(1));
