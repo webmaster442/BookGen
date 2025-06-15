@@ -6,13 +6,7 @@ and writing tasks with the help of Markdown.
 # Installed programs
 
 * BookGen - Main command line program
-* BookGen.Launcher - Graphical launcher - Not available on Linux
-* BookGen.ShellHelper - Shell helper, used by BookGen shell
-* BookGen.Update - Update program - Not available on Linux
-* tidy - HTML Tidy, used by BookGen to prettify HTML, can be used as stand alone program
-
-Note: tidy is only bundled with the Windows release. On linux install it with your
-package manager or download from: https://www.html-tidy.org/
+* BookGen.Shellprog - Shell helper program
 
 # Bookgen shell commands
 
@@ -31,3 +25,14 @@ package manager or download from: https://www.html-tidy.org/
 `BookGen SubCommands` - Lists all available subcommands
 
 `BookGen Gui` - Start in terminal gui mode. Only available, if folder contains a BookGen project.
+
+# Template variables
+
+* `{{Title}}` - Title of the acual page
+* `{{Content}}` - Content of the actual page
+* `{{Host}}` - Host url, set in the configuration file
+
+# Template functions
+
+* `{{BuildDate(format)}}` - Actual build date. Format is optional, default is `yyyy-MM-dd HH:mm:ss`.
+* `{{JSPageToc(source, target)}}` - Generates a JavaScript table of contents from the source div's headdings and displays it to the target div.

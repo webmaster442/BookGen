@@ -84,21 +84,17 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 
     protected override void Write(HtmlRenderer renderer, CodeBlock obj)
     {
-        if (!PreRender
-            || obj is not FencedCodeBlock fencedCodeBlock
-            || obj.Parser is not FencedCodeBlockParser parser)
-        {
-            _originalRenderer.Write(renderer, obj);
-            return;
-        }
-
-        if (string.IsNullOrEmpty(fencedCodeBlock.Info)
+        if (obj is not FencedCodeBlock fencedCodeBlock
+            || obj.Parser is not FencedCodeBlockParser parser
+            || string.IsNullOrEmpty(fencedCodeBlock.Info)
             || string.IsNullOrEmpty(parser.InfoPrefix))
         {
             _originalRenderer.Write(renderer, obj);
             return;
         }
+
         string languageMoniker = fencedCodeBlock.Info.Replace(parser.InfoPrefix, string.Empty);
+
 
         if (string.IsNullOrEmpty(languageMoniker)
             || !_supportedLanguages.Contains(languageMoniker))
@@ -114,10 +110,14 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
             string terminalOutput = RenderTerminalString(code);
             renderer.Write(terminalOutput);
         }
-        else
+        else if (PreRender)
         {
             string rendered = RenderWithPrism(code, languageMoniker);
             renderer.Write(rendered);
+        }
+        else
+        {
+            _originalRenderer.Write(renderer, obj);
         }
     }
 

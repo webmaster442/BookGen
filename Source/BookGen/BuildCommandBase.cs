@@ -18,6 +18,18 @@ public sealed class BuildArguments : BookGenArgumentBase
 
     [Switch("h", "host")]
     public string HostOverride { get; set; } = string.Empty;
+
+    public override ValidationResult Validate(IValidationContext context)
+    {
+        var originalResult = base.Validate(context);
+        if (originalResult.IsOk 
+            && !string.IsNullOrEmpty(HostOverride)
+            && !HostOverride.EndsWith('/'))
+        {
+            return ValidationResult.Error("Host override must end with a slash.");
+        }
+        return originalResult;
+    }
 }
 
 internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
