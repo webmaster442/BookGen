@@ -52,7 +52,7 @@ public sealed partial class TemplateEngine
 
         StringBuilder lineBuffer = new(120);
 
-        using StringReader reader = new(template);
+        using StringReader reader = new(template.Replace("{{content}}", viewData.Content, StringComparison.InvariantCultureIgnoreCase));
         string? line;
 
         while ((line = reader.ReadLine()) != null)
@@ -89,6 +89,11 @@ public sealed partial class TemplateEngine
                 else
                 {
                     string key = templatePart.Value[2..^2];
+
+                    if (key.Equals("content", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        throw new InvalidOperationException("Content found in markdown document. Recursive replacement detected.");
+                    }
 
                     if (!dataTable.TryGetValue(key, out var value))
                     {

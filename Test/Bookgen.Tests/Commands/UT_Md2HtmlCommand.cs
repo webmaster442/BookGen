@@ -18,7 +18,9 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
         AssetSourceMock.Setup(a => a.GetAsset(BundledAssets.TemplateSinglePage)).Returns("<h1>{{Title}}</h1>{{Content}}");
         AssetSourceMock.Setup(a => a.GetAsset(BundledAssets.PrismJs)).Returns("");
         FileSystemMock.As<IReadOnlyFileSystem>().Setup(fs => fs.ReadAllText("test.md")).Returns("test");
+        FileSystemMock.As<IReadOnlyFileSystem>().Setup(fs => fs.GetLastModifiedUtc("test.md")).Returns(new DateTime(2024, 1, 1));
         FileSystemMock.Setup(fs => fs.WriteAllText("out.html", It.IsAny<string>()));
+
     }
 
     [Test]
@@ -61,7 +63,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
 
         int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>());
 
-        const string expectedContent = "<h1>Document title</h1><p>test</p>\n\r\n";
+        const string expectedContent = "<h1>Document title</h1><p>test</p>\r\n";
 
         Assert.Multiple(() =>
         {
