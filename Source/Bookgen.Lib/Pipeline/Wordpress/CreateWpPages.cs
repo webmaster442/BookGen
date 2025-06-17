@@ -57,12 +57,12 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
     }
 
     private Item CreateItem(int uid,
-                            int parent,
-                            int order,
-                            string content,
-                            string title,
-                            string path,
-                            IBookEnvironment environment)
+                        int parent,
+                        int order,
+                        string content,
+                        string title,
+                        string path,
+                        IBookEnvironment environment)
     {
 #if DEBUG
         if (_usedids.Contains(uid))
@@ -73,7 +73,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
         _usedids.Add(uid);
 #endif
 
-        var result = new Item
+        return new Item
         {
             Content = content,
             Title = title,
@@ -85,9 +85,9 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
             Comment_status = environment.Configuration.WordpressConfig.AllowComments ? "open" : "closed",
             Is_sticky = "0",
             Postmeta =
-                    [
-                        new Postmeta { Meta_key = "", Meta_value = "" }
-                    ],
+            [
+                new Postmeta { Meta_key = "", Meta_value = "" }
+            ],
             Post_password = "",
             Status = "publish",
             Post_name = EncodeTitle(title),
@@ -103,7 +103,6 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
                 Text = $"{environment.Configuration.WordpressConfig.DeployHost}?page_id={uid}",
             },
         };
-        return result;
     }
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
@@ -124,32 +123,39 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
 
         using var markdown = new MarkdownToHtml(cached, settings);
 
-        var files = environment.TableOfContents.Chapters.SelectMany(x => x.Files);
-
         int mainorder = 0;
         int uid = 2000;
         int globalparent = 0;
 
         string title = environment.Configuration.BookTitle;
         string path = $"{environment.Configuration.WordpressConfig.DeployHost}{EncodeTitle(title)}";
-        Item parent = CreateItem(uid, 0, mainorder, string.Empty, title, path, environment);
+
+        Item parent = CreateItem(uid: uid,
+                                 parent: 0,
+                                 order: mainorder,
+                                 content: string.Empty,
+                                 title: title,
+                                 path: path,
+                                 environment: environment);
+
         State.CurrentChannel!.Item.Add(parent);
         globalparent = uid;
         ++uid;
 
         foreach (var chapter in environment.TableOfContents.Chapters)
         {
+            string chapterPath = $"{environment.Configuration.StaticWebsiteConfig.DeployHost}{EncodeTitle(chapter.Title)}";
             int parent_uid = uid;
 
-            Item chapterParrent = CreateItem(uid: uid,
-                                             parent: globalparent,
-                                             order: mainorder,
-                                             content: string.Empty,
-                                             title: chapter.Title,
-                                             path: path,
-                                             environment: environment);
+            Item chapterItem = CreateItem(uid: uid,
+                                          parent: globalparent,
+                                          order: mainorder,
+                                          content: string.Empty,
+                                          title: chapter.Title,
+                                          path: chapterPath,
+                                          environment: environment);
 
-            State.CurrentChannel.Item.Add(parent);
+            State.CurrentChannel!.Item.Add(chapterItem);
             int suborder = 0;
             uid++;
 
@@ -166,22 +172,23 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
                 string subpath = $"{environment.Configuration.WordpressConfig.DeployHost}{EncodeTitle(chapter.Title)}/{EncodeTitle(sourceData.FrontMatter.Title)}";
                 string content = markdown.RenderMarkdownToHtml(sourceData.Content);
 
-                Item item = CreateItem(uid: uid,
-                                       parent: parent_uid,
-                                       order: suborder,
-                                       content: content,
-                                       title: sourceData.FrontMatter.Title,
-                                       path: subpath,
-                                       environment: environment);
-                item.Category = CreateCategories(sourceData.FrontMatter.TagArray, environment.Configuration.WordpressConfig.TagCategory);
-                State.CurrentChannel.Item.Add(item);
+                Item result = CreateItem(uid: uid,
+                                         parent: parent_uid,
+                                         order: suborder,
+                                         content: content,
+                                         title: sourceData.FrontMatter.Title,
+                                         path: subpath,
+                                         environment: environment);
+
+                result.Category = CreateCategories(sourceData.FrontMatter.TagArray,
+                                                   environment.Configuration.WordpressConfig.TagCategory);
+
+                State.CurrentChannel.Item.Add(result);
                 ++suborder;
                 ++uid;
             }
-
             ++mainorder;
         }
-
         return StepResult.Success;
     }
 }
