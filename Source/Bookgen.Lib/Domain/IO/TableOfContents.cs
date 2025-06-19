@@ -14,10 +14,12 @@ public sealed class TableOfContents
 
     [FileExists]
     [Description("First page of the book")]
+    [MinLength(1)]
     public string IndexFile { get; init; }
 
     [Required]
     [Description("List of chapters in the book")]
+    [MinLength(1)]
     public TocChapter[] Chapters { get; init; }
 
     public TableOfContents()

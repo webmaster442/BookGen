@@ -12,15 +12,17 @@ public sealed class Config
     public string Schema => "bookgen.schema.json";
 
     [Description("Configuration version")]
-    [Range(0, int.MaxValue)]
+    [Range(2000, int.MaxValue)]
     public int VersionTag { get; init; }
 
     [Description("Table of contents file")]
     [FileExists]
+    [MinLength(1)]
     public string TocFile { get; init; }
 
     [Description("Book title")]
     [NotNullOrWhiteSpace]
+    [MinLength(1)]
     public string BookTitle { get; init; }
 
     [Description("Static website settings")]

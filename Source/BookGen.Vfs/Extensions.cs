@@ -27,39 +27,7 @@ public static class Extensions
 
     private static readonly JsonSchemaExporterOptions _exporterOptions = new()
     {
-        TransformSchemaNode = (context, schema) =>
-        {
-            // Determine if a type or property and extract the relevant attribute provider.
-            ICustomAttributeProvider? attributeProvider = context.PropertyInfo is not null
-                ? context.PropertyInfo.AttributeProvider
-                : context.TypeInfo.Type;
-
-            // Look up any description attributes.
-            DescriptionAttribute? descriptionAttr = attributeProvider?
-                .GetCustomAttributes(inherit: true)
-                .Select(attr => attr as DescriptionAttribute)
-                .FirstOrDefault(attr => attr is not null);
-
-            // Apply description attribute to the generated schema.
-            if (descriptionAttr != null)
-            {
-                if (schema is not JsonObject jObj)
-                {
-                    // Handle the case where the schema is a Boolean.
-                    JsonValueKind valueKind = schema.GetValueKind();
-                    Debug.Assert(valueKind is JsonValueKind.True or JsonValueKind.False);
-                    schema = jObj = new JsonObject();
-                    if (valueKind is JsonValueKind.False)
-                    {
-                        jObj.Add("not", true);
-                    }
-                }
-
-                jObj.Insert(0, "description", descriptionAttr.Description);
-            }
-
-            return schema;
-        }
+        TransformSchemaNode = JsonSchemaTransformer.TransformSchemaNode
     };
 
     public static async Task<T?> DeserializeAsync<T>(this IReadOnlyFileSystem fs, string path)
@@ -82,11 +50,8 @@ public static class Extensions
 
     private static async Task WriteSchema<T>(this IWritableFileSystem fs, string path)
     {
-        var schemaString = _options
-            .GetJsonSchemaAsNode(typeof(T), _exporterOptions)
-            .ToString();
-
-        await fs.WriteAllTextAsync(path, schemaString);
+        var node = _options.GetJsonSchemaAsNode(typeof(T), _exporterOptions);
+        await fs.WriteAllTextAsync(path, node.ToString());
     }
 
     public static string GetFileNameInTargetFolder(this IReadOnlyFileSystem sourceFolder, IReadOnlyFileSystem targetFolder, string file, string newExtension)

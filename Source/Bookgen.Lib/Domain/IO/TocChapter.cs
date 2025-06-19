@@ -10,6 +10,7 @@ public sealed class TocChapter
     [NotNullOrWhiteSpace]
     [Required]
     [Description("Chapter Title")]
+    [MinLength(1)]
     public string Title { get; init; }
 
     [Description("Chapter sub title")]
@@ -17,6 +18,7 @@ public sealed class TocChapter
 
     [Description("List of files associated with chapter")]
     [FileExists]
+    [MinLength(1)]
     public string[] Files { get; init; }
 
     public TocChapter()
