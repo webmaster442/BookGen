@@ -44,7 +44,7 @@ internal static class Utils
     }
 
 
-    private static SKBitmap ResizeIfBigger(SKBitmap input, int width, int height)
+    public static SKBitmap ResizeIfBigger(SKBitmap input, int width, int height)
     {
         if (input.Width < width && input.Height < height)
             return input;
@@ -54,7 +54,7 @@ internal static class Utils
         return input.Resize(new SKImageInfo(renderWidth, renderHeight), SKSamplingOptions.Default);
     }
 
-    public static SKData RenderSvg(Stream stream, int width, int height, SvgRecodeOption svgRecode)
+    public static SKData RenderSvg(Stream stream, int maxWidth, int maxHeight, SvgRecodeOption svgRecode)
     {
         using var svg = new SKSvg();
         svg.Load(stream);
@@ -64,7 +64,7 @@ internal static class Utils
 
         SKRect svgSize = svg.Picture.CullRect;
 
-        (int renderWidth, int renderHeight, float scale) = CalcNewSize(svgSize, width, height);
+        (int renderWidth, int renderHeight, float scale) = CalcNewSize(svgSize, maxWidth, maxHeight);
 
         var matrix = SKMatrix.CreateScale(scale, scale);
 
