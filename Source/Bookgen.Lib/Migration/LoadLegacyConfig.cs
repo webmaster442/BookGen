@@ -23,9 +23,11 @@ internal sealed class LoadLegacyConfig : IMigrationStep
             return false;
         }
 
-        if (config.Version != 1016)
+        const int minVersion = 1014;
+
+        if (config.Version < minVersion)
         {
-            logger.LogError("Legacy config file version {Version} is not supported", config.Version);
+            logger.LogError("Legacy config file version {Version} is not supported. Config needs to be at least version: {minVersion}", config.Version, minVersion);
             return false;
         }
 

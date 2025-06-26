@@ -21,7 +21,16 @@ internal class MigrateFiles : IMigrationStep
             {
                 logger.LogDebug("Migrating file: {file}", link.Url);
 
-                string[] tags = state.LegacyTags[link.Url];
+                string[] tags;
+                if (state.LegacyTags.TryGetValue(link.Url, out string[]? value))
+                {
+                    tags = value;
+                }
+                else
+                {
+                    logger.LogWarning("No tags found for file: {file}", link.Url);
+                    tags = Array.Empty<string>();
+                }
 
                 FrontMatter frontMatter = new FrontMatter
                 {

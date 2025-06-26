@@ -1,4 +1,6 @@
-﻿using BookGen.Vfs;
+﻿using System.Diagnostics;
+
+using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
@@ -35,6 +37,7 @@ public static class Migrator
         catch (Exception ex)
         {
             logger.LogError(ex, "Migration failed");
+            logger.LogDebug("Message: {msg} Stack Trace: {StackTrace}", ex.Message, ex.StackTrace);
             return false;
         }
     }
