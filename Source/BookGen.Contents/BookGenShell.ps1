@@ -1,7 +1,7 @@
 ﻿# -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 3.3
-# Last modified: 2025-05-31
+# Version 3.4
+# Last modified: 2025-06-20
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
@@ -33,7 +33,9 @@ function Get-NodePath {
 
 function npm {
     param (
-        [string[]]$Args
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
     )
 
     $scriptPath = Get-NodePath
@@ -58,7 +60,9 @@ function npm {
 
 function npx {
     param (
-        [string[]]$Args
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
     )
 
     $scriptPath = Get-NodePath
@@ -83,7 +87,9 @@ function npx {
 
 function corepack {
     param (
-        [string[]]$Args
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
     )
 
     $scriptPath = Get-NodePath
@@ -102,6 +108,31 @@ function corepack {
 # -----------------------------------------------------------------------------
 # Shell commands
 # -----------------------------------------------------------------------------
+
+# cd command
+function cd {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+
+    if ($Args.Count -eq 0) {
+        Add-Type -AssemblyName System.Windows.Forms
+
+        $dialog = New-Object System.Windows.Forms.FolderBrowserDialog
+        $dialog.SelectedPath = (Get-Location).Path
+        $dialog.Description = "Select a folder to navigate to:"
+        $dialog.ShowNewFolderButton = $true
+
+        if ($dialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
+            Set-Location $dialog.SelectedPath
+        }
+    }
+    else {
+        Set-Location @Args
+    }
+}
 
 # cdg command
 function cdg {
@@ -140,7 +171,7 @@ function bookgen-info() {
 
 # intro message
 function intro() {
-    clear
+    Clear-Host
     bookgen version -nr
     Write-Host "┌──────────────────────────────────────────────────────────┐"
     Write-Host "│ Added commands:                                          │"
@@ -209,6 +240,9 @@ function wget {
 #Set UTF8 encoding
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 [console]::InputEncoding = [System.Text.Encoding]::UTF8
+
+# Remove aliases that might conflict with BookGen commands
+Remove-Item Alias:\cd
 
 #Set BookGenRoot variable
 $env:BookGenPath = $PSScriptRoot
