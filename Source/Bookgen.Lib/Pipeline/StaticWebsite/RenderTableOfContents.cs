@@ -106,13 +106,6 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
                 .Append("<h1>")
                 .Append(chapter.Title)
                 .AppendLine("</h1>");
-
-            if (!string.IsNullOrEmpty(chapter.SubTitle))
-            {
-                _buffer.Append("<h2>")
-                    .Append(chapter.SubTitle)
-                    .AppendLine("</h2>");
-            }
         }
 
         public void BeginOuterItemContainer()

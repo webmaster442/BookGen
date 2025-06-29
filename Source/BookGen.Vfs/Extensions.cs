@@ -48,7 +48,7 @@ public static class Extensions
         }
     }
 
-    private static async Task WriteSchema<T>(this IWritableFileSystem fs, string path)
+    public static async Task WriteSchema<T>(this IWritableFileSystem fs, string path)
     {
         var node = _options.GetJsonSchemaAsNode(typeof(T), _exporterOptions);
         await fs.WriteAllTextAsync(path, node.ToString());

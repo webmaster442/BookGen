@@ -14,7 +14,6 @@ internal sealed class MigrateConfig : IMigrationStep
         var config = new Config
         {
             BookTitle = state.LegacyConfig.Metadata.Title,
-            TocFile = FileNameConstants.TableOfContents,
             PrintConfig = new PrintConfig
             {
                 DefaultTempate = state.LegacyConfig.TargetPrint.TemplateFile,

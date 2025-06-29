@@ -15,11 +15,6 @@ public sealed class Config
     [Range(2000, int.MaxValue)]
     public int VersionTag { get; init; }
 
-    [Description("Table of contents file")]
-    [FileExists]
-    [MinLength(1)]
-    public string TocFile { get; init; }
-
     [Description("Book title")]
     [NotNullOrWhiteSpace]
     [MinLength(1)]
@@ -37,13 +32,12 @@ public sealed class Config
     [Required]
     public PrintConfig PrintConfig { get; init; }
 
-    public const int CurrentVersionTag = 2003;
+    public const int CurrentVersionTag = 2004;
 
     public Config()
     {
         BookTitle = string.Empty;
         VersionTag = CurrentVersionTag;
-        TocFile = FileNameConstants.TableOfContents;
         StaticWebsiteConfig = new StaticWebsiteConfig();
         PrintConfig = new PrintConfig();
         WordpressConfig = new WordpressConfig();

@@ -7,4 +7,7 @@ public static class FileNameConstants
     public const string ZipAsset = "assets.zip";
     public const string TableOfContents = "bookgen.toc.json";
     public const string IndexFile = "index.md";
+
+    public const string ConfigFileSchema = "bookgen.schema.json";
+    public const string TableOfContentsSchema = "bookgen.toc.schema.json";
 }

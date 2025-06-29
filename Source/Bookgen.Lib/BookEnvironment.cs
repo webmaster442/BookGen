@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
+using Bookgen.Lib.Confighandling;
 using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Internals;
@@ -15,6 +16,7 @@ public sealed class BookEnvironment : IBookEnvironment
     private readonly IWritableFileSystem _source;
     private readonly IWritableFileSystem _output;
     private readonly IAssetSource[] _assets;
+    private readonly ConfigUpgrader _configUpgrader;
     
     private FolderLock? _folderLock;
     private Config? _config;
@@ -27,6 +29,7 @@ public sealed class BookEnvironment : IBookEnvironment
         _source = soruceFolder;
         _output = output;
         _assets = assets;
+        _configUpgrader = new ConfigUpgrader();
     }
 
     const string Error = $"{nameof(Initialize)} was not called";
@@ -68,6 +71,26 @@ public sealed class BookEnvironment : IBookEnvironment
             return status;
         }
 
+        if (!_source.FileExists(FileNameConstants.TableOfContents))
+        {
+            status.Add($"No {FileNameConstants.TableOfContents} found in folder {_source.Scope}");
+            return status;
+        }
+
+        await _configUpgrader.Init(_source);
+
+        if(_configUpgrader.NeedsUpgrade && autoUpgrade)
+        {
+            (bool tocModified, bool configmodified) = await _configUpgrader.Upgrade(_source);
+            status.Add($"Config from version {_configUpgrader.VersionTag} was updated to {Config.CurrentVersionTag}. Check settings and re-execute");
+            if (tocModified)
+                await _source.WriteSchema<TableOfContents>(FileNameConstants.TableOfContentsSchema);
+            if (configmodified)
+                await _source.WriteSchema<Config>(FileNameConstants.ConfigFileSchema);
+
+            return status;
+        }
+
         Config? config = await _source.DeserializeAsync<Config>(FileNameConstants.ConfigFile);
 
         if (config == null)
@@ -76,31 +99,15 @@ public sealed class BookEnvironment : IBookEnvironment
             return status;
         }
 
-        Config defaultConfig = new();
-
-        if (config.VersionTag < defaultConfig.VersionTag && autoUpgrade)
-        {
-            _source.MoveFile(FileNameConstants.ConfigFile, FileNameConstants.ConfigFile + ".bak");
-            await _source.SerializeAsync(FileNameConstants.ConfigFile, config, writeSchema: true);
-            status.Add($"Config from version {config.VersionTag} was updated to {defaultConfig.VersionTag}. Check settings and re-execute");
-            return status;
-        }
-
         if (!validator.Validate(config, status))
         {
             return status;
         }
 
-        if (!_source.FileExists(config.TocFile))
-        {
-            status.Add($"No {config.TocFile} found in folder {_source.Scope}");
-            return status;
-        }
-
-        TableOfContents? toc = await _source.DeserializeAsync<TableOfContents>(config.TocFile);
+        TableOfContents? toc = await _source.DeserializeAsync<TableOfContents>(FileNameConstants.TableOfContents);
         if (toc == null)
         {
-            status.Add($"{config.TocFile} file load failed");
+            status.Add($"{FileNameConstants.TableOfContents} file load failed");
             return status;
         }
 

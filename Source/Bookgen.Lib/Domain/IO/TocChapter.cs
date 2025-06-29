@@ -13,9 +13,6 @@ public sealed class TocChapter
     [MinLength(1)]
     public string Title { get; init; }
 
-    [Description("Chapter sub title")]
-    public string SubTitle { get; init; }
-
     [Description("List of files associated with chapter")]
     [FileExists]
     [MinLength(1)]
@@ -24,7 +21,6 @@ public sealed class TocChapter
     public TocChapter()
     {
         Title = string.Empty;
-        SubTitle = string.Empty;
         Files = Array.Empty<string>();
     }
 }

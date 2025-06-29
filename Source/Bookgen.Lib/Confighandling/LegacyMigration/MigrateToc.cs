@@ -17,7 +17,6 @@ internal sealed class MigrateToc : IMigrationStep
             TocChapter migratedChapter = new()
             {
                 Title = chapter,
-                SubTitle = string.Empty,
                 Files = state.LegacyToc.GetLinksForChapter(chapter).Select(l => l.Url).ToArray()
             };
             chapters.Add(migratedChapter);

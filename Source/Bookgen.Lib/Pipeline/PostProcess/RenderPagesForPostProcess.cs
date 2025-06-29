@@ -45,7 +45,6 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
             ExportChapter exportChapter = new ExportChapter
             {
                 Title = chapter.Title,
-                SubTitle = chapter.SubTitle,
                 Items = new List<ChapterItem>()
             };
 

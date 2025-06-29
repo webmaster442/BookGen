@@ -27,7 +27,6 @@ internal class UT_SerializedObjectValidator
     {
         var config = new Config()
         {
-            TocFile = "toc.json",
         };
 
         var issues = new List<string>();
