@@ -9,7 +9,7 @@ using Markdig;
 
 using Microsoft.Extensions.Logging;
 
-namespace Bookgen.Lib.Confighandling.Migration;
+namespace Bookgen.Lib.Confighandling.LegacyMigration;
 
 internal sealed class LoadLegacyToc : IMigrationStep
 {

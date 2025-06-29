@@ -1,9 +1,8 @@
-﻿using System.Reflection.Metadata;
-
-using Bookgen.Lib.Domain.IO.Configuration;
+﻿using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Domain.IO.Legacy;
 
-namespace Bookgen.Lib.Confighandling.Migration;
+namespace Bookgen.Lib.Confighandling.LegacyMigration;
+
 internal static class Conversions
 {
     public static CssClasses ToCssClasses(this StyleClasses styleClasses)
