@@ -3,7 +3,7 @@
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Domain.IO.Legacy;
 
-namespace Bookgen.Lib.Migration;
+namespace Bookgen.Lib.Confighandling.Migration;
 internal static class Conversions
 {
     public static CssClasses ToCssClasses(this StyleClasses styleClasses)

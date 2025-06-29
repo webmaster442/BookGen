@@ -6,7 +6,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace Bookgen.Lib.Migration;
+namespace Bookgen.Lib.Confighandling.Migration;
 
 internal class MigrateFiles : IMigrationStep
 {

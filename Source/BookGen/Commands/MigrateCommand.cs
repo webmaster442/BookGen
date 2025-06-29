@@ -1,4 +1,4 @@
-﻿using Bookgen.Lib.Migration;
+﻿using Bookgen.Lib.Confighandling.Migration;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

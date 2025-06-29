@@ -1,4 +1,4 @@
-﻿namespace Bookgen.Lib.Migration;
+﻿namespace Bookgen.Lib.Confighandling.Migration;
 
 internal sealed class MigrationState
 {

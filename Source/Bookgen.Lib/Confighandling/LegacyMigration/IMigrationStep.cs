@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace Bookgen.Lib.Migration;
+namespace Bookgen.Lib.Confighandling.Migration;
 
 internal interface IMigrationStep
 {

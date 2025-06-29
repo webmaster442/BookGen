@@ -4,7 +4,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace Bookgen.Lib.Migration;
+namespace Bookgen.Lib.Confighandling.Migration;
 
 public static class Migrator
 {
