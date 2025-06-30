@@ -235,6 +235,35 @@ The tool will use chrome, if it's installed, otherwise it will use edge.
 -h, --height:
     Optional argument. Specifies the height of the output image in pixels.
 
+# ImgConvert
+
+Converts an image file to a different format. The tool supports png, jpeg, webp and svg formats.
+
+`BookGen ImgConvert -i <input> -o <output> -f <format> [-q [quality]] [-r [resolution]]`
+`BookGen ImgConvert --input <input> --output <output> --format <format> [--quality [quality]] [--resolution [resolution]]`
+
+Arguments:
+
+-i, --input:
+    Required argument. Specifies the input image file path. The file must be a valid image
+    file or a directory containing image files.
+
+-o, --output:
+    Required argument. Specifies the output file path. The file must have a valid image
+    file extension, like .png, .jpg, .jpeg, .webp. Can also be a directory, in which case
+    the output files will be saved with the same name as the input files
+
+-f, --format:
+    Required argument. Specifies the output image format. Supported formats are png, jpeg, webp.
+
+-q, --quality:
+    Optional argument. Specifies the quality of the output image. The value must be between 0 and 100.
+    Default is 90. If not specified, then the default value will be used.
+
+-r, --resolution:
+    Optional argument. Specifies the resolution of the output image. The value must be a valid resolution string,
+    like 1920x1080 or 1280x720. If not specified, then the resolution will be the same as the input image.
+
 # JsonArgs
 
 Creates an empty json arguments template file for a given bookgen command.
