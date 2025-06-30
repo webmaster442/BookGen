@@ -9,6 +9,7 @@ using BookGen.Vfs;
 
 namespace BookGen.Commands;
 
+[CommandName("imgconvert")]
 internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
 {
     private readonly IWritableFileSystem _fileSystem;

@@ -18,7 +18,6 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-
 namespace BookGen.Commands;
 
 [CommandName("md2html")]

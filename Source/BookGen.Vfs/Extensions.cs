@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
-using System.Reflection;
-using System.Text.Encodings.Web;
+﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Schema;
@@ -48,10 +45,26 @@ public static class Extensions
         }
     }
 
+    public static async Task WriteJsonAsync(this IWritableFileSystem fs, string path, JsonObject json)
+    {
+        await fs.WriteAllTextAsync(path, json.ToJsonString(_options));
+    }
+
+    public static async Task<JsonObject> ReadJsonAsync(this IReadOnlyFileSystem fs, string path)
+    {
+        string content = await fs.ReadAllTextAsync(path);
+        var parsed = JsonObject.Parse(content);
+        if (parsed is not JsonObject jsonObject)
+        {
+            throw new InvalidOperationException($"Failed to parse JSON from {path}");
+        }
+        return jsonObject;
+    }
+
     public static async Task WriteSchema<T>(this IWritableFileSystem fs, string path)
     {
         var node = _options.GetJsonSchemaAsNode(typeof(T), _exporterOptions);
-        await fs.WriteAllTextAsync(path, node.ToString());
+        await fs.WriteAllTextAsync(path, node.ToJsonString(_options));
     }
 
     public static string GetFileNameInTargetFolder(this IReadOnlyFileSystem sourceFolder, IReadOnlyFileSystem targetFolder, string file, string newExtension)

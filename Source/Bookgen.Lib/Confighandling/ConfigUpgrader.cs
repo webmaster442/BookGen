@@ -4,8 +4,6 @@ using Bookgen.Lib.Domain.IO.Configuration;
 
 using BookGen.Vfs;
 
-using Microsoft.AspNetCore.Server.HttpSys;
-
 namespace Bookgen.Lib.Confighandling;
 
 internal class ConfigUpgrader
@@ -32,11 +30,8 @@ internal class ConfigUpgrader
 
     public async Task Init(IReadOnlyFileSystem sourceFolder)
     {
-        _tocJson = (JsonObject)await sourceFolder.ReadAllTextAsync(FileNameConstants.TableOfContents)
-            ?? throw new InvalidOperationException("Failed to read TOC JSON");
-
-        _configJson = (JsonObject)await sourceFolder.ReadAllTextAsync(FileNameConstants.ConfigFile)
-            ?? throw new InvalidOperationException("Failed to read Config JSON");
+        _tocJson = await sourceFolder.ReadJsonAsync(FileNameConstants.TableOfContents);
+        _configJson = await sourceFolder.ReadJsonAsync(FileNameConstants.ConfigFile);
 
         var version = _configJson["VersionTag"]
             ?? throw new InvalidOperationException("Failed to determine version");
@@ -86,14 +81,14 @@ internal class ConfigUpgrader
         if (tocModifed)
         {
             sourceFolder.MoveFile(FileNameConstants.TableOfContents, FileNameConstants.TableOfContents + ".bak");
-            await sourceFolder.WriteAllTextAsync(FileNameConstants.TableOfContents, _tocJson.ToJsonString());
+            await sourceFolder.WriteJsonAsync(FileNameConstants.TableOfContents, _tocJson);
         }
 
         if (configModified)
         {
             _configJson["VersionTag"] = info.To;
             sourceFolder.MoveFile(FileNameConstants.ConfigFile, FileNameConstants.ConfigFile + ".bak");
-            await sourceFolder.WriteAllTextAsync(FileNameConstants.ConfigFile, _configJson.ToJsonString());
+            await sourceFolder.WriteJsonAsync(FileNameConstants.ConfigFile, _configJson);
         }
 
         return (tocModifed, configModified);
