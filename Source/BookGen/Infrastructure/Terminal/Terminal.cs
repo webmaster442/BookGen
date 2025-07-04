@@ -38,7 +38,7 @@ public static class Terminal
         AnsiConsole.Write(chart);
     }
 
-    public static void BreakDownChart(IDictionary<string, double> items, string title = "")
+    public static void BreakDownChart(IDictionary<string, double> items, string title, bool descendingOrder = true)
     {
         var rule = new Rule(title).Centered();
         AnsiConsole.Write(rule);
@@ -48,7 +48,11 @@ public static class Terminal
 
         _palette.Reset();
 
-        foreach (var item in items)
+        IEnumerable<KeyValuePair<string, double>> data = descendingOrder
+            ? items.OrderByDescending(x => x.Value)
+            : items;
+
+        foreach (var item in data)
         {
             chart.AddItem(item.Key, item.Value, _palette.GetNextColor());
         }

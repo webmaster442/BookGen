@@ -48,9 +48,10 @@ internal sealed class StatsCommand : AsyncCommand<BookGenArgumentBase>
         table.AddRow("Total File Size", stats.TotalSize.ToFileSize());
         AnsiConsole.Write(table);
 
-        Terminal.BreakDownChart(stats.ChapterSizes, "Chapter sizes");
+        Terminal.BreakDownChart(stats.ChapterSizes, "Chapter sizes", descendingOrder: false);
         Terminal.BreakDownChart(stats.FileCountsByExtension, "File counts by extension");
         Terminal.BreakDownChart(stats.FileSizeByExtension, "File sizes by extension");
+        Terminal.BreakDownChart(stats.CodeBocks, "Code blocks by language");
 
         return ExitCodes.Succes;
     }

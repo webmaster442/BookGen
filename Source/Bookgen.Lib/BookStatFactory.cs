@@ -1,4 +1,5 @@
-﻿using Bookgen.Lib.Domain;
+﻿
+using Bookgen.Lib.Domain;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.Pipeline;
 
@@ -21,9 +22,12 @@ public static class BookStatFactory
                 long size = environment.Source.GetFileSize(file);
                 stat.ChapterSizes[chapter.Title] += size;
 
+                ProcessCodeBlocks(stat, sourceFile);
+
                 var (lineCount, wordCount, characterCount) = GetFileStats(sourceFile);
                 stat.LineCount += lineCount;
                 stat.WordCount += wordCount;
+                stat.TotalSize += size;
                 stat.CharacterCount += characterCount;
             }
         }
@@ -41,6 +45,20 @@ public static class BookStatFactory
         }
 
         return stat;
+    }
+
+    private static void ProcessCodeBlocks(BookStat stat, SourceFile sourceFile)
+    {
+        using var reader = new StringReader(sourceFile.Content);
+        string? line;
+        while ((line = reader.ReadLine()) != null)
+        {
+            if (line.StartsWith("```") && line.Length > 3)
+            {
+                var language = line.Substring(3).Trim();
+                stat.CodeBocks[language] = !stat.CodeBocks.TryGetValue(language, out double count) ? 1 : count + 1;
+            }
+        }
     }
 
     private static (long lineCount, long wordCount, long characterCount) GetFileStats(SourceFile sourceFile)
