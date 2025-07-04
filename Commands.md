@@ -509,3 +509,20 @@ Arguments:
 
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
+
+
+# Vstasks
+
+Generates a Visual Studio Code tasks.json file for the bookgen project.
+
+`BookGen Vstasks [-v] [-d [directory]]`
+`BookGen Vstasks [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues

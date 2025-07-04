@@ -62,6 +62,7 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
                 new(Emoji.Known.RedQuestionMark, "Validate current configuration", async () => await Run("validate")),
                 new(Emoji.Known.Information, " Statistics", async() => await Run("stats")),
                 new(Emoji.Known.SpiderWeb, " Start a webserver in curent directory", async () => await Run("serve")),
+                new(Emoji.Known.Toolbox, " Generate VS code tasks", async () => await Run("vstasks")),
             ])
             .AddChoiceGroup(MenuItem.GroupHeader("Build"),
             [
