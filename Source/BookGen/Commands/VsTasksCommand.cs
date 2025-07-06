@@ -64,10 +64,11 @@ internal sealed class VsTasksCommand : AsyncCommand<BookGenArgumentBase>
         VsCodeTaskBuilder taskBuilder = new();
 
         taskBuilder
-            .AddBookgenTask("Get statistics", "Statistics information", ["stats", "-d", VsCodeVars.FileWorkspaceFolder])
-            .AddBookgenTask("Build web", "Build static website", ["buildweb", "-d", VsCodeVars.FileWorkspaceFolder, "-o", "Output/Web"])
-            .AddBookgenTask("Bild print", "Build printable html", ["buildprint", "-d", VsCodeVars.FileWorkspaceFolder, "-o", "Output/Print"])
-            .AddBookgenTask("Build wordpress", "Build wordpress export xml", ["buildwp", "-d", VsCodeVars.FileWorkspaceFolder,  "-o", "Output/Wp"]);
+            .AddBookgenTask("Md2html", "Render to html", ["md2html", "-i", VsCodeVars.File, "-o", $"{VsCodeVars.File}.html"])
+            .AddBookgenTask("Get statistics", "Statistics information", ["stats", "-d", VsCodeVars.WorkspaceFolder])
+            .AddBookgenTask("Build web", "Build static website", ["buildweb", "-d", VsCodeVars.WorkspaceFolder, "-o", "Output/Web"])
+            .AddBookgenTask("Bild print", "Build printable html", ["buildprint", "-d", VsCodeVars.WorkspaceFolder, "-o", "Output/Print"])
+            .AddBookgenTask("Build wordpress", "Build wordpress export xml", ["buildwp", "-d", VsCodeVars.WorkspaceFolder,  "-o", "Output/Wp"]);
 
         await _writableFileSystem.SerializeAsync(file, taskBuilder.Build(), writeSchema: false);
 

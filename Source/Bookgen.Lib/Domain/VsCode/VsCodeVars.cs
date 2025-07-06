@@ -18,8 +18,4 @@ public static class VsCodeVars
     /// Currently opened file
     /// </summary>
     public const string File = "${file}";
-    /// <summary>
-    /// Currently opened file's workspace folder
-    /// </summary>
-    public const string FileWorkspaceFolder = "${fileWorkspaceFolder}";
 }
