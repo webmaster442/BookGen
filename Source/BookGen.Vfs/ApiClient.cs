@@ -8,9 +8,10 @@ public sealed class ApiClient : IApiClient
     private readonly HttpClient _client;
     private bool _disposed;
 
-    public ApiClient()
+    public ApiClient(string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0")
     {
         _client = new HttpClient();
+        _client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
     }
 
     public void Dispose()

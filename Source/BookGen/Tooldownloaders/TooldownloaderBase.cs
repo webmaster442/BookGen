@@ -35,7 +35,13 @@ internal abstract class TooldownloaderBase
 
         foreach (var entry in archive.Entries)
         {
-            string outputPath = Path.Combine(AppContext.BaseDirectory, entry.Name);
+            if (string.IsNullOrEmpty(entry.Name))
+            {
+                // Skip directories
+                continue;
+            }
+
+            string outputPath = Path.Combine(AppContext.BaseDirectory, entry.FullName);
             string? directory = Path.GetDirectoryName(outputPath);
             if (directory != null && !Directory.Exists(directory))
             {
@@ -52,9 +58,8 @@ internal abstract class TooldownloaderBase
 
     public async Task DownloadToolAsync(IDownloadUi ui)
     {
-
         var (owner, repo) = GetRepository();
-        var downloadUrl = new Uri($"https://api.github.com/repos/{owner}/{repo}/releases/latest");
+        var downloadUrl = new Uri($"https://api.github.com/repos/{owner}/{repo}/releases");
         var releases = await _apiClient.DownloadJsonAsync<Release[]>(downloadUrl);
 
         var latestRelease = GetReleaseAsset(releases.SelectMany(a => a.Assets));
