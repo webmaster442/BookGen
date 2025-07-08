@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace BookGen.Vfs.Internals;
 
-internal class CultureInfoJsonConverter : JsonConverter<CultureInfo>
+internal sealed class CultureInfoJsonConverter : JsonConverter<CultureInfo>
 {
     public override CultureInfo? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

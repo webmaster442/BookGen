@@ -1,43 +1,22 @@
-﻿using System.Text.Encodings.Web;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Schema;
-using System.Text.Json.Serialization;
-using System.Text.Unicode;
-
-using BookGen.Vfs.Internals;
 
 namespace BookGen.Vfs;
 
 public static class Extensions
 {
-    private readonly static JsonSerializerOptions _options = new(JsonSerializerOptions.Default)
-    {
-        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-        WriteIndented = true,
-        Converters =
-        {
-            new JsonStringEnumConverter(),
-            new CultureInfoJsonConverter()
-        }
-    };
-
-    private static readonly JsonSchemaExporterOptions _exporterOptions = new()
-    {
-        TransformSchemaNode = JsonSchemaTransformer.TransformSchemaNode
-    };
-
     public static async Task<T?> DeserializeAsync<T>(this IReadOnlyFileSystem fs, string path)
     {
         await using var stream = fs.OpenReadStream(path);
-        T? result = await JsonSerializer.DeserializeAsync<T>(stream, _options);
+        T? result = await JsonSerializer.DeserializeAsync<T>(stream, JsonOptions.SerializerOptions);
         return result;
     }
 
     public static async Task SerializeAsync<T>(this IWritableFileSystem fs, string path, T value, bool writeSchema)
     {
         await using var stream = fs.CreateWriteStream(path);
-        await JsonSerializer.SerializeAsync(stream, value, _options);
+        await JsonSerializer.SerializeAsync(stream, value, JsonOptions.SerializerOptions);
         if (writeSchema)
         {
             var newName = Path.ChangeExtension(path, ".schema.json");
@@ -47,7 +26,7 @@ public static class Extensions
 
     public static async Task WriteJsonAsync(this IWritableFileSystem fs, string path, JsonObject json)
     {
-        await fs.WriteAllTextAsync(path, json.ToJsonString(_options));
+        await fs.WriteAllTextAsync(path, json.ToJsonString(JsonOptions.SerializerOptions));
     }
 
     public static async Task<JsonObject> ReadJsonAsync(this IReadOnlyFileSystem fs, string path)
@@ -63,8 +42,8 @@ public static class Extensions
 
     public static async Task WriteSchema<T>(this IWritableFileSystem fs, string path)
     {
-        var node = _options.GetJsonSchemaAsNode(typeof(T), _exporterOptions);
-        await fs.WriteAllTextAsync(path, node.ToJsonString(_options));
+        var node = JsonOptions.SerializerOptions.GetJsonSchemaAsNode(typeof(T), JsonOptions.ExporterOptions);
+        await fs.WriteAllTextAsync(path, node.ToJsonString(JsonOptions.SerializerOptions));
     }
 
     public static string GetFileNameInTargetFolder(this IReadOnlyFileSystem sourceFolder, IReadOnlyFileSystem targetFolder, string file, string newExtension)
