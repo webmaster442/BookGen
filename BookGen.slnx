@@ -4,6 +4,7 @@
     <File Path="Changelog.md" />
     <File Path="getting-started.md" />
     <File Path="scripts/build-windows.ps1" />
+    <File Path="Todo.md" />
   </Folder>
   <Folder Name="/Tests/" Id="02ea681e-c7d8-13c7-8484-4ac65e1b71e8">
     <Project Path="Test/Bookgen.Tests/Bookgen.Tests.csproj" />

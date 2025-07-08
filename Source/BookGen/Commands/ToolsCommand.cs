@@ -21,11 +21,14 @@ internal sealed class ToolsCommand : AsyncCommand
             ZeroOutBuffer = true,
             ThrowExceptionOnToArray = true,
         });
-        _tooldownloaders = new TooldownloaderBase[]
-        {
-            new PandocTooldownloader(apiClient, _memoryStreamManager)
-        };
+        _tooldownloaders =
+        [
+            new PandocTooldownloader(apiClient, _memoryStreamManager),
+            new MicrosoftEditToolDownloader(apiClient, _memoryStreamManager),
+        ];
     }
+
+    public override SupportedOs SupportedOs => SupportedOs.Windows;
 
     public override async Task<int> ExecuteAsync(IReadOnlyList<string> context)
     {

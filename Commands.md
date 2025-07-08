@@ -427,6 +427,12 @@ Arguments:
     Optional argument. Specifies work directory. If not specified, then
     the current directory will be used as working directory.
 
+# Tools
+
+Display a list of downloadable tools that can be installed and used with BookGen shell.
+
+`BookGen Tools`
+
 # Terminalinstall
 
 Installs a bookgen profile to the Windows Termninal

@@ -41,7 +41,7 @@ internal abstract class TooldownloaderBase
                 continue;
             }
 
-            string outputPath = Path.Combine(AppContext.BaseDirectory, entry.FullName);
+            string outputPath = GetEntryOutputPath(entry);
             string? directory = Path.GetDirectoryName(outputPath);
             if (directory != null && !Directory.Exists(directory))
             {
@@ -55,6 +55,9 @@ internal abstract class TooldownloaderBase
             ui.Report(entry.Length);
         }
     }
+
+    protected virtual string GetEntryOutputPath(ZipArchiveEntry zipArchiveEntry)
+        => Path.Combine(AppContext.BaseDirectory, "tools", zipArchiveEntry.FullName);
 
     public async Task DownloadToolAsync(IDownloadUi ui)
     {
@@ -70,7 +73,7 @@ internal abstract class TooldownloaderBase
             return;
         }
 
-        ui.BeginNew($"Downloading {downloadUrl}...", latestRelease.Size);
+        ui.BeginNew($"Downloading {latestRelease.Name}...", latestRelease.Size);
 
         await using var stream = _memoryStreamManager.GetStream();
 

@@ -106,6 +106,39 @@ function corepack {
 }
 
 # -----------------------------------------------------------------------------
+# tools commands
+# -----------------------------------------------------------------------------
+function pandoc {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+
+    $pandocPath = Join-Path $PSScriptRoot "tools\pandoc\pandoc.exe"
+    if (Test-Path $pandocPath) {
+        & $pandocPath @Args
+    } else {
+        Write-Host "Pandoc is not installed. Run 'bookgen tools' to download it."
+    }
+}
+
+function edit {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+
+    $pandocPath = Join-Path $PSScriptRoot "tools\edit\edit.exe"
+    if (Test-Path $pandocPath) {
+        & $pandocPath @Args
+    } else {
+        Write-Host "Edit is not installed. Run 'bookgen tools' to download it."
+    }
+}
+
+# -----------------------------------------------------------------------------
 # Shell commands
 # -----------------------------------------------------------------------------
 
