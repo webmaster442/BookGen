@@ -23,6 +23,8 @@ internal abstract class TooldownloaderBase
 
     public abstract string ToolName { get; }
 
+    public abstract string ApproximateSize { get; }
+
     protected abstract (string owner, string repo) GetRepository();
 
     protected abstract ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets);

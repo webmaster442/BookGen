@@ -6,6 +6,8 @@ using BookGen.Vfs;
 
 using Microsoft.IO;
 
+using Spectre.Console;
+
 namespace BookGen.Commands;
 
 [CommandName("tools")]
@@ -32,10 +34,13 @@ internal sealed class ToolsCommand : AsyncCommand
 
     public override async Task<int> ExecuteAsync(IReadOnlyList<string> context)
     {
+        AnsiConsole.Clear();
+        AnsiConsole.Write(new FigletText("Tool installer"));
+
         var selectedItems = Terminal.SelectionMenu<TooldownloaderBase>(items: _tooldownloaders,
-                                                                       title: "Tool downloader",
+                                                                       title: "Select tools to download",
                                                                        instructions: "[grey](Press [blue]<space>[/] to toggle a tool for download, [green]<enter>[/] to accept)[/]",
-                                                                       displaySelector: t => t.ToolName);
+                                                                       displaySelector: t => $"{t.ToolName} (~{t.ApproximateSize})");
 
 
         foreach (var selected in selectedItems)

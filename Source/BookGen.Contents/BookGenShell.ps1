@@ -1,7 +1,7 @@
 ﻿# -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 3.4
-# Last modified: 2025-06-20
+# Version 3.5
+# Last modified: 2025-07-08
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
@@ -219,6 +219,8 @@ function intro() {
     Write-Host "        \ /\"
     Write-Host "        ( )"
     Write-Host "      .( o )."
+    Write-Host ""
+    Write-Host "To download additonal tools in this shell run bookgen tools command"
 
     Bookgen.exe terminalinstall -t -nr
     if ($LastExitCode -eq 0) {
