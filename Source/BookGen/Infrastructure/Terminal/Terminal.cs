@@ -72,4 +72,17 @@ public static class Terminal
         var prompt = new ConfirmationPrompt(message);
         return prompt.Show(AnsiConsole.Console);
     }
+
+    internal static List<T> SelectionMenu<T>(IEnumerable<T> items, string title, string instructions, Func<T, string> displaySelector) where T: notnull
+    {
+        var prompt = new MultiSelectionPrompt<T>()
+            .Title(title)
+            .PageSize(15)
+            .InstructionsText(instructions)
+            .MoreChoicesText("[grey](Move up and down to reveal more items)[/]")
+            .AddChoices(items)
+            .UseConverter(displaySelector);
+
+        return prompt.Show(AnsiConsole.Console);
+    }
 }

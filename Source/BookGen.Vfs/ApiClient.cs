@@ -30,7 +30,7 @@ public sealed class ApiClient : IApiClient
         };
     }
 
-    public async Task<T> DownloadJsonAsync<T>(Uri url, JsonSerializerOptions? options) where T : class
+    public async Task<T> DownloadJsonAsync<T>(Uri url, JsonSerializerOptions? options = null) where T : class
     {
         ObjectDisposedException.ThrowIf(_disposed, nameof(ApiClient));
 
@@ -48,7 +48,7 @@ public sealed class ApiClient : IApiClient
         throw CreateExceptionBasedOnStatusCode(response, url);
     }
 
-    public async Task DownloadFileTo(Uri url, string targetPath, IProgress<long> progress, CancellationToken cancellationToken)
+    public async Task DownloadFileTo(Uri url, Stream target, IProgress<long> progress, CancellationToken cancellationToken)
     {
         ObjectDisposedException.ThrowIf(_disposed, nameof(ApiClient));
 
@@ -57,7 +57,6 @@ public sealed class ApiClient : IApiClient
         if (response.IsSuccessStatusCode)
         {
             await using var source = await response.Content.ReadAsStreamAsync();
-            await using var target = File.Create(targetPath);
 
             byte[] buffer = new byte[8192];
             int read = 0;

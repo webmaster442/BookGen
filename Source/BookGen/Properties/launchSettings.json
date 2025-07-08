@@ -36,6 +36,10 @@
     "QrCode": {
       "commandName": "Project",
       "commandLineArgs": "qrcode -d test -o qrcode_test.svg -c #ff0000"
+    },
+    "Tools": {
+      "commandName": "Project",
+      "commandLineArgs": "tools"
     }
   }
 }
