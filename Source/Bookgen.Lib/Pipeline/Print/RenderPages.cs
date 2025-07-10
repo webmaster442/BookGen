@@ -32,6 +32,7 @@ internal sealed class RenderPages : PipeLineStep<PrintState>
 
         foreach (var chapter in environment.TableOfContents.Chapters)
         {
+            logger.LogInformation("Rendering chapter {chapter}...", chapter.Title);
             State.Buffer.AppendH1(chapter.Title);
             State.Buffer.AppendLine("<section>");
 
