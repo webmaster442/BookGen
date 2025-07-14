@@ -97,7 +97,7 @@ internal static class Utils
         return resized.Encode(SKEncodedImageFormat.Webp, quality);
     }
 
-    public static string Base64Enode(Stream fileData)
+    public static string Base64Encode(Stream fileData)
     {
         StringBuilder builder = new StringBuilder();
         byte[] buffer = new byte[4096];

@@ -41,7 +41,7 @@ public sealed class ImgService : IImgService
         };
     }
 
-    public (string data, ImageType imageType) GetImageEmbedData(string path)
+    public ImageResult GetImageEmbedData(string path)
     {
         static ImageType GetImateType(SvgRecodeOption recodeOption)
         {
@@ -64,14 +64,26 @@ public sealed class ImgService : IImgService
         if (string.Equals(Path.GetExtension(path), ".svg", StringComparison.CurrentCultureIgnoreCase))
         {
             if (_imageConfig.SvgRecode == SvgRecodeOption.Passtrough)
-                return (_sourceFolder.ReadAllText(path), ImageType.Svg);
+            {
+                return new ImageResult
+                {
+                    Data = _sourceFolder.ReadAllText(path),
+                    ImageType = ImageType.Svg,
+                    OriginalName = path,
+                };
+            }
 
             using SKData rendered = Utils.RenderSvg(fileData,
                                                     _imageConfig.ResizeWith,
                                                     _imageConfig.ResizeHeight,
                                                     _imageConfig.SvgRecode);
 
-            return (Convert.ToBase64String(rendered.AsSpan()), GetImateType(_imageConfig.SvgRecode));
+            return new ImageResult
+            {
+                Data = Convert.ToBase64String(rendered.AsSpan()),
+                ImageType = GetImateType(_imageConfig.SvgRecode),
+                OriginalName = path,
+            };
 
         }
 
@@ -82,9 +94,19 @@ public sealed class ImgService : IImgService
                                                        _imageConfig.ResizeHeight,
                                                        _imageConfig.WebpQuality);
 
-            return (Convert.ToBase64String(rendered.AsSpan()), ImageType.Webp);
+            return new ImageResult
+            {
+                Data = Convert.ToBase64String(rendered.AsSpan()),
+                ImageType = ImageType.Webp,
+                OriginalName = path,
+            };
         }
 
-        return (Utils.Base64Enode(fileData), GetImageType(path));
+        return new ImageResult
+        {
+            Data = Utils.Base64Encode(fileData),
+            ImageType = GetImageType(path),
+            OriginalName = path,
+        };
     }
 }

@@ -142,13 +142,13 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
                     if (!string.IsNullOrEmpty(link.Url))
                     {
                         var image = _imgService.GetImageEmbedData(link.Url);
-                        if (image.imageType == ImageType.Svg)
+                        if (image.ImageType == ImageType.Svg)
                         {
-                            link.Url = image.data;
+                            link.Url = image.Data;
                         }
                         else
                         {
-                            link.Url = $"data:{image.imageType.GetMimeType()};base64, {image.data}";
+                            link.Url = $"data:{image.ImageType.GetMimeType()};base64,{image.Data}";
                         }
                     }
                 }

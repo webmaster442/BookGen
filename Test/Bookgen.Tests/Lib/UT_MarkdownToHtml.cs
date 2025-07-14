@@ -18,8 +18,18 @@ internal class UT_MarkdownToHtml
     public void Setup()
     {
         _imgServiceMock = new Mock<IImgService>(MockBehavior.Strict);
-        _imgServiceMock.Setup(x => x.GetImageEmbedData("img.svg")).Returns(("<svg></svg>", ImageType.Svg));
-        _imgServiceMock.Setup(x => x.GetImageEmbedData("img.png")).Returns(("base64", ImageType.Png));
+        _imgServiceMock.Setup(x => x.GetImageEmbedData("img.svg")).Returns(new ImageResult
+        {
+            Data = "<svg></svg>",
+            ImageType = ImageType.Svg,
+            OriginalName = "img.svg",
+        });
+        _imgServiceMock.Setup(x => x.GetImageEmbedData("img.png")).Returns(new ImageResult
+        {
+            Data = " base64",
+            ImageType = ImageType.Png,
+            OriginalName = "img.png",
+        });
 
         _soruceCode = """
             ```csharp

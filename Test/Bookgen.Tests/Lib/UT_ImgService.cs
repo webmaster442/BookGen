@@ -104,8 +104,8 @@ internal class UT_ImgService
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.imageType, Is.EqualTo(ImageType.Svg));
-            Assert.That(result.data, Is.EqualTo(expected));
+            Assert.That(result.ImageType, Is.EqualTo(ImageType.Svg));
+            Assert.That(result.Data, Is.EqualTo(expected));
         });
     }
 
@@ -126,8 +126,8 @@ internal class UT_ImgService
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.imageType, Is.EqualTo(ImageType.Webp));
-            Assert.That(result.data, Is.EqualTo(expected));
+            Assert.That(result.ImageType, Is.EqualTo(ImageType.Webp));
+            Assert.That(result.Data, Is.EqualTo(expected));
         });
     }
 
@@ -150,8 +150,8 @@ internal class UT_ImgService
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.imageType, Is.EqualTo(ImageType.Png));
-            Assert.That(result.data, Is.EqualTo(expected));
+            Assert.That(result.ImageType, Is.EqualTo(ImageType.Png));
+            Assert.That(result.Data, Is.EqualTo(expected));
         });
     }
 
@@ -168,8 +168,8 @@ internal class UT_ImgService
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.imageType, Is.EqualTo(ImageType.Png));
-            Assert.That(result.data, Is.EqualTo(expected));
+            Assert.That(result.ImageType, Is.EqualTo(ImageType.Png));
+            Assert.That(result.Data, Is.EqualTo(expected));
         });
     }
 
@@ -192,8 +192,8 @@ internal class UT_ImgService
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.imageType, Is.EqualTo(ImageType.Webp));
-            Assert.That(result.data, Is.EqualTo(expected));
+            Assert.That(result.ImageType, Is.EqualTo(ImageType.Webp));
+            Assert.That(result.Data, Is.EqualTo(expected));
         });
     }
 }
