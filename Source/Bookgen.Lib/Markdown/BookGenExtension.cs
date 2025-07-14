@@ -56,7 +56,7 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
             if (linkInLineRenderer != null)
             {
                 htmlRenderer.ObjectRenderers.Remove(linkInLineRenderer);
-                htmlRenderer.ObjectRenderers.Add(new ExtendedLinkInlineRenderer());
+                htmlRenderer.ObjectRenderers.Add(new ExtendedLinkInlineRenderer(_settings.AutoEmbedSupportedLinks));
             }
             CodeBlockRenderer? codeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
             if (codeBlockRenderer != null)

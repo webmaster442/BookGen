@@ -381,6 +381,10 @@ Arguments:
 -ns, --no-syntax
     Optional argument. Disables syntax highlighting.
 
+-ne, --no-embed
+    Optional argument. Disables embedding of media site links,
+    like youtube.
+
 -r, --raw
     Optional argument. Disables full html generation, only outputs
     the html produced by the markdown formatting.

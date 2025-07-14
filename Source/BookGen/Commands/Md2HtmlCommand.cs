@@ -37,6 +37,9 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         [Switch("ns", "no-syntax")]
         public bool NoSyntax { get; set; }
 
+        [Switch("ne", "no-embed")]
+        public bool NoEmbed { get; set; }
+
         [Switch("r", "raw")]
         public bool RawHtml { get; set; }
 
@@ -126,6 +129,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             DeleteFirstH1 = false,
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
+            AutoEmbedSupportedLinks = !arguments.NoEmbed,
             PrismJsInterop = new PrismJsInterop(_assetSource)
         };
 

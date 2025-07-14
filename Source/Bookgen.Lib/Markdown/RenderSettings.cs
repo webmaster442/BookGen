@@ -11,6 +11,8 @@ public sealed class RenderSettings : IDisposable
     public required bool DeleteFirstH1 { get; init; }
     public int OffsetHeadingsBy { get; init; } = 0;
 
+    public required bool AutoEmbedSupportedLinks { get; init; }
+
     public void Dispose()
     {
         PrismJsInterop?.Dispose();

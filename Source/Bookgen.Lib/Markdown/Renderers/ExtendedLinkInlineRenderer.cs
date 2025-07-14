@@ -9,6 +9,13 @@ namespace Bookgen.Lib.Markdown.Renderers;
 
 internal sealed class ExtendedLinkInlineRenderer : LinkInlineRenderer
 {
+    private readonly bool _autoEmbedSupportedLinks;
+
+    public ExtendedLinkInlineRenderer(bool autoEmbedSupportedLinks)
+    {
+        _autoEmbedSupportedLinks = autoEmbedSupportedLinks;
+    }
+
     protected override void Write(HtmlRenderer renderer, LinkInline obj)
     {
         if (IsInlineSvg(obj))
@@ -16,7 +23,7 @@ internal sealed class ExtendedLinkInlineRenderer : LinkInlineRenderer
             renderer.Write(obj.Url);
             return;
         }
-        if (IsYoutubeLink(obj))
+        if (IsYoutubeLink(obj) && _autoEmbedSupportedLinks)
         {
             EmbedYoutube(renderer, obj);
             return;

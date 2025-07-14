@@ -67,6 +67,7 @@ internal class UT_MarkdownToHtml
             DeleteFirstH1 = false,
             HostUrl = null,
             PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
         };
 
         using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
@@ -102,6 +103,7 @@ internal class UT_MarkdownToHtml
             DeleteFirstH1 = true,
             HostUrl = "https://my.domain",
             PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
         };
 
         using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
@@ -136,6 +138,7 @@ internal class UT_MarkdownToHtml
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
             PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
         };
 
         using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
@@ -163,6 +166,7 @@ internal class UT_MarkdownToHtml
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
             PrismJsInterop = new Bookgen.Lib.JsInterop.PrismJsInterop(testEnvironment),
+            AutoEmbedSupportedLinks = true,
         };
 
         using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
@@ -188,6 +192,7 @@ internal class UT_MarkdownToHtml
             DeleteFirstH1 = false,
             HostUrl = null,
             PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
         };
 
         using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
@@ -303,6 +308,7 @@ internal class UT_MarkdownToHtml
             DeleteFirstH1 = false,
             HostUrl = null,
             PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
         };
 
         using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
@@ -422,6 +428,7 @@ internal class UT_MarkdownToHtml
             DeleteFirstH1 = false,
             HostUrl = null,
             PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
         };
 
         using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);

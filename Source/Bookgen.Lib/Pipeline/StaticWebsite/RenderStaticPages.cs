@@ -29,6 +29,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
             DeleteFirstH1 = false,
             HostUrl = environment.Configuration.StaticWebsiteConfig.DeployHost,
             PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
         };
 
         ParallelOptions options = new ParallelOptions

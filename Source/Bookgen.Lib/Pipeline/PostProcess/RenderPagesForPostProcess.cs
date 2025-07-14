@@ -30,6 +30,7 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
             HostUrl = string.Empty,
             PrismJsInterop = new PrismJsInterop(environment),
             OffsetHeadingsBy = 1,
+            AutoEmbedSupportedLinks = false
         };
 
         using var markdown = new MarkdownToHtml(cached, settings);

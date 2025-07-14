@@ -29,6 +29,7 @@ internal sealed class RenderIndexPage : PipeLineStep<StaticWebState>
             DeleteFirstH1 = false,
             HostUrl = environment.Configuration.StaticWebsiteConfig.DeployHost,
             PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
         };
 
         using var markdown = new MarkdownToHtml(cached, settings);
