@@ -79,7 +79,7 @@ Build a printable html & xhtml file from the book
 Arguments:
 
 -o, --output:
-    Required argument. Specifies the output file name.
+    Required argument. Specifies the output directory name.
 
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then
@@ -88,6 +88,32 @@ Arguments:
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
+-h, --host:
+    Optional argument. If specified, the host name set in the config file will
+    be ignored and the host name will be set to the specified value.
+
+# BuildEpub
+
+Build an epub3 file from the book.
+
+`BookGen BuildEpub -o <output> [-v] [-d [directory]]`
+`BookGen BuildEpub --output <output> [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-o, --output:
+    Required argument. Specifies the output directory name.
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+-h, --host:
+    Optional argument. If specified, the host name set in the config file will
+    be ignored and the host name will be set to the specified value.
 
 # BuildWeb
 
@@ -99,7 +125,7 @@ Build a static website from the book
 Arguments:
 
 -o, --output:
-    Required argument. Specifies the output file name.
+    Required argument. Specifies the output directory name.
 
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then
@@ -107,6 +133,10 @@ Arguments:
 
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
+
+-h, --host:
+    Optional argument. If specified, the host name set in the config file will
+    be ignored and the host name will be set to the specified value.
 
 # BuildExport
 
@@ -118,7 +148,7 @@ Build a JSON file with schema for post processing of the book.
 Arguments:
 
 -o, --output:
-    Required argument. Specifies the output file name.
+    Required argument. Specifies the output directory name.
 
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then
@@ -127,6 +157,9 @@ Arguments:
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
+-h, --host:
+    Optional argument. If specified, the host name set in the config file will
+    be ignored and the host name will be set to the specified value.
 
 # BuildWp
 
@@ -138,7 +171,7 @@ Build a wordpress export file from the book.
 Arguments:
 
 -o, --output:
-    Required argument. Specifies the output file name.
+    Required argument. Specifies the output directory name.
 
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then
@@ -147,6 +180,9 @@ Arguments:
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
+-h, --host:
+    Optional argument. If specified, the host name set in the config file will
+    be ignored and the host name will be set to the specified value.
 
 # Config
 

@@ -18,7 +18,7 @@ internal sealed class CreateImageFiles : PipeLineStep<EpubState>
         foreach (var image in State.ImagesData)
         {
             logger.LogDebug("Writing {image}...", image.Key);
-            State.EpubFile.Add($"content/{image.Key}", Convert.FromBase64String(image.Value));
+            State.EpubFile.Add($"EPUB/content/{image.Key}", Convert.FromBase64String(image.Value));
             State.PackageItems.Add(new PackageItem
             {
                 Href = $"content/{image.Key}",

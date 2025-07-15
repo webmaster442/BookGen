@@ -3,8 +3,7 @@
 namespace Bookgen.Lib.Domain.Epub;
 
 [Serializable]
-[XmlType(AnonymousType = true, Namespace = "http://www.idpf.org/2007/opf")]
-[XmlRoot(Namespace = "http://www.idpf.org/2007/opf", IsNullable = false)]
+[XmlRoot(Namespace = "http://www.idpf.org/2007/opf", IsNullable = false, ElementName = "package")]
 public sealed class Package
 {
     [XmlElement("metadata")]

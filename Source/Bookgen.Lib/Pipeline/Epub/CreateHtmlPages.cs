@@ -2,6 +2,7 @@
 
 using Bookgen.Lib.Domain;
 using Bookgen.Lib.Domain.Epub;
+using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.JsInterop;
@@ -29,11 +30,11 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
         var extension = imageType switch
         {
-            ImageType.Jpeg => ".jpg",
-            ImageType.Png => ".png",
-            ImageType.Gif => ".gif",
-            ImageType.Webp => ".webp",
-            ImageType.Svg => ".svg",
+            ImageType.Jpeg => "jpg",
+            ImageType.Png => "png",
+            ImageType.Gif => "gif",
+            ImageType.Webp => "webp",
+            ImageType.Svg => "svg",
             _ => throw new ArgumentOutOfRangeException(nameof(imageType), imageType, null)
         };
 
@@ -49,7 +50,14 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
+        var imgService = new ImgService(environment.Source, new ImageConfig
+        {
+            SvgRecode = SvgRecodeOption.AsWebp,
+            ResizeAndRecodeImagesToWebp = true,
+            WebpQuality = 90,
+            ResizeWith = 1600,
+            ResizeHeight = 1600,
+        });
         var cached = new CachedImageService(imgService);
 
         using var settings = new RenderSettings(cached)
@@ -100,12 +108,11 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
                 string html = renderer.Render(template, viewData);
 
-
-                State.EpubFile.Add(targetfileName, html, Encoding.UTF8);
+                State.EpubFile.Add($"EPUB/{targetfileName}", html, Encoding.UTF8);
 
                 State.PackageItems.Add(new PackageItem
                 {
-                    Href = $"content/{targetfileName}",
+                    Href = targetfileName,
                     Id = targetfileName,
                     Mediatype = "application/xhtml+xml",
                 });

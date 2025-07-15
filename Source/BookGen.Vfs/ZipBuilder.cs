@@ -51,7 +51,10 @@ public sealed class ZipBuilder : IZipBuilder
                           T instance,
                           params (string prefix, string @namespace)[] namespaces)
     {
-        XmlSerializer serializer = new(typeof(T));
+
+        //string? defaultNamespace = namespaces.FirstOrDefault(d => string.IsNullOrEmpty(d.prefix)).@namespace;
+
+        XmlSerializer serializer = new(typeof(T)); // defaultNamespace);
 
         XmlSerializerNamespaces? xnames = null;
         if (namespaces?.Length > 0)

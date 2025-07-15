@@ -53,8 +53,7 @@ internal sealed class CreateContentOpf : PipeLineStep<EpubState>
         State.EpubFile.AddXml("EPUB/content.opf",
                               opf,
                               ("", "http://www.idpf.org/2007/opf"),
-                              ("dc", "http://purl.org/dc/elements/1.1/"),
-                              ("opf", "http://www.idpf.org/2007/opf"));
+                              ("dc", "http://purl.org/dc/elements/1.1/"));
 
         return Task.FromResult(StepResult.Success);
     }
