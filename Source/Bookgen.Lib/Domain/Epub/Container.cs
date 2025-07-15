@@ -11,5 +11,5 @@ public sealed class Container
     public required ContainerRootfiles Rootfiles { get; set; }
 
     [XmlAttribute(AttributeName = "version")]
-    public required decimal Version { get; set; }
+    public required string Version { get; set; }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Concurrent;
 
+using BookGen.Vfs;
+
 namespace Bookgen.Lib.ImageService;
 
 public sealed class CachedImageService : IImgService
