@@ -7,7 +7,7 @@ namespace Bookgen.Lib.Domain.Epub;
 public sealed class PackageSpine
 {
     [XmlElement("itemref")]
-    public required PackageSpineItemref[] Itemref { get; set; }
+    public required List<PackageSpineItemref> Itemref { get; set; }
 
     [XmlAttribute(AttributeName = "toc")]
     public required string Toc { get; set; }

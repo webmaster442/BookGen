@@ -12,11 +12,16 @@ internal sealed class EpubState
         private set => field = value;
     }
 
-    public List<PackageItem> Items { get; }
+    public List<PackageItem> PackageItems { get; }
+
+    public Dictionary<string, string> ImagesData { get; }
+
+    public PackageSpine Spine { get;} 
 
     public EpubState()
     {
-        Items = new List<PackageItem>
+        ImagesData = new Dictionary<string, string>();
+        PackageItems = new List<PackageItem>
         {
             new PackageItem
             {
@@ -31,6 +36,11 @@ internal sealed class EpubState
                 Mediatype = "application/xhtml+xml",
                 Properties = "nav",
             }
+        };
+        Spine = new PackageSpine
+        {
+            Itemref = new List<PackageSpineItemref>(),
+            Toc = "ncx"
         };
     }
 

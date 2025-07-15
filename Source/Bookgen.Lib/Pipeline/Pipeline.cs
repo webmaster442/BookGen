@@ -1,4 +1,5 @@
-﻿using Bookgen.Lib.Pipeline.PostProcess;
+﻿using Bookgen.Lib.Pipeline.Epub;
+using Bookgen.Lib.Pipeline.PostProcess;
 using Bookgen.Lib.Pipeline.Print;
 using Bookgen.Lib.Pipeline.StaticWebsite;
 using Bookgen.Lib.Pipeline.Wordpress;
@@ -75,6 +76,19 @@ public sealed class Pipeline
             new CreateWpChannel(state),
             new CreateWpPages(state),
             new WriteExportFile(state)
+        );
+    }
+
+    public static Pipeline CreateEpubPileLine()
+    {
+        var state = new EpubState();
+
+        return new Pipeline(
+            new CreateMimeType(state),
+            new CreateContainer(state),
+            new CreateHtmlPages(state),
+            new CreateImageFiles(state),
+            new CreateContentOpf(state)
         );
     }
 }

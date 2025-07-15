@@ -17,7 +17,7 @@ public sealed class Package
     public required PackageSpine Spine { get; set; }
 
     [XmlElement("guide")]
-    public required PackageGuide Guide { get; set; }
+    public PackageGuide? Guide { get; set; }
 
     [XmlAttribute(AttributeName = "version")]
     public required string Version { get; set; }

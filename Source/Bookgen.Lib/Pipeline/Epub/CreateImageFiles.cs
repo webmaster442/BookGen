@@ -1,0 +1,32 @@
+﻿using Bookgen.Lib.Domain.Epub;
+using Bookgen.Lib.Http;
+
+using Microsoft.Extensions.Logging;
+
+namespace Bookgen.Lib.Pipeline.Epub;
+
+internal sealed class CreateImageFiles : PipeLineStep<EpubState>
+{
+    public CreateImageFiles(EpubState state) : base(state)
+    {
+    }
+
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Writing {count} images to epub...", State.ImagesData.Count);
+
+        foreach (var image in State.ImagesData)
+        {
+            logger.LogDebug("Writing {image}...", image.Key);
+            State.EpubFile.Add($"content/{image.Key}", Convert.FromBase64String(image.Value));
+            State.PackageItems.Add(new PackageItem
+            {
+                Href = $"content/{image.Key}",
+                Id = image.Key,
+                Mediatype = MimeTypes.GetMimeTypeForFile(image.Key),
+            });
+        }
+
+        return Task.FromResult(StepResult.Success);
+    }
+}

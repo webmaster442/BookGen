@@ -1,7 +1,4 @@
-﻿using System.IO.Compression;
-using System.Text;
-
-using Bookgen.Lib.Domain.Epub;
+﻿using Bookgen.Lib.Domain.Epub;
 
 using Microsoft.Extensions.Logging;
 

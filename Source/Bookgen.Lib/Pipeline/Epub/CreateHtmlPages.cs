@@ -1,4 +1,7 @@
-﻿using Bookgen.Lib.Domain;
+﻿using System.Text;
+
+using Bookgen.Lib.Domain;
+using Bookgen.Lib.Domain.Epub;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.JsInterop;
@@ -7,13 +10,11 @@ using Bookgen.Lib.Markdown;
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Epub;
-internal class CreateContentFiles : PipeLineStep<EpubState>
-{
-    private readonly Dictionary<string, string> _imageContents;
 
-    public CreateContentFiles(EpubState state) : base(state)
+internal class CreateHtmlPages : PipeLineStep<EpubState>
+{
+    public CreateHtmlPages(EpubState state) : base(state)
     {
-        _imageContents = new Dictionary<string, string>();
     }
 
     public static string GenerateImageFileName(string orignalPath, ImageType imageType)
@@ -41,7 +42,7 @@ internal class CreateContentFiles : PipeLineStep<EpubState>
     private string EpubImageRewrite(ImageResult result)
     {
         var name = GenerateImageFileName(result.OriginalName, result.ImageType);
-        _imageContents.TryAdd(name, result.Data);
+        State.ImagesData.TryAdd(name, result.Data);
         return name;
     }
 
@@ -85,6 +86,21 @@ internal class CreateContentFiles : PipeLineStep<EpubState>
                 string targetfileName = $"content/{chapterId}_{fileId}.xhtml";
 
                 var html = markdown.RenderMarkdownToHtml(sourceData.Content).MakeSelfClosingTagsXmlCompatible();
+
+                State.EpubFile.Add(targetfileName, html, Encoding.UTF8);
+
+                State.PackageItems.Add(new PackageItem
+                {
+                    Href = $"content/{targetfileName}",
+                    Id = targetfileName,
+                    Mediatype = "application/xhtml+xml",
+                });
+
+                State.Spine.Itemref.Add(new PackageSpineItemref
+                {
+                    Idref = targetfileName,
+                    Linear = State.Spine.Itemref.Count == 0 ? "yes" : null,
+                });
 
                 ++fileId;
             }

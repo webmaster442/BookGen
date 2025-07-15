@@ -13,6 +13,10 @@ public interface IZipBuilder : IDisposable
               Stream entryValue,
               CompressionLevel compressionLevel = CompressionLevel.SmallestSize);
 
+    void Add(string entryName,
+             byte[] entryValue,
+             CompressionLevel compressionLevel = CompressionLevel.NoCompression);
+
     void AddXml<T>(string entryName,
                    T instance,
                    params (string prefix, string @namespace)[] namespaces);

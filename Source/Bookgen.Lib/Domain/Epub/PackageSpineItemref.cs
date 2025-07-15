@@ -10,5 +10,5 @@ public sealed class PackageSpineItemref
     public required string Idref { get; set; }
 
     [XmlAttribute(AttributeName = "linear")]
-    public required string Linear { get; set; }
+    public string? Linear { get; set; }
 }

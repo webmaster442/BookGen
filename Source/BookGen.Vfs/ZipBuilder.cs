@@ -38,6 +38,15 @@ public sealed class ZipBuilder : IZipBuilder
         entryValue.CopyTo(entryStream);
     }
 
+    public void Add(string entryName,
+                    byte[] entryValue,
+                    CompressionLevel compressionLevel = CompressionLevel.NoCompression)
+    {
+        var entry = _archive.CreateEntry(entryName, compressionLevel);
+        using var entryStream = entry.Open();
+        entryStream.Write(entryValue, 0, entryValue.Length);
+    }
+
     public void AddXml<T>(string entryName,
                           T instance,
                           params (string prefix, string @namespace)[] namespaces)
