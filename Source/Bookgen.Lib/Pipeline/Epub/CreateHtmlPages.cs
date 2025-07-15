@@ -6,6 +6,7 @@ using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Templates;
 
 using Microsoft.Extensions.Logging;
 
@@ -64,8 +65,12 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
         using var markdown = new MarkdownToHtml(settings);
 
+        var renderer = new TemplateEngine(logger, environment);
+
         int chapterId = 1;
         int fileId = 1;
+
+        string template = environment.GetAsset("Epub.html");
 
         foreach (var chapter in environment.TableOfContents.Chapters)
         {
@@ -85,7 +90,16 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
                 string targetfileName = $"content/{chapterId}_{fileId}.xhtml";
 
-                var html = markdown.RenderMarkdownToHtml(sourceData.Content).MakeSelfClosingTagsXmlCompatible();
+                var viewData = new ViewData
+                {
+                    Content = markdown.RenderMarkdownToHtml(sourceData.Content).MakeSelfClosingTagsXmlCompatible(),
+                    Title = sourceData.FrontMatter.Title,
+                    Host = string.Empty,
+                    LastModified = sourceData.LastModified,
+                };
+
+                string html = renderer.Render(template, viewData);
+
 
                 State.EpubFile.Add(targetfileName, html, Encoding.UTF8);
 

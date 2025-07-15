@@ -8,7 +8,7 @@ internal sealed class EpubState
 {
     public IZipBuilder EpubFile
     {
-        get => field ?? throw new InvalidOperationException($"{nameof(Init)} wasn't called"); 
+        get => field ?? throw new InvalidOperationException($"{nameof(Initialize)} wasn't called"); 
         private set => field = value;
     }
 
@@ -44,9 +44,9 @@ internal sealed class EpubState
         };
     }
 
-    public void Init(IZipBuilder zipBuilder)
+    public void Initialize(IZipBuilder zipBuilder)
         => EpubFile = zipBuilder;
 
-    public void Close()
+    public void Deinitialize()
         => EpubFile.Dispose();
 }

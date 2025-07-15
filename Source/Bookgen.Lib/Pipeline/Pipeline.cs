@@ -84,11 +84,13 @@ public sealed class Pipeline
         var state = new EpubState();
 
         return new Pipeline(
+            new Initialize(state),
             new CreateMimeType(state),
             new CreateContainer(state),
             new CreateHtmlPages(state),
             new CreateImageFiles(state),
-            new CreateContentOpf(state)
+            new CreateContentOpf(state),
+            new DeInitialize(state)
         );
     }
 }
