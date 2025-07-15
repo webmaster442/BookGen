@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 
-using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Markdown.Renderers;
 
 using Markdig;
@@ -16,16 +15,14 @@ namespace Bookgen.Lib.Markdown;
 
 internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
 {
-    private IImgService? _imgService;
     private RenderSettings? _settings;
     private MarkdownPipelineBuilder? _pipeline;
 
     [GeneratedRegex("^(\\w)+://")]
     private static partial Regex ProtocollRegex();
 
-    public void Inject(IImgService imgService, RenderSettings settings)
+    public void Inject(RenderSettings settings)
     {
-        _imgService = imgService;
         _settings = settings;
     }
 
@@ -71,9 +68,6 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
     private void OnDocumentProcessed(MarkdownDocument document)
     {
         if (_settings == null)
-            throw new InvalidOperationException();
-
-        if (_imgService == null)
             throw new InvalidOperationException();
 
         static void AddStyleClass(MarkdownObject node, string style)
@@ -141,15 +135,7 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
                     AddStyleClass(link, _settings.CssClasses.Img);
                     if (!string.IsNullOrEmpty(link.Url))
                     {
-                        var image = _imgService.GetImageEmbedData(link.Url);
-                        if (image.ImageType == ImageType.Svg)
-                        {
-                            link.Url = image.Data;
-                        }
-                        else
-                        {
-                            link.Url = $"data:{image.ImageType.GetMimeType()};base64,{image.Data}";
-                        }
+                        link.Url = _settings.RewriteImageUrl(link.Url);
                     }
                 }
                 else

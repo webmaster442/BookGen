@@ -113,7 +113,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
         var cached = new CachedImageService(imgService);
         var renderer = new TemplateEngine(logger, environment);
 
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(cached)
         {
             CssClasses = environment.Configuration.WordpressConfig.CssClasses,
             DeleteFirstH1 = false,
@@ -122,7 +122,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
             AutoEmbedSupportedLinks = true,
         };
 
-        using var markdown = new MarkdownToHtml(cached, settings);
+        using var markdown = new MarkdownToHtml(settings);
 
         int mainorder = 0;
         int uid = 2000;

@@ -9,7 +9,7 @@ public sealed class MarkdownToHtml : IDisposable
 {
     private readonly MarkdownPipeline _pipeline;
 
-    public MarkdownToHtml(IImgService imgService, RenderSettings settings)
+    public MarkdownToHtml(RenderSettings settings)
     {
         var configuration = new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
@@ -22,7 +22,7 @@ public sealed class MarkdownToHtml : IDisposable
         {
             if (extension is BookGenExtension bookGenExtension)
             {
-                bookGenExtension.Inject(imgService, settings);
+                bookGenExtension.Inject(settings);
             }
         }
 

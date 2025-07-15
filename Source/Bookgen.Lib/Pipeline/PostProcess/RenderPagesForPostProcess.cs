@@ -23,7 +23,7 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
         });
         var cached = new CachedImageService(imgService);
 
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(cached)
         {
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
@@ -33,7 +33,7 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
             AutoEmbedSupportedLinks = false
         };
 
-        using var markdown = new MarkdownToHtml(cached, settings);
+        using var markdown = new MarkdownToHtml(settings);
 
         State.Export = new PostProcessExport
         {

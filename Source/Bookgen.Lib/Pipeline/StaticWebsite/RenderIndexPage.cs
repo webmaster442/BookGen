@@ -23,7 +23,7 @@ internal sealed class RenderIndexPage : PipeLineStep<StaticWebState>
         var cached = new CachedImageService(imgService);
         var renderer = new TemplateEngine(logger, environment);
 
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(cached)
         {
             CssClasses = environment.Configuration.StaticWebsiteConfig.CssClasses,
             DeleteFirstH1 = false,
@@ -32,7 +32,7 @@ internal sealed class RenderIndexPage : PipeLineStep<StaticWebState>
             AutoEmbedSupportedLinks = true,
         };
 
-        using var markdown = new MarkdownToHtml(cached, settings);
+        using var markdown = new MarkdownToHtml(settings);
 
         SourceFile sourceData = State.SourceFiles[environment.TableOfContents.IndexFile];
 

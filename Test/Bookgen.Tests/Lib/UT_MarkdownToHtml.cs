@@ -2,8 +2,6 @@
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Markdown;
 
-using Markdig;
-
 using Moq;
 
 namespace Bookgen.Tests.Lib;
@@ -66,7 +64,7 @@ internal class UT_MarkdownToHtml
     [Test]
     public void EnsureThat_Css_ClassesAreAplied()
     {
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses
             {
@@ -80,7 +78,7 @@ internal class UT_MarkdownToHtml
             AutoEmbedSupportedLinks = true,
         };
 
-        using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
+        using var sut = new MarkdownToHtml(settings);
 
         string expected = """
             <h1 id="first-headding" class="h1 first">First Headding</h1>
@@ -107,7 +105,7 @@ internal class UT_MarkdownToHtml
     [Test]
     public void EnsureThat_DeleteFirstH1_HostUrlTargeting_Works()
     {
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = true,
@@ -116,7 +114,7 @@ internal class UT_MarkdownToHtml
             AutoEmbedSupportedLinks = true,
         };
 
-        using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
+        using var sut = new MarkdownToHtml(settings);
 
         string expected = """
             <h2 id="second-heading">Second heading</h2>
@@ -142,7 +140,7 @@ internal class UT_MarkdownToHtml
     [Test]
     public void EnsureThat_SourceCode_Works()
     {
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
@@ -151,7 +149,7 @@ internal class UT_MarkdownToHtml
             AutoEmbedSupportedLinks = true,
         };
 
-        using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
+        using var sut = new MarkdownToHtml(settings);
 
         string expected = """
             <pre><code class="language-csharp">public void Foo(Action&lt;string&gt; callback)
@@ -170,7 +168,7 @@ internal class UT_MarkdownToHtml
     public void EnsureThat_SourceCode_PreRender_Works()
     {
         using var testEnvironment = new TestEnvironment();
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
@@ -179,7 +177,7 @@ internal class UT_MarkdownToHtml
             AutoEmbedSupportedLinks = true,
         };
 
-        using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
+        using var sut = new MarkdownToHtml(settings);
 
         string expected = """
             <pre><code class="language-csharp"><span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Foo</span><span class="token punctuation">(</span><span class="token class-name">Action<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">></span></span> callback<span class="token punctuation">)</span>
@@ -196,7 +194,7 @@ internal class UT_MarkdownToHtml
     [Test]
     public void EnsureThat_Toc_NormalCase_RendersCorrectly()
     {
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
@@ -205,7 +203,7 @@ internal class UT_MarkdownToHtml
             AutoEmbedSupportedLinks = true,
         };
 
-        using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
+        using var sut = new MarkdownToHtml(settings);
 
         string input = """
             [toc]
@@ -312,7 +310,7 @@ internal class UT_MarkdownToHtml
     [Test]
     public void EnsureThat_Toc_WithTitle_RendersCorrectly()
     {
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
@@ -321,7 +319,7 @@ internal class UT_MarkdownToHtml
             AutoEmbedSupportedLinks = true,
         };
 
-        using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
+        using var sut = new MarkdownToHtml(settings);
 
         string input = """
             [toc] TOC*-*Title
@@ -432,7 +430,7 @@ internal class UT_MarkdownToHtml
     [Test]
     public void EnsureThat_Toc_Limited_RendersCorrectly()
     {
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
@@ -441,7 +439,7 @@ internal class UT_MarkdownToHtml
             AutoEmbedSupportedLinks = true,
         };
 
-        using var sut = new MarkdownToHtml(_imgServiceMock.Object, settings);
+        using var sut = new MarkdownToHtml(settings);
 
         string input = """
             [toc maxlevel="2"] Title

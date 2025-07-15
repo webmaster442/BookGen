@@ -123,7 +123,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             WebpQuality = 90,
         });
 
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(imgService)
         {
             HostUrl = string.Empty,
             DeleteFirstH1 = false,
@@ -133,7 +133,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             PrismJsInterop = new PrismJsInterop(_assetSource)
         };
 
-        using var mdToHtml = new MarkdownToHtml(imgService, settings);
+        using var mdToHtml = new MarkdownToHtml(settings);
 
         string? mdcontent = mdToHtml.RenderMarkdownToHtml(md);
 

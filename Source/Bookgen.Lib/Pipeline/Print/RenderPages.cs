@@ -19,7 +19,7 @@ internal sealed class RenderPages : PipeLineStep<PrintState>
         var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);
 
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(cached)
         {
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
@@ -29,7 +29,7 @@ internal sealed class RenderPages : PipeLineStep<PrintState>
             AutoEmbedSupportedLinks = false
         };
 
-        using var markdown = new MarkdownToHtml(cached, settings);
+        using var markdown = new MarkdownToHtml(settings);
 
         foreach (var chapter in environment.TableOfContents.Chapters)
         {

@@ -23,7 +23,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
         var cached = new CachedImageService(imgService);
         var renderer = new TemplateEngine(logger, environment);
 
-        using var settings = new RenderSettings
+        using var settings = new RenderSettings(cached)
         {
             CssClasses = environment.Configuration.StaticWebsiteConfig.CssClasses,
             DeleteFirstH1 = false,
@@ -46,7 +46,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 
         await Parallel.ForEachAsync(environment.TableOfContents.GetFiles(), options, async (file, token) =>
         {
-            using var markdown = new MarkdownToHtml(cached, settings);
+            using var markdown = new MarkdownToHtml(settings);
 
             if (token.IsCancellationRequested) return;
 
