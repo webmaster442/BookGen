@@ -16,5 +16,5 @@ public sealed class PackageItem
     public required string Mediatype { get; set; }
 
     [XmlAttribute(AttributeName = "properties")]
-    public required string Properties { get; set; }
+    public string? Properties { get; set; }
 }

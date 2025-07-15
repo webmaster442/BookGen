@@ -11,7 +11,7 @@ public sealed class Package
     public required PackageMetadata Metadata { get; set; }
 
     [XmlArrayItem("item", IsNullable = false)]
-    public required PackageItem[] Manifest { get; set; }
+    public required List<PackageItem> Manifest { get; set; }
 
     [XmlElement("spine")]
     public required PackageSpine Spine { get; set; }
@@ -20,7 +20,7 @@ public sealed class Package
     public required PackageGuide Guide { get; set; }
 
     [XmlAttribute(AttributeName = "version")]
-    public required decimal Version { get; set; }
+    public required string Version { get; set; }
 
     [XmlAttribute(AttributeName = "lang", Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/XML/1998/namespace")]
     public required string Lang { get; set; }

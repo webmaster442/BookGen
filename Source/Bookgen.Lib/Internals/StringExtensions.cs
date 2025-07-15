@@ -1,8 +1,9 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Bookgen.Lib.Internals;
 
-internal static class StringExtensions
+internal static partial class StringExtensions
 {
     private static readonly Dictionary<char, string> SymbolNames = new()
     {
@@ -27,6 +28,9 @@ internal static class StringExtensions
         { '/', "slash" },
     };
 
+    private static readonly HashSet<char> AllowedChars
+        = new("abcdefghijklmnopqrstuvwxyz0123456789-_");
+
     public static string ToUrlNiceName(this string tag)
     {
         string ascii = AsciiEncodeLowerCase(tag);
@@ -39,11 +43,10 @@ internal static class StringExtensions
 
     private static string ReplaceNotAllowedChars(string input)
     {
-        var allowed = new HashSet<char>("abcdefghijklmnopqrstuvwxyz0123456789-_");
         var final = new StringBuilder(input.Length);
         foreach (char c in input)
         {
-            if (allowed.Contains(c))
+            if (AllowedChars.Contains(c))
                 final.Append(c);
             else if (SymbolNames.TryGetValue(c, out string? value))
                 final.Append(value);
@@ -61,4 +64,10 @@ internal static class StringExtensions
         byte[] asciiArray = Encoding.Convert(Encoding.UTF8, Encoding.ASCII, byteArray);
         return ascii.GetString(asciiArray).Replace("?", "").ToLower();
     }
+
+    [GeneratedRegex(@"<(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)(\s[^>/]*?)?>", RegexOptions.IgnoreCase)]
+    private static partial Regex SelfCloser();
+
+    public static string MakeSelfClosingTagsXmlCompatible(this string html)
+        => SelfCloser().Replace(html, "<$1$2/>");
 }

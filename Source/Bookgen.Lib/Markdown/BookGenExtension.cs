@@ -135,7 +135,7 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
                     AddStyleClass(link, _settings.CssClasses.Img);
                     if (!string.IsNullOrEmpty(link.Url))
                     {
-                        link.Url = _settings.RewriteImageUrl(link.Url);
+                        link.Url = _settings.RequestImage(link.Url);
                     }
                 }
                 else

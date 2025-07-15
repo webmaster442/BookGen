@@ -16,25 +16,24 @@ public sealed class RenderSettings : IDisposable
 
     public required bool AutoEmbedSupportedLinks { get; init; }
 
-    public Func<string, string> RewriteImageUrl { get; init; }
-
-    private string EmbedImage(string arg)
+    public string RequestImage(string url)
     {
-        var image = _imgService.GetImageEmbedData(arg);
-        if (image.ImageType == ImageType.Svg)
-        {
-            return image.Data;
-        }
-        else
-        {
-            return $"data:{image.ImageType.GetMimeType()};base64,{image.Data}";
+        var img = _imgService.GetImageEmbedData(url);
+        return ImageUrlRewriter(img);
+    }
 
-        }
+    public Func<ImageResult, string> ImageUrlRewriter { get; init; }
+
+    private string EmbedImage(ImageResult arg)
+    {
+        return (arg.ImageType == ImageType.Svg)
+            ? arg.Data 
+            : $"data:{arg.ImageType.GetMimeType()};base64,{arg.Data}";
     }
 
     public RenderSettings(IImgService imgService)
     {
-        RewriteImageUrl = EmbedImage;
+        ImageUrlRewriter = EmbedImage;
         _imgService = imgService;
     }
 
