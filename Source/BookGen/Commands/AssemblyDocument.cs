@@ -8,7 +8,7 @@ using XmlDocMarkdown.Core;
 namespace BookGen.Commands;
 
 [CommandName("assembly-document")]
-internal class AssemblyDocument : Command<AssemblyDocument.Arguments>
+internal sealed class AssemblyDocument : Command<AssemblyDocument.Arguments>
 {
     private readonly ILogger _logger;
 

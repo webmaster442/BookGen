@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("buildwp")]
-internal class BuildWordpressCommand : BuildCommandBase
+internal sealed class BuildWordpressCommand : BuildCommandBase
 {
     public BuildWordpressCommand(IWritableFileSystem soruce,
                                  IWritableFileSystem target,

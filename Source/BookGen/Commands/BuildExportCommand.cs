@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("buildexport")]
-internal class BuildExportCommand : BuildCommandBase
+internal sealed class BuildExportCommand : BuildCommandBase
 {
     public BuildExportCommand(IWritableFileSystem soruce,
                            IWritableFileSystem target,

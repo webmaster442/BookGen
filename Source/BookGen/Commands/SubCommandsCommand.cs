@@ -12,7 +12,7 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("subcommands")]
-internal class SubCommandsCommand : Command
+internal sealed class SubCommandsCommand : Command
 {
     private readonly IEnumerable<IGrouping<char, string>> _commands;
 

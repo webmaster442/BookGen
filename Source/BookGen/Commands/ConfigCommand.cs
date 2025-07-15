@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("config")]
-internal class ConfigCommand : Command
+internal sealed class ConfigCommand : Command
 {
     private readonly ILogger _logger;
 

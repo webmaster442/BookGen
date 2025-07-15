@@ -14,7 +14,7 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("shell")]
-internal class ShellCommand : Command
+internal sealed class ShellCommand : Command
 {
     private readonly ICommandRunnerProxy _commandNameProider;
 

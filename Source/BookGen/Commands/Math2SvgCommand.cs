@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("math2svg")]
-internal class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArguments>
+internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArguments>
 {
     private readonly ILogger _log;
     private readonly IWritableFileSystem _fileSystem;

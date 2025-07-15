@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("addfrontmatter")]
-internal class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
+internal sealed class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;
     private readonly ILogger _logger;

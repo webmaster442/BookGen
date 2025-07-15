@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Schema;
 using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
 
 using Bookgen.Lib;
 using Bookgen.Lib.Domain.IO;
@@ -20,7 +19,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("schemas")]
-internal class SchemasCommand : Command<BookGenArgumentBase>
+internal sealed class SchemasCommand : Command<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;
     private readonly ILogger _logger;

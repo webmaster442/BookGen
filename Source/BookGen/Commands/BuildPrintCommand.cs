@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("buildprint")]
-internal class BuildPrintCommand : BuildCommandBase
+internal sealed class BuildPrintCommand : BuildCommandBase
 {
     public BuildPrintCommand(IWritableFileSystem soruce,
                              IWritableFileSystem target,

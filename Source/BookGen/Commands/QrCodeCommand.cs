@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("qrcode")]
-internal partial class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
+internal sealed partial class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
 {
     internal sealed partial class QrCodeArguments : ArgumentsBase
     {

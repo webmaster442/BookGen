@@ -7,7 +7,7 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("help")]
-internal class HelpCommand : Command
+internal sealed class HelpCommand : Command
 {
     private readonly IHelpProvider _helpProvider;
     private readonly HashSet<string> _commandNames;

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("newpage")]
-internal class NewPageCommand : Command<NewPageCommand.Arguments>
+internal sealed class NewPageCommand : Command<NewPageCommand.Arguments>
 {
     internal class Arguments : BookGenArgumentBase
     {

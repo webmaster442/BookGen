@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("buildweb")]
-internal class BuildWebCommand : BuildCommandBase
+internal sealed class BuildWebCommand : BuildCommandBase
 {
     public BuildWebCommand(IWritableFileSystem soruce,
                            IWritableFileSystem target,

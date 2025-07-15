@@ -13,7 +13,7 @@ using WinTerminal = Webmaster442.WindowsTerminal.Terminal;
 namespace BookGen.Commands;
 
 [CommandName("gui")]
-internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
+internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _fileSystem;
     private readonly ICommandRunnerProxy _commandRunnerProxy;
@@ -70,6 +70,7 @@ internal class GuiCommand : AsyncCommand<BookGenArgumentBase>
                 new(Emoji.Known.GlobeShowingAmericas, "Build static website", async () => await Run("buildweb", "-o", "Output/Web")),
                 new(Emoji.Known.Printer, " Build printable html", async () => await Run("buildprint", "-o", "Output/Print")),
                 new(Emoji.Known.FileCabinet, " Build wordpress export", async () => await Run("buildwp", "-o", "Output/Wp")),
+                new(Emoji.Known.GreenBook, "Build epub export", async() => await Run("buildepub", "-o", "Output/Epub")),
             ])
             .AddChoiceGroup(MenuItem.GroupHeader("Other"),
             [

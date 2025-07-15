@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("serve")]
-internal class ServeCommand : AsyncCommand<BookGenArgumentBase>
+internal sealed class ServeCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly ILogger _log;
     private readonly IWritableFileSystem _fs;

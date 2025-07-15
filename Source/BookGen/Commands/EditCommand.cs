@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("edit")]
-internal class EditCommand : Command
+internal sealed class EditCommand : Command
 {
     internal static class EditorHelper
     {
