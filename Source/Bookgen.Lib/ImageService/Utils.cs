@@ -11,6 +11,21 @@ namespace Bookgen.Lib.ImageService;
 
 internal static class Utils
 {
+    public static byte[] ConvertToPng(string file, int maxwidth, int maxHeight)
+    {
+        if (Path.GetExtension(file).Equals(".svg", StringComparison.OrdinalIgnoreCase))
+        {
+            using var stream = File.OpenRead(file);
+            return RenderSvg(stream, maxwidth, maxHeight, SvgRecodeOption.AsPng).ToArray();
+        }
+        using SKBitmap bitmap = SKBitmap.Decode(file);
+        using SKBitmap resized = ResizeIfBigger(bitmap, maxwidth, maxHeight);
+        
+        using SKData encoded = resized.Encode(SKEncodedImageFormat.Png, 100);
+
+        return encoded.ToArray();
+    }
+
     private static (int renderWidth, int renderHeight, float scale) CalcNewSize(SKRect size,
                                                                                 int maxwidth,
                                                                                 int maxHeight)

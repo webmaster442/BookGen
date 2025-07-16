@@ -1,10 +1,16 @@
 ﻿
+using System.Reflection.Metadata;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 using Bookgen.Lib.Domain;
 using Bookgen.Lib.Domain.IO;
+using Bookgen.Lib.Pipeline;
 
 using BookGen.Vfs;
+
+using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 
 using Microsoft.Extensions.Logging;
 
@@ -26,6 +32,27 @@ internal static class IReadOnlyFileSystemExtensions
             FrontMatter = frontMatter,
         };
     }
+
+    public static async Task<string?> GetCoverFileName(this IReadOnlyFileSystem folder, TableOfContents tableOfContents, ILogger logger)
+    {
+        var contents = await folder.ReadAllTextAsync(tableOfContents.IndexFile);
+        foreach (var block in Markdig.Markdown.Parse(contents))
+        {
+            if (block is ParagraphBlock paragraph && paragraph.Inline != null)
+            {
+                foreach (var inline in paragraph.Inline)
+                {
+                    if (inline is LinkInline link && link.IsImage)
+                    {
+                        return link.Url;
+                    }
+                }
+            }
+        }
+        logger.LogWarning("No cover image found in {file}", tableOfContents.IndexFile);
+        return null;
+    }
+
 
     private static async Task<(string content, FrontMatter frontMatter)> GetFileContents(IReadOnlyFileSystem folder, string file, ILogger logger)
     {

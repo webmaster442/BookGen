@@ -29,9 +29,10 @@ internal sealed class CreateNav : PipeLineStep<EpubState>
             foreach (var item in chapter.Value)
             {
                 tocHtml.AddItem(item.Title, item.FileName.Replace("content/", ""));
+                string id = IdGenerator.Generate32BitDeterministicId(item.FileName);
                 ncx.NavMap.Add(new NcxNavPoint
                 {
-                    Id = $"id-{IdGenerator.Generate32BitDeterministicId(item.Title)}",
+                    Id = $"id-{id}",
                     NavLabel = new NcxNavInfoType
                     {
                         Text = item.Title,
@@ -40,6 +41,11 @@ internal sealed class CreateNav : PipeLineStep<EpubState>
                     {
                         Src = item.FileName
                     },
+                });
+                State.Spine.Itemref.Add(new PackageSpineItemref
+                {
+                    Idref = $"id-{id}",
+                    Linear = State.Spine.Itemref.Count == 0 ? "yes" : null,
                 });
             }
             tocHtml.EndOl();
@@ -87,7 +93,7 @@ internal sealed class CreateNav : PipeLineStep<EpubState>
                 new()
                 {
                     Name = "dtb:depth",
-                    Content = State.TocData.Count.ToString()
+                    Content = "1"
                 },
                 new()
                 {

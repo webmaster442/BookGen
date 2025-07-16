@@ -90,8 +90,8 @@ public sealed class Pipeline
             new CreateHtmlPages(state),
             new CreateImageFiles(state),
             new CreateEpubCoverAndStyle(state),
-            new CreateContentOpf(state),
             new CreateNav(state),
+            new CreateContentOpf(state),
             new DeInitialize(state)
         );
     }

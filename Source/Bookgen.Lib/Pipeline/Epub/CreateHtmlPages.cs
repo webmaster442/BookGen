@@ -100,12 +100,6 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
                     Mediatype = "application/xhtml+xml",
                 });
 
-                State.Spine.Itemref.Add(new PackageSpineItemref
-                {
-                    Idref = id,
-                    Linear = State.Spine.Itemref.Count == 0 ? "yes" : null,
-                });
-
                 chapterLinks.Add(new ChapterItem(sourceData.FrontMatter.Title, targetfileName));
 
                 ++fileId;
