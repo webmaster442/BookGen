@@ -11,6 +11,9 @@ internal sealed class DeInitialize : PipeLineStep<EpubState>
     public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         State.Deinitialize();
+
+        logger.LogInformation("Rember to validate your generated e-book, with a tool such as: https://pagina.gmbh/startseite/leistungen/publishing-softwareloesungen/epub-checker/");
+
         return Task.FromResult(StepResult.Success);
     }
 }
