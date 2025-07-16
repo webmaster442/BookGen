@@ -91,6 +91,7 @@ public sealed class Pipeline
             new CreateImageFiles(state),
             new CreateEpubCoverAndStyle(state),
             new CreateContentOpf(state),
+            new CreateNav(state),
             new DeInitialize(state)
         );
     }

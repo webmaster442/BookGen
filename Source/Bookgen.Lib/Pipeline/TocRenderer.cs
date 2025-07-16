@@ -41,7 +41,7 @@ internal sealed class TocRenderer
         };
     }
 
-    public void BeginContainer()
+    public void BeginContainer(params (string attribute, string attributeValue)[] additonalProps)
     {
         _buffer
         .Append('<')
@@ -52,6 +52,16 @@ internal sealed class TocRenderer
             _buffer
                 .Append(" id=\"")
                 .Append(_configuration.ContainerId)
+                .Append('"');
+        }
+
+        foreach (var (attribute, attributeValue) in additonalProps)
+        {
+            _buffer
+                .Append(' ')
+                .Append(attribute)
+                .Append("=\"")
+                .Append(attributeValue)
                 .Append('"');
         }
 
@@ -66,13 +76,13 @@ internal sealed class TocRenderer
         _buffer.Append('>').AppendLine();
     }
 
-    public void BeginChapter(TocChapter chapter)
+    public void BeginChapter(string chapter)
     {
         _buffer.Append('<')
             .Append(ToHtml(_configuration.ChapterContainer))
             .Append('>')
             .Append("<h1>")
-            .Append(chapter.Title)
+            .Append(chapter)
             .AppendLine("</h1>");
     }
 
@@ -110,6 +120,22 @@ internal sealed class TocRenderer
             .AppendLine();
 
         return link;
+    }
+
+    public string AddEpubLink(string file, string title)
+    {
+        string linkTarget = Path.ChangeExtension(file, ".xhtml");
+        _buffer
+            .Append('<')
+            .Append(ToHtml(_configuration.ItemContainer))
+            .Append('>')
+            .Append($"<a href=\"{linkTarget}\">{title}</a>")
+            .Append("</")
+            .Append(ToHtml(_configuration.ItemContainer))
+            .Append('>')
+            .AppendLine();
+
+        return linkTarget;
     }
 
     public void EndOuterItemContainer()

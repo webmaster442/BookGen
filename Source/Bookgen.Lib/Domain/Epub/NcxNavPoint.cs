@@ -14,7 +14,7 @@ public sealed class NcxNavPoint
     public required NcxNavPointContent Content { get; set; }
 
     [XmlArray(ElementName = "navPoint")]
-    public required NcxNavPoint[] NavPoint { get; set; }
+    public List<NcxNavPoint>? NavPoint { get; set; }
 
     [XmlAttribute(AttributeName = "id")]
     public required string Id { get; set; }

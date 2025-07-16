@@ -14,6 +14,7 @@ internal sealed class CreateEpubCoverAndStyle : PipeLineStep<EpubState>
 
     public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
+        //<item href="img/epub_logo_color.jpg" media-type="image/jpeg" id="ci" properties="cover-image"/>
         var css = environment.GetAsset("bookgen.epub.min.css");
         State.EpubFile.Add("EPUB/content/bookgen.epub.min.css", css, Encoding.UTF8);
         State.PackageItems.Add(new PackageItem

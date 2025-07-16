@@ -23,7 +23,7 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
         toc.BeginContainer();
         foreach (var chapter in environment.TableOfContents.Chapters)
         {
-            toc.BeginChapter(chapter);
+            toc.BeginChapter(chapter.Title);
             toc.BeginOuterItemContainer();
             foreach (var file in chapter.Files)
             {

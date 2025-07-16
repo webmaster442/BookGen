@@ -11,6 +11,8 @@ using Bookgen.Lib.Templates;
 
 using Microsoft.Extensions.Logging;
 
+using static Bookgen.Lib.Pipeline.Epub.EpubState;
+
 namespace Bookgen.Lib.Pipeline.Epub;
 
 internal class CreateHtmlPages : PipeLineStep<EpubState>
@@ -62,6 +64,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
         {
             logger.LogInformation("Rendering chapter {chapter}...", chapter.Title);
             fileId = 1;
+            var chapterLinks = new List<ChapterItem>();
             foreach (var page in chapter.Files)
             {
                 if (cancellationToken.IsCancellationRequested)
@@ -103,9 +106,12 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
                     Linear = State.Spine.Itemref.Count == 0 ? "yes" : null,
                 });
 
+                chapterLinks.Add(new ChapterItem(sourceData.FrontMatter.Title, targetfileName));
+
                 ++fileId;
             }
             ++chapterId;
+            State.TocData.Add(chapter.Title, chapterLinks);
         }
         return StepResult.Success;
 

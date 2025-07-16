@@ -1,4 +1,5 @@
 ﻿using Bookgen.Lib.Domain.Epub;
+using Bookgen.Lib.Domain.IO.Configuration;
 
 using BookGen.Vfs;
 
@@ -14,12 +15,20 @@ internal sealed class EpubState
 
     public List<PackageItem> PackageItems { get; }
 
+    public record class ChapterItem(string Title, string FileName);
+
     public Dictionary<string, string> ImagesData { get; }
 
-    public PackageSpine Spine { get;} 
+    public PackageSpine Spine { get;}
+
+    public Dictionary<string, List<ChapterItem>> TocData { get; }
+
+    public Guid BookId { get; }
 
     public EpubState()
     {
+        BookId = Guid.CreateVersion7();
+        TocData = new();
         ImagesData = new Dictionary<string, string>();
         PackageItems = new List<PackageItem>
         {
@@ -32,7 +41,7 @@ internal sealed class EpubState
             new PackageItem
             {
                 Id = "nav",
-                Href = "nav.xhtml",
+                Href = "content/nav.xhtml",
                 Mediatype = "application/xhtml+xml",
                 Properties = "nav",
             }

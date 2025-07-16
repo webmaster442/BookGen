@@ -36,7 +36,7 @@ internal sealed class CreateContentOpf : PipeLineStep<EpubState>
                 Identifier = new Identifier
                 {
                     Id = uniqueId,
-                    Value = $"urn:uuid:{Guid.CreateVersion7()}"
+                    Value = $"urn:uuid:{State.BookId}"
                 },
                 Language = "en-US",
                 Meta =
@@ -59,7 +59,7 @@ internal sealed class CreateContentOpf : PipeLineStep<EpubState>
             {
                 Reference = new PackageGuideReference
                 {
-                    Href = "nav.xhtml",
+                    Href = "content/nav.xhtml",
                     Title = environment.Configuration.BookTitle,
                     Type = "toc"
                 }
