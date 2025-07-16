@@ -18,18 +18,17 @@ internal sealed class CreateNav : PipeLineStep<EpubState>
     {
         var ncx = CreateNcx(environment);
 
-        TocRenderer toc = new(new TableOfContentsConfiguration
-        {
-            ChapterContainer = ContainerElement.None,
-        });
-        toc.BeginContainer(("epub:type", "toc"));
+        var tocHtml = new EpubTocRenderer();
+        tocHtml.BeginNav();
+        tocHtml.AddTitle(environment.Configuration.BookTitle);
+        tocHtml.BeginOl(display: false);
         foreach (var chapter in State.TocData)
         {
-            toc.BeginChapter(chapter.Key);
-            toc.BeginOuterItemContainer();
+            tocHtml.BeginChapter(chapter.Key);
+            tocHtml.BeginOl();
             foreach (var item in chapter.Value)
             {
-                toc.AddEpubLink(file: item.FileName.Replace("content/", ""), title: item.Title);
+                tocHtml.AddItem(item.Title, item.FileName.Replace("content/", ""));
                 ncx.NavMap.Add(new NcxNavPoint
                 {
                     Id = $"id-{IdGenerator.Generate32BitDeterministicId(item.Title)}",
@@ -43,10 +42,11 @@ internal sealed class CreateNav : PipeLineStep<EpubState>
                     },
                 });
             }
-            toc.EndOuterItemContainer();
-            toc.EndChapter();
+            tocHtml.EndOl();
+            tocHtml.EndChapter();
         }
-        toc.EndContainer();
+        tocHtml.EndOl();
+        tocHtml.EndNav();
 
 
         var renderer = new TemplateEngine(logger, environment);
@@ -54,7 +54,7 @@ internal sealed class CreateNav : PipeLineStep<EpubState>
 
         var viewData = new ViewData
         {
-            Content = toc.ToString().MakeSelfClosingTagsXmlCompatible(),
+            Content = tocHtml.ToString().MakeSelfClosingTagsXmlCompatible(),
             Title = environment.Configuration.BookTitle,
             Host = string.Empty,
             LastModified = DateTime.UtcNow,

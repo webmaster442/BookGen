@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
 
-using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 
 using BookGen.Vfs;
@@ -41,7 +40,7 @@ internal sealed class TocRenderer
         };
     }
 
-    public void BeginContainer(params (string attribute, string attributeValue)[] additonalProps)
+    public void BeginContainer()
     {
         _buffer
         .Append('<')
@@ -52,16 +51,6 @@ internal sealed class TocRenderer
             _buffer
                 .Append(" id=\"")
                 .Append(_configuration.ContainerId)
-                .Append('"');
-        }
-
-        foreach (var (attribute, attributeValue) in additonalProps)
-        {
-            _buffer
-                .Append(' ')
-                .Append(attribute)
-                .Append("=\"")
-                .Append(attributeValue)
                 .Append('"');
         }
 
@@ -120,22 +109,6 @@ internal sealed class TocRenderer
             .AppendLine();
 
         return link;
-    }
-
-    public string AddEpubLink(string file, string title)
-    {
-        string linkTarget = Path.ChangeExtension(file, ".xhtml");
-        _buffer
-            .Append('<')
-            .Append(ToHtml(_configuration.ItemContainer))
-            .Append('>')
-            .Append($"<a href=\"{linkTarget}\">{title}</a>")
-            .Append("</")
-            .Append(ToHtml(_configuration.ItemContainer))
-            .Append('>')
-            .AppendLine();
-
-        return linkTarget;
     }
 
     public void EndOuterItemContainer()
