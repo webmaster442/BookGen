@@ -1,5 +1,6 @@
 ﻿using Bookgen.Lib.Domain.Epub;
 using Bookgen.Lib.Http;
+using Bookgen.Lib.Internals;
 
 using Microsoft.Extensions.Logging;
 
@@ -22,7 +23,7 @@ internal sealed class CreateImageFiles : PipeLineStep<EpubState>
             State.PackageItems.Add(new PackageItem
             {
                 Href = $"content/{image.Key}",
-                Id = image.Key,
+                Id = $"id-{IdGenerator.Generate32BitDeterministicId(image.Key)}",
                 Mediatype = MimeTypes.GetMimeTypeForFile(image.Key),
             });
         }

@@ -19,31 +19,9 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
     {
     }
 
-    public static string GenerateImageFileName(string orignalPath, ImageType imageType)
-    {
-        const uint prime = 0x01000193;
-        uint hash = 0x811c9dc5;
-        foreach (var chr in orignalPath)
-        {
-            hash = (hash ^ chr) * prime;
-        }
-
-        var extension = imageType switch
-        {
-            ImageType.Jpeg => "jpg",
-            ImageType.Png => "png",
-            ImageType.Gif => "gif",
-            ImageType.Webp => "webp",
-            ImageType.Svg => "svg",
-            _ => throw new ArgumentOutOfRangeException(nameof(imageType), imageType, null)
-        };
-
-        return $"{Convert.ToHexString(BitConverter.GetBytes(hash))}.{extension}";
-    }
-
     private string EpubImageRewrite(ImageResult result)
     {
-        var name = GenerateImageFileName(result.OriginalName, result.ImageType);
+        var name = IdGenerator.GenerateImageFileName(result.OriginalName, result.ImageType);
         State.ImagesData.TryAdd(name, result.Data);
         return name;
     }
@@ -66,7 +44,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
             PrismJsInterop = new PrismJsInterop(environment),
-            OffsetHeadingsBy = 1,
+            OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
             ImageUrlRewriter = EpubImageRewrite
         };
@@ -110,16 +88,18 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
                 State.EpubFile.Add($"EPUB/{targetfileName}", html, Encoding.UTF8);
 
+                var id = $"id-{IdGenerator.Generate32BitDeterministicId(targetfileName)}";
+
                 State.PackageItems.Add(new PackageItem
                 {
                     Href = targetfileName,
-                    Id = targetfileName,
+                    Id = id,
                     Mediatype = "application/xhtml+xml",
                 });
 
                 State.Spine.Itemref.Add(new PackageSpineItemref
                 {
-                    Idref = targetfileName,
+                    Idref = id,
                     Linear = State.Spine.Itemref.Count == 0 ? "yes" : null,
                 });
 

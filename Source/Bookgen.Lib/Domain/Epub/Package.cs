@@ -9,6 +9,7 @@ public sealed class Package
     [XmlElement("metadata")]
     public required PackageMetadata Metadata { get; set; }
 
+    [XmlArray("manifest")]
     [XmlArrayItem("item", IsNullable = false)]
     public required List<PackageItem> Manifest { get; set; }
 
