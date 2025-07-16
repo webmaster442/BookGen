@@ -2,170 +2,56 @@
 BookGen Css for epub files Not minified
 Version: 2025-07-15
 */
-@page {
-    margin: 10px;
+body {
+    font-family: "Georgia", serif;
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin: 0;
+    padding: 1em;
+    color: #1a1a1a;
+    background: transparent;
+    widows: 2;
+    orphans: 2;
 }
 
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
+p {
+    margin: 1em 0;
+    text-align: justify;
+    text-indent: 1.5em;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video,
-ol,
-ul,
-li,
-dl,
-dt,
-dd {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    vertical-align: baseline;
+h6 {
+    font-family: "Helvetica Neue", "Arial", sans-serif;
+    font-weight: bold;
+    color: #000;
+    margin: 1.5em 0 0.5em;
+    page-break-after: avoid;
+    page-break-inside: avoid;
 }
 
-html {
-    line-height: 1.2;
-    font-family: Georgia, serif;
-}
-
-code {
-    font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
-    font-size: 85%;
-    margin: 0px;
-    hyphens: manual;
-}
-
-pre {
-    margin: 1em 0;
-    overflow: auto;
-}
-
-pre code {
-    padding: 0;
-    overflow: visible;
-    overflow-wrap: normal;
-}
-
-hr {
-    background-color: #1a1a1a;
-    border: none;
-    height: 1px;
-    margin: 1em 0;
-}
-
-table {
-    margin: 1em 0;
-    border-collapse: collapse;
-    width: 100%;
-    overflow-x: auto;
-    display: block;
-}
-
-th,
-td {
-    padding: 0.25em 0.5em 0.25em 0.5em;
-}
-
-th {
-    border-top: 1px solid black;
-}
 
 h1 {
-    margin: 3em 0 0 0;
-    font-size: 2em;
-    page-break-before: always;
-    line-height: 150%;
+    font-size: 1.8em;
 }
 
 h2 {
-    margin: 1.5em 0 0 0;
     font-size: 1.5em;
-    line-height: 135%;
 }
 
 h3 {
-    margin: 1.3em 0 0 0;
     font-size: 1.3em;
 }
 
 h4 {
-    margin: 1.2em 0 0 0;
     font-size: 1.2em;
 }
 
 h5 {
-    margin: 1.1em 0 0 0;
     font-size: 1.1em;
 }
 
@@ -173,30 +59,96 @@ h6 {
     font-size: 1em;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    text-indent: 0;
-    text-align: left;
-    font-weight: bold;
-    page-break-after: avoid;
-    page-break-inside: avoid;
+blockquote {
+    margin: 1em 2em;
+    font-style: italic;
+    color: #555;
 }
 
-a,
-a:visited {
-    color: purple;
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}
+
+a {
+    color: #0645AD;
+    text-decoration: underline;
+}
+
+ul,
+ol {
+    margin: 1em 0 1em 2em;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 0.5em;
 }
 
 img {
     max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+}
+
+code,
+pre {
+    font-family: monospace;
+    background: #f5f5f5;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+}
+
+pre {
+    overflow-x: auto;
+    padding: 1em;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 2em 0;
+}
+
+h1,
+h2,
+h3,
+blockquote,
+pre,
+img,
+table {
+    page-break-inside: avoid;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    text-align: left;
+}
+
+figure {
+    margin: 0px;
 }
 
 figcaption {
     text-align: center;
+    font-style: italic;
+}
+
+p code {
+    color: #f54009;
     font-style: italic;
 }
 
