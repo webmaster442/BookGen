@@ -120,7 +120,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         var imgService = new ImgService(_fileSystem, new ImageConfig
         {
             SvgRecode = arguments.SvgPassthrough ? SvgRecodeOption.Passtrough : SvgRecodeOption.AsWebp,
-            WebpQuality = 90,
+            ImageQualityOnResize = 90,
         });
 
         using var settings = new RenderSettings(imgService)

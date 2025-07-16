@@ -1,5 +1,8 @@
-﻿using Bookgen.Lib.Domain.IO.Configuration;
+﻿
+using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Domain.IO.Legacy;
+
+using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 
 namespace Bookgen.Lib.Confighandling.LegacyMigration;
 
@@ -28,11 +31,22 @@ internal static class Conversions
     {
         return new ImageConfig
         {
-            ResizeAndRecodeImagesToWebp = imageOptions.RecodeJpegToWebp || imageOptions.RecodePngToWebp || imageOptions.EnableResize,
+            ResizeAndRecodeImages = MapResizeOpion(imageOptions),
             ResizeHeight = imageOptions.MaxHeight,
             ResizeWith = imageOptions.MaxWidth,
-            WebpQuality = imageOptions.ImageQuality,
+            ImageQualityOnResize = imageOptions.ImageQuality,
             SvgRecode = imageOptions.SvgPassthru ? SvgRecodeOption.Passtrough : SvgRecodeOption.AsPng,
         };
+    }
+
+    private static ImgRecodeOption MapResizeOpion(ImageOptions imageOptions)
+    {
+        if (imageOptions.RecodeJpegToWebp || imageOptions.RecodePngToWebp || imageOptions.EnableResize)
+            return ImgRecodeOption.AsWebp;
+     
+        if (imageOptions.EnableResize)
+            return ImgRecodeOption.AsPng;
+
+        return ImgRecodeOption.Passtrough;
     }
 }

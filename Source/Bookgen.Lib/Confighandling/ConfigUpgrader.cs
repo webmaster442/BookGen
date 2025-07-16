@@ -59,12 +59,10 @@ internal class ConfigUpgrader
 
         var info = new VersionTagInfo(_sourceVersion, Config.CurrentVersionTag);
 
-        var upgraders = _upgrades
-            .Where(u => u.VersionTagInfo.From == info.From && u.VersionTagInfo.To == info.To)
-            .OrderBy(u => u.VersionTagInfo)
-            .ToArray();
+        List<UpgradeBase> upgraders = SelectUpgrades(info.From, info.To);
 
-        if (upgraders.Length == 0)
+
+        if (upgraders.Count == 0)
         {
             throw new InvalidOperationException($"No upgrade path found from version {info.From} to {info.To}");
         }
@@ -92,5 +90,18 @@ internal class ConfigUpgrader
         }
 
         return (tocModifed, configModified);
+    }
+
+    private List<UpgradeBase> SelectUpgrades(int from, int to)
+    {
+        List<UpgradeBase> selectedUpgrades = new List<UpgradeBase>();
+        foreach (var upgrader in _upgrades)
+        {
+            if (upgrader.VersionTagInfo.From >= from && upgrader.VersionTagInfo.To <= to)
+            {
+                selectedUpgrades.Add(upgrader);
+            }
+        }
+        return selectedUpgrades;
     }
 }

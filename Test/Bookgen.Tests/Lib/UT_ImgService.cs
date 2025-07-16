@@ -19,7 +19,7 @@ internal class UT_ImgService
     {
         var service = new ImgService(_testFolder, new ImageConfig
         {
-            ResizeAndRecodeImagesToWebp = false,
+            ResizeAndRecodeImages =  ImgRecodeOption.Passtrough,
             SvgRecode = SvgRecodeOption.Passtrough,
         });
 
@@ -114,7 +114,7 @@ internal class UT_ImgService
     {
         var service = new ImgService(_testFolder, new ImageConfig
         {
-            ResizeAndRecodeImagesToWebp = false,
+            ResizeAndRecodeImages = ImgRecodeOption.Passtrough,
             SvgRecode = SvgRecodeOption.AsWebp,
         });
 
@@ -136,7 +136,7 @@ internal class UT_ImgService
     {
         var service = new ImgService(_testFolder, new ImageConfig
         {
-            ResizeAndRecodeImagesToWebp = false,
+            ResizeAndRecodeImages = ImgRecodeOption.Passtrough,
             SvgRecode = SvgRecodeOption.AsPng,
             ResizeWith = 200,
             ResizeHeight = 200,
@@ -178,10 +178,10 @@ internal class UT_ImgService
     {
         var service = new ImgService(_testFolder, new ImageConfig
         {
-            ResizeAndRecodeImagesToWebp = true,
+            ResizeAndRecodeImages = ImgRecodeOption.AsWebp,
             ResizeHeight = 100,
             ResizeWith = 200,
-            WebpQuality = 80,
+            ImageQualityOnResize = 80,
         });
 
         var result = service.GetImageEmbedData("test.png");

@@ -33,8 +33,8 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
         var imgService = new ImgService(environment.Source, new ImageConfig
         {
             SvgRecode = SvgRecodeOption.AsWebp,
-            ResizeAndRecodeImagesToWebp = true,
-            WebpQuality = 90,
+            ResizeAndRecodeImages = ImgRecodeOption.AsPng,
+            ImageQualityOnResize = 90,
             ResizeWith = 1600,
             ResizeHeight = 1600,
         });

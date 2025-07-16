@@ -18,7 +18,7 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
     {
         var imgService = new ImgService(environment.Source, new ImageConfig()
         {
-            ResizeAndRecodeImagesToWebp = false,
+            ResizeAndRecodeImages = ImgRecodeOption.Passtrough,
             SvgRecode = SvgRecodeOption.Passtrough,
         });
         var cached = new CachedImageService(imgService);

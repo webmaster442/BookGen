@@ -18,11 +18,7 @@ internal sealed class FromVersion2003To2004 : UpgradeBase
 
     public override bool UpgradeToc(JsonObject tocFile)
     {
-        if (!tocFile.TryGetPropertyValue("Chapters", out var chapters)
-            || chapters is not JsonArray chaptersArray)
-        {
-            throw new InvalidOperationException("Chapters property not found or is not an array.");
-        }
+        JsonArray chaptersArray = tocFile.GetSubArrayOrThrow("Chapters");
 
         foreach (var chapterNode in chaptersArray)
         {

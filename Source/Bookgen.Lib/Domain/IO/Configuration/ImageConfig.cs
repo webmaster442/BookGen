@@ -16,18 +16,18 @@ public sealed class ImageConfig
     [Range(-1, int.MaxValue)]
     public int ResizeHeight { get; init; }
 
-    [Description("Enables or disables Webp reencode & resize")]
-    public bool ResizeAndRecodeImagesToWebp { get; init; }
+    [Description("Sets Image resize and recoding behaviour")]
+    public ImgRecodeOption ResizeAndRecodeImages { get; init; }
 
     [Description("WebP compression quality level")]
     [Range(1, 100)]
-    public int WebpQuality { get; init; }
+    public int ImageQualityOnResize { get; init; }
 
     public ImageConfig()
     {
-        WebpQuality = 90;
+        ImageQualityOnResize = 90;
         SvgRecode = SvgRecodeOption.Passtrough;
-        ResizeAndRecodeImagesToWebp = false;
+        ResizeAndRecodeImages = ImgRecodeOption.Passtrough;
         ResizeWith = -1;
         ResizeHeight = -1;
     }

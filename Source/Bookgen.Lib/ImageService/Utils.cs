@@ -90,12 +90,20 @@ internal static class Utils
 
     }
 
-    public static SKData EncodeToWebp(Stream fileData, int resizeWith, int resizeHeight, int quality)
+    public static SKData Encode(Stream fileData, int resizeWith, int resizeHeight, int quality, ImgRecodeOption imgRecodeOption)
     {
         using SKBitmap source = SKBitmap.Decode(fileData);
         using SKBitmap resized = ResizeIfBigger(source, resizeWith, resizeHeight);
-        return resized.Encode(SKEncodedImageFormat.Webp, quality);
+
+        return resized.Encode(imgRecodeOption switch
+        {
+            ImgRecodeOption.AsWebp => SKEncodedImageFormat.Webp,
+            ImgRecodeOption.AsPng => SKEncodedImageFormat.Png,
+            ImgRecodeOption.Passtrough => throw new InvalidOperationException("Passthrough is an invalid encode option here"),
+            _ => throw new UnreachableException(),
+        }, quality);
     }
+
 
     public static string Base64Encode(Stream fileData)
     {

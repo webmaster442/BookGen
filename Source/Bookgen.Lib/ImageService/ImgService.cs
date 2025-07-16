@@ -87,19 +87,28 @@ public sealed class ImgService : IImgService
 
         }
 
-        if (_imageConfig.ResizeAndRecodeImagesToWebp)
+        if (_imageConfig.ResizeAndRecodeImages != ImgRecodeOption.Passtrough)
         {
-            using SKData rendered = Utils.EncodeToWebp(fileData,
-                                                       _imageConfig.ResizeWith,
-                                                       _imageConfig.ResizeHeight,
-                                                       _imageConfig.WebpQuality);
+            using SKData rendered = Utils.Encode(fileData,
+                                                 _imageConfig.ResizeWith,
+                                                 _imageConfig.ResizeHeight,
+                                                 _imageConfig.ImageQualityOnResize,
+                                                 _imageConfig.ResizeAndRecodeImages);
+
+            var type = _imageConfig.ResizeAndRecodeImages switch
+            {
+                ImgRecodeOption.AsPng => ImageType.Png,
+                ImgRecodeOption.AsWebp => ImageType.Webp,
+                _ => throw new UnreachableException(),
+            };
 
             return new ImageResult
             {
                 Data = Convert.ToBase64String(rendered.AsSpan()),
-                ImageType = ImageType.Webp,
+                ImageType = type,
                 OriginalName = path,
             };
+
         }
 
         return new ImageResult
