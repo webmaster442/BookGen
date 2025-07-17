@@ -19,5 +19,5 @@ public sealed class PackageMetadata
     public required string Language { get; set; }
 
     [XmlElement("meta")]
-    public required PackageMetadataMeta[] Meta { get; set; }
+    public required List<PackageMetadataMeta> Meta { get; set; }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Text;
 
 using Bookgen.Lib.Domain.Epub;
-using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.Templates;
 

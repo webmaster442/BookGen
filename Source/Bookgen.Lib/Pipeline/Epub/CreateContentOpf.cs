@@ -66,6 +66,17 @@ internal sealed class CreateContentOpf : PipeLineStep<EpubState>
             }
         };
 
+        var coverItem = State.PackageItems.FirstOrDefault(item => item.Properties == "cover-image");
+        if (coverItem != null)
+        {
+            opf.Metadata.Meta.Add(new PackageMetadataMeta
+            {
+                Property = "cover",
+                Value = coverItem.Id
+            });
+        }
+
+
         State.EpubFile.AddXml("EPUB/content.opf",
                               opf,
                               ("", "http://www.idpf.org/2007/opf"),
