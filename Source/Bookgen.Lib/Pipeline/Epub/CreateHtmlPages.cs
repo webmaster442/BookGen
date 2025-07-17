@@ -60,6 +60,10 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
         string template = environment.GetAsset("Epub.html");
 
+        logger.LogInformation("Rendering cover/index...");
+
+        await RenderIndex(environment, logger, markdown, renderer, template);
+
         foreach (var chapter in environment.TableOfContents.Chapters)
         {
             logger.LogInformation("Rendering chapter {chapter}...", chapter.Title);
@@ -109,5 +113,34 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
         }
         return StepResult.Success;
 
+    }
+
+    private async Task RenderIndex(IBookEnvironment environment, ILogger logger, MarkdownToHtml markdown, TemplateEngine renderer, string template)
+    {
+        var index = await environment.Source.GetSourceFile(environment.TableOfContents.IndexFile, logger);
+
+        var indexView = new ViewData
+        {
+            Content = markdown.RenderMarkdownToHtml(index.Content).MakeSelfClosingTagsXmlCompatible(),
+            Title = environment.Configuration.BookTitle,
+            Host = string.Empty,
+            LastModified = index.LastModified,
+        };
+
+        string indexHtml = renderer.Render(template, indexView);
+
+        var name = "content/index.xhtml";
+
+        State.EpubFile.Add($"EPUB/{name}", indexHtml, Encoding.UTF8);
+
+        var id = $"id-{IdGenerator.Generate32BitDeterministicId(name)}";
+
+        State.PackageItems.Add(new PackageItem
+        {
+            Href = name,
+            Id = id,
+            Mediatype = "application/xhtml+xml",
+        });
+        State.TocData.Add(environment.Configuration.BookTitle, [new ChapterItem(environment.Configuration.BookTitle, name)]);
     }
 }
