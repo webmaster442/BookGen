@@ -18,7 +18,7 @@ internal sealed class CreateContentOpf : PipeLineStep<EpubState>
         var opf = new Package
         {
             Version = "3.0",
-            Lang = "en-US",
+            Lang = environment.Configuration.Book2LetterISO639Language,
             Uniqueidentifier = uniqueId,
             Prefix = "ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/",
             Metadata = new PackageMetadata
@@ -27,6 +27,10 @@ internal sealed class CreateContentOpf : PipeLineStep<EpubState>
                 {
                     Id = "epub-title",
                     Value = environment.Configuration.BookTitle
+                },
+                Creator = new Creator
+                {
+                    Value = environment.Configuration.BookAuthor
                 },
                 Date = new Date
                 {
@@ -38,7 +42,7 @@ internal sealed class CreateContentOpf : PipeLineStep<EpubState>
                     Id = uniqueId,
                     Value = $"urn:uuid:{State.BookId}"
                 },
-                Language = "en-US",
+                Language = environment.Configuration.Book2LetterISO639Language,
                 Meta =
                 [
                     new PackageMetadataMeta

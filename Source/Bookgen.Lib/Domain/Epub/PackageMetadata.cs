@@ -12,6 +12,9 @@ public sealed class PackageMetadata
     [XmlElement(ElementName = "title", Namespace = "http://purl.org/dc/elements/1.1/")]
     public required Title Title { get; set; }
 
+    [XmlElement(ElementName = "creator", Namespace = "http://purl.org/dc/elements/1.1/")]
+    public required Creator Creator { get; set; }
+
     [XmlElement(ElementName = "date", Namespace = "http://purl.org/dc/elements/1.1/")]
     public required Date Date { get; set; }
 

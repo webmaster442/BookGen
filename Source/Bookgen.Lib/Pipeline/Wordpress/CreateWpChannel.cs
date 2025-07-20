@@ -21,7 +21,7 @@ internal sealed class CreateWpChannel : PipeLineStep<WpState>
             Title = environment.Configuration.BookTitle,
             Link = environment.Configuration.WordpressConfig.DeployHost,
             PubDate = DateTime.UtcNow.ToWordpressTime(),
-            Language = "hu",
+            Language = environment.Configuration.Book2LetterISO639Language,
             WxrVersion = "1.2",
             BaseSiteUrl = environment.Configuration.WordpressConfig.DeployHost,
             BaseBlogUrl = environment.Configuration.WordpressConfig.DeployHost,
@@ -29,7 +29,7 @@ internal sealed class CreateWpChannel : PipeLineStep<WpState>
             Description = string.Empty,
             Author = new Author
             {
-                AuthorDisplayName = "Bookgen generator",
+                AuthorDisplayName = environment.Configuration.BookAuthor,
                 AuthorEmail = "bookgen@github.com",
                 AuthorFirstName = "Generator",
                 AuthorLastName = "BookGen",

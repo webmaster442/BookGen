@@ -20,6 +20,15 @@ public sealed class Config
     [MinLength(1)]
     public string BookTitle { get; init; }
 
+    [Description("Book language - 2 letter ISO 639 code")]
+    [Iso639Language]
+    public string Book2LetterISO639Language { get; init; }
+
+    [Description("Book author")]
+    [NotNullOrWhiteSpace]
+    [MinLength(1)]
+    public string BookAuthor { get; init; }
+
     [Description("Static website settings")]
     [Required]
     public StaticWebsiteConfig StaticWebsiteConfig { get; init; }
@@ -32,11 +41,13 @@ public sealed class Config
     [Required]
     public PrintConfig PrintConfig { get; init; }
 
-    public const int CurrentVersionTag = 2006;
+    public const int CurrentVersionTag = 2007;
 
     public Config()
     {
+        Book2LetterISO639Language = "en";
         BookTitle = string.Empty;
+        BookAuthor = string.Empty;
         VersionTag = CurrentVersionTag;
         StaticWebsiteConfig = new StaticWebsiteConfig();
         PrintConfig = new PrintConfig();
