@@ -7,10 +7,10 @@ using Microsoft.IO;
 
 namespace BookGen.Tooldownloaders;
 
-internal sealed class PandocTooldownloader : TooldownloaderBase
+internal sealed class GithubDownloader : TooldownloaderBase
 {
-    public PandocTooldownloader(IApiClient apiClient,
-                                RecyclableMemoryStreamManager memoryStreamManager)
+    public GithubDownloader(IApiClient apiClient, 
+                            RecyclableMemoryStreamManager memoryStreamManager) 
         : base(apiClient, memoryStreamManager)
     {
     }
@@ -19,18 +19,18 @@ internal sealed class PandocTooldownloader : TooldownloaderBase
     {
         return new ToolInfo
         {
-            Name = "Pandoc",
-            ApproximateSize = "217 MiB",
-            RepoOwner = "jgm",
-            RepoName = "pandoc",
-            FolderName = "pandoc",
+            Name = "Github CLI",
+            ApproximateSize = "38 MiB",
+            RepoOwner = "cli",
+            RepoName = "cli",
+            FolderName = "github-cli",
         };
     }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
     {
         return releaseAssets
-            .Where(r => r.Name.EndsWith("windows-x86_64.zip"))
+            .Where(r => r.Name.EndsWith("windows_amd64.zip"))
             .OrderByDescending(r => r.CreatedAt)
             .FirstOrDefault();
     }

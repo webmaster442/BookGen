@@ -1,4 +1,6 @@
-﻿using Spectre.Console;
+﻿using BookGen.Infrastructure.Tools;
+
+using Spectre.Console;
 
 using Webmaster442.WindowsTerminal.Wigets;
 

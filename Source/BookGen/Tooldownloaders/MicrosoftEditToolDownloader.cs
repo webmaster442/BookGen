@@ -1,7 +1,6 @@
-﻿using System.IO.Compression;
+﻿using Bookgen.Lib.Domain.Github;
 
-using Bookgen.Lib.Domain.Github;
-
+using BookGen.Infrastructure.Tools;
 using BookGen.Vfs;
 
 using Microsoft.IO;
@@ -15,11 +14,18 @@ internal sealed class MicrosoftEditToolDownloader : TooldownloaderBase
         : base(apiClient, memoryStreamManager)
     {
     }
-    public override string ToolName => "Microsoft Edit";
 
-    public override string ApproximateSize => "3.6 MiB";
-
-    protected override (string owner, string repo) GetRepository() => ("microsoft", "edit");
+    protected override ToolInfo CreateToolInfo()
+    {
+        return new ToolInfo
+        {
+            Name = "Microsoft Edit",
+            ApproximateSize = "3.6 MiB",
+            RepoOwner = "microsoft",
+            RepoName = "edit",
+            FolderName = "ms-edit",
+        };
+    }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
     {
@@ -28,6 +34,4 @@ internal sealed class MicrosoftEditToolDownloader : TooldownloaderBase
             .OrderByDescending(r => r.CreatedAt)
             .FirstOrDefault();
     }
-    protected override string GetEntryOutputPath(ZipArchiveEntry zipArchiveEntry)
-        => Path.Combine(AppContext.BaseDirectory, "tools", "edit", zipArchiveEntry.Name);
 }

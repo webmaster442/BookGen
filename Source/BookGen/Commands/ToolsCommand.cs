@@ -1,4 +1,6 @@
-﻿using BookGen.Cli;
+﻿using System.Linq.Expressions;
+
+using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Terminal;
 using BookGen.Tooldownloaders;
@@ -25,8 +27,10 @@ internal sealed class ToolsCommand : AsyncCommand
         });
         _tooldownloaders =
         [
-            new PandocTooldownloader(apiClient, _memoryStreamManager),
+            new ChromaDownloader(apiClient, _memoryStreamManager),
+            new GithubDownloader(apiClient, _memoryStreamManager),
             new MicrosoftEditToolDownloader(apiClient, _memoryStreamManager),
+            new PandocTooldownloader(apiClient, _memoryStreamManager),
         ];
     }
 
@@ -40,7 +44,7 @@ internal sealed class ToolsCommand : AsyncCommand
         var selectedItems = Terminal.SelectionMenu<TooldownloaderBase>(items: _tooldownloaders,
                                                                        title: "Select tools to download",
                                                                        instructions: "[grey](Press [blue]<space>[/] to toggle a tool for download, [green]<enter>[/] to accept)[/]",
-                                                                       displaySelector: t => $"{t.ToolName} (~{t.ApproximateSize})");
+                                                                       displaySelector: t => $"{t.ToolInfo.Name} (~{t.ToolInfo.ApproximateSize})");
 
 
         foreach (var selected in selectedItems)

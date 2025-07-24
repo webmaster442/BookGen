@@ -1,7 +1,7 @@
 ﻿# -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 3.5
-# Last modified: 2025-07-08
+# Version 3.7
+# Last modified: 2025-07-24
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
@@ -108,19 +108,51 @@ function corepack {
 # -----------------------------------------------------------------------------
 # tools commands
 # -----------------------------------------------------------------------------
+function GetTool {
+    param (
+        [string]$ToolName,
+        [string]$folder,
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+
+    $bundledPath = Join-Path $PSScriptRoot "tools\$folder\$ToolName.exe"
+
+    # Check if tool is available on PATH
+    try {
+        $toolCmd = Get-Command "$ToolName.exe" -ErrorAction Stop
+        & $toolCmd.Source @Args
+        return
+    }
+    catch {
+        # Not found on PATH, check bundled path
+        if (Test-Path $bundledPath) {
+            & $bundledPath @Args
+            return
+        }
+        else {
+            Write-Host "$ToolName is not installed. Run 'bookgen tools' to download it."
+        }
+    }
+}
+
+function chroma {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+    GetTool "chroma" "chroma" @Args
+}
+
 function pandoc {
     param (
         [string[]]
         [Parameter(ValueFromRemainingArguments = $true)]
         $Args
     )
-
-    $pandocPath = Join-Path $PSScriptRoot "tools\pandoc\pandoc.exe"
-    if (Test-Path $pandocPath) {
-        & $pandocPath @Args
-    } else {
-        Write-Host "Pandoc is not installed. Run 'bookgen tools' to download it."
-    }
+    GetTool "pandoc" "pandoc" @Args
 }
 
 function edit {
@@ -129,13 +161,16 @@ function edit {
         [Parameter(ValueFromRemainingArguments = $true)]
         $Args
     )
+    GetTool "edit" "ms-edit" @Args
+}
 
-    $pandocPath = Join-Path $PSScriptRoot "tools\edit\edit.exe"
-    if (Test-Path $pandocPath) {
-        & $pandocPath @Args
-    } else {
-        Write-Host "Edit is not installed. Run 'bookgen tools' to download it."
-    }
+function gh {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+    GetTool "gh" "github-cli" @Args
 }
 
 # -----------------------------------------------------------------------------

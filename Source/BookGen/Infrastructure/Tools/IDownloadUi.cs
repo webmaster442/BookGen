@@ -1,4 +1,4 @@
-﻿namespace BookGen.Tooldownloaders;
+﻿namespace BookGen.Infrastructure.Tools;
 
 internal interface IDownloadUi : IProgress<long>
 {
