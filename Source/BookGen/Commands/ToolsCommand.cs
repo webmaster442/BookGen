@@ -1,11 +1,10 @@
-﻿using System.Linq.Expressions;
-
-using BookGen.Cli;
+﻿using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Terminal;
 using BookGen.Tooldownloaders;
 using BookGen.Vfs;
 
+using Microsoft.Extensions.Logging;
 using Microsoft.IO;
 
 using Spectre.Console;
@@ -17,8 +16,9 @@ internal sealed class ToolsCommand : AsyncCommand
 {
     private readonly TooldownloaderBase[] _tooldownloaders;
     private readonly RecyclableMemoryStreamManager _memoryStreamManager;
+    private readonly ILogger _logger;
 
-    public ToolsCommand(IApiClient apiClient)
+    public ToolsCommand(IApiClient apiClient, ILogger logger)
     {
         _memoryStreamManager = new RecyclableMemoryStreamManager(new RecyclableMemoryStreamManager.Options
         {
@@ -32,6 +32,7 @@ internal sealed class ToolsCommand : AsyncCommand
             new MicrosoftEditToolDownloader(apiClient, _memoryStreamManager),
             new PandocTooldownloader(apiClient, _memoryStreamManager),
         ];
+        _logger = logger;
     }
 
     public override SupportedOs SupportedOs => SupportedOs.Windows;
@@ -49,6 +50,7 @@ internal sealed class ToolsCommand : AsyncCommand
 
         foreach (var selected in selectedItems)
         {
+            _logger.LogInformation("Installing {tool} ...", selected.ToolInfo.Name);
             var ui = new ToolDownloadUi();
             await selected.DownloadToolAsync(ui);
             ui.End();

@@ -6,6 +6,8 @@ using Bookgen.Lib.Domain.Github;
 using BookGen.Infrastructure.Tools;
 using BookGen.Vfs;
 
+using Markdig.Helpers;
+
 using Microsoft.IO;
 
 namespace BookGen.Tooldownloaders;
@@ -53,7 +55,20 @@ internal abstract class TooldownloaderBase
         {
             await _apiClient.DownloadFileTo(latestRelease.BrowserDownloadUrl, stream, ui, CancellationToken.None);
             ui.Report(latestRelease.Size);
-            stream.Seek(0, SeekOrigin.Begin);        
+            stream.Seek(0, SeekOrigin.Begin);
+
+            if (!string.IsNullOrEmpty(latestRelease.Digest))
+            {
+                ui.BeginNew("Verifying...", stream.Length);
+                ui.Report(stream.Length);
+                bool isOk = await Digest.VerifyDigest(latestRelease.Digest, stream);
+                stream.Seek(0, SeekOrigin.Begin);
+                if (!isOk)
+                {
+                    ui.Error($"Digest verify failed. Skipping install of {ToolInfo.Name}");
+                    return;
+                }
+            }
             await Extract(ui, stream);
         }
         catch (Exception ex)
