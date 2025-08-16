@@ -37,4 +37,7 @@ internal class TestEnvironment : IBookEnvironment
 
     public static bool IsBookGenFolder(string folder)
         => false;
+
+    public byte[] GetBinaryAsset(string name)
+        => _assetSoruce.GetBinaryAsset(name);
 }

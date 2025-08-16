@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Bookgen.Lib.Domain.Epub;
+
+using Microsoft.Extensions.Logging;
+
+namespace Bookgen.Lib.Pipeline.Epub;
+
+internal sealed class CreateFontFiles : PipeLineStep<EpubState>
+{
+    public CreateFontFiles(EpubState state) : base(state)
+    {
+    }
+
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Creating EPUB font files...");
+        State.EpubFile.Add("JetBrainsMono-Regular.ttf", environment.GetBinaryAsset("JetBrainsMono-Regular.ttf"));
+        State.EpubFile.Add("OpenSans-Regular.ttf", environment.GetBinaryAsset("OpenSans-Regular.ttf"));
+        State.EpubFile.Add("Nunito-Bold.ttf", environment.GetBinaryAsset("Nunito-Bold.ttf"));
+
+        State.PackageItems.AddRange([
+            new PackageItem
+            {
+                Id = "font.jetbrainsmono.regular",
+                Href = "JetBrainsMono-Regular.ttf",
+                Mediatype = "font/ttf"
+            },
+            new PackageItem
+            {
+                Id = "font.opensans.regular",
+                Href = "OpenSans-Regular.ttf",
+                Mediatype = "font/ttf"
+            },
+            new PackageItem
+            {
+                Id = "font.nunito.bold",
+                Href = "Nunito-Bold.ttf",
+                Mediatype = "font/ttf"
+            }
+        ]);
+        return Task.FromResult(StepResult.Success);
+    }
+}

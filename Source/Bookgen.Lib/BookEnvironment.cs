@@ -138,4 +138,20 @@ public sealed class BookEnvironment : IBookEnvironment
         content = null;
         return false;
     }
+
+    public byte[] GetBinaryAsset(string name)
+    {
+        foreach (var assetsource in _assets)
+        {
+            try
+            {
+                return assetsource.GetBinaryAsset(name);
+            }
+            catch (InvalidOperationException)
+            {
+                // Ignore and try next asset source
+            }
+        }
+        throw new InvalidOperationException($"{name} was not found in assets");
+    }
 }

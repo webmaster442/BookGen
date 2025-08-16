@@ -2,8 +2,42 @@
 BookGen Css for epub files Not minified
 Version: 2025-07-15
 */
+
+:root {
+    --red: #970b16;
+    --blue: #003e8a;
+    --brightBlue: #2e6cba;
+    --max-width: 1200px;
+}
+
+
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url('JetBrainsMono-Regular.ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Nunito";
+    src: url('Nunito-Bold.ttf');
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: url('OpenSans-Regular.ttf');
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
+}
+
 body {
-    font-family: "Georgia", serif;
+    font-family: "Open Sans", sans-serif;
     font-size: 1.1em;
     line-height: 1.6;
     margin: 0;
@@ -26,7 +60,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Helvetica Neue", "Arial", sans-serif;
+    font-family: "Nunito", sans-serif;
     font-weight: bold;
     color: #000;
     margin: 1.5em 0 0.5em;
@@ -95,18 +129,30 @@ img {
     margin: 1em auto;
 }
 
-code,
-pre {
-    font-family: monospace;
-    background: #f5f5f5;
-    padding: 0.2em 0.4em;
-    border-radius: 3px;
+p code {
+    color: var(--red);
+    font-style: italic;
 }
 
 pre {
-    overflow-x: auto;
-    padding: 1em;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variant-ligatures: contextual;
+    font-feature-settings: "liga", "calt";
 }
+
+pre code {
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variant-ligatures: contextual;
+    font-feature-settings: "liga", "calt";
+}
+
 
 hr {
     border: 0;
@@ -144,11 +190,6 @@ figure {
 
 figcaption {
     text-align: center;
-    font-style: italic;
-}
-
-p code {
-    color: #f54009;
     font-style: italic;
 }
 

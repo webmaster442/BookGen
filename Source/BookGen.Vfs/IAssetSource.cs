@@ -6,6 +6,8 @@ public interface IAssetSource
 {
     bool TryGetAsset(string name, [NotNullWhen(true)] out string? content);
 
+    byte[] GetBinaryAsset(string name);
+
     string GetAsset(string name)
     {
         if (!TryGetAsset(name, out var asset))

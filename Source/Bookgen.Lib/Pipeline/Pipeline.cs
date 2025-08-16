@@ -89,6 +89,7 @@ public sealed class Pipeline
             new CreateContainer(state),
             new CreateHtmlPages(state),
             new CreateImageFiles(state),
+            new CreateFontFiles(state),
             new CreateEpubCoverAndStyle(state),
             new CreateNav(state),
             new CreateContentOpf(state),
