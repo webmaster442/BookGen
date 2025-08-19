@@ -109,7 +109,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
     {
         logger.LogInformation("Creating pages...");
 
-        var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
+        var imgService = new ImgService(environment.Source, logger, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);
         var renderer = new TemplateEngine(logger, environment);
 

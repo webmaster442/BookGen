@@ -16,7 +16,7 @@ internal sealed class RenderPages : PipeLineStep<PrintState>
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
+        var imgService = new ImgService(environment.Source, logger, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);
 
         using var settings = new RenderSettings(cached)

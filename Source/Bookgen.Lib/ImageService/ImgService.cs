@@ -4,6 +4,8 @@ using Bookgen.Lib.Domain.IO.Configuration;
 
 using BookGen.Vfs;
 
+using Microsoft.Extensions.Logging;
+
 using SkiaSharp;
 
 namespace Bookgen.Lib.ImageService;
@@ -12,11 +14,13 @@ public sealed class ImgService : IImgService
 {
     private readonly IReadOnlyFileSystem _sourceFolder;
     private readonly ImageConfig _imageConfig;
+    private readonly ILogger _logger;
 
-    public ImgService(IReadOnlyFileSystem sourceFolder, ImageConfig imageConfig)
+    public ImgService(IReadOnlyFileSystem sourceFolder, ILogger logger, ImageConfig imageConfig )
     {
         _sourceFolder = sourceFolder;
         _imageConfig = imageConfig;
+        _logger = logger;
     }
 
     private static bool IsImage(string file)
@@ -58,6 +62,17 @@ public sealed class ImgService : IImgService
 
         if (!IsImage(path))
             throw new InvalidOperationException($"{path} is not an image");
+
+        if (!_sourceFolder.FileExists(path))
+        {
+            _logger.LogWarning("Image {Path} does not exist in source folder", path);
+            return new ImageResult
+            {
+                Data = string.Empty,
+                ImageType = ImageType.Png,
+                OriginalName = path,
+            }; 
+        }
 
         using Stream fileData = _sourceFolder.OpenReadStream(path);
 

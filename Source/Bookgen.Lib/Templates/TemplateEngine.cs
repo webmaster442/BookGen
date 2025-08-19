@@ -5,8 +5,6 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-using static SkiaSharp.HarfBuzz.SKShaper;
-
 namespace Bookgen.Lib.Templates;
 
 public sealed partial class TemplateEngine
@@ -98,7 +96,7 @@ public sealed partial class TemplateEngine
                     if (!dataTable.TryGetValue(key, out var value))
                     {
                         _logger.LogWarning("Key {Key} is not found in data table.", key);
-                        lineBuffer.Append($"Key {key} is not found in data table.");
+                        //lineBuffer.Append($"Key {key} is not found in data table.");
                         continue;
                     }
 

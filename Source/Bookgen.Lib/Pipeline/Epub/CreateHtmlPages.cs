@@ -30,7 +30,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        var imgService = new ImgService(environment.Source, new ImageConfig
+        var imgService = new ImgService(environment.Source, logger, new ImageConfig
         {
             SvgRecode = SvgRecodeOption.AsWebp,
             ResizeAndRecodeImages = ImgRecodeOption.AsPng,

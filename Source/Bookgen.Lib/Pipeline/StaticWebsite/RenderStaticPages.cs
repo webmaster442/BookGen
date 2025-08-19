@@ -19,7 +19,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        var imgService = new ImgService(environment.Source, environment.Configuration.StaticWebsiteConfig.Images);
+        var imgService = new ImgService(environment.Source, logger, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);
         var renderer = new TemplateEngine(logger, environment);
 
@@ -56,6 +56,8 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
                                                            fallbackTemplate: BundledAssets.TemplateStaticWeb,
                                                            defaultTemplateSelector: cfg => cfg.StaticWebsiteConfig.DefaultTempate);
 
+
+            logger.LogDebug("Rendering {File}...", file);
             var viewData = new StaticViewData
             {
                 Host = environment.Configuration.StaticWebsiteConfig.DeployHost,

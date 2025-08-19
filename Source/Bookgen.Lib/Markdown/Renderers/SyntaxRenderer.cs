@@ -58,8 +58,8 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 
     public static string GetCode(LeafBlock node)
     {
-        var code = new StringBuilder();
-        var lines = node.Lines.Lines;
+        StringBuilder code = new StringBuilder();
+        Markdig.Helpers.StringLine[] lines = node.Lines.Lines;
         int totalLines = lines.Length;
         for (int i = 0; i < totalLines; i++)
         {

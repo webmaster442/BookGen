@@ -1,23 +1,29 @@
 ﻿using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
 
+using Microsoft.Extensions.Logging;
+
+using Moq;
+
 namespace Bookgen.Tests.Lib;
 
 [TestFixture]
 internal class UT_ImgService
 {
     private EmbeddedTestFileSystem _testFolder;
+    private Mock<ILogger> _mockLogger;
 
     [SetUp]
     public void Setup()
     {
         _testFolder = new EmbeddedTestFileSystem();
+        _mockLogger = new Mock<ILogger>(MockBehavior.Strict);
     }
 
     [Test]
     public void EnsureThat_SvgPassThroughReturnsExpected()
     {
-        var service = new ImgService(_testFolder, new ImageConfig
+        var service = new ImgService(_testFolder, _mockLogger.Object,  new ImageConfig
         {
             ResizeAndRecodeImages =  ImgRecodeOption.Passtrough,
             SvgRecode = SvgRecodeOption.Passtrough,
@@ -112,7 +118,7 @@ internal class UT_ImgService
     [Test]
     public void EnsureThat_Svg_Recode_Webp_ReturnsExpected()
     {
-        var service = new ImgService(_testFolder, new ImageConfig
+        var service = new ImgService(_testFolder, _mockLogger.Object, new ImageConfig
         {
             ResizeAndRecodeImages = ImgRecodeOption.Passtrough,
             SvgRecode = SvgRecodeOption.AsWebp,
@@ -134,7 +140,7 @@ internal class UT_ImgService
     [Test]
     public void EnsureThat_Svg_Recode_Resize_Png_ReturnsExpected()
     {
-        var service = new ImgService(_testFolder, new ImageConfig
+        var service = new ImgService(_testFolder, _mockLogger.Object, new ImageConfig
         {
             ResizeAndRecodeImages = ImgRecodeOption.Passtrough,
             SvgRecode = SvgRecodeOption.AsPng,
@@ -158,7 +164,7 @@ internal class UT_ImgService
     [Test]
     public void EnsureThat_Png_Passtrough()
     {
-        var service = new ImgService(_testFolder, new ImageConfig());
+        var service = new ImgService(_testFolder, _mockLogger.Object, new ImageConfig());
 
         var result = service.GetImageEmbedData("test.png");
 
@@ -176,7 +182,7 @@ internal class UT_ImgService
     [Test]
     public void EnsureThat_Png_Recode_Webp_Works()
     {
-        var service = new ImgService(_testFolder, new ImageConfig
+        var service = new ImgService(_testFolder, _mockLogger.Object, new ImageConfig
         {
             ResizeAndRecodeImages = ImgRecodeOption.AsWebp,
             ResizeHeight = 100,
