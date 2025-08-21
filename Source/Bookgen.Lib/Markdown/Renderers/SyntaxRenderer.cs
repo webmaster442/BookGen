@@ -124,7 +124,7 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
     public static string RenderTerminalString(string code)
     {
         const string codeTag = "<!--{Code}-->";
-        return TerminalHtml.Replace(codeTag, HttpUtility.HtmlEncode(code));
+        return TerminalHtml.Replace(codeTag, TerminalRenderer.RenderAnsiCode(HttpUtility.HtmlEncode(code)));
 
     }
 
