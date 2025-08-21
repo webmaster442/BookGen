@@ -41,7 +41,11 @@ public sealed class Config
     [Required]
     public PrintConfig PrintConfig { get; init; }
 
-    public const int CurrentVersionTag = 2007;
+    [Description("RSS/ATOM Feed settings")]
+    [Required]
+    public FeedConfig FeedConfig { get; init; }
+
+    public const int CurrentVersionTag = 2008;
 
     public Config()
     {
@@ -52,5 +56,6 @@ public sealed class Config
         StaticWebsiteConfig = new StaticWebsiteConfig();
         PrintConfig = new PrintConfig();
         WordpressConfig = new WordpressConfig();
+        FeedConfig = new FeedConfig();
     }
 }

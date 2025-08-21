@@ -85,8 +85,11 @@ internal class ConfigUpgrader
         if (configModified)
         {
             _configJson["VersionTag"] = info.To;
+
+            JsonObject sorted = new JsonObject(_configJson.OrderBy(k => k.Key));
+           
             sourceFolder.MoveFile(FileNameConstants.ConfigFile, FileNameConstants.ConfigFile + ".bak");
-            await sourceFolder.WriteJsonAsync(FileNameConstants.ConfigFile, _configJson);
+            await sourceFolder.WriteJsonAsync(FileNameConstants.ConfigFile, sorted);
         }
 
         return (tocModifed, configModified);
