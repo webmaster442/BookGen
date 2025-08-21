@@ -3,6 +3,7 @@ using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Templates;
 
 using Microsoft.Extensions.Logging;
 
@@ -16,7 +17,7 @@ internal sealed class RenderPages : PipeLineStep<PrintState>
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        var imgService = new ImgService(environment.Source, logger, environment.Configuration.StaticWebsiteConfig.Images);
+        var imgService = new ImgService(environment.Source, logger, environment.Configuration.PrintConfig.Images);
         var cached = new CachedImageService(imgService);
 
         using var settings = new RenderSettings(cached)

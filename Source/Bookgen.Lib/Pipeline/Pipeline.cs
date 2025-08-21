@@ -1,4 +1,5 @@
 ﻿using Bookgen.Lib.Pipeline.Epub;
+using Bookgen.Lib.Pipeline.Feed;
 using Bookgen.Lib.Pipeline.PostProcess;
 using Bookgen.Lib.Pipeline.Print;
 using Bookgen.Lib.Pipeline.StaticWebsite;
@@ -94,6 +95,17 @@ public sealed class Pipeline
             new CreateNav(state),
             new CreateContentOpf(state),
             new DeInitialize(state)
+        );
+    }
+
+
+    public static Pipeline CreateFeedPipeline()
+    {
+        var state = new SyndicationFeedState();
+        return new Pipeline(
+            new CreateFeed(state),
+            new CreateItems(state),
+            new WriteFeeds(state)
         );
     }
 }

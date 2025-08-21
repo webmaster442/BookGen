@@ -172,7 +172,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
                 var sourceData = await environment.Source.GetSourceFile(file, logger);
                 string subpath = $"{environment.Configuration.WordpressConfig.DeployHost}{EncodeTitle(chapter.Title)}/{EncodeTitle(sourceData.FrontMatter.Title)}";
 
-                string template = await environment.GetTemplate(frontMatterTemplate: null,
+                string template = await environment.GetTemplate(frontMatterTemplate: sourceData.FrontMatter.Template,
                                                                fallbackTemplate: BundledAssets.TemplateBlank,
                                                                defaultTemplateSelector: cfg => cfg.WordpressConfig.DefaultTempate);
 

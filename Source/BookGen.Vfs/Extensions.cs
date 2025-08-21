@@ -1,11 +1,17 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Schema;
+using System.Xml;
 
 namespace BookGen.Vfs;
 
 public static class Extensions
 {
+    public static XmlWriter CreateXmlWriter(this IWritableFileSystem fs, string path)
+    {
+        return XmlWriter.Create(fs.CreateTextWriter(path));
+    }
+
     public static async Task<T?> DeserializeAsync<T>(this IReadOnlyFileSystem fs, string path)
     {
         await using var stream = fs.OpenReadStream(path);

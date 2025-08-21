@@ -1,0 +1,26 @@
+﻿using System.ServiceModel.Syndication;
+
+using Microsoft.Extensions.Logging;
+
+namespace Bookgen.Lib.Pipeline.Feed;
+
+internal sealed class CreateFeed : PipeLineStep<SyndicationFeedState>
+{
+    public CreateFeed(SyndicationFeedState state) : base(state)
+    {
+    }
+
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Creating feed...");
+
+        State.Feed.Title = new TextSyndicationContent(environment.Configuration.BookTitle);
+        State.Feed.Description = new TextSyndicationContent(environment.Configuration.BookAuthor);
+        State.Feed.Copyright = new TextSyndicationContent($"© {DateTime.UtcNow.Year} {environment.Configuration.BookAuthor}");
+        State.Feed.Language = environment.Configuration.Book2LetterISO639Language;
+        State.Feed.Generator = "BookGen";
+        State.Feed.LastUpdatedTime = DateTime.UtcNow;
+
+        return Task.FromResult(StepResult.Success);
+    }
+}
