@@ -171,7 +171,20 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
 
                 var sourceData = await environment.Source.GetSourceFile(file, logger);
                 string subpath = $"{environment.Configuration.WordpressConfig.DeployHost}{EncodeTitle(chapter.Title)}/{EncodeTitle(sourceData.FrontMatter.Title)}";
-                string content = markdown.RenderMarkdownToHtml(sourceData.Content);
+
+                string template = await environment.GetTemplate(frontMatterTemplate: null,
+                                                               fallbackTemplate: BundledAssets.TemplateBlank,
+                                                               defaultTemplateSelector: cfg => cfg.WordpressConfig.DefaultTempate);
+
+                var viewData = new ViewData
+                {
+                    Content = markdown.RenderMarkdownToHtml(sourceData.Content),
+                    Title = sourceData.FrontMatter.Title,
+                    Host = environment.Configuration.WordpressConfig.DeployHost,
+                    LastModified = sourceData.LastModified,
+                };
+
+                string content = renderer.Render(template, viewData);
 
                 Item result = CreateItem(uid: uid,
                                          parent: parent_uid,
