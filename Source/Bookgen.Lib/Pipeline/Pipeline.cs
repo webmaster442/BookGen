@@ -1,4 +1,9 @@
-﻿using Bookgen.Lib.Pipeline.Epub;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Bookgen.Lib.Pipeline.Epub;
 using Bookgen.Lib.Pipeline.Feed;
 using Bookgen.Lib.Pipeline.PostProcess;
 using Bookgen.Lib.Pipeline.Print;

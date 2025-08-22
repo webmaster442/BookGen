@@ -1,4 +1,9 @@
-﻿using System.Formats.Tar;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Formats.Tar;
 using System.IO.Compression;
 using System.Text;
 

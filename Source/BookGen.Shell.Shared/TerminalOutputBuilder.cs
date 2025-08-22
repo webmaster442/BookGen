@@ -1,8 +1,4 @@
-﻿//-----------------------------------------------------------------------------
-// (c) 2023 Ruzsinszki Gábor
-// This code is licensed under MIT license (see LICENSE for details)
-//-----------------------------------------------------------------------------
-
+﻿// Copyright (c) 2011 rubicon IT GmbH
 using System.Text;
 
 namespace BookGen.Shell.Shared;

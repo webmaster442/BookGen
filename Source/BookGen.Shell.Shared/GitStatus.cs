@@ -1,4 +1,5 @@
-﻿namespace BookGen.Shell.Shared;
+﻿// Copyright (c) 2011 rubicon IT GmbH
+namespace BookGen.Shell.Shared;
 
 public record GitStatus
 {

@@ -1,8 +1,4 @@
-﻿//-----------------------------------------------------------------------------
-// (c) 2024 Ruzsinszki Gábor
-// This code is licensed under MIT license (see LICENSE for details)
-//-----------------------------------------------------------------------------
-
+﻿// Copyright (c) 2011 rubicon IT GmbH
 using System.Diagnostics;
 
 using Microsoft.Extensions.Logging;

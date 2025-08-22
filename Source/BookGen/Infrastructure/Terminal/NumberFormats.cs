@@ -1,4 +1,9 @@
-﻿namespace BookGen.Infrastructure.Terminal;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Infrastructure.Terminal;
 internal static class NumberFormats
 {
     public static string ToFileSize(this long value)

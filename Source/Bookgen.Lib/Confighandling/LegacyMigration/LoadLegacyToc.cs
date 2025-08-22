@@ -1,4 +1,9 @@
-﻿using Bookgen.Lib.Domain.IO.Legacy;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Bookgen.Lib.Domain.IO.Legacy;
 using BookGen.Vfs;
 using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Syntax.Inlines;

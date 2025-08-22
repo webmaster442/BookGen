@@ -1,4 +1,9 @@
-﻿using Bookgen.Lib;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Bookgen.Lib;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

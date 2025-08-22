@@ -1,4 +1,9 @@
-﻿using System.Runtime.CompilerServices;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 
 namespace Bookgen.Lib.Confighandling;

@@ -1,8 +1,7 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2023-2024 Ruzsinszki Gábor
+// (c) 2019-2025 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
-
 
 using BookGen.Cli.Annotations;
 

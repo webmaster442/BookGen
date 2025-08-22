@@ -1,8 +1,4 @@
-﻿//-----------------------------------------------------------------------------
-// (c) 2021-2024 Ruzsinszki Gábor
-// This code is licensed under MIT license (see LICENSE for details)
-//-----------------------------------------------------------------------------
-
+﻿// Copyright (c) 2011 rubicon IT GmbH
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
