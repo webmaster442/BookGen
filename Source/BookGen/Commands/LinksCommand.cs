@@ -1,5 +1,6 @@
-﻿using Bookgen.Lib;
-using Bookgen.Lib.Markdown;
+﻿
+using System.Text.RegularExpressions;
+using Bookgen.Lib;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("links")]
-internal sealed class LinksCommand : AsyncCommand<BookGenArgumentBase>
+internal sealed partial class LinksCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _soruce;
     private readonly ILogger _logger;
@@ -46,7 +47,7 @@ internal sealed class LinksCommand : AsyncCommand<BookGenArgumentBase>
             {
                 _logger.LogDebug("Scanning {file}...", file);
                 var text = await _soruce.ReadAllTextAsync(file);
-                chapterLinks.UnionWith(MarkdownProcesor.GetLinks(text));
+                chapterLinks.UnionWith(GetLinks(text));
             }
             allLinks.Add(chapter.Title, chapterLinks.ToArray());
             chapterLinks.Clear();
@@ -63,5 +64,17 @@ internal sealed class LinksCommand : AsyncCommand<BookGenArgumentBase>
         await _soruce.WriteAllTextAsync("links.md", markdown.ToString());
 
         return ExitCodes.Success;
+    }
+
+    [GeneratedRegex(@"https?://[^\s\)\]\}""'<>]+")]
+    private partial Regex Links { get; }
+
+    private IEnumerable<string> GetLinks(string text)
+    {
+        var links = Links.Matches(text);
+        foreach (Match link in links)
+        {
+            yield return link.Value;
+        }
     }
 }
