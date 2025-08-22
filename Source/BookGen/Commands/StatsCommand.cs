@@ -53,6 +53,6 @@ internal sealed class StatsCommand : AsyncCommand<BookGenArgumentBase>
         Terminal.BreakDownChart(stats.FileSizeByExtension, "File sizes by extension");
         Terminal.BreakDownChart(stats.CodeBocks, "Code blocks by language");
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

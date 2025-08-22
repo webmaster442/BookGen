@@ -67,7 +67,7 @@ internal sealed class NewPageCommand : Command<NewPageCommand.Arguments>
         _fileSystem.WriteAllText(fileName, content);
         _logger.LogInformation("Created new page at {fileName}", fileName);
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
         
     }
 }

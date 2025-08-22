@@ -93,8 +93,8 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
     private Task<int> OnExit()
     {
         AnsiConsole.Clear();
-        Environment.Exit(ExitCodes.Succes);
-        return Task.FromResult(ExitCodes.Succes);
+        Environment.Exit(ExitCodes.Success);
+        return Task.FromResult(ExitCodes.Success);
     }
 
     private async Task<int> OnTest()
@@ -104,7 +104,7 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
 
         int result = await Run("buildweb", "-o", "Output/Test", "-h", $"http://localhost:{ServerFactory.HostingPort}/");
 
-        if (result == ExitCodes.Succes)
+        if (result == ExitCodes.Success)
         {
             _currentArgs.Directory = Path.Combine(_currentArgs.Directory, "Output", "Test");
             return await Run("serve");

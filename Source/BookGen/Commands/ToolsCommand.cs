@@ -56,6 +56,6 @@ internal sealed class ToolsCommand : AsyncCommand
             ui.End();
         }
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

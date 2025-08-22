@@ -73,7 +73,7 @@ internal sealed class EditCommand : Command
             p.StartInfo.Arguments = $"\"{file}\"";
             p.StartInfo.UseShellExecute = false;
             p.Start();
-            return ExitCodes.Succes;
+            return ExitCodes.Success;
         }
         catch (Exception ex)
         {

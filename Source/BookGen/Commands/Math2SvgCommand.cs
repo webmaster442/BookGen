@@ -67,6 +67,6 @@ internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArg
 
         await _fileSystem.WriteAllTextAsync(arguments.OutputFile, svg);
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

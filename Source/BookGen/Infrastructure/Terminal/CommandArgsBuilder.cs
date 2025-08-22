@@ -1,6 +1,4 @@
-﻿using BookGen.Commands;
-
-namespace BookGen.Infrastructure.Terminal;
+﻿namespace BookGen.Infrastructure.Terminal;
 
 internal sealed class CommandArgsBuilder
 {

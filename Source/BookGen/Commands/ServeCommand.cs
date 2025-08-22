@@ -53,6 +53,6 @@ internal sealed class ServeCommand : AsyncCommand<BookGenArgumentBase>
         }
 #pragma warning restore CA2000 // Dispose objects before losing scope
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

@@ -26,6 +26,6 @@ internal sealed class MigrateCommand : AsyncCommand<BookGenArgumentBase>
 
         bool value = await Migrator.Migrate(_writableFileSystem, _logger);
 
-        return value ? ExitCodes.Succes : ExitCodes.GeneralError;
+        return value ? ExitCodes.Success : ExitCodes.GeneralError;
     }
 }

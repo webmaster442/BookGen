@@ -2,35 +2,12 @@
 using Bookgen.Lib.Pipeline;
 
 using BookGen.Cli;
-using BookGen.Cli.Annotations;
-using BookGen.Commands;
 using BookGen.Infrastructure.Loging;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
 namespace BookGen;
-
-public sealed class BuildArguments : BookGenArgumentBase
-{
-    [Switch("o", "output")]
-    public string OutputDirectory { get; set; } = string.Empty;
-
-    [Switch("h", "host")]
-    public string HostOverride { get; set; } = string.Empty;
-
-    public override ValidationResult Validate(IValidationContext context)
-    {
-        var originalResult = base.Validate(context);
-        if (originalResult.IsOk 
-            && !string.IsNullOrEmpty(HostOverride)
-            && !HostOverride.EndsWith('/'))
-        {
-            return ValidationResult.Error("Host override must end with a slash.");
-        }
-        return originalResult;
-    }
-}
 
 internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
 {
@@ -84,6 +61,6 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
 
         bool result = await pipeline.ExecuteAsync(env, _logger, CancellationToken.None);
 
-        return result ? ExitCodes.Succes : ExitCodes.GeneralError;
+        return result ? ExitCodes.Success : ExitCodes.GeneralError;
     }
 }

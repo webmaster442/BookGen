@@ -160,7 +160,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         else
             _fileSystem.WriteAllText(arguments.OutputFile, rendered);
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 
     private (string content, DateTime lastmodified) ReadInputFiles(string[] inputFiles)

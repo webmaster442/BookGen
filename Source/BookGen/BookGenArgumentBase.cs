@@ -5,8 +5,9 @@
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Commands;
 
-namespace BookGen.Commands;
+namespace BookGen;
 
 public class BookGenArgumentBase : ArgumentsBase, IVerbosablityToggle
 {

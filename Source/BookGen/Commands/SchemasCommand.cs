@@ -95,6 +95,6 @@ internal sealed class SchemasCommand : Command<BookGenArgumentBase>
         _writableFileSystem.Scope = arguments.Directory;
         _writableFileSystem.WriteAllText("schemas.md", markdownBuilder.ToString());
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

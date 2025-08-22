@@ -26,6 +26,6 @@ internal sealed class VersionCommand : Command
     {
         AnsiConsole.WriteLine($"Version: {_programInfo.ProgramVersion}");
         AnsiConsole.WriteLine($"Config version: {_programInfo.ConfigVersion}");
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

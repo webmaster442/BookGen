@@ -23,7 +23,7 @@ internal sealed class HelpCommand : Command
         if (context.Count == 0) 
         {
             HelpRenderer.RenderHelp(_helpProvider.GetCommandHelp("help"));
-            return ExitCodes.Succes;
+            return ExitCodes.Success;
         }
 
         string command = context[0].ToLower();
@@ -34,7 +34,7 @@ internal sealed class HelpCommand : Command
         }
 
         HelpRenderer.RenderHelp(_helpProvider.GetCommandHelp(command));
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
 
     }
 }

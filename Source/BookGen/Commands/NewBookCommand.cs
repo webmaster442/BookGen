@@ -38,6 +38,6 @@ internal sealed class NewBookCommand : AsyncCommand<BookGenArgumentBase>
         _logger.LogInformation("Creating {toc}...", FileNameConstants.TableOfContents);
         await _fileSystem.SerializeAsync(FileNameConstants.TableOfContents, new Bookgen.Lib.Domain.IO.TableOfContents(), writeSchema: true);
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

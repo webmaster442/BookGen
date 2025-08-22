@@ -83,6 +83,6 @@ internal sealed class Html2PngCommand : AsyncCommand<Html2PngCommand.Html2PngArg
                                               arguments.Width,
                                               arguments.Height);
 
-        return result ? ExitCodes.Succes : ExitCodes.GeneralError;
+        return result ? ExitCodes.Success : ExitCodes.GeneralError;
     }
 }

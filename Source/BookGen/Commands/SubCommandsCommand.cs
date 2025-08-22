@@ -35,6 +35,6 @@ internal sealed class SubCommandsCommand : Command
                 AnsiConsole.WriteLine($"  {command}");
             }
         }
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

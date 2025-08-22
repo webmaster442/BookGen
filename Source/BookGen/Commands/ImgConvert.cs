@@ -112,7 +112,7 @@ internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
             ConvertImage(arguments.Input, arguments.Output, format, arguments.Quality, resolution);
         }
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 
     private static void ConvertImage(string file, string outputFile, ImageFormat format, int quality, Resolution resolution)

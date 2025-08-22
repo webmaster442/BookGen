@@ -30,7 +30,7 @@ internal class UT_ShellCommand : CommandTestBase<ShellCommand>
     public async Task Test_Execute_NoArgs()
     {
         var result = await Command.ExecuteAsync(ArgumentsBase.Empty, ["c"]);
-        Assert.That(result, Is.EqualTo(ExitCodes.Succes));
+        Assert.That(result, Is.EqualTo(ExitCodes.Success));
         CommandRunnerProxyMock.Verify(x => x.CommandNames, Times.Once);
     }
 }

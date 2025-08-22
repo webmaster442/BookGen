@@ -70,6 +70,6 @@ internal sealed class JsonArgsCommand : Command<JsonArgsCommand.JsonArgsArgument
         });
         File.WriteAllText(fileName, json);
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

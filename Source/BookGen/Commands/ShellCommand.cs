@@ -31,7 +31,7 @@ internal sealed class ShellCommand : Command
         {
             AnsiConsole.WriteLine(item);
         }
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 
     internal IEnumerable<string> DoComplete(IReadOnlyList<string> args)

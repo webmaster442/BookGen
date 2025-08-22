@@ -72,6 +72,6 @@ internal sealed class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
 
         _logger.LogInformation("Added frontMatter to {count} files", modified);
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

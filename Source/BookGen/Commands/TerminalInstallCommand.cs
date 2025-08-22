@@ -33,13 +33,13 @@ internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallComma
         if (arguments.CheckTerminalInstall)
         {
             var installReult = InstallDetector.GetInstallResult();
-            return installReult.IsWindowsTerminalInstalled ? ExitCodes.Succes : ExitCodes.GeneralError;
+            return installReult.IsWindowsTerminalInstalled ? ExitCodes.Success : ExitCodes.GeneralError;
         }
 
         if (arguments.CheckInstall)
         {
             bool installed = TerminalProfileInstaller.IsInstalled();
-            return installed ? ExitCodes.Succes : ExitCodes.GeneralError;
+            return installed ? ExitCodes.Success : ExitCodes.GeneralError;
         }
 
         var result = await TerminalProfileInstaller.TryInstallAsync();
@@ -56,6 +56,6 @@ internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallComma
         }
 
         _log.LogInformation("Successfully installed windows terminal profile");
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

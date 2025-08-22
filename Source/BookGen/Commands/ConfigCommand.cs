@@ -35,7 +35,7 @@ internal sealed class ConfigCommand : Command
         appSettings.Set(context[1], context[0]);
         appSettings.Save();
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 
     private int DisplaySpecific(PropertyInfo[] data, BookGenAppSettings appSettings, string property)
@@ -62,6 +62,6 @@ internal sealed class ConfigCommand : Command
 
         Terminal.Table(headers, tableData);
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

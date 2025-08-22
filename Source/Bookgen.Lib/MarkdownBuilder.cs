@@ -18,18 +18,17 @@ public sealed class MarkdownBuilder
     {
         if (level < 1 || level > 6)
             throw new ArgumentOutOfRangeException(nameof(level), "Level must be between 1 and 6.");
-        _builder.AppendLine($"{new string('#', level)} {text}");
+        _builder.AppendLine($"{new string('#', level)} {text}").AppendLine();
         return this;
     }
 
     public MarkdownBuilder Paragraph(string text)
     {
-        _builder.AppendLine(text);
-        _builder.AppendLine();
+        _builder.AppendLine(text).AppendLine();
         return this;
     }
 
-    public MarkdownBuilder List(IEnumerable<string> items)
+    public MarkdownBuilder UnorderedList(IEnumerable<string> items)
     {
         foreach (var item in items)
         {

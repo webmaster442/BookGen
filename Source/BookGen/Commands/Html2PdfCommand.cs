@@ -67,6 +67,6 @@ internal sealed class Html2PdfCommand : AsyncCommand<Html2PdfCommand.Html2PdfArg
         bool result = await _browser.Html2Pdf(arguments.InputFile,
                                               arguments.OutputFile);
 
-        return result ? ExitCodes.Succes : ExitCodes.GeneralError;
+        return result ? ExitCodes.Success : ExitCodes.GeneralError;
     }
 }

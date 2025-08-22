@@ -5,7 +5,7 @@ internal static class ExitCodes
     /// <summary>
     /// Succcesfull exit code = 0
     /// </summary>
-    public const int Succes = 0;
+    public const int Success = 0;
     /// <summary>
     /// Aguments error exit code = 1
     /// </summary>

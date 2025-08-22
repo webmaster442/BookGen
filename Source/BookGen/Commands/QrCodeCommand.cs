@@ -76,6 +76,6 @@ internal sealed partial class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeA
 
         await _fileSystem.WriteAllTextAsync(arguments.Output, svg);
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

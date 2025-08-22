@@ -72,6 +72,6 @@ internal sealed class VsTasksCommand : AsyncCommand<BookGenArgumentBase>
 
         await _writableFileSystem.SerializeAsync(file, taskBuilder.Build(), writeSchema: false);
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
     }
 }

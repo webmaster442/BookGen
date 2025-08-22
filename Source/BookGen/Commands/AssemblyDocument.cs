@@ -43,7 +43,7 @@ internal sealed class AssemblyDocument : Command<AssemblyDocument.Arguments>
             _logger.LogInformation(message);
         }
 
-        return ExitCodes.Succes;
+        return ExitCodes.Success;
 
     }
 }

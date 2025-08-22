@@ -349,6 +349,24 @@ Arguments:
     Optional argument. Specifies work directory. If not specified, then
     the current directory will be used as working directory.
 
+# Links
+
+Scans all markdown files in the current book and writes the lins to a markdown file,
+named links.md
+
+`BookGen Links [-v] [-d [directory]]`
+
+`BookGen Links [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
 # NewPage
 
 Creates a new markdown page.
