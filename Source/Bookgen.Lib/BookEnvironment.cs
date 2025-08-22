@@ -9,6 +9,8 @@ using Bookgen.Lib.Pipeline;
 
 using BookGen.Vfs;
 
+using Microsoft.Extensions.Logging;
+
 namespace Bookgen.Lib;
 
 public sealed class BookEnvironment : IBookEnvironment
@@ -24,12 +26,16 @@ public sealed class BookEnvironment : IBookEnvironment
     
     private bool _isInitialized;
 
-    public BookEnvironment(IWritableFileSystem soruceFolder, IWritableFileSystem output, params IAssetSource[] assets)
+    public BookEnvironment(
+        IWritableFileSystem soruceFolder,
+        IWritableFileSystem output,
+        ILogger logger,
+        params IAssetSource[] assets)
     {
         _source = soruceFolder;
         _output = output;
         _assets = assets;
-        _configUpgrader = new ConfigUpgrader();
+        _configUpgrader = new ConfigUpgrader(logger);
     }
 
     const string Error = $"{nameof(Initialize)} was not called";

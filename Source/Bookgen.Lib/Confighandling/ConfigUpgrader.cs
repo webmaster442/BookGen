@@ -4,11 +4,14 @@ using Bookgen.Lib.Domain.IO.Configuration;
 
 using BookGen.Vfs;
 
+using Microsoft.Extensions.Logging;
+
 namespace Bookgen.Lib.Confighandling;
 
 internal class ConfigUpgrader
 {
     private readonly UpgradeBase[] _upgrades;
+    private readonly ILogger _logger;
     private JsonObject? _tocJson;
     private JsonObject? _configJson;
     private int _sourceVersion;
@@ -17,7 +20,7 @@ internal class ConfigUpgrader
 
     public bool NeedsUpgrade { get; private set; }
 
-    public ConfigUpgrader()
+    public ConfigUpgrader(ILogger logger)
     {
         _upgrades = typeof(UpgradeBase).Assembly.GetTypes()
             .Where(t => !t.IsAbstract && t.IsClass)
@@ -26,6 +29,7 @@ internal class ConfigUpgrader
             .OfType<UpgradeBase>()
             .OrderBy(u => u.VersionTagInfo)
             .ToArray();
+        _logger = logger;
     }
 
     public async Task Init(IReadOnlyFileSystem sourceFolder)
@@ -72,6 +76,7 @@ internal class ConfigUpgrader
 
         foreach (var upgrader in upgraders)
         {
+            _logger.LogInformation("Upgrading from version {from} to {to}", upgrader.VersionTagInfo.From, upgrader.VersionTagInfo.To);
             tocModifed |= upgrader.UpgradeToc(_tocJson);
             configModified |= upgrader.UpgradeConfig(_configJson);
         }
@@ -85,11 +90,9 @@ internal class ConfigUpgrader
         if (configModified)
         {
             _configJson["VersionTag"] = info.To;
-
-            JsonObject sorted = new JsonObject(_configJson.OrderBy(k => k.Key));
            
             sourceFolder.MoveFile(FileNameConstants.ConfigFile, FileNameConstants.ConfigFile + ".bak");
-            await sourceFolder.WriteJsonAsync(FileNameConstants.ConfigFile, sorted);
+            await sourceFolder.WriteJsonAsync(FileNameConstants.ConfigFile, _configJson);
         }
 
         return (tocModifed, configModified);

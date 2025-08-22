@@ -24,7 +24,7 @@ internal sealed class ValidateCommand : AsyncCommand<BookGenArgumentBase>
     {
         _writableFileSystem.Scope = arguments.Directory;
 
-        using var environment = new BookEnvironment(_writableFileSystem, _writableFileSystem);
+        using var environment = new BookEnvironment(_writableFileSystem, _writableFileSystem, _logger);
 
         EnvironmentStatus status = await environment.Initialize(autoUpgrade: true);
 

@@ -11,7 +11,6 @@ internal sealed class FromVersion2007To2008 : UpgradeBase
 
     public override bool UpgradeConfig(JsonObject config)
     {
-
         config.Add("FeedConfig", JsonValue.Create(new FeedConfig()));
         return true;
     }

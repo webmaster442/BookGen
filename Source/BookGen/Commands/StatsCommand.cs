@@ -28,7 +28,7 @@ internal sealed class StatsCommand : AsyncCommand<BookGenArgumentBase>
     public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
         _soruce.Scope = arguments.Directory;
-        using var env = new BookEnvironment(_soruce, _soruce);
+        using var env = new BookEnvironment(_soruce, _soruce, _logger);
 
         var status = await env.Initialize(autoUpgrade: false);
 

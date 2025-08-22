@@ -15,20 +15,18 @@ internal sealed class LinksCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _soruce;
     private readonly ILogger _logger;
-    private readonly IAssetSource _assetSource;
 
-    public LinksCommand(IWritableFileSystem soruce, ILogger logger, IAssetSource assetSource)
+    public LinksCommand(IWritableFileSystem soruce, ILogger logger)
     {
         _soruce = soruce;
         _logger = logger;
-        _assetSource = assetSource;
     }
 
     public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
         _soruce.Scope = arguments.Directory;
 
-        using var env = new BookEnvironment(_soruce, _soruce, _assetSource);
+        using var env = new BookEnvironment(_soruce, _soruce, _logger);
         EnvironmentStatus status = await env.Initialize(autoUpgrade: true);
 
         if (!status.IsOk)

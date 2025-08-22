@@ -29,10 +29,7 @@ public sealed class WordpressConfig : OutputConfig
 
     public WordpressConfig()
     {
-        CssClasses = new CssClasses();
-        DefaultTempate = BundledAssets.TemplateBlank;
         DeployHost = string.Empty;
-        Images = new ImageConfig();
         ItemType = "docs";
         OpenLinksOutsideHostOnNewTab = true;
         TagCategory = "post_tag";
