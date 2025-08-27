@@ -44,6 +44,14 @@ public static class TerminalProfileInstaller
     private const string fileName = "bookgen.json";
 #endif
 
+    public static string GetProfileTitle()
+    {
+#if DEBUG
+        return "BookGen Shell (Dev version)";
+#else
+        return "BookGen Shell";
+#endif
+    }
 
     public static async Task<bool?> TryInstallAsync()
     {
@@ -51,12 +59,8 @@ public static class TerminalProfileInstaller
         if (!installStatus.IsWindowsTerminalInstalled)
             return null;
 
-        string title = "BookGen Shell";
-#if DEBUG
-        title = "BookGen Shell (Dev version)";
-#endif
         var fragment = new TerminalFragment();
-        fragment.Profiles.Add(CreateProfile(title, installStatus.IsPsCoreInstalled));
+        fragment.Profiles.Add(CreateProfile(GetProfileTitle(), installStatus.IsPsCoreInstalled));
         fragment.Schemes.Add(TerminalSchemes.PurplepeterShecme);
         fragment.Schemes.Add(TerminalSchemes.Dracula);
         fragment.Actions.Add(new TerminalAction

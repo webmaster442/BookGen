@@ -5,4 +5,5 @@
 [x] Epub cover imgage
 [x] Epub css adjustments: Remove no margin definiton
 [x] Epub css adjustments: Add color for inline code elements
-[ ] Epub css Embed fonts: https://www.kobo.com/kobo-writing-life/blog/embedding-fonts-in-your-ebooks
+[x] Epub css Embed fonts: https://www.kobo.com/kobo-writing-life/blog/embedding-fonts-in-your-ebooks
+[x] wt -p "BookGen Shell (Dev version)" --startingDirectory .

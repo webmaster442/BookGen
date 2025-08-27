@@ -5,12 +5,7 @@ BookGen installs various programs that can be used to achieve Book generation an
 [7mInstalled programs[0m
 
 * BookGen - Main command line program
-* BookGen.Launcher - Graphical launcher - Not available on Linux
-* BookGen.ShellHelper - Shell helper, used by BookGen shell
-* BookGen.Update - Update program - Not available on Linux
-* tidy - HTML Tidy, used by BookGen to prettify HTML, can be used as stand alone program
-
-Note: tidy is only bundled with the Windows release. On linux install it with your package manager or download from: https://www.html-tidy.org/
+* BookGen.Shellprog - Shell helper program
 
 [7mBookgen shell commands[0m
 
@@ -29,5 +24,39 @@ Note: tidy is only bundled with the Windows release. On linux install it with yo
 [48;2;155;155;155;38;2;30;30;30mBookGen SubCommands[0m - Lists all available subcommands
 
 [48;2;155;155;155;38;2;30;30;30mBookGen Gui[0m - Start in terminal gui mode. Only available, if folder contains a BookGen project.
+
+[7mMarkdown files[0m
+
+Markdown files are the main input format for BookGen. They can contain text, images, links, and other elements. BookGen supports github flavored markdown, which means it supports additional features like tables, task lists, and more. Front matter is supported via YAML syntax. The front matter is used to store metadata about the document, such as title, tags, and other properties.
+
+To create a new page execute the command: [48;2;155;155;155;38;2;30;30;30mBookGen newpage -n test.md[0m. This will create a new markdown file named [48;2;155;155;155;38;2;30;30;30mtest.md[0m in the current working directory. You can then edit this file with your favorite text editor. It will contain a basic template with the YAML front matter and a placeholder for the content.
+
+[7mTemplates[0m
+
+Template tags use a mustache like syntax startiong with the [48;2;155;155;155;38;2;30;30;30m{{[0m symbols and ending with [48;2;155;155;155;38;2;30;30;30m}}[0m. Tags can include simple properties or functions. Function and property names are case insensitive.
+
+There are a few special properties that have special meaning. These are:
+
+* [48;2;155;155;155;38;2;30;30;30m{{Title}}[0m - Title of the acual page
+* [48;2;155;155;155;38;2;30;30;30m{{Content}}[0m - Content of the actual page
+* [48;2;155;155;155;38;2;30;30;30m{{Host}}[0m - Host url, set in the configuration file
+
+The [48;2;155;155;155;38;2;30;30;30m{{content}}[0m mustache tag is a special placeholder used to represent the markdown content within a file. [1mImportant:[0m A markdown document must not include the [48;2;155;155;155;38;2;30;30;30m{{content}}[0m tag within its own content. Including this tag will cause infinite recursion during rendering, resulting in a failure to render the document.
+
+The [48;2;155;155;155;38;2;30;30;30mtitle[0m attribute comes from the YAML front matter of the document. The YAML front matter must include a [48;2;155;155;155;38;2;30;30;30mtitle[0m and a [48;2;155;155;155;38;2;30;30;30mtags[0m property. The Title is the document title and the tags are a comma sepperated string of keywords that can be set for the metadata.
+
+You can also add additional data to the YAML front matter. The YAML front matter via the [48;2;155;155;155;38;2;30;30;30mData[0m property, which is a Dictionary.  For example, adding:
+
+	Data:
+	  foo: bar
+
+allows you to access this value in templates or markdown content using the mustache syntax [48;2;155;155;155;38;2;30;30;30m{{foo}}[0m. All property names are case insensitive in this case too, when accessing the front matter data.
+
+The [48;2;155;155;155;38;2;30;30;30mLastModified[0m time stamp is determined from the input file.
+
+[7mTemplate functions[0m
+
+* [48;2;155;155;155;38;2;30;30;30m{{BuildDate(format)}}[0m - Actual build date. Format is optional, default is [48;2;155;155;155;38;2;30;30;30myyyy-MM-dd HH:mm:ss[0m.
+* [48;2;155;155;155;38;2;30;30;30m{{JSPageToc(source, target)}}[0m - Generates a JavaScript table of contents from the source div's headdings and displays it to the target div.
 
 

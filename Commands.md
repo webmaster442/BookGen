@@ -560,6 +560,11 @@ Autocompleter command, that is used by Powershell
 
 Listst all available subcommands
 
+# Shortcut
+
+Create a cmd file in the current directory that can be used to start
+the bookgen Shell in the current directory.
+
 # Schemas
 
 Creates a schemas.md documentation file, describing
@@ -594,7 +599,6 @@ Arguments:
 
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
-
 
 # Validate
 
