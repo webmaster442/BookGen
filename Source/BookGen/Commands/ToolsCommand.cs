@@ -25,6 +25,7 @@ internal sealed class ToolsCommand : AsyncCommand
 
     public ToolsCommand(IApiClient apiClient, ILogger logger)
     {
+        _logger = logger;
         _memoryStreamManager = new RecyclableMemoryStreamManager(new RecyclableMemoryStreamManager.Options
         {
             ZeroOutBuffer = true,
@@ -32,15 +33,18 @@ internal sealed class ToolsCommand : AsyncCommand
         });
         _tooldownloaders =
         [
-            new ChromaDownloader(apiClient, _memoryStreamManager),
-            new GithubDownloader(apiClient, _memoryStreamManager),
-            new MicrosoftEditToolDownloader(apiClient, _memoryStreamManager),
-            new PandocTooldownloader(apiClient, _memoryStreamManager),
+            new ChromaDownloader(apiClient, _memoryStreamManager, _logger),
+            new CopyPartyDownloader(apiClient, _memoryStreamManager, _logger),
+            new GithubDownloader(apiClient, _memoryStreamManager, _logger),
+            new MicrosoftEditToolDownloader(apiClient, _memoryStreamManager, _logger),
+            new PandocTooldownloader(apiClient, _memoryStreamManager, _logger),
         ];
-        _logger = logger;
     }
 
     public override SupportedOs SupportedOs => SupportedOs.Windows;
+
+    public string ToSDisplayString(TooldownloaderBase tool)
+        => $"{tool.ToolInfo.Name} (~{tool.ToolInfo.ApproximateSize})";
 
     public override async Task<int> ExecuteAsync(IReadOnlyList<string> context)
     {
@@ -50,7 +54,7 @@ internal sealed class ToolsCommand : AsyncCommand
         var selectedItems = Terminal.SelectionMenu<TooldownloaderBase>(items: _tooldownloaders,
                                                                        title: "Select tools to download",
                                                                        instructions: "[grey](Press [blue]<space>[/] to toggle a tool for download, [green]<enter>[/] to accept)[/]",
-                                                                       displaySelector: t => $"{t.ToolInfo.Name} (~{t.ToolInfo.ApproximateSize})");
+                                                                       displaySelector: ToSDisplayString);
 
 
         foreach (var selected in selectedItems)

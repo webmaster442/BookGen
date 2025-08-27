@@ -1,7 +1,7 @@
 ﻿# -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 3.7
-# Last modified: 2025-07-24
+# Version 3.7.1
+# Last modified: 2025-08-27
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
@@ -171,6 +171,15 @@ function gh {
         $Args
     )
     GetTool "gh" "github-cli" @Args
+}
+
+function copyparty {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+    GetTool "copyparty" "copyparty" @Args
 }
 
 # -----------------------------------------------------------------------------

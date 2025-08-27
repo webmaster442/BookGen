@@ -11,13 +11,29 @@ namespace BookGen.Infrastructure.Tools;
 
 internal static class Extractor
 {
+    public static async Task Copy(IDownloadUi ui, Stream stream, string folderName, string fileName)
+    {
+        ui.BeginNew("Copying...", stream.Length);
+        string outputPath = Path.Combine(AppContext.BaseDirectory, "tools", folderName, fileName);
+
+        string directory = Path.GetDirectoryName(outputPath) 
+            ?? throw new InvalidOperationException("Invalid output path");
+
+        if (!Directory.Exists(directory))
+            Directory.CreateDirectory(directory);
+
+        await using var targetStream = File.Create(outputPath);
+        await stream.CopyToAsync(targetStream, CancellationToken.None);
+        ui.Report(stream.Length);
+    }
+
     public static async Task ExtractTarGz(IDownloadUi ui, Stream stream, string targetFolder)
     {
         static string GetEntryOutputPath(string targetFolder, TarEntry entry)
             => Path.Combine(AppContext.BaseDirectory, "tools", targetFolder, entry.Name);
 
-        using var gzipStream = new GZipStream(stream, CompressionMode.Decompress, leaveOpen: true);
-        using TarReader tarReader = new TarReader(gzipStream);
+        await using var gzipStream = new GZipStream(stream, CompressionMode.Decompress, leaveOpen: true);
+        await using TarReader tarReader = new TarReader(gzipStream);
 
         TarEntry? entry;
 

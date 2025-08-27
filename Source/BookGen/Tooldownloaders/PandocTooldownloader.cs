@@ -8,6 +8,7 @@ using Bookgen.Lib.Domain.Github;
 using BookGen.Infrastructure.Tools;
 using BookGen.Vfs;
 
+using Microsoft.Extensions.Logging;
 using Microsoft.IO;
 
 namespace BookGen.Tooldownloaders;
@@ -15,8 +16,9 @@ namespace BookGen.Tooldownloaders;
 internal sealed class PandocTooldownloader : TooldownloaderBase
 {
     public PandocTooldownloader(IApiClient apiClient,
-                                RecyclableMemoryStreamManager memoryStreamManager)
-        : base(apiClient, memoryStreamManager)
+                                RecyclableMemoryStreamManager memoryStreamManager,
+                                ILogger logger)
+        : base(apiClient, memoryStreamManager, logger)
     {
     }
 

@@ -13,6 +13,7 @@ using BookGen.Vfs;
 
 using Markdig.Helpers;
 
+using Microsoft.Extensions.Logging;
 using Microsoft.IO;
 
 namespace BookGen.Tooldownloaders;
@@ -21,12 +22,15 @@ internal abstract class TooldownloaderBase
 {
     private readonly IApiClient _apiClient;
     private readonly RecyclableMemoryStreamManager _memoryStreamManager;
+    private readonly ILogger _log;
 
     public TooldownloaderBase(IApiClient apiClient,
-                              RecyclableMemoryStreamManager memoryStreamManager)
+                              RecyclableMemoryStreamManager memoryStreamManager,
+                              ILogger log)
     {
         _apiClient = apiClient;
         _memoryStreamManager = memoryStreamManager;
+        _log = log;
         ToolInfo = CreateToolInfo();
     }
 
@@ -79,6 +83,7 @@ internal abstract class TooldownloaderBase
         catch (Exception ex)
         {
             ui.Error($"Error downloading {ToolInfo.RepoName}: {ex.Message}");
+            _log.LogError(ex.Message);
             return;
         }
     }

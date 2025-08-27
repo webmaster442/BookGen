@@ -13,11 +13,11 @@ using Microsoft.IO;
 
 namespace BookGen.Tooldownloaders;
 
-internal sealed class MicrosoftEditToolDownloader : TooldownloaderBase
+internal sealed class CopyPartyDownloader : TooldownloaderBase
 {
-    public MicrosoftEditToolDownloader(IApiClient apiClient,
-                                       RecyclableMemoryStreamManager memoryStreamManager,
-                                       ILogger logger)
+    public CopyPartyDownloader(IApiClient apiClient,
+                              RecyclableMemoryStreamManager memoryStreamManager,
+                              ILogger logger) 
         : base(apiClient, memoryStreamManager, logger)
     {
     }
@@ -26,19 +26,22 @@ internal sealed class MicrosoftEditToolDownloader : TooldownloaderBase
     {
         return new ToolInfo
         {
-            Name = "Microsoft Edit",
-            ApproximateSize = "3.6 MiB",
-            RepoOwner = "microsoft",
-            RepoName = "edit",
-            FolderName = "ms-edit",
+            Name = "Copyparty.exe",
+            ApproximateSize = "13 MiB",
+            RepoOwner = "9001",
+            RepoName = "copyparty",
+            FolderName = "copyparty",
         };
     }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
     {
         return releaseAssets
-            .Where(r => r.Name.EndsWith("x86_64-windows.zip"))
+            .Where(r => r.Name == "copyparty.exe")
             .OrderByDescending(r => r.CreatedAt)
             .FirstOrDefault();
     }
+
+    protected override Task Extract(IDownloadUi ui, Stream stream)
+        => Extractor.Copy(ui, stream, ToolInfo.FolderName, "copyparty.exe");
 }
