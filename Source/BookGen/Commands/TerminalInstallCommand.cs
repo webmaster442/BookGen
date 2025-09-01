@@ -32,6 +32,8 @@ internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallComma
         _log = log;
     }
 
+    public override SupportedOs SupportedOs => SupportedOs.Windows;
+
     public override async Task<int> ExecuteAsync(TerminalInstallArguments arguments, IReadOnlyList<string> context)
     {
 
