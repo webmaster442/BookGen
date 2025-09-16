@@ -1,4 +1,8 @@
-﻿// Copyright (c) 2011 rubicon IT GmbH
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
 using Webmaster442.WindowsTerminal;
 using Webmaster442.WindowsTerminal.Fragments;
 

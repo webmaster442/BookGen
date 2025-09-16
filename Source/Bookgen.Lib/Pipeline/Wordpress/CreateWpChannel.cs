@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-
 using Bookgen.Lib.Domain.Wordpress;
 using Bookgen.Lib.Internals;
 
