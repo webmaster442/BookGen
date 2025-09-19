@@ -244,8 +244,8 @@
       },
       "ShimSkiaSharp": {
         "type": "Transitive",
-        "resolved": "3.0.6",
-        "contentHash": "Eu7c1jH6ta8WGIDhWV0L42t/Ph7Saq1DF9DVd5O8T/4/0CosyqyOU3rZaAJwsMU8B0HDXp557JysIYsL4QTT5g=="
+        "resolved": "3.2.1",
+        "contentHash": "WyMf+0aj5IJcHkG/t89WApGFg756oXB30ehu9kYu9hjdfS0snkXHoAiTJZqVlqyLOvzC6eA+nOQ2hI84g//5Pg=="
       },
       "SkiaSharp": {
         "type": "Transitive",
@@ -273,29 +273,29 @@
       },
       "Svg.Custom": {
         "type": "Transitive",
-        "resolved": "3.0.6",
-        "contentHash": "aBukIEqAZlubS5FvQJp3x3YtgsSyD8l03T3zwP0iLUq7Ywg+NOYyXZE75+MOm+sf/PuJiV2CPHiV+VsYhtK2wg==",
+        "resolved": "3.2.1",
+        "contentHash": "Wu0+Il+SZfY5+AT25b2PMlSbBrzGIo/6vMMMdOK8jd25I9tdJJbxOFJNG87gFgo9UY9OmpIFzVobGOHzFdJYeQ==",
         "dependencies": {
           "ExCSS": "4.3.1"
         }
       },
       "Svg.Model": {
         "type": "Transitive",
-        "resolved": "3.0.6",
-        "contentHash": "CnEdCGzQQgk/p7RKvLDk2d9ySEkjfCztteTMppKA5LzX3Xa5aTbYU1zAlhkql5tZPZ8Vfa0Q5ilcnld/5AIGSw==",
+        "resolved": "3.2.1",
+        "contentHash": "N4yWlvqv1XWZ+VvI29lT4HkEgtiP3rS/poMfWiVzz6Ao/3IjQCfmo2qrKphq77IqTdMYyh7wGDknMId7YrQY5Q==",
         "dependencies": {
-          "ShimSkiaSharp": "3.0.6",
-          "Svg.Custom": "3.0.6"
+          "ShimSkiaSharp": "3.2.1",
+          "Svg.Custom": "3.2.1"
         }
       },
       "Svg.Skia": {
         "type": "Transitive",
-        "resolved": "3.0.6",
-        "contentHash": "hsqLWPkEP3nWeGOLgaihT7uw6PvYzn5tE3NXyZq82TiawgsrOuBbY+9pAR35s4UcsHKQx+x4Y63hBU0GZ/9vOg==",
+        "resolved": "3.2.1",
+        "contentHash": "pRJtMOc2hTcnxSu7cx6lf806S+2VrQ0eqUpGMBUQQ/pIIvzrtn0+lUjdABTvjr5rsdQF9OxE+r9npq2+3c6T4A==",
         "dependencies": {
           "SkiaSharp": "2.88.9",
-          "Svg.Custom": "3.0.6",
-          "Svg.Model": "3.0.6"
+          "Svg.Custom": "3.2.1",
+          "Svg.Model": "3.2.1"
         }
       },
       "System.Runtime": {
@@ -367,7 +367,7 @@
           "SkiaSharp": "[3.119.0, )",
           "SkiaSharp.NativeAssets.Linux": "[3.119.0, )",
           "SkiaSharp.NativeAssets.Win32": "[3.119.0, )",
-          "Svg.Skia": "[3.0.6, )",
+          "Svg.Skia": "[3.2.1, )",
           "System.ServiceModel.Syndication": "[9.0.9, )",
           "YamlDotNet": "[16.3.0, )"
         }
