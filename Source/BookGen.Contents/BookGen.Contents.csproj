@@ -6,6 +6,7 @@
     <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
+  
   <ItemGroup>
     <Content Include="..\..\Branding\background.png" Link="background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
