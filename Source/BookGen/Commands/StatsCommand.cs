@@ -35,7 +35,7 @@ internal sealed class StatsCommand : AsyncCommand<BookGenArgumentBase>
         _soruce.Scope = arguments.Directory;
         using var env = new BookEnvironment(_soruce, _soruce, _logger);
 
-        var status = await env.Initialize(autoUpgrade: false);
+        var status = await env.Initialize();
 
         if (!status.IsOk)
         {

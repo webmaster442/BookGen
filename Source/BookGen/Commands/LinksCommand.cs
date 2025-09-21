@@ -32,7 +32,7 @@ internal sealed partial class LinksCommand : AsyncCommand<BookGenArgumentBase>
         _soruce.Scope = arguments.Directory;
 
         using var env = new BookEnvironment(_soruce, _soruce, _logger);
-        EnvironmentStatus status = await env.Initialize(autoUpgrade: true);
+        EnvironmentStatus status = await env.Initialize();
 
         if (!status.IsOk)
         {

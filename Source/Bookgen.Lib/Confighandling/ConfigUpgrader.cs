@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Confighandling;
 
-internal class ConfigUpgrader
+public sealed class ConfigUpgrader
 {
     private readonly UpgradeBase[] _upgrades;
     private readonly ILogger _logger;
@@ -22,8 +22,6 @@ internal class ConfigUpgrader
     private int _sourceVersion;
 
     public int VersionTag => _sourceVersion;
-
-    public bool NeedsUpgrade { get; private set; }
 
     public ConfigUpgrader(ILogger logger)
     {
@@ -37,7 +35,7 @@ internal class ConfigUpgrader
         _logger = logger;
     }
 
-    public async Task Init(IReadOnlyFileSystem sourceFolder)
+    public async Task<bool> Init(IReadOnlyFileSystem sourceFolder)
     {
         _tocJson = await sourceFolder.ReadJsonAsync(FileNameConstants.TableOfContents);
         _configJson = await sourceFolder.ReadJsonAsync(FileNameConstants.ConfigFile);
@@ -54,8 +52,25 @@ internal class ConfigUpgrader
 
         if (_sourceVersion < Config.CurrentVersionTag)
         {
-            NeedsUpgrade = true;
+            return true;
         }
+
+        return false;
+    }
+
+    public static async Task<bool> IsUpgradeNeeded(IReadOnlyFileSystem sourceFolder)
+    {
+        var configJson = await sourceFolder.ReadJsonAsync(FileNameConstants.ConfigFile);
+
+        var version = configJson["VersionTag"]
+            ?? throw new InvalidOperationException("Failed to determine version");
+
+        if (version is not JsonValue jsonValue
+            || !jsonValue.TryGetValue<int>(out int sourceVersion))
+        {
+            throw new InvalidOperationException("Failed to determine version");
+        }
+        return sourceVersion < Config.CurrentVersionTag;
     }
 
     public async Task<(bool tocModifed, bool configModified)> Upgrade(IWritableFileSystem sourceFolder)

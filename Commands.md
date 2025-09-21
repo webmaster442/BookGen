@@ -58,7 +58,6 @@ Add a basic YAML frontmatter information to all markdown files located in the
 current folder and it's subfolders.
 
 `BookGen Addfrontmatter [-v] [-d [directory]]`
-
 `BookGen Addfrontmatter [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -75,7 +74,6 @@ Arguments:
 Build a printable html & xhtml file from the book
 
 `BookGen BuildPrint -o <output> [-v] [-d [directory]]`
-
 `BookGen BuildPrint --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -99,7 +97,6 @@ Arguments:
 Build an epub3 file from the book.
 
 `BookGen BuildEpub -o <output> [-v] [-d [directory]]`
-
 `BookGen BuildEpub --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -119,7 +116,6 @@ Arguments:
 Build an RSS 2.0 and an Atom 1.0 feed from the book.
 
 `BookGen BuildFeed -o <output> [-v] [-d [directory]]`
-
 `BookGen BuildFeed --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -139,7 +135,6 @@ Arguments:
 Build a static website from the book
 
 `BookGen BuildWeb -o <output> [-v] [-d [directory]]`
-
 `BookGen BuildWeb --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -163,7 +158,6 @@ Arguments:
 Build a JSON file with schema for post processing of the book.
 
 `BookGen BuildExport -o <output> [-v] [-d [directory]]`
-
 `BookGen BuildExport --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -187,7 +181,6 @@ Arguments:
 Build a wordpress export file from the book.
 
 `BookGen BuildWp -o <output> [-v] [-d [directory]]`
-
 `BookGen BuildWp --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -231,7 +224,6 @@ Collects all external links mentioned in a chapter. Usefull when targeting
 printable documentation.
 
 `BookGen ExternalLinks -o <output.md> [-d [directory]`
-
 `BookGen ExternalLinks --output <output.md> [--dir [directory]]`
 
 Arguments:
@@ -249,7 +241,6 @@ Starts the program with a command line gui interface
 
 
 `BookGen Gui [-v] [-d [directory]]`
-
 `BookGen Gui [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -267,7 +258,6 @@ Converts a HTML file to a png using edges or chromes headless mode.
 The tool will use chrome, if it's installed, otherwise it will use edge.
 
 `BookGen Html2Pdf -i <input> -o <output>`
-
 `BookGen Html2Pdf --input <input> --output <output>`
 
 -i, --input:
@@ -282,7 +272,6 @@ Converts a HTML file to a png using edges or chromes headless mode.
 The tool will use chrome, if it's installed, otherwise it will use edge.
 
 `BookGen Html2Png -i <input> -o <output> [-w [width]] [-h [height]]`
-
 `BookGen Html2Png --input <input> --output <output> [--width [width]] [--height [height]]`
 
 -i, --input:
@@ -302,7 +291,6 @@ The tool will use chrome, if it's installed, otherwise it will use edge.
 Converts an image file to a different format. The tool supports png, jpeg, webp and svg formats.
 
 `BookGen ImgConvert -i <input> -o <output> -f <format> [-q [quality]] [-r [resolution]]`
-
 `BookGen ImgConvert --input <input> --output <output> --format <format> [--quality [quality]] [--resolution [resolution]]`
 
 Arguments:
@@ -332,7 +320,6 @@ Arguments:
 Creates an empty json arguments template file for a given bookgen command.
 
 `BookGen JsonArgs -c <command> [-d [directory]]`
-
 `BookGen JsonArgs --command <command> [--dir [directory]]`
 
 A Json arguments template can be used to store command line arguments,
@@ -355,7 +342,6 @@ Scans all markdown files in the current book and writes the lins to a markdown f
 named links.md
 
 `BookGen Links [-v] [-d [directory]]`
-
 `BookGen Links [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -372,7 +358,6 @@ Arguments:
 Creates a new markdown page.
 
 `BookGen NewPage -n <file> [-v] [-d [directory]]`
-
 `BookGen NewPage --name <file> [--verbose] [-dir [directory]]` 
 
 Arguments:
@@ -392,7 +377,6 @@ Arguments:
 Creates a new book structure in the given folder
 
 `BookGen NewBook [-v] [-d [directory]]`
-
 `BookGen NewBook [--verbose] [-dir [directory]]` 
 
 Arguments:
@@ -409,7 +393,6 @@ Arguments:
 Renders a single markdown file containing Tex formulas to svg files
 
 `BookGen Math2Svg -f <formula> -o <output.svg> [-s [scale]]`
-
 `BookGen Math2Svg --formula <formula> --output <output.svg> [--scale [scale]]`
 
 Arguments:
@@ -429,7 +412,6 @@ Arguments:
 Migrate an old Bookgen book to the new format.
 
 `BookGen Migrate [-v] [-d [directory]]`
-
 `BookGen Migrate [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -446,7 +428,6 @@ Arguments:
 Renders a single markdown file to an HTML file
 
 `BookGen Md2HTML -i <input.md> -o <output.html>`
-
 `BookGen Md2HTML --input <input.md> --output <output.html>`
 
 Arguments:
@@ -491,7 +472,6 @@ Arguments:
 Renders an url into a QRCode image
 
 `BookGen QrCode -d <url> -o <output> [-c [color]]`
-
 `BookGen QrCode --data <url> --output <output> [--color [color]]`
 
 Arguments:
@@ -511,7 +491,6 @@ Arguments:
 Starts a local only http server that serves file from the given directory
 
 `BookGen Serve [-d [directory]]`
-
 `BookGen Serve [--dir [directory]]`
     
 Arguments:
@@ -531,7 +510,6 @@ Display a list of downloadable tools that can be installed and used with BookGen
 Installs a bookgen profile to the Windows Termninal
 
 `BookGen Terminalinstall [-c] [-t]`
-
 `BookGen Terminalinstall [--checkinstall] [--checkterminalinstall]`
 
 Arguments:
@@ -571,7 +549,6 @@ Creates a schemas.md documentation file, describing
 the various config schemas used by bookgen.
 
 `BookGen Schemas [-v] [-d [directory]]`
-
 `BookGen Schemas [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -588,7 +565,6 @@ Arguments:
 Displays various statistics about the bookgen project.
 
 `BookGen Stats [-v] [-d [directory]]`
-
 `BookGen Stats [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -600,12 +576,31 @@ Arguments:
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
+
+# Upgrade
+
+Upgrades the bookgen project to the latest version. This command will
+upgrade the bookgen.json config file to the latest version, and will
+also upgrade the bookgen.toc.json file to the latest version.
+
+`BookGen Upgrade [-v] [-d [directory]]`
+`BookGen Upgrade [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+
 # Validate
 
 Validate the configuration files used by bookgen in the specified folder.
 
 `BookGen Validate [-v] [-d [directory]]`
-
 `BookGen Validate [--verbose] [--dir [directory]]`
 
 Arguments:
@@ -623,7 +618,6 @@ Arguments:
 Generates a Visual Studio Code tasks.json file for the bookgen project.
 
 `BookGen Vstasks [-v] [-d [directory]]`
-
 `BookGen Vstasks [--verbose] [--dir [directory]]`
 
 Arguments:

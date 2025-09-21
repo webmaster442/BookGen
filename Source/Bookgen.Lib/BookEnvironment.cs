@@ -23,7 +23,6 @@ public sealed class BookEnvironment : IBookEnvironment
     private readonly IWritableFileSystem _source;
     private readonly IWritableFileSystem _output;
     private readonly IAssetSource[] _assets;
-    private readonly ConfigUpgrader _configUpgrader;
     
     private FolderLock? _folderLock;
     private Config? _config;
@@ -40,7 +39,6 @@ public sealed class BookEnvironment : IBookEnvironment
         _source = soruceFolder;
         _output = output;
         _assets = assets;
-        _configUpgrader = new ConfigUpgrader(logger);
     }
 
     const string Error = $"{nameof(Initialize)} was not called";
@@ -65,7 +63,7 @@ public sealed class BookEnvironment : IBookEnvironment
         }
     }
 
-    public async Task<EnvironmentStatus> Initialize(bool autoUpgrade)
+    public async Task<EnvironmentStatus> Initialize()
     {
         if (_isInitialized)
         {
@@ -88,17 +86,10 @@ public sealed class BookEnvironment : IBookEnvironment
             return status;
         }
 
-        await _configUpgrader.Init(_source);
-
-        if(_configUpgrader.NeedsUpgrade && autoUpgrade)
+        bool updateNeeded = await ConfigUpgrader.IsUpgradeNeeded(_source);
+        if (updateNeeded)
         {
-            (bool tocModified, bool configmodified) = await _configUpgrader.Upgrade(_source);
-            status.Add($"Config from version {_configUpgrader.VersionTag} was updated to {Config.CurrentVersionTag}. Check settings and re-execute");
-            if (tocModified)
-                await _source.WriteSchema<TableOfContents>(FileNameConstants.TableOfContentsSchema);
-            if (configmodified)
-                await _source.WriteSchema<Config>(FileNameConstants.ConfigFileSchema);
-
+            status.Add("Config file is too old. Run bookgen upgrade to update it");
             return status;
         }
 
