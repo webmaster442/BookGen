@@ -19,7 +19,7 @@ internal sealed class CreateEpubCoverAndStyle : PipeLineStep<EpubState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         var coverfile = await environment.Source.GetCoverFileName(environment.TableOfContents, logger);
         if (coverfile != null)

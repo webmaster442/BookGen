@@ -21,7 +21,7 @@ internal sealed class CreateFontFiles : PipeLineStep<EpubState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Creating EPUB font files...");
         await State.EpubFile.AddAsync("JetBrainsMono-Regular.ttf", environment.GetBinaryAsset("JetBrainsMono-Regular.ttf"));

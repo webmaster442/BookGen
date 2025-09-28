@@ -15,7 +15,7 @@ internal sealed class GeneratePager : PipeLineStep<StaticWebState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Generating pager...");
         var jsBuilder = new JavascriptBuilder();

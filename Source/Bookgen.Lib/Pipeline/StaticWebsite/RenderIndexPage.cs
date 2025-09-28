@@ -22,7 +22,7 @@ internal sealed class RenderIndexPage : PipeLineStep<StaticWebState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         var imgService = new ImgService(environment.Source, logger, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);

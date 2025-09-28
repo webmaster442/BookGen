@@ -13,7 +13,7 @@ internal sealed class CreateEmptyIndexPagesForFolders : PipeLineStep<StaticWebSt
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         var folders = environment.Output.GetDirectories(environment.Output.Scope, true);
 
@@ -23,12 +23,6 @@ internal sealed class CreateEmptyIndexPagesForFolders : PipeLineStep<StaticWebSt
 
         foreach (var folder in folders)
         {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                logger.LogWarning("Cancellation requested. Stoping...");
-                return StepResult.Failure;
-            }
-
             var filename = Path.Combine(folder, "index.html");
             logger.LogDebug("creating file {filename}", filename);
             await environment.Output.WriteAllTextAsync(filename, protect);

@@ -22,7 +22,7 @@ internal sealed class CreateItems : PipeLineStep<SyndicationFeedState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         var imgService = new ImgService(environment.Source, logger, environment.Configuration.FeedConfig.Images);
         var cached = new CachedImageService(imgService);
@@ -49,12 +49,6 @@ internal sealed class CreateItems : PipeLineStep<SyndicationFeedState>
 
             foreach (var page in chapter.Files)
             {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    logger.LogWarning("Cancellation requested. Stoping...");
-                    return StepResult.Failure;
-                }
-
                 logger.LogDebug("Rendering {file}...", page);
 
                 SourceFile sourceData = await environment.Source.GetSourceFile(page, logger);

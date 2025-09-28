@@ -22,7 +22,7 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
     {
     }
 
-    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         TocRenderer toc = new(environment.Configuration.StaticWebsiteConfig.TocConfiguration);
         toc.BeginContainer();

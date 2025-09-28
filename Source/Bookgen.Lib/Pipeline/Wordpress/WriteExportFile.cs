@@ -17,7 +17,7 @@ internal sealed class WriteExportFile : PipeLineStep<WpState>
     {
     }
 
-    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Writing wordpress xml export...");
 

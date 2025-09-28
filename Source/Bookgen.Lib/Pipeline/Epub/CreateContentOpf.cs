@@ -16,7 +16,7 @@ internal sealed class CreateContentOpf : PipeLineStep<EpubState>
     {
     }
 
-    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Creating EPUB content.opf...");
         var uniqueId = $"id-{IdGenerator.Generate32BitDeterministicId(environment.Configuration.BookTitle)}";

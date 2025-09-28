@@ -16,16 +16,10 @@ internal sealed class CopyAssets : PipeLineStep<StaticWebState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         foreach (var fileToCopy in environment.Configuration.StaticWebsiteConfig.CopyToOutput)
         {
-            if (cancellationToken.IsCancellationRequested)
-            {
-                logger.LogWarning("Cancellation requested. Stoping...");
-                return StepResult.Failure;
-            }
-
             logger.LogInformation("Copying {file} to {target}...", fileToCopy, environment.Output.Scope);
 
             await environment.Source.CopyToAsync(fileToCopy, environment.Output.Scope)

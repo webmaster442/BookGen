@@ -17,7 +17,7 @@ internal class RenderStabdaloneToc : PipeLineStep<StaticWebState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
 
         if (string.IsNullOrEmpty(environment.Configuration.StaticWebsiteConfig.TocConfiguration.StandaloneFileName))

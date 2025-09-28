@@ -16,5 +16,5 @@ public abstract class PipeLineStep<TState> : IPipeLineStep
 
     public TState State { get; }
 
-    public abstract Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken);
+    public abstract Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger);
 }

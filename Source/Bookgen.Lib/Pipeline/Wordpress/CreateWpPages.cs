@@ -110,7 +110,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
         };
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Creating pages...");
 
@@ -168,11 +168,6 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
             foreach (var file in chapter.Files)
             {
                 logger.LogDebug("Processing file {File}...", file);
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    logger.LogWarning("Cancellation requested. Stoping...");
-                    return StepResult.Failure;
-                }
 
                 var sourceData = await environment.Source.GetSourceFile(file, logger);
                 string subpath = $"{environment.Configuration.WordpressConfig.DeployHost}{EncodeTitle(chapter.Title)}/{EncodeTitle(sourceData.FrontMatter.Title)}";

@@ -41,7 +41,7 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
         };
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Writing print xhtml...");
 

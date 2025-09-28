@@ -13,7 +13,7 @@ internal sealed class DeInitialize : PipeLineStep<EpubState>
     {
     }
 
-    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         State.Deinitialize();
 

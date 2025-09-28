@@ -15,7 +15,7 @@ internal sealed class WriteFile : PipeLineStep<PostProcessState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         if (State.Export is null)
         {

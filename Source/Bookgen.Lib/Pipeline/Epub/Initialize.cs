@@ -20,7 +20,7 @@ internal sealed class Initialize : PipeLineStep<EpubState>
     {
     }
 
-    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         var name = Path.Combine(environment.Output.Scope, "book.epub");
         State.Initialize(new ZipBuilder(name));

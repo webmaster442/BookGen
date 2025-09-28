@@ -17,7 +17,7 @@ internal sealed class CreateImageFiles : PipeLineStep<EpubState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Writing {count} images to epub...", State.ImagesData.Count);
 

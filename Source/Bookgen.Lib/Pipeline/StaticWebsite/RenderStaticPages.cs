@@ -22,7 +22,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         var imgService = new ImgService(environment.Source, logger, environment.Configuration.StaticWebsiteConfig.Images);
         var cached = new CachedImageService(imgService);
@@ -39,7 +39,6 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 
         ParallelOptions options = new ParallelOptions
         {
-            CancellationToken = cancellationToken,
         };
 
 #if DEBUG

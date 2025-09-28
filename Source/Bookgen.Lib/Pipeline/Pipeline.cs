@@ -27,7 +27,13 @@ public sealed class Pipeline
     {
         foreach (var step in Steps)
         {
-            var result = await step.ExecuteAsync(environment, logger, cancellationToken);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                logger.LogWarning("Cancellation requested, stopping the pipeline execution.");
+                return false;
+            }
+
+            var result = await step.ExecuteAsync(environment, logger);
             if (result == StepResult.Failure)
             {
                 return false;

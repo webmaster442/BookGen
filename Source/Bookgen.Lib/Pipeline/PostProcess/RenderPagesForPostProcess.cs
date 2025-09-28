@@ -19,7 +19,7 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
 {
     public RenderPagesForPostProcess(PostProcessState state) : base(state) { }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         var imgService = new ImgService(environment.Source, logger, new ImageConfig()
         {
@@ -56,13 +56,6 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
 
             foreach (var file in chapter.Files)
             {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    logger.LogWarning("Cancellation requested. Stoping...");
-                    return StepResult.Failure;
-                }
-
-
                 logger.LogDebug("Rendering {file}...", file);
 
                 SourceFile sourceData = await environment.Source.GetSourceFile(file, logger);

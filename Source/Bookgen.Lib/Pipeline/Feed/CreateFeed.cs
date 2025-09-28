@@ -15,7 +15,7 @@ internal sealed class CreateFeed : PipeLineStep<SyndicationFeedState>
     {
     }
 
-    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Creating feed...");
 

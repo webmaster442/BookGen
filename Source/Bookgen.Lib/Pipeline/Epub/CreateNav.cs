@@ -18,7 +18,7 @@ internal sealed class CreateNav : PipeLineStep<EpubState>
     {
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         var ncx = CreateNcx(environment);
 
