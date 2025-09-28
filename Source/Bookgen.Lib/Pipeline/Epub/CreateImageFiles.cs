@@ -17,14 +17,14 @@ internal sealed class CreateImageFiles : PipeLineStep<EpubState>
     {
     }
 
-    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Writing {count} images to epub...", State.ImagesData.Count);
 
         foreach (var image in State.ImagesData)
         {
             logger.LogDebug("Writing {image}...", image.Key);
-            State.EpubFile.Add($"EPUB/content/{image.Key}", Convert.FromBase64String(image.Value));
+            await State.EpubFile.AddAsync($"EPUB/content/{image.Key}", Convert.FromBase64String(image.Value));
             State.PackageItems.Add(new PackageItem
             {
                 Href = $"content/{image.Key}",
@@ -33,6 +33,6 @@ internal sealed class CreateImageFiles : PipeLineStep<EpubState>
             });
         }
 
-        return Task.FromResult(StepResult.Success);
+        return StepResult.Success;
     }
 }

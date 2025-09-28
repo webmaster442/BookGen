@@ -30,11 +30,7 @@ public sealed class FolderLock : IDisposable
             if (_writableFileSystem.FileExists(_lockPath))
             {
                 var id = _writableFileSystem.ReadAllText(_lockPath).Trim();
-                if (int.TryParse(id, out int pid) && IsRunning(pid))
-                {
-                    return false;
-                }
-                return true;
+                return !int.TryParse(id, out int pid) || !IsRunning(pid);
             }
 
             _writableFileSystem.WriteAllText(_lockPath, Environment.ProcessId.ToString());

@@ -25,7 +25,7 @@ internal sealed class CreateEpubCoverAndStyle : PipeLineStep<EpubState>
         if (coverfile != null)
         {
             byte[] coverdata = Utils.ConvertToPng(coverfile, 1200, 1200);
-            State.EpubFile.Add("EPUB/cover.png", coverdata);
+            await State.EpubFile.AddAsync("EPUB/cover.png", coverdata);
             State.PackageItems.Add(new PackageItem
             {
                 Href = "cover.png",
@@ -36,7 +36,7 @@ internal sealed class CreateEpubCoverAndStyle : PipeLineStep<EpubState>
         }
 
         var css = environment.GetAsset("bookgen.epub.min.css");
-        State.EpubFile.Add("EPUB/content/bookgen.epub.min.css", css, Encoding.UTF8);
+        await State.EpubFile.AddAsync("EPUB/content/bookgen.epub.min.css", css, Encoding.UTF8);
         State.PackageItems.Add(new PackageItem
         {
             Href = "content/bookgen.epub.min.css",

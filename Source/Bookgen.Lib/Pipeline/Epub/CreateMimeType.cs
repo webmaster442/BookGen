@@ -16,10 +16,10 @@ internal sealed class CreateMimeType : PipeLineStep<EpubState>
     {
     }
 
-    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Creating mimetype...");
-        State.EpubFile.Add("mimetype", "application/epub+zip", Encoding.ASCII, CompressionLevel.NoCompression);
-        return Task.FromResult(StepResult.Success);
+        await State.EpubFile.AddAsync("mimetype", "application/epub+zip", Encoding.ASCII, CompressionLevel.NoCompression);
+        return StepResult.Success;
     }
 }

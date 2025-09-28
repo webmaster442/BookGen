@@ -18,7 +18,7 @@ internal sealed class CreateNav : PipeLineStep<EpubState>
     {
     }
 
-    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         var ncx = CreateNcx(environment);
 
@@ -72,10 +72,10 @@ internal sealed class CreateNav : PipeLineStep<EpubState>
 
         string html = renderer.Render(template, viewData);
 
-        State.EpubFile.Add("EPUB/content/nav.xhtml", html, Encoding.UTF8);
+        await State.EpubFile.AddAsync("EPUB/content/nav.xhtml", html, Encoding.UTF8);
         State.EpubFile.AddXml("EPUB/toc.ncx", ncx);
 
-        return Task.FromResult(StepResult.Success);
+        return StepResult.Success;
     }
 
     private Ncx CreateNcx(IBookEnvironment environment)

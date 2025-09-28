@@ -21,12 +21,12 @@ internal sealed class CreateFontFiles : PipeLineStep<EpubState>
     {
     }
 
-    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
         logger.LogInformation("Creating EPUB font files...");
-        State.EpubFile.Add("JetBrainsMono-Regular.ttf", environment.GetBinaryAsset("JetBrainsMono-Regular.ttf"));
-        State.EpubFile.Add("OpenSans-Regular.ttf", environment.GetBinaryAsset("OpenSans-Regular.ttf"));
-        State.EpubFile.Add("Nunito-Bold.ttf", environment.GetBinaryAsset("Nunito-Bold.ttf"));
+        await State.EpubFile.AddAsync("JetBrainsMono-Regular.ttf", environment.GetBinaryAsset("JetBrainsMono-Regular.ttf"));
+        await State.EpubFile.AddAsync("OpenSans-Regular.ttf", environment.GetBinaryAsset("OpenSans-Regular.ttf"));
+        await State.EpubFile.AddAsync("Nunito-Bold.ttf", environment.GetBinaryAsset("Nunito-Bold.ttf"));
 
         State.PackageItems.AddRange([
             new PackageItem
@@ -48,6 +48,6 @@ internal sealed class CreateFontFiles : PipeLineStep<EpubState>
                 Mediatype = "font/ttf"
             }
         ]);
-        return Task.FromResult(StepResult.Success);
+        return StepResult.Success;
     }
 }

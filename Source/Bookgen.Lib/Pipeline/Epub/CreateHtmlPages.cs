@@ -98,7 +98,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
                 string html = renderer.Render(template, viewData);
 
-                State.EpubFile.Add($"EPUB/{targetfileName}", html, Encoding.UTF8);
+                await State.EpubFile.AddAsync($"EPUB/{targetfileName}", html, Encoding.UTF8);
 
                 var id = $"id-{IdGenerator.Generate32BitDeterministicId(targetfileName)}";
 
@@ -136,7 +136,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
         var name = "content/index.xhtml";
 
-        State.EpubFile.Add($"EPUB/{name}", indexHtml, Encoding.UTF8);
+        await State.EpubFile.AddAsync($"EPUB/{name}", indexHtml, Encoding.UTF8);
 
         var id = $"id-{IdGenerator.Generate32BitDeterministicId(name)}";
 

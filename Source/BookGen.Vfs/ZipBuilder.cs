@@ -23,43 +23,40 @@ public sealed class ZipBuilder : IZipBuilder
             entryNameEncoding: Encoding.UTF8);
     }
 
-    public void Add(string entryName,
-                    string entryValue,
-                    Encoding encoding,
-                    CompressionLevel compressionLevel = CompressionLevel.SmallestSize)
+    public async Task AddAsync(string entryName,
+                               string entryValue,
+                               Encoding encoding,
+                               CompressionLevel compressionLevel = CompressionLevel.SmallestSize)
     {
         var entry = _archive.CreateEntry(entryName, compressionLevel);
-        using var entryStream = entry.Open();
-        using var writer = new StreamWriter(entryStream, encoding);
-        writer.Write(entryValue);
+        await using var entryStream = entry.Open();
+        await using var writer = new StreamWriter(entryStream, encoding);
+        await writer.WriteAsync(entryValue);
     }
 
-    public void Add(string entryName,
-                    Stream entryValue,
-                    CompressionLevel compressionLevel = CompressionLevel.SmallestSize)
+    public async Task AddAsync(string entryName,
+                               Stream entryValue,
+                               CompressionLevel compressionLevel = CompressionLevel.SmallestSize)
     {
         var entry = _archive.CreateEntry(entryName, compressionLevel);
-        using var entryStream = entry.Open();
-        entryValue.CopyTo(entryStream);
+        await using var entryStream = entry.Open();
+        await entryValue.CopyToAsync(entryStream);
     }
 
-    public void Add(string entryName,
-                    byte[] entryValue,
-                    CompressionLevel compressionLevel = CompressionLevel.NoCompression)
+    public async Task AddAsync(string entryName,
+                               byte[] entryValue,
+                               CompressionLevel compressionLevel = CompressionLevel.NoCompression)
     {
         var entry = _archive.CreateEntry(entryName, compressionLevel);
-        using var entryStream = entry.Open();
-        entryStream.Write(entryValue, 0, entryValue.Length);
+        await using var entryStream = entry.Open();
+        await entryStream.WriteAsync(entryValue, 0, entryValue.Length);
     }
 
     public void AddXml<T>(string entryName,
                           T instance,
                           params (string prefix, string @namespace)[] namespaces)
     {
-
-        //string? defaultNamespace = namespaces.FirstOrDefault(d => string.IsNullOrEmpty(d.prefix)).@namespace;
-
-        XmlSerializer serializer = new(typeof(T)); // defaultNamespace);
+        XmlSerializer serializer = new(typeof(T));
 
         XmlSerializerNamespaces? xnames = null;
         if (namespaces?.Length > 0)

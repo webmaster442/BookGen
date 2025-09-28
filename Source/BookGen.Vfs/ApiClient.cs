@@ -25,7 +25,7 @@ public sealed class ApiClient : IApiClient
         _disposed = true;
     }
 
-    private Exception CreateExceptionBasedOnStatusCode(HttpResponseMessage response, Uri url)
+    private static Exception CreateExceptionBasedOnStatusCode(HttpResponseMessage response, Uri url)
     {
         return response.StatusCode switch
         {
