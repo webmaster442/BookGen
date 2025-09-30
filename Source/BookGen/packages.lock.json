@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "dependencies": {
     "net10.0": {
       "Markdig": {
@@ -70,18 +70,6 @@
         "resolved": "4.3.1",
         "contentHash": "A8UtcghHQlWxPJhJF5bsfEYO7068JHGTuJ7tzyyMjd5fE/N/xY1cVOUhzuLLFwMOCJVnM4mqSQc93W9fGfZ1kA=="
       },
-      "Microsoft.ClearScript": {
-        "type": "Transitive",
-        "resolved": "7.5.0",
-        "contentHash": "KGMXCEEQ9wO0x+FXEwt6xYZiEBMLMlScW47qn7WnW86jVkpoqCWY8FLviI6Hir9ymKMJfNdXaOE1hQTQQc8dOQ==",
-        "dependencies": {
-          "Microsoft.ClearScript.V8": "7.5.0",
-          "Microsoft.ClearScript.V8.ICUData": "7.5.0",
-          "Microsoft.ClearScript.V8.Native.win-x64": "7.5.0",
-          "Microsoft.ClearScript.V8.Native.win-x86": "7.5.0",
-          "Microsoft.ClearScript.Windows": "7.5.0"
-        }
-      },
       "Microsoft.ClearScript.Core": {
         "type": "Transitive",
         "resolved": "7.5.0",
@@ -101,16 +89,6 @@
         "type": "Transitive",
         "resolved": "7.5.0",
         "contentHash": "brX7rIjvZPt/ZDSZOPf36ULxhlsFcEgg2WLeOXCFkexTH7MWgUGy//6vMry/QvTLhSgDrs5z+8SbEU1krnuxRg=="
-      },
-      "Microsoft.ClearScript.V8.Native.linux-x64": {
-        "type": "Transitive",
-        "resolved": "7.5.0",
-        "contentHash": "snoN9oRwKqShA32IsuCanLjNtP8hros2WOrOBL7g+ED3AV40qwrsbfKwWq37BzogrfsF1aEVoDkBpE19Az7DVQ=="
-      },
-      "Microsoft.ClearScript.V8.Native.win-x64": {
-        "type": "Transitive",
-        "resolved": "7.5.0",
-        "contentHash": "DKMxDLboTNflYkwDQ/ELrSf1vXTpew5UZ8xzrXSVKYFBU570VA6NKh1etEGhufuCuDyU7Je5L2g6H+19Dbl+tA=="
       },
       "Microsoft.ClearScript.V8.Native.win-x86": {
         "type": "Transitive",
@@ -223,29 +201,10 @@
         "resolved": "3.2.1",
         "contentHash": "WyMf+0aj5IJcHkG/t89WApGFg756oXB30ehu9kYu9hjdfS0snkXHoAiTJZqVlqyLOvzC6eA+nOQ2hI84g//5Pg=="
       },
-      "SkiaSharp": {
-        "type": "Transitive",
-        "resolved": "3.119.0",
-        "contentHash": "gR9yVoOta2Mc1Rxt15LD65AckfHMfwjIs/3kkD59C9bT2nYYISsE6uz3t4aMPNHA6CgsIL0Ssn+jE5OVilZ1yw==",
-        "dependencies": {
-          "SkiaSharp.NativeAssets.Win32": "3.119.0",
-          "SkiaSharp.NativeAssets.macOS": "3.119.0"
-        }
-      },
-      "SkiaSharp.NativeAssets.Linux": {
-        "type": "Transitive",
-        "resolved": "3.119.0",
-        "contentHash": "oBvfueHtYGTmVHkVebZ6lMYN5nCXR/eN5e7a9VGHca1Z0bt8G5QGLtsjPA+hJ30ZK2wq3i02Zoej2aZDIpvcHA=="
-      },
       "SkiaSharp.NativeAssets.macOS": {
         "type": "Transitive",
         "resolved": "3.119.0",
         "contentHash": "YE1vNn0Nyw2PWtv7hw1PYkKJO0itFiQp9vSqGppZUKzQJqwp28a2jgdCMPfYtOiR8KCnDgZqQoynqJRRaE2ZVg=="
-      },
-      "SkiaSharp.NativeAssets.Win32": {
-        "type": "Transitive",
-        "resolved": "3.119.0",
-        "contentHash": "IwC9yx36lOdXVT2DjgmWHl1qkVspfj8ctd4+li8CNnvqdfaTolXCOh6TLznURcPAvzatx9K/tLOB7zT6T8EA9w=="
       },
       "Svg.Custom": {
         "type": "Transitive",
@@ -263,31 +222,6 @@
           "ShimSkiaSharp": "3.2.1",
           "Svg.Custom": "3.2.1"
         }
-      },
-      "Svg.Skia": {
-        "type": "Transitive",
-        "resolved": "3.2.1",
-        "contentHash": "pRJtMOc2hTcnxSu7cx6lf806S+2VrQ0eqUpGMBUQQ/pIIvzrtn0+lUjdABTvjr5rsdQF9OxE+r9npq2+3c6T4A==",
-        "dependencies": {
-          "SkiaSharp": "2.88.9",
-          "Svg.Custom": "3.2.1",
-          "Svg.Model": "3.2.1"
-        }
-      },
-      "System.ServiceModel.Syndication": {
-        "type": "Transitive",
-        "resolved": "10.0.0-rc.1.25451.107",
-        "contentHash": "MfKaRJjBlsFanmaiefOxJW46rZRUvgpjLH/kVFLfTJ1ZDoTL7m64SJTmXnoS5zo3fCash65XASsKRASbnQc5sQ=="
-      },
-      "Webmaster442.WindowsTerminal": {
-        "type": "Transitive",
-        "resolved": "4.0.0",
-        "contentHash": "NG6kGSt83OWcRRVdzD5D8O4xWupE0FiFxTIz9dnm+jt1eK3DYyEhXX939vOyXSVVz3xFUhldKchOrtJSJx35kA=="
-      },
-      "YamlDotNet": {
-        "type": "Transitive",
-        "resolved": "16.3.0",
-        "contentHash": "SgMOdxbz8X65z8hraIs6hOEdnkH6hESTAIUa7viEngHOYaH+6q5XJmwr1+yb9vJpNQ19hCQY69xbFsLtXpobQA=="
       },
       "bookgen.cli": {
         "type": "Project",
@@ -325,6 +259,82 @@
       },
       "bookgen.vfs": {
         "type": "Project"
+      },
+      "Microsoft.ClearScript": {
+        "type": "CentralTransitive",
+        "requested": "[7.5.0, )",
+        "resolved": "7.5.0",
+        "contentHash": "KGMXCEEQ9wO0x+FXEwt6xYZiEBMLMlScW47qn7WnW86jVkpoqCWY8FLviI6Hir9ymKMJfNdXaOE1hQTQQc8dOQ==",
+        "dependencies": {
+          "Microsoft.ClearScript.V8": "7.5.0",
+          "Microsoft.ClearScript.V8.ICUData": "7.5.0",
+          "Microsoft.ClearScript.V8.Native.win-x64": "7.5.0",
+          "Microsoft.ClearScript.V8.Native.win-x86": "7.5.0",
+          "Microsoft.ClearScript.Windows": "7.5.0"
+        }
+      },
+      "Microsoft.ClearScript.V8.Native.linux-x64": {
+        "type": "CentralTransitive",
+        "requested": "[7.5.0, )",
+        "resolved": "7.5.0",
+        "contentHash": "snoN9oRwKqShA32IsuCanLjNtP8hros2WOrOBL7g+ED3AV40qwrsbfKwWq37BzogrfsF1aEVoDkBpE19Az7DVQ=="
+      },
+      "Microsoft.ClearScript.V8.Native.win-x64": {
+        "type": "CentralTransitive",
+        "requested": "[7.5.0, )",
+        "resolved": "7.5.0",
+        "contentHash": "DKMxDLboTNflYkwDQ/ELrSf1vXTpew5UZ8xzrXSVKYFBU570VA6NKh1etEGhufuCuDyU7Je5L2g6H+19Dbl+tA=="
+      },
+      "SkiaSharp": {
+        "type": "CentralTransitive",
+        "requested": "[3.119.0, )",
+        "resolved": "3.119.0",
+        "contentHash": "gR9yVoOta2Mc1Rxt15LD65AckfHMfwjIs/3kkD59C9bT2nYYISsE6uz3t4aMPNHA6CgsIL0Ssn+jE5OVilZ1yw==",
+        "dependencies": {
+          "SkiaSharp.NativeAssets.Win32": "3.119.0",
+          "SkiaSharp.NativeAssets.macOS": "3.119.0"
+        }
+      },
+      "SkiaSharp.NativeAssets.Linux": {
+        "type": "CentralTransitive",
+        "requested": "[3.119.0, )",
+        "resolved": "3.119.0",
+        "contentHash": "oBvfueHtYGTmVHkVebZ6lMYN5nCXR/eN5e7a9VGHca1Z0bt8G5QGLtsjPA+hJ30ZK2wq3i02Zoej2aZDIpvcHA=="
+      },
+      "SkiaSharp.NativeAssets.Win32": {
+        "type": "CentralTransitive",
+        "requested": "[3.119.0, )",
+        "resolved": "3.119.0",
+        "contentHash": "IwC9yx36lOdXVT2DjgmWHl1qkVspfj8ctd4+li8CNnvqdfaTolXCOh6TLznURcPAvzatx9K/tLOB7zT6T8EA9w=="
+      },
+      "Svg.Skia": {
+        "type": "CentralTransitive",
+        "requested": "[3.2.1, )",
+        "resolved": "3.2.1",
+        "contentHash": "pRJtMOc2hTcnxSu7cx6lf806S+2VrQ0eqUpGMBUQQ/pIIvzrtn0+lUjdABTvjr5rsdQF9OxE+r9npq2+3c6T4A==",
+        "dependencies": {
+          "SkiaSharp": "2.88.9",
+          "Svg.Custom": "3.2.1",
+          "Svg.Model": "3.2.1"
+        }
+      },
+      "System.ServiceModel.Syndication": {
+        "type": "CentralTransitive",
+        "requested": "[10.0.0-rc.1.25451.107, )",
+        "resolved": "10.0.0-rc.1.25451.107",
+        "contentHash": "MfKaRJjBlsFanmaiefOxJW46rZRUvgpjLH/kVFLfTJ1ZDoTL7m64SJTmXnoS5zo3fCash65XASsKRASbnQc5sQ=="
+      },
+      "Webmaster442.WindowsTerminal": {
+        "type": "CentralTransitive",
+        "requested": "[4.0.0, )",
+        "resolved": "4.0.0",
+        "contentHash": "NG6kGSt83OWcRRVdzD5D8O4xWupE0FiFxTIz9dnm+jt1eK3DYyEhXX939vOyXSVVz3xFUhldKchOrtJSJx35kA=="
+      },
+      "YamlDotNet": {
+        "type": "CentralTransitive",
+        "requested": "[16.3.0, )",
+        "resolved": "16.3.0",
+        "contentHash": "SgMOdxbz8X65z8hraIs6hOEdnkH6hESTAIUa7viEngHOYaH+6q5XJmwr1+yb9vJpNQ19hCQY69xbFsLtXpobQA=="
       }
     }
   }
