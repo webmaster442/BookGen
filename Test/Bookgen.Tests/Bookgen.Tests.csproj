@@ -46,4 +46,10 @@
     <Folder Include="Shell.Shared\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\bin\Debug\assets.zip" Link="assets.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
