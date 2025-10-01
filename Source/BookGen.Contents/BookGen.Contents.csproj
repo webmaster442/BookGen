@@ -14,10 +14,6 @@
     <Content Include="..\..\Branding\icon-bookgen.png" Link="icon-bookgen.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <None Update="autorun.inf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -32,7 +28,7 @@
   <Target Name="ZipAssetsWindows" AfterTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
     <PropertyGroup>
       <SourcePath>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..\Assets\BundledAssets'))</SourcePath>
-      <ZipPath>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..\bin\Debug\assets.zip'))</ZipPath>
+      <ZipPath>$([System.IO.Path]::GetFullPath('$(OutputPath)\assets.zip'))</ZipPath>
     </PropertyGroup>
     <Message Text="Zipping from: $(SourcePath) to: $(ZipPath)" Importance="High" />
     <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;Compress-Archive -Path &#39;$(SourcePath)\*&#39; -DestinationPath &#39;$(ZipPath)&#39; -Force&quot;" />
@@ -41,7 +37,7 @@
   <Target Name="ZipAssetsLinux" AfterTargets="Build" Condition="'$(OS)' != 'Windows_NT'">
     <PropertyGroup>
       <SourcePath>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../../Assets/BundledAssets'))</SourcePath>
-      <ZipPath>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../../bin/Debug/assets.zip'))</ZipPath>
+      <ZipPath>$([System.IO.Path]::GetFullPath('$(OutputPath)/assets.zip'))</ZipPath>
     </PropertyGroup>
     <Message Text="Zipping from: $(SourcePath) to: $(ZipPath)" Importance="High" />
     <Exec Command="zip -r -q '$(ZipPath)' ./*" WorkingDirectory="$(SourcePath)" />

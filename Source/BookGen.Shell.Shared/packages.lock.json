@@ -22,6 +22,7 @@
         "resolved": "10.0.0-rc.1.25451.107",
         "contentHash": "Wm2HfC0GlWExQmJajq85FHM9iHEOm61Z1c2YLivbzI6R5eT+TTSyfk3RHUra4oBU+oj1XhOIQ5hLW6Kg2r85tg=="
       }
-    }
+    },
+    "net10.0/linux-x64": {}
   }
 }
