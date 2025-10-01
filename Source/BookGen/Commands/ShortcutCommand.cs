@@ -6,35 +6,43 @@
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Shell.Shared;
-using BookGen.Vfs;
+
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands;
 
 [CommandName("shortcut")]
-internal class ShortcutCommand : AsyncCommand
+internal class ShortcutCommand : Command
 {
-    private readonly IWritableFileSystem _fileSystem;
+    private readonly ILogger _logger;
 
-    public ShortcutCommand(IWritableFileSystem fileSystem)
+    public ShortcutCommand(ILogger logger)
     {
-        _fileSystem = fileSystem;
+        _logger = logger;
     }
 
     public override SupportedOs SupportedOs => SupportedOs.Windows;
 
-    public override async Task<int> ExecuteAsync(IReadOnlyList<string> context)
+    public override int Execute(IReadOnlyList<string> context)
     {
         string profileName = TerminalProfileInstaller.GetProfileTitle();
 
-        string shortCutText =
-            $"""
-            @echo off
-            title "Opening Windows terminal with bookgen shell"
-            wt -p "{profileName}" --startingDirectory .
-            exit
-            """;
+        string fileName = Path.Combine(AppContext.BaseDirectory, "bookgen.exe");
 
-        await _fileSystem.WriteAllTextAsync("open terminal.cmd", shortCutText);
+        string targetPath = Path.Combine(Environment.CurrentDirectory, "open bookgen shell here.lnk");
+
+#pragma warning disable CA1416 // Validate platform compatibility
+        LinkBuilder link = new();
+
+        link.SetPath("wt.exe")
+            .SetArguments($"-p \"{profileName}\" --startingDirectory .")
+            .SetIconLocation(fileName, 0)
+            .Save(targetPath);
+
+#pragma warning restore CA1416 // Validate platform compatibility
+
+        _logger.LogInformation("Shortcut created: {path}", targetPath);
+
 
         return ExitCodes.Success;
     }
