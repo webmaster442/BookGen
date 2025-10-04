@@ -257,6 +257,8 @@ Arguments:
 Converts a HTML file to a png using edges or chromes headless mode.
 The tool will use chrome, if it's installed, otherwise it will use edge.
 
+This command is only supported on Windows OS.
+
 `BookGen Html2Pdf -i <input> -o <output>`
 `BookGen Html2Pdf --input <input> --output <output>`
 
@@ -270,6 +272,8 @@ The tool will use chrome, if it's installed, otherwise it will use edge.
 
 Converts a HTML file to a png using edges or chromes headless mode.
 The tool will use chrome, if it's installed, otherwise it will use edge.
+
+This command is only supported on Windows OS.
 
 `BookGen Html2Png -i <input> -o <output> [-w [width]] [-h [height]]`
 `BookGen Html2Png --input <input> --output <output> [--width [width]] [--height [height]]`
@@ -285,6 +289,10 @@ The tool will use chrome, if it's installed, otherwise it will use edge.
 
 -h, --height:
     Optional argument. Specifies the height of the output image in pixels.
+
+# Install
+
+Windows only command that installs BookGen to the system PATH & optionally to the windows terminal.
 
 # ImgConvert
 
@@ -503,11 +511,15 @@ Arguments:
 
 Display a list of downloadable tools that can be installed and used with BookGen shell.
 
+This command is only supported on Windows OS.
+
 `BookGen Tools`
 
 # Terminalinstall
 
-Installs a bookgen profile to the Windows Termninal
+Installs a bookgen profile to the Windows Termninal.
+
+This command is only supported on Windows OS.
 
 `BookGen Terminalinstall [-c] [-t]`
 `BookGen Terminalinstall [--checkinstall] [--checkterminalinstall]`
@@ -542,6 +554,8 @@ Listst all available subcommands
 
 Create a cmd file in the current directory that can be used to start
 the bookgen Shell in the current directory.
+
+This command is only supported on Windows OS.
 
 # Schemas
 
