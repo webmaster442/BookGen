@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 using Bookgen.Lib.Confighandling;
@@ -14,42 +13,37 @@ using Bookgen.Lib.Pipeline;
 
 using BookGen.Vfs;
 
-using Microsoft.Extensions.Logging;
-
 namespace Bookgen.Lib;
 
 public sealed class BookEnvironment : IBookEnvironment
 {
     private readonly IWritableFileSystem _source;
-    private readonly IWritableFileSystem _output;
     private readonly IAssetSource[] _assets;
     
     private FolderLock? _folderLock;
-    private Config? _config;
-    private TableOfContents? _toc;
-    
     private bool _isInitialized;
 
-    public BookEnvironment(
-        IWritableFileSystem soruceFolder,
-        IWritableFileSystem output,
-        ILogger logger,
-        params IAssetSource[] assets)
+    public BookEnvironment(IWritableFileSystem soruceFolder,
+                           IWritableFileSystem output,
+                           params IAssetSource[] assets)
     {
         _source = soruceFolder;
-        _output = output;
+        Output = output;
         _assets = assets;
+        AssetNames = assets.SelectMany(a => a.AssetNames).Distinct().ToArray();
     }
 
     const string Error = $"{nameof(Initialize)} was not called";
 
-    public Config Configuration => _config ?? throw new InvalidOperationException(Error);
+    public Config Configuration { get => field ?? throw new InvalidOperationException(Error); private set; }
 
-    public TableOfContents TableOfContents => _toc ?? throw new InvalidOperationException(Error);
+    public TableOfContents TableOfContents { get => field ?? throw new InvalidOperationException(Error); private set; }
 
     public IWritableFileSystem Source => _isInitialized ? _source : throw new InvalidOperationException(Error);
 
-    public IWritableFileSystem Output => _isInitialized ? _output : throw new InvalidOperationException(Error);
+    public IWritableFileSystem Output => _isInitialized ? field : throw new InvalidOperationException(Error);
+
+    public IReadOnlyList<string> AssetNames { get; }
 
     public static bool IsBookGenFolder(string folder)
         => File.Exists(Path.Combine(folder, FileNameConstants.ConfigFile));
@@ -118,8 +112,8 @@ public sealed class BookEnvironment : IBookEnvironment
             return status;
         }
 
-        _config = config;
-        _toc = toc;
+        Configuration = config;
+        TableOfContents = toc;
 
         _folderLock = new FolderLock(_source, FileNameConstants.LockFile);
 

@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;

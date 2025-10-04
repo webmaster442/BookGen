@@ -46,7 +46,7 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
         _soruce.Scope = arguments.Directory;
         _target.Scope = arguments.OutputDirectory;
 
-        using var env = new BookEnvironment(_soruce, _target, _logger, _assetSource);
+        using var env = new BookEnvironment(_soruce, _target, _assetSource);
         EnvironmentStatus status = await env.Initialize();
 
         if (!status.IsOk)

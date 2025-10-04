@@ -11,6 +11,8 @@ public interface IAssetSource
 {
     bool TryGetAsset(string name, [NotNullWhen(true)] out string? content);
 
+    IReadOnlyList<string> AssetNames { get; }
+
     byte[] GetBinaryAsset(string name);
 
     string GetAsset(string name)

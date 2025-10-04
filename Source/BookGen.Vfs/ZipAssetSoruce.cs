@@ -13,9 +13,11 @@ namespace BookGen.Vfs;
 public sealed class ZipAssetSoruce : IAssetSource, IDisposable
 {
     private readonly ZipArchive _zip;
-    private bool _disposed;
     private readonly ConcurrentDictionary<string, string> _cache;
     private readonly Lock _lock;
+    private bool _disposed;
+
+    public IReadOnlyList<string> AssetNames { get; }
 
     public static ZipAssetSoruce DefaultAssets()
     {
@@ -28,6 +30,7 @@ public sealed class ZipAssetSoruce : IAssetSource, IDisposable
         _cache = new ConcurrentDictionary<string, string>();
         _zip = ZipFile.OpenRead(fileName);
         _lock = new Lock();
+        AssetNames = _zip.Entries.Select(e => e.FullName).ToArray();
     }
 
     public void Dispose()
@@ -72,12 +75,7 @@ public sealed class ZipAssetSoruce : IAssetSource, IDisposable
         ObjectDisposedException.ThrowIf(_disposed, nameof(_zip));
         lock (_lock)
         {
-            ZipArchiveEntry? entry = _zip.GetEntry(name);
-            if (entry == null)
-            {
-                throw new InvalidOperationException($"{name} was not found in assets");
-            }
-
+            ZipArchiveEntry? entry = _zip.GetEntry(name) ?? throw new InvalidOperationException($"{name} was not found in assets");
             byte[] data = new byte[entry.Length];
             using Stream dataStream = entry.Open();
             byte[] buffer = ArrayPool<byte>.Shared.Rent(4096);

@@ -23,6 +23,8 @@ internal class TestEnvironment : IBookEnvironment
 
     public IWritableFileSystem Output => throw new NotImplementedException();
 
+    public IReadOnlyList<string> AssetNames => _assetSoruce.AssetNames;
+
     public void Dispose()
     {
         _assetSoruce.Dispose();

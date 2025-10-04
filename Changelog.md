@@ -1,9 +1,20 @@
-# 2025. 05. 
+# 2025. 10. 
+* Breaking: Template engine reworked
+* Breaking: Configuration file reworked
+* Breaking: Removed support for yml configuration files
+* Breaking: Markdown files must not contain {{content}} tag
 * Change: Complete rework of program
-* Change: Removed possibility of generating e-pub, since code was untested
 * Change: Web gui removed
 * Change: Removed www subcommand
-* Change: Removed a lot of subcommands, that were a bit overkill
+* Change: No automatic configuration update on load. Use update command to update.
+* Change: Release now only as ZIP file for windows, for linux tar.gz
+* Change: Configuration is now JSON only and a schema is automatically created
+* Change: YML front matter can be provided in markdown files
+* New: Based on .NET 10
+* New: Tools command to install various tools
+* New: Migrate command to migrate old config files
+* New: Shortcut command
+
 
 # 2025. 01. 19
 
