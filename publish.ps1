@@ -25,3 +25,7 @@ Copy-Item "bin\Release\assets.zip" "bin\publish\linux\bin\assets.zip"
 .\bin\publish\windows\bin\BookGen md2html -i Commands.md -o "bin\publish\windows\Commands.html" -t "BookGen Commands"
 .\bin\publish\windows\bin\BookGen md2html -i Commands.md -o "bin\publish\linux\Commands.html" -t "BookGen Commands"
 Remove-Item Schemas.md
+
+# zip
+Compress-Archive -Path "bin\publish\windows\*" -DestinationPath "bin\publish\BookGen-windows.zip" -Force
+tar -czvf "bin\publish\BookGen-linux.tar.gz" -C "bin\publish\linux" .

@@ -3,15 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.IO.Compression;
-using System.Text;
-
 using Bookgen.Lib.Domain.Github;
 
 using BookGen.Infrastructure.Tools;
 using BookGen.Vfs;
-
-using Markdig.Helpers;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.IO;
