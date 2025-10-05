@@ -40,6 +40,10 @@
     "Tools": {
       "commandName": "Project",
       "commandLineArgs": "tools"
+    },
+    "Templates": {
+      "commandName": "Project",
+      "commandLineArgs": "templates"
     }
   }
 }

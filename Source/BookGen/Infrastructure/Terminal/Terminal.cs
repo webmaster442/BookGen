@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Reflection;
+using System.Xml.Serialization;
 
 using Spectre.Console;
 
@@ -65,11 +66,14 @@ public static class Terminal
         AnsiConsole.Write(chart);
     }
 
-    public static void Header(string title)
+    public static void Header(string title, int blankLineBefore = 0, int blankLineAfter = 1)
     {
+        for (int i = 0; i < blankLineBefore; i++)
+            AnsiConsole.WriteLine();
         AnsiConsole.WriteLine(title);
         AnsiConsole.WriteLine("".PadLeft(Console.WindowWidth, '-'));
-        AnsiConsole.WriteLine();
+        for (int i = 0; i < blankLineAfter; i++)
+            AnsiConsole.WriteLine();
     }
 
     public static bool Confirm(string message)
@@ -78,7 +82,7 @@ public static class Terminal
         return prompt.Show(AnsiConsole.Console);
     }
 
-    internal static List<T> SelectionMenu<T>(IEnumerable<T> items, string title, string instructions, Func<T, string> displaySelector) where T: notnull
+    public static List<T> SelectionMenu<T>(IEnumerable<T> items, string title, string instructions, Func<T, string> displaySelector) where T: notnull
     {
         var prompt = new MultiSelectionPrompt<T>()
             .Title(title)
@@ -89,5 +93,13 @@ public static class Terminal
             .UseConverter(displaySelector);
 
         return prompt.Show(AnsiConsole.Console);
+    }
+
+    public static void List(IEnumerable<string> items)
+    {
+        foreach (var item in items)
+        {
+            AnsiConsole.WriteLine($"* {item}");
+        }
     }
 }
