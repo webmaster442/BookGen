@@ -590,6 +590,19 @@ Arguments:
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
+# Templates
+
+`Bookgen Templates [-n [template name]]`
+`Bookgen Templates [--name [template name]]`
+
+Lists all available templates, or extracts a single template to the current directory.
+
+Arguments:
+
+-n, --name:
+    Optional argument. If specified, only the template with the given name
+    will be extracted. If not specified, all available templates will be printed.
+
 
 # Upgrade
 
