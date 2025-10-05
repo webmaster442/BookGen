@@ -1,7 +1,7 @@
 ﻿# -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 3.7.1
-# Last modified: 2025-08-27
+# Version 3.7.2
+# Last modified: 2025-10-05
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
@@ -399,6 +399,9 @@ function prompt {
 if ($args.Count -eq 1) {
     Set-Location $args[0]
 }
+
+# change window title
+$host.UI.RawUI.WindowTitle = "BookGen Shell"
 
 # welcome message
 intro
