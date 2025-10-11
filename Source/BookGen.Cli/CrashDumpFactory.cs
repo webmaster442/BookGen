@@ -12,24 +12,29 @@ public static class CrashDumpFactory
     public static void TryCreateCrashDump(Exception ex)
     {
         var fileName = $"bookgen_crash_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.txt";
-        string dir = Path.Combine(AppContext.BaseDirectory, fileName);
+        string dir = Path.Combine(Environment.CurrentDirectory, fileName);
         StringBuilder content = new();
 
         content
-            .AppendLine(new string('-', 80))
+            .AppendLine("BookGen Crash Dump")
+            .Append('-', 80).AppendLine()
             .AppendLine("Environment:")
             .AppendLine($"Command line: {string.Join(' ', Environment.GetCommandLineArgs())}")
             .AppendLine($"Crash reason: {ex.Message}")
-            .AppendLine(new string('-', 80))
+            .Append('-', 80).AppendLine()
+            .AppendLine("Source:")
+            .AppendLine(ex.Source)
+            .Append('-', 80).AppendLine()
             .AppendLine("Stack trace:")
             .AppendLine(ex.StackTrace);
+
 
         if (ex.InnerException != null)
         {
             content
-                .AppendLine(new string('-', 80))
+                .Append('-', 80).AppendLine()
                 .AppendLine($"Inner exception: {ex.InnerException.Message}")
-                .AppendLine(new string('-', 80))
+                .Append('-', 80).AppendLine()
                 .AppendLine(ex.InnerException.StackTrace);
         }
 

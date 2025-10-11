@@ -9,6 +9,6 @@ public interface IMediator
 {
     void Register(IMediatable mediatable);
     void Unregister(IMediatable mediatable);
-    void Notify<T>(T message);
     Task NotifyAsync<T>(T message);
+    Task<TOutput> NotifyAsync<TInput, TOutput>(TInput message);
 }

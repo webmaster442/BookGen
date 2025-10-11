@@ -48,7 +48,7 @@ public sealed class ConsoleLogProvider : ILoggerProvider
         }
     }
 
-    internal sealed class ConsoleLogger : IDisposable, ILogger, INotifyable<BeginLogRedirectMessage>, INotifyable<EndLogRedirectMessage>
+    internal sealed class ConsoleLogger : IDisposable, ILogger, IAsycNotifyable<BeginLogRedirectMessage>, IAsycNotifyable<EndLogRedirectMessage>
     {
         private readonly string _name;
         private readonly IMediator _mediator;
@@ -107,12 +107,13 @@ public sealed class ConsoleLogProvider : ILoggerProvider
 
         }
 
-        void INotifyable<BeginLogRedirectMessage>.OnNotify(BeginLogRedirectMessage message)
+        Task IAsycNotifyable<BeginLogRedirectMessage>.OnNotifyAsync(BeginLogRedirectMessage message)
         {
             _isRedirected = true;
+            return Task.CompletedTask;
         }
 
-        void INotifyable<EndLogRedirectMessage>.OnNotify(EndLogRedirectMessage message)
+        Task IAsycNotifyable<EndLogRedirectMessage>.OnNotifyAsync(EndLogRedirectMessage message)
         {
             _isRedirected = false;
             foreach (var log in _logBuffer)
@@ -120,6 +121,7 @@ public sealed class ConsoleLogProvider : ILoggerProvider
                 AnsiConsole.MarkupLine(log);
             }
             _logBuffer.Clear();
+            return Task.CompletedTask;
         }
     }
 }

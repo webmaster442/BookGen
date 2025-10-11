@@ -5,7 +5,7 @@
 
 namespace BookGen.Cli.Mediator;
 
-public interface INotifyable<in T> : IMediatable
+public interface IAsycNotifyable<in TInput, TOutput> : IMediatable
 {
-    void OnNotify(T message);
+    Task<TOutput> OnNotifyAsync(TInput message);
 }

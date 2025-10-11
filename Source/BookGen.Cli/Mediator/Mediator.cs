@@ -19,17 +19,6 @@ public sealed class Mediator : IMediator, IDisposable
         _mediatables.Clear();
     }
 
-    public void Notify<T>(T message)
-    {
-        foreach (var mediatable in _mediatables)
-        {
-            if (mediatable is INotifyable<T> client)
-            {
-                client.OnNotify(message);
-            }
-        }
-    }
-
     public async Task NotifyAsync<T>(T message)
     {
         foreach (var mediatable in _mediatables)
@@ -39,6 +28,16 @@ public sealed class Mediator : IMediator, IDisposable
                 await client.OnNotifyAsync(message);
             }
         }
+    }
+
+    public async Task<TOutput> NotifyAsync<TInput, TOutput>(TInput message)
+    {
+        var call = _mediatables.OfType<IAsycNotifyable<TInput, TOutput>>().FirstOrDefault();
+        if (call is not null)
+        {
+            return await call.OnNotifyAsync(message);
+        }
+        throw new InvalidOperationException($"No handler found for message of type {typeof(TInput).FullName} with return type {typeof(TOutput).FullName}");
     }
 
     public void Register(IMediatable mediatable)
