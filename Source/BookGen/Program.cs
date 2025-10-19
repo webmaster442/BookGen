@@ -12,6 +12,7 @@ using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
 using BookGen.Vfs;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
@@ -42,19 +43,19 @@ using ILoggerFactory factory = LoggerFactory
 ILogger logger = factory.CreateLogger("Bookgen");
 CommandRunnerProxy runnerProxy = new();
 
-using SimpleIoC ioc = new();
-ioc.RegisterSingleton(logger);
-ioc.RegisterSingleton(info);
-ioc.RegisterSingleton<ICommandRunnerProxy>(runnerProxy);
-ioc.RegisterSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
-ioc.RegisterSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
-ioc.Register<IWritableFileSystem, FileSystem>();
-ioc.Register<IReadOnlyFileSystem, FileSystem>();
-ioc.Register<IApiClient, ApiClient>();
+var ioc = new ServiceCollection();
+ioc.AddSingleton(logger);
+ioc.AddSingleton(info);
+ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
+ioc.AddSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
+ioc.AddSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
+ioc.AddTransient<IWritableFileSystem, FileSystem>();
+ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
+ioc.AddTransient<IApiClient, ApiClient>();
 
-ioc.Build();
+using var provider = ioc.BuildServiceProvider();
 
-CommandRunner runner = new(ioc, logger, new CommandRunnerSettings
+CommandRunner runner = new(provider, logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,

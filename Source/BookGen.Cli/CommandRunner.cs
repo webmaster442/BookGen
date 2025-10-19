@@ -12,6 +12,7 @@ using BookGen.Cli.Annotations;
 using BookGen.Cli.ArgumentParsing;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BookGen.Cli;
 
@@ -19,7 +20,7 @@ public sealed class CommandRunner
 {
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly Dictionary<string, Type> _commands;
-    private readonly IResolver _resolver;
+    private readonly IServiceProvider _serviceProvider;
     private readonly ILogger _log;
     private readonly CommandRunnerSettings _settings;
     private readonly SupportedOs _currentOs;
@@ -108,7 +109,7 @@ public sealed class CommandRunner
         List<object> contructorParameters = new();
         foreach (var param in constructor.GetParameters())
         {
-            contructorParameters.Add(_resolver.Resolve(param.ParameterType));
+            contructorParameters.Add(_serviceProvider.GetRequiredService(param.ParameterType));
         }
 
         var instance = Activator.CreateInstance(_commands[commandName], contructorParameters.ToArray())
@@ -117,7 +118,7 @@ public sealed class CommandRunner
         return (ICommand)instance;
     }
 
-    public CommandRunner(IResolver resolver,
+    public CommandRunner(IServiceProvider serviceProvider,
                          ILogger log,
                          CommandRunnerSettings settings)
     {
@@ -128,13 +129,13 @@ public sealed class CommandRunner
             WriteIndented = true
         };
         _commands = new Dictionary<string, Type>();
-        _resolver = resolver;
+        _serviceProvider = serviceProvider;
         _log = log;
         _settings = settings;
         ExceptionHandlerDelegate = DefaultExceptionHandler;
         _currentOs = GetCurrentOs();
 
-        ValidationContext = new IoCValidationContext(_resolver);
+        ValidationContext = new IoCValidationContext(serviceProvider);
 
         ConfigureUtfSupport(_settings.EnableUtf8Output);
     }

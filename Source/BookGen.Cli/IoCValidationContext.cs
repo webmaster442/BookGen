@@ -5,22 +5,24 @@
 
 using System.ComponentModel.DataAnnotations;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace BookGen.Cli;
 
 public sealed class IoCValidationContext : IValidationContext
 {
-    private readonly IResolver _resolver;
+    private readonly IServiceProvider _serviceProvider;
 
-    public IoCValidationContext(IResolver resolver)
+    public IoCValidationContext(IServiceProvider serviceProvider)
     {
-        _resolver = resolver;
+        _serviceProvider = serviceProvider;
     }
 
     public object? GetService(Type serviceType)
-        => _resolver.Resolve(serviceType);
+        => _serviceProvider.GetService(serviceType);
 
-    public TType Resolve<TType>() 
-        => (TType)_resolver.Resolve(typeof(TType));
+    public TType Resolve<TType>() where TType : notnull
+        => _serviceProvider.GetRequiredService<TType>();
 
     public ValidationResult ValidateWithAttributes(object @object)
     {

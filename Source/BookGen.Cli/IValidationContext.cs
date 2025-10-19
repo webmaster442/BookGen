@@ -9,7 +9,7 @@ namespace BookGen.Cli;
 
 public interface IValidationContext : IServiceProvider
 {
-    TType Resolve<TType>();
+    TType Resolve<TType>() where TType : notnull;
 
     IReadOnlyFileSystem FileSystem => new FileSystem();
 

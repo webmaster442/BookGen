@@ -16,7 +16,7 @@ namespace Bookgen.Tests.Cli;
 internal class UT_CommandRunner
 {
     private CommandRunner _sut;
-    private Mock<IResolver> _resolverMock;
+    private Mock<IServiceProvider> _serviceProviderMock;
     private Mock<ILogger> _loggerMock;
 
     private sealed class Dependency
@@ -49,10 +49,10 @@ internal class UT_CommandRunner
     [SetUp]
     public void Setup()
     {
-        _resolverMock = new Mock<IResolver>(MockBehavior.Strict);
-        _resolverMock.Setup(x => x.Resolve(typeof(Dependency), It.IsAny<string>())).Returns(new Dependency());
+        _serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
+        _serviceProviderMock.Setup(x => x.GetService(typeof(Dependency))).Returns(new Dependency());
         _loggerMock = new Mock<ILogger>(MockBehavior.Strict);
-        _sut = new CommandRunner(_resolverMock.Object, _loggerMock.Object, new CommandRunnerSettings
+        _sut = new CommandRunner(_serviceProviderMock.Object, _loggerMock.Object, new CommandRunnerSettings
         {
            
         });

@@ -6,6 +6,7 @@
 using BookGen.Cli;
 using BookGen.Shellprog;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
@@ -16,13 +17,14 @@ ILogger logger = loggerFactory.CreateLogger("BookGen.Shell");
 
 CommandRunnerProxy runnerProxy = new();
 
-using SimpleIoC ioc = new();
-ioc.RegisterSingleton<IAnsiConsole>(AnsiConsole.Console);
-ioc.RegisterSingleton<ICommandRunnerProxy>(runnerProxy);
-ioc.RegisterSingleton(logger);
-ioc.Build();
+var ioc = new ServiceCollection();
+ioc.AddSingleton<IAnsiConsole>(AnsiConsole.Console);
+ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
+ioc.AddSingleton(logger);
 
-CommandRunner runner = new(ioc, logger, new CommandRunnerSettings
+using var provider = ioc.BuildServiceProvider();
+
+CommandRunner runner = new(provider, logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,
