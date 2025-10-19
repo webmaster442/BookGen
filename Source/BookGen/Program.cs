@@ -21,8 +21,6 @@ ProgramInfo info = new();
 
 var argumentList = ProgramConfigurator.ParseGeneralArgs(args, info);
 
-using Mediator mediator = new();
-
 using ILoggerFactory factory = LoggerFactory
     .Create(builder =>
     {
@@ -34,7 +32,7 @@ using ILoggerFactory factory = LoggerFactory
         }
         else
         {
-            builder.AddProvider(new ConsoleLogProvider(mediator));
+            builder.AddProvider(new ConsoleLogProvider());
         }
         if (info.LogToFile)
         {
@@ -49,7 +47,6 @@ using SimpleIoC ioc = new();
 ioc.RegisterSingleton(logger);
 ioc.RegisterSingleton(info);
 ioc.RegisterSingleton<ICommandRunnerProxy>(runnerProxy);
-ioc.RegisterSingleton<IMediator>(mediator);
 ioc.RegisterSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
 ioc.RegisterSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
 ioc.Register<IWritableFileSystem, FileSystem>();

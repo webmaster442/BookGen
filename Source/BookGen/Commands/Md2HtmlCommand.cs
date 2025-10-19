@@ -62,10 +62,10 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         {
             ValidationResult result = new();
 
-            if (!string.IsNullOrEmpty(Template))
+            if (!string.IsNullOrEmpty(Template)
+                && context.IsValidTemplateFile(Template))
             {
-                if (!context.FileSystem.FileExists(Template))
-                    result.AddIssue("Template file doesn't exist");
+                result.AddIssue($"Template file: {Template} doesn't exist");
             }
 
             if (string.IsNullOrEmpty(OutputFile))
@@ -154,7 +154,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
 
             rendered = _templateEngine.Render(pageTemplate, viewData);
         }
-        
+
         if (arguments.OutputFile == "-")
             WriteToStdout(rendered);
         else
@@ -171,7 +171,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         {
             string content = _fileSystem.ReadAllText(inputFile);
             DateTime date = _fileSystem.GetLastModifiedUtc(inputFile);
-            
+
             if (date > lastmodified)
                 lastmodified = date;
 

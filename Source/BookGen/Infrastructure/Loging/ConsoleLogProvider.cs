@@ -5,25 +5,19 @@
 
 using System.Diagnostics;
 
-using BookGen.Cli.Mediator;
-
 using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
-
-using static BookGen.MessageTypes;
 
 namespace BookGen.Infrastructure.Loging;
 
 public sealed class ConsoleLogProvider : ILoggerProvider
 {
-    private readonly IMediator _mediator;
     private readonly Dictionary<string, ConsoleLogger> _loggers = new();
 
-    public ConsoleLogProvider(IMediator mediator)
+    public ConsoleLogProvider()
     {
         _loggers = new Dictionary<string, ConsoleLogger>();
-        _mediator = mediator;
     }
 
     public ILogger CreateLogger(string categoryName)
@@ -34,7 +28,7 @@ public sealed class ConsoleLogProvider : ILoggerProvider
         }
         else
         {
-            logger = new ConsoleLogger(categoryName, _mediator);
+            logger = new ConsoleLogger(categoryName);
             _loggers.Add(categoryName, logger);
             return logger;
         }
@@ -48,19 +42,15 @@ public sealed class ConsoleLogProvider : ILoggerProvider
         }
     }
 
-    internal sealed class ConsoleLogger : IDisposable, ILogger, IAsycNotifyable<BeginLogRedirectMessage>, IAsycNotifyable<EndLogRedirectMessage>
+    internal sealed class ConsoleLogger : IDisposable, ILogger
     {
         private readonly string _name;
-        private readonly IMediator _mediator;
         private readonly List<string> _logBuffer;
-        private bool _isRedirected;
 
-        public ConsoleLogger(string categoryName, IMediator mediator)
+        public ConsoleLogger(string categoryName)
         {
             _logBuffer = new List<string>();
             _name = categoryName;
-            _mediator = mediator;
-            mediator.Register(this);
         }
 
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull
@@ -68,7 +58,6 @@ public sealed class ConsoleLogProvider : ILoggerProvider
 
         public void Dispose()
         {
-            _mediator.Unregister(this);
             if (_logBuffer.Count > 0)
             {
                 foreach (var log in _logBuffer)
@@ -100,28 +89,8 @@ public sealed class ConsoleLogProvider : ILoggerProvider
             }
 
             var line = $"{LevelToString(logLevel)} {formatter(state, exception).EscapeMarkup()}";
-            if (_isRedirected)
-                _logBuffer.Add(line);
-            else
-                AnsiConsole.MarkupLine(line);
+            AnsiConsole.MarkupLine(line);
 
-        }
-
-        Task IAsycNotifyable<BeginLogRedirectMessage>.OnNotifyAsync(BeginLogRedirectMessage message)
-        {
-            _isRedirected = true;
-            return Task.CompletedTask;
-        }
-
-        Task IAsycNotifyable<EndLogRedirectMessage>.OnNotifyAsync(EndLogRedirectMessage message)
-        {
-            _isRedirected = false;
-            foreach (var log in _logBuffer)
-            {
-                AnsiConsole.MarkupLine(log);
-            }
-            _logBuffer.Clear();
-            return Task.CompletedTask;
         }
     }
 }
