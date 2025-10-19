@@ -7,7 +7,6 @@ using System.Diagnostics;
 
 using BookGen;
 using BookGen.Cli;
-using BookGen.Cli.Mediator;
 using BookGen.Commands;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
