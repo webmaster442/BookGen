@@ -15,7 +15,7 @@ internal class UT_MarkdownToHtml
     private Mock<IImgService> _imgServiceMock;
     private string _markdown;
     private string _soruceCode;
-    private readonly IEqualityComparer<string?> comparer = new LineEndingIgnoreConverter();
+    private readonly IEqualityComparer<string?> comparer = new LineEndingIgnoreComparer();
 
     [SetUp]
     public void Setup()

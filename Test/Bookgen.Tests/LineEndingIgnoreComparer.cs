@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Bookgen.Tests;
 
-internal sealed class LineEndingIgnoreConverter : EqualityComparer<string?>
+internal sealed class LineEndingIgnoreComparer : EqualityComparer<string?>
 {
     private static string? Normalize(string? input)
         => input?.Replace("\r\n", "\n");

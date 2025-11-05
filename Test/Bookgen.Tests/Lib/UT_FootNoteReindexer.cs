@@ -59,7 +59,7 @@ internal class UT_FootNoteReindexer
 
         string result = _sut.ToString();
 
-        Assert.That(result, Is.EqualTo(expected));
+        Assert.That(result, Is.EqualTo(expected).Using(new LineEndingIgnoreComparer()));
     }
 
     [Test]
@@ -101,7 +101,7 @@ internal class UT_FootNoteReindexer
 
         string result = _sut.ToString();
 
-        Assert.That(result, Is.EqualTo(expected));
+        Assert.That(result, Is.EqualTo(expected).Using(new LineEndingIgnoreComparer()));
     }
 
     [Test]
@@ -151,6 +151,6 @@ internal class UT_FootNoteReindexer
 
         string result = _sut.ToString();
 
-        Assert.That(result, Is.EqualTo(expected));
+        Assert.That(result, Is.EqualTo(expected).Using(new LineEndingIgnoreComparer()));
     }
 }

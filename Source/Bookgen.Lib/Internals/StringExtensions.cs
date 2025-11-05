@@ -64,10 +64,9 @@ internal static partial class StringExtensions
     private static string AsciiEncodeLowerCase(string text)
     {
         text = text.Replace("?", "question");
-        var ascii = new ASCIIEncoding();
         byte[] byteArray = Encoding.UTF8.GetBytes(text.Normalize(NormalizationForm.FormD));
         byte[] asciiArray = Encoding.Convert(Encoding.UTF8, Encoding.ASCII, byteArray);
-        return ascii.GetString(asciiArray).Replace("?", "").ToLower();
+        return Encoding.ASCII.GetString(asciiArray).Replace("?", "").ToLower();
     }
 
     [GeneratedRegex(@"<(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)(\s[^>/]*?)?>", RegexOptions.IgnoreCase)]
