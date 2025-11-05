@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -63,10 +64,22 @@ internal static partial class StringExtensions
 
     private static string AsciiEncodeLowerCase(string text)
     {
-        text = text.Replace("?", "question");
-        byte[] byteArray = Encoding.UTF8.GetBytes(text.Normalize(NormalizationForm.FormD));
-        byte[] asciiArray = Encoding.Convert(Encoding.UTF8, Encoding.ASCII, byteArray);
-        return Encoding.ASCII.GetString(asciiArray).Replace("?", "").ToLower();
+        if (text == null)
+            return string.Empty;
+
+        text = text.Replace("?", "question").Normalize(NormalizationForm.FormD);
+        var sb = new StringBuilder(text.Length);
+
+        foreach (var c in text)
+        {
+            var uc = CharUnicodeInfo.GetUnicodeCategory(c);
+            if (uc != UnicodeCategory.NonSpacingMark)
+                sb.Append(c);
+        }
+
+        return sb.ToString()
+            .Normalize(NormalizationForm.FormC)
+            .ToLowerInvariant();
     }
 
     [GeneratedRegex(@"<(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)(\s[^>/]*?)?>", RegexOptions.IgnoreCase)]
