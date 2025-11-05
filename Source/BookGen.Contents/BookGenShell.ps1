@@ -236,14 +236,30 @@ function organize {
 }
 
 # repoweb command
-function repoweb() {
+function repoweb {
     BookGen.Shellprog.exe "repoweb" $(Get-Location).Path
 }
 
 # info command
-function bookgen-info() {
+function bookgen-info {
     Clear-Host
     Get-Content $env:BookGenPath\getting-started.mdr | Out-Host -Paging
+}
+
+# weather command
+function weather {
+    param(
+        [string]$Location
+    )
+
+    $url = "https://wttr.in/"
+    
+    if ($PSBoundParameters.ContainsKey('Location')) {
+        $url += $Location
+    }
+
+    Clear-Host
+    curl $url
 }
 
 # intro message
@@ -257,6 +273,7 @@ function intro() {
     Write-Host "│  cdg: menu driven change driectory                       │"
     Write-Host "│  organize: organize current directory files to subdirs   │"
     Write-Host "│  repoweb: opens the current directory in the web browser │"
+    Write-Host "│  weather: shows the weather for a location               │"
     Write-Host "└──────────────────────────────────────────────────────────┘"
     Write-Host "  \"
     Write-Host "   \   \"
@@ -402,6 +419,7 @@ if ($args.Count -eq 1) {
 
 # change window title
 $host.UI.RawUI.WindowTitle = "BookGen Shell"
+$Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(125, 31)
 
 # welcome message
 intro
