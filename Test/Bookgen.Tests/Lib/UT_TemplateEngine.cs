@@ -49,7 +49,7 @@ internal class UT_TemplateEngine
 
         string result = _sut.Render(template, viewData);
 
-        IEqualityComparer<string?> comparer = new LineEndingIgnoreConverter();
+        IEqualityComparer<string?> comparer = new LineEndingIgnoreComparer();
         Assert.That(result, Is.EqualTo(expected).Using(comparer));
     }
 
