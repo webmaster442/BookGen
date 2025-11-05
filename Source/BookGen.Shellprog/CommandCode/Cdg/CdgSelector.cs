@@ -3,12 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+
 using BookGen.Shell.Cdg;
 
 using Spectre.Console;
-
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
 namespace BookGen.Shellprog.CommandCode.Cdg;
 
@@ -45,7 +45,7 @@ internal sealed class CdgSelector
                 },
                 Color = Color.Red,
             },
-            new SelectionItemAction 
+            new SelectionItemAction
             {
                 DisplayString = "Open in file manager",
                 Icon = ":right_arrow:",
@@ -115,9 +115,9 @@ internal sealed class CdgSelector
                 Id = "ShowHide",
                 DisplayString =  _showHidden ? "Hide hidden files" : "Toggle hidden files",
                 Icon = ":eye: ",
-                Action = () => 
+                Action = () =>
                 {
-                    var showHide = _menuItems?.First(m => m.Id == "ShowHide") ?? throw new InvalidOperationException(); 
+                    var showHide = _menuItems?.First(m => m.Id == "ShowHide") ?? throw new InvalidOperationException();
                     showHide.DisplayString = _showHidden ? "Show hidden files" : "Hide hidden files";
                     _showHidden = !_showHidden;
                 },

@@ -17,7 +17,7 @@ internal sealed class CopyPartyDownloader : TooldownloaderBase
 {
     public CopyPartyDownloader(IApiClient apiClient,
                               RecyclableMemoryStreamManager memoryStreamManager,
-                              ILogger logger) 
+                              ILogger logger)
         : base(apiClient, memoryStreamManager, logger)
     {
     }

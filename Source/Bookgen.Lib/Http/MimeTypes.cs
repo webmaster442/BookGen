@@ -934,8 +934,8 @@ public static class MimeTypes
     /// <returns>mime type string, if known. For unknown file types application/octet-stream is returned</returns>
     public static string GetMimeForExtension(string extension)
     {
-        return Db.ContainsKey(extension) 
-            ? Db[extension] 
+        return Db.ContainsKey(extension)
+            ? Db[extension]
             : "application/octet-stream";
     }
 

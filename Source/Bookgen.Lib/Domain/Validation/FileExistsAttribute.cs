@@ -35,7 +35,7 @@ internal sealed class FileExistsAttribute : ValidationAttribute
 
             return ValidationResult.Success;
         }
-        
+
         throw new InvalidOperationException($"{nameof(NotNullOrWhiteSpaceAttribute)} works with {typeof(string)} properties");
     }
 }

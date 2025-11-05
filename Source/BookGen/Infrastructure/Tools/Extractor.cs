@@ -16,7 +16,7 @@ internal static class Extractor
         ui.BeginNew("Copying...", stream.Length);
         string outputPath = Path.Combine(AppContext.BaseDirectory, "tools", folderName, fileName);
 
-        string directory = Path.GetDirectoryName(outputPath) 
+        string directory = Path.GetDirectoryName(outputPath)
             ?? throw new InvalidOperationException("Invalid output path");
 
         if (!Directory.Exists(directory))

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 namespace BookGen.Infrastructure.Terminal;
+
 internal static class NumberFormats
 {
     public static string ToFileSize(this long value)

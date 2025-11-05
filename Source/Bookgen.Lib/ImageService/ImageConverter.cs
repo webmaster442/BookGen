@@ -13,9 +13,9 @@ public static class ImageConverter
 {
     public static void Encode(string source, string output, ImageType imageType, int width, int height, int quality)
     {
-        using var srcStream= File.OpenRead(source);
+        using var srcStream = File.OpenRead(source);
         using var destStream = File.Create(output);
-        
+
         if (Path.GetExtension("soruce").Equals(".svg", StringComparison.OrdinalIgnoreCase))
         {
             SKData img = Utils.RenderSvg(srcStream, width, height, GetRecodeOption(imageType));

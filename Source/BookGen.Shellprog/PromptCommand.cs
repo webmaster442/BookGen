@@ -31,7 +31,7 @@ internal sealed class PromptCommand : GitCommandBase
                 PrintUntrusted();
             }
         }
-        
+
         return 0;
     }
 }

@@ -77,7 +77,7 @@ internal class SerializedObjectValidator
         var properties = @object
             .GetType()
             .GetProperties()
-            .Where(p => p.CanRead 
+            .Where(p => p.CanRead
                      && p.GetIndexParameters().Length == 0
                      && !p.PropertyType.IsValueType
                      && p.PropertyType != typeof(string));

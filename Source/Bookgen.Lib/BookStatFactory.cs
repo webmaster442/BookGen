@@ -43,8 +43,8 @@ public static class BookStatFactory
                 ? 1
                 : count + 1;
 
-            stat.FileSizeByExtension[extension] = !stat.FileSizeByExtension.TryGetValue(extension, out double size) 
-                ? 0 
+            stat.FileSizeByExtension[extension] = !stat.FileSizeByExtension.TryGetValue(extension, out double size)
+                ? 0
                 : size + environment.Source.GetFileSize(file);
         }
 

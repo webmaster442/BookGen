@@ -10,6 +10,7 @@ using Bookgen.Lib.Markdown;
 using Moq;
 
 namespace Bookgen.Tests.Lib;
+
 internal class UT_MarkdownToHtml
 {
     private Mock<IImgService> _imgServiceMock;
@@ -192,7 +193,7 @@ internal class UT_MarkdownToHtml
             """;
 
         string result = sut.RenderMarkdownToHtml(_soruceCode);
-        
+
         Assert.That(result, Is.EqualTo(expected).Using(comparer));
     }
 

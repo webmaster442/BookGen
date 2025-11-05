@@ -14,7 +14,7 @@ internal sealed class EpubState
 {
     public IZipBuilder EpubFile
     {
-        get => field ?? throw new InvalidOperationException($"{nameof(Initialize)} wasn't called"); 
+        get => field ?? throw new InvalidOperationException($"{nameof(Initialize)} wasn't called");
         private set => field = value;
     }
 
@@ -24,7 +24,7 @@ internal sealed class EpubState
 
     public Dictionary<string, string> ImagesData { get; }
 
-    public PackageSpine Spine { get;}
+    public PackageSpine Spine { get; }
 
     public Dictionary<string, List<ChapterItem>> TocData { get; }
 

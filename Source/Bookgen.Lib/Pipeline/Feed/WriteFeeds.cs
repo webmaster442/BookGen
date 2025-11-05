@@ -5,8 +5,9 @@
 
 using System.ServiceModel.Syndication;
 
-using Microsoft.Extensions.Logging;
 using BookGen.Vfs;
+
+using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Feed;
 

@@ -16,7 +16,7 @@ namespace Bookgen.Lib.Pipeline.Print;
 
 internal sealed class RenderPages : PipeLineStep<PrintState>
 {
-    public RenderPages(PrintState state) : base(state) 
+    public RenderPages(PrintState state) : base(state)
     {
     }
 

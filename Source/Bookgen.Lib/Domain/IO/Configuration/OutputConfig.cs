@@ -22,7 +22,7 @@ public abstract class OutputConfig
 
     [Description("Toggles pre-rendering of source code")]
     [Required]
-    public bool PreRenderCode {  get; init; }
+    public bool PreRenderCode { get; init; }
 
     [Description("Default template file name")]
     [WhenNotEmptyFileMustExist]

@@ -73,7 +73,7 @@ internal sealed class VsTasksCommand : AsyncCommand<BookGenArgumentBase>
             .AddBookgenTask("Get statistics", "Statistics information", ["stats", "-d", VsCodeVars.WorkspaceFolder])
             .AddBookgenTask("Build web", "Build static website", ["buildweb", "-d", VsCodeVars.WorkspaceFolder, "-o", "Output/Web"])
             .AddBookgenTask("Bild print", "Build printable html", ["buildprint", "-d", VsCodeVars.WorkspaceFolder, "-o", "Output/Print"])
-            .AddBookgenTask("Build wordpress", "Build wordpress export xml", ["buildwp", "-d", VsCodeVars.WorkspaceFolder,  "-o", "Output/Wp"]);
+            .AddBookgenTask("Build wordpress", "Build wordpress export xml", ["buildwp", "-d", VsCodeVars.WorkspaceFolder, "-o", "Output/Wp"]);
 
         await _writableFileSystem.SerializeAsync(file, taskBuilder.Build(), writeSchema: false);
 

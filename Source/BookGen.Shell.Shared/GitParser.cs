@@ -48,7 +48,7 @@ public static partial class GitParser
 
     }
 
-    public static HashSet<string>ParseBranches(string branches)
+    public static HashSet<string> ParseBranches(string branches)
     {
         HashSet<string> results = new();
         foreach (var line in branches.Split(Splits, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))

@@ -16,7 +16,7 @@ public static class Migrator
     public static async Task<bool> Migrate(IWritableFileSystem folder, ILogger logger)
     {
         MigrationState state = new();
-        IMigrationStep[] steps = 
+        IMigrationStep[] steps =
         [
             new LoadLegacyConfig(),
             new LoadLegacyTags(),

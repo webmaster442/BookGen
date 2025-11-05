@@ -13,6 +13,7 @@ using System.Text.Json.Schema;
 using System.Text.Json.Serialization.Metadata;
 
 namespace BookGen.Vfs.Internals;
+
 internal static class JsonSchemaTransformer
 {
     private const string SchemaDescriptionProperty = "description";
@@ -31,7 +32,7 @@ internal static class JsonSchemaTransformer
          : context.TypeInfo.Type;
 
         if (node is JsonObject obj
-            && obj.TryGetPropertyValue("properties", out JsonNode? propertiesNode) 
+            && obj.TryGetPropertyValue("properties", out JsonNode? propertiesNode)
             && propertiesNode is JsonObject properties)
         {
             var requiredArray = new JsonArray();

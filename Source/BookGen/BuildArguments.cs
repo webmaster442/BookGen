@@ -19,7 +19,7 @@ public sealed class BuildArguments : BookGenArgumentBase
     public override ValidationResult Validate(IValidationContext context)
     {
         var originalResult = base.Validate(context);
-        if (originalResult.IsOk 
+        if (originalResult.IsOk
             && !string.IsNullOrEmpty(HostOverride)
             && !HostOverride.EndsWith('/'))
         {

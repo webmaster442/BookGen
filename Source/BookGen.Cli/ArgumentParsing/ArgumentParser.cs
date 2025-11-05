@@ -39,7 +39,7 @@ internal class ArgumentParser
             {
                 throw new InvalidOperationException($"Invalid annotation found in type {_argumentType.FullName} on propery {propertyInfo.Name}. Both Switch and Argument attributes are present");
             }
-           
+
             if (switchAttribute != null)
             {
                 _switchPropertyInfos.Add(propertyInfo);

@@ -32,7 +32,7 @@ public sealed class RenderSettings : IDisposable
     private string EmbedImage(ImageResult arg)
     {
         return (arg.ImageType == ImageType.Svg)
-            ? arg.Data 
+            ? arg.Data
             : $"data:{arg.ImageType.GetMimeType()};base64,{arg.Data}";
     }
 

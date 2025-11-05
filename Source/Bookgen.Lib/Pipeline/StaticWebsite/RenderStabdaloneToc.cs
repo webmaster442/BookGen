@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
+
 internal class RenderStabdaloneToc : PipeLineStep<StaticWebState>
 {
     public RenderStabdaloneToc(StaticWebState staticWebState) : base(staticWebState)

@@ -28,7 +28,7 @@ public sealed class MathJaxInterop : JavascriptInterop
         dynamic svg = TypeSet(latex);
 
         var xml = XDocument.Load(new StringReader(svg));
-        
+
         if (xml.Root == null)
             throw new InvalidOperationException("SVG root element is null.");
 

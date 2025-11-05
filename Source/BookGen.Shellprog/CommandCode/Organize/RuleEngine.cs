@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 
 namespace BookGen.Shellprog.CommandCode.Organize;
+
 internal class RuleEngine
 {
     private readonly Dictionary<Regex, string> _loadedRules;

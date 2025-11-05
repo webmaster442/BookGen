@@ -11,8 +11,8 @@ using System.Text.Json;
 using BookGen.Cli.Annotations;
 using BookGen.Cli.ArgumentParsing;
 
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.Cli;
 

@@ -65,7 +65,7 @@ internal static class Extensions
         return (content.ToString(), frontMatter);
     }
 
-    extension (DateTime dt)
+    extension(DateTime dt)
     {
         public string ToW3CTimeFormat()
             => dt.ToString(W3cTime);

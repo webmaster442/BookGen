@@ -12,6 +12,7 @@ using Bookgen.Lib.Templates;
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Epub;
+
 internal sealed class CreateNav : PipeLineStep<EpubState>
 {
     public CreateNav(EpubState state) : base(state)

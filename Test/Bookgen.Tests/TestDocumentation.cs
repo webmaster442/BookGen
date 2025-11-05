@@ -32,7 +32,7 @@ internal class TestDocumentation
 
         _helpProvider = new HelpProvider(_loggerMock.Object, _commandRunnerProxy);
     }
-    
+
     [Test]
     public void EnsureThat_Commands_HaveDocumentation()
     {

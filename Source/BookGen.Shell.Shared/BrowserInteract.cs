@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
 namespace BookGen.Shell.Shared;
+
 public sealed class BrowserInteract
 {
     private readonly string? _chromePath;
@@ -104,7 +105,7 @@ public sealed class BrowserInteract
                 $"--window-size={width}x{height}",
                 normalized
             };
-            
+
             await RunBrowser(arguments);
             return true;
         }

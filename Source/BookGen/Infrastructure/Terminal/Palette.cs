@@ -30,7 +30,7 @@ internal class Palette
         }
 
         Color[] result = new Color[count];
-        for(int i=0; i<count; i++)
+        for (int i = 0; i < count; i++)
         {
             result[i] = Generate(rnd);
         }

@@ -44,7 +44,7 @@ public static class CrashDumpFactory
         {
             File.WriteAllText(fileName, content.ToString());
         }
-        catch(Exception)
+        catch (Exception)
         {
             //At this point we don't care
         }

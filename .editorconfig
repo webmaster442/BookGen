@@ -192,6 +192,11 @@ dotnet_diagnostic.CA2014.severity = error
 csharp_prefer_system_threading_lock = true:suggestion
 csharp_style_prefer_unbound_generic_type_in_nameof = true:suggestion
 csharp_style_prefer_implicitly_typed_lambda_expression = true:suggestion
+csharp_style_prefer_simple_property_accessors = true:suggestion
+csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true:silent
+csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true:silent
+csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true:silent
 
 #### Naming styles ####
 [*.{cs,vb}]
@@ -408,4 +413,7 @@ dotnet_diagnostic.CA1836.severity = error
 dotnet_diagnostic.CA1843.severity = error
 dotnet_diagnostic.CA1842.severity = error
 dotnet_diagnostic.CA2011.severity = error
+dotnet_style_allow_multiple_blank_lines_experimental = true:silent
+dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
+insert_final_newline = true
 

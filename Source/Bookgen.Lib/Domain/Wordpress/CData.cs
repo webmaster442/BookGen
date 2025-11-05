@@ -26,7 +26,7 @@ public class CData : IXmlSerializable
     /// </summary>
     /// <param name="cdata"></param>
     /// <returns></returns>
-    public static implicit operator string(CData cdata) 
+    public static implicit operator string(CData cdata)
         => cdata.Value;
 
     [XmlIgnore]

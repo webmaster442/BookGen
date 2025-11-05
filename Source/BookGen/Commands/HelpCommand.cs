@@ -25,7 +25,7 @@ internal sealed class HelpCommand : Command
 
     public override int Execute(IReadOnlyList<string> context)
     {
-        if (context.Count == 0) 
+        if (context.Count == 0)
         {
             HelpRenderer.RenderHelp(_helpProvider.GetCommandHelp("help"));
             return ExitCodes.Success;

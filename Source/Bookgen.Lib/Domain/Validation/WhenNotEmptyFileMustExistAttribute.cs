@@ -6,6 +6,7 @@
 using System.ComponentModel.DataAnnotations;
 
 using BookGen.Vfs;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bookgen.Lib.Domain.Validation;

@@ -106,7 +106,7 @@ public sealed partial class TemplateEngine
                     }
 
                     lineBuffer.Append(dataTable[key]);
-                    
+
                 }
                 lastIndex = templatePart.Index + templatePart.Length;
             }

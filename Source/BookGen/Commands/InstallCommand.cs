@@ -67,7 +67,7 @@ internal class InstallCommand : AsyncCommand
         var currentFolder = Environment.CurrentDirectory;
         var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User) ?? string.Empty;
         var paths = path.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
-        
+
         if (paths.Contains(currentFolder, StringComparer.OrdinalIgnoreCase))
         {
             _logger.LogInformation("Current folder is already in PATH variable");

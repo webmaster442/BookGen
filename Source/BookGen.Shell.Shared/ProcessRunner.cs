@@ -57,7 +57,7 @@ public static class ProcessRunner
             process.Start();
             process.WaitForExit();
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             log.LogWarning(e, e.Message);
         }
@@ -90,7 +90,7 @@ public static class ProcessRunner
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.CreateNoWindow = true;
-            
+
             if (workdir != null)
                 process.StartInfo.WorkingDirectory = workdir;
 

@@ -110,7 +110,7 @@ public sealed class ConfigUpgrader
         if (configModified)
         {
             _configJson["VersionTag"] = info.To;
-           
+
             sourceFolder.MoveFile(FileNameConstants.ConfigFile, FileNameConstants.ConfigFile + ".bak");
             await sourceFolder.WriteJsonAsync(FileNameConstants.ConfigFile, _configJson);
         }

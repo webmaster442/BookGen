@@ -58,10 +58,10 @@ internal sealed class ConfigCommand : Command
     private static int DisplayConfig(PropertyInfo[] data, BookGenAppSettings appSettings)
     {
         string[] headers = ["Name", "Type", "Value"];
-        var tableData = data.Select(x => new string[] 
+        var tableData = data.Select(x => new string[]
         {
             x.Name,
-            x.PropertyType.ToString(), 
+            x.PropertyType.ToString(),
             x.GetValue(appSettings)?.ToString() ?? "<null>"
         });
 

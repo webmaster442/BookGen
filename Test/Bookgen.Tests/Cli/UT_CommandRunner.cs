@@ -54,7 +54,7 @@ internal class UT_CommandRunner
         _loggerMock = new Mock<ILogger>(MockBehavior.Strict);
         _sut = new CommandRunner(_serviceProviderMock.Object, _loggerMock.Object, new CommandRunnerSettings
         {
-           
+
         });
         _sut.AddCommand<TestCommand>();
     }

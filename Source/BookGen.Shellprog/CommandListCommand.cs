@@ -25,7 +25,7 @@ internal class CommandListCommand : Command
         AnsiConsole.WriteLine("BookGen Shell");
         AnsiConsole.WriteLine("Avaliable commands:");
         AnsiConsole.WriteLine();
-        foreach (var item in _nameProvider.CommandNames) 
+        foreach (var item in _nameProvider.CommandNames)
         {
             AnsiConsole.WriteLine(item);
         }

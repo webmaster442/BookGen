@@ -23,6 +23,6 @@ public sealed class Ncx
     [XmlArrayItem("navPoint", IsNullable = false)]
     public required List<NcxNavPoint> NavMap { get; set; }
 
-    [XmlAttribute(AttributeName ="version")]
+    [XmlAttribute(AttributeName = "version")]
     public required string Version { get; set; }
 }

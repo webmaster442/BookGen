@@ -15,7 +15,7 @@ public sealed class OrganizeRule
     public Regex GetRegex()
     {
         var rules = string.Join('|', Patterns.Select(pattern => $"({WildcardToRegex(pattern)})"));
-        return new Regex("^"+rules, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        return new Regex("^" + rules, RegexOptions.IgnoreCase | RegexOptions.Compiled);
     }
 
     private static string WildcardToRegex(string pattern)

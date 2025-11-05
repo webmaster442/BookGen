@@ -25,7 +25,7 @@ internal static class Utils
         }
         using SKBitmap bitmap = SKBitmap.Decode(file);
         using SKBitmap resized = ResizeIfBigger(bitmap, maxwidth, maxHeight);
-        
+
         using SKData encoded = resized.Encode(SKEncodedImageFormat.Png, 100);
 
         return encoded.ToArray();

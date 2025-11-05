@@ -47,7 +47,7 @@ internal static class Conversions
     {
         if (imageOptions.RecodeJpegToWebp || imageOptions.RecodePngToWebp || imageOptions.EnableResize)
             return ImgRecodeOption.AsWebp;
-     
+
         if (imageOptions.EnableResize)
             return ImgRecodeOption.AsPng;
 

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Http;
+
 public static class ServerFactory
 {
     public const int HostingPort = 8081;

@@ -19,7 +19,7 @@ public sealed class BookEnvironment : IBookEnvironment
 {
     private readonly IWritableFileSystem _source;
     private readonly IAssetSource[] _assets;
-    
+
     private FolderLock? _folderLock;
     private bool _isInitialized;
 

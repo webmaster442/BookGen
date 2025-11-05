@@ -40,7 +40,7 @@ public abstract class AppSettingsBase
     /// </summary>
     protected abstract void InitDefaults();
 
-    public void Set<T>(T value, [CallerMemberName]string? propertyName = null) where T : IParsable<T>
+    public void Set<T>(T value, [CallerMemberName] string? propertyName = null) where T : IParsable<T>
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(propertyName);
         string valueToSet;

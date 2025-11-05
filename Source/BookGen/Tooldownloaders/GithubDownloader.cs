@@ -15,9 +15,9 @@ namespace BookGen.Tooldownloaders;
 
 internal sealed class GithubDownloader : TooldownloaderBase
 {
-    public GithubDownloader(IApiClient apiClient, 
+    public GithubDownloader(IApiClient apiClient,
                             RecyclableMemoryStreamManager memoryStreamManager,
-                            ILogger logger) 
+                            ILogger logger)
         : base(apiClient, memoryStreamManager, logger)
     {
     }

@@ -12,7 +12,7 @@ namespace Bookgen.Lib.Domain.Epub;
 [XmlType(AnonymousType = true, Namespace = "http://www.daisy.org/z3986/2005/ncx/")]
 public sealed class NcxMeta
 {
-    [XmlAttribute(AttributeName ="name")]
+    [XmlAttribute(AttributeName = "name")]
     public required string Name { get; set; }
 
     [XmlAttribute(AttributeName = "content")]

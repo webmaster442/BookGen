@@ -21,7 +21,7 @@ public sealed class ImgService : IImgService
     private readonly ImageConfig _imageConfig;
     private readonly ILogger _logger;
 
-    public ImgService(IReadOnlyFileSystem sourceFolder, ILogger logger, ImageConfig imageConfig )
+    public ImgService(IReadOnlyFileSystem sourceFolder, ILogger logger, ImageConfig imageConfig)
     {
         _sourceFolder = sourceFolder;
         _imageConfig = imageConfig;
@@ -76,7 +76,7 @@ public sealed class ImgService : IImgService
                 Data = string.Empty,
                 ImageType = ImageType.Png,
                 OriginalName = path,
-            }; 
+            };
         }
 
         using Stream fileData = _sourceFolder.OpenReadStream(path);

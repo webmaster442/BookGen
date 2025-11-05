@@ -82,7 +82,7 @@ public static class Terminal
         return prompt.Show(AnsiConsole.Console);
     }
 
-    public static List<T> SelectionMenu<T>(IEnumerable<T> items, string title, string instructions, Func<T, string> displaySelector) where T: notnull
+    public static List<T> SelectionMenu<T>(IEnumerable<T> items, string title, string instructions, Func<T, string> displaySelector) where T : notnull
     {
         var prompt = new MultiSelectionPrompt<T>()
             .Title(title)

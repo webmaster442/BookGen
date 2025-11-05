@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib.Domain.IO.Legacy;
-using BookGen.Vfs;
-using Markdig.Extensions.AutoIdentifiers;
-using Markdig.Syntax.Inlines;
 
-using Markdig.Syntax;
+using BookGen.Vfs;
 
 using Markdig;
+using Markdig.Extensions.AutoIdentifiers;
+using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 
 using Microsoft.Extensions.Logging;
 

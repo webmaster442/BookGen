@@ -19,7 +19,7 @@ public sealed class CommandRunnerProxy : ICommandRunnerProxy
 
     public IEnumerable<string> CommandNames
     {
-        get => field ?? throw new InvalidOperationException("Provider hasn't been setup correctly"); 
+        get => field ?? throw new InvalidOperationException("Provider hasn't been setup correctly");
         private set;
     }
 

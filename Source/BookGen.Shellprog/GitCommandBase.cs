@@ -116,9 +116,9 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         }
         if (status.OutGoingCommits > 0)
         {
-           builder.Append(TerminalOutputBuilder.ForegroundColor.Black,
-                          TerminalOutputBuilder.BackgroundColor.Yellow,
-                          $" ↑: {status.OutGoingCommits}");
+            builder.Append(TerminalOutputBuilder.ForegroundColor.Black,
+                           TerminalOutputBuilder.BackgroundColor.Yellow,
+                           $" ↑: {status.OutGoingCommits}");
         }
         if (status.NotCommitedChanges > 0)
         {

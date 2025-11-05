@@ -28,9 +28,9 @@ internal class UT_ImgService
     [Test]
     public void EnsureThat_SvgPassThroughReturnsExpected()
     {
-        var service = new ImgService(_testFolder, _mockLogger.Object,  new ImageConfig
+        var service = new ImgService(_testFolder, _mockLogger.Object, new ImageConfig
         {
-            ResizeAndRecodeImages =  ImgRecodeOption.Passtrough,
+            ResizeAndRecodeImages = ImgRecodeOption.Passtrough,
             SvgRecode = SvgRecodeOption.Passtrough,
         });
 

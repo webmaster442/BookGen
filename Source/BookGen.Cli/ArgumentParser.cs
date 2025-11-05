@@ -8,6 +8,7 @@ using BookGen.Cli.ArgumentParsing;
 using Microsoft.Extensions.Logging;
 
 namespace BookGen.Cli;
+
 public class ArgumentParser<TArgs> where TArgs : ArgumentsBase, new()
 {
     private readonly ArgumentParser _internalParser;
