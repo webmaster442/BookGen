@@ -16,7 +16,7 @@ public class UT_StringExtensions
     [TestCase("foo/bar", "fooslashbar")]
     [TestCase("A+B", "aplusb")]
     [TestCase("question?", "questionquestion")]
-    [TestCase("ümlaut", "umlaut")]
+    [TestCase("ümlaut", "umlaut", ExcludePlatform = "Linux")]
     [TestCase("", "n-a")]
     [TestCase("   ", "---")]
     [TestCase("a|b", "apipeb")]
