@@ -419,7 +419,6 @@ if ($args.Count -eq 1) {
 
 # change window title
 $host.UI.RawUI.WindowTitle = "BookGen Shell"
-$Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(125, 31)
 
 # welcome message
 intro

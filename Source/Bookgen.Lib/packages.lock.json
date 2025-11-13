@@ -68,9 +68,9 @@
       },
       "System.ServiceModel.Syndication": {
         "type": "Direct",
-        "requested": "[10.0.0-rc.2.25502.107, )",
-        "resolved": "10.0.0-rc.2.25502.107",
-        "contentHash": "TRiz9bprZx+ZzkTIXtL8D1OEFHB4NhQ/IYgU9dcz+NXjR8xwbegm5M/TwzcrKWAQ7BHcWidoyVg57erEhRdalg=="
+        "requested": "[10.0.0, )",
+        "resolved": "10.0.0",
+        "contentHash": "HBrGaOQoEaDlMOykS/LfQr9BZ0pEF4SOcscH5oMpBF46+lqMMfgfat3Jm5SpW8IaDzzn/IakYjpWk3bEGSh1vA=="
       },
       "YamlDotNet": {
         "type": "Direct",

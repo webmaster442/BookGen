@@ -3,11 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO.Compression;
 
 using Bookgen.Lib.Domain.Epub;
 
@@ -24,9 +20,9 @@ internal sealed class CreateFontFiles : PipeLineStep<EpubState>
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Creating EPUB font files...");
-        await State.EpubFile.AddAsync("JetBrainsMono-Regular.ttf", environment.GetBinaryAsset("JetBrainsMono-Regular.ttf"));
-        await State.EpubFile.AddAsync("OpenSans-Regular.ttf", environment.GetBinaryAsset("OpenSans-Regular.ttf"));
-        await State.EpubFile.AddAsync("Nunito-Bold.ttf", environment.GetBinaryAsset("Nunito-Bold.ttf"));
+        await State.EpubFile.AddAsync("JetBrainsMono-Regular.ttf", environment.GetBinaryAsset("JetBrainsMono-Regular.ttf"), CompressionLevel.Optimal);
+        await State.EpubFile.AddAsync("OpenSans-Regular.ttf", environment.GetBinaryAsset("OpenSans-Regular.ttf"), CompressionLevel.Optimal);
+        await State.EpubFile.AddAsync("Nunito-Bold.ttf", environment.GetBinaryAsset("Nunito-Bold.ttf"), CompressionLevel.Optimal);
 
         State.PackageItems.AddRange([
             new PackageItem
