@@ -14,6 +14,7 @@
   <Folder Name="/Scripts/">
     <File Path="Installers/install.cmd" />
     <File Path="Installers/install.sh" />
+    <File Path="Installers/prepare-debian-base.sh" />
     <File Path="publish.ps1" />
   </Folder>
   <Folder Name="/Tests/" Id="02ea681e-c7d8-13c7-8484-4ac65e1b71e8">

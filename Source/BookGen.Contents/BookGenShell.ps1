@@ -1,7 +1,7 @@
 ﻿# -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 3.7.2
-# Last modified: 2025-10-05
+# Version 3.8.0
+# Last modified: 2025-11-16
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
@@ -252,18 +252,19 @@ function weather {
         [string]$Location
     )
 
-    $url = "https://wttr.in/"
+    $url = "https://wttr.in/?n"
     
     if ($PSBoundParameters.ContainsKey('Location')) {
         $url += $Location
     }
 
     Clear-Host
-    curl $url
+    Invoke-WebRequest $url
 }
 
 # intro message
 function intro() {
+    BookGen.Shellprog.exe "terminalsize"
     Clear-Host
     bookgen version -nr
     Write-Host "┌──────────────────────────────────────────────────────────┐"

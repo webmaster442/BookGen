@@ -250,7 +250,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.0, )",
-          "Webmaster442.WindowsTerminal": "[4.0.0, )"
+          "Webmaster442.WindowsTerminal": "[4.1.1, )"
         }
       },
       "bookgen.vfs": {
@@ -328,9 +328,9 @@
       },
       "Webmaster442.WindowsTerminal": {
         "type": "CentralTransitive",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "NG6kGSt83OWcRRVdzD5D8O4xWupE0FiFxTIz9dnm+jt1eK3DYyEhXX939vOyXSVVz3xFUhldKchOrtJSJx35kA=="
+        "requested": "[4.1.1, )",
+        "resolved": "4.1.1",
+        "contentHash": "0z1y6nFmpAhHP0x/aus62qIS+MDwntC8JYvkqEm5v9QyszzmyQG5Jp01a6FYacaXZ7CsvQgV7TzhA6G6p6MTSA=="
       },
       "YamlDotNet": {
         "type": "CentralTransitive",
