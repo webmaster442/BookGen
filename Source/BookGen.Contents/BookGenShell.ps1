@@ -259,12 +259,11 @@ function weather {
     }
 
     Clear-Host
-    Invoke-WebRequest $url
+    (Invoke-WebRequest $url).Content
 }
 
 # intro message
 function intro() {
-    BookGen.Shellprog.exe "terminalsize"
     Clear-Host
     bookgen version -nr
     Write-Host "┌──────────────────────────────────────────────────────────┐"
