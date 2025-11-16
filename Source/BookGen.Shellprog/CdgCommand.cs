@@ -1,0 +1,22 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
+using BookGen.Shellprog.CommandCode;
+using BookGen.Shellprog.CommandCode.Cdg;
+
+namespace BookGen.Shellprog;
+
+[CommandName("cdg")]
+internal sealed class CdgCommand : AsyncCommand<CdgArguments>
+{
+    public override async Task<int> ExecuteAsync(CdgArguments arguments, IReadOnlyList<string> context)
+    {
+        var menu = new CdgSelector(arguments.Folder, arguments.ShowHidden);
+        await menu.ShowMenu();
+        return 0;
+    }
+}

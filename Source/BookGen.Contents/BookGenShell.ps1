@@ -1,0 +1,424 @@
+﻿# -----------------------------------------------------------------------------
+# BookGen PowerShell Registration script
+# Version 3.7.2
+# Last modified: 2025-10-05
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Node commands
+# -----------------------------------------------------------------------------
+function Test-NodeJs {
+    try {
+        # Try to get the node version
+        $nodeVersion = node --version
+        if ($nodeVersion) {
+            return $true
+        }
+    }
+    catch {
+        return $false
+    }
+}
+
+function Get-NodePath {
+    try {
+        $nodePath = (Get-Command node.exe -ErrorAction Stop).Source
+        $nodeDir = Split-Path $nodePath
+        return $nodeDir
+    } 
+    catch {
+        Write-Error "node.exe not found in the system PATH."
+    }
+}
+
+function npm {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+
+    $scriptPath = Get-NodePath
+    $nodeExe = Join-Path $scriptPath "node.exe"
+
+    if (-Not (Test-Path $nodeExe)) {
+        $nodeExe = "node"
+    }
+
+    $npmPrefixJs = Join-Path $scriptPath "node_modules/npm/bin/npm-prefix.js"
+    $npmCliJs = Join-Path $scriptPath "node_modules/npm/bin/npm-cli.js"
+
+    $npmPrefixNpmCliJs = & $nodeExe $npmPrefixJs
+    $npmPrefixNpmCliJsPath = Join-Path $npmPrefixNpmCliJs "node_modules/npm/bin/npm-cli.js"
+
+    if (Test-Path $npmPrefixNpmCliJsPath) {
+        $npmCliJs = $npmPrefixNpmCliJsPath
+    }
+
+    & $nodeExe $npmCliJs @Args
+}
+
+function npx {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+
+    $scriptPath = Get-NodePath
+    $nodeExe = Join-Path $scriptPath "node.exe"
+
+    if (-Not (Test-Path $nodeExe)) {
+        $nodeExe = "node"
+    }
+
+    $npmPrefixJs = Join-Path $scriptPath "node_modules/npm/bin/npm-prefix.js"
+    $npxCliJs = Join-Path $scriptPath "node_modules/npm/bin/npx-cli.js"
+
+    $npmPrefixNpxCliJsPath = & $nodeExe $npmPrefixJs
+    $npmPrefixNpxCliJs = Join-Path $npmPrefixNpxCliJsPath "node_modules/npm/bin/npx-cli.js"
+
+    if (Test-Path $npmPrefixNpxCliJs) {
+        $npxCliJs = $npmPrefixNpxCliJs
+    }
+
+    & $nodeExe $npxCliJs @Args
+}
+
+function corepack {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+
+    $scriptPath = Get-NodePath
+    $nodeExe = Join-Path $scriptPath "node.exe"
+    $corepackJs = Join-Path $scriptPath "node_modules/corepack/dist/corepack.js"
+
+    if (Test-Path $nodeExe) {
+        & $nodeExe $corepackJs @Args
+    }
+    else {
+        $env:PATHEXT = $env:PATHEXT -replace ";.JS;", ";"
+        & node $corepackJs @Args
+    }
+}
+
+# -----------------------------------------------------------------------------
+# tools commands
+# -----------------------------------------------------------------------------
+function GetTool {
+    param (
+        [string]$ToolName,
+        [string]$folder,
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+
+    $bundledPath = Join-Path $PSScriptRoot "tools\$folder\$ToolName.exe"
+
+    # Check if tool is available on PATH
+    try {
+        $toolCmd = Get-Command "$ToolName.exe" -ErrorAction Stop
+        & $toolCmd.Source @Args
+        return
+    }
+    catch {
+        # Not found on PATH, check bundled path
+        if (Test-Path $bundledPath) {
+            & $bundledPath @Args
+            return
+        }
+        else {
+            Write-Host "$ToolName is not installed. Run 'bookgen tools' to download it."
+        }
+    }
+}
+
+function chroma {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+    GetTool "chroma" "chroma" @Args
+}
+
+function pandoc {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+    GetTool "pandoc" "pandoc" @Args
+}
+
+function edit {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+    GetTool "edit" "ms-edit" @Args
+}
+
+function gh {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+    GetTool "gh" "github-cli" @Args
+}
+
+function copyparty {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+    GetTool "copyparty" "copyparty" @Args
+}
+
+# -----------------------------------------------------------------------------
+# Shell commands
+# -----------------------------------------------------------------------------
+
+# cd command
+function cd {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+
+    if ($Args.Count -eq 0) {
+        Add-Type -AssemblyName System.Windows.Forms
+
+        $dialog = New-Object System.Windows.Forms.FolderBrowserDialog
+        $dialog.SelectedPath = (Get-Location).Path
+        $dialog.Description = "Select a folder to navigate to:"
+        $dialog.ShowNewFolderButton = $true
+
+        if ($dialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
+            Set-Location $dialog.SelectedPath
+        }
+    }
+    else {
+        Set-Location @Args
+    }
+}
+
+# cdg command
+function cdg {
+    $argsAsString = $args -join ' '
+    if ([string]::IsNullOrWhiteSpace($argsAsString)) {
+        BookGen.Shellprog.exe "cdg"
+    }
+    else {
+        BookGen.Shellprog.exe "cdg" "$argsAsString"
+    }
+    $location = [Environment]::GetEnvironmentVariable('cdgPath', 'User')
+    Push-Location $location
+}
+
+# organize command
+function organize {
+    $argsAsString = $args -join ' '
+    if ([string]::IsNullOrWhiteSpace($argsAsString)) {
+        BookGen.Shellprog.exe "organize"
+    }
+    else {
+        BookGen.Shellprog.exe "organize" "$argsAsString"
+    }
+}
+
+# repoweb command
+function repoweb {
+    BookGen.Shellprog.exe "repoweb" $(Get-Location).Path
+}
+
+# info command
+function bookgen-info {
+    Clear-Host
+    Get-Content $env:BookGenPath\getting-started.mdr | Out-Host -Paging
+}
+
+# weather command
+function weather {
+    param(
+        [string]$Location
+    )
+
+    $url = "https://wttr.in/"
+    
+    if ($PSBoundParameters.ContainsKey('Location')) {
+        $url += $Location
+    }
+
+    Clear-Host
+    curl $url
+}
+
+# intro message
+function intro() {
+    Clear-Host
+    bookgen version -nr
+    Write-Host "┌──────────────────────────────────────────────────────────┐"
+    Write-Host "│ Added commands:                                          │"
+    Write-Host "│  intro: displays this message                            │"
+    Write-Host "│  bookgen-info: displays the getting  started guide       │"
+    Write-Host "│  cdg: menu driven change driectory                       │"
+    Write-Host "│  organize: organize current directory files to subdirs   │"
+    Write-Host "│  repoweb: opens the current directory in the web browser │"
+    Write-Host "│  weather: shows the weather for a location               │"
+    Write-Host "└──────────────────────────────────────────────────────────┘"
+    Write-Host "  \"
+    Write-Host "   \   \"
+    Write-Host "        \ /\"
+    Write-Host "        ( )"
+    Write-Host "      .( o )."
+    Write-Host ""
+    Write-Host "To download additonal tools in this shell run bookgen tools command"
+
+    Bookgen.exe terminalinstall -t -nr
+    if ($LastExitCode -eq 0) {
+        Bookgen.exe terminalinstall -c -nr
+        if ($LastExitCode -ne 0) {
+            Write-Host ""
+            Write-Host "To install this shell as a windows terminal profile run:";
+            Write-Host "Bookgen terminalinstall"
+        }
+    }
+
+    if (Test-NodeJs) {
+        $nodeVersion = node --version
+        Write-Host "Node version: $nodeVersion"
+    }
+
+    Write-Host ""
+    Write-Host "─────────────────────────────────────────────────────────────────────"
+}
+
+# -----------------------------------------------------------------------------
+# PowerShell functions
+# -----------------------------------------------------------------------------
+function wget {
+    param(
+        [Parameter(Position = 0, Mandatory = $true)]
+        [string]$Url
+    )
+
+    try {
+        $uri = [System.Uri]$Url
+        $filename = [System.IO.Path]::GetFileName($uri.AbsolutePath)
+
+        if (-not $filename) {
+            $filename = "$($uri.Host).html"
+        }
+
+        # Download the file
+        Invoke-WebRequest -Uri $Url -OutFile $filename -UseBasicParsing
+
+        Write-Host "Downloaded $Url to $filename"
+    } 
+    catch {
+        Write-Error "Failed to download `${Url}`: $_"
+    }
+}
+
+# -----------------------------------------------------------------------------
+# Globals
+# -----------------------------------------------------------------------------
+
+#Set UTF8 encoding
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+[console]::InputEncoding = [System.Text.Encoding]::UTF8
+
+# Remove aliases that might conflict with BookGen commands
+Remove-Item Alias:\cd
+
+#Set BookGenRoot variable
+$env:BookGenPath = $PSScriptRoot
+
+# register scripts folder to the path
+$env:Path += ";$PSScriptRoot"
+
+if (-not (Test-NodeJs)) {
+    #check if it's bundled
+    $nodeDirs = Get-ChildItem -Path $PSScriptRoot -Directory | Where-Object { $_.Name -like "node-*" }
+    foreach ($dir in $nodeDirs) {
+        $nodePath = Join-Path -Path $dir.FullName -ChildPath "node.exe"
+        if (Test-Path -Path $nodePath) {
+            $env:NodeJsDir = "$($dir.FullName)"
+            $env:NodeExe = $nodePath
+
+            $env:Path += ";$($dir.FullName)"
+            Write-Host "Added $($dir.FullName) to PATH."
+            break
+        }
+    }
+}
+
+# set colors
+Set-PSReadLineOption -Colors @{
+    Parameter = 'Red'
+    String    = 'Cyan'
+    Command   = 'Green'
+}
+
+# PowerShell parameter completion shim for BookGen
+Register-ArgumentCompleter -Native -CommandName BookGen -ScriptBlock {
+    param($commandName, $wordToComplete, $cursorPosition)
+    BookGen.exe "Shell" "-nr" "$wordToComplete" | ForEach-Object {
+        [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+    }
+}
+# Case invariant registration
+Register-ArgumentCompleter -Native -CommandName bookgen -ScriptBlock {
+    param($commandName, $wordToComplete, $cursorPosition)
+    BookGen.exe "Shell" "-nr" "$wordToComplete" | ForEach-Object {
+        [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+    }
+}
+
+# PowerShell parameter completion shim for the dotnet CLI
+Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
+    param($commandName, $wordToComplete, $cursorPosition)
+    dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+        [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+    }
+}
+
+# PowerShell parameter completion shim for git
+Register-ArgumentCompleter -Native -CommandName git -ScriptBlock {
+    param($commandName, $wordToComplete, $cursorPosition)
+    BookGen.Shellprog.exe "git-complete" $cursorPosition "$wordToComplete" | ForEach-Object {
+        [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+    }
+}
+
+# set prompt
+function prompt {
+    $git = $(BookGen.Shellprog.exe "prompt" $(Get-Location).Path)
+    if (-not [string]::IsNullOrWhiteSpace($git)) {
+        'PS ' + $(Get-Location) + "`n" + $git + $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
+    }
+    else {
+        'PS ' + $(Get-Location) + $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
+    }
+}
+
+
+# if argument given set to startup folder
+if ($args.Count -eq 1) {
+    Set-Location $args[0]
+}
+
+# change window title
+$host.UI.RawUI.WindowTitle = "BookGen Shell"
+
+# welcome message
+intro

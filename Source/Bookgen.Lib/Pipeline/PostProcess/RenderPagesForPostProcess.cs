@@ -1,0 +1,76 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Bookgen.Lib.Domain;
+using Bookgen.Lib.Domain.IO.Configuration;
+using Bookgen.Lib.Domain.PostProcess;
+using Bookgen.Lib.ImageService;
+using Bookgen.Lib.Internals;
+using Bookgen.Lib.JsInterop;
+using Bookgen.Lib.Markdown;
+
+using Microsoft.Extensions.Logging;
+
+namespace Bookgen.Lib.Pipeline.PostProcess;
+
+internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
+{
+    public RenderPagesForPostProcess(PostProcessState state) : base(state) { }
+
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
+    {
+        var imgService = new ImgService(environment.Source, logger, new ImageConfig()
+        {
+            ResizeAndRecodeImages = ImgRecodeOption.Passtrough,
+            SvgRecode = SvgRecodeOption.Passtrough,
+        });
+        var cached = new CachedImageService(imgService);
+
+        using var settings = new RenderSettings(cached)
+        {
+            CssClasses = environment.Configuration.PrintConfig.CssClasses,
+            DeleteFirstH1 = false,
+            HostUrl = string.Empty,
+            PrismJsInterop = new PrismJsInterop(environment),
+            OffsetHeadingsBy = 1,
+            AutoEmbedSupportedLinks = false
+        };
+
+        using var markdown = new MarkdownToHtml(settings);
+
+        State.Export = new PostProcessExport
+        {
+            BookTitle = environment.Configuration.BookTitle,
+            Chapters = new List<ExportChapter>()
+        };
+
+        foreach (var chapter in environment.TableOfContents.Chapters)
+        {
+            ExportChapter exportChapter = new ExportChapter
+            {
+                Title = chapter.Title,
+                Items = new List<ChapterItem>()
+            };
+
+            foreach (var file in chapter.Files)
+            {
+                logger.LogDebug("Rendering {file}...", file);
+
+                SourceFile sourceData = await environment.Source.GetSourceFile(file, logger);
+
+                exportChapter.Items.Add(new ChapterItem
+                {
+                    Title = sourceData.FrontMatter.Title,
+                    Tags = sourceData.FrontMatter.TagArray,
+                    Html = markdown.RenderMarkdownToHtml(sourceData.Content),
+                });
+            }
+
+            State.Export.Chapters.Add(exportChapter);
+        }
+
+        return StepResult.Success;
+    }
+}

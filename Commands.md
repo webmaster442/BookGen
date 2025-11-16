@@ -2,14 +2,10 @@
 
 BookGen - Markdown to Book tool.
 
-For the tool to work in the work folder there must be a bookgen.json config file.
-This config file can be created with the following command:
+For the tool to work in the work folder there must be a bookgen.json config file. This config file
+can be created with the following command:
 
-`BookGen Init`
-
-To get information regarding the configuration file bookgen.json file run:
-
-`Bookgen ConfigHelp`
+`BookGen Newbook`
 
 To Get more help about a subcommand type:
 
@@ -33,124 +29,220 @@ General arguments:
 `--json-log`
     Outputs log in JSON format. Usefull for interop purposes.
 
-# AssemblyDocument
+# Addfrontmatter
 
-Creates markdown documentation from an assembly and it's xml documentation.
+Add a basic YAML frontmatter information to all markdown files located in the current folder 
+and it's subfolders.
 
-`BookGen AssemblyDocument -a [assembly.dll] -o [output directory] {-s}`
-`BookGen AssemblyDocument --assembly [assembly.dll] --output [output directory] {--singlepage}`
+`BookGen Addfrontmatter [-v] [-d [directory]]`
+`BookGen Addfrontmatter [--verbose] [--dir [directory]]`
 
 Arguments:
 
--a, --assembly:
-    Input assembly file (dll). The XML documentation has to be located next to this file.
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then
+    the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+
+# Assembly-document
+
+Generates a markdown file(s) from a given .NET assembly and it's XML documentation file.
+
+`BookGen Assembly-document -i <input> -o <output> [-d] [-n]`
+`BookGen Assembly-document --input <input> --output <output> [--dry] [--namespace-pages]`
+
+Arguments:
+
+-i, --input:
+    Required argument. Specifies the input assembly file path. The file must be a .NET assembly.
 
 -o, --output:
-    Specifies the output directory. Each tipe will be written to a
-    sepperate .md file
+    Required argument. Specifies the output files path.
 
--s, --singlepage
-    Uses the Single page generator. This generator doesn't support as much features
-    as the normal one, it's more like an experimental feature.
+-d, --dry:
+    Optional argument. If specified, the command will not write any files, 
+    but will only print the output to console.
 
-# Build
+-n, --namespace-pages:
+    Optional argument. If specified, the command will create a separate markdown file for each
+    namespace in the assembly.
 
-Build project to an output format
+# BuildEpub
 
-`BookGen Build -a [action] {-v} {-d [directory]} {-n}`
-`BookGen Build --action [action] {--verbose} {--dir [directory]} {--nowait}`
+Build an epub3 file from the book.
+
+`BookGen BuildEpub -o <output> [-v] [-d [directory]]`
+`BookGen BuildEpub --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
 
--a, --action: 
-    Specifies the build action. See below.
+-o, --output:
+    Required argument. Specifies the output directory name.
 
 -d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
 
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
--n, --nowait:
-    Optional argument, when specified & the program is fisihed,
-    then it immediately exits, without key press.
+# BuildExport
 
-Build Actions:
+Build a JSON file with schema for post processing of the book.
 
-# ConfigHelp
-
-Prints the currently available config options
-
-# Download
-
-Download a file from the network
-
-
-`BookGen Download [url] {-v} {-d [directory]}`
-`BookGen Download [url] {--verbose} {--dir [directory]}`
-
-Parameters:
-
-url: The URL to download to the directory speciifed by the directory
-argument. The result file name will be determined from the url.
+`BookGen BuildExport -o <output> [-v] [-d [directory]]`
+`BookGen BuildExport --output <output> [--verbose] [--dir [directory]]`
 
 Arguments:
 
+-o, --output:
+    Required argument. Specifies the output directory name.
+
 -d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
 
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
+
+-h, --host:
+    Optional argument. If specified, the host name set in the config file will be ignored and the
+    host name will be set to the specified value.
+
+# BuildFeed
+
+Build an RSS 2.0 and an Atom 1.0 feed from the book.
+
+`BookGen BuildFeed -o <output> [-v] [-d [directory]]`
+`BookGen BuildFeed --output <output> [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-o, --output:
+    Required argument. Specifies the output directory name.
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+# BuildPrint
+
+Build a printable html & xhtml file from the book
+
+`BookGen BuildPrint -o <output> [-v] [-d [directory]]`
+`BookGen BuildPrint --output <output> [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-o, --output:
+    Required argument. Specifies the output directory name.
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+-h, --host:
+    Optional argument. If specified, the host name set in the config file will be ignored and the
+    host name will be set to the specified value.
+
+# BuildWeb
+
+Build a static website from the book
+
+`BookGen BuildWeb -o <output> [-v] [-d [directory]]`
+`BookGen BuildWeb --output <output> [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-o, --output:
+    Required argument. Specifies the output directory name.
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+-h, --host:
+    Optional argument. If specified, the host name set in the config file will be ignored and the
+    host name will be set to the specified value.
+
+# BuildWp
+
+Build a wordpress export file from the book.
+
+`BookGen BuildWp -o <output> [-v] [-d [directory]]`
+`BookGen BuildWp --output <output> [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-o, --output:
+    Required argument. Specifies the output directory name.
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+-h, --host:
+    Optional argument. If specified, the host name set in the config file will be ignored and the
+    host name will be set to the specified value.
+
+# Config
+
+Get or set bookgen application specific settings
+
+`BookGen Config`
+    List all currently supported application wide settings
+
+`BookGen Config <key>`
+    Gets a setting value, prints it to output and exits.
+
+`BookGen Config <key> <value>`
+    Sets a setting value and exits
 
 # Edit
 
 Open a file for editing with configured editor.
-
-`BookGen edit [filename]`
-
-# Externallinks
-
-Collects all external links mentioned in a chapter. Usefull when targeting
-printable documentation.
-
-`BookGen ExternalLinks -o [output.md] {-d [directory]}`
-`BookGen ExternalLinks --output [output.md] {--dir [directory]}`
-
-Arguments:
-
--o, --output: 
-    Output markdown file path.
-
--d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
 
 # Gui
 
 Starts the program with a command line gui interface
 
 
-`BookGen Gui {-v} {-d [directory]}`
-`BookGen Gui {--verbose} {--dir [directory]}`
+`BookGen Gui [-v] [-d [directory]]`
+`BookGen Gui [--verbose] [--dir [directory]]`
 
 Arguments:
 
 -d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
 
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
+`BookGen edit [filename]`
+
 # Html2Pdf
 
-Converts a HTML file to a png using edges or chromes headless mode.
-The tool will use chrome, if it's installed, otherwise it will use edge.
+Converts a HTML file to a png using edges or chromes headless mode. The tool will use chrome, 
+if it's installed, otherwise it will use edge. This command is only supported on Windows OS.
 
-`BookGen Html2Pdf -i [input] -o [output]`
-`BookGen Html2Pdf --input [input] --output [output]`
+`BookGen Html2Pdf -i <input> -o <output>`
+`BookGen Html2Pdf --input <input> --output <output>`
 
 -i, --input:
     Input html file with extension of .htm or .html
@@ -160,11 +252,11 @@ The tool will use chrome, if it's installed, otherwise it will use edge.
 
 # Html2Png
 
-Converts a HTML file to a png using edges or chromes headless mode.
-The tool will use chrome, if it's installed, otherwise it will use edge.
+Converts a HTML file to a png using edges or chromes headless mode. The tool will use chrome, 
+if it's installed, otherwise it will use edge. This command is only supported on Windows OS.
 
-`BookGen Html2Png -i [input] -o [output] {-w [width]} {-h [height]}`
-`BookGen Html2Png --input [input] --output [output] {--width [width]} {--height [height]}`
+`BookGen Html2Png -i <input> -o <output> [-w [width]] [-h [height]]`
+`BookGen Html2Png --input <input> --output <output> [--width [width]] [--height [height]]`
 
 -i, --input:
     Input html file with extension of .htm or .html
@@ -180,357 +272,342 @@ The tool will use chrome, if it's installed, otherwise it will use edge.
 
 # ImgConvert
 
-Converts images from a format to an other format
+Converts an image file to a different format. The tool supports png, jpeg, webp and svg formats.
 
-
-`BookGen ImgConvert -i [input] -o [output]  {-f [format]} {-q [quality]} {-w [width]} {-h [height]}`
-`BookGen ImgConvert --input [input] --output [output] {--format [format]} {--quality [quality]} {--width [width]} {--hegiht [height]}`
+`BookGen ImgConvert -i <input> -o <output> -f <format> [-q [quality]] [-r [resolution]]`
 
 Arguments:
 
 -i, --input:
-    Input file or Directory.
+    Required argument. Specifies the input image file path. The file must be a valid image file or
+    a directory containing image files.
 
 -o, --output:
-    Output file or directory. 
-    If input is a directory, then output must be a directory too.
-    If input is a file, then input must be a file too.
-    In directory mode the -f or --format argument is nesceccary. 
+    Required argument. Specifies the output file path. The file must have a valid image file 
+    extension, like .png, .jpg, .jpeg, .webp. Can also be a directory, in which case the output 
+    files will be saved with the same name as the input files
 
 -f, --format:
-    Optional argument. Specifies or overrides output format
+    Required argument. Specifies the output image format. Supported formats are png, jpeg, webp.
 
--w, --width
-    Optional argument. Specifies output file max width in pixels.
+-q, --quality:
+    Optional argument. Specifies the quality of the output image. The value must be between
+    0 and 100. Default is 90. If not specified, then the default value will be used.
 
--h, --height
-    Optional argument. Specifies output file max height in pixels.
+-r, --resolution:
+    Optional argument. Specifies the resolution of the output image. The value must be a valid
+    resolution string, like 1920x1080 or 1280x720. If not specified, then the resolution will be
+    the same as the input image.
 
-Supported formats: jpg, jpeg, png, webp, gif
+# Install
 
-# Init
+Windows only command that installs BookGen to the system PATH & optionally to the windows terminal.
 
-Initializes a folder as BookGen project
-
-`BookGen Init {-d [directory]}`
-`BookGen Init {--dir [directory]}`
-
-Arguments:
-
--d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
+`BookGen Install`
 
 # JsonArgs
 
 Creates an empty json arguments template file for a given bookgen command.
 
-`BookGen JsonArgs -c [command] {-d [directory]}`
-`BookGen JsonArgs --command [command] {--dir [directory]}`
+`BookGen JsonArgs -c <command> [-d [directory]]`
+`BookGen JsonArgs --command <command> [--dir [directory]]`
 
-A Json arguments template can be used to store command line arguments,
-so the bookgen command can be invoked with the same arguments without having 
-to type them in again.
+A Json arguments template can be used to store command line arguments, so the bookgen command can
+be invoked with the same arguments without having to type them in again.
 
 Arguments:
 
 -c, --command:
-    Required argument. Specifies the command for which the json template
-    will be created.
+    Required argument. Specifies the command for which the json template will be created.
 
 -d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
+
+# Links
+
+Scans all markdown files in the current book and writes the lins to a markdown file, named links.md
+
+`BookGen Links [-v] [-d [directory]]`
+`BookGen Links [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
 
 # Math2Svg
 
 Renders a single markdown file containing Tex formulas to svg files
 
-`BookGen Math2Svg -i [input.txt] -o [output dir]`
-`BookGen Math2Svg --input [input.txt] --output [output dir]`
+`BookGen Math2Svg -f <formula> -o <output.svg> [-s [scale]]`
+`BookGen Math2Svg --formula <formula> --output <output.svg> [--scale [scale]]`
 
 Arguments:
 
--i, --input: 
-    Input file containing tex formulas
+-f, --formula: 
+    Formula to render to svg. The formula must be a valid Tex formula.
 
 -o, --output: 
-    Output directory path
+    Output svg file.
 
-Note: This module to work requires internet connection.
-
-# Minify
-
-Minifies css, javascript or html files
-
-`BookGen Minify -i [input.css|js|html] -o [output.css|js|html]`
-`BookGen Minify --input [input.css|js|html] --output [output.css|js|html]`
-
-Arguments:
-
--i, --input: 
-    Input file to minify. Must have extension of .css or .js or .htm or .html
-
--o, --output: 
-    Output file name.
-
+-s, --scale: 
+    Optional argument. Specifies the scale of the output svg file. Default is 1.0. 
+    If not specified, then the default value will be used.
 
 # Md2HTML
 
 Renders a single markdown file to an HTML file
 
-`BookGen Md2HTML -i [input.md] -o [output.html] {-c [cssfile.css]}`
-`BookGen Md2HTML --input [input.md] --output [output.html] {--css [cssfile.css]}`
+`BookGen Md2HTML -i <input.md> -o <output.html>`
+`BookGen Md2HTML --input <input.md> --output <output.html>`
 
 Arguments:
 
 -i, --input: 
-    Input markdown file path
+    Input markdown file path. Multiple files can be set with multiple
+    -i arguments
 
 -o, --output: 
     Output html file path. If file name is "con", outputs to console.
 
--c. --css:
-    Optional argument. Specifies the css file to be aplied to the html.
-    If not specified built in styles get aplied.
-
--nc, --no-css
-    Optional argument. If specified, built in styles don't get aplied.
-
--ns, --no-syntax
-    Optional argument. Disables syntax highlight
-
--r, --raw
-    Optional argument. Disables full html generation, only outputs
-    the html produced by the markdown formatting.
-
--t, --title
-    Optional argument. Specifies the rendered HTML page title.
-    Only has affect, when -r or --raw is not specified.
-
--s, --svg
-    Enables SVG Passthrough. When enabled SVG files will be
-    embedded in resulting html, instead of being rendered to
-    webp.
-
 -tf, --template
-    Specify a template html file. The file must contain the folloing
-    tags:
+    Optional argument. If not specified, default template is used. If custom file provided, then 
+    the file must contain the folloing tags:
     `<!--{title}-->` - For document title
-    `<!--{css}-->` - For css contents
     `<!--{content}-->` - For document content
 
-# MdTable
+-ns, --no-syntax
+    Optional argument. Disables syntax highlighting.
 
-Converts a CSV or Spreadsheet cell range to a markdown table
+-ne, --no-embed
+    Optional argument. Disables embedding of media site links,
+    like youtube.
 
-`BookGen MdTable {-d [delimiter]}`
-`BookGen MdTable {--delimiter [delimiter]}`
+-r, --raw
+    Optional argument. Disables full html generation, only outputs the html produced by
+    the markdown formatting.
 
-Arguments:
+-s, --svg
+    Enables SVG Passthrough. When enabled SVG files will be embedded in resulting html, instead
+    of being rendered to webp.
 
--d, --delimiter:
-    Optional argument. Specifies the delimiter char. By default it assumes
-    that the text is a spreadsheet range, which uses tabs. Only needed
-    when you want to import CSV.
+-t, --title
+    Optional argument. Specifies the rendered HTML page title. Only has affect, when -r or --raw
+    is not specified.
 
-Note: the command gets the data from the clipboard and the generated
-markdown is also written to the clipboard.
+# Migrate
 
-# New
+Migrate an old Bookgen book to the new format.
 
-Creates a new file with the given template. If no arguments are given, then
-it lists the available templates with descriptions.
-
-`Bookgen New {-t [template]} {-o [fileName]}`
-`Bookgen New {--template [template]} {--output [fileName]}`
-
-# Pack
-
-Pack / backup the bookgen related files of the current project into a 
-single zip file.
-
-`BookGen pack {-v} {-d [directory]} -o [fileName]`
-`BookGen pack {--verbose} {--dir [directory]} --output [fileName]`
+`BookGen Migrate [-v] [-d [directory]]`
+`BookGen Migrate [--verbose] [--dir [directory]]`
 
 Arguments:
-
--o, --output:
-    Required. Specifies the destination zip file. Note: if specified 
-    file extension differs from zip, then zip will be enforced.
 
 -d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
 
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
-# ProjectConvert
+# NewBook
 
-Converts between configuration JSON and YML formats.
+Creates a new book structure in the given folder
 
+`BookGen NewBook [-v] [-d [directory]]`
+`BookGen NewBook [--verbose] [-dir [directory]]` 
 
-`BookGen ProjectConvert {-d [directory]} {-b}`
-`BookGen ProjectConvert {--dir [directory]} {--backup}`
-    
 Arguments:
 
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
 -d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
 
--b, --backup:
-    Optional argument. If given backups the current configuration. If
-    the backup allready exists, then it will be simply overwritten.
+# NewPage
 
-Note: If the configuration is in json (bookgen.json found) then it will
-be converted to yml (bookgen.yml) format.
-If the configuration is in yml (bookgen.yml found) then it will
-be converted to json (bookgen.json) format.
-If both formats exist, then the command exits with a waring.
+Creates a new markdown page.
+
+`BookGen NewPage -n <file> [-v] [-d [directory]]`
+`BookGen NewPage --name <file> [--verbose] [-dir [directory]]` 
+
+Arguments:
+
+-n, --name:
+    File name. Specifies new file name
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
 
 # QrCode
 
 Renders an url into a QRCode image
 
-`BookGen QrCode -d [url] -s [size] -o [output]`
-`BookGen QrCode --data [url] --size [size] --output [output]`
+`BookGen QrCode -d <url> -o <output> [-c [color]]`
+`BookGen QrCode --data <url> --output <output> [--color [color]]`
 
 Arguments:
 
 -d, --data: 
     Url data to encode. Minimum 1 byte, Maximum 900 bytes
 
--s, --size: 
-    Image size in pixels. Output image is square. 
-    Minimum 10 , maximum 1000
+-c, --color: 
+    Optional argument. Specifies the color of the QRCode.  The color must be a valid hex color code,
+    like #FF0000 or #F00.
 
 -o, --output
     Output file. Must have .png or .svg extension
 
-Note: This module to work requires internet connection.
+# Schemas
+
+Creates a schemas.md documentation file, describing the various config schemas used by bookgen.
+
+`BookGen Schemas [-v] [-d [directory]]`
+`BookGen Schemas [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then the current directory will 
+    be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
 
 # Serve
 
 Starts a local only http server that serves file from the given directory
 
-`BookGen Serve {-d [directory]}`
-`BookGen Serve {--dir [directory]}`
+`BookGen Serve [-d [directory]]`
+`BookGen Serve [--dir [directory]]`
     
 Arguments:
 
 -d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
 
-# Settings
+# Shell
 
-Get or set bookgen application specific settings
+Autocompleter command, that is used by Powershell
 
-`BookGen Settings list`
-    List all currently supported application wide setting
+`BookGen Shell`
 
-`BookGen Settings get <name>`
-    Gets a setting value, prints it to output and exits
+# Shortcut
 
-`BookGen Settings set <name> <value>`
-    Sets a setting value and exits
+Create a cmd file in the current directory that can be used to start the bookgen Shell in the
+current directory.
 
-# Stat
+`BookGen Shortcut`
 
-`BookGen Stat {-d [directory]}`
-`BookGen Stat {--dir [directory]}`
-`BookGen Stat {-i [input.md]}`
-`BookGen Stat {-input [input.md]}`
+This command is only supported on Windows OS.
 
-Arguments:
+# Stats
 
--d, --dir: 
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
+Displays various statistics about the bookgen project.
 
--i, --input: 
-    Input markdown file path
-
-# Tags
-
-Create or update the tags database and display various stats
-
-`BookGen Tags {-v} {-d [directory]} {-a}`
-`BookGen Tags {--verbose} {--dir [directory]} {--auto}`
+`BookGen Stats [-v] [-d [directory]]`
+`BookGen Stats [--verbose] [--dir [directory]]`
 
 Arguments:
 
 -d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
 
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
 
--a, --auto:
-    Auto generate tags from content files. For it to properly work the
-    ÿBookLanguageÿ config has to be set correctly for the language of the book
+# Subcommands
 
-# Tasks
+Listst all available subcommands
 
-Open the task runner menu
+`BookGen SubCommands`
 
-`BookGen Tasks {-v} {-d [directory]} {-c}`
-`BookGen Tasks {--verbose} {--dir [directory]} {--create}`
+# Templates
 
-Your bookgen project can contain a tasks.xml file, where you can
-add various commands that help with your book building workflow.
+`Bookgen Templates [-n [template name]]`
+`Bookgen Templates [--name [template name]]`
+
+Lists all available templates, or extracts a single template to the current directory.
 
 Arguments:
 
--d, --dir:
-    Optional argument. Specifies work directory. If not specified, then
-    the current directory will be used as working directory.
-
--v, --verbose: 
-    Optional argument, turns on detailed logging. Usefull for locating issues
-
--c, --create:
-    If the tasks.xml file doesn't exist in the project, then it creates a sample
-    one and opens the menu. You can edit the file via your editor of choice.
-    The sample tasks.xml is designed in a way, to introduce every feature of the 
-    task runner.
+-n, --name:
+    Optional argument. If specified, only the template with the given name will be extracted. 
+    If not specified, all available templates will be printed.
 
 # Terminalinstall
 
-Installs a bookgen profile to the Windows Termninal
+Installs a bookgen profile to the Windows Termninal.
 
-`BookGen Terminalinstall {-c} {-t}`
-`BookGen Terminalinstall {--checkinstall} {--checkterminalinstall}`
+This command is only supported on Windows OS.
+
+`BookGen Terminalinstall [-c] [-t]`
+`BookGen Terminalinstall [--checkinstall] [--checkterminalinstall]`
 
 Arguments:
 
 -c, --checkinstall:
-    Optional argument. When specified checks, if terminal profile installed or not.
-    If exit code is 0, profile is installed.
+    Optional argument. When specified checks, if terminal profile installed or not. If exit code 
+    is 0, profile is installed.
 
 -t, --checkterminalinstall:
-    Optional argument. When specified checks, if windows terminal is installed or not.
-    If exit code is 0, terminal is installed.
+    Optional argument. When specified checks, if windows terminal is installed or not. If exit code
+    is 0, terminal is installed.
 
 Without arguments, performs terminal profile install.
 
-# Toc
+# Tools
 
-Scans the folder and the configuration for markdown conent files
-and writes out the missing Table of content entries to a file,
-so the Table of conents can be easily updated.
+Display a list of downloadable tools that can be installed and used with BookGen shell. This 
+command is only supported on Windows OS.
 
-`BookGen Toc {-v} {-d [directory]}`
-`BookGen Toc {--verbose} {--dir [directory]}`
+`BookGen Tools`
+
+# Upgrade
+
+Upgrades the bookgen project to the latest version. This command will upgrade the bookgen.json 
+config file to the latest version, and will also upgrade the bookgen.toc.json file to the
+latest version.
+
+`BookGen Upgrade [-v] [-d [directory]]`
+`BookGen Upgrade [--verbose] [--dir [directory]]`
 
 Arguments:
 
 -d, --dir:
     Optional argument. Specifies work directory. If not specified, then
     the current directory will be used as working directory.
+
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues
+
+
+# Validate
+
+Validate the configuration files used by bookgen in the specified folder.
+
+`BookGen Validate [-v] [-d [directory]]`
+`BookGen Validate [--verbose] [--dir [directory]]`
+
+Arguments:
+
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then the current directory will
+    be used as working directory.
 
 -v, --verbose: 
     Optional argument, turns on detailed logging. Usefull for locating issues
@@ -539,29 +616,21 @@ Arguments:
 
 Print the current program and config API version
 
-`BookGen Version {-bd} {-api}`
-`BookGen Version {--builddate} {--apiversion}`
+`BookGen Version`
+
+
+# Vstasks
+
+Generates a Visual Studio Code tasks.json file for the bookgen project.
+
+`BookGen Vstasks [-v] [-d [directory]]`
+`BookGen Vstasks [--verbose] [--dir [directory]]`
 
 Arguments:
 
--bd, --builddate:
-    Optional argument. Display only build date
+-d, --dir:
+    Optional argument. Specifies work directory. If not specified, then the current directory 
+    will be used as working directory.
 
--api, --apiversion:
-    Optional argument. Display only API version
-
-# Shell
-
-Autocompleter command, that is used by Powershell
-
-# Subcommands
-
-Listst all available subcommands
-
-# Wiki
-
-Opens the BookGen Wiki page
-
-# Webgui
-
-Opens the WebGui in the default browser.
+-v, --verbose: 
+    Optional argument, turns on detailed logging. Usefull for locating issues

@@ -1,0 +1,27 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Cli;
+
+/// <summary>
+/// Base class for a command without settings.
+/// </summary>
+public abstract class Command : ICommand
+{
+    /// <summary>
+    /// Entry point of command
+    /// </summary>
+    /// <param name="context">arguments passed to command</param>
+    /// <returns>reurtn value to shell</returns>
+    public abstract int Execute(IReadOnlyList<string> context);
+
+    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, IReadOnlyList<string> context)
+    {
+        return Task.FromResult(Execute(context));
+    }
+
+    public virtual SupportedOs SupportedOs
+        => SupportedOs.Windows | SupportedOs.Linux | SupportedOs.OsX;
+}

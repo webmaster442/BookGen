@@ -1,0 +1,35 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Bookgen.Lib.Domain;
+using Bookgen.Lib.Internals;
+
+using Microsoft.Extensions.Logging;
+
+namespace Bookgen.Lib.Pipeline.StaticWebsite;
+
+internal sealed class ReadInFiles : PipeLineStep<StaticWebState>
+{
+    public ReadInFiles(StaticWebState staticWebState) : base(staticWebState)
+    {
+    }
+
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
+    {
+        logger.LogInformation("Reading in files...");
+        await Parallel.ForEachAsync(environment.TableOfContents.GetFiles(), async (file, token) =>
+        {
+            if (token.IsCancellationRequested) return;
+
+            SourceFile sourceData = await environment.Source.GetSourceFile(file, logger);
+            State.SourceFiles.TryAdd(file, sourceData);
+        });
+
+        SourceFile sourceData = await environment.Source.GetSourceFile(environment.TableOfContents.IndexFile, logger);
+        State.SourceFiles.TryAdd(environment.TableOfContents.IndexFile, sourceData);
+
+        return StepResult.Success;
+    }
+}

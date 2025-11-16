@@ -1,0 +1,49 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "BookGen": {
+      "commandName": "Project",
+      "commandLineArgs": "Addfrontmatter ",
+      "workingDirectory": "G:\\HelloCsharp\\C"
+    },
+    "TerminalInstall -t": {
+      "commandName": "Project",
+      "commandLineArgs": "terminalinstall -t"
+    },
+    "Gui": {
+      "commandName": "Project",
+      "commandLineArgs": "Gui"
+    },
+    "Schemas": {
+      "commandName": "Project",
+      "commandLineArgs": "schemas"
+    },
+    "md2html": {
+      "commandName": "Project",
+      "commandLineArgs": "md2html -i schemas.md -o output.html"
+    },
+    "Migrate": {
+      "commandName": "Project",
+      "commandLineArgs": "migrate -d g:\\HelloCsharp\\C\\"
+    },
+    "Math2Svg": {
+      "commandName": "Project",
+      "commandLineArgs": "math2svg -f \"e=m \\cdot c^2\" -o test.svg -s 15"
+    },
+    "QrCode": {
+      "commandName": "Project",
+      "commandLineArgs": "qrcode -d test -o qrcode_test.svg -c #ff0000"
+    },
+    "Tools": {
+      "commandName": "Project",
+      "commandLineArgs": "tools"
+    },
+    "Templates": {
+      "commandName": "Project",
+      "commandLineArgs": "templates"
+    }
+  }
+}

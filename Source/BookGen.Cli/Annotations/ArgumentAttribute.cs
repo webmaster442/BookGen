@@ -1,0 +1,18 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Cli.Annotations;
+
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class ArgumentAttribute : Attribute
+{
+    public int Index { get; }
+    public bool IsOptional { get; init; }
+
+    public ArgumentAttribute(int index)
+    {
+        Index = index;
+    }
+}

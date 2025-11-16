@@ -1,0 +1,24 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Vfs;
+
+using Microsoft.Extensions.Logging;
+
+namespace Bookgen.Lib.Pipeline.Epub;
+
+internal sealed class Initialize : PipeLineStep<EpubState>
+{
+    public Initialize(EpubState state) : base(state)
+    {
+    }
+
+    public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
+    {
+        var name = Path.Combine(environment.Output.Scope, "book.epub");
+        State.Initialize(new ZipBuilder(name));
+        return Task.FromResult(StepResult.Success);
+    }
+}

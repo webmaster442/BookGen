@@ -1,0 +1,542 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Bookgen.Lib.Domain.IO.Configuration;
+using Bookgen.Lib.ImageService;
+using Bookgen.Lib.Markdown;
+
+using Moq;
+
+namespace Bookgen.Tests.Lib;
+
+internal class UT_MarkdownToHtml
+{
+    private Mock<IImgService> _imgServiceMock;
+    private string _markdown;
+    private string _soruceCode;
+    private readonly IEqualityComparer<string?> comparer = new LineEndingIgnoreComparer();
+
+    [SetUp]
+    public void Setup()
+    {
+        _imgServiceMock = new Mock<IImgService>(MockBehavior.Strict);
+        _imgServiceMock.Setup(x => x.GetImageEmbedData("img.svg")).Returns(new ImageResult
+        {
+            Data = "<svg></svg>",
+            ImageType = ImageType.Svg,
+            OriginalName = "img.svg",
+        });
+        _imgServiceMock.Setup(x => x.GetImageEmbedData("img.png")).Returns(new ImageResult
+        {
+            Data = " base64",
+            ImageType = ImageType.Png,
+            OriginalName = "img.png",
+        });
+
+        _soruceCode = """
+            ```csharp
+            public void Foo(Action<string> callback)
+                => callback.Invoke("const");
+            ```
+            """;
+
+        _markdown = """
+            ---
+            fontMatter: yes
+            ---
+
+            # First Headding
+
+            ## Second heading
+
+            This is a pragraph
+
+            This is an autolink https://youtube.be
+
+            This is a [link](https://youtube.be)
+
+            ^^^
+            ![this is an svg](img.svg)
+            ^^^ Svg test
+
+            ^^^
+            ![this is png](img.png)
+            ^^^ Png test
+            """;
+    }
+
+    [Test]
+    public void EnsureThat_Css_ClassesAreAplied()
+    {
+        using var settings = new RenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses
+            {
+                H1 = "h1 first",
+                FigureCaption = "caption",
+                Figure = "fig",
+            },
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
+        };
+
+        using var sut = new MarkdownToHtml(settings);
+
+        string expected = """
+            <h1 id="first-headding" class="h1 first">First Headding</h1>
+            <h2 id="second-heading">Second heading</h2>
+            <p>This is a pragraph</p>
+            <p>This is an autolink <a href="https://youtube.be">https://youtube.be</a></p>
+            <p>This is a <a href="https://youtube.be">link</a></p>
+            <figure class="fig">
+            <p><svg></svg></p>
+            <figcaption class="caption">Svg test</figcaption>
+            </figure>
+            <figure class="fig">
+            <p><img src="data:image/png;base64,%20base64" alt="this is png" /></p>
+            <figcaption class="caption">Png test</figcaption>
+            </figure>
+
+            """;
+
+        string result = sut.RenderMarkdownToHtml(_markdown);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+    [Test]
+    public void EnsureThat_DeleteFirstH1_HostUrlTargeting_Works()
+    {
+        using var settings = new RenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = true,
+            HostUrl = "https://my.domain",
+            PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
+        };
+
+        using var sut = new MarkdownToHtml(settings);
+
+        string expected = """
+            <h2 id="second-heading">Second heading</h2>
+            <p>This is a pragraph</p>
+            <p>This is an autolink <a href="https://youtube.be" target="_blank">https://youtube.be</a></p>
+            <p>This is a <a href="https://youtube.be" target="_blank">link</a></p>
+            <figure>
+            <p><svg></svg></p>
+            <figcaption>Svg test</figcaption>
+            </figure>
+            <figure>
+            <p><img src="data:image/png;base64,%20base64" alt="this is png" /></p>
+            <figcaption>Png test</figcaption>
+            </figure>
+
+            """;
+
+        string result = sut.RenderMarkdownToHtml(_markdown);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+    [Test]
+    public void EnsureThat_SourceCode_Works()
+    {
+        using var settings = new RenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = "https://my.domain",
+            PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
+        };
+
+        using var sut = new MarkdownToHtml(settings);
+
+        string expected = """
+            <pre><code class="language-csharp">public void Foo(Action&lt;string&gt; callback)
+                =&gt; callback.Invoke(&quot;const&quot;);
+            </code></pre>
+            
+            """;
+
+        string result = sut.RenderMarkdownToHtml(_soruceCode);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+
+    [Test]
+    public void EnsureThat_SourceCode_PreRender_Works()
+    {
+        using var testEnvironment = new TestEnvironment();
+        using var settings = new RenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = "https://my.domain",
+            PrismJsInterop = new Bookgen.Lib.JsInterop.PrismJsInterop(testEnvironment),
+            AutoEmbedSupportedLinks = true,
+        };
+
+        using var sut = new MarkdownToHtml(settings);
+
+        string expected = """
+            <pre><code class="language-csharp"><span class="token keyword">public</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Foo</span><span class="token punctuation">(</span><span class="token class-name">Action<span class="token punctuation">&lt;</span><span class="token keyword">string</span><span class="token punctuation">></span></span> callback<span class="token punctuation">)</span>
+                <span class="token operator">=></span> callback<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span><span class="token string">"const"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            </code></pre>
+            
+            """;
+
+        string result = sut.RenderMarkdownToHtml(_soruceCode);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+    [Test]
+    public void EnsureThat_Toc_NormalCase_RendersCorrectly()
+    {
+        using var settings = new RenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
+        };
+
+        using var sut = new MarkdownToHtml(settings);
+
+        string input = """
+            [toc]
+
+            # t1
+
+            ## t1.1
+
+            ## 1.2
+
+            # t2
+
+            ## t2.1
+
+            ### t2.1.1
+
+            ### t2.1.2
+
+            ### t2.1.3
+
+            ## t2.2
+
+            # t3
+
+            ## t3.1
+
+            ## t3.2
+
+            ### t3.2.1
+
+            ### t3.2.2
+
+            # t4
+
+            """;
+
+        string expected = """
+            <nav id="toc"><ul>
+            <li>
+            <a href="#t1">t1</a><ul>
+            <li>
+            <a href="#t1.1">t1.1</a></li>
+            <li>
+            <a href="#section">1.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2">t2</a><ul>
+            <li>
+            <a href="#t2.1">t2.1</a><ul>
+            <li>
+            <a href="#t2.1.1">t2.1.1</a></li>
+            <li>
+            <a href="#t2.1.2">t2.1.2</a></li>
+            <li>
+            <a href="#t2.1.3">t2.1.3</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2.2">t2.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t3">t3</a><ul>
+            <li>
+            <a href="#t3.1">t3.1</a></li>
+            <li>
+            <a href="#t3.2">t3.2</a><ul>
+            <li>
+            <a href="#t3.2.1">t3.2.1</a></li>
+            <li>
+            <a href="#t3.2.2">t3.2.2</a></li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t4">t4</a></li>
+            </ul>
+            </nav>
+            <h1 id="t1">t1</h1>
+            <h2 id="t1.1">t1.1</h2>
+            <h2 id="section">1.2</h2>
+            <h1 id="t2">t2</h1>
+            <h2 id="t2.1">t2.1</h2>
+            <h3 id="t2.1.1">t2.1.1</h3>
+            <h3 id="t2.1.2">t2.1.2</h3>
+            <h3 id="t2.1.3">t2.1.3</h3>
+            <h2 id="t2.2">t2.2</h2>
+            <h1 id="t3">t3</h1>
+            <h2 id="t3.1">t3.1</h2>
+            <h2 id="t3.2">t3.2</h2>
+            <h3 id="t3.2.1">t3.2.1</h3>
+            <h3 id="t3.2.2">t3.2.2</h3>
+            <h1 id="t4">t4</h1>
+            
+            """;
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+    [Test]
+    public void EnsureThat_Toc_WithTitle_RendersCorrectly()
+    {
+        using var settings = new RenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
+        };
+
+        using var sut = new MarkdownToHtml(settings);
+
+        string input = """
+            [toc] TOC*-*Title
+
+
+
+            # t1
+
+            ## t1.1
+
+            ## 1.2
+
+            # t2
+
+            ## t2.1
+
+            ### t2.1.1
+
+            ### t2.1.2
+
+            ### t2.1.3
+
+            ## t2.2
+
+            # t3
+
+            ## t3.1
+
+            ## t3.2
+
+            ### t3.2.1
+
+            ### t3.2.2
+
+            # t4
+
+            
+            """;
+
+        string expected = """
+            <nav id="toc"><h1 class="toc-title">TOC<em>-</em>Title</h1><ul>
+            <li>
+            <a href="#t1">t1</a><ul>
+            <li>
+            <a href="#t1.1">t1.1</a></li>
+            <li>
+            <a href="#section">1.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2">t2</a><ul>
+            <li>
+            <a href="#t2.1">t2.1</a><ul>
+            <li>
+            <a href="#t2.1.1">t2.1.1</a></li>
+            <li>
+            <a href="#t2.1.2">t2.1.2</a></li>
+            <li>
+            <a href="#t2.1.3">t2.1.3</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2.2">t2.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t3">t3</a><ul>
+            <li>
+            <a href="#t3.1">t3.1</a></li>
+            <li>
+            <a href="#t3.2">t3.2</a><ul>
+            <li>
+            <a href="#t3.2.1">t3.2.1</a></li>
+            <li>
+            <a href="#t3.2.2">t3.2.2</a></li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t4">t4</a></li>
+            </ul>
+            </nav>
+            <h1 id="t1">t1</h1>
+            <h2 id="t1.1">t1.1</h2>
+            <h2 id="section">1.2</h2>
+            <h1 id="t2">t2</h1>
+            <h2 id="t2.1">t2.1</h2>
+            <h3 id="t2.1.1">t2.1.1</h3>
+            <h3 id="t2.1.2">t2.1.2</h3>
+            <h3 id="t2.1.3">t2.1.3</h3>
+            <h2 id="t2.2">t2.2</h2>
+            <h1 id="t3">t3</h1>
+            <h2 id="t3.1">t3.1</h2>
+            <h2 id="t3.2">t3.2</h2>
+            <h3 id="t3.2.1">t3.2.1</h3>
+            <h3 id="t3.2.2">t3.2.2</h3>
+            <h1 id="t4">t4</h1>
+            
+            """;
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+
+    [Test]
+    public void EnsureThat_Toc_Limited_RendersCorrectly()
+    {
+        using var settings = new RenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
+        };
+
+        using var sut = new MarkdownToHtml(settings);
+
+        string input = """
+            [toc maxlevel="2"] Title
+
+            # t1
+
+            ## t1.1
+
+            ## 1.2
+
+            # t2
+
+            ## t2.1
+
+            ### t2.1.1
+
+            ### t2.1.2
+
+            ### t2.1.3
+
+            ## t2.2
+
+            # t3
+
+            ## t3.1
+
+            ## t3.2
+
+            ### t3.2.1
+
+            ### t3.2.2
+
+            # t4
+
+            
+            """;
+
+        string expected = """
+            <nav id="toc"><h1 class="toc-title">Title</h1><ul>
+            <li>
+            <a href="#t1">t1</a><ul>
+            <li>
+            <a href="#t1.1">t1.1</a></li>
+            <li>
+            <a href="#section">1.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2">t2</a><ul>
+            <li>
+            <a href="#t2.1">t2.1</a><ul>
+            </ul>
+            </li>
+            <li>
+            <a href="#t2.2">t2.2</a></li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t3">t3</a><ul>
+            <li>
+            <a href="#t3.1">t3.1</a></li>
+            <li>
+            <a href="#t3.2">t3.2</a><ul>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            <li>
+            <a href="#t4">t4</a></li>
+            </ul>
+            </nav>
+            <h1 id="t1">t1</h1>
+            <h2 id="t1.1">t1.1</h2>
+            <h2 id="section">1.2</h2>
+            <h1 id="t2">t2</h1>
+            <h2 id="t2.1">t2.1</h2>
+            <h3 id="t2.1.1">t2.1.1</h3>
+            <h3 id="t2.1.2">t2.1.2</h3>
+            <h3 id="t2.1.3">t2.1.3</h3>
+            <h2 id="t2.2">t2.2</h2>
+            <h1 id="t3">t3</h1>
+            <h2 id="t3.1">t3.1</h2>
+            <h2 id="t3.2">t3.2</h2>
+            <h3 id="t3.2.1">t3.2.1</h3>
+            <h3 id="t3.2.2">t3.2.2</h3>
+            <h1 id="t4">t4</h1>
+            
+            """;
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+}

@@ -1,3 +1,23 @@
+# 2025. 11. 16 (Prerelease) 
+
+* Breaking: Template engine reworked
+* Breaking: Configuration file reworked
+* Breaking: Removed support for yml configuration files
+* Breaking: Markdown files must not contain `content` tag between `{{` and `}}`
+* Breaking: .iso no longer provided
+* Change: Complete rework of program
+* Change: Web gui removed
+* Change: Removed www subcommand
+* Change: No automatic configuration update on load. Use update command to update.
+* Change: Release now only as ZIP file for windows, for linux tar.gz
+* Change: Configuration is now JSON only and a schema is automatically created
+* Change: YML front matter can be provided in markdown files
+* New: Based on .NET 10
+* New: Tools command to install various tools
+* New: Migrate command to migrate old config files
+* New: Shortcut command
+* New: Debian based WSL distro with preinstalled BookGen
+
 # 2025. 01. 19
 
 * New: Based on .NET 9

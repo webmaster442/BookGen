@@ -1,0 +1,19 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Xml.Serialization;
+
+namespace Bookgen.Lib.Domain.Epub;
+
+[Serializable]
+[XmlType(AnonymousType = true, Namespace = "http://www.idpf.org/2007/opf")]
+public sealed class PackageSpineItemref
+{
+    [XmlAttribute(AttributeName = "idref")]
+    public required string Idref { get; set; }
+
+    [XmlAttribute(AttributeName = "linear")]
+    public string? Linear { get; set; }
+}

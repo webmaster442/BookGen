@@ -1,0 +1,122 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Bookgen.Lib.Pipeline.Epub;
+using Bookgen.Lib.Pipeline.Feed;
+using Bookgen.Lib.Pipeline.PostProcess;
+using Bookgen.Lib.Pipeline.Print;
+using Bookgen.Lib.Pipeline.StaticWebsite;
+using Bookgen.Lib.Pipeline.Wordpress;
+
+using Microsoft.Extensions.Logging;
+
+namespace Bookgen.Lib.Pipeline;
+
+public sealed class Pipeline
+{
+    public Pipeline(params IPipeLineStep[] steps)
+    {
+        Steps = steps;
+    }
+
+    private IEnumerable<IPipeLineStep> Steps { get; }
+
+    public async Task<bool> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
+    {
+        foreach (var step in Steps)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                logger.LogWarning("Cancellation requested, stopping the pipeline execution.");
+                return false;
+            }
+
+            var result = await step.ExecuteAsync(environment, logger);
+            if (result == StepResult.Failure)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static Pipeline CratePrintPipeLine()
+    {
+        var state = new PrintState();
+
+        return new Pipeline(
+            new RenderPages(state),
+            new WriteHtml(state),
+            new WriteXHtml(state)
+        );
+    }
+
+    public static Pipeline CreatePostProcessPipeLine()
+    {
+        var state = new PostProcessState();
+
+        return new Pipeline(
+            new RenderPagesForPostProcess(state),
+            new WriteFile(state)
+        );
+    }
+
+    public static Pipeline CreateWebPipeLine()
+    {
+        var state = new StaticWebState();
+
+        return new Pipeline(
+            new CopyAssets(state),
+            new ExtractTemplateAssets(state),
+            new ReadInFiles(state),
+            new RenderTableOfContents(state),
+            new RenderStaticPages(state),
+            new RenderIndexPage(state),
+            new RenderStabdaloneToc(state),
+            new CreateEmptyIndexPagesForFolders(state),
+            new GeneratePager(state)
+        );
+    }
+
+    public static Pipeline CreateWordpressPipeLine()
+    {
+        var state = new WpState();
+
+        return new Pipeline(
+            new CreateWpChannel(state),
+            new CreateWpPages(state),
+            new WriteExportFile(state)
+        );
+    }
+
+    public static Pipeline CreateEpubPileLine()
+    {
+        var state = new EpubState();
+
+        return new Pipeline(
+            new Initialize(state),
+            new CreateMimeType(state),
+            new CreateContainer(state),
+            new CreateHtmlPages(state),
+            new CreateImageFiles(state),
+            new CreateFontFiles(state),
+            new CreateEpubCoverAndStyle(state),
+            new CreateNav(state),
+            new CreateContentOpf(state),
+            new DeInitialize(state)
+        );
+    }
+
+
+    public static Pipeline CreateFeedPipeline()
+    {
+        var state = new SyndicationFeedState();
+        return new Pipeline(
+            new CreateFeed(state),
+            new CreateItems(state),
+            new WriteFeeds(state)
+        );
+    }
+}

@@ -1,0 +1,24 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Cli;
+
+/// <summary>
+/// Base class for async command
+/// </summary>
+/// <typeparam name="TArguments">Argument type</typeparam>
+public abstract class AsyncCommand<TArguments> : ICommand
+    where TArguments : ArgumentsBase
+{
+    public abstract Task<int> ExecuteAsync(TArguments arguments, IReadOnlyList<string> context);
+
+    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, IReadOnlyList<string> context)
+    {
+        return ExecuteAsync((TArguments)arguments, context);
+    }
+
+    public virtual SupportedOs SupportedOs
+        => SupportedOs.Windows | SupportedOs.Linux | SupportedOs.OsX;
+}

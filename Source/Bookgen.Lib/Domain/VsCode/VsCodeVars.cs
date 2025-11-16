@@ -1,0 +1,26 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2025 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace Bookgen.Lib.Domain.VsCode;
+
+public static class VsCodeVars
+{
+    /// <summary>
+    /// Path of the user's home folder
+    /// </summary>
+    public const string UserHome = "${userHome}";
+    /// <summary>
+    /// Path of the folder opened in VS Code
+    /// </summary>
+    public const string WorkspaceFolder = "${workspaceFolder}";
+    /// <summary>
+    /// Name of the folder opened in VS Code without any slashes (/)
+    /// </summary>
+    public const string WorkspaceFolderBasename = "${workspaceFolderBasename}";
+    /// <summary>
+    /// Currently opened file
+    /// </summary>
+    public const string File = "${file}";
+}

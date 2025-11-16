@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Content Include="..\..\Branding\background.png" Link="background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Branding\icon-bookgen.png" Link="icon-bookgen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Update="autorun.inf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BookGenShell.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="getting-started.mdr">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="ZipAssetsWindows" AfterTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
+    <PropertyGroup>
+      <SourcePath>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..\Assets\BundledAssets'))</SourcePath>
+      <ZipPath>$([System.IO.Path]::GetFullPath('$(OutputPath)\assets.zip'))</ZipPath>
+    </PropertyGroup>
+    <Message Text="Zipping from: $(SourcePath) to: $(ZipPath)" Importance="High" />
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;Compress-Archive -Path &#39;$(SourcePath)\*&#39; -DestinationPath &#39;$(ZipPath)&#39; -Force&quot;" />
+  </Target>
+
+  <Target Name="ZipAssetsLinux" AfterTargets="Build" Condition="'$(OS)' != 'Windows_NT'">
+    <PropertyGroup>
+      <SourcePath>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../../Assets/BundledAssets'))</SourcePath>
+      <ZipPath>$([System.IO.Path]::GetFullPath('$(OutputPath)/assets.zip'))</ZipPath>
+    </PropertyGroup>
+    <Message Text="Zipping from: $(SourcePath) to: $(ZipPath)" Importance="High" />
+    <Exec Command="zip -r -q '$(ZipPath)' ./*" WorkingDirectory="$(SourcePath)" />
+  </Target>
+ 
+</Project>
