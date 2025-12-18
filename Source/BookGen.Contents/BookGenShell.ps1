@@ -173,6 +173,15 @@ function gh {
     GetTool "gh" "github-cli" @Args
 }
 
+function glow {
+    param (
+        [string[]]
+        [Parameter(ValueFromRemainingArguments = $true)]
+        $Args
+    )
+    GetTool "glow" "glow" @Args
+}
+
 function copyparty {
     param (
         [string[]]

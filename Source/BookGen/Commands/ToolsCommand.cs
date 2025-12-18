@@ -36,6 +36,7 @@ internal sealed class ToolsCommand : AsyncCommand
             new ChromaDownloader(apiClient, _memoryStreamManager, _logger),
             new CopyPartyDownloader(apiClient, _memoryStreamManager, _logger),
             new GithubDownloader(apiClient, _memoryStreamManager, _logger),
+            new GlowDownloader(apiClient, _memoryStreamManager, _logger),
             new MicrosoftEditToolDownloader(apiClient, _memoryStreamManager, _logger),
             new PandocTooldownloader(apiClient, _memoryStreamManager, _logger),
         ];

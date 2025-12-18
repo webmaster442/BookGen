@@ -62,10 +62,11 @@ CommandRunner runner = new(provider, logger, new CommandRunnerSettings
     ExcptionExitCode = -1,
     PlatformNotSupportedExitCode = 4,
     EnableUtf8Output = true,
-});
-
-runner.ExceptionHandlerDelegate = OnException;
-runner.BeforeRunHook = OnBeforeRun;
+})
+{
+    ExceptionHandlerDelegate = OnException,
+    BeforeRunHook = OnBeforeRun
+};
 
 runner
     .AddDefaultCommand<HelpCommand>()
