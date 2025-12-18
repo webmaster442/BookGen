@@ -35,7 +35,7 @@ internal sealed class RenderPages : PipeLineStep<PrintState>
             AutoEmbedSupportedLinks = false
         };
 
-        using var markdown = new MarkdownToHtml(settings);
+        using var markdown = new MarkdownConverter(settings);
 
         foreach (var chapter in environment.TableOfContents.Chapters)
         {

@@ -133,7 +133,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             PrismJsInterop = new PrismJsInterop(_assetSource)
         };
 
-        using var mdToHtml = new MarkdownToHtml(settings);
+        using var mdToHtml = new MarkdownConverter(settings);
 
         string? mdcontent = mdToHtml.RenderMarkdownToHtml(md);
 

@@ -56,7 +56,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
             ImageUrlRewriter = EpubImageRewrite
         };
 
-        using var markdown = new MarkdownToHtml(settings);
+        using var markdown = new MarkdownConverter(settings);
 
         var renderer = new TemplateEngine(logger, environment);
 
@@ -114,7 +114,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
     }
 
-    private async Task RenderIndex(IBookEnvironment environment, ILogger logger, MarkdownToHtml markdown, TemplateEngine renderer, string template)
+    private async Task RenderIndex(IBookEnvironment environment, ILogger logger, MarkdownConverter markdown, TemplateEngine renderer, string template)
     {
         var index = await environment.Source.GetSourceFile(environment.TableOfContents.IndexFile, logger);
 

@@ -37,7 +37,7 @@ internal sealed class RenderIndexPage : PipeLineStep<StaticWebState>
             AutoEmbedSupportedLinks = true,
         };
 
-        using var markdown = new MarkdownToHtml(settings);
+        using var markdown = new MarkdownConverter(settings);
 
         SourceFile sourceData = State.SourceFiles[environment.TableOfContents.IndexFile];
 

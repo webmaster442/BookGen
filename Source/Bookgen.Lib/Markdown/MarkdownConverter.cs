@@ -10,11 +10,11 @@ using Markdig;
 
 namespace Bookgen.Lib.Markdown;
 
-public sealed class MarkdownToHtml : IDisposable
+public sealed class MarkdownConverter : IDisposable
 {
     private readonly MarkdownPipeline _pipeline;
 
-    public MarkdownToHtml(RenderSettings settings)
+    public MarkdownConverter(RenderSettings settings)
     {
         var configuration = new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()

@@ -37,7 +37,7 @@ internal sealed class CreateItems : PipeLineStep<SyndicationFeedState>
             AutoEmbedSupportedLinks = false
         };
 
-        using var markdown = new MarkdownToHtml(settings);
+        using var markdown = new MarkdownConverter(settings);
 
         var renderer = new TemplateEngine(logger, environment);
 
