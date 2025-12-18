@@ -4,9 +4,9 @@
     "net10.0": {
       "Markdig": {
         "type": "Direct",
-        "requested": "[0.43.0, )",
-        "resolved": "0.43.0",
-        "contentHash": "tbP3Y/GYC5pIUWXw6Iqf+R5CwBGA4VJswnlgS2x3TgcHoH4IlnGVmL7hfA1sXkZoCPm/4mhzS8cJUkWhQthaPg=="
+        "requested": "[0.44.0, )",
+        "resolved": "0.44.0",
+        "contentHash": "X+CYMjcUnh/yO24wOSQxVFLiGqWrrtXJ5M7toHiM1Zk4Fg9UMLN5fkaq6FSOWH+mIprsHHgDMlq3MJhmrXalhg=="
       },
       "Microsoft.ClearScript": {
         "type": "Direct",
@@ -68,9 +68,9 @@
       },
       "System.ServiceModel.Syndication": {
         "type": "Direct",
-        "requested": "[10.0.0, )",
-        "resolved": "10.0.0",
-        "contentHash": "HBrGaOQoEaDlMOykS/LfQr9BZ0pEF4SOcscH5oMpBF46+lqMMfgfat3Jm5SpW8IaDzzn/IakYjpWk3bEGSh1vA=="
+        "requested": "[10.0.1, )",
+        "resolved": "10.0.1",
+        "contentHash": "Z3+s66hOp7JVDOhkVk0gH/sjsshn99NUMiILcXLaA+3qe2OkLr3nB+3bRzXdfF6arlJBxGfkkki9GP6R9kvdFg=="
       },
       "YamlDotNet": {
         "type": "Direct",
@@ -159,7 +159,7 @@
       "bookgen.shell.shared": {
         "type": "Project",
         "dependencies": {
-          "Webmaster442.WindowsTerminal": "[4.0.0, )"
+          "Webmaster442.WindowsTerminal": "[4.1.1, )"
         }
       },
       "bookgen.vfs": {
@@ -167,9 +167,9 @@
       },
       "Webmaster442.WindowsTerminal": {
         "type": "CentralTransitive",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "NG6kGSt83OWcRRVdzD5D8O4xWupE0FiFxTIz9dnm+jt1eK3DYyEhXX939vOyXSVVz3xFUhldKchOrtJSJx35kA=="
+        "requested": "[4.1.1, )",
+        "resolved": "4.1.1",
+        "contentHash": "0z1y6nFmpAhHP0x/aus62qIS+MDwntC8JYvkqEm5v9QyszzmyQG5Jp01a6FYacaXZ7CsvQgV7TzhA6G6p6MTSA=="
       }
     }
   }
