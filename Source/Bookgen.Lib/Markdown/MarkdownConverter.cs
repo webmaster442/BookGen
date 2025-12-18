@@ -3,16 +3,20 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.ImageService;
+using Bookgen.Lib.Markdown.Renderers.Terminal;
 using Bookgen.Lib.Markdown.TableOfContents;
+using Bookgen.Lib.Pipeline;
 
 using Markdig;
+
+using Microsoft.AspNetCore.Components;
 
 namespace Bookgen.Lib.Markdown;
 
 public sealed class MarkdownConverter : IDisposable
 {
-    private readonly MarkdownPipeline _pipeline;
+    private readonly MarkdownPipeline _htmlPipeLine;
+    private readonly MarkdownPipeline _terminalPipeLine;
 
     public MarkdownConverter(RenderSettings settings)
     {
@@ -31,12 +35,16 @@ public sealed class MarkdownConverter : IDisposable
             }
         }
 
-        _pipeline = configuration.Build();
+        _htmlPipeLine = configuration.Build();
+
+        _terminalPipeLine = new MarkdownPipelineBuilder()
+            .UseYamlFrontMatter()
+            .Build();
     }
 
     public void Dispose()
     {
-        foreach (IMarkdownExtension? extension in _pipeline.Extensions)
+        foreach (IMarkdownExtension? extension in _htmlPipeLine.Extensions)
         {
             if (extension is IDisposable disposable)
             {
@@ -46,5 +54,15 @@ public sealed class MarkdownConverter : IDisposable
     }
 
     public string RenderMarkdownToHtml(string markdown)
-        => Markdig.Markdown.ToHtml(markdown, _pipeline);
+        => Markdig.Markdown.ToHtml(markdown, _htmlPipeLine);
+
+    public string RenderMarkdownToTerminal(string markdown)
+    {
+        PSMarkdownOptionInfo optionInfo = new();
+
+        using var writer = new StringWriter();
+        var renderer = new VT100Renderer(writer, optionInfo);
+
+        return Markdig.Markdown.Convert(markdown, renderer, _terminalPipeLine).ToString() ?? "";
+    }
 }
