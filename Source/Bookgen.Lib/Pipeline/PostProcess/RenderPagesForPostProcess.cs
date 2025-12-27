@@ -38,7 +38,7 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
             AutoEmbedSupportedLinks = false
         };
 
-        using var markdown = new MarkdownToHtml(settings);
+        using var markdown = new MarkdownConverter(settings);
 
         State.Export = new PostProcessExport
         {

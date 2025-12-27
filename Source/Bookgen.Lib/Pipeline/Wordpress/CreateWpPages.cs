@@ -127,7 +127,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
             AutoEmbedSupportedLinks = true,
         };
 
-        using var markdown = new MarkdownToHtml(settings);
+        using var markdown = new MarkdownConverter(settings);
 
         int mainorder = 0;
         int uid = 2000;

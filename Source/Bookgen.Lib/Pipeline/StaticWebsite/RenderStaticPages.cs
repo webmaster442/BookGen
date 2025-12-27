@@ -50,7 +50,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 
         await Parallel.ForEachAsync(environment.TableOfContents.GetFiles(), options, async (file, token) =>
         {
-            using var markdown = new MarkdownToHtml(settings);
+            using var markdown = new MarkdownConverter(settings);
 
             if (token.IsCancellationRequested) return;
 
