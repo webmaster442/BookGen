@@ -44,6 +44,10 @@
     "Templates": {
       "commandName": "Project",
       "commandLineArgs": "templates"
+    },
+    "Help": {
+      "commandName": "Project",
+      "commandLineArgs": "help"
     }
   }
 }

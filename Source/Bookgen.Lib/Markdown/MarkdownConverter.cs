@@ -5,11 +5,9 @@
 
 using Bookgen.Lib.Markdown.Renderers.Terminal;
 using Bookgen.Lib.Markdown.TableOfContents;
-using Bookgen.Lib.Pipeline;
 
 using Markdig;
-
-using Microsoft.AspNetCore.Components;
+using Markdig.Parsers;
 
 namespace Bookgen.Lib.Markdown;
 
@@ -39,6 +37,7 @@ public sealed class MarkdownConverter : IDisposable
 
         _terminalPipeLine = new MarkdownPipelineBuilder()
             .UseYamlFrontMatter()
+            .UseAutoLinks()
             .Build();
     }
 
@@ -56,13 +55,19 @@ public sealed class MarkdownConverter : IDisposable
     public string RenderMarkdownToHtml(string markdown)
         => Markdig.Markdown.ToHtml(markdown, _htmlPipeLine);
 
-    public string RenderMarkdownToTerminal(string markdown)
+    public string RenderMarkdownToTerminal(string markdown, RenderOptions? renderOptions = null)
     {
-        PSMarkdownOptionInfo optionInfo = new();
+        var document = MarkdownParser.Parse(markdown, _terminalPipeLine);
 
         using var writer = new StringWriter();
-        var renderer = new VT100Renderer(writer, optionInfo);
 
-        return Markdig.Markdown.Convert(markdown, renderer, _terminalPipeLine).ToString() ?? "";
+        renderOptions ??= new RenderOptions();
+
+        TerminalRenderer renderer = new TerminalRenderer(writer, renderOptions);
+
+        renderer.Render(document);
+        renderer.Writer.Flush();
+
+        return renderer.Writer.ToString() ?? string.Empty;
     }
 }

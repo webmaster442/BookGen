@@ -6,8 +6,7 @@
 using Bookgen.Lib.Markdown.Renderers.Terminal;
 
 using Markdig;
-
-using Microsoft.AspNetCore.Components.RenderTree;
+using Markdig.Parsers;
 
 namespace BookGen.Infrastructure;
 
@@ -22,12 +21,16 @@ internal sealed class HelpRenderer
 
     public void RenderHelp(IEnumerable<string> article)
     {
-        string markdown = string.Join(Environment.NewLine, article);
-        using var writer = new StringWriter();
-        var renderer = new VT100Renderer(writer, new PSMarkdownOptionInfo());
-        string rendered =  Markdown.Convert(markdown, renderer, _terminalPipeLine).ToString() ?? "";
+        string md = string.Join(Environment.NewLine, article);
+        var document = MarkdownParser.Parse(md, _terminalPipeLine);
 
-        using var reader = new StringReader(rendered);
+        using var writer = new StringWriter();
+        var renderer = new TerminalRenderer(writer, new RenderOptions());
+
+        renderer.Render(document);
+        renderer.Writer.Flush();
+
+        using var reader = new StringReader(writer.ToString());
 
         Webmaster442.WindowsTerminal.Wigets.Pager pager = new(reader);
 
