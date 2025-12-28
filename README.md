@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/webmaster442/BookGen/master/Branding/bookgen-splash.svg)
+![logo](Branding/icon-bookgen.png)
 
 # BookGen - A C# documentation generator
 
@@ -7,7 +7,7 @@ BookGen is a command line toolchain for writing books and documentation in markd
 It is designed to be cross platform, but It's developed and tested under Windows. It features a web based, cross platform Markdown editor.
 
 * MIT Licensed
-* Written in C#, targets .NET 7.0
+* Written in C#, targets .NET 10.0
 * Extremely fast, compared to GitBook and other NodeJs stuff
 * It hasn't got a template engine, so you don't have to learn a new template language. However it's extendable via shortcodes, like wordpress
 * Can be extended with Scripting API
