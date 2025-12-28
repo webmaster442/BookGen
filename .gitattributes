@@ -6,6 +6,9 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
+# exlude assets
+Assets/* linguist-vendored
+
 #
 # The above will handle all files NOT found below
 #
