@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ public sealed class BookEnvironment : IBookEnvironment
         }
     }
 
-    public async Task<EnvironmentStatus> Initialize()
+    public async Task<EnvironmentStatus> Initialize(string configOverlay)
     {
         if (_isInitialized)
         {
@@ -87,7 +87,17 @@ public sealed class BookEnvironment : IBookEnvironment
             return status;
         }
 
-        Config? config = await _source.DeserializeAsync<Config>(FileNameConstants.ConfigFile);
+        var baseConfig = await _source.ReadJsonAsync(FileNameConstants.ConfigFile);
+
+        JsonMerger configMerger = new JsonMerger(baseConfig);
+
+        if (!string.IsNullOrEmpty(configOverlay))
+        {
+            var overlayConfig = await _source.ReadJsonAsync(configOverlay);
+            configMerger.Merge(overlayConfig);
+        }
+
+        Config? config = configMerger.Deserialize<Config>();
 
         if (config == null)
         {
