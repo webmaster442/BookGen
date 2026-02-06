@@ -40,7 +40,7 @@ internal sealed class JsonMerger
                         if (mergeIfAlreadyExists || !jsonBaseObj.ContainsKey(prop.Key))
                             jsonBaseObj[prop.Key] = jsonBaseObj[prop.Key] switch
                             {
-                                JsonObject jsonBaseChildObj when prop.Value is JsonObject jsonMergeChildObj 
+                                JsonObject jsonBaseChildObj when prop.Value is JsonObject jsonMergeChildObj
                                     => Merge(jsonBaseChildObj, jsonMergeChildObj),
                                 JsonArray jsonBaseChildArray when prop.Value is JsonArray jsonMergeChildArray
                                     => Merge(jsonBaseChildArray, jsonMergeChildArray),
@@ -79,6 +79,6 @@ internal sealed class JsonMerger
         throw new InvalidOperationException("Merging resulted in invalid object");
     }
 
-    public T? Deserialize<T>() 
+    public T? Deserialize<T>()
         => JsonSerializer.Deserialize<T>(_baseObject, JsonOptions.SerializerOptions);
 }

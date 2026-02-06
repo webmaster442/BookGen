@@ -11,7 +11,7 @@ public sealed class RenderOptions
     public TerminalColor CodeInlineColor { get; set; }
 
     public TerminalColor QuoteBlockColor { get; set; }
-    
+
     public TerminalColor CodeBlockBackground { get; set; }
 
     public TerminalColor CodeBlockColor { get; set; }
