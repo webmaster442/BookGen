@@ -57,20 +57,20 @@
       },
       "Svg.Skia": {
         "type": "Direct",
-        "requested": "[3.2.1, )",
-        "resolved": "3.2.1",
-        "contentHash": "pRJtMOc2hTcnxSu7cx6lf806S+2VrQ0eqUpGMBUQQ/pIIvzrtn0+lUjdABTvjr5rsdQF9OxE+r9npq2+3c6T4A==",
+        "requested": "[3.4.1, )",
+        "resolved": "3.4.1",
+        "contentHash": "fNGHIeIUtEDo41P4MYfVqjNL902t8EP5/tBY9vYDg8VbKSOD84ZlBfCL4KSxjf//HcJi1Uz4uZCUXuEAKJirCw==",
         "dependencies": {
           "SkiaSharp": "2.88.9",
-          "Svg.Custom": "3.2.1",
-          "Svg.Model": "3.2.1"
+          "Svg.Custom": "3.4.1",
+          "Svg.Model": "3.4.1"
         }
       },
       "System.ServiceModel.Syndication": {
         "type": "Direct",
-        "requested": "[10.0.1, )",
-        "resolved": "10.0.1",
-        "contentHash": "Z3+s66hOp7JVDOhkVk0gH/sjsshn99NUMiILcXLaA+3qe2OkLr3nB+3bRzXdfF6arlJBxGfkkki9GP6R9kvdFg=="
+        "requested": "[10.0.2, )",
+        "resolved": "10.0.2",
+        "contentHash": "t28WU9anHmmRD5GHz5qBv/tokqDmU/Ksexz2DI6jAcoSX+p8VQ7rzHCxubDqK6baOtxEyza/oHECzBGi3rHyHQ=="
       },
       "YamlDotNet": {
         "type": "Direct",
@@ -131,8 +131,8 @@
       },
       "ShimSkiaSharp": {
         "type": "Transitive",
-        "resolved": "3.2.1",
-        "contentHash": "WyMf+0aj5IJcHkG/t89WApGFg756oXB30ehu9kYu9hjdfS0snkXHoAiTJZqVlqyLOvzC6eA+nOQ2hI84g//5Pg=="
+        "resolved": "3.4.1",
+        "contentHash": "ab3J5OGdwYLyXnom90OghS9NyRPH9dtsRtW5B3mL+F43YTlxido3nUtiR9NjB/sI3jvG/J744C29bsSBQ28AfQ=="
       },
       "SkiaSharp.NativeAssets.macOS": {
         "type": "Transitive",
@@ -141,19 +141,19 @@
       },
       "Svg.Custom": {
         "type": "Transitive",
-        "resolved": "3.2.1",
-        "contentHash": "Wu0+Il+SZfY5+AT25b2PMlSbBrzGIo/6vMMMdOK8jd25I9tdJJbxOFJNG87gFgo9UY9OmpIFzVobGOHzFdJYeQ==",
+        "resolved": "3.4.1",
+        "contentHash": "ksHa7Zv8X1InxSWAeM0sSSvZM2W6FWgneXjU0bdYrQ20Q6q0nl3g0uaSWe53i/CC1OmR+/JAxsp8E3/wigtcng==",
         "dependencies": {
           "ExCSS": "4.3.1"
         }
       },
       "Svg.Model": {
         "type": "Transitive",
-        "resolved": "3.2.1",
-        "contentHash": "N4yWlvqv1XWZ+VvI29lT4HkEgtiP3rS/poMfWiVzz6Ao/3IjQCfmo2qrKphq77IqTdMYyh7wGDknMId7YrQY5Q==",
+        "resolved": "3.4.1",
+        "contentHash": "Zn04CWWIwV+qlJ4x4vg8FdCYNew5dRcsvkcCpzZggFKHGExIn4WTBtJMuLH8htuiLnbbgF6woIYpUll+seHfjw==",
         "dependencies": {
-          "ShimSkiaSharp": "3.2.1",
-          "Svg.Custom": "3.2.1"
+          "ShimSkiaSharp": "3.4.1",
+          "Svg.Custom": "3.4.1"
         }
       },
       "bookgen.shell.shared": {
