@@ -1,7 +1,5 @@
 ﻿using Markdig.Syntax;
 
-using System.Security.Cryptography.X509Certificates;
-
 namespace Bookgen.Lib.Markdown.Renderers.Terminal;
 
 internal sealed class ListRenderer : TerminalObjectRenderer<ListBlock>

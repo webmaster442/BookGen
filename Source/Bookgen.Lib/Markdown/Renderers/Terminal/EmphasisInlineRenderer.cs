@@ -1,6 +1,6 @@
-﻿using Markdig.Syntax.Inlines;
+﻿using System.Diagnostics;
 
-using System.Diagnostics;
+using Markdig.Syntax.Inlines;
 
 namespace Bookgen.Lib.Markdown.Renderers.Terminal;
 

@@ -17,12 +17,12 @@ internal sealed class CodeBlockRenderer : TerminalObjectRenderer<CodeBlock>
 
             renderer.Write(begin);
 
-            for (int i=0; i < obj.Lines.Count; i++)
+            for (int i = 0; i < obj.Lines.Count; i++)
             {
                 StringLine codeLine = obj.Lines.Lines[i];
                 if (!string.IsNullOrWhiteSpace(codeLine.ToString()))
                 {
-                    if (i  == obj.Lines.Count - 1)
+                    if (i == obj.Lines.Count - 1)
                     {
                         renderer.Write(codeLine.ToString()).WriteReset().WriteLine();
                     }

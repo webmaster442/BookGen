@@ -15,7 +15,7 @@ namespace BookGen.Tooldownloaders;
 
 internal sealed class GlowDownloader : TooldownloaderBase
 {
-    public GlowDownloader(IApiClient apiClient, 
+    public GlowDownloader(IApiClient apiClient,
                           RecyclableMemoryStreamManager memoryStreamManager,
                           ILogger log)
         : base(apiClient, memoryStreamManager, log)
