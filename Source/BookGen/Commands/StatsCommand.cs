@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ internal sealed class StatsCommand : AsyncCommand<BookGenArgumentBase>
         _soruce.Scope = arguments.Directory;
         using var env = new BookEnvironment(_soruce, _soruce);
 
-        var status = await env.Initialize();
+        var status = await env.Initialize(arguments.ConfigOverlay);
 
         if (!status.IsOk)
         {

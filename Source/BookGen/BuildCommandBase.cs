@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -47,7 +47,7 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
         _target.Scope = arguments.OutputDirectory;
 
         using var env = new BookEnvironment(_soruce, _target, _assetSource);
-        EnvironmentStatus status = await env.Initialize();
+        EnvironmentStatus status = await env.Initialize(arguments.ConfigOverlay);
 
         if (!status.IsOk)
         {
