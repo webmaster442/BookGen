@@ -381,8 +381,8 @@ Arguments:
 Scans all markdown files in the current book and writes the lins to a markdown file, named links.md
 
 ```
-BookGen Links [-v] [-d [directory]]
-BookGen Links [--verbose] [--dir [directory]]
+BookGen Links [-vf] [-v] [-d [directory]]
+BookGen Links [--verify] [--verbose] [--dir [directory]]
 ```
 
 Arguments:
@@ -394,6 +394,10 @@ Arguments:
 * `-v`, `--verbose`: 
   
   Optional argument, turns on detailed logging. Usefull for locating issues
+
+* `-vf`, `--verify`:
+
+  Optional argument. When specified, the command will verify if the links are accessible and will print the result to the console. If not specified, the command will only write the links to the output file.
 
 # Math2Svg
 
