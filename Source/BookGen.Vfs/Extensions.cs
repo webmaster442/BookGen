@@ -17,7 +17,7 @@ public static class Extensions
     {
         public async Task<T?> DeserializeAsync<T>(string path)
         {
-            await using var stream = fs.OpenReadStream(path);
+            await using Stream stream = fs.OpenReadStream(path);
             T? result = await JsonSerializer.DeserializeAsync<T>(stream, JsonOptions.SerializerOptions);
             return result;
         }
@@ -80,13 +80,13 @@ public static class Extensions
 
         public async Task WriteSchema<T>(string path)
         {
-            var node = JsonOptions.SerializerOptions.GetJsonSchemaAsNode(typeof(T), JsonOptions.ExporterOptions);
+            JsonNode node = JsonOptions.SerializerOptions.GetJsonSchemaAsNode(typeof(T), JsonOptions.ExporterOptions);
             await fs.WriteAllTextAsync(path, node.ToJsonString(JsonOptions.SerializerOptions));
         }
 
         public async Task SerializeAsync<T>(string path, T value, bool writeSchema)
         {
-            await using var stream = fs.CreateWriteStream(path);
+            await using Stream stream = fs.CreateWriteStream(path);
             await JsonSerializer.SerializeAsync(stream, value, JsonOptions.SerializerOptions);
             if (writeSchema)
             {

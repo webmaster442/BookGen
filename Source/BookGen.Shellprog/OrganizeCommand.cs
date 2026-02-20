@@ -26,7 +26,7 @@ internal class OrganizeCommand : Command<OrganizeArguments>
         try
         {
             var ruleLoader = new RuleLoader(arguments.Folder);
-            var rules = ruleLoader.LoadRules();
+            IReadOnlyList<OrganizeRule> rules = ruleLoader.LoadRules();
             var engine = new RuleEngine(rules, _log);
             engine.Run(arguments.Folder, arguments.Simulate);
             return 0;

@@ -63,7 +63,7 @@ public class UT_JsonMerger
         JsonMerger sut = new JsonMerger(node1!);
         sut.Merge(nodeOverlay!);
 
-        var result = sut.Deserialize<Config>();
+        Config? result = sut.Deserialize<Config>();
 
         Assert.That(result, Is.Not.Null);
 

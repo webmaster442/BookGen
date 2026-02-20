@@ -52,20 +52,20 @@ internal class EmbeddedTestFileSystem : IReadOnlyFileSystem
 
     public TextReader OpenTextReader(string path)
     {
-        using var stream = OpenReadStream(path);
+        using Stream stream = OpenReadStream(path);
         return new StreamReader(stream);
     }
 
     public string ReadAllText(string path)
     {
-        using var stream = OpenReadStream(path);
+        using Stream stream = OpenReadStream(path);
         using var reader = new StreamReader(stream);
         return reader.ReadToEnd();
     }
 
     public async Task<string> ReadAllTextAsync(string path)
     {
-        using var stream = OpenReadStream(path);
+        using Stream stream = OpenReadStream(path);
         using var reader = new StreamReader(stream);
         return await reader.ReadToEndAsync();
     }

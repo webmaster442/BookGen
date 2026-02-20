@@ -68,7 +68,7 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
             AdditionalData = new(),
         };
 
-        using var writer = environment.Output.CreateTextWriter("print.xhtml.html");
+        using TextWriter writer = environment.Output.CreateTextWriter("print.xhtml.html");
         renderer.Render(writer, tempate, viewData);
 
         return StepResult.Success;

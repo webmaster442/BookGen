@@ -85,7 +85,7 @@ public abstract class AppSettingsBase
         if (loaded == null)
             return;
 
-        foreach (var item in loaded)
+        foreach (KeyValuePair<string, string> item in loaded)
         {
             if (_storage.ContainsKey(item.Key))
                 _storage[item.Key] = item.Value;

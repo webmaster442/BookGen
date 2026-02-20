@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib.Domain;
+using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Domain.PostProcess;
 using Bookgen.Lib.ImageService;
@@ -46,7 +47,7 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
             Chapters = new List<ExportChapter>()
         };
 
-        foreach (var chapter in environment.TableOfContents.Chapters)
+        foreach (TocChapter chapter in environment.TableOfContents.Chapters)
         {
             ExportChapter exportChapter = new ExportChapter
             {

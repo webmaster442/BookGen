@@ -12,7 +12,7 @@ internal static class Extensions
             if (string.IsNullOrEmpty(templateFile))
                 return true;
 
-            var source = context.Resolve<IAssetSource>();
+            IAssetSource source = context.Resolve<IAssetSource>();
 
             if (source.AssetNames.Contains(templateFile))
                 return true;

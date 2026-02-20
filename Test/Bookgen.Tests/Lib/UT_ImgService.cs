@@ -34,7 +34,7 @@ internal class UT_ImgService
             SvgRecode = SvgRecodeOption.Passtrough,
         });
 
-        var result = service.GetImageEmbedData("test.svg");
+        ImageResult result = service.GetImageEmbedData("test.svg");
 
         string expected = """
             <?xml version="1.0" encoding="UTF-8"?>
@@ -129,7 +129,7 @@ internal class UT_ImgService
             SvgRecode = SvgRecodeOption.AsWebp,
         });
 
-        var result = service.GetImageEmbedData("test.svg");
+        ImageResult result = service.GetImageEmbedData("test.svg");
 
 
         Assert.Multiple(() =>
@@ -151,7 +151,7 @@ internal class UT_ImgService
             ResizeHeight = 200,
         });
 
-        var result = service.GetImageEmbedData("test.svg");
+        ImageResult result = service.GetImageEmbedData("test.svg");
 
 
         Assert.Multiple(() =>
@@ -167,7 +167,7 @@ internal class UT_ImgService
     {
         var service = new ImgService(_testFolder, _mockLogger.Object, new ImageConfig());
 
-        var result = service.GetImageEmbedData("test.png");
+        ImageResult result = service.GetImageEmbedData("test.png");
 
         Assert.Multiple(() =>
         {
@@ -188,7 +188,7 @@ internal class UT_ImgService
             ImageQualityOnResize = 80,
         });
 
-        var result = service.GetImageEmbedData("test.png");
+        ImageResult result = service.GetImageEmbedData("test.png");
 
         Assert.Multiple(() =>
         {

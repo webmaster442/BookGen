@@ -23,7 +23,7 @@ internal sealed class HtmlTocRenderer : HtmlObjectRenderer<TocBlock>
             return;
         renderer.EnsureLine();
 
-        var attr = obj.GetAttributes();
+        HtmlAttributes attr = obj.GetAttributes();
         if (attr.Id is null)
             attr.Id = "toc";
 

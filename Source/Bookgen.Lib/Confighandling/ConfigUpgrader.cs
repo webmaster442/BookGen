@@ -40,7 +40,7 @@ public sealed class ConfigUpgrader
         _tocJson = await sourceFolder.ReadJsonAsync(FileNameConstants.TableOfContents);
         _configJson = await sourceFolder.ReadJsonAsync(FileNameConstants.ConfigFile);
 
-        var version = _configJson["VersionTag"]
+        JsonNode version = _configJson["VersionTag"]
             ?? throw new InvalidOperationException("Failed to determine version");
 
         _sourceVersion = 0;
@@ -60,9 +60,9 @@ public sealed class ConfigUpgrader
 
     public static async Task<bool> IsUpgradeNeeded(IReadOnlyFileSystem sourceFolder)
     {
-        var configJson = await sourceFolder.ReadJsonAsync(FileNameConstants.ConfigFile);
+        JsonObject configJson = await sourceFolder.ReadJsonAsync(FileNameConstants.ConfigFile);
 
-        var version = configJson["VersionTag"]
+        JsonNode version = configJson["VersionTag"]
             ?? throw new InvalidOperationException("Failed to determine version");
 
         if (version is not JsonValue jsonValue
@@ -94,7 +94,7 @@ public sealed class ConfigUpgrader
         bool tocModifed = false;
         bool configModified = false;
 
-        foreach (var upgrader in upgraders)
+        foreach (UpgradeBase upgrader in upgraders)
         {
             _logger.LogInformation("Upgrading from version {from} to {to}", upgrader.VersionTagInfo.From, upgrader.VersionTagInfo.To);
             tocModifed |= upgrader.UpgradeToc(_tocJson);
@@ -121,7 +121,7 @@ public sealed class ConfigUpgrader
     private List<UpgradeBase> SelectUpgrades(int from, int to)
     {
         List<UpgradeBase> selectedUpgrades = new List<UpgradeBase>();
-        foreach (var upgrader in _upgrades)
+        foreach (UpgradeBase upgrader in _upgrades)
         {
             if (upgrader.VersionTagInfo.From >= from && upgrader.VersionTagInfo.To <= to)
             {

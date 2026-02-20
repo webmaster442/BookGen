@@ -6,6 +6,7 @@
 using System.ServiceModel.Syndication;
 
 using Bookgen.Lib.Domain;
+using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.JsInterop;
@@ -43,7 +44,7 @@ internal sealed class CreateItems : PipeLineStep<SyndicationFeedState>
 
         List<SyndicationItem> items = new();
 
-        foreach (var chapter in environment.TableOfContents.Chapters)
+        foreach (TocChapter chapter in environment.TableOfContents.Chapters)
         {
             logger.LogInformation("Rendering chapter {chapter}...", chapter.Title);
 

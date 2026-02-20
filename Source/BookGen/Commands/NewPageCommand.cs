@@ -12,6 +12,8 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
+using YamlDotNet.Serialization;
+
 namespace BookGen.Commands;
 
 [CommandName("newpage")]
@@ -54,7 +56,7 @@ internal sealed class NewPageCommand : Command<NewPageCommand.Arguments>
             Tags = "",
         };
 
-        var serializer = YamlSerializerFactory.CreateSerializer();
+        ISerializer serializer = YamlSerializerFactory.CreateSerializer();
 
         var yaml = serializer.Serialize(frontMatter);
 

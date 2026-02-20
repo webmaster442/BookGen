@@ -46,7 +46,7 @@ public sealed class ApiClient : IApiClient
 
         if (response.IsSuccessStatusCode)
         {
-            await using var stream = await response.Content.ReadAsStreamAsync();
+            await using Stream stream = await response.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<T>(stream, options)
                 ?? throw new InvalidOperationException($"Coudln't deserialize response as {typeof(T)}");
         }
@@ -62,7 +62,7 @@ public sealed class ApiClient : IApiClient
 
         if (response.IsSuccessStatusCode)
         {
-            await using var source = await response.Content.ReadAsStreamAsync();
+            await using Stream source = await response.Content.ReadAsStreamAsync();
 
             byte[] buffer = new byte[8192];
             int read = 0;

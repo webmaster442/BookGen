@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Cli.Annotations;
+using BookGen.Shell.Shared;
 
 using Spectre.Console;
 
@@ -20,10 +21,10 @@ internal sealed class PromptCommand : GitCommandBase
     {
         if (!string.IsNullOrEmpty(arguments.WorkDirectory))
         {
-            var result = TestIfGitDir(arguments.WorkDirectory);
+            GitDirectoryStatus result = TestIfGitDir(arguments.WorkDirectory);
             if (result == GitDirectoryStatus.GitDirectory)
             {
-                var status = GetGitStatus(arguments.WorkDirectory);
+                GitStatus? status = GetGitStatus(arguments.WorkDirectory);
                 PrintStatus(status);
             }
             else if (result == GitDirectoryStatus.UntrustedGitDirectory)

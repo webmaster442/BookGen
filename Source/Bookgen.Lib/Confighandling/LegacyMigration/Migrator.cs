@@ -28,7 +28,7 @@ public static class Migrator
 
         try
         {
-            foreach (var step in steps)
+            foreach (IMigrationStep step in steps)
             {
                 bool result = await step.ExecuteAsync(folder, state, logger);
                 if (!result)

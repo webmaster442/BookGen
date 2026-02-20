@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
 
-using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+using ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 
 ILogger logger = loggerFactory.CreateLogger("BookGen.Shell");
 
@@ -22,7 +22,7 @@ ioc.AddSingleton<IAnsiConsole>(AnsiConsole.Console);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.AddSingleton(logger);
 
-using var provider = ioc.BuildServiceProvider();
+using ServiceProvider provider = ioc.BuildServiceProvider();
 
 CommandRunner runner = new(provider, logger, new CommandRunnerSettings
 {

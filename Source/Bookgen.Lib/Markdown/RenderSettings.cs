@@ -23,7 +23,7 @@ public sealed class RenderSettings : IDisposable
 
     public string RequestImage(string url)
     {
-        var img = _imgService.GetImageEmbedData(url);
+        ImageResult img = _imgService.GetImageEmbedData(url);
         return ImageUrlRewriter(img);
     }
 

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Nodes;
 
 using Bookgen.Lib.Confighandling;
 using Bookgen.Lib.Domain.IO;
@@ -87,13 +88,13 @@ public sealed class BookEnvironment : IBookEnvironment
             return status;
         }
 
-        var baseConfig = await _source.ReadJsonAsync(FileNameConstants.ConfigFile);
+        JsonObject baseConfig = await _source.ReadJsonAsync(FileNameConstants.ConfigFile);
 
         JsonMerger configMerger = new JsonMerger(baseConfig);
 
         if (!string.IsNullOrEmpty(configOverlay))
         {
-            var overlayConfig = await _source.ReadJsonAsync(configOverlay);
+            JsonObject overlayConfig = await _source.ReadJsonAsync(configOverlay);
             configMerger.Merge(overlayConfig);
         }
 
@@ -133,7 +134,7 @@ public sealed class BookEnvironment : IBookEnvironment
 
     public bool TryGetAsset(string name, [NotNullWhen(true)] out string? content)
     {
-        foreach (var assetsource in _assets)
+        foreach (IAssetSource assetsource in _assets)
         {
             if (assetsource.TryGetAsset(name, out content))
             {
@@ -147,7 +148,7 @@ public sealed class BookEnvironment : IBookEnvironment
 
     public byte[] GetBinaryAsset(string name)
     {
-        foreach (var assetsource in _assets)
+        foreach (IAssetSource assetsource in _assets)
         {
             try
             {

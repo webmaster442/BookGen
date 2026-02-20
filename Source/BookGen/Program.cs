@@ -19,7 +19,7 @@ using Spectre.Console;
 
 ProgramInfo info = new();
 
-var argumentList = ProgramConfigurator.ParseGeneralArgs(args, info);
+List<string> argumentList = ProgramConfigurator.ParseGeneralArgs(args, info);
 
 using ILoggerFactory factory = LoggerFactory
     .Create(builder =>
@@ -54,7 +54,7 @@ ioc.AddTransient<IWritableFileSystem, FileSystem>();
 ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
 ioc.AddTransient<IApiClient, ApiClient>();
 
-using var provider = ioc.BuildServiceProvider();
+using ServiceProvider provider = ioc.BuildServiceProvider();
 
 CommandRunner runner = new(provider, logger, new CommandRunnerSettings
 {

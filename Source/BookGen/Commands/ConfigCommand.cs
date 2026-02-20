@@ -29,7 +29,7 @@ internal sealed class ConfigCommand : Command
     {
         BookGenAppSettings appSettings = new();
 
-        var data = typeof(BookGenAppSettings).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        PropertyInfo[] data = typeof(BookGenAppSettings).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
         if (context.Count == 0)
             return DisplayConfig(data, appSettings);
@@ -46,7 +46,7 @@ internal sealed class ConfigCommand : Command
     private int DisplaySpecific(PropertyInfo[] data, BookGenAppSettings appSettings, string property)
     {
         string[] headers = ["Name", "Type", "Value"];
-        var tableData = data.Where(x => x.Name == property).ToArray();
+        PropertyInfo[] tableData = data.Where(x => x.Name == property).ToArray();
 
         if (tableData.Length != 0)
             return DisplayConfig(tableData, appSettings);
@@ -58,7 +58,7 @@ internal sealed class ConfigCommand : Command
     private static int DisplayConfig(PropertyInfo[] data, BookGenAppSettings appSettings)
     {
         string[] headers = ["Name", "Type", "Value"];
-        var tableData = data.Select(x => new string[]
+        IEnumerable<string[]> tableData = data.Select(x => new string[]
         {
             x.Name,
             x.PropertyType.ToString(),

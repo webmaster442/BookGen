@@ -13,7 +13,7 @@ internal static class PageFactory
 {
     private static string GetResource(string resoruceName)
     {
-        using var stream = typeof(PageFactory).Assembly.GetManifestResourceStream(resoruceName)
+        using Stream stream = typeof(PageFactory).Assembly.GetManifestResourceStream(resoruceName)
             ?? throw new UnreachableException("Error page template was null");
 
         using var reader = new StreamReader(stream);

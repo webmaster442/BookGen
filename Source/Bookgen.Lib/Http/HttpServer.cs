@@ -139,7 +139,7 @@ internal sealed class HttpServer : IHttpServer
 
     public void AddRoutes(IReadOnlyDictionary<ApiMetaData, RequestDelegate> routes)
     {
-        foreach (var route in routes)
+        foreach (KeyValuePair<ApiMetaData, RequestDelegate> route in routes)
         {
             AddRoute(route.Key, route.Value);
         }
@@ -147,7 +147,7 @@ internal sealed class HttpServer : IHttpServer
 
     public IEnumerable<string> GetListenUrls()
     {
-        foreach (var (adress, _) in GetIpAdresses())
+        foreach ((IPAddress? adress, IPAddress _) in GetIpAdresses())
         {
             yield return $"http://{adress}:{Port}";
         }
@@ -159,12 +159,12 @@ internal sealed class HttpServer : IHttpServer
             .Where(i => i.AddressFamily == AddressFamily.InterNetwork)
             .ToHashSet();
 
-        var ifaceAddrs = NetworkInterface.GetAllNetworkInterfaces()
+        IEnumerable<UnicastIPAddressInformation> ifaceAddrs = NetworkInterface.GetAllNetworkInterfaces()
             .Where(i => i.OperationalStatus == OperationalStatus.Up)
             .SelectMany(x => x.GetIPProperties().UnicastAddresses)
             .Where(x => ipAdresses.Contains(x.Address));
 
-        foreach (var adress in ifaceAddrs)
+        foreach (UnicastIPAddressInformation? adress in ifaceAddrs)
         {
             yield return (adress.Address, adress.IPv4Mask);
         }

@@ -21,7 +21,7 @@ internal static class Utils
     {
         if (Path.GetExtension(file).Equals(".svg", StringComparison.OrdinalIgnoreCase))
         {
-            using var stream = File.OpenRead(file);
+            using FileStream stream = File.OpenRead(file);
             return RenderSvg(stream, maxwidth, maxHeight, SvgRecodeOption.AsPng).ToArray();
         }
         using SKBitmap bitmap = SKBitmap.Decode(file);

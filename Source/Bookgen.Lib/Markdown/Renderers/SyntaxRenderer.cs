@@ -8,6 +8,7 @@ using System.Web;
 
 using Bookgen.Lib.JsInterop;
 
+using Markdig.Helpers;
 using Markdig.Parsers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
@@ -68,8 +69,8 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
         int totalLines = lines.Length;
         for (int i = 0; i < totalLines; i++)
         {
-            var line = lines[i];
-            var slice = line.Slice;
+            StringLine line = lines[i];
+            StringSlice slice = line.Slice;
             if (slice.Text == null)
             {
                 continue;

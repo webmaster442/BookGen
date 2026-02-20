@@ -9,6 +9,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <ApplicationIcon>..\..\Branding\icon-shell.ico</ApplicationIcon>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>

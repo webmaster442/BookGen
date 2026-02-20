@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib.Domain;
+using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.JsInterop;
@@ -37,7 +38,7 @@ internal sealed class RenderPages : PipeLineStep<PrintState>
 
         using var markdown = new MarkdownConverter(settings);
 
-        foreach (var chapter in environment.TableOfContents.Chapters)
+        foreach (TocChapter chapter in environment.TableOfContents.Chapters)
         {
             logger.LogInformation("Rendering chapter {chapter}...", chapter.Title);
             State.Buffer.AppendH1(chapter.Title);

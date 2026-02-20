@@ -29,15 +29,15 @@ public sealed class FileSystem : ReadOnlyFileSystem, IWritableFileSystem, IReadO
     {
         static async Task CopySingleFile(string source, string destination)
         {
-            await using var sourceStream = File.OpenRead(source);
-            await using var destinationStream = File.Create(destination);
+            await using FileStream sourceStream = File.OpenRead(source);
+            await using FileStream destinationStream = File.Create(destination);
             await sourceStream.CopyToAsync(destinationStream);
         }
 
         var actualPath = GetAndValidateFullNameInScope(path);
         if (Directory.Exists(actualPath))
         {
-            var files = Directory.EnumerateFiles(actualPath, "*.*", SearchOption.AllDirectories);
+            IEnumerable<string> files = Directory.EnumerateFiles(actualPath, "*.*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 CreatePathIfNeeded(file);

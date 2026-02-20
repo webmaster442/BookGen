@@ -7,6 +7,7 @@ using Bookgen.Lib.Markdown.Renderers.Terminal;
 
 using Markdig;
 using Markdig.Parsers;
+using Markdig.Syntax;
 
 namespace BookGen.Infrastructure;
 
@@ -22,7 +23,7 @@ internal sealed class HelpRenderer
     public void RenderHelp(IEnumerable<string> article)
     {
         string md = string.Join(Environment.NewLine, article);
-        var document = MarkdownParser.Parse(md, _terminalPipeLine);
+        MarkdownDocument document = MarkdownParser.Parse(md, _terminalPipeLine);
 
         using var writer = new StringWriter();
         var renderer = new TerminalRenderer(writer, new RenderOptions());

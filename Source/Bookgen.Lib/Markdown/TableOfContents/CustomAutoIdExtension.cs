@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Text;
+
 using ExCSS;
 
 using Markdig;
@@ -39,14 +41,14 @@ internal sealed class CustomAutoIdExtension : IMarkdownExtension
 
     public void Setup(MarkdownPipelineBuilder pipeline)
     {
-        var headingBlockParser = pipeline.BlockParsers.Find<HeadingBlockParser>();
+        HeadingBlockParser? headingBlockParser = pipeline.BlockParsers.Find<HeadingBlockParser>();
         if (headingBlockParser is not null)
         {
             // Install a hook on the HeadingBlockParser when a HeadingBlock is actually processed
             headingBlockParser.Closed -= HeadingBlockParser_Closed;
             headingBlockParser.Closed += HeadingBlockParser_Closed;
         }
-        var paragraphBlockParser = pipeline.BlockParsers.FindExact<ParagraphBlockParser>();
+        ParagraphBlockParser? paragraphBlockParser = pipeline.BlockParsers.FindExact<ParagraphBlockParser>();
         if (paragraphBlockParser is not null)
         {
             // Install a hook on the ParagraphBlockParser when a HeadingBlock is actually processed as a Setex heading
@@ -75,7 +77,7 @@ internal sealed class CustomAutoIdExtension : IMarkdownExtension
         // If the AutoLink options is set, we register a LinkReferenceDefinition at the document level
         if (options.HeadingIdGenerator == null && (options.Options & AutoIdentifierOptions.AutoLink) != 0)
         {
-            var headingLine = headingBlock.Lines.Lines[0];
+            StringLine headingLine = headingBlock.Lines.Lines[0];
 
             var text = headingLine.ToString();
 
@@ -84,7 +86,7 @@ internal sealed class CustomAutoIdExtension : IMarkdownExtension
                 CreateLinkInline = CreateLinkInlineForHeading
             };
 
-            var doc = processor.Document;
+            MarkdownDocument doc = processor.Document;
             var dictionary = doc.GetData(this) as Dictionary<string, HeadingLinkReferenceDefinition>;
             if (dictionary is null)
             {
@@ -101,15 +103,15 @@ internal sealed class CustomAutoIdExtension : IMarkdownExtension
 
     private void DocumentOnProcessInlinesBegin(InlineProcessor processor, Inline? inline)
     {
-        var doc = processor.Document;
+        MarkdownDocument doc = processor.Document;
         doc.ProcessInlinesBegin -= DocumentOnProcessInlinesBegin;
         var dictionary = (Dictionary<string, HeadingLinkReferenceDefinition>)doc.GetData(this)!;
-        foreach (var keyPair in dictionary)
+        foreach (KeyValuePair<string, HeadingLinkReferenceDefinition> keyPair in dictionary)
         {
             // Here we make sure that auto-identifiers will not override an existing link definition
             // defined in the document
             // If it is the case, we skip the auto identifier for the Heading
-            if (!doc.TryGetLinkReferenceDefinition(keyPair.Key, out var linkDef))
+            if (!doc.TryGetLinkReferenceDefinition(keyPair.Key, out LinkReferenceDefinition? linkDef))
             {
                 doc.SetLinkReferenceDefinition(keyPair.Key, keyPair.Value, true);
             }
@@ -155,13 +157,13 @@ internal sealed class CustomAutoIdExtension : IMarkdownExtension
         }
 
         // Use internally a HtmlRenderer to strip links from a heading
-        var stripRenderer = rendererCache.Get();
+        CacheHtmlRenderer stripRenderer = rendererCache.Get();
         stripRenderer.Render(headingBlock.Inline);
         var headingText = stripRenderer.Writer.ToString()!;
         rendererCache.Release(stripRenderer);
 
         // If id is already set, don't try to modify it
-        var attributes = processor.Block!.GetAttributes();
+        HtmlAttributes attributes = processor.Block!.GetAttributes();
         try
         {
             if (options.HeadingIdGenerator is not null)
@@ -184,7 +186,7 @@ internal sealed class CustomAutoIdExtension : IMarkdownExtension
             // Add a trailing -1, -2, -3...etc. in case of collision
             int index = 0;
             var headingId = baseHeadingId;
-            var headingBuffer = StringBuilderCache.Local();
+            StringBuilder headingBuffer = StringBuilderCache.Local();
             while (!identifiers.Add(headingId))
             {
                 index++;

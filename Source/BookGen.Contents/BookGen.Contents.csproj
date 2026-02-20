@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
   
   <ItemGroup>

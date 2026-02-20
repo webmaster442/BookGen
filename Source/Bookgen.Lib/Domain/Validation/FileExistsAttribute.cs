@@ -16,7 +16,7 @@ internal sealed class FileExistsAttribute : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        var folder = validationContext.GetRequiredService<IReadOnlyFileSystem>();
+        IReadOnlyFileSystem folder = validationContext.GetRequiredService<IReadOnlyFileSystem>();
 
         if (value is IEnumerable<string> files)
         {

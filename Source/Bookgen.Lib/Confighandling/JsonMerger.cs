@@ -32,10 +32,10 @@ internal sealed class JsonMerger
                 {
                     //NOTE: We must materialize the set (e.g. to an Array), and then clear the merge array so the node can then be 
                     //      re-assigned to the target/base Json; clearing the Object seems to be the most efficient approach...
-                    var mergeNodesArray = jsonMergeObj.ToArray();
+                    KeyValuePair<string, JsonNode?>[] mergeNodesArray = jsonMergeObj.ToArray();
                     jsonMergeObj.Clear();
 
-                    foreach (var prop in mergeNodesArray)
+                    foreach (KeyValuePair<string, JsonNode?> prop in mergeNodesArray)
                     {
                         if (mergeIfAlreadyExists || !jsonBaseObj.ContainsKey(prop.Key))
                             jsonBaseObj[prop.Key] = jsonBaseObj[prop.Key] switch
@@ -53,9 +53,9 @@ internal sealed class JsonMerger
                 {
                     //NOTE: We must materialize the set (e.g. to an Array), and then clear the merge array,
                     //      so they can then be re-assigned to the target/base Json...
-                    var mergeNodesArray = jsonMergeArray.ToArray();
+                    JsonNode?[] mergeNodesArray = jsonMergeArray.ToArray();
                     jsonMergeArray.Clear();
-                    foreach (var mergeNode in mergeNodesArray) jsonBaseArray.Add(mergeNode);
+                    foreach (JsonNode? mergeNode in mergeNodesArray) jsonBaseArray.Add(mergeNode);
                     break;
                 }
             default:
@@ -70,7 +70,7 @@ internal sealed class JsonMerger
 
     public void Merge(JsonObject overlay)
     {
-        var result = Merge(_baseObject, overlay);
+        JsonNode? result = Merge(_baseObject, overlay);
         if (result is JsonObject mergedObj)
         {
             _baseObject = mergedObj;

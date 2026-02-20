@@ -7,6 +7,7 @@ using System.Text;
 
 using Bookgen.Lib.Domain;
 using Bookgen.Lib.Domain.Epub;
+using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
@@ -69,7 +70,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
         await RenderIndex(environment, logger, markdown, renderer, template);
 
-        foreach (var chapter in environment.TableOfContents.Chapters)
+        foreach (TocChapter chapter in environment.TableOfContents.Chapters)
         {
             logger.LogInformation("Rendering chapter {chapter}...", chapter.Title);
             fileId = 1;
@@ -116,7 +117,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
     private async Task RenderIndex(IBookEnvironment environment, ILogger logger, MarkdownConverter markdown, TemplateEngine renderer, string template)
     {
-        var index = await environment.Source.GetSourceFile(environment.TableOfContents.IndexFile, logger);
+        SourceFile index = await environment.Source.GetSourceFile(environment.TableOfContents.IndexFile, logger);
 
         var indexView = new ViewData
         {

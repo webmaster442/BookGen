@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using System.Security.AccessControl;
 
 using BookGen.Vfs;
@@ -44,7 +45,7 @@ internal class SerializedObjectValidator
     {
         static void AddIssues(ICollection<string> target, string prefix, IEnumerable<ValidationResult> results)
         {
-            foreach (var validationResult in results)
+            foreach (ValidationResult validationResult in results)
             {
                 var names = string.Join(',', validationResult.MemberNames);
 
@@ -74,7 +75,7 @@ internal class SerializedObjectValidator
             AddIssues(issues, "", validationResults);
         }
 
-        var properties = @object
+        IEnumerable<PropertyInfo> properties = @object
             .GetType()
             .GetProperties()
             .Where(p => p.CanRead
@@ -84,7 +85,7 @@ internal class SerializedObjectValidator
 
         validationResults.Clear();
 
-        foreach (var property in properties)
+        foreach (PropertyInfo? property in properties)
         {
             var value = property.GetValue(@object);
             if (value == null) continue;

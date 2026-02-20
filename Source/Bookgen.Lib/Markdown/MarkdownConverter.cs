@@ -8,6 +8,7 @@ using Bookgen.Lib.Markdown.TableOfContents;
 
 using Markdig;
 using Markdig.Parsers;
+using Markdig.Syntax;
 
 namespace Bookgen.Lib.Markdown;
 
@@ -18,14 +19,14 @@ public sealed class MarkdownConverter : IDisposable
 
     public MarkdownConverter(RenderSettings settings)
     {
-        var configuration = new MarkdownPipelineBuilder()
+        MarkdownPipelineBuilder configuration = new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
             .UseTableOfContents()
             .UseMathematics()
             .UseYamlFrontMatter()
             .Use<BookGenExtension>();
 
-        foreach (var extension in configuration.Extensions)
+        foreach (IMarkdownExtension extension in configuration.Extensions)
         {
             if (extension is BookGenExtension bookGenExtension)
             {
@@ -57,7 +58,7 @@ public sealed class MarkdownConverter : IDisposable
 
     public string RenderMarkdownToTerminal(string markdown, RenderOptions? renderOptions = null)
     {
-        var document = MarkdownParser.Parse(markdown, _terminalPipeLine);
+        MarkdownDocument document = MarkdownParser.Parse(markdown, _terminalPipeLine);
 
         using var writer = new StringWriter();
 

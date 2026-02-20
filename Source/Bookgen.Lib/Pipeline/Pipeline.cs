@@ -25,7 +25,7 @@ public sealed class Pipeline
 
     public async Task<bool> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        foreach (var step in Steps)
+        foreach (IPipeLineStep step in Steps)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -33,7 +33,7 @@ public sealed class Pipeline
                 return false;
             }
 
-            var result = await step.ExecuteAsync(environment, logger);
+            StepResult result = await step.ExecuteAsync(environment, logger);
             if (result == StepResult.Failure)
             {
                 return false;

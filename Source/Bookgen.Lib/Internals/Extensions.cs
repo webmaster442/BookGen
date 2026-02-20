@@ -41,7 +41,7 @@ internal static class Extensions
         StringBuilder content = new StringBuilder();
         StringBuilder yaml = new StringBuilder();
 
-        using var reader = folder.OpenTextReader(file);
+        using TextReader reader = folder.OpenTextReader(file);
 
         string? line;
         bool inYaml = false;
@@ -98,11 +98,11 @@ internal static class Extensions
         public async Task<string?> GetCoverFileName(TableOfContents tableOfContents, ILogger logger)
         {
             var contents = await folder.ReadAllTextAsync(tableOfContents.IndexFile);
-            foreach (var block in Markdig.Markdown.Parse(contents))
+            foreach (Block block in Markdig.Markdown.Parse(contents))
             {
                 if (block is ParagraphBlock paragraph && paragraph.Inline != null)
                 {
-                    foreach (var inline in paragraph.Inline)
+                    foreach (Inline inline in paragraph.Inline)
                     {
                         if (inline is LinkInline link && link.IsImage)
                         {

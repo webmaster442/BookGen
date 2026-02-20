@@ -39,7 +39,7 @@ public sealed class TableOfContents
             yield return IndexFile;
         }
 
-        foreach (var chapter in Chapters)
+        foreach (TocChapter chapter in Chapters)
         {
             if (chapter.Files != null)
             {

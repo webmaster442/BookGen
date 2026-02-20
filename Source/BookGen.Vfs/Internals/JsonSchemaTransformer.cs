@@ -36,7 +36,7 @@ internal static class JsonSchemaTransformer
             && propertiesNode is JsonObject properties)
         {
             var requiredArray = new JsonArray();
-            foreach (var property in properties)
+            foreach (KeyValuePair<string, JsonNode?> property in properties)
             {
                 requiredArray.Add(property.Key);
             }

@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
+using Bookgen.Lib.Domain;
+using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.Wordpress;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
@@ -148,7 +150,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
         globalparent = uid;
         ++uid;
 
-        foreach (var chapter in environment.TableOfContents.Chapters)
+        foreach (TocChapter chapter in environment.TableOfContents.Chapters)
         {
             string chapterPath = $"{environment.Configuration.StaticWebsiteConfig.DeployHost}{EncodeTitle(chapter.Title)}";
             int parent_uid = uid;
@@ -169,7 +171,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
             {
                 logger.LogDebug("Processing file {File}...", file);
 
-                var sourceData = await environment.Source.GetSourceFile(file, logger);
+                SourceFile sourceData = await environment.Source.GetSourceFile(file, logger);
                 string subpath = $"{environment.Configuration.WordpressConfig.DeployHost}{EncodeTitle(chapter.Title)}/{EncodeTitle(sourceData.FrontMatter.Title)}";
 
                 string template = await environment.GetTemplate(frontMatterTemplate: sourceData.FrontMatter.Template,

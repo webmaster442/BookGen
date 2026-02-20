@@ -22,10 +22,10 @@ public sealed class CachedImageService : IImgService
 
     public ImageResult GetImageEmbedData(string path)
     {
-        if (_cache.TryGetValue(path, out var data))
+        if (_cache.TryGetValue(path, out ImageResult? data))
             return data;
 
-        var result = _service.GetImageEmbedData(path);
+        ImageResult result = _service.GetImageEmbedData(path);
         _cache.TryAdd(path, result);
         return result;
     }

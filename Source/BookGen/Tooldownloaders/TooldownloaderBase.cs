@@ -41,9 +41,9 @@ internal abstract class TooldownloaderBase
     public async Task DownloadToolAsync(IDownloadUi ui)
     {
         var downloadUrl = new Uri($"https://api.github.com/repos/{ToolInfo.RepoOwner}/{ToolInfo.RepoName}/releases");
-        var releases = await _apiClient.DownloadJsonAsync<Release[]>(downloadUrl);
+        Release[] releases = await _apiClient.DownloadJsonAsync<Release[]>(downloadUrl);
 
-        var latestRelease = GetReleaseAsset(releases.SelectMany(a => a.Assets));
+        ReleaseAsset? latestRelease = GetReleaseAsset(releases.SelectMany(a => a.Assets));
 
         if (latestRelease == null)
         {
@@ -53,7 +53,7 @@ internal abstract class TooldownloaderBase
 
         ui.BeginNew($"Downloading {latestRelease.Name}...", latestRelease.Size);
 
-        await using var stream = _memoryStreamManager.GetStream();
+        await using RecyclableMemoryStream stream = _memoryStreamManager.GetStream();
 
         try
         {

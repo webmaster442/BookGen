@@ -87,7 +87,7 @@ internal class UT_GitParser
             remotes/origin/HEAD -> origin/master
             """;
 
-        var result = GitParser.ParseBranches(input);
+        HashSet<string> result = GitParser.ParseBranches(input);
         Assert.Multiple(() =>
         {
             Assert.That(result, Has.Count.EqualTo(2));

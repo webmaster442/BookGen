@@ -33,7 +33,7 @@ internal sealed class AssemblyDocument : Command<AssemblyDocument.Arguments>
 
     public override int Execute(Arguments arguments, IReadOnlyList<string> context)
     {
-        var result = XmlDocMarkdownGenerator.Generate(arguments.InputFile, arguments.OutputFile, new XmlDocMarkdownSettings
+        XmlDocMarkdownResult result = XmlDocMarkdownGenerator.Generate(arguments.InputFile, arguments.OutputFile, new XmlDocMarkdownSettings
         {
             IsDryRun = arguments.DryRun,
             IncludeObsolete = true,

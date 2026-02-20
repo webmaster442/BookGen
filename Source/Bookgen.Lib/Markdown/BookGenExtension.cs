@@ -54,7 +54,7 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
 
         if (renderer is TextRendererBase<HtmlRenderer> htmlRenderer)
         {
-            var linkInLineRenderer = htmlRenderer.ObjectRenderers.FindExact<LinkInlineRenderer>();
+            LinkInlineRenderer? linkInLineRenderer = htmlRenderer.ObjectRenderers.FindExact<LinkInlineRenderer>();
             if (linkInLineRenderer != null)
             {
                 htmlRenderer.ObjectRenderers.Remove(linkInLineRenderer);

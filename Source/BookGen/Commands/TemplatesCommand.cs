@@ -59,7 +59,7 @@ internal class TemplatesCommand : AsyncCommand<TemplatesCommand.TemplatesArgumen
         Terminal.List(_defaultTemplates);
 
         Terminal.Header("Single page templates:", blankLineBefore: 1);
-        var singlePage = _assetSource.AssetNames.Where(n => n.EndsWith(".template", StringComparison.OrdinalIgnoreCase)).Order();
+        IOrderedEnumerable<string> singlePage = _assetSource.AssetNames.Where(n => n.EndsWith(".template", StringComparison.OrdinalIgnoreCase)).Order();
         Terminal.List(singlePage);
     }
 }

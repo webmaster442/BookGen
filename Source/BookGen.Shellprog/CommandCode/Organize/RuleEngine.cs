@@ -24,7 +24,7 @@ internal class RuleEngine
     {
         foreach (var file in Directory.GetFiles(folder))
         {
-            var foundRule = _loadedRules.FirstOrDefault(rule => rule.Key.IsMatch(file));
+            KeyValuePair<Regex, string> foundRule = _loadedRules.FirstOrDefault(rule => rule.Key.IsMatch(file));
 
             if (foundRule.Key == null)
             {

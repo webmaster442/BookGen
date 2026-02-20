@@ -34,7 +34,7 @@ internal sealed class HeadingInfos : LevelList<HeadingInfos>
 
         renderer.WriteLine("<ul>");
 
-        foreach (var item in Children)
+        foreach (HeadingInfos item in Children)
         {
             if (item.Level > options.MaxLevel)
                 continue;

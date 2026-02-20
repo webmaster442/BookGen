@@ -20,7 +20,7 @@ internal sealed class LoadLegacyTags : IMigrationStep
             return false;
         }
 
-        var tags = await foler.DeserializeAsync<Dictionary<string, string[]>>(file);
+        Dictionary<string, string[]>? tags = await foler.DeserializeAsync<Dictionary<string, string[]>>(file);
 
         if (tags == null)
         {

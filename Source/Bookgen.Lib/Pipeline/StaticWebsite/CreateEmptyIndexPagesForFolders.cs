@@ -15,7 +15,7 @@ internal sealed class CreateEmptyIndexPagesForFolders : PipeLineStep<StaticWebSt
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
-        var folders = environment.Output.GetDirectories(environment.Output.Scope, true);
+        IEnumerable<string> folders = environment.Output.GetDirectories(environment.Output.Scope, true);
 
         var protect = environment.GetAsset(BundledAssets.ProtectHtml);
 

@@ -95,17 +95,17 @@ internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
             ".jpg", ".jpeg", ".png", ".webp"
         };
 
-        if (!Resolution.TryParse(arguments.Resolution, CultureInfo.InvariantCulture, out var resolution))
+        if (!Resolution.TryParse(arguments.Resolution, CultureInfo.InvariantCulture, out Resolution resolution))
         {
             Console.Error.WriteLine($"Invalid resolution format: '{arguments.Resolution}'. Expected format is 'WidthxHeight'.");
             return ExitCodes.ArgumentsError;
         }
 
-        var format = Enum.Parse<ImageFormat>(arguments.Format, ignoreCase: true);
+        ImageFormat format = Enum.Parse<ImageFormat>(arguments.Format, ignoreCase: true);
 
         if (_fileSystem.DirectoryExists(arguments.Input))
         {
-            var files = _fileSystem.GetFiles(arguments.Input, "*.*", false).Where(f => supportedExtensions.Contains(Path.GetExtension(f)));
+            IEnumerable<string> files = _fileSystem.GetFiles(arguments.Input, "*.*", false).Where(f => supportedExtensions.Contains(Path.GetExtension(f)));
             Parallel.ForEach(files, file =>
             {
                 var outputFile = Path.Combine(arguments.Output, Path.GetFileNameWithoutExtension(file) + "." + arguments.Format);

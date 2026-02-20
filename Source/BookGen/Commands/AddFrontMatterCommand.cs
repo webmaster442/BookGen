@@ -17,6 +17,8 @@ using Markdig.Syntax;
 
 using Microsoft.Extensions.Logging;
 
+using YamlDotNet.Serialization;
+
 namespace BookGen.Commands;
 
 [CommandName("addfrontmatter")]
@@ -38,7 +40,7 @@ internal sealed class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
         var files = _writableFileSystem.GetFiles(arguments.Directory, "*.md", true).ToArray();
         _logger.LogInformation("Found {count} markdown files in {directory}", files.Length, arguments.Directory);
 
-        var serializer = YamlSerializerFactory.CreateSerializer();
+        ISerializer serializer = YamlSerializerFactory.CreateSerializer();
 
         foreach (var file in files)
         {
@@ -51,7 +53,7 @@ internal sealed class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
 
             _logger.LogDebug("Adding front matter to: {file}...", file);
 
-            var firstHedding = Markdown.Parse(content).OfType<HeadingBlock>().FirstOrDefault();
+            HeadingBlock? firstHedding = Markdown.Parse(content).OfType<HeadingBlock>().FirstOrDefault();
 
             string title = firstHedding?.Inline != null
                 ? string.Join("", firstHedding.Inline)

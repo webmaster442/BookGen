@@ -6,10 +6,13 @@
 using System.Text;
 
 using Bookgen.Lib.Domain.IO;
+using Bookgen.Lib.Domain.IO.Legacy;
 
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
+
+using YamlDotNet.Serialization;
 
 namespace Bookgen.Lib.Confighandling.LegacyMigration;
 
@@ -18,11 +21,11 @@ internal class MigrateFiles : IMigrationStep
     public async Task<bool> ExecuteAsync(IWritableFileSystem foler, MigrationState state, ILogger logger)
     {
         logger.LogInformation("Migrating files to add front matter...");
-        var serializer = YamlSerializerFactory.CreateSerializer();
+        ISerializer serializer = YamlSerializerFactory.CreateSerializer();
 
         foreach (var chapter in state.LegacyToc.Chapters)
         {
-            foreach (var link in state.LegacyToc.GetLinksForChapter(chapter))
+            foreach (Link link in state.LegacyToc.GetLinksForChapter(chapter))
             {
                 logger.LogDebug("Migrating file: {file}", link.Url);
 

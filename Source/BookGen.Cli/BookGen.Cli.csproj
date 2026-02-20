@@ -6,6 +6,7 @@
     <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
   
   <ItemGroup>

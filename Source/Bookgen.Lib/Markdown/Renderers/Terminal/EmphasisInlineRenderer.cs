@@ -2,6 +2,8 @@
 
 using Markdig.Syntax.Inlines;
 
+using Webmaster442.WindowsTerminal;
+
 namespace Bookgen.Lib.Markdown.Renderers.Terminal;
 
 internal sealed class EmphasisInlineRenderer : TerminalObjectRenderer<EmphasisInline>
@@ -32,7 +34,7 @@ internal sealed class EmphasisInlineRenderer : TerminalObjectRenderer<EmphasisIn
             return;
         }
 
-        var preformat = renderer.Builder.New();
+        TerminalFormattedStringBuilder preformat = renderer.Builder.New();
 
         if (option == RenderAs.Bold)
             preformat.WithBold();

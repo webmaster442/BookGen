@@ -8,6 +8,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 
 using Bookgen.Lib;
+using Bookgen.Lib.Domain.IO;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -53,7 +54,7 @@ internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArgum
         Dictionary<string, string[]> allLinks = new();
         Dictionary<string, string[]> badLinks = new();
 
-        foreach (var chapter in env.TableOfContents.Chapters)
+        foreach (TocChapter chapter in env.TableOfContents.Chapters)
         {
             _logger.LogInformation("Scanning {chapter} for links...", chapter.Title);
 
@@ -93,7 +94,7 @@ internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArgum
     private async Task WriteMarkdown(Dictionary<string, string[]> dataSet, string fileName)
     {
         MarkdownBuilder markdown = new();
-        foreach (var linkData in dataSet)
+        foreach (KeyValuePair<string, string[]> linkData in dataSet)
         {
             markdown.Heading(2, linkData.Key);
             markdown.UnorderedList(linkData.Value);
@@ -108,7 +109,7 @@ internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArgum
 
     private static IEnumerable<string> GetLinks(string text)
     {
-        var links = Links.Matches(text);
+        MatchCollection links = Links.Matches(text);
         foreach (Match link in links)
         {
             yield return link.Value;
@@ -121,14 +122,14 @@ internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArgum
 
         await Parallel.ForEachAsync(chapterLinks, async (link, cancellationToken) =>
         {
-            using var client = CreateHttpClient();
+            using HttpClient client = CreateHttpClient();
 
             try
             {
                 _logger.LogDebug("Verifying {link}...", link);
                 using var request = new HttpRequestMessage(HttpMethod.Head, link);
 
-                using var response = await client.SendAsync(request,
+                using HttpResponseMessage response = await client.SendAsync(request,
                                                             HttpCompletionOption.ResponseHeadersRead,
                                                             cancellationToken);
 
@@ -137,7 +138,7 @@ internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArgum
                     response.StatusCode == HttpStatusCode.NotImplemented)
                 {
                     using var getRequest = new HttpRequestMessage(HttpMethod.Get, link);
-                    using var getResponse = await client.SendAsync(getRequest,
+                    using HttpResponseMessage getResponse = await client.SendAsync(getRequest,
                                                                    HttpCompletionOption.ResponseHeadersRead,
                                                                    cancellationToken);
 

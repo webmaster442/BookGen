@@ -115,7 +115,7 @@ public sealed class ImgService : IImgService
                                                  _imageConfig.ImageQualityOnResize,
                                                  _imageConfig.ResizeAndRecodeImages);
 
-            var type = _imageConfig.ResizeAndRecodeImages switch
+            ImageType type = _imageConfig.ResizeAndRecodeImages switch
             {
                 ImgRecodeOption.AsPng => ImageType.Png,
                 ImgRecodeOption.AsWebp => ImageType.Webp,

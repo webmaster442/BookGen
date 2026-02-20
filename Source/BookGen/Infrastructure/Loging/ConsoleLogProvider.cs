@@ -36,7 +36,7 @@ public sealed class ConsoleLogProvider : ILoggerProvider
 
     public void Dispose()
     {
-        foreach (var logger in _loggers)
+        foreach (KeyValuePair<string, ConsoleLogger> logger in _loggers)
         {
             logger.Value.Dispose();
         }

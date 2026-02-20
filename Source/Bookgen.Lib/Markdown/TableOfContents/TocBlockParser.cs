@@ -39,14 +39,14 @@ internal sealed partial class TocBlockParser : BlockParser, IAttributesParseable
         int column = processor.Column;
         int sourcePosition = line.Start;
 
-        var matches = TocTagMatcher().Matches(line.ToString());
+        MatchCollection matches = TocTagMatcher().Matches(line.ToString());
 
         if (matches.Count < 1)
             return BlockState.None;
 
         int tagLength = matches.Select(x => x.Value.Length).Sum();
 
-        var maxLevelMathes = MaxLevelMatcher().Matches(line.ToString());
+        MatchCollection maxLevelMathes = MaxLevelMatcher().Matches(line.ToString());
         if (maxLevelMathes.Count > 0)
         {
             if (int.TryParse(maxLevelMathes[0].Groups.Values.Last().Value, out int maxLevel))
