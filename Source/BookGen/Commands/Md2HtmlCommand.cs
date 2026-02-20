@@ -88,6 +88,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
     }
 
     private readonly ILogger _log;
+    private readonly IFileSystemFactory _fileSystemFactory;
     private readonly IWritableFileSystem _fileSystem;
     private readonly IAssetSource _assetSource;
     private const string TitleTag = "{{Title}}";
@@ -95,10 +96,11 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
 
     private readonly TemplateEngine _templateEngine;
 
-    public Md2HtmlCommand(ILogger log, IWritableFileSystem fileSystem, IAssetSource assetSource)
+    public Md2HtmlCommand(ILogger log, IFileSystemFactory fileSystemFactory, IAssetSource assetSource)
     {
         _log = log;
-        _fileSystem = fileSystem;
+        _fileSystemFactory = fileSystemFactory;
+        _fileSystem = fileSystemFactory.CreateWritableFileSystem();
         _assetSource = assetSource;
         _templateEngine = new TemplateEngine(log, assetSource);
     }
@@ -107,7 +109,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
     {
         IEnumerable<string?> inputFolders = arguments.InputFiles.Select(i => Path.GetDirectoryName(i));
 
-        MultiReadScopeFileSystem inputFilesScope = new MultiReadScopeFileSystem(inputFolders!);
+        IReadOnlyFileSystem inputFilesScope = _fileSystemFactory.CreateMultiReadScopeFileSystem(inputFolders!);
 
         (string md, DateTime lastmodified) = inputFilesScope.ReadInputFiles(arguments.InputFiles);
 

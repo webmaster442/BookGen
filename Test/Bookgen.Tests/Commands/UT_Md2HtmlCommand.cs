@@ -15,18 +15,21 @@ namespace Bookgen.Tests.Commands;
 [TestFixture]
 internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
 {
-    protected override Md2HtmlCommand CreateSut()
-        => new Md2HtmlCommand(LoggerMock.Object, FileSystemMock.Object, AssetSourceMock.Object);
+    private readonly Mock<IReadOnlyFileSystem> MultiReadScopeMock = new Mock<IReadOnlyFileSystem>(MockBehavior.Strict);
 
     protected override void SetupMocks()
     {
+        MultiReadScopeMock.Setup(fs => fs.ReadAllText("test.md")).Returns("test");
+        MultiReadScopeMock.Setup(fs => fs.GetLastModifiedUtc("test.md")).Returns(new DateTime(2024, 1, 1));
         AssetSourceMock.Setup(a => a.GetAsset(BundledAssets.TemplateSinglePage)).Returns("<h1>{{Title}}</h1>{{Content}}");
         AssetSourceMock.Setup(a => a.GetAsset(BundledAssets.PrismJs)).Returns("");
-        FileSystemMock.As<IReadOnlyFileSystem>().Setup(fs => fs.ReadAllText("test.md")).Returns("test");
-        FileSystemMock.As<IReadOnlyFileSystem>().Setup(fs => fs.GetLastModifiedUtc("test.md")).Returns(new DateTime(2024, 1, 1));
         FileSystemMock.Setup(fs => fs.WriteAllText("out.html", It.IsAny<string>()));
-
+        FilesystemFactoryMock.Setup(f => f.CreateMultiReadScopeFileSystem(It.IsAny<IEnumerable<string>>())).Returns(MultiReadScopeMock.Object);
+        FilesystemFactoryMock.Setup(f => f.CreateWritableFileSystem(It.IsAny<string>())).Returns(FileSystemMock.Object);
     }
+
+    protected override Md2HtmlCommand CreateSut()
+        => new Md2HtmlCommand(LoggerMock.Object, FilesystemFactoryMock.Object, AssetSourceMock.Object);
 
     [Test]
     public async Task EnsureThat_GenerateRawWorks()
@@ -48,7 +51,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
         using (Assert.EnterMultipleScope())
         {
             Assert.That(exitCode, Is.EqualTo(0));
-            FileSystemMock.Verify(fs => fs.ReadAllText("test.md"), Times.AtLeastOnce());
+            MultiReadScopeMock.Verify(fs => fs.ReadAllText("test.md"), Times.AtLeastOnce());
             FileSystemMock.Verify(fs => fs.WriteAllText("out.html", expectedContent), Times.Once);
         }
     }
@@ -72,7 +75,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
         {
             Assert.That(exitCode, Is.EqualTo(0));
             AssetSourceMock.Verify(a => a.GetAsset(BundledAssets.TemplateSinglePage), Times.Once);
-            FileSystemMock.Verify(fs => fs.ReadAllText("test.md"), Times.Once);
+            MultiReadScopeMock.Verify(fs => fs.ReadAllText("test.md"), Times.Once);
             FileSystemMock.Verify(fs => fs.WriteAllText("out.html", It.IsAny<string>()), Times.Once);
         }
     }

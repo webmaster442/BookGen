@@ -48,6 +48,7 @@ ioc.AddSingleton(logger);
 ioc.AddSingleton(info);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.AddSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
+ioc.AddSingleton<IFileSystemFactory, FileSystemFactory>();
 ioc.AddSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
 ioc.AddTransient<IWritableFileSystem, FileSystem>();
 ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
