@@ -105,19 +105,23 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
 
     public override int Execute(Md2HtmlArguments arguments, IReadOnlyList<string> context)
     {
-        (string md, DateTime lastmodified) = _fileSystem.ReadInputFiles(arguments.InputFiles);
+        IEnumerable<string?> inputFolders = arguments.InputFiles.Select(i => Path.GetDirectoryName(i));
+
+        MultiReadScopeFileSystem inputFilesScope = new MultiReadScopeFileSystem(inputFolders!);
+
+        (string md, DateTime lastmodified) = inputFilesScope.ReadInputFiles(arguments.InputFiles);
 
         string? pageTemplate = string.Empty;
 
         if (string.IsNullOrEmpty(arguments.Template))
             pageTemplate = _assetSource.GetAsset(BundledAssets.TemplateSinglePage);
         else
-            pageTemplate = _fileSystem.ReadAllText(arguments.Template);
+            pageTemplate = inputFilesScope.ReadAllText(arguments.Template);
 
         if (!ValidateTemplate(pageTemplate))
             return ExitCodes.GeneralError;
 
-        var imgService = new ImgService(_fileSystem, _log, new ImageConfig
+        var imgService = new ImgService(inputFilesScope, _log, new ImageConfig
         {
             SvgRecode = arguments.SvgPassthrough ? SvgRecodeOption.Passtrough : SvgRecodeOption.AsWebp,
             ImageQualityOnResize = 90,
