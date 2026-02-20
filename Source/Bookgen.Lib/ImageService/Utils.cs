@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Buffers;
 using System.Diagnostics;
 using System.Text;
 
@@ -127,15 +128,55 @@ internal static class Utils
 
     public static string Base64Encode(Stream fileData)
     {
-        StringBuilder builder = new StringBuilder();
-        byte[] buffer = new byte[4096];
-        int read = 0;
-        do
+        const int readBufferSize = 4096;
+
+        int size = (int)Math.Ceiling(4 * (fileData.Length / 3.0));
+
+        var stringBuilder = new StringBuilder(size);
+
+        byte[] remainder = new byte[2];
+        int remainderCount = 0;
+
+        byte[] readBuffer = ArrayPool<byte>.Shared.Rent(readBufferSize);
+        int bytesRead;
+
+        try
         {
-            read = fileData.Read(buffer, 0, buffer.Length);
-            builder.Append(Convert.ToBase64String(buffer, 0, read));
+            while ((bytesRead = fileData.Read(readBuffer, 0, readBuffer.Length)) > 0)
+            {
+                int totalBytesToProcess = remainderCount + bytesRead;
+
+                // Determine how many bytes can form complete 3-byte triplets.
+                var bytesToTakeForEncoding = (totalBytesToProcess / 3) * 3;
+
+                if (bytesToTakeForEncoding > 0)
+                {
+                    var chunk = ArrayPool<byte>.Shared.Rent(bytesToTakeForEncoding);
+                    remainder.AsSpan(0, remainderCount).CopyTo(chunk);
+                    readBuffer.AsSpan(0, bytesToTakeForEncoding - remainderCount).CopyTo(chunk.AsSpan(remainderCount));
+                    stringBuilder.Append(Convert.ToBase64String(chunk, 0, bytesToTakeForEncoding));
+                    ArrayPool<byte>.Shared.Return(chunk);
+
+                    remainderCount = bytesRead - (bytesToTakeForEncoding - remainderCount);
+                    readBuffer.AsSpan(bytesRead - remainderCount, remainderCount).CopyTo(remainder);
+                }
+                else
+                {
+                    readBuffer.AsSpan(0, bytesRead).CopyTo(remainder.AsSpan(remainderCount));
+                    remainderCount += bytesRead;
+                }
+            }
+
+            if (remainderCount > 0)
+            {
+                stringBuilder.Append(Convert.ToBase64String(remainder.AsSpan(0, remainderCount).ToArray()));
+            }
         }
-        while (read > 0);
-        return builder.ToString();
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(readBuffer);
+        }
+
+        return stringBuilder.ToString();
     }
 }
