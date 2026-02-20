@@ -16,9 +16,9 @@ namespace Bookgen.Tests.Lib;
 [TestFixture]
 internal class UT_TemplateEngine
 {
-    private TemplateEngine _sut;
-    private TestLogger _logger;
-    private Mock<IAssetSource> _assetSourceMock;
+    private TemplateEngine? _sut;
+    private TestLogger? _logger;
+    private Mock<IAssetSource>? _assetSourceMock;
 
     [SetUp]
     public void Setup()

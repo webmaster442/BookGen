@@ -14,10 +14,10 @@ namespace Bookgen.Tests;
 [TestFixture]
 internal class TestDocumentation
 {
-    private Mock<IServiceProvider> _serviceProviderMock;
-    private Mock<ILogger> _loggerMock;
-    private HelpProvider _helpProvider;
-    private CommandRunnerProxy _commandRunnerProxy;
+    private Mock<IServiceProvider>? _serviceProviderMock;
+    private Mock<ILogger>? _loggerMock;
+    private HelpProvider? _helpProvider;
+    private CommandRunnerProxy? _commandRunnerProxy;
 
     [SetUp]
     public void Setup()

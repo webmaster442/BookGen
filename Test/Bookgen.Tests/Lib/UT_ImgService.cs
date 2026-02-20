@@ -15,8 +15,8 @@ namespace Bookgen.Tests.Lib;
 [TestFixture]
 internal class UT_ImgService
 {
-    private EmbeddedTestFileSystem _testFolder;
-    private Mock<ILogger> _mockLogger;
+    private EmbeddedTestFileSystem? _testFolder;
+    private Mock<ILogger>? _mockLogger;
 
     [SetUp]
     public void Setup()

@@ -23,7 +23,7 @@ internal sealed class SchemasCommand : Command<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;
     private readonly ILogger _logger;
-    
+
     public SchemasCommand(IWritableFileSystem writableFileSystem, ILogger logger)
     {
         _writableFileSystem = writableFileSystem;

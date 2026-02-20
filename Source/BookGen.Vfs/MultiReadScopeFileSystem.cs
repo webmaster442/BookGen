@@ -14,7 +14,7 @@ public sealed class MultiReadScopeFileSystem : IReadOnlyFileSystem
         foreach (var scope in _scopes)
         {
             var fullPath = Path.GetFullPath(Path.Combine(scope, path));
-            if (File.Exists(fullPath)) 
+            if (File.Exists(fullPath))
                 return fullPath;
         }
         throw new InvalidOperationException($"{path} can't be found");
@@ -25,7 +25,7 @@ public sealed class MultiReadScopeFileSystem : IReadOnlyFileSystem
         _scopes = new HashSet<string>(scopes);
     }
 
-    public string Scope 
+    public string Scope
     {
         get => string.Join(Environment.NewLine, _scopes);
         set => throw new NotSupportedException();
