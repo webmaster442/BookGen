@@ -41,6 +41,7 @@ internal static class JsonSchemaTransformer
                 requiredArray.Add(property.Key);
             }
             obj["required"] = requiredArray;
+            obj["additionalProperties"] = false;
         }
 
         AddDecription(node, GetAttribute<DescriptionAttribute>(attributeProvider));
@@ -106,7 +107,7 @@ internal static class JsonSchemaTransformer
             };
         }
 
-        if (rangeAttribute == null || node is not JsonObject jObj)
+        if (rangeAttribute is null || node is not JsonObject jObj)
             return;
 
         if (IsNumeric(propertyInfo?.PropertyType))
@@ -118,7 +119,7 @@ internal static class JsonSchemaTransformer
 
     private static void AddRegex(JsonNode node, string? regexPattern, JsonPropertyInfo? propertyInfo)
     {
-        if (regexPattern == null || node is not JsonObject jObj)
+        if (regexPattern is null || node is not JsonObject jObj)
             return;
 
         if (propertyInfo?.PropertyType == typeof(string))
@@ -135,7 +136,7 @@ internal static class JsonSchemaTransformer
                 || propertyType?.IsAssignableTo(typeof(System.Collections.IEnumerable)) == true;
         }
 
-        if (length == null || node is not JsonObject jObj)
+        if (length is null || node is not JsonObject jObj)
             return;
 
         if (propertyInfo?.PropertyType == typeof(string))
