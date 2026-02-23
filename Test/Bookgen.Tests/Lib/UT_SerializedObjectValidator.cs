@@ -15,8 +15,8 @@ namespace Bookgen.Tests.Lib;
 [TestFixture]
 internal class UT_SerializedObjectValidator
 {
-    private Mock<IReadOnlyFileSystem>? _fileSystem;
-    private SerializedObjectValidator? _validator;
+    private Mock<IReadOnlyFileSystem> _fileSystem;
+    private SerializedObjectValidator _validator;
 
     [SetUp]
     public void Setup()

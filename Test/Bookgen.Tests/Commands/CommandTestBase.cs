@@ -21,7 +21,7 @@ internal abstract class CommandTestBase<TCommand> where TCommand : ICommand
     protected readonly Mock<ICommandRunnerProxy> CommandRunnerProxyMock = new Mock<ICommandRunnerProxy>(MockBehavior.Strict);
     protected readonly Mock<IFileSystemFactory> FilesystemFactoryMock = new Mock<IFileSystemFactory>(MockBehavior.Strict);
 
-    protected ICommand? Command { get; private set; }
+    protected ICommand Command { get; private set; }
 
     [SetUp]
     public void Setup()

@@ -13,8 +13,8 @@ namespace Bookgen.Tests.Lib;
 
 internal class UT_FootNoteReindexer
 {
-    private FootNoteReindexer? _sut;
-    private Mock<ILogger>? _logMock;
+    private FootNoteReindexer _sut;
+    private Mock<ILogger> _logMock;
 
     [SetUp]
     public void Setup()
