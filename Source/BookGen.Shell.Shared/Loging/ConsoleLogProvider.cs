@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
 
-namespace BookGen.Infrastructure.Loging;
+namespace BookGen.Shell.Shared.Loging;
 
 public sealed class ConsoleLogProvider : ILoggerProvider
 {
@@ -54,7 +54,7 @@ public sealed class ConsoleLogProvider : ILoggerProvider
         }
 
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull
-            => new DumyLogScope();
+            => null;
 
         public void Dispose()
         {

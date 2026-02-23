@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Cli;
+using BookGen.Shell.Shared.Loging;
 using BookGen.Shellprog;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,12 @@ using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
 
-using ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+using ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+{
+    builder.ClearProviders();
+    builder.AddFilter(level => level >= LogLevel.Information);
+    builder.AddProvider(new ConsoleLogProvider());
+});
 
 ILogger logger = loggerFactory.CreateLogger("BookGen.Shell");
 

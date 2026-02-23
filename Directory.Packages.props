@@ -9,6 +9,7 @@
     <PackageVersion Include="Microsoft.ClearScript" Version="7.5.0" />
     <PackageVersion Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.5.0" />
     <PackageVersion Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.5.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.3" />

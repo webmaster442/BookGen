@@ -159,11 +159,18 @@
       "bookgen.shell.shared": {
         "type": "Project",
         "dependencies": {
+          "Spectre.Console": "[0.54.0, )",
           "Webmaster442.WindowsTerminal": "[4.1.1, )"
         }
       },
       "bookgen.vfs": {
         "type": "Project"
+      },
+      "Spectre.Console": {
+        "type": "CentralTransitive",
+        "requested": "[0.54.0, )",
+        "resolved": "0.54.0",
+        "contentHash": "StDXCFayfy0yB1xzUHT2tgEpV1/HFTiS4JgsAQS49EYTfMixSwwucaQs/bIOCwXjWwIQTMuxjUIxcB5XsJkFJA=="
       },
       "Webmaster442.WindowsTerminal": {
         "type": "CentralTransitive",

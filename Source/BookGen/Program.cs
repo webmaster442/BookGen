@@ -10,6 +10,7 @@ using BookGen.Cli;
 using BookGen.Commands;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
+using BookGen.Shell.Shared.Loging;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.DependencyInjection;
