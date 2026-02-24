@@ -136,12 +136,12 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = !arguments.NoEmbed,
-            PrismJsInterop = new PrismJsInterop(_assetSource)
+            PrismJsInterop = arguments.NoSyntax ? null : new PrismJsInterop(_assetSource)
         };
 
-        using var markdonwConverter = new MarkdownConverter(settings);
+        using var markdownConverter = new MarkdownConverter(settings);
 
-        string? mdcontent = markdonwConverter.RenderMarkdownToHtml(md);
+        string? mdcontent = markdownConverter.RenderMarkdownToHtml(md);
 
         string rendered;
         if (arguments.RawHtml)
