@@ -146,13 +146,13 @@ public sealed class BookEnvironment : IBookEnvironment
         return false;
     }
 
-    public byte[] GetBinaryAsset(string name)
+    public Stream GetBinaryAssetStream(string name)
     {
         foreach (IAssetSource assetsource in _assets)
         {
             try
             {
-                return assetsource.GetBinaryAsset(name);
+                return assetsource.GetBinaryAssetStream(name);
             }
             catch (InvalidOperationException)
             {

@@ -20,9 +20,9 @@ internal sealed class CreateFontFiles : PipeLineStep<EpubState>
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Creating EPUB font files...");
-        await State.EpubFile.AddAsync("JetBrainsMono-Regular.ttf", environment.GetBinaryAsset("JetBrainsMono-Regular.ttf"), CompressionLevel.Optimal);
-        await State.EpubFile.AddAsync("OpenSans-Regular.ttf", environment.GetBinaryAsset("OpenSans-Regular.ttf"), CompressionLevel.Optimal);
-        await State.EpubFile.AddAsync("Nunito-Bold.ttf", environment.GetBinaryAsset("Nunito-Bold.ttf"), CompressionLevel.Optimal);
+        await State.EpubFile.AddAsync("JetBrainsMono-Regular.ttf", environment.GetBinaryAssetStream("JetBrainsMono-Regular.ttf"), CompressionLevel.Optimal);
+        await State.EpubFile.AddAsync("OpenSans-Regular.ttf", environment.GetBinaryAssetStream("OpenSans-Regular.ttf"), CompressionLevel.Optimal);
+        await State.EpubFile.AddAsync("Nunito-Bold.ttf", environment.GetBinaryAssetStream("Nunito-Bold.ttf"), CompressionLevel.Optimal);
 
         State.PackageItems.AddRange([
             new PackageItem
