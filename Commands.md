@@ -621,6 +621,33 @@ BookGen Shortcut
 
 This command is only supported on Windows OS.
 
+# Spellcheck
+
+Perform spell check on a given markdown file or text file. The command will print the misspelled words to the console.
+
+```
+BookGen Spellcheck -i <input> [-l <language>] [-v]
+BookGen Spellcheck --input <input> [--language <language>] [--verbose]
+```
+
+Arguments:
+
+* `-i`, `--input`:
+  
+  Required argument. Specifies the input file path. The file must be a markdown file or a text file.
+
+* `-l`, `--language`:
+
+  Optional argument. Specifies the language to use for spell checking. The value must be a valid language code, like en_US or hu_HU. If not specified, then en_US will be used as the default language.
+
+* `-v`, `--verbose`: 
+
+  Optional argument, turns on detailed logging. Usefull for locating issues
+
+* `-ld`, `--list-dictionaires`
+
+  Optional argument. When specified, the command will list all available dictionaries and exit.
+
 # Stats
 
 Displays various statistics about the bookgen project.

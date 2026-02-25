@@ -54,6 +54,15 @@ ioc.AddSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
 ioc.AddTransient<IWritableFileSystem, FileSystem>();
 ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
 ioc.AddTransient<IApiClient, ApiClient>();
+ioc.AddKeyedSingleton<IAssetSource>("dictionaries", (provider, key) =>
+{
+    var dictionaries = Path.Combine(AppContext.BaseDirectory, "dictionaries.zip");
+    if (File.Exists(dictionaries))
+    {
+        return new ZipAssetSoruce(dictionaries);
+    }
+    return new EmptyAssetSource();
+});
 
 using ServiceProvider provider = ioc.BuildServiceProvider();
 

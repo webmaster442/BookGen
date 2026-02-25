@@ -106,13 +106,19 @@ public sealed class CommandRunner
             .OrderByDescending(c => c.GetParameters().Length)
             .First();
 
-        List<object> contructorParameters = new();
+        List<object> constructorParameters = new();
         foreach (ParameterInfo param in constructor.GetParameters())
         {
-            contructorParameters.Add(_serviceProvider.GetRequiredService(param.ParameterType));
+            FromKeyedServicesAttribute? keyAttribute = param.GetCustomAttribute<FromKeyedServicesAttribute>();
+
+            object parameterInstance = keyAttribute != null
+                ? _serviceProvider.GetRequiredKeyedService(param.ParameterType, keyAttribute.Key)
+                : _serviceProvider.GetRequiredService(param.ParameterType);
+
+            constructorParameters.Add(parameterInstance);
         }
 
-        var instance = Activator.CreateInstance(_commands[commandName], contructorParameters.ToArray())
+        var instance = Activator.CreateInstance(_commands[commandName], constructorParameters.ToArray())
             ?? throw new InvalidOperationException();
 
         return (ICommand)instance;

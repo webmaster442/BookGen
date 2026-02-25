@@ -61,6 +61,12 @@
         "resolved": "1.0.0",
         "contentHash": "TojbwWASRf3PMUsotXa8MQ9SNwEwWZZ5bAYf1eLv+jiDsxaD/n7TKTi3da6z4+m8uZHri2i+BVRuLj5w+6j64Q=="
       },
+      "WeCantSpell.Hunspell": {
+        "type": "Direct",
+        "requested": "[7.0.1, )",
+        "resolved": "7.0.1",
+        "contentHash": "Ha0x66QWA+IPj2kJYoweA8MSnB1tymBW6kAIS6Kkj/U3SlMLCBPjDlUXzrrY1zJAxVItrGpFIXjkl3eEIYIE9A=="
+      },
       "XmlDocMarkdown.Core": {
         "type": "Direct",
         "requested": "[2.9.0, )",
