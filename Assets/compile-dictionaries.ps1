@@ -3,6 +3,11 @@ if (-not (Test-Path $dictionariesPath)) {
     New-Item -ItemType Directory -Path $dictionariesPath | Out-Null
 }
 
+if (Test-Path "dictionaries.zip") {
+    Write-Host "dictionaries.zip already exists. Exiting script."
+    exit
+}
+
 cd $dictionariesPath 
 curl -L -O "https://github.com/LibreOffice/dictionaries/blob/master/en/en_GB.aff"
 curl -L -O "https://github.com/LibreOffice/dictionaries/blob/master/en/en_GB.dic"

@@ -280,6 +280,42 @@
         "resolved": "16.3.0",
         "contentHash": "SgMOdxbz8X65z8hraIs6hOEdnkH6hESTAIUa7viEngHOYaH+6q5XJmwr1+yb9vJpNQ19hCQY69xbFsLtXpobQA=="
       }
+    },
+    "net10.0/linux-x64": {
+      "Microsoft.ClearScript.V8.Native.win-x86": {
+        "type": "Transitive",
+        "resolved": "7.5.0",
+        "contentHash": "rBbkxbCM6D4Y7xrKPcf2XJ3aD9pNik1q64ZleR6pT+RJZRz/7aDbMmcCcDm29AUnu2QHmrSsPA3KpLZm5rmnFg=="
+      },
+      "SkiaSharp.NativeAssets.macOS": {
+        "type": "Transitive",
+        "resolved": "3.119.2",
+        "contentHash": "I2jMGQ/26KOnc6iAoR+Mxh9vSJJ2vioJyj9aJ9OL5yEZyXothXJxf4vBMqnSaiXMqiiU1scG7KqtT0CLkmMmWA=="
+      },
+      "Microsoft.ClearScript.V8.Native.linux-x64": {
+        "type": "CentralTransitive",
+        "requested": "[7.5.0, )",
+        "resolved": "7.5.0",
+        "contentHash": "snoN9oRwKqShA32IsuCanLjNtP8hros2WOrOBL7g+ED3AV40qwrsbfKwWq37BzogrfsF1aEVoDkBpE19Az7DVQ=="
+      },
+      "Microsoft.ClearScript.V8.Native.win-x64": {
+        "type": "CentralTransitive",
+        "requested": "[7.5.0, )",
+        "resolved": "7.5.0",
+        "contentHash": "DKMxDLboTNflYkwDQ/ELrSf1vXTpew5UZ8xzrXSVKYFBU570VA6NKh1etEGhufuCuDyU7Je5L2g6H+19Dbl+tA=="
+      },
+      "SkiaSharp.NativeAssets.Linux": {
+        "type": "CentralTransitive",
+        "requested": "[3.119.2, )",
+        "resolved": "3.119.2",
+        "contentHash": "9WzxSyG/s9Id506j0Ht+Bi5ucOpWKPzd1XXr9TD4fuCafHHy2swRSlbZtC3IDQAsvCH63OerkDJajj43uSv5og=="
+      },
+      "SkiaSharp.NativeAssets.Win32": {
+        "type": "CentralTransitive",
+        "requested": "[3.119.2, )",
+        "resolved": "3.119.2",
+        "contentHash": "uYe+da6+GXVgPKkCopzvIZ83DmC8SXXKeUAPrNcztJNsg0SjPQAxfKMOPZqmVjbzznrq/QUIjLUlJSZV/e0IPA=="
+      }
     }
   }
 }

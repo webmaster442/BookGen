@@ -27,6 +27,7 @@ function Invoke-Publish {
 
     # copy installer scripts
     Copy-Item "Installers\install.cmd" "bin\publish\windows\install.cmd"
+    Copy-Item "Installers\run_shell.cmd" "bin\publish\linux\run_shell.cmd"
 
     # copy assets
     Copy-Item "bin\Release\assets.zip" "bin\publish\windows\bin\assets.zip"
@@ -49,15 +50,21 @@ function Invoke-Publish {
     # zip
     if ($SelfContained) {
         Compress-Archive -Path "bin\publish\windows\*" -DestinationPath "bin\publish\$WindowsArchiveName" -Force
+        clear
         tar -czvf "bin\publish\$LinuxArchiveName" -C "bin\publish\linux" .
     }
     else {
         Compress-Archive -Path "bin\publish\windows\*" -DestinationPath "bin\publish\$WindowsArchiveName" -Force
+        clear
         tar -czvf "bin\publish\$LinuxArchiveName" -C "bin\publish\linux" .
     }
 }
+cd assets
+.\compile-dictionaries.ps1
+cd ..
+
+# Framework-dependent build and archives
+Invoke-Publish -SelfContained $false -WindowsArchiveName "BookGen-windows.zip" -LinuxArchiveName "BookGen-linux.tar.gz"
 
 # Self-contained build and archives
 Invoke-Publish -SelfContained $true -WindowsArchiveName "BookGen-windows-selefcontained.zip" -LinuxArchiveName "BookGen-linux-selefcontained.tar.gz"
-# Framework-dependent build and archives
-Invoke-Publish -SelfContained $false -WindowsArchiveName "BookGen-windows.zip" -LinuxArchiveName "BookGen-linux.tar.gz"
