@@ -61,34 +61,6 @@ public sealed class ImgService : IImgService
         };
     }
 
-    public ImageResult EncodeSvg(string svgData)
-    {
-        if (_imageConfig.SvgRecode == SvgRecodeOption.Passtrough)
-        {
-            return new ImageResult
-            {
-                Data = svgData,
-                ImageType = ImageType.Svg,
-                OriginalName = string.Empty,
-            };
-        }
-
-
-
-        using SKData rendered = ImageUtils.RenderSvg(svgData,
-                                                     _imageConfig.ResizeWith,
-                                                     _imageConfig.ResizeHeight,
-                                                     _imageConfig.SvgRecode);
-
-        return new ImageResult
-        {
-            Data = Convert.ToBase64String(rendered.AsSpan()),
-            ImageType = GetImateType(_imageConfig.SvgRecode),
-            OriginalName = string.Empty
-        };
-
-    }
-
     public ImageResult GetImageEmbedData(string filePath)
     {
         filePath = filePath.Replace("../", "");

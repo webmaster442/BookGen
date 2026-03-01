@@ -72,13 +72,14 @@ internal sealed class Md2TerminalCommand : Command<Md2TerminalCommand.Arguments>
     {
         (string md, _) = _fileSystem.ReadInputFiles(arguments.InputFiles);
 
-        using var settings = new RenderSettings(null!)
+        using var settings = new MarkdownRenderSettings(null!)
         {
             DeleteFirstH1 = false,
             AutoEmbedSupportedLinks = false,
             CssClasses = new CssClasses(),
             HostUrl = string.Empty,
             PrismJsInterop = null,
+            ImageRenderJsInterop = null!
         };
 
         using var markdonwConverter = new MarkdownConverter(settings);

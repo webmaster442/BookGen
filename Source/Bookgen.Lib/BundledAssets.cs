@@ -17,5 +17,7 @@ public static class BundledAssets
     public const string MathJax = "mathjax-bundled.js";
     public const string QrCodeJs = "qrcode.min.js";
     public const string JsPageToc = "PageToc.js";
+    public const string NomnomlJs = "nomnoml.js";
+    public const string GraphreJs = "graphre.js";
 
 }

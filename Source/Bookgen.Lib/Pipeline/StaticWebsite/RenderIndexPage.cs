@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 using Bookgen.Lib.Domain;
 using Bookgen.Lib.ImageService;
+using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
 
@@ -32,13 +33,14 @@ internal sealed class RenderIndexPage : PipeLineStep<StaticWebState>
         var cached = new CachedImageService(imgService, _memoryCache);
         var renderer = new TemplateEngine(logger, environment);
 
-        using var settings = new RenderSettings(cached)
+        using var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.StaticWebsiteConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = environment.Configuration.StaticWebsiteConfig.DeployHost,
             PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(environment, environment.Configuration.StaticWebsiteConfig.Images)
         };
 
         using var markdown = new MarkdownConverter(settings);

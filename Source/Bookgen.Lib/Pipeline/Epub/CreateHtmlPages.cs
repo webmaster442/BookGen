@@ -40,17 +40,19 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
-        var imgService = new ImgService(environment.Source, logger, new ImageConfig
+        var imgConfig = new ImageConfig
         {
             SvgRecode = SvgRecodeOption.AsWebp,
             ResizeAndRecodeImages = ImgRecodeOption.AsPng,
             ImageQualityOnResize = 90,
             ResizeWith = 1600,
             ResizeHeight = 1600,
-        });
+        };
+
+        var imgService = new ImgService(environment.Source, logger, imgConfig);
         var cached = new CachedImageService(imgService, _memoryCache);
 
-        using var settings = new RenderSettings(cached)
+        using var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
@@ -58,6 +60,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
             PrismJsInterop = new SyntaxRenderJsInterop(environment),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
+            ImageRenderJsInterop = new ImageRenderJsInterop(environment, imgConfig),
             ImageUrlRewriter = EpubImageRewrite
         };
 

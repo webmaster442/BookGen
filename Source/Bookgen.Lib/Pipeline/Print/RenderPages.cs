@@ -30,14 +30,15 @@ internal sealed class RenderPages : PipeLineStep<PrintState>
         var imgService = new ImgService(environment.Source, logger, environment.Configuration.PrintConfig.Images);
         var cached = new CachedImageService(imgService, _memoryCache);
 
-        using var settings = new RenderSettings(cached)
+        using var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
             PrismJsInterop = new SyntaxRenderJsInterop(environment),
             OffsetHeadingsBy = 1,
-            AutoEmbedSupportedLinks = false
+            AutoEmbedSupportedLinks = false,
+            ImageRenderJsInterop = new ImageRenderJsInterop(environment, environment.Configuration.PrintConfig.Images)
         };
 
         using var markdown = new MarkdownConverter(settings);

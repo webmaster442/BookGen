@@ -39,18 +39,6 @@ public sealed class CachedImageService : IImgService
         return hash;
     }
 
-
-    public ImageResult EncodeSvg(string svgData)
-    {
-        ulong cacheKey = GetCacheKey(svgData);
-        return _memoryCache.GetOrCreate(cacheKey, entry =>
-        {
-
-            entry.SetAbsoluteExpiration(TimeSpan.FromSeconds(180));
-            return _service.EncodeSvg(svgData);
-        })!;
-    }
-
     public ImageResult GetImageEmbedData(string path)
     {
         ulong cacheKey = GetCacheKey(path);

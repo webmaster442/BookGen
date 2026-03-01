@@ -6,6 +6,7 @@
 using System.Text;
 using System.Web;
 
+using Bookgen.Lib.ImageService;
 using Bookgen.Lib.JsInterop;
 
 using Markdig.Helpers;
@@ -20,8 +21,10 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 {
     private readonly CodeBlockRenderer _originalRenderer;
     private readonly SyntaxRenderJsInterop? _prism;
+    private readonly ImageRenderJsInterop _imageRenderJsInterop;
     private readonly HashSet<string> _supportedLanguages;
-    public const string Terminallanguage = "terminal";
+    public const string TerminalLanguage = "terminal";
+    public const string NomnomlLanguage = "nomnoml";
 
     public const string TerminalHtml = """
         <div style="margin-bottom: 1rem;" class="terminaloutput">
@@ -32,10 +35,13 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 
     public bool PreRender => _prism != null;
 
-    public SyntaxRenderer(CodeBlockRenderer underlyingRenderer, SyntaxRenderJsInterop? prism)
+    public SyntaxRenderer(CodeBlockRenderer underlyingRenderer,
+                          SyntaxRenderJsInterop? prism,
+                          ImageRenderJsInterop imageRenderJsInterop)
     {
         _originalRenderer = underlyingRenderer ?? new CodeBlockRenderer();
         _prism = prism;
+        _imageRenderJsInterop = imageRenderJsInterop;
         _supportedLanguages = new HashSet<string>
             {
                 "markup", "css", "clike", "javascript", "abap", "actionscript",
@@ -58,7 +64,7 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
                 "sass", "scss", "scala", "scheme", "smalltalk", "smarty", "sql", "soy",
                 "stylus", "swift", "tap", "tcl", "textile", "tt2", "twig", "typescript",
                 "vbnet", "velocity", "verilog", "vhdl", "vim", "visual-basic", "wasm", "wiki",
-                "xeora", "xojo", "xquery", "yaml", Terminallanguage
+                "xeora", "xojo", "xquery", "yaml", TerminalLanguage, NomnomlLanguage
             };
     }
 
@@ -111,11 +117,19 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 
         string code = GetCode(obj);
 
-        if (languageMoniker == Terminallanguage)
+        if (languageMoniker == TerminalLanguage)
         {
             string terminalOutput = RenderTerminalString(code);
             renderer.Write(terminalOutput);
         }
+
+        if (languageMoniker == NomnomlLanguage)
+        {
+            ImageResult img = _imageRenderJsInterop.RenderNomnoml(code);
+            string rendered = RendererImgage(img);
+            renderer.Write(rendered);
+        }
+
         else if (PreRender)
         {
             string rendered = RenderWithPrism(code, languageMoniker);
@@ -125,6 +139,13 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
         {
             _originalRenderer.Write(renderer, obj);
         }
+    }
+
+    private static string RendererImgage(ImageResult img)
+    {
+        return img.ImageType == ImageType.Svg 
+            ? img.Data 
+            : $"<img src=\"data:{img.ImageType.GetMimeType()};base64,{img.Data}\">";
     }
 
     public static string RenderTerminalString(string code)

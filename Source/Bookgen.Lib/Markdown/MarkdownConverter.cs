@@ -17,7 +17,7 @@ public sealed class MarkdownConverter : IDisposable
     private readonly MarkdownPipeline _htmlPipeLine;
     private readonly MarkdownPipeline _terminalPipeLine;
 
-    public MarkdownConverter(RenderSettings settings)
+    public MarkdownConverter(MarkdownRenderSettings settings)
     {
         MarkdownPipelineBuilder configuration = new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()

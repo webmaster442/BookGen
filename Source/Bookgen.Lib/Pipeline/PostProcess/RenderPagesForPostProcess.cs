@@ -28,21 +28,25 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
-        var imgService = new ImgService(environment.Source, logger, new ImageConfig()
+        var imgConfig = new ImageConfig()
         {
             ResizeAndRecodeImages = ImgRecodeOption.Passtrough,
             SvgRecode = SvgRecodeOption.Passtrough,
-        });
+        };
+
+        var imgService = new ImgService(environment.Source, logger, imgConfig);
+
         var cached = new CachedImageService(imgService, _memoryCache);
 
-        using var settings = new RenderSettings(cached)
+        using var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
             PrismJsInterop = new SyntaxRenderJsInterop(environment),
             OffsetHeadingsBy = 1,
-            AutoEmbedSupportedLinks = false
+            AutoEmbedSupportedLinks = false,
+            ImageRenderJsInterop = new ImageRenderJsInterop(environment, imgConfig)
         };
 
         using var markdown = new MarkdownConverter(settings);

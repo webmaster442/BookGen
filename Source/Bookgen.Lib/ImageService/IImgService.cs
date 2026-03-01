@@ -8,5 +8,4 @@ namespace Bookgen.Lib.ImageService;
 public interface IImgService
 {
     ImageResult GetImageEmbedData(string filePath);
-    ImageResult EncodeSvg(string svgData);
 }

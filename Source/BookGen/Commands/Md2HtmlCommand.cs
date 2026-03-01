@@ -123,20 +123,23 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         if (!ValidateTemplate(pageTemplate))
             return ExitCodes.GeneralError;
 
-        var imgService = new ImgService(inputFilesScope, _log, new ImageConfig
+        var imgConfig = new ImageConfig
         {
             SvgRecode = arguments.SvgPassthrough ? SvgRecodeOption.Passtrough : SvgRecodeOption.AsWebp,
             ImageQualityOnResize = 90,
-        });
+        };
 
-        using var settings = new RenderSettings(imgService)
+        var imgService = new ImgService(inputFilesScope, _log, imgConfig);
+
+        using var settings = new MarkdownRenderSettings(imgService)
         {
             HostUrl = string.Empty,
             DeleteFirstH1 = false,
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = !arguments.NoEmbed,
-            PrismJsInterop = arguments.NoSyntax ? null : new SyntaxRenderJsInterop(_assetSource)
+            PrismJsInterop = arguments.NoSyntax ? null : new SyntaxRenderJsInterop(_assetSource),
+            ImageRenderJsInterop = new ImageRenderJsInterop(_assetSource, imgConfig)
         };
 
         using var markdownConverter = new MarkdownConverter(settings);

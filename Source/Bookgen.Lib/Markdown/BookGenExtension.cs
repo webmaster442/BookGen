@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -20,13 +20,13 @@ namespace Bookgen.Lib.Markdown;
 
 internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
 {
-    private RenderSettings? _settings;
+    private MarkdownRenderSettings? _settings;
     private MarkdownPipelineBuilder? _pipeline;
 
     [GeneratedRegex("^(\\w)+://")]
     private static partial Regex ProtocollRegex();
 
-    public void Inject(RenderSettings settings)
+    public void Inject(MarkdownRenderSettings settings)
     {
         _settings = settings;
     }
@@ -64,7 +64,7 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
             if (codeBlockRenderer != null)
             {
                 htmlRenderer.ObjectRenderers.Remove(codeBlockRenderer);
-                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(codeBlockRenderer, _settings.PrismJsInterop));
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(codeBlockRenderer, _settings.PrismJsInterop, _settings.ImageRenderJsInterop));
             }
         }
 

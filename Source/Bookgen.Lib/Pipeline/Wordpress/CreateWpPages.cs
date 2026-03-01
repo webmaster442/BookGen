@@ -12,6 +12,7 @@ using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.Wordpress;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
+using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
 
@@ -119,17 +120,18 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
     {
         logger.LogInformation("Creating pages...");
 
-        var imgService = new ImgService(environment.Source, logger, environment.Configuration.StaticWebsiteConfig.Images);
+        var imgService = new ImgService(environment.Source, logger, environment.Configuration.WordpressConfig.Images);
         var cached = new CachedImageService(imgService, _memoryCache);
         var renderer = new TemplateEngine(logger, environment);
 
-        using var settings = new RenderSettings(cached)
+        using var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.WordpressConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = environment.Configuration.WordpressConfig.DeployHost,
             PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(environment, environment.Configuration.WordpressConfig.Images)
         };
 
         using var markdown = new MarkdownConverter(settings);
