@@ -117,33 +117,31 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 
         string code = GetCode(obj);
 
-        if (languageMoniker == TerminalLanguage)
+        switch (languageMoniker)
         {
-            string terminalOutput = RenderTerminalString(code);
-            renderer.Write(terminalOutput);
-        }
-
-        if (languageMoniker == NomnomlLanguage)
-        {
-            ImageResult img = _imageRenderJsInterop.RenderNomnoml(code);
-            string rendered = RendererImgage(img);
-            renderer.Write(rendered);
-        }
-
-        else if (PreRender)
-        {
-            string rendered = RenderWithPrism(code, languageMoniker);
-            renderer.Write(rendered);
-        }
-        else
-        {
-            _originalRenderer.Write(renderer, obj);
+            case TerminalLanguage:
+                renderer.Write(RenderTerminalString(code));
+                break;
+            case NomnomlLanguage:
+                ImageResult img = _imageRenderJsInterop.RenderNomnoml(code);
+                renderer.Write(RendererImgage(img));
+                break;
+            default:
+                if (PreRender)
+                {
+                    renderer.Write(RenderWithPrism(code, languageMoniker));
+                }
+                else
+                {
+                    _originalRenderer.Write(renderer, obj);
+                }
+                break;
         }
     }
 
     private static string RendererImgage(ImageResult img)
     {
-        return img.ImageType == ImageType.Svg 
+        return img.ImageType == ImageType.Svg
             ? img.Data 
             : $"<img src=\"data:{img.ImageType.GetMimeType()};base64,{img.Data}\">";
     }
