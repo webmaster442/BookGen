@@ -45,6 +45,7 @@ ILogger logger = factory.CreateLogger("Bookgen");
 CommandRunnerProxy runnerProxy = new();
 
 var ioc = new ServiceCollection();
+ioc.AddMemoryCache();
 ioc.AddSingleton(logger);
 ioc.AddSingleton(info);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);

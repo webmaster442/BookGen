@@ -10,6 +10,7 @@ using BookGen.Cli;
 using BookGen.Infrastructure.Loging;
 using BookGen.Vfs;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace BookGen;
@@ -19,17 +20,20 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
     protected readonly IWritableFileSystem _soruce;
     protected readonly IWritableFileSystem _target;
     protected readonly ILogger _logger;
-    private readonly IAssetSource _assetSource;
+    protected readonly IAssetSource _assetSource;
+    protected readonly IMemoryCache _memoryCache;
 
     public BuildCommandBase(IWritableFileSystem soruce,
                             IWritableFileSystem target,
                             ILogger logger,
-                            IAssetSource assetSource)
+                            IAssetSource assetSource,
+                            IMemoryCache memoryCache)
     {
         _soruce = soruce;
         _target = target;
         _logger = logger;
         _assetSource = assetSource;
+        _memoryCache = memoryCache;
     }
 
     public abstract Pipeline GetPipeLine();

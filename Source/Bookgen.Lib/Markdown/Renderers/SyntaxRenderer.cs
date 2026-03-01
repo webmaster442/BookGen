@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ namespace Bookgen.Lib.Markdown.Renderers;
 internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposable
 {
     private readonly CodeBlockRenderer _originalRenderer;
-    private readonly PrismJsInterop? _prism;
+    private readonly SyntaxRenderJsInterop? _prism;
     private readonly HashSet<string> _supportedLanguages;
     public const string Terminallanguage = "terminal";
 
@@ -32,7 +32,7 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 
     public bool PreRender => _prism != null;
 
-    public SyntaxRenderer(CodeBlockRenderer underlyingRenderer, PrismJsInterop? prism)
+    public SyntaxRenderer(CodeBlockRenderer underlyingRenderer, SyntaxRenderJsInterop? prism)
     {
         _originalRenderer = underlyingRenderer ?? new CodeBlockRenderer();
         _prism = prism;

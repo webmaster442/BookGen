@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -13,27 +13,31 @@ using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Feed;
 
 internal sealed class CreateItems : PipeLineStep<SyndicationFeedState>
 {
-    public CreateItems(SyndicationFeedState state) : base(state)
+    private readonly IMemoryCache _memoryCache;
+
+    public CreateItems(SyndicationFeedState state, IMemoryCache memoryCache) : base(state)
     {
+        _memoryCache = memoryCache;
     }
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         var imgService = new ImgService(environment.Source, logger, environment.Configuration.FeedConfig.Images);
-        var cached = new CachedImageService(imgService);
+        var cached = new CachedImageService(imgService, _memoryCache);
 
         using var settings = new RenderSettings(cached)
         {
             CssClasses = environment.Configuration.FeedConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            PrismJsInterop = environment.Configuration.FeedConfig.PreRenderCode ? new PrismJsInterop(environment) : null,
+            PrismJsInterop = environment.Configuration.FeedConfig.PreRenderCode ? new SyntaxRenderJsInterop(environment) : null,
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false
         };

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -136,7 +136,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = !arguments.NoEmbed,
-            PrismJsInterop = arguments.NoSyntax ? null : new PrismJsInterop(_assetSource)
+            PrismJsInterop = arguments.NoSyntax ? null : new SyntaxRenderJsInterop(_assetSource)
         };
 
         using var markdownConverter = new MarkdownConverter(settings);

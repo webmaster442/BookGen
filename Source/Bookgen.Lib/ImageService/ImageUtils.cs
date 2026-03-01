@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ using Svg.Skia;
 
 namespace Bookgen.Lib.ImageService;
 
-internal static class Utils
+internal static class ImageUtils
 {
     public static byte[] ConvertToPng(string file, int maxwidth, int maxHeight)
     {
@@ -75,11 +75,23 @@ internal static class Utils
         return input.Resize(new SKImageInfo(renderWidth, renderHeight), SKSamplingOptions.Default);
     }
 
-    public static SKData RenderSvg(Stream stream, int maxWidth, int maxHeight, SvgRecodeOption svgRecode)
+    private static SKSvg LoadSvg(Stream stream)
     {
-        using var svg = new SKSvg();
+        var svg = new SKSvg();
         svg.Load(stream);
+        return svg;
+    }
 
+    private static SKSvg LoadSvg(string svgData)
+    {
+        var svg = new SKSvg();
+        using var xmlReader = System.Xml.XmlReader.Create(new StringReader(svgData));
+        svg.Load(xmlReader);
+        return svg;
+    }
+
+    private static SKData RenderSvg(SKSvg svg, int maxWidth, int maxHeight, SvgRecodeOption svgRecode)
+    {
         if (svg.Picture == null)
             return SKData.Empty;
 
@@ -108,7 +120,18 @@ internal static class Utils
                 };
             }
         }
+    }
 
+    public static SKData RenderSvg(Stream svgsource, int maxWidth, int maxHeight, SvgRecodeOption svgRecode)
+    {
+        using var svg = LoadSvg(svgsource);
+        return RenderSvg(svg, maxWidth, maxHeight, svgRecode);
+    }
+
+    public static SKData RenderSvg(string svgData, int maxWidth, int maxHeight, SvgRecodeOption svgRecode)
+    {
+        using var svg = LoadSvg(svgData);
+        return RenderSvg(svg, maxWidth, maxHeight, svgRecode);
     }
 
     public static SKData Encode(Stream fileData, int resizeWith, int resizeHeight, int quality, ImgRecodeOption imgRecodeOption)
@@ -124,7 +147,6 @@ internal static class Utils
             _ => throw new UnreachableException(),
         }, quality);
     }
-
 
     public static string Base64Encode(Stream fileData)
     {

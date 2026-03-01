@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -12,20 +12,24 @@ using Bookgen.Lib.Templates;
 
 using BookGen.Vfs;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 
 internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
 {
-    public RenderStaticPages(StaticWebState state) : base(state)
+    private readonly IMemoryCache _memoryCache;
+
+    public RenderStaticPages(StaticWebState state, IMemoryCache memoryCache) : base(state)
     {
+        _memoryCache = memoryCache;
     }
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         var imgService = new ImgService(environment.Source, logger, environment.Configuration.StaticWebsiteConfig.Images);
-        var cached = new CachedImageService(imgService);
+        var cached = new CachedImageService(imgService, _memoryCache);
         var renderer = new TemplateEngine(logger, environment);
 
         using var settings = new RenderSettings(cached)

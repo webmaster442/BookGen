@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -179,7 +179,7 @@ internal class UT_MarkdownConverter
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
-            PrismJsInterop = new Bookgen.Lib.JsInterop.PrismJsInterop(testEnvironment),
+            PrismJsInterop = new Bookgen.Lib.JsInterop.SyntaxRenderJsInterop(testEnvironment),
             AutoEmbedSupportedLinks = true,
         };
 

@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="Markdig" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
     <PackageReference Include="System.ServiceModel.Syndication" />
     <PackageReference Include="YamlDotNet" />
     <PackageReference Include="SkiaSharp" />

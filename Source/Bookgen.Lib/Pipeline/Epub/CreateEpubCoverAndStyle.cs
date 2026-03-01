@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ internal sealed class CreateEpubCoverAndStyle : PipeLineStep<EpubState>
         var coverfile = await environment.Source.GetCoverFileName(environment.TableOfContents, logger);
         if (coverfile != null)
         {
-            byte[] coverdata = Utils.ConvertToPng(coverfile, 1200, 1200);
+            byte[] coverdata = ImageUtils.ConvertToPng(coverfile, 1200, 1200);
             await State.EpubFile.AddAsync("EPUB/cover.png", coverdata);
             State.PackageItems.Add(new PackageItem
             {

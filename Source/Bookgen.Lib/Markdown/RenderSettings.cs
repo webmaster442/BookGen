@@ -14,7 +14,7 @@ public sealed class RenderSettings : IDisposable
     private readonly IImgService _imgService;
 
     public required string? HostUrl { get; init; }
-    public required PrismJsInterop? PrismJsInterop { get; init; }
+    public required SyntaxRenderJsInterop? PrismJsInterop { get; init; }
     public required CssClasses CssClasses { get; init; }
     public required bool DeleteFirstH1 { get; init; }
     public int OffsetHeadingsBy { get; init; } = 0;

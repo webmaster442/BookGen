@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -18,12 +18,12 @@ public static class ImageConverter
 
         if (Path.GetExtension("soruce").Equals(".svg", StringComparison.OrdinalIgnoreCase))
         {
-            SKData img = Utils.RenderSvg(srcStream, width, height, GetRecodeOption(imageType));
+            SKData img = ImageUtils.RenderSvg(srcStream, width, height, GetRecodeOption(imageType));
             img.SaveTo(destStream);
         }
 
         using SKBitmap loaded = SKBitmap.Decode(srcStream);
-        using SKBitmap result = Utils.ResizeIfBigger(loaded, width, height);
+        using SKBitmap result = ImageUtils.ResizeIfBigger(loaded, width, height);
 
         result.Encode(destStream, imageType switch
         {

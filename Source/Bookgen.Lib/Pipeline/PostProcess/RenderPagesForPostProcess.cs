@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -12,13 +12,19 @@ using Bookgen.Lib.Internals;
 using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.PostProcess;
 
 internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
 {
-    public RenderPagesForPostProcess(PostProcessState state) : base(state) { }
+    private readonly IMemoryCache _memoryCache;
+
+    public RenderPagesForPostProcess(PostProcessState state, IMemoryCache memoryCache) : base(state)
+    {
+        _memoryCache = memoryCache;
+    }
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
@@ -27,14 +33,14 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
             ResizeAndRecodeImages = ImgRecodeOption.Passtrough,
             SvgRecode = SvgRecodeOption.Passtrough,
         });
-        var cached = new CachedImageService(imgService);
+        var cached = new CachedImageService(imgService, _memoryCache);
 
         using var settings = new RenderSettings(cached)
         {
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            PrismJsInterop = new PrismJsInterop(environment),
+            PrismJsInterop = new SyntaxRenderJsInterop(environment),
             OffsetHeadingsBy = 1,
             AutoEmbedSupportedLinks = false
         };

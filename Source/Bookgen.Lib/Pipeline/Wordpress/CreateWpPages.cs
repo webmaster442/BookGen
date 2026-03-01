@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -15,6 +15,7 @@ using Bookgen.Lib.Internals;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Wordpress;
@@ -23,12 +24,14 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
 {
 #if DEBUG
     private readonly HashSet<int> _usedids;
+    private readonly IMemoryCache _memoryCache;
 #endif
 
-    public CreateWpPages(WpState state) : base(state)
+    public CreateWpPages(WpState state, IMemoryCache memoryCache) : base(state)
     {
 #if DEBUG
         _usedids = [];
+        _memoryCache = memoryCache;
 #endif
     }
 
@@ -117,7 +120,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
         logger.LogInformation("Creating pages...");
 
         var imgService = new ImgService(environment.Source, logger, environment.Configuration.StaticWebsiteConfig.Images);
-        var cached = new CachedImageService(imgService);
+        var cached = new CachedImageService(imgService, _memoryCache);
         var renderer = new TemplateEngine(logger, environment);
 
         using var settings = new RenderSettings(cached)
