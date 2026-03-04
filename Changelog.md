@@ -1,6 +1,15 @@
 # 2026. 03. 04 (Prerelease)
 
-* 
+* Change: Updated dependencies
+* Change: Better help rendering in terminal
+* New: Support for config overlays, which can be used to have multiple configurations in the same project
+* New: Added Spellcheck command
+* New: Md2Terminal command, to render markdown in terminal
+* New: support for rendering [nomnoml](https://www.nomnoml.com/) diagrams
+* New: ISO image build for Windows reintroduced
+* Fix: Base64 encoding of images was not working correctly
+* Fix: Md2HTML was ignoring -ns argument
+* Fix: ImgConvert command was not working due to resolution parsing issue
 
 # 2025. 11. 16 (Prerelease) 
 
