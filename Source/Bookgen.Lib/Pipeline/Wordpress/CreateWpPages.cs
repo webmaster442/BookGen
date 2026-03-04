@@ -23,16 +23,17 @@ namespace Bookgen.Lib.Pipeline.Wordpress;
 
 internal sealed class CreateWpPages : PipeLineStep<WpState>
 {
+    private readonly IMemoryCache _memoryCache;
+
 #if DEBUG
     private readonly HashSet<int> _usedids;
-    private readonly IMemoryCache _memoryCache;
 #endif
 
     public CreateWpPages(WpState state, IMemoryCache memoryCache) : base(state)
     {
+        _memoryCache = memoryCache;
 #if DEBUG
         _usedids = [];
-        _memoryCache = memoryCache;
 #endif
     }
 

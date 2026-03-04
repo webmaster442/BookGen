@@ -26,8 +26,8 @@ function Invoke-Publish {
     }
 
     # copy installer scripts
-    Copy-Item "Publish\install.cmd" "bin\publish\windows\install.cmd"
-    Copy-Item "Publish\run_shell.cmd" "bin\publish\windows\run_shell.cmd"
+    Copy-Item "PublishFiles\install.cmd" "bin\publish\windows\install.cmd"
+    Copy-Item "PublishFiles\start_bookgen_shell.cmd" "bin\publish\windows\start_bookgen_shell.cmd"
 
     # copy assets
     Copy-Item "bin\Release\assets.zip" "bin\publish\windows\bin\assets.zip"
@@ -37,14 +37,22 @@ function Invoke-Publish {
     .\bin\publish\windows\bin\BookGen.exe version > .\bin\publish\windows\version.txt
     .\bin\publish\windows\bin\BookGen version > .\bin\publish\linux\version.txt
 
+    # make docs folder
+    New-Item -Path "bin\publish\windows\docs" -ItemType Directory -Force
+    New-Item -Path "bin\publish\linux\docs" -ItemType Directory -Force
+
+    # copy license
+    Copy-Item ".\LICENCE" "bin\publish\windows\docs\LICENCE.txt"
+    Copy-Item ".\LICENCE" "bin\publish\linux\docs\LICENCE.txt"
+
     # Generate docs
     .\bin\publish\windows\bin\BookGen Schemas
-    .\bin\publish\windows\bin\BookGen md2html -i Schemas.md -o "bin\publish\windows\Schemas.html" -t "Configuration schemas"
-    .\bin\publish\windows\bin\BookGen md2html -i Schemas.md -o "bin\publish\linux\Schemas.html" -t "Configuration schemas"
-    .\bin\publish\windows\bin\BookGen md2html -i Changelog.md -o "bin\publish\windows\Changelog.html" -t "Change Log"
-    .\bin\publish\windows\bin\BookGen md2html -i Changelog.md -o "bin\publish\linux\Changelog.html" -t "Change Log"
-    .\bin\publish\windows\bin\BookGen md2html -i Commands.md -o "bin\publish\windows\Commands.html" -t "BookGen Commands"
-    .\bin\publish\windows\bin\BookGen md2html -i Commands.md -o "bin\publish\linux\Commands.html" -t "BookGen Commands"
+    .\bin\publish\windows\bin\BookGen md2html -i Schemas.md -o "bin\publish\windows\docs\Schemas.html" -t "Configuration schemas"
+    .\bin\publish\windows\bin\BookGen md2html -i Schemas.md -o "bin\publish\linux\docs\Schemas.html" -t "Configuration schemas"
+    .\bin\publish\windows\bin\BookGen md2html -i Changelog.md -o "bin\publish\windows\docs\Changelog.html" -t "Change Log"
+    .\bin\publish\windows\bin\BookGen md2html -i Changelog.md -o "bin\publish\linux\docs\Changelog.html" -t "Change Log"
+    .\bin\publish\windows\bin\BookGen md2html -i Commands.md -o "bin\publish\windows\docs\Commands.html" -t "BookGen Commands"
+    .\bin\publish\windows\bin\BookGen md2html -i Commands.md -o "bin\publish\linux\docs\Commands.html" -t "BookGen Commands"
     Remove-Item Schemas.md
 
     # zip
@@ -66,4 +74,4 @@ Invoke-Publish -SelfContained $false -WindowsArchiveName "BookGen-windows.zip" -
 # Self-contained build and archives
 Invoke-Publish -SelfContained $true -WindowsArchiveName "BookGen-windows-selefcontained.zip" -LinuxArchiveName "BookGen-linux-selefcontained.tar.gz"
  
-.\Publish\mkisofs.exe -V BookGen -o .\bin\publish\bookgen-windows.iso -udf .\bin\publish\windows
+.\PublishFiles\mkisofs.exe -V BookGen -o .\bin\publish\bookgen-windows.iso -udf .\bin\publish\windows
