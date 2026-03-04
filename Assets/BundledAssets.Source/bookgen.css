@@ -1,6 +1,6 @@
 /*
 BookGen Css Not minified
-Version: 2025-05-17
+Version: 2026-03-04
 */
 
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Nunito:wght@700&family=Open+Sans&display=swap');
@@ -12,6 +12,10 @@ Version: 2025-05-17
     --blue: #003e8a;
     --brightBlue: #2e6cba;
     --selection: #CACACA;
+    --box-info: #d1e7dd;
+    --box-waring: #fff3cd;
+    --box-error: #f8d7da;
+    --box-foreground: #3e3e3e;
     --max-width: 1200px;
 }
 
@@ -22,6 +26,10 @@ body.dark-mode {
     --blue: #82aaff;
     --brightBlue: #d6acff;
     --selection: #5D5D5D;
+    --box-info: #B9E5D1;
+    --box-waring: #FFECB5;
+    --box-error: #F7BEC4;
+    --box-foreground: #212121;
 }
 
 h1,
@@ -226,6 +234,48 @@ dialog #container #dialogBase {
 .pager a:hover {
     background: var(--brightBlue);
     color: var(--foreground);
+}
+
+/* Boxes */
+
+.info {
+    background-color: var(--box-info);
+    color: var(--box-foreground);
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.info::before {
+    content: "ℹ️";
+    display: block;
+}
+
+.warning {
+    background-color: var(--box-waring);
+    color: var(--box-foreground);
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.warning::before {
+    content: "⚠️";
+    display: block;
+}
+
+
+.error {
+    background-color: var(--box-error);
+    color: var(--box-foreground);
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.error::before {
+    content: "🛑";
+    display: block;
 }
 
 @media print {
