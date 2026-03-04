@@ -22,7 +22,7 @@ internal static class Extractor
         if (!Directory.Exists(directory))
             Directory.CreateDirectory(directory);
 
-        await using var targetStream = File.Create(outputPath);
+        await using FileStream targetStream = File.Create(outputPath);
         await stream.CopyToAsync(targetStream, CancellationToken.None);
         ui.Report(stream.Length);
     }
@@ -54,7 +54,7 @@ internal static class Extractor
                 Directory.CreateDirectory(directory);
             }
 
-            await using var targetStream = File.Create(outputPath);
+            await using FileStream targetStream = File.Create(outputPath);
             if (entry.DataStream != null)
             {
                 await entry.DataStream.CopyToAsync(targetStream, CancellationToken.None);
@@ -73,7 +73,7 @@ internal static class Extractor
 
         ui.BeginNew("Extracting...", archive.Entries.Sum(e => e.Length));
 
-        foreach (var entry in archive.Entries)
+        foreach (ZipArchiveEntry entry in archive.Entries)
         {
             if (string.IsNullOrEmpty(entry.Name))
             {
@@ -88,8 +88,8 @@ internal static class Extractor
                 Directory.CreateDirectory(directory);
             }
 
-            await using var targetStream = File.Create(outputPath);
-            await using var source = entry.Open();
+            await using FileStream targetStream = File.Create(outputPath);
+            await using Stream source = entry.Open();
             await source.CopyToAsync(targetStream, CancellationToken.None);
 
             ui.Report(entry.Length);

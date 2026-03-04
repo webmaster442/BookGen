@@ -1,9 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Nodes;
 
 using Bookgen.Lib.Confighandling;
 using Bookgen.Lib.Domain.IO;
@@ -57,7 +58,7 @@ public sealed class BookEnvironment : IBookEnvironment
         }
     }
 
-    public async Task<EnvironmentStatus> Initialize()
+    public async Task<EnvironmentStatus> Initialize(string configOverlay)
     {
         if (_isInitialized)
         {
@@ -87,7 +88,17 @@ public sealed class BookEnvironment : IBookEnvironment
             return status;
         }
 
-        Config? config = await _source.DeserializeAsync<Config>(FileNameConstants.ConfigFile);
+        JsonObject baseConfig = await _source.ReadJsonAsync(FileNameConstants.ConfigFile);
+
+        JsonMerger configMerger = new JsonMerger(baseConfig);
+
+        if (!string.IsNullOrEmpty(configOverlay))
+        {
+            JsonObject overlayConfig = await _source.ReadJsonAsync(configOverlay);
+            configMerger.Merge(overlayConfig);
+        }
+
+        Config? config = configMerger.Deserialize<Config>();
 
         if (config == null)
         {
@@ -123,7 +134,7 @@ public sealed class BookEnvironment : IBookEnvironment
 
     public bool TryGetAsset(string name, [NotNullWhen(true)] out string? content)
     {
-        foreach (var assetsource in _assets)
+        foreach (IAssetSource assetsource in _assets)
         {
             if (assetsource.TryGetAsset(name, out content))
             {
@@ -135,13 +146,13 @@ public sealed class BookEnvironment : IBookEnvironment
         return false;
     }
 
-    public byte[] GetBinaryAsset(string name)
+    public Stream GetBinaryAssetStream(string name)
     {
-        foreach (var assetsource in _assets)
+        foreach (IAssetSource assetsource in _assets)
         {
             try
             {
-                return assetsource.GetBinaryAsset(name);
+                return assetsource.GetBinaryAssetStream(name);
             }
             catch (InvalidOperationException)
             {

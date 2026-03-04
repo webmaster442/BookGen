@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -50,50 +50,50 @@ public sealed class ImgService : IImgService
         };
     }
 
-    public ImageResult GetImageEmbedData(string path)
+    private static ImageType GetImateType(SvgRecodeOption recodeOption)
     {
-        static ImageType GetImateType(SvgRecodeOption recodeOption)
+        return recodeOption switch
         {
-            return recodeOption switch
-            {
-                SvgRecodeOption.AsPng => ImageType.Png,
-                SvgRecodeOption.AsWebp => ImageType.Webp,
-                SvgRecodeOption.Passtrough => ImageType.Svg,
-                _ => throw new UnreachableException(),
-            };
-        }
+            SvgRecodeOption.AsPng => ImageType.Png,
+            SvgRecodeOption.AsWebp => ImageType.Webp,
+            SvgRecodeOption.Passtrough => ImageType.Svg,
+            _ => throw new UnreachableException(),
+        };
+    }
 
-        path = path.Replace("../", "");
+    public ImageResult GetImageEmbedData(string filePath)
+    {
+        filePath = filePath.Replace("../", "");
 
-        if (!IsImage(path))
-            throw new InvalidOperationException($"{path} is not an image");
+        if (!IsImage(filePath))
+            throw new InvalidOperationException($"{filePath} is not an image");
 
-        if (!_sourceFolder.FileExists(path))
+        if (!_sourceFolder.FileExists(filePath))
         {
-            _logger.LogWarning("Image {Path} does not exist in source folder", path);
+            _logger.LogWarning("Image {Path} does not exist in source folder", filePath);
             return new ImageResult
             {
                 Data = string.Empty,
                 ImageType = ImageType.Png,
-                OriginalName = path,
+                OriginalName = filePath,
             };
         }
 
-        using Stream fileData = _sourceFolder.OpenReadStream(path);
+        using Stream fileData = _sourceFolder.OpenReadStream(filePath);
 
-        if (string.Equals(Path.GetExtension(path), ".svg", StringComparison.CurrentCultureIgnoreCase))
+        if (string.Equals(Path.GetExtension(filePath), ".svg", StringComparison.CurrentCultureIgnoreCase))
         {
             if (_imageConfig.SvgRecode == SvgRecodeOption.Passtrough)
             {
                 return new ImageResult
                 {
-                    Data = _sourceFolder.ReadAllText(path),
+                    Data = _sourceFolder.ReadAllText(filePath),
                     ImageType = ImageType.Svg,
-                    OriginalName = path,
+                    OriginalName = filePath,
                 };
             }
 
-            using SKData rendered = Utils.RenderSvg(fileData,
+            using SKData rendered = ImageUtils.RenderSvg(fileData,
                                                     _imageConfig.ResizeWith,
                                                     _imageConfig.ResizeHeight,
                                                     _imageConfig.SvgRecode);
@@ -102,20 +102,20 @@ public sealed class ImgService : IImgService
             {
                 Data = Convert.ToBase64String(rendered.AsSpan()),
                 ImageType = GetImateType(_imageConfig.SvgRecode),
-                OriginalName = path,
+                OriginalName = filePath,
             };
 
         }
 
         if (_imageConfig.ResizeAndRecodeImages != ImgRecodeOption.Passtrough)
         {
-            using SKData rendered = Utils.Encode(fileData,
+            using SKData rendered = ImageUtils.Encode(fileData,
                                                  _imageConfig.ResizeWith,
                                                  _imageConfig.ResizeHeight,
                                                  _imageConfig.ImageQualityOnResize,
                                                  _imageConfig.ResizeAndRecodeImages);
 
-            var type = _imageConfig.ResizeAndRecodeImages switch
+            ImageType type = _imageConfig.ResizeAndRecodeImages switch
             {
                 ImgRecodeOption.AsPng => ImageType.Png,
                 ImgRecodeOption.AsWebp => ImageType.Webp,
@@ -126,16 +126,16 @@ public sealed class ImgService : IImgService
             {
                 Data = Convert.ToBase64String(rendered.AsSpan()),
                 ImageType = type,
-                OriginalName = path,
+                OriginalName = filePath,
             };
 
         }
 
         return new ImageResult
         {
-            Data = Utils.Base64Encode(fileData),
-            ImageType = GetImageType(path),
-            OriginalName = path,
+            Data = ImageUtils.Base64Encode(fileData),
+            ImageType = GetImageType(filePath),
+            OriginalName = filePath,
         };
     }
 }

@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 
 using Markdig.Renderers;
@@ -65,7 +66,7 @@ internal sealed class ExtendedLinkInlineRenderer : LinkInlineRenderer
             value = null;
             return false;
         }
-        var queryParams = System.Web.HttpUtility.ParseQueryString(query);
+        NameValueCollection queryParams = System.Web.HttpUtility.ParseQueryString(query);
 
         value = queryParams[queryparam];
         return value != null;

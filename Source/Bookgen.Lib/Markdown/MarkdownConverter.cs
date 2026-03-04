@@ -5,11 +5,10 @@
 
 using Bookgen.Lib.Markdown.Renderers.Terminal;
 using Bookgen.Lib.Markdown.TableOfContents;
-using Bookgen.Lib.Pipeline;
 
 using Markdig;
-
-using Microsoft.AspNetCore.Components;
+using Markdig.Parsers;
+using Markdig.Syntax;
 
 namespace Bookgen.Lib.Markdown;
 
@@ -18,16 +17,16 @@ public sealed class MarkdownConverter : IDisposable
     private readonly MarkdownPipeline _htmlPipeLine;
     private readonly MarkdownPipeline _terminalPipeLine;
 
-    public MarkdownConverter(RenderSettings settings)
+    public MarkdownConverter(MarkdownRenderSettings settings)
     {
-        var configuration = new MarkdownPipelineBuilder()
+        MarkdownPipelineBuilder configuration = new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
             .UseTableOfContents()
             .UseMathematics()
             .UseYamlFrontMatter()
             .Use<BookGenExtension>();
 
-        foreach (var extension in configuration.Extensions)
+        foreach (IMarkdownExtension extension in configuration.Extensions)
         {
             if (extension is BookGenExtension bookGenExtension)
             {
@@ -39,6 +38,7 @@ public sealed class MarkdownConverter : IDisposable
 
         _terminalPipeLine = new MarkdownPipelineBuilder()
             .UseYamlFrontMatter()
+            .UseAutoLinks()
             .Build();
     }
 
@@ -56,13 +56,19 @@ public sealed class MarkdownConverter : IDisposable
     public string RenderMarkdownToHtml(string markdown)
         => Markdig.Markdown.ToHtml(markdown, _htmlPipeLine);
 
-    public string RenderMarkdownToTerminal(string markdown)
+    public string RenderMarkdownToTerminal(string markdown, RenderOptions? renderOptions = null)
     {
-        PSMarkdownOptionInfo optionInfo = new();
+        MarkdownDocument document = MarkdownParser.Parse(markdown, _terminalPipeLine);
 
         using var writer = new StringWriter();
-        var renderer = new VT100Renderer(writer, optionInfo);
 
-        return Markdig.Markdown.Convert(markdown, renderer, _terminalPipeLine).ToString() ?? "";
+        renderOptions ??= new RenderOptions();
+
+        TerminalRenderer renderer = new TerminalRenderer(writer, renderOptions);
+
+        renderer.Render(document);
+        renderer.Writer.Flush();
+
+        return renderer.Writer.ToString() ?? string.Empty;
     }
 }

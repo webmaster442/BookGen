@@ -16,7 +16,7 @@ internal sealed class WhenNotEmptyFileMustExistAttribute : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        var folder = validationContext.GetRequiredService<IReadOnlyFileSystem>();
+        IReadOnlyFileSystem folder = validationContext.GetRequiredService<IReadOnlyFileSystem>();
 
         if (value is not string @string)
             throw new InvalidOperationException($"{nameof(NotNullOrWhiteSpaceAttribute)} works with {typeof(string)} properties");

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ using BookGen.Vfs.Internals;
 
 namespace BookGen.Vfs;
 
-internal static class JsonOptions
+public static class JsonOptions
 {
     public readonly static JsonSerializerOptions SerializerOptions = new(JsonSerializerOptions.Default)
     {

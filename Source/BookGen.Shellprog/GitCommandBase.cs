@@ -44,7 +44,7 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         {
             string[] arguments = ["rev-parse", "--is-inside-work-tree"];
 
-            var (exitcode, result, error) = ProcessRunner.RunProcess("git", arguments, TimeOut, workDir);
+            (int exitcode, string? result, string? error) = ProcessRunner.RunProcess("git", arguments, TimeOut, workDir);
 
             if (exitcode == 128 && error.Contains("detected dubious ownership"))
             {
@@ -66,7 +66,7 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
     protected static string GetGitRemote(string workDirectory)
     {
         string[] gitArguments = ["config", "--get", "remote.origin.url"];
-        var (exitcode, output, error) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
+        (int exitcode, string? output, string? error) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
         return exitcode == 0 && string.IsNullOrEmpty(error) ? output : string.Empty;
     }
 
@@ -76,7 +76,7 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         {
             string[] gitArguments = ["status", "-b", "-s", "--porcelain=2"];
 
-            var (exitcode, output, _) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
+            (int exitcode, string? output, string _) = ProcessRunner.RunProcess("git", gitArguments, TimeOut, workDirectory);
             if (exitcode == 0)
             {
                 return GitParser.ParseStatus(output);
@@ -92,7 +92,7 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
 
     protected void PrintUntrusted()
     {
-        var builder = new TerminalOutputBuilder()
+        TerminalOutputBuilder builder = new TerminalOutputBuilder()
             .Append(TerminalOutputBuilder.ForegroundColor.Yellow, TerminalOutputBuilder.BackgroundColor.Black, "<untrusted>");
 
         _console.WriteLine(builder.ToString());
@@ -105,7 +105,7 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
             return;
         }
 
-        var builder = new TerminalOutputBuilder()
+        TerminalOutputBuilder builder = new TerminalOutputBuilder()
             .Append(TerminalOutputBuilder.ForegroundColor.Default, TerminalOutputBuilder.BackgroundColor.Green, $"({status.BranchName}) ");
 
         if (status.IncommingCommits > 0)

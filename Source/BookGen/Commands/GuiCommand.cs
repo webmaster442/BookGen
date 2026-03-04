@@ -45,7 +45,7 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
         figlet.Justification = Justify.Center;
         AnsiConsole.Write(figlet);
 
-        var path = new TextPath(_fileSystem.Scope)
+        TextPath path = new TextPath(_fileSystem.Scope)
             .RootColor(Color.Red)
             .SeparatorColor(Color.Green)
             .StemColor(Color.Blue)
@@ -58,7 +58,7 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
         AnsiConsole.WriteLine();
         AnsiConsole.WriteLine();
 
-        var selector = new SelectionPrompt<MenuItem>()
+        SelectionPrompt<MenuItem> selector = new SelectionPrompt<MenuItem>()
             .Title("Select an action:")
             .PageSize(20)
             .UseConverter(mi => mi.ToString())
@@ -83,7 +83,7 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
                 new(Emoji.Known.Door, "Exit", OnExit)
             ]);
 
-        var selected = AnsiConsole.Prompt(selector);
+        MenuItem selected = AnsiConsole.Prompt(selector);
         return await selected.ExecuteAsync();
     }
 

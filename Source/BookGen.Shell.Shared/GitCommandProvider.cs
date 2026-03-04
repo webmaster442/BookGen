@@ -14,7 +14,7 @@ public static class GitCommandProvider
 {
     private static IEnumerable<string> GetBranches(string folder)
     {
-        var (exitcode, output, _) = ProcessRunner.RunProcess("git", ["branch", "-a"], 10, folder);
+        (int exitcode, string? output, string _) = ProcessRunner.RunProcess("git", ["branch", "-a"], 10, folder);
 
         if (exitcode != 0)
             return Enumerable.Empty<string>();
@@ -24,7 +24,7 @@ public static class GitCommandProvider
 
     public static IEnumerable<string> GetGitCommands(string folder)
     {
-        var branches = GetBranches(folder);
+        IEnumerable<string> branches = GetBranches(folder);
 
         yield return "git add .";
         yield return "git add";

@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Lib.Domain.IO.Legacy;
+
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
@@ -21,7 +23,7 @@ internal sealed class LoadLegacyConfig : IMigrationStep
             return false;
         }
 
-        var config = await foler.DeserializeAsync<Domain.IO.Legacy.Config>(file);
+        Config? config = await foler.DeserializeAsync<Domain.IO.Legacy.Config>(file);
         if (config == null)
         {
             logger.LogError("Failed to load legacy config file");

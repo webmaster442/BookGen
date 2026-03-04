@@ -117,7 +117,7 @@ internal sealed class CdgSelector
                 Icon = ":eye: ",
                 Action = () =>
                 {
-                    var showHide = _menuItems?.First(m => m.Id == "ShowHide") ?? throw new InvalidOperationException();
+                    SelectionItemAction showHide = _menuItems?.First(m => m.Id == "ShowHide") ?? throw new InvalidOperationException();
                     showHide.DisplayString = _showHidden ? "Show hidden files" : "Hide hidden files";
                     _showHidden = !_showHidden;
                 },
@@ -141,7 +141,7 @@ internal sealed class CdgSelector
     {
         try
         {
-            var items = new DirectoryInfo(path).GetDirectories();
+            DirectoryInfo[] items = new DirectoryInfo(path).GetDirectories();
             if (_showHidden)
             {
                 items = items.Where(x => !x.Attributes.HasFlag(FileAttributes.Hidden)).ToArray();
@@ -224,8 +224,8 @@ internal sealed class CdgSelector
             try
             {
                 AnsiConsole.Clear();
-                var menu = CreateSelection();
-                var selected = await menu.ShowAsync(AnsiConsole.Console, CancellationToken.None);
+                SelectionPrompt<SelectionItemBase> menu = CreateSelection();
+                SelectionItemBase selected = await menu.ShowAsync(AnsiConsole.Console, CancellationToken.None);
                 if (selected is SelectionItemDirectory directory)
                 {
                     if (CanAccess(directory.Path, out string[]? subdirs))
@@ -250,7 +250,7 @@ internal sealed class CdgSelector
                 AnsiConsole.WriteException(ex);
 #endif
                 AnsiConsole.WriteLine(ex.Message);
-                var confirm = new ConfirmationPrompt("Press a key to continue").HideChoices();
+                ConfirmationPrompt confirm = new ConfirmationPrompt("Press a key to continue").HideChoices();
                 await confirm.ShowAsync(AnsiConsole.Console, CancellationToken.None);
             }
         }

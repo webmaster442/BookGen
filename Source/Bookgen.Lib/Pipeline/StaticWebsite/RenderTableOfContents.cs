@@ -26,7 +26,7 @@ internal class RenderTableOfContents : PipeLineStep<StaticWebState>
     {
         TocRenderer toc = new(environment.Configuration.StaticWebsiteConfig.TocConfiguration);
         toc.BeginContainer();
-        foreach (var chapter in environment.TableOfContents.Chapters)
+        foreach (TocChapter chapter in environment.TableOfContents.Chapters)
         {
             toc.BeginChapter(chapter.Title);
             toc.BeginOuterItemContainer();

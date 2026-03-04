@@ -24,7 +24,7 @@ internal sealed class FromVersion2005To2006 : UpgradeBase
     {
         JsonObject imgObject = buildConfig.GetSubObjectOrThrow("Images");
 
-        int oldvalue = imgObject.TryGetPropertyValue("WebpQuality", out var qualityValue)
+        int oldvalue = imgObject.TryGetPropertyValue("WebpQuality", out JsonNode? qualityValue)
             && qualityValue is JsonValue qualityJsonValue
             ? qualityJsonValue.GetValue<int>()
             : throw new InvalidOperationException("WebpQuality property not found or is not an integer.");

@@ -35,7 +35,7 @@ internal sealed class WriteExportFile : PipeLineStep<WpState>
         xnames.Add("wp", "http://wordpress.org/export/1.2/");
 
         var xs = new XmlSerializer(typeof(Rss));
-        using var fileStream = environment.Output.CreateWriteStream("wodpress-export.xml");
+        using Stream fileStream = environment.Output.CreateWriteStream("wodpress-export.xml");
 
         xs.Serialize(fileStream, output, xnames);
 

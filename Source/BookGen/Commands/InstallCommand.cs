@@ -42,9 +42,9 @@ internal class InstallCommand : AsyncCommand
                 Action = InstallTerminalProfile()
             }
         };
-        var selction = Terminal.SelectionMenu(menu, "Bookgen installer", "Select install options", f => f.DisplayText);
+        List<InstallOption> selction = Terminal.SelectionMenu(menu, "Bookgen installer", "Select install options", f => f.DisplayText);
 
-        foreach (var item in selction)
+        foreach (InstallOption item in selction)
         {
             await item.Action;
         }
@@ -66,7 +66,7 @@ internal class InstallCommand : AsyncCommand
     {
         var currentFolder = Environment.CurrentDirectory;
         var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User) ?? string.Empty;
-        var paths = path.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
+        List<string> paths = path.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
 
         if (paths.Contains(currentFolder, StringComparer.OrdinalIgnoreCase))
         {

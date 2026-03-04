@@ -68,7 +68,7 @@ public static class ProcessRunner
 
     public static void RunPowershellScript(string shellScript, ILogger log)
     {
-        var installResult = InstallDetector.GetInstallResult();
+        InstallResult installResult = InstallDetector.GetInstallResult();
         if (installResult.IsPsCoreInstalled)
             RunShell(InstallDetector.PowershellCoreExe, $"-ExecutionPolicy Bypass -File \"{shellScript}\"", log);
         else

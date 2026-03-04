@@ -20,12 +20,12 @@ public static class ShellAutoCompleteFilter
         string prefix = input[..cursorposition];
         int prefixLength = cursorposition >= prefix.Length ? prefix.Length - 1 : cursorposition;
 
-        var filteredCommands = candidates
+        IEnumerable<string> filteredCommands = candidates
             .Where(cmd => cmd.StartsWith(prefix));
 
         foreach (var filtered in filteredCommands)
         {
-            var (start, _) = GetWordPositions(filtered).FirstOrDefault(p => cursorposition >= p.start && cursorposition <= p.end);
+            (int start, int _) = GetWordPositions(filtered).FirstOrDefault(p => cursorposition >= p.start && cursorposition <= p.end);
             yield return filtered[start..];
         }
     }
@@ -38,7 +38,7 @@ public static class ShellAutoCompleteFilter
         {
             if (char.IsWhiteSpace(c))
             {
-                var item = (start, pos);
+                (int start, int pos) item = (start, pos);
                 start = pos + 1;
                 yield return item;
             }

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Cli;
+using BookGen.Shell.Shared.Loging;
 using BookGen.Shellprog;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,12 @@ using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
 
-using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+using ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+{
+    builder.ClearProviders();
+    builder.AddFilter(level => level >= LogLevel.Information);
+    builder.AddProvider(new ConsoleLogProvider());
+});
 
 ILogger logger = loggerFactory.CreateLogger("BookGen.Shell");
 
@@ -22,7 +28,7 @@ ioc.AddSingleton<IAnsiConsole>(AnsiConsole.Console);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.AddSingleton(logger);
 
-using var provider = ioc.BuildServiceProvider();
+using ServiceProvider provider = ioc.BuildServiceProvider();
 
 CommandRunner runner = new(provider, logger, new CommandRunnerSettings
 {

@@ -1,27 +1,34 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using Markdig.Syntax.Inlines;
+﻿using Markdig.Syntax.Inlines;
 
 namespace Bookgen.Lib.Markdown.Renderers.Terminal;
 
-/// <summary>
-/// Renderer for adding VT100 escape sequences for links.
-/// </summary>
-internal class LinkInlineRenderer : VT100ObjectRenderer<LinkInline>
+internal sealed class LinkInlineRenderer : TerminalObjectRenderer<LinkInline>
 {
-    protected override void Write(VT100Renderer renderer, LinkInline obj)
+    protected override void Write(TerminalRenderer renderer, LinkInline obj)
     {
-        string? text = obj.FirstChild?.ToString();
-
-        // Format link as image or link.
         if (obj.IsImage)
         {
-            renderer.Write(renderer.EscapeSequences.FormatImage(text));
+            // TODO
+            return;
         }
-        else
+
+        string? linkText = obj.FirstChild?.ToString();
+
+        if (obj.Url is null
+            || linkText is null)
         {
-            renderer.Write(renderer.EscapeSequences.FormatLink(text ?? "", obj.Url ?? ""));
+            return;
         }
+
+        string text = renderer
+            .Builder
+            .New()
+            .WithForegroundColor(renderer.RenderOptions.LinkColor)
+            .AppendLink(obj.Url, linkText)
+            .ResetFormat()
+            .ToString();
+
+        renderer.Write(text);
+
     }
 }

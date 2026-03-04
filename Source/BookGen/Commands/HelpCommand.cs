@@ -16,6 +16,7 @@ internal sealed class HelpCommand : Command
 {
     private readonly IHelpProvider _helpProvider;
     private readonly HashSet<string> _commandNames;
+    private readonly HelpRenderer _renderer = new();
 
     public HelpCommand(IHelpProvider helpProvider, ICommandRunnerProxy runnerProxy)
     {
@@ -27,7 +28,7 @@ internal sealed class HelpCommand : Command
     {
         if (context.Count == 0)
         {
-            HelpRenderer.RenderHelp(_helpProvider.GetCommandHelp("help"));
+            _renderer.RenderHelp(_helpProvider.GetCommandHelp("help"));
             return ExitCodes.Success;
         }
 
@@ -38,7 +39,7 @@ internal sealed class HelpCommand : Command
             return ExitCodes.GeneralError;
         }
 
-        HelpRenderer.RenderHelp(_helpProvider.GetCommandHelp(command));
+        _renderer.RenderHelp(_helpProvider.GetCommandHelp(command));
         return ExitCodes.Success;
 
     }

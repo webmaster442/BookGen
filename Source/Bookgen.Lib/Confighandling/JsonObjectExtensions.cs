@@ -12,7 +12,7 @@ internal static class JsonObjectExtensions
 {
     public static JsonObject GetSubObjectOrThrow(this JsonObject jsonObject, string propertyName)
     {
-        if (jsonObject.TryGetPropertyValue(propertyName, out var subObjectNode) &&
+        if (jsonObject.TryGetPropertyValue(propertyName, out JsonNode? subObjectNode) &&
             subObjectNode is JsonObject subObject)
         {
             return subObject;
@@ -22,7 +22,7 @@ internal static class JsonObjectExtensions
 
     public static JsonArray GetSubArrayOrThrow(this JsonObject jsonObject, string propertyName)
     {
-        if (jsonObject.TryGetPropertyValue(propertyName, out var subArrayNode) &&
+        if (jsonObject.TryGetPropertyValue(propertyName, out JsonNode? subArrayNode) &&
             subArrayNode is JsonArray subArray)
         {
             return subArray;

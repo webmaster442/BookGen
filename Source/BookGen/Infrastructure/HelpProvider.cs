@@ -32,7 +32,7 @@ internal class HelpProvider : IHelpProvider
 
     private void LoadHelpData()
     {
-        var lines =
+        IReadOnlyList<string> lines =
             ResourceHandler.GetResourceFileLines<HelpProvider>("Resources/Commands.md");
 
         List<string> chapterData = new(50);

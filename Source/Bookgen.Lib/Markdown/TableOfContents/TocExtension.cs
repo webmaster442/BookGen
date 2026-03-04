@@ -36,7 +36,7 @@ internal sealed class TocExtension : IMarkdownExtension
     //register parsers
     public void Setup(MarkdownPipelineBuilder pipeline)
     {
-        var autoIdExtension = pipeline.Extensions.Find<CustomAutoIdExtension>();
+        CustomAutoIdExtension? autoIdExtension = pipeline.Extensions.Find<CustomAutoIdExtension>();
         if (autoIdExtension == null)
             throw new InvalidOperationException("CustomAutoIdExtension is null");
 

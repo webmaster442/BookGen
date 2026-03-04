@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,6 +10,7 @@ using BookGen.Cli;
 using BookGen.Infrastructure.Loging;
 using BookGen.Vfs;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace BookGen;
@@ -19,17 +20,20 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
     protected readonly IWritableFileSystem _soruce;
     protected readonly IWritableFileSystem _target;
     protected readonly ILogger _logger;
-    private readonly IAssetSource _assetSource;
+    protected readonly IAssetSource _assetSource;
+    protected readonly IMemoryCache _memoryCache;
 
     public BuildCommandBase(IWritableFileSystem soruce,
                             IWritableFileSystem target,
                             ILogger logger,
-                            IAssetSource assetSource)
+                            IAssetSource assetSource,
+                            IMemoryCache memoryCache)
     {
         _soruce = soruce;
         _target = target;
         _logger = logger;
         _assetSource = assetSource;
+        _memoryCache = memoryCache;
     }
 
     public abstract Pipeline GetPipeLine();
@@ -47,7 +51,7 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
         _target.Scope = arguments.OutputDirectory;
 
         using var env = new BookEnvironment(_soruce, _target, _assetSource);
-        EnvironmentStatus status = await env.Initialize();
+        EnvironmentStatus status = await env.Initialize(arguments.ConfigOverlay);
 
         if (!status.IsOk)
         {

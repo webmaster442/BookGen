@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ internal sealed class ValidateCommand : AsyncCommand<BookGenArgumentBase>
 
         using var environment = new BookEnvironment(_writableFileSystem, _writableFileSystem);
 
-        EnvironmentStatus status = await environment.Initialize();
+        EnvironmentStatus status = await environment.Initialize(arguments.ConfigOverlay);
 
         if (!status.IsOk)
         {

@@ -1,10 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
+using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
 
 using Moq;
@@ -17,10 +18,12 @@ internal class UT_MarkdownConverter
     private string _markdown;
     private string _soruceCode;
     private readonly IEqualityComparer<string?> comparer = new LineEndingIgnoreComparer();
+    private TestEnvironment _testEnvironment;
 
     [SetUp]
     public void Setup()
     {
+        _testEnvironment = new TestEnvironment();
         _imgServiceMock = new Mock<IImgService>(MockBehavior.Strict);
         _imgServiceMock.Setup(x => x.GetImageEmbedData("img.svg")).Returns(new ImageResult
         {
@@ -67,10 +70,16 @@ internal class UT_MarkdownConverter
             """;
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _testEnvironment.Dispose();
+    }
+
     [Test]
     public void EnsureThat_Css_ClassesAreAplied()
     {
-        using var settings = new RenderSettings(_imgServiceMock.Object)
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses
             {
@@ -82,6 +91,7 @@ internal class UT_MarkdownConverter
             HostUrl = null,
             PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -111,13 +121,14 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_DeleteFirstH1_HostUrlTargeting_Works()
     {
-        using var settings = new RenderSettings(_imgServiceMock.Object)
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = true,
             HostUrl = "https://my.domain",
             PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -146,13 +157,14 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_SourceCode_Works()
     {
-        using var settings = new RenderSettings(_imgServiceMock.Object)
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
             PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -173,14 +185,14 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_SourceCode_PreRender_Works()
     {
-        using var testEnvironment = new TestEnvironment();
-        using var settings = new RenderSettings(_imgServiceMock.Object)
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
-            PrismJsInterop = new Bookgen.Lib.JsInterop.PrismJsInterop(testEnvironment),
+            PrismJsInterop = new Bookgen.Lib.JsInterop.SyntaxRenderJsInterop(_testEnvironment),
             AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -200,13 +212,14 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_Toc_NormalCase_RendersCorrectly()
     {
-        using var settings = new RenderSettings(_imgServiceMock.Object)
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -316,13 +329,14 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_Toc_WithTitle_RendersCorrectly()
     {
-        using var settings = new RenderSettings(_imgServiceMock.Object)
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -436,13 +450,14 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_Toc_Limited_RendersCorrectly()
     {
-        using var settings = new RenderSettings(_imgServiceMock.Object)
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -538,5 +553,129 @@ internal class UT_MarkdownConverter
         string result = sut.RenderMarkdownToHtml(input);
 
         Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+    [Test]
+    public void EnsureThat_TerminalRenderingWorks()
+    {
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
+        };
+
+        using var sut = new MarkdownConverter(settings);
+
+        string input = """
+            ```terminal
+            this is terminal output
+            ```
+            """;
+
+        string expected = """
+            <div style="margin-bottom: 1rem;" class="terminaloutput">
+            <div style="background-color: #877EC2; color: #eee8d6; padding: 3px;">$</div>
+            <pre style="text-align: left; font-size: 1.1em; line-height: 1.5; margin: 0px; padding: 8px; background-color: #282c34; color: #DCDFE4; font-family: Monaco, Menlo, Consolas, 'Courier New', monospace; word-break: break-all; word-wrap: break-word; overflow: auto;"><code style="tab-size: 4;">this is terminal output</code></pre>
+            </div>
+            """;
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+    [Test]
+    public void EnsrureThat_Youtube_Autolink_Works()
+    {
+        string input = """
+            https://www.youtube.com/watch?v=D5ivt3hNAW8
+            """;
+
+        string expected = """
+            <p><iframe width="560" height="315" src="https://www.youtube.com/embed/D5ivt3hNAW8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+            
+            """;
+
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
+        };
+
+        using var sut = new MarkdownConverter(settings);
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
+    [Test]
+    public void EnsureThat_NomnomlRender_PngWorks()
+    {
+        string input = """
+            ```nomnoml
+            [<frame>Foo|a;b;c]
+            ```
+            """;
+
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig
+            {
+                SvgRecode = SvgRecodeOption.AsPng
+            })
+        };
+
+        using var sut = new MarkdownConverter(settings);
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        Assert.That(result, Does.StartWith("<img src=\"data:image/png;base64,"));
+    }
+
+    [Test]
+    public void EnsureThat_NomnomlRender_SvgWorks()
+    {
+        string input = """
+            ```nomnoml
+            [<frame>Foo|a;b;c]
+            ```
+            """;
+
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            PrismJsInterop = null,
+            AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig
+            {
+                SvgRecode = SvgRecodeOption.Passtrough
+            })
+        };
+
+        using var sut = new MarkdownConverter(settings);
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result, Does.StartWith("<svg"));
+            Assert.That(result, Does.EndWith("</svg>"));
+        }
     }
 }

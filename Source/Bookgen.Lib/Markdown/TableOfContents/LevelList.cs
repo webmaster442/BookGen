@@ -104,7 +104,7 @@ internal class LevelList<T> where T : LevelList<T>, new()
         if (item.Level > _current.Level)
         {
             //try to find last child that child.Level > item.Level
-            var found = LevelList<T>.FindChildLevelLessThan(item.Level, _current);
+            T found = LevelList<T>.FindChildLevelLessThan(item.Level, _current);
             var offset = item.Level - found.Level;
             if (offset > 1)
             {
@@ -131,7 +131,7 @@ internal class LevelList<T> where T : LevelList<T>, new()
         }
 
         //not find a right item, move to previous one
-        var parent = LevelList<T>.FindParentLevelLessThan(item.Level, _current);
+        T? parent = LevelList<T>.FindParentLevelLessThan(item.Level, _current);
         if (parent is not null)
         {
             //marge siblings which
@@ -159,7 +159,7 @@ internal class LevelList<T> where T : LevelList<T>, new()
 
         for (int i = 0; i < parent.Count; i++)
         {
-            var t = parent[i];
+            T t = parent[i];
             if (t.Level > add.Level)
             {
                 if (startAt == -1)
@@ -193,7 +193,7 @@ internal class LevelList<T> where T : LevelList<T>, new()
             };
             for (int k = start; k < end; k++)
             {
-                var item = parent[k];
+                T item = parent[k];
                 item.Parent = emtpy;
                 emtpy._data.Add(item);
                 if (start == end - 1)

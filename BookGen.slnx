@@ -11,10 +11,10 @@
     <File Path=".github/workflows/codeql.yml" />
     <File Path=".github/workflows/dotnet.yml" />
   </Folder>
-  <Folder Name="/Scripts/">
-    <File Path="Installers/install.cmd" />
-    <File Path="Installers/install.sh" />
+  <Folder Name="/Publish Related files/">
     <File Path="publish.ps1" />
+    <File Path="PublishFiles/install.cmd" />
+    <File Path="PublishFiles/start_bookgen_shell.cmd" />
   </Folder>
   <Folder Name="/Tests/" Id="02ea681e-c7d8-13c7-8484-4ac65e1b71e8">
     <Project Path="Test/Bookgen.Tests/Bookgen.Tests.csproj" />

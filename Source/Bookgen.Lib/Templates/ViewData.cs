@@ -34,16 +34,16 @@ public class ViewData
     public Dictionary<string, string> GetDataTable(StringComparer comparer)
     {
         Dictionary<string, string> result = new(comparer);
-        var properties = GetType()
+        IEnumerable<PropertyInfo> properties = GetType()
             .GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Where(p => p.Name != nameof(AdditionalData));
 
-        foreach (var property in properties)
+        foreach (PropertyInfo? property in properties)
         {
             result.Add(property.Name, property.GetValue(this)?.ToString() ?? "");
         }
 
-        foreach (var kvp in AdditionalData)
+        foreach (KeyValuePair<string, string> kvp in AdditionalData)
         {
             result.Add(kvp.Key, kvp.Value);
         }

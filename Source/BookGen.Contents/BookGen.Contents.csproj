@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
   
   <ItemGroup>
@@ -31,13 +32,31 @@
       <ZipPath>$([System.IO.Path]::GetFullPath('$(OutputPath)\assets.zip'))</ZipPath>
     </PropertyGroup>
     <Message Text="Zipping from: $(SourcePath) to: $(ZipPath)" Importance="High" />
-    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;Compress-Archive -Path &#39;$(SourcePath)\*&#39; -DestinationPath &#39;$(ZipPath)&#39; -Force&quot;" />
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;Compress-Archive -Path '$(SourcePath)\*' -DestinationPath '$(ZipPath)' -Force&quot;" />
+  </Target>
+
+  <Target Name="ZipDictionariesWindows" AfterTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
+    <PropertyGroup>
+      <SourcePath>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..\Assets\dictionaries'))</SourcePath>
+      <ZipPath>$([System.IO.Path]::GetFullPath('$(OutputPath)\dictionaries.zip'))</ZipPath>
+    </PropertyGroup>
+    <Message Text="Zipping from: $(SourcePath) to: $(ZipPath)" Importance="High" />
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;Compress-Archive -Path '$(SourcePath)\*' -DestinationPath '$(ZipPath)' -Force&quot;" />
   </Target>
 
   <Target Name="ZipAssetsLinux" AfterTargets="Build" Condition="'$(OS)' != 'Windows_NT'">
     <PropertyGroup>
       <SourcePath>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../../Assets/BundledAssets'))</SourcePath>
       <ZipPath>$([System.IO.Path]::GetFullPath('$(OutputPath)/assets.zip'))</ZipPath>
+    </PropertyGroup>
+    <Message Text="Zipping from: $(SourcePath) to: $(ZipPath)" Importance="High" />
+    <Exec Command="zip -r -q '$(ZipPath)' ./*" WorkingDirectory="$(SourcePath)" />
+  </Target>
+
+  <Target Name="ZipDictionariesLinux" AfterTargets="Build" Condition="'$(OS)' != 'Windows_NT'">
+    <PropertyGroup>
+      <SourcePath>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)/../../Assets/dictionaries'))</SourcePath>
+      <ZipPath>$([System.IO.Path]::GetFullPath('$(OutputPath)/dictionaries.zip'))</ZipPath>
     </PropertyGroup>
     <Message Text="Zipping from: $(SourcePath) to: $(ZipPath)" Importance="High" />
     <Exec Command="zip -r -q '$(ZipPath)' ./*" WorkingDirectory="$(SourcePath)" />

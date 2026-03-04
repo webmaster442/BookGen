@@ -13,7 +13,7 @@ public interface IAssetSource
 
     IReadOnlyList<string> AssetNames { get; }
 
-    byte[] GetBinaryAsset(string name);
+    Stream GetBinaryAssetStream(string name);
 
     string GetAsset(string name)
     {

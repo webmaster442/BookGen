@@ -57,7 +57,7 @@ internal sealed class RuleLoader
 
     private OrganizeRule[] Deserialize()
     {
-        var collection = JsonSerializer.Deserialize<OrganizeRule[]>(File.ReadAllText(_ruleFile), _options);
+        OrganizeRule[]? collection = JsonSerializer.Deserialize<OrganizeRule[]>(File.ReadAllText(_ruleFile), _options);
         return collection?.Length > 0 ? collection : [];
     }
 }

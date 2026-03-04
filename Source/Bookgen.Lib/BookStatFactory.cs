@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib.Domain;
+using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Internals;
 using Bookgen.Lib.Pipeline;
 
@@ -17,18 +18,18 @@ public static class BookStatFactory
     {
         BookStat stat = new();
 
-        foreach (var chapter in environment.TableOfContents.Chapters)
+        foreach (TocChapter chapter in environment.TableOfContents.Chapters)
         {
             stat.ChapterSizes[chapter.Title] = 0;
             foreach (var file in chapter.Files)
             {
-                var sourceFile = await environment.Source.GetSourceFile(file, logger);
+                SourceFile sourceFile = await environment.Source.GetSourceFile(file, logger);
                 long size = environment.Source.GetFileSize(file);
                 stat.ChapterSizes[chapter.Title] += size;
 
                 ProcessCodeBlocks(stat, sourceFile);
 
-                var (lineCount, wordCount, characterCount) = GetFileStats(sourceFile);
+                (long lineCount, long wordCount, long characterCount) = GetFileStats(sourceFile);
                 stat.LineCount += lineCount;
                 stat.WordCount += wordCount;
                 stat.TotalSize += size;
@@ -75,7 +76,7 @@ public static class BookStatFactory
         string? line;
         while ((line = reader.ReadLine()) != null)
         {
-            var lineStats = GetLineStats(line.Where(c => !IsMarkdownChar(c)));
+            (int length, int words) lineStats = GetLineStats(line.Where(c => !IsMarkdownChar(c)));
             lineCount += (lineStats.length / 80) + (lineStats.length % 80) > 0 ? 1 : 0;
             wordCount += lineStats.words;
             characterCount += lineStats.length;

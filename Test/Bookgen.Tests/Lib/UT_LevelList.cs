@@ -27,7 +27,7 @@ public class UT_LevelList
                 sb.AppendLine();
             }
             prefix += "  ";
-            foreach (var item in Children)
+            foreach (TestLevelList item in Children)
             {
                 item.ToFormatedString(prefix, sb);
             }

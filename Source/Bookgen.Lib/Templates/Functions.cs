@@ -21,7 +21,7 @@ internal static class FunctionExtensions
             return defaultValue;
         var value = arguments[index];
 
-        if (TValue.TryParse(value, CultureInfo.InvariantCulture, out var parsedValue))
+        if (TValue.TryParse(value, CultureInfo.InvariantCulture, out TValue? parsedValue))
             return parsedValue;
 
         return defaultValue;

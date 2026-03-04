@@ -28,7 +28,7 @@ public sealed class CommandRunner
 
     private static string GetCommandName(Type t)
     {
-        var nameAttribure = t.GetCustomAttribute<CommandNameAttribute>();
+        CommandNameAttribute? nameAttribure = t.GetCustomAttribute<CommandNameAttribute>();
         return nameAttribure?.Name
             ?? throw new InvalidOperationException($"Command {t.FullName} is missing a {nameof(CommandNameAttribute)}");
     }
@@ -76,13 +76,13 @@ public sealed class CommandRunner
             cmd = cmd.BaseType;
         }
 
-        var method = originalType.GetMethod(nameof(AsyncCommand.ExecuteAsync))
+        MethodInfo? method = originalType.GetMethod(nameof(AsyncCommand.ExecuteAsync))
                      ?? originalType.GetMethod(nameof(Command.Execute));
 
         if (method == null)
             throw new InvalidOperationException($"Command {originalType.FullName} is missing Exetutable method");
 
-        var parameter = method
+        Type? parameter = method
             ?.GetParameters()
             .FirstOrDefault(p => p.ParameterType.IsAssignableTo(typeof(ArgumentsBase)))
             ?.ParameterType;
@@ -101,18 +101,24 @@ public sealed class CommandRunner
 
     private ICommand CreateCommand(string commandName)
     {
-        var constructor = _commands[commandName]
+        ConstructorInfo constructor = _commands[commandName]
             .GetConstructors(BindingFlags.Public | BindingFlags.Instance)
             .OrderByDescending(c => c.GetParameters().Length)
             .First();
 
-        List<object> contructorParameters = new();
-        foreach (var param in constructor.GetParameters())
+        List<object> constructorParameters = new();
+        foreach (ParameterInfo param in constructor.GetParameters())
         {
-            contructorParameters.Add(_serviceProvider.GetRequiredService(param.ParameterType));
+            FromKeyedServicesAttribute? keyAttribute = param.GetCustomAttribute<FromKeyedServicesAttribute>();
+
+            object parameterInstance = keyAttribute != null
+                ? _serviceProvider.GetRequiredKeyedService(param.ParameterType, keyAttribute.Key)
+                : _serviceProvider.GetRequiredService(param.ParameterType);
+
+            constructorParameters.Add(parameterInstance);
         }
 
-        var instance = Activator.CreateInstance(_commands[commandName], contructorParameters.ToArray())
+        var instance = Activator.CreateInstance(_commands[commandName], constructorParameters.ToArray())
             ?? throw new InvalidOperationException();
 
         return (ICommand)instance;
@@ -171,14 +177,14 @@ public sealed class CommandRunner
 
     public CommandRunner AddCommandsFrom(Assembly assembly)
     {
-        var commands = assembly
+        IEnumerable<Type> commands = assembly
             .GetTypes()
             .Where(t => t.IsAssignableTo(typeof(ICommand)))
             .Where(t => !t.IsAbstract && !t.IsInterface);
 
-        foreach (var command in commands)
+        foreach (Type? command in commands)
         {
-            var name = GetCommandName(command);
+            string name = GetCommandName(command);
             if (!_commands.ContainsKey(name))
             {
                 _commands.Add(name.ToLower(), command);
@@ -195,9 +201,9 @@ public sealed class CommandRunner
     {
         if (_commands.TryGetValue(commandName, out Type? value))
         {
-            var type = value;
+            Type type = value;
 
-            var args = GetArgumentType(type);
+            Type? args = GetArgumentType(type);
 
             if (args != null)
             {
@@ -241,7 +247,7 @@ public sealed class CommandRunner
 
     private async Task<ArgumentJsonItem[]> LoadFromJsonFile(string jsonFile)
     {
-        await using var stream = File.OpenRead(jsonFile);
+        await using FileStream stream = File.OpenRead(jsonFile);
         return await JsonSerializer.DeserializeAsync<ArgumentJsonItem[]>(stream, _serializerOptions)
             ?? throw new InvalidOperationException("Failed to load arguments from json");
     }
@@ -254,7 +260,7 @@ public sealed class CommandRunner
             return _settings.UnknownCommandCodeAndMessage.code;
         }
 
-        var argumentType = GetArgumentType(value);
+        Type? argumentType = GetArgumentType(value);
         ICommand command = CreateCommand(commandName);
 
         if (!command.SupportedOs.HasFlag(_currentOs))
@@ -274,24 +280,28 @@ public sealed class CommandRunner
             && File.Exists(argsJson))
         {
             _log.LogInformation("Loading arguments from {filename}...", jsonFileName);
-            var items = await LoadFromJsonFile(argsJson);
+            ArgumentJsonItem[] items = await LoadFromJsonFile(argsJson);
 
-            return await ExecuteMultiple(items, argumentType, command);
+            return await ExecuteMultiple(items, argumentType, command, commandName);
         }
-        return await ExecuteSingle(argsToParse, argumentType, command);
+        return await ExecuteSingle(argsToParse, argumentType, command, commandName);
     }
 
-    private async Task<int> ExecuteSingle(IReadOnlyList<string> argsToParse, Type argumentType, ICommand command)
+    private async Task<int> ExecuteSingle(IReadOnlyList<string> argsToParse,
+                                          Type argumentType,
+                                          ICommand command,
+                                          string commandName)
     {
         ArgumentsBase args = ArgumentsBase.Empty;
         ArgumentParser parser = new(argumentType, _log);
         args = parser.Fill(argsToParse);
 
-        var validationResult = args.Validate(ValidationContext);
+        ValidationResult validationResult = args.Validate(ValidationContext);
 
         if (!validationResult.IsOk)
         {
             _log.LogCritical(validationResult.ToString());
+            _log.LogInformation("Use help {commandName} to get help on command", commandName);
             return _settings.BadParametersExitCode;
         }
 
@@ -303,12 +313,15 @@ public sealed class CommandRunner
         return await command.ExecuteAsync(args, argsToParse);
     }
 
-    private async Task<int> ExecuteMultiple(ArgumentJsonItem[] items, Type argumentType, ICommand command)
+    private async Task<int> ExecuteMultiple(ArgumentJsonItem[] items,
+                                            Type argumentType,
+                                            ICommand command,
+                                            string commandName)
     {
-        foreach (var item in items)
+        foreach (ArgumentJsonItem item in items)
         {
             _log.LogInformation("Executing {name} from json file...", item.Name);
-            int exitcode = await ExecuteSingle(item.Arguments, argumentType, command);
+            int exitcode = await ExecuteSingle(item.Arguments, argumentType, command, commandName);
             if (exitcode != 0)
             {
                 _log.LogCritical("Failed to execute {name}. Exit code: {exitcode}", item.Name, exitcode);

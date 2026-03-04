@@ -29,14 +29,14 @@ public static class Terminal
 
     public static void BarChart(IDictionary<string, double> items, string title = "")
     {
-        var chart = new BarChart()
+        BarChart chart = new BarChart()
             .Width(Console.WindowWidth)
             .Label(title)
             .CenterLabel();
 
         _palette.Reset();
 
-        foreach (var item in items)
+        foreach (KeyValuePair<string, double> item in items)
         {
             chart.AddItem(item.Key, item.Value, _palette.GetNextColor());
         }
@@ -46,10 +46,10 @@ public static class Terminal
 
     public static void BreakDownChart(IDictionary<string, double> items, string title, bool descendingOrder = true)
     {
-        var rule = new Rule(title).Centered();
+        Rule rule = new Rule(title).Centered();
         AnsiConsole.Write(rule);
 
-        var chart = new BreakdownChart()
+        BreakdownChart chart = new BreakdownChart()
             .Width(Console.WindowWidth);
 
         _palette.Reset();
@@ -58,7 +58,7 @@ public static class Terminal
             ? items.OrderByDescending(x => x.Value)
             : items;
 
-        foreach (var item in data)
+        foreach (KeyValuePair<string, double> item in data)
         {
             chart.AddItem(item.Key, item.Value, _palette.GetNextColor());
         }
@@ -84,7 +84,7 @@ public static class Terminal
 
     public static List<T> SelectionMenu<T>(IEnumerable<T> items, string title, string instructions, Func<T, string> displaySelector) where T : notnull
     {
-        var prompt = new MultiSelectionPrompt<T>()
+        MultiSelectionPrompt<T> prompt = new MultiSelectionPrompt<T>()
             .Title(title)
             .PageSize(15)
             .InstructionsText(instructions)

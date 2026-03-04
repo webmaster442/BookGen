@@ -51,7 +51,7 @@ public sealed partial class TemplateEngine
 
     public void Render<TData>(TextWriter target, string template, TData viewData) where TData : ViewData
     {
-        var dataTable = viewData.GetDataTable(_comparer);
+        Dictionary<string, string> dataTable = viewData.GetDataTable(_comparer);
 
         StringBuilder lineBuffer = new(120);
 
@@ -60,7 +60,7 @@ public sealed partial class TemplateEngine
 
         while ((line = reader.ReadLine()) != null)
         {
-            var templatePartsInLine = TemplatePartRegex().Matches(line);
+            MatchCollection templatePartsInLine = TemplatePartRegex().Matches(line);
 
             if (templatePartsInLine.Count < 1)
             {
@@ -80,7 +80,7 @@ public sealed partial class TemplateEngine
                     string functionName = templateFunction.Skip(1).First();
                     string[] arguments = templateFunction.Skip(2).TakeWhile(f => f != "}}").ToArray();
 
-                    if (!_lambdaTable.TryGetValue(functionName, out var function))
+                    if (!_lambdaTable.TryGetValue(functionName, out Func<string[], string>? function))
                     {
                         _logger.LogWarning("Function {FunctionName} is not registered.", functionName);
                         lineBuffer.Append($"Function {functionName} is not registered.");

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -95,32 +95,39 @@ internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
             ".jpg", ".jpeg", ".png", ".webp"
         };
 
-        if (!Resolution.TryParse(arguments.Resolution, CultureInfo.InvariantCulture, out var resolution))
+        var maxResolution = new Resolution
+        {
+            Width = int.MaxValue,
+            Height = int.MaxValue
+        };
+
+        if (!string.IsNullOrEmpty(arguments.Resolution) 
+            && !Resolution.TryParse(arguments.Resolution, CultureInfo.InvariantCulture, out maxResolution))
         {
             Console.Error.WriteLine($"Invalid resolution format: '{arguments.Resolution}'. Expected format is 'WidthxHeight'.");
             return ExitCodes.ArgumentsError;
         }
 
-        var format = Enum.Parse<ImageFormat>(arguments.Format, ignoreCase: true);
+        ImageFormat format = Enum.Parse<ImageFormat>(arguments.Format, ignoreCase: true);
 
         if (_fileSystem.DirectoryExists(arguments.Input))
         {
-            var files = _fileSystem.GetFiles(arguments.Input, "*.*", false).Where(f => supportedExtensions.Contains(Path.GetExtension(f)));
+            IEnumerable<string> files = _fileSystem.GetFiles(arguments.Input, "*.*", false).Where(f => supportedExtensions.Contains(Path.GetExtension(f)));
             Parallel.ForEach(files, file =>
             {
                 var outputFile = Path.Combine(arguments.Output, Path.GetFileNameWithoutExtension(file) + "." + arguments.Format);
-                ConvertImage(file, outputFile, format, arguments.Quality, resolution);
+                ConvertImage(file, outputFile, format, arguments.Quality, maxResolution);
             });
         }
         else
         {
-            ConvertImage(arguments.Input, arguments.Output, format, arguments.Quality, resolution);
+            ConvertImage(arguments.Input, arguments.Output, format, arguments.Quality, maxResolution);
         }
 
         return ExitCodes.Success;
     }
 
-    private static void ConvertImage(string file, string outputFile, ImageFormat format, int quality, Resolution resolution)
+    private static void ConvertImage(string file, string outputFile, ImageFormat format, int quality, Resolution maxResolution)
     {
         ImageConverter.Encode(file, outputFile, format switch
         {
@@ -128,6 +135,6 @@ internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
             ImageFormat.Png => ImageType.Png,
             ImageFormat.Webp => ImageType.Webp,
             _ => throw new NotSupportedException($"Image format {format} is not supported.")
-        }, resolution.Width, resolution.Height, quality);
+        }, maxResolution.Width, maxResolution.Height, quality);
     }
 }

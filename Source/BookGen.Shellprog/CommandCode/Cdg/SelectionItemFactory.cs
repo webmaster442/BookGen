@@ -24,8 +24,8 @@ internal static partial class SelectionItemFactory
             return string.Empty;
         }
 
-        var drives = DriveInfo.GetDrives();
-        foreach (var drive in drives)
+        DriveInfo[] drives = DriveInfo.GetDrives();
+        foreach (DriveInfo drive in drives)
         {
             yield return new SelectionItemDirectory
             {
@@ -53,7 +53,7 @@ internal static partial class SelectionItemFactory
 
     public static IEnumerable<SelectionItemDirectory> GetSpecialFolders()
     {
-        foreach (var specialFolder in Enum.GetValues<Environment.SpecialFolder>())
+        foreach (Environment.SpecialFolder specialFolder in Enum.GetValues<Environment.SpecialFolder>())
         {
             var path = Environment.GetFolderPath(specialFolder);
             if (!string.IsNullOrEmpty(path))

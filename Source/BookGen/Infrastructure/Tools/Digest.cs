@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Cryptography;
 
@@ -35,35 +36,35 @@ internal static class Digest
 
                 if (length == 32) // 256-bit
                 {
-                    var va = Avx.LoadVector256(pA);
-                    var vb = Avx.LoadVector256(pB);
+                    Vector256<byte> va = Avx.LoadVector256(pA);
+                    Vector256<byte> vb = Avx.LoadVector256(pB);
 
-                    var cmp = Avx2.CompareEqual(va, vb);
+                    Vector256<byte> cmp = Avx2.CompareEqual(va, vb);
                     return Avx2.MoveMask(cmp) == -1;
                 }
                 else if (length == 48) // 384-bit
                 {
-                    var va1 = Avx.LoadVector256(pA);       // first 32 bytes
-                    var vb1 = Avx.LoadVector256(pB);
+                    Vector256<byte> va1 = Avx.LoadVector256(pA);       // first 32 bytes
+                    Vector256<byte> vb1 = Avx.LoadVector256(pB);
 
-                    var va2 = Sse2.LoadVector128(pA + 32);  // remaining 16 bytes
-                    var vb2 = Sse2.LoadVector128(pB + 32);
+                    Vector128<byte> va2 = Sse2.LoadVector128(pA + 32);  // remaining 16 bytes
+                    Vector128<byte> vb2 = Sse2.LoadVector128(pB + 32);
 
-                    var cmp1 = Avx2.CompareEqual(va1, vb1);
-                    var cmp2 = Sse2.CompareEqual(va2, vb2);
+                    Vector256<byte> cmp1 = Avx2.CompareEqual(va1, vb1);
+                    Vector128<byte> cmp2 = Sse2.CompareEqual(va2, vb2);
 
                     return Avx2.MoveMask(cmp1) == -1 && Sse2.MoveMask(cmp2) == 0xFFFF;
                 }
                 else if (length == 64) // 512-bit
                 {
-                    var va1 = Avx.LoadVector256(pA);
-                    var vb1 = Avx.LoadVector256(pB);
+                    Vector256<byte> va1 = Avx.LoadVector256(pA);
+                    Vector256<byte> vb1 = Avx.LoadVector256(pB);
 
-                    var va2 = Avx.LoadVector256(pA + 32);
-                    var vb2 = Avx.LoadVector256(pB + 32);
+                    Vector256<byte> va2 = Avx.LoadVector256(pA + 32);
+                    Vector256<byte> vb2 = Avx.LoadVector256(pB + 32);
 
-                    var cmp1 = Avx2.CompareEqual(va1, vb1);
-                    var cmp2 = Avx2.CompareEqual(va2, vb2);
+                    Vector256<byte> cmp1 = Avx2.CompareEqual(va1, vb1);
+                    Vector256<byte> cmp2 = Avx2.CompareEqual(va2, vb2);
 
                     return Avx2.MoveMask(cmp1) == -1 && Avx2.MoveMask(cmp2) == -1;
                 }

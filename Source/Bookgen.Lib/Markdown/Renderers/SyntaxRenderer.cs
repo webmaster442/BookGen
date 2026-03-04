@@ -1,13 +1,15 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Text;
 using System.Web;
 
+using Bookgen.Lib.ImageService;
 using Bookgen.Lib.JsInterop;
 
+using Markdig.Helpers;
 using Markdig.Parsers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
@@ -18,9 +20,11 @@ namespace Bookgen.Lib.Markdown.Renderers;
 internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposable
 {
     private readonly CodeBlockRenderer _originalRenderer;
-    private readonly PrismJsInterop? _prism;
+    private readonly SyntaxRenderJsInterop? _prism;
+    private readonly ImageRenderJsInterop _imageRenderJsInterop;
     private readonly HashSet<string> _supportedLanguages;
-    public const string Terminallanguage = "terminal";
+    public const string TerminalLanguage = "terminal";
+    public const string NomnomlLanguage = "nomnoml";
 
     public const string TerminalHtml = """
         <div style="margin-bottom: 1rem;" class="terminaloutput">
@@ -31,10 +35,13 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 
     public bool PreRender => _prism != null;
 
-    public SyntaxRenderer(CodeBlockRenderer underlyingRenderer, PrismJsInterop? prism)
+    public SyntaxRenderer(CodeBlockRenderer underlyingRenderer,
+                          SyntaxRenderJsInterop? prism,
+                          ImageRenderJsInterop imageRenderJsInterop)
     {
         _originalRenderer = underlyingRenderer ?? new CodeBlockRenderer();
         _prism = prism;
+        _imageRenderJsInterop = imageRenderJsInterop;
         _supportedLanguages = new HashSet<string>
             {
                 "markup", "css", "clike", "javascript", "abap", "actionscript",
@@ -57,7 +64,7 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
                 "sass", "scss", "scala", "scheme", "smalltalk", "smarty", "sql", "soy",
                 "stylus", "swift", "tap", "tcl", "textile", "tt2", "twig", "typescript",
                 "vbnet", "velocity", "verilog", "vhdl", "vim", "visual-basic", "wasm", "wiki",
-                "xeora", "xojo", "xquery", "yaml", Terminallanguage
+                "xeora", "xojo", "xquery", "yaml", TerminalLanguage, NomnomlLanguage
             };
     }
 
@@ -68,8 +75,8 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
         int totalLines = lines.Length;
         for (int i = 0; i < totalLines; i++)
         {
-            var line = lines[i];
-            var slice = line.Slice;
+            StringLine line = lines[i];
+            StringSlice slice = line.Slice;
             if (slice.Text == null)
             {
                 continue;
@@ -110,20 +117,33 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 
         string code = GetCode(obj);
 
-        if (languageMoniker == Terminallanguage)
+        switch (languageMoniker)
         {
-            string terminalOutput = RenderTerminalString(code);
-            renderer.Write(terminalOutput);
+            case TerminalLanguage:
+                renderer.Write(RenderTerminalString(code));
+                break;
+            case NomnomlLanguage:
+                ImageResult img = _imageRenderJsInterop.RenderNomnoml(code);
+                renderer.Write(RendererImgage(img));
+                break;
+            default:
+                if (PreRender)
+                {
+                    renderer.Write(RenderWithPrism(code, languageMoniker));
+                }
+                else
+                {
+                    _originalRenderer.Write(renderer, obj);
+                }
+                break;
         }
-        else if (PreRender)
-        {
-            string rendered = RenderWithPrism(code, languageMoniker);
-            renderer.Write(rendered);
-        }
-        else
-        {
-            _originalRenderer.Write(renderer, obj);
-        }
+    }
+
+    private static string RendererImgage(ImageResult img)
+    {
+        return img.ImageType == ImageType.Svg
+            ? img.Data 
+            : $"<img src=\"data:{img.ImageType.GetMimeType()};base64,{img.Data}\">";
     }
 
     public static string RenderTerminalString(string code)

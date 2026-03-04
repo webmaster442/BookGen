@@ -8,6 +8,7 @@
     <OutputPath>..\..\bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Markdig"/>
+    <PackageReference Include="Markdig" />
     <PackageReference Include="System.ServiceModel.Syndication" />
     <PackageReference Include="YamlDotNet" />
     <PackageReference Include="SkiaSharp" />

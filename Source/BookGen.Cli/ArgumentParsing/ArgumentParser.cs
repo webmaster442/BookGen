@@ -30,10 +30,10 @@ internal class ArgumentParser
 
     private void OrganizeProperties(PropertyInfo[] propertyInfos)
     {
-        foreach (var propertyInfo in propertyInfos)
+        foreach (PropertyInfo propertyInfo in propertyInfos)
         {
-            var switchAttribute = propertyInfo.GetCustomAttribute<SwitchAttribute>();
-            var argumentAttribute = propertyInfo.GetCustomAttribute<ArgumentAttribute>();
+            SwitchAttribute? switchAttribute = propertyInfo.GetCustomAttribute<SwitchAttribute>();
+            ArgumentAttribute? argumentAttribute = propertyInfo.GetCustomAttribute<ArgumentAttribute>();
 
             if (switchAttribute != null && argumentAttribute != null)
             {
@@ -70,9 +70,9 @@ internal class ArgumentParser
 
     private void HandleSwitchProperties(object argumentsClass, ArgumentBag argBag)
     {
-        foreach (var property in _switchPropertyInfos)
+        foreach (PropertyInfo property in _switchPropertyInfos)
         {
-            var switchAttribute = property.GetCustomAttribute<SwitchAttribute>()
+            SwitchAttribute switchAttribute = property.GetCustomAttribute<SwitchAttribute>()
                 ?? throw new System.Diagnostics.UnreachableException();
 
             if (switchAttribute.ShortName.StartsWith('-'))
@@ -88,7 +88,7 @@ internal class ArgumentParser
             else if (property.PropertyType.IsArray)
             {
                 string[] values = argBag.GetSwitchValues(switchAttribute);
-                var elementType = property.PropertyType.GetElementType();
+                Type? elementType = property.PropertyType.GetElementType();
                 if (elementType != null)
                 {
                     var finalValues = values
@@ -114,9 +114,9 @@ internal class ArgumentParser
 
     private void HandleArgumentProperties(object argumentsClass, ArgumentBag argBag)
     {
-        foreach (var property in _argumentPropertyInfos)
+        foreach (PropertyInfo property in _argumentPropertyInfos)
         {
-            var argumentAttribute = property.GetCustomAttribute<ArgumentAttribute>()
+            ArgumentAttribute argumentAttribute = property.GetCustomAttribute<ArgumentAttribute>()
                 ?? throw new System.Diagnostics.UnreachableException();
 
             if (property.PropertyType.IsArray)

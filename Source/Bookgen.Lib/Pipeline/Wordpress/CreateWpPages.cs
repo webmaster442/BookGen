@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,24 +7,31 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
+using Bookgen.Lib.Domain;
+using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.Wordpress;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
+using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.Wordpress;
 
 internal sealed class CreateWpPages : PipeLineStep<WpState>
 {
+    private readonly IMemoryCache _memoryCache;
+
 #if DEBUG
     private readonly HashSet<int> _usedids;
 #endif
 
-    public CreateWpPages(WpState state) : base(state)
+    public CreateWpPages(WpState state, IMemoryCache memoryCache) : base(state)
     {
+        _memoryCache = memoryCache;
 #if DEBUG
         _usedids = [];
 #endif
@@ -114,17 +121,18 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
     {
         logger.LogInformation("Creating pages...");
 
-        var imgService = new ImgService(environment.Source, logger, environment.Configuration.StaticWebsiteConfig.Images);
-        var cached = new CachedImageService(imgService);
+        var imgService = new ImgService(environment.Source, logger, environment.Configuration.WordpressConfig.Images);
+        var cached = new CachedImageService(imgService, _memoryCache);
         var renderer = new TemplateEngine(logger, environment);
 
-        using var settings = new RenderSettings(cached)
+        using var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.WordpressConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = environment.Configuration.WordpressConfig.DeployHost,
             PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
+            ImageRenderJsInterop = new ImageRenderJsInterop(environment, environment.Configuration.WordpressConfig.Images)
         };
 
         using var markdown = new MarkdownConverter(settings);
@@ -148,7 +156,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
         globalparent = uid;
         ++uid;
 
-        foreach (var chapter in environment.TableOfContents.Chapters)
+        foreach (TocChapter chapter in environment.TableOfContents.Chapters)
         {
             string chapterPath = $"{environment.Configuration.StaticWebsiteConfig.DeployHost}{EncodeTitle(chapter.Title)}";
             int parent_uid = uid;
@@ -169,7 +177,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
             {
                 logger.LogDebug("Processing file {File}...", file);
 
-                var sourceData = await environment.Source.GetSourceFile(file, logger);
+                SourceFile sourceData = await environment.Source.GetSourceFile(file, logger);
                 string subpath = $"{environment.Configuration.WordpressConfig.DeployHost}{EncodeTitle(chapter.Title)}/{EncodeTitle(sourceData.FrontMatter.Title)}";
 
                 string template = await environment.GetTemplate(frontMatterTemplate: sourceData.FrontMatter.Template,

@@ -39,7 +39,7 @@ internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallComma
 
         if (arguments.CheckTerminalInstall)
         {
-            var installReult = InstallDetector.GetInstallResult();
+            InstallResult installReult = InstallDetector.GetInstallResult();
             return installReult.IsWindowsTerminalInstalled ? ExitCodes.Success : ExitCodes.GeneralError;
         }
 

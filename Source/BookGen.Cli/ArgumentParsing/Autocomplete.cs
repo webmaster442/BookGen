@@ -13,11 +13,11 @@ internal static class Autocomplete
 {
     public static IEnumerable<string> GetInfo(Type t)
     {
-        var properties = t.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        PropertyInfo[] properties = t.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-        foreach (var property in properties)
+        foreach (PropertyInfo property in properties)
         {
-            var sw = property.GetCustomAttribute<SwitchAttribute>();
+            SwitchAttribute? sw = property.GetCustomAttribute<SwitchAttribute>();
             if (sw != null)
             {
                 yield return $"-{sw.ShortName}";

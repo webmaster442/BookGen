@@ -1,32 +1,52 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Collections.Concurrent;
+using System.IO;
 
 using BookGen.Vfs;
+
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Bookgen.Lib.ImageService;
 
 public sealed class CachedImageService : IImgService
 {
     private readonly IImgService _service;
-    private readonly ConcurrentDictionary<string, ImageResult> _cache;
+    private readonly IMemoryCache _memoryCache;
 
-    public CachedImageService(IImgService service)
+    public CachedImageService(IImgService service, IMemoryCache memoryCache)
     {
         _service = service;
-        _cache = new ConcurrentDictionary<string, ImageResult>();
+        _memoryCache = memoryCache;
+    }
+
+    private static ulong GetCacheKey(string str)
+    {
+        const ulong ofset = 0xcbf29ce484222325;
+        const ulong prime = 0x00000100000001b3;
+
+        ulong hash = ofset;
+
+        foreach (char c in str)
+        {
+            hash ^= c;
+            hash *= prime;
+        }
+
+        return hash;
     }
 
     public ImageResult GetImageEmbedData(string path)
     {
-        if (_cache.TryGetValue(path, out var data))
-            return data;
+        ulong cacheKey = GetCacheKey(path);
+        return _memoryCache.GetOrCreate(cacheKey, entry =>
+        {
 
-        var result = _service.GetImageEmbedData(path);
-        _cache.TryAdd(path, result);
-        return result;
+            entry.SetAbsoluteExpiration(TimeSpan.FromSeconds(180));
+            return _service.GetImageEmbedData(path);
+        })!;
     }
 }

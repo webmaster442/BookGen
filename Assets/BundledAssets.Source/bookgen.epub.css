@@ -1,6 +1,6 @@
 /*
 BookGen Css for epub files Not minified
-Version: 2025-07-15
+Version: 2026-03-04
 */
 
 :root {
@@ -191,6 +191,48 @@ figure {
 figcaption {
     text-align: center;
     font-style: italic;
+}
+
+/* Boxes */
+
+.info {
+    background-color: var(--box-info);
+    color: var(--box-foreground);
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.info::before {
+    content: "ℹ️";
+    display: block;
+}
+
+.warning {
+    background-color: var(--box-waring);
+    color: var(--box-foreground);
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.warning::before {
+    content: "⚠️";
+    display: block;
+}
+
+
+.error {
+    background-color: var(--box-error);
+    color: var(--box-foreground);
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.error::before {
+    content: "🛑";
+    display: block;
 }
 
 /* PrismJS 1.30.0

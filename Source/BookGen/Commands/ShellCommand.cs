@@ -68,7 +68,7 @@ internal sealed class ShellCommand : Command
                 if (words.Length <= 1)
                     return items;
 
-                var candidate = items.Where(arg => arg.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
+                IEnumerable<string> candidate = items.Where(arg => arg.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
 
                 if (candidate.Any())
                     return candidate;

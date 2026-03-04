@@ -1,24 +1,22 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using Markdig.Syntax;
+﻿using Markdig.Syntax;
 
 namespace Bookgen.Lib.Markdown.Renderers.Terminal;
 
-/// <summary>
-/// Renderer for adding VT100 escape sequences for quote blocks.
-/// </summary>
-internal class QuoteBlockRenderer : VT100ObjectRenderer<QuoteBlock>
+internal sealed class QuoteBlockRenderer : TerminalObjectRenderer<QuoteBlock>
 {
-    protected override void Write(VT100Renderer renderer, QuoteBlock obj)
+    protected override void Write(TerminalRenderer renderer, QuoteBlock obj)
     {
-        // Iterate through each item and add the quote character before the content.
-        foreach (var item in obj)
-        {
-            renderer.Write(obj.QuoteChar).Write(" ").Write(item);
-        }
+        var begin = renderer.Builder.New()
+            .WithForegroundColor(renderer.RenderOptions.QuoteBlockColor)
+            .WithItalic()
+            .ToString();
 
-        // Add blank line after the quote block.
-        renderer.WriteLine();
+        renderer
+            .Write(begin)
+            .WriteChildren(obj);
+
+        renderer
+            .WriteReset();
+
     }
 }

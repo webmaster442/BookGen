@@ -21,17 +21,17 @@ internal sealed class CreateNav : PipeLineStep<EpubState>
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
-        var ncx = CreateNcx(environment);
+        Ncx ncx = CreateNcx(environment);
 
         var tocHtml = new EpubTocRenderer();
         tocHtml.BeginNav();
         tocHtml.AddTitle(environment.Configuration.BookTitle);
         tocHtml.BeginOl(display: false);
-        foreach (var chapter in State.TocData)
+        foreach (KeyValuePair<string, List<EpubState.ChapterItem>> chapter in State.TocData)
         {
             tocHtml.BeginChapter(chapter.Key);
             tocHtml.BeginOl();
-            foreach (var item in chapter.Value)
+            foreach (EpubState.ChapterItem item in chapter.Value)
             {
                 tocHtml.AddItem(item.Title, item.FileName.Replace("content/", ""));
                 string id = IdGenerator.Generate32BitDeterministicId(item.FileName);

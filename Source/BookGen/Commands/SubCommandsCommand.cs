@@ -27,7 +27,7 @@ internal sealed class SubCommandsCommand : Command
     public override int Execute(IReadOnlyList<string> context)
     {
         Terminal.Header("Available sub commands:");
-        foreach (var commandGroup in _commands)
+        foreach (IGrouping<char, string> commandGroup in _commands)
         {
             AnsiConsole.WriteLine(commandGroup.Key);
             foreach (var command in commandGroup)

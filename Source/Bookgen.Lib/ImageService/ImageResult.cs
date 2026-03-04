@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+
 namespace Bookgen.Lib.ImageService;
 
 public sealed record class ImageResult

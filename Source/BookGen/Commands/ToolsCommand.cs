@@ -36,6 +36,7 @@ internal sealed class ToolsCommand : AsyncCommand
             new ChromaDownloader(apiClient, _memoryStreamManager, _logger),
             new CopyPartyDownloader(apiClient, _memoryStreamManager, _logger),
             new GithubDownloader(apiClient, _memoryStreamManager, _logger),
+            new GlowDownloader(apiClient, _memoryStreamManager, _logger),
             new MicrosoftEditToolDownloader(apiClient, _memoryStreamManager, _logger),
             new PandocTooldownloader(apiClient, _memoryStreamManager, _logger),
         ];
@@ -51,13 +52,13 @@ internal sealed class ToolsCommand : AsyncCommand
         AnsiConsole.Clear();
         AnsiConsole.Write(new FigletText("Tool installer"));
 
-        var selectedItems = Terminal.SelectionMenu<TooldownloaderBase>(items: _tooldownloaders,
+        List<TooldownloaderBase> selectedItems = Terminal.SelectionMenu<TooldownloaderBase>(items: _tooldownloaders,
                                                                        title: "Select tools to download",
                                                                        instructions: "[grey](Press [blue]<space>[/] to toggle a tool for download, [green]<enter>[/] to accept)[/]",
                                                                        displaySelector: ToSDisplayString);
 
 
-        foreach (var selected in selectedItems)
+        foreach (TooldownloaderBase selected in selectedItems)
         {
             _logger.LogInformation("Installing {tool} ...", selected.ToolInfo.Name);
             var ui = new ToolDownloadUi();

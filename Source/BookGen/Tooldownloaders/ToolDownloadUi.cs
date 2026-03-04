@@ -11,7 +11,7 @@ using Webmaster442.WindowsTerminal.Wigets;
 
 namespace BookGen.Tooldownloaders;
 
-internal class ToolDownloadUi : IDownloadUi
+internal sealed class ToolDownloadUi : IDownloadUi
 {
     private class ExtendedProgresBar : Progressbar
     {

@@ -30,7 +30,7 @@ internal sealed class GitAutoCompleteCommand : Command
             && int.TryParse(context[0], out int index)
             && !string.IsNullOrEmpty(context[1]))
         {
-            var candidates = ShellAutoCompleteFilter.DoFilter(items, context[1], index);
+            IEnumerable<string> candidates = ShellAutoCompleteFilter.DoFilter(items, context[1], index);
 
 #if DEBUGGING
             var json = System.Text.Json.JsonSerializer.Serialize(new

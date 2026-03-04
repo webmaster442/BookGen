@@ -25,7 +25,7 @@ internal sealed class FromVersion2003To2004 : UpgradeBase
     {
         JsonArray chaptersArray = tocFile.GetSubArrayOrThrow("Chapters");
 
-        foreach (var chapterNode in chaptersArray)
+        foreach (JsonNode? chapterNode in chaptersArray)
         {
             if (chapterNode is JsonObject chapter)
             {

@@ -33,7 +33,7 @@ internal sealed class LoadLegacyToc : IMigrationStep
         var parsed = new ToC();
         parsed.RawMarkdown = content;
         MarkdownPipeline? pipeline = new MarkdownPipelineBuilder().UseAutoIdentifiers(AutoIdentifierOptions.GitHub).Build();
-        var doc = Markdig.Markdown.Parse(content, pipeline);
+        MarkdownDocument doc = Markdig.Markdown.Parse(content, pipeline);
 
         string? chapterTitle = string.Empty;
         var chapterLinks = new List<Link>();

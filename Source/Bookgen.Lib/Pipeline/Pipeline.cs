@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,6 +10,7 @@ using Bookgen.Lib.Pipeline.Print;
 using Bookgen.Lib.Pipeline.StaticWebsite;
 using Bookgen.Lib.Pipeline.Wordpress;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline;
@@ -25,7 +26,7 @@ public sealed class Pipeline
 
     public async Task<bool> ExecuteAsync(IBookEnvironment environment, ILogger logger, CancellationToken cancellationToken)
     {
-        foreach (var step in Steps)
+        foreach (IPipeLineStep step in Steps)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -33,7 +34,7 @@ public sealed class Pipeline
                 return false;
             }
 
-            var result = await step.ExecuteAsync(environment, logger);
+            StepResult result = await step.ExecuteAsync(environment, logger);
             if (result == StepResult.Failure)
             {
                 return false;
@@ -42,28 +43,28 @@ public sealed class Pipeline
         return true;
     }
 
-    public static Pipeline CratePrintPipeLine()
+    public static Pipeline CratePrintPipeLine(IMemoryCache memoryCache)
     {
         var state = new PrintState();
 
         return new Pipeline(
-            new RenderPages(state),
+            new RenderPages(state, memoryCache),
             new WriteHtml(state),
             new WriteXHtml(state)
         );
     }
 
-    public static Pipeline CreatePostProcessPipeLine()
+    public static Pipeline CreatePostProcessPipeLine(IMemoryCache memoryCache)
     {
         var state = new PostProcessState();
 
         return new Pipeline(
-            new RenderPagesForPostProcess(state),
+            new RenderPagesForPostProcess(state, memoryCache),
             new WriteFile(state)
         );
     }
 
-    public static Pipeline CreateWebPipeLine()
+    public static Pipeline CreateWebPipeLine(IMemoryCache memoryCache)
     {
         var state = new StaticWebState();
 
@@ -72,26 +73,26 @@ public sealed class Pipeline
             new ExtractTemplateAssets(state),
             new ReadInFiles(state),
             new RenderTableOfContents(state),
-            new RenderStaticPages(state),
-            new RenderIndexPage(state),
+            new RenderStaticPages(state, memoryCache),
+            new RenderIndexPage(state, memoryCache),
             new RenderStabdaloneToc(state),
             new CreateEmptyIndexPagesForFolders(state),
             new GeneratePager(state)
         );
     }
 
-    public static Pipeline CreateWordpressPipeLine()
+    public static Pipeline CreateWordpressPipeLine(IMemoryCache memoryCache)
     {
         var state = new WpState();
 
         return new Pipeline(
             new CreateWpChannel(state),
-            new CreateWpPages(state),
+            new CreateWpPages(state, memoryCache),
             new WriteExportFile(state)
         );
     }
 
-    public static Pipeline CreateEpubPileLine()
+    public static Pipeline CreateEpubPileLine(IMemoryCache memoryCache)
     {
         var state = new EpubState();
 
@@ -99,7 +100,7 @@ public sealed class Pipeline
             new Initialize(state),
             new CreateMimeType(state),
             new CreateContainer(state),
-            new CreateHtmlPages(state),
+            new CreateHtmlPages(state, memoryCache),
             new CreateImageFiles(state),
             new CreateFontFiles(state),
             new CreateEpubCoverAndStyle(state),
@@ -110,12 +111,12 @@ public sealed class Pipeline
     }
 
 
-    public static Pipeline CreateFeedPipeline()
+    public static Pipeline CreateFeedPipeline(IMemoryCache memoryCache)
     {
         var state = new SyndicationFeedState();
         return new Pipeline(
             new CreateFeed(state),
-            new CreateItems(state),
+            new CreateItems(state, memoryCache),
             new WriteFeeds(state)
         );
     }

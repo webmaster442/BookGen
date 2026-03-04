@@ -1,2 +1,0 @@
-Debian user: user
-Debian password: pass

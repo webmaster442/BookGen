@@ -28,8 +28,8 @@ public sealed class ZipBuilder : IZipBuilder
                                Encoding encoding,
                                CompressionLevel compressionLevel = CompressionLevel.SmallestSize)
     {
-        var entry = _archive.CreateEntry(entryName, compressionLevel);
-        await using var entryStream = entry.Open();
+        ZipArchiveEntry entry = _archive.CreateEntry(entryName, compressionLevel);
+        await using Stream entryStream = entry.Open();
         await using var writer = new StreamWriter(entryStream, encoding);
         await writer.WriteAsync(entryValue);
     }
@@ -38,8 +38,8 @@ public sealed class ZipBuilder : IZipBuilder
                                Stream entryValue,
                                CompressionLevel compressionLevel = CompressionLevel.SmallestSize)
     {
-        var entry = _archive.CreateEntry(entryName, compressionLevel);
-        await using var entryStream = entry.Open();
+        ZipArchiveEntry entry = _archive.CreateEntry(entryName, compressionLevel);
+        await using Stream entryStream = entry.Open();
         await entryValue.CopyToAsync(entryStream);
     }
 
@@ -47,8 +47,8 @@ public sealed class ZipBuilder : IZipBuilder
                                byte[] entryValue,
                                CompressionLevel compressionLevel = CompressionLevel.NoCompression)
     {
-        var entry = _archive.CreateEntry(entryName, compressionLevel);
-        await using var entryStream = entry.Open();
+        ZipArchiveEntry entry = _archive.CreateEntry(entryName, compressionLevel);
+        await using Stream entryStream = entry.Open();
         await entryStream.WriteAsync(entryValue, 0, entryValue.Length);
     }
 
@@ -68,8 +68,8 @@ public sealed class ZipBuilder : IZipBuilder
             }
         }
 
-        var entry = _archive.CreateEntry(entryName, CompressionLevel.SmallestSize);
-        using var entryStream = entry.Open();
+        ZipArchiveEntry entry = _archive.CreateEntry(entryName, CompressionLevel.SmallestSize);
+        using Stream entryStream = entry.Open();
 
         serializer.Serialize(entryStream, instance, xnames);
     }

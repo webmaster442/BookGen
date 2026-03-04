@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -7,6 +7,7 @@ using System.Text;
 
 using Bookgen.Lib.Domain;
 using Bookgen.Lib.Domain.Epub;
+using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
@@ -14,6 +15,7 @@ using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
 using Bookgen.Lib.Templates;
 
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 using static Bookgen.Lib.Pipeline.Epub.EpubState;
@@ -22,8 +24,11 @@ namespace Bookgen.Lib.Pipeline.Epub;
 
 internal class CreateHtmlPages : PipeLineStep<EpubState>
 {
-    public CreateHtmlPages(EpubState state) : base(state)
+    private readonly IMemoryCache _memoryCache;
+
+    public CreateHtmlPages(EpubState state, IMemoryCache memoryCache) : base(state)
     {
+        _memoryCache = memoryCache;
     }
 
     private string EpubImageRewrite(ImageResult result)
@@ -35,24 +40,27 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
-        var imgService = new ImgService(environment.Source, logger, new ImageConfig
+        var imgConfig = new ImageConfig
         {
             SvgRecode = SvgRecodeOption.AsWebp,
             ResizeAndRecodeImages = ImgRecodeOption.AsPng,
             ImageQualityOnResize = 90,
             ResizeWith = 1600,
             ResizeHeight = 1600,
-        });
-        var cached = new CachedImageService(imgService);
+        };
 
-        using var settings = new RenderSettings(cached)
+        var imgService = new ImgService(environment.Source, logger, imgConfig);
+        var cached = new CachedImageService(imgService, _memoryCache);
+
+        using var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            PrismJsInterop = new PrismJsInterop(environment),
+            PrismJsInterop = new SyntaxRenderJsInterop(environment),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
+            ImageRenderJsInterop = new ImageRenderJsInterop(environment, imgConfig),
             ImageUrlRewriter = EpubImageRewrite
         };
 
@@ -69,7 +77,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
         await RenderIndex(environment, logger, markdown, renderer, template);
 
-        foreach (var chapter in environment.TableOfContents.Chapters)
+        foreach (TocChapter chapter in environment.TableOfContents.Chapters)
         {
             logger.LogInformation("Rendering chapter {chapter}...", chapter.Title);
             fileId = 1;
@@ -116,7 +124,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
 
     private async Task RenderIndex(IBookEnvironment environment, ILogger logger, MarkdownConverter markdown, TemplateEngine renderer, string template)
     {
-        var index = await environment.Source.GetSourceFile(environment.TableOfContents.IndexFile, logger);
+        SourceFile index = await environment.Source.GetSourceFile(environment.TableOfContents.IndexFile, logger);
 
         var indexView = new ViewData
         {

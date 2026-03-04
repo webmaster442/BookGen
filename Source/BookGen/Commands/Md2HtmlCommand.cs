@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             if (string.IsNullOrEmpty(OutputFile))
                 result.AddIssue("Output file must be specified");
 
-            if (!InputFiles.Any())
+            if (InputFiles.Length == 0)
                 result.AddIssue("An Input file must be specified");
 
             foreach (var inputfile in InputFiles)
@@ -88,6 +88,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
     }
 
     private readonly ILogger _log;
+    private readonly IFileSystemFactory _fileSystemFactory;
     private readonly IWritableFileSystem _fileSystem;
     private readonly IAssetSource _assetSource;
     private const string TitleTag = "{{Title}}";
@@ -95,47 +96,55 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
 
     private readonly TemplateEngine _templateEngine;
 
-    public Md2HtmlCommand(ILogger log, IWritableFileSystem fileSystem, IAssetSource assetSource)
+    public Md2HtmlCommand(ILogger log, IFileSystemFactory fileSystemFactory, IAssetSource assetSource)
     {
         _log = log;
-        _fileSystem = fileSystem;
+        _fileSystemFactory = fileSystemFactory;
+        _fileSystem = fileSystemFactory.CreateWritableFileSystem();
         _assetSource = assetSource;
         _templateEngine = new TemplateEngine(log, assetSource);
     }
 
     public override int Execute(Md2HtmlArguments arguments, IReadOnlyList<string> context)
     {
-        (string md, DateTime lastmodified) = ReadInputFiles(arguments.InputFiles);
+        IEnumerable<string?> inputFolders = arguments.InputFiles.Select(i => Path.GetDirectoryName(i));
+
+        IReadOnlyFileSystem inputFilesScope = _fileSystemFactory.CreateMultiReadScopeFileSystem(inputFolders!);
+
+        (string md, DateTime lastmodified) = inputFilesScope.ReadInputFiles(arguments.InputFiles);
 
         string? pageTemplate = string.Empty;
 
         if (string.IsNullOrEmpty(arguments.Template))
             pageTemplate = _assetSource.GetAsset(BundledAssets.TemplateSinglePage);
         else
-            pageTemplate = _fileSystem.ReadAllText(arguments.Template);
+            pageTemplate = inputFilesScope.ReadAllText(arguments.Template);
 
         if (!ValidateTemplate(pageTemplate))
             return ExitCodes.GeneralError;
 
-        var imgService = new ImgService(_fileSystem, _log, new ImageConfig
+        var imgConfig = new ImageConfig
         {
             SvgRecode = arguments.SvgPassthrough ? SvgRecodeOption.Passtrough : SvgRecodeOption.AsWebp,
             ImageQualityOnResize = 90,
-        });
+        };
 
-        using var settings = new RenderSettings(imgService)
+        var imgService = new ImgService(inputFilesScope, _log, imgConfig);
+
+        using var settings = new MarkdownRenderSettings(imgService)
         {
             HostUrl = string.Empty,
             DeleteFirstH1 = false,
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = !arguments.NoEmbed,
-            PrismJsInterop = new PrismJsInterop(_assetSource)
+            PrismJsInterop = arguments.NoSyntax ? null : new SyntaxRenderJsInterop(_assetSource),
+            ImageRenderJsInterop = new ImageRenderJsInterop(_assetSource, imgConfig)
         };
 
-        using var mdToHtml = new MarkdownConverter(settings);
+        using var markdownConverter = new MarkdownConverter(settings);
 
-        string? mdcontent = mdToHtml.RenderMarkdownToHtml(md);
+        string? mdcontent = markdownConverter.RenderMarkdownToHtml(md);
 
         string rendered;
         if (arguments.RawHtml)
@@ -161,26 +170,6 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             _fileSystem.WriteAllText(arguments.OutputFile, rendered);
 
         return ExitCodes.Success;
-    }
-
-    private (string content, DateTime lastmodified) ReadInputFiles(string[] inputFiles)
-    {
-        StringBuilder md = new(inputFiles.Length * 1024);
-        DateTime lastmodified = DateTime.MinValue;
-        foreach (var inputFile in inputFiles)
-        {
-            string content = _fileSystem.ReadAllText(inputFile);
-            DateTime date = _fileSystem.GetLastModifiedUtc(inputFile);
-
-            if (date > lastmodified)
-                lastmodified = date;
-
-            md.Append(content);
-
-            if (!content.EndsWith('\n'))
-                md.Append(System.Environment.NewLine);
-        }
-        return (md.ToString(), lastmodified);
     }
 
     private bool ValidateTemplate(string pageTemplate)

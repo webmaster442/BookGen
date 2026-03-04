@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.ServiceModel.Syndication;
+using System.Xml;
 
 using BookGen.Vfs;
 
@@ -20,14 +21,14 @@ internal sealed class WriteFeeds : PipeLineStep<SyndicationFeedState>
     public override Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
         logger.LogInformation("Writing RSS feed...");
-        using (var rss = environment.Output.CreateXmlWriter("rss.xml"))
+        using (XmlWriter rss = environment.Output.CreateXmlWriter("rss.xml"))
         {
             Rss20FeedFormatter rssFormatter = new Rss20FeedFormatter(State.Feed);
             rssFormatter.WriteTo(rss);
         }
 
         logger.LogInformation("Writing Atom feed...");
-        using (var atom = environment.Output.CreateXmlWriter("atom.xml"))
+        using (XmlWriter atom = environment.Output.CreateXmlWriter("atom.xml"))
         {
             Atom10FeedFormatter atomFormatter = new Atom10FeedFormatter(State.Feed);
             atomFormatter.WriteTo(atom);

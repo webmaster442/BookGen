@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -11,19 +11,20 @@ namespace Bookgen.Lib.ImageService;
 
 public static class ImageConverter
 {
-    public static void Encode(string source, string output, ImageType imageType, int width, int height, int quality)
+    public static void Encode(string source, string output, ImageType imageType, int maxWidth, int maxHeight, int quality)
     {
-        using var srcStream = File.OpenRead(source);
-        using var destStream = File.Create(output);
+        using FileStream srcStream = File.OpenRead(source);
+        using FileStream destStream = File.Create(output);
 
-        if (Path.GetExtension("soruce").Equals(".svg", StringComparison.OrdinalIgnoreCase))
+        if (Path.GetExtension(source).Equals(".svg", StringComparison.OrdinalIgnoreCase))
         {
-            SKData img = Utils.RenderSvg(srcStream, width, height, GetRecodeOption(imageType));
+            SKData img = ImageUtils.RenderSvg(srcStream, maxWidth, maxHeight, GetRecodeOption(imageType));
             img.SaveTo(destStream);
+            return;
         }
 
         using SKBitmap loaded = SKBitmap.Decode(srcStream);
-        using SKBitmap result = Utils.ResizeIfBigger(loaded, width, height);
+        using SKBitmap result = ImageUtils.ResizeIfBigger(loaded, maxWidth, maxHeight);
 
         result.Encode(destStream, imageType switch
         {
@@ -32,8 +33,6 @@ public static class ImageConverter
             ImageType.Webp => SKEncodedImageFormat.Webp,
             _ => throw new NotSupportedException($"Image type {imageType} is not supported for encoding.")
         }, quality);
-
-
     }
 
     private static SvgRecodeOption GetRecodeOption(ImageType imageType)

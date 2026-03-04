@@ -3,113 +3,38 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Spectre.Console;
+using Bookgen.Lib.Markdown.Renderers.Terminal;
+
+using Markdig;
+using Markdig.Parsers;
+using Markdig.Syntax;
 
 namespace BookGen.Infrastructure;
 
-public static class HelpRenderer
+internal sealed class HelpRenderer
 {
-    public static string[][] GetPages(IEnumerable<string> article)
+    private readonly MarkdownPipeline _terminalPipeLine;
+
+    public HelpRenderer()
     {
-        int pageSize = Console.WindowHeight - 3;
-        IReadOnlyList<string> reWraped = DoReWrap(article, pageSize, Console.WindowWidth);
-        return reWraped.Chunk(pageSize).ToArray();
+        _terminalPipeLine = new MarkdownPipelineBuilder().Build();
     }
 
-    public static void RenderPage(string[] pageContent)
+    public void RenderHelp(IEnumerable<string> article)
     {
-        foreach (var line in pageContent)
-        {
-            if (line.StartsWith("# "))
-                AnsiConsole.MarkupInterpolated($"[green bold]{line}[/]{Environment.NewLine}");
-            else if (line.StartsWith('`') || line.EndsWith('`'))
-                AnsiConsole.MarkupInterpolated($"[aqua]{line}[/]{Environment.NewLine}");
-            else
-                AnsiConsole.MarkupInterpolated($"[italic]{line}[/]{Environment.NewLine}");
-        }
-    }
+        string md = string.Join(Environment.NewLine, article);
+        MarkdownDocument document = MarkdownParser.Parse(md, _terminalPipeLine);
 
-    public static void RenderHelp(IEnumerable<string> article)
-    {
-        var pages = GetPages(article);
-        Console.Clear();
+        using var writer = new StringWriter();
+        var renderer = new TerminalRenderer(writer, new RenderOptions());
 
-        int currentPage = -1;
-        int nextPage = 0;
-        bool run = pages.Length > 1;
-        do
-        {
-            if (currentPage != nextPage)
-            {
-                currentPage = nextPage;
-                Console.Clear();
-                RenderPage(pages[currentPage]);
-                RenderUsage(currentPage, pages.Length);
-            }
+        renderer.Render(document);
+        renderer.Writer.Flush();
 
-            if (!run) continue;
+        using var reader = new StringReader(writer.ToString());
 
-            var key = Console.ReadKey();
-            switch (key.Key)
-            {
-                case ConsoleKey.LeftArrow:
-                case ConsoleKey.UpArrow:
-                    nextPage = CalculatePage(currentPage, pages.Length, -1);
-                    break;
-                case ConsoleKey.DownArrow:
-                case ConsoleKey.RightArrow:
-                    nextPage = CalculatePage(currentPage, pages.Length, +1);
-                    break;
-                case ConsoleKey.Escape:
-                case ConsoleKey.Q:
-                    run = false;
-                    Console.Clear();
-                    break;
-            }
-        }
-        while (run);
-    }
+        Webmaster442.WindowsTerminal.Wigets.Pager pager = new(reader);
 
-    private static void RenderUsage(int currentPage, int pages)
-    {
-        if (pages < 2)
-            return;
-
-        AnsiConsole.WriteLine();
-        AnsiConsole.MarkupInterpolated($"[teal]{currentPage + 1} of {pages}[/]");
-        AnsiConsole.MarkupInterpolated($" [silver]ESC or Q: Exit, <- Prev, Next ->[/]{Environment.NewLine}");
-    }
-
-    private static int CalculatePage(int currentPage, int pages, int offset)
-    {
-        int newIndex = currentPage + offset;
-
-        if (newIndex < 0)
-            newIndex = 0;
-
-        if (newIndex > pages - 1)
-            newIndex = pages - 1;
-
-        return newIndex;
-    }
-
-    private static List<string> DoReWrap(IEnumerable<string> article, int pageSize, int windowWidth)
-    {
-        List<string> result = new(pageSize);
-        foreach (string line in article)
-        {
-            if (line.Length > windowWidth)
-            {
-                var newLines = line
-                    .Chunk(windowWidth)
-                    .Select(chrs => new string(chrs));
-                result.AddRange(newLines);
-            }
-            else
-            {
-                result.Add(line);
-            }
-        }
-        return result;
+        pager.Show(false);
     }
 }

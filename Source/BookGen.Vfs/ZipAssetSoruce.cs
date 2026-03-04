@@ -70,25 +70,13 @@ public sealed class ZipAssetSoruce : IAssetSource, IDisposable
         return true;
     }
 
-    public byte[] GetBinaryAsset(string name)
+    public Stream GetBinaryAssetStream(string name)
     {
         ObjectDisposedException.ThrowIf(_disposed, nameof(_zip));
         lock (_lock)
         {
             ZipArchiveEntry? entry = _zip.GetEntry(name) ?? throw new InvalidOperationException($"{name} was not found in assets");
-            byte[] data = new byte[entry.Length];
-            using Stream dataStream = entry.Open();
-            byte[] buffer = ArrayPool<byte>.Shared.Rent(4096);
-            int read = 0;
-            int offset = 0;
-            while ((read = dataStream.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                Array.Copy(buffer, 0, data, offset, read);
-                offset += read;
-            }
-            ArrayPool<byte>.Shared.Return(buffer, true);
-
-            return data;
+            return entry.Open();
         }
     }
 }

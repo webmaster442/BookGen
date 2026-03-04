@@ -10,6 +10,7 @@ using BookGen.Cli;
 using BookGen.Commands;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
+using BookGen.Shell.Shared.Loging;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,7 @@ using Spectre.Console;
 
 ProgramInfo info = new();
 
-var argumentList = ProgramConfigurator.ParseGeneralArgs(args, info);
+List<string> argumentList = ProgramConfigurator.ParseGeneralArgs(args, info);
 
 using ILoggerFactory factory = LoggerFactory
     .Create(builder =>
@@ -44,16 +45,27 @@ ILogger logger = factory.CreateLogger("Bookgen");
 CommandRunnerProxy runnerProxy = new();
 
 var ioc = new ServiceCollection();
+ioc.AddMemoryCache();
 ioc.AddSingleton(logger);
 ioc.AddSingleton(info);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.AddSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
+ioc.AddSingleton<IFileSystemFactory, FileSystemFactory>();
 ioc.AddSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
 ioc.AddTransient<IWritableFileSystem, FileSystem>();
 ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
 ioc.AddTransient<IApiClient, ApiClient>();
+ioc.AddKeyedSingleton<IAssetSource>("dictionaries", (provider, key) =>
+{
+    var dictionaries = Path.Combine(AppContext.BaseDirectory, "dictionaries.zip");
+    if (File.Exists(dictionaries))
+    {
+        return new ZipAssetSoruce(dictionaries);
+    }
+    return new EmptyAssetSource();
+});
 
-using var provider = ioc.BuildServiceProvider();
+using ServiceProvider provider = ioc.BuildServiceProvider();
 
 CommandRunner runner = new(provider, logger, new CommandRunnerSettings
 {
@@ -62,10 +74,11 @@ CommandRunner runner = new(provider, logger, new CommandRunnerSettings
     ExcptionExitCode = -1,
     PlatformNotSupportedExitCode = 4,
     EnableUtf8Output = true,
-});
-
-runner.ExceptionHandlerDelegate = OnException;
-runner.BeforeRunHook = OnBeforeRun;
+})
+{
+    ExceptionHandlerDelegate = OnException,
+    BeforeRunHook = OnBeforeRun
+};
 
 runner
     .AddDefaultCommand<HelpCommand>()

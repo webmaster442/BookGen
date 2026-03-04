@@ -24,7 +24,7 @@ internal sealed class FromVersion2004To2005 : UpgradeBase
     {
         JsonObject imgObject = buildConfig.GetSubObjectOrThrow("Images");
 
-        bool oldvalue = imgObject.TryGetPropertyValue("ResizeAndRecodeImagesToWebp", out var webpValue)
+        bool oldvalue = imgObject.TryGetPropertyValue("ResizeAndRecodeImagesToWebp", out JsonNode? webpValue)
             && webpValue is JsonValue webpJsonValue
             && webpJsonValue.GetValue<bool>();
 

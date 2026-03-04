@@ -44,6 +44,15 @@
     "Templates": {
       "commandName": "Project",
       "commandLineArgs": "templates"
+    },
+    "Help": {
+      "commandName": "Project",
+      "commandLineArgs": "help"
+    },
+    "Links --verify": {
+      "commandName": "Project",
+      "commandLineArgs": "links --verify",
+      "workingDirectory": "G:\\Konyv\\hellocsharp"
     }
   }
 }
