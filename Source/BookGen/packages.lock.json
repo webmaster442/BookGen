@@ -4,9 +4,9 @@
     "net10.0": {
       "Markdig": {
         "type": "Direct",
-        "requested": "[0.45.0, )",
-        "resolved": "0.45.0",
-        "contentHash": "ObNLcA1b+0lpNNoEg256g9faMeJZi35wZW0AnKJ4nGPJe+5qkwnV26kUvQTHuanFnSX9SdvPzOO41BVJ6XarAg=="
+        "requested": "[1.1.0, )",
+        "resolved": "1.1.0",
+        "contentHash": "ivaowI69dGxiyaKLy6+qo9Xm4DHwXDKB3orGIFOvA8k+eUBAV5UaW8GPIMc3h5jl7gZalyecR3x2t+nuLYdmFg=="
       },
       "Microsoft.Extensions.Caching.Abstractions": {
         "type": "Direct",
@@ -203,7 +203,7 @@
         "dependencies": {
           "BookGen.Shell.Shared": "[1.0.0, )",
           "BookGen.Vfs": "[1.0.0, )",
-          "Markdig": "[0.45.0, )",
+          "Markdig": "[1.1.0, )",
           "Microsoft.ClearScript": "[7.5.0, )",
           "Microsoft.ClearScript.V8.Native.linux-x64": "[7.5.0, )",
           "Microsoft.ClearScript.V8.Native.win-x64": "[7.5.0, )",
