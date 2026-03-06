@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ internal class OrganizeCommand : Command<OrganizeArguments>
         }
         catch (Exception ex)
         {
-            _log.LogCritical(ex, "Critical error");
+            _log.LogCritical(ex, "Critical error: {msg}", ex.Message);
             return -1;
         }
     }

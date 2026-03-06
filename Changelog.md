@@ -1,3 +1,7 @@
+# Next
+
+* Change: Better logging of critical errors
+
 # 2026. 03. 04 (Prerelease)
 
 * Change: Updated dependencies
