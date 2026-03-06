@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -44,13 +44,11 @@ public sealed class ConsoleLogProvider : ILoggerProvider
 
     internal sealed class ConsoleLogger : IDisposable, ILogger
     {
-        private readonly string _name;
         private readonly List<string> _logBuffer;
 
         public ConsoleLogger(string categoryName)
         {
             _logBuffer = new List<string>();
-            _name = categoryName;
         }
 
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull

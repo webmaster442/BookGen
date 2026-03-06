@@ -1,6 +1,8 @@
 <Solution>
   <Folder Name="/Misc/" Id="209479ab-f6dc-4e64-8458-43e805966b28">
     <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
     <File Path="Changelog.md" />
     <File Path="Directory.Packages.props" />
     <File Path="getting-started.md" />

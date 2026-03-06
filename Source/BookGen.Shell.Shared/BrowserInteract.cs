@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -78,7 +78,7 @@ public sealed class BrowserInteract
         }
         catch (Exception ex)
         {
-            _logger.LogCritical(ex, "Critical Error");
+            _logger.LogCritical(ex, "Critical Error: {ex}", ex.Message);
             return false;
         }
     }
@@ -111,7 +111,7 @@ public sealed class BrowserInteract
         }
         catch (Exception ex)
         {
-            _logger.LogCritical(ex, "Critical Error");
+            _logger.LogCritical(ex, "Critical Error {ex}", ex.Message);
             return false;
         }
     }
