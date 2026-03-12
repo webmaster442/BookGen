@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -44,6 +44,8 @@ using ILoggerFactory factory = LoggerFactory
 ILogger logger = factory.CreateLogger("Bookgen");
 CommandRunnerProxy runnerProxy = new();
 
+var helpProvider = new HelpProvider(logger, runnerProxy);
+
 var ioc = new ServiceCollection();
 ioc.AddMemoryCache();
 ioc.AddSingleton(logger);
@@ -51,7 +53,7 @@ ioc.AddSingleton(info);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.AddSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
 ioc.AddSingleton<IFileSystemFactory, FileSystemFactory>();
-ioc.AddSingleton<IHelpProvider>(new HelpProvider(logger, runnerProxy));
+ioc.AddSingleton<IHelpProvider>(helpProvider);
 ioc.AddTransient<IWritableFileSystem, FileSystem>();
 ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
 ioc.AddTransient<IApiClient, ApiClient>();
@@ -67,13 +69,14 @@ ioc.AddKeyedSingleton<IAssetSource>("dictionaries", (provider, key) =>
 
 using ServiceProvider provider = ioc.BuildServiceProvider();
 
-CommandRunner runner = new(provider, logger, new CommandRunnerSettings
+CommandRunner runner = new(provider, helpProvider, logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,
     ExcptionExitCode = -1,
     PlatformNotSupportedExitCode = 4,
     EnableUtf8Output = true,
+    PrintHelpOnBadArgs = true,
 })
 {
     ExceptionHandlerDelegate = OnException,
@@ -86,7 +89,6 @@ runner
 
 runnerProxy.ConfigureWith(runner);
 
-HelpProvider helpProvider = new(logger, runnerProxy);
 helpProvider.VerifyHelpData();
 
 Stopwatch stopwatch = Stopwatch.StartNew();

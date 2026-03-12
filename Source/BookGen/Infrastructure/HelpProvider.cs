@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Infrastructure;
 
-internal class HelpProvider : IHelpProvider
+internal class HelpProvider : IHelpProvider, ICommandHelpProvider
 {
     private readonly ILogger _log;
     private readonly ICommandRunnerProxy _commandNameProvider;
@@ -101,4 +101,7 @@ internal class HelpProvider : IHelpProvider
             }
         }
     }
+
+    public string GetHelp(string commandName, Type argumentType)
+        => string.Join(Environment.NewLine, GetCommandHelp(commandName));
 }

@@ -1,4 +1,8 @@
-﻿using System.Net.WebSockets;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
 using System.Text;
 
 using BookGen.Cli;
@@ -15,6 +19,7 @@ namespace Bookgen.Tests;
 internal class TestDocumentation
 {
     private Mock<IServiceProvider> _serviceProviderMock;
+    private Mock<ICommandHelpProvider> _helpProviderMock;
     private Mock<ILogger> _loggerMock;
     private HelpProvider _helpProvider;
     private CommandRunnerProxy _commandRunnerProxy;
@@ -22,9 +27,10 @@ internal class TestDocumentation
     [SetUp]
     public void Setup()
     {
+        _helpProviderMock = new Mock<ICommandHelpProvider>(MockBehavior.Strict);
         _loggerMock = new Mock<ILogger>(MockBehavior.Strict);
         _serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
-        var testCommandRunner = new CommandRunner(_serviceProviderMock.Object, _loggerMock.Object, new CommandRunnerSettings());
+        var testCommandRunner = new CommandRunner(_serviceProviderMock.Object, _helpProviderMock.Object, _loggerMock.Object, CommandRunnerSettings.Default);
         testCommandRunner.AddCommandsFrom(typeof(HelpCommand).Assembly);
 
         _commandRunnerProxy = new();
