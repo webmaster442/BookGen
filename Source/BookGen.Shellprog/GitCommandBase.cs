@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Shell.Shared;
@@ -18,6 +20,7 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
 
     internal sealed class GitArguments : ArgumentsBase
     {
+        [Description("Working directory to check for git repository")]
         [Argument(0, IsOptional = true)]
         public string WorkDirectory { get; set; }
         public GitArguments()
