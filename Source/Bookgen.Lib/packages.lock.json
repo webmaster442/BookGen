@@ -4,9 +4,9 @@
     "net10.0": {
       "Markdig": {
         "type": "Direct",
-        "requested": "[1.1.1, )",
-        "resolved": "1.1.1",
-        "contentHash": "wACpji8aLjtmghzdancNFRDUH66F2kS8QE0uywUXvLHgfbTD7LPNj7Vx43sTckpEQFtn5YndEoZvGqIHosBzGQ=="
+        "requested": "[1.1.2, )",
+        "resolved": "1.1.2",
+        "contentHash": "mXh6Ah5p/jtryn7o96B2knDDJVgZ775HnFLObcVxuyWcfeHlsI95WUjiJH0m7ZOYGdCLvwRTwMhv023jUZoEAA=="
       },
       "Microsoft.ClearScript": {
         "type": "Direct",
@@ -57,13 +57,13 @@
       },
       "Svg.Skia": {
         "type": "Direct",
-        "requested": "[3.6.0, )",
-        "resolved": "3.6.0",
-        "contentHash": "2/kE51Ot7VArcOpfIEYuz3ejyJkqkCG5UtP+LRRSVmDmzUp+YrbHGSFmkumc/OWB2HCRV3vAHaq1pyDccv0Y/w==",
+        "requested": "[3.7.0, )",
+        "resolved": "3.7.0",
+        "contentHash": "pJa5mLdtSz1bYbGZPDlnSVRcboEzgHvfs615DALe3hbbPlylRbNhA3R1GNYHX4lT8YhluorRjvqimzhCw7nfng==",
         "dependencies": {
           "SkiaSharp": "2.88.9",
-          "Svg.Custom": "3.6.0",
-          "Svg.Model": "3.6.0"
+          "Svg.Custom": "3.7.0",
+          "Svg.Model": "3.7.0"
         }
       },
       "System.ServiceModel.Syndication": {
@@ -131,8 +131,8 @@
       },
       "ShimSkiaSharp": {
         "type": "Transitive",
-        "resolved": "3.6.0",
-        "contentHash": "UqjVwkLOsytKqbwqx25tsmSUGgTidsAxcjQoxgKstrtSs9/h0pu352be4jmTPvB88riYZhHPIY2es+SEXarFgg=="
+        "resolved": "3.7.0",
+        "contentHash": "fA1ZdJFYVbagZ7AtX8eYxsbtpn78piooO23mFc+tfJbuhHDUPTMCNa/5QzTOGG0ZDXPMVNdjA/qc3bkDlbpLpQ=="
       },
       "SkiaSharp.NativeAssets.macOS": {
         "type": "Transitive",
@@ -141,19 +141,19 @@
       },
       "Svg.Custom": {
         "type": "Transitive",
-        "resolved": "3.6.0",
-        "contentHash": "yUztGV4PFO/KvDd2CzErV+/xSCIx7VFNcJyahKkrhh+UEkXCjwv5ncrEbYUhQ3GOzpw6VbXQHE4X6YiJTRzbeg==",
+        "resolved": "3.7.0",
+        "contentHash": "zt41SlMSJ8TB99U7LBP/Lhx5knIynh/4XvVrBP13BSWJQ3RyvcFRR1DezSbJh/bAEwBwyt1QROsD+60XWgmIAA==",
         "dependencies": {
           "ExCSS": "4.3.1"
         }
       },
       "Svg.Model": {
         "type": "Transitive",
-        "resolved": "3.6.0",
-        "contentHash": "hkvEzv89ZVmcOZs/HHoS9VURnoHyCG3oqxrNwkEc3kfuVBKRArS9yFQzkBOcyzeLYE5o3vG3heAJp8jaHq+mJg==",
+        "resolved": "3.7.0",
+        "contentHash": "uZrkDdka09n+anIiNI6b8iS40ov36MXTS9e9gODMbDKztwmxi52FXnStwGX88mmUwWKonCrnD28wX9/xmk56Jg==",
         "dependencies": {
-          "ShimSkiaSharp": "3.6.0",
-          "Svg.Custom": "3.6.0"
+          "ShimSkiaSharp": "3.7.0",
+          "Svg.Custom": "3.7.0"
         }
       },
       "bookgen.shell.shared": {
