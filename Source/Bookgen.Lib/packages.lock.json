@@ -33,6 +33,15 @@
         "resolved": "7.5.0",
         "contentHash": "DKMxDLboTNflYkwDQ/ELrSf1vXTpew5UZ8xzrXSVKYFBU570VA6NKh1etEGhufuCuDyU7Je5L2g6H+19Dbl+tA=="
       },
+      "PreMailer.Net": {
+        "type": "Direct",
+        "requested": "[2.7.2, )",
+        "resolved": "2.7.2",
+        "contentHash": "OeN00ZA9ycJSSD4ZcjbWn5aJpJ+OfrAM3ti+9VI9Mc+o90QnWayPCU7PszopLa91lxKrL9ZnIcG33AAd5dypLA==",
+        "dependencies": {
+          "AngleSharp": "1.1.0"
+        }
+      },
       "SkiaSharp": {
         "type": "Direct",
         "requested": "[3.119.2, )",
@@ -77,6 +86,11 @@
         "requested": "[16.3.0, )",
         "resolved": "16.3.0",
         "contentHash": "SgMOdxbz8X65z8hraIs6hOEdnkH6hESTAIUa7viEngHOYaH+6q5XJmwr1+yb9vJpNQ19hCQY69xbFsLtXpobQA=="
+      },
+      "AngleSharp": {
+        "type": "Transitive",
+        "resolved": "1.1.0",
+        "contentHash": "3baCuPkx2Wrpjr2b67wJAf9fCbYSbEVcdCh88S66HLdfHa2b1Mk1FsGpcH76uHLf3MPxopWngT1imHPEmDimAg=="
       },
       "ExCSS": {
         "type": "Transitive",

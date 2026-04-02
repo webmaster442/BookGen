@@ -7,6 +7,8 @@ using Bookgen.Lib.Templates;
 
 using Microsoft.Extensions.Logging;
 
+using PreMailer.Net;
+
 namespace Bookgen.Lib.Pipeline.Print;
 
 internal sealed class WriteXHtml : PipeLineStep<PrintState>
@@ -43,7 +45,7 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
 
     public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
     {
-        logger.LogInformation("Writing print xhtml...");
+        logger.LogInformation("Replacing non xhtml elements with xhtml compatible ones...");
 
         foreach (KeyValuePair<string, string> elementToReplace in _tagreplacements)
         {
@@ -68,8 +70,24 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
             AdditionalData = new(),
         };
 
-        using TextWriter writer = environment.Output.CreateTextWriter("print.xhtml.html");
-        renderer.Render(writer, tempate, viewData);
+        var withCss = renderer.Render(tempate, viewData);
+        logger.LogInformation("Moving css into inline atttibutes...");
+
+        using var pm = new PreMailer.Net.PreMailer(withCss);
+        var result = pm.MoveCssInline(removeStyleElements: false, preserveMediaQueries: true);
+
+
+        if (result.Warnings.Count> 0)
+        {
+            foreach (string warning in result.Warnings)
+            {
+                logger.LogWarning("Xhtml: {Warning}", warning);
+            }
+        }
+
+
+        logger.LogInformation("Writing xhtml file...");
+        await environment.Output.WriteAllTextAsync("print.xhtml.html", result.Html);
 
         return StepResult.Success;
     }

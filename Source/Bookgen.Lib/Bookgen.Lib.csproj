@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="Markdig" />
+    <PackageReference Include="PreMailer.Net" />
     <PackageReference Include="System.ServiceModel.Syndication" />
     <PackageReference Include="YamlDotNet" />
     <PackageReference Include="SkiaSharp" />
