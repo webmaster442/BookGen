@@ -3,6 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
+using AngleSharp.Html.Parser;
+
 using Bookgen.Lib.Templates;
 
 using Microsoft.Extensions.Logging;
@@ -43,17 +47,34 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
         };
     }
 
-    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
+    private void ReplaceHtml5ElementsWithXhtmlCompatible(IHtmlDocument document)
     {
-        logger.LogInformation("Replacing non xhtml elements with xhtml compatible ones...");
-
         foreach (KeyValuePair<string, string> elementToReplace in _tagreplacements)
         {
-            //starting bracket
-            State.Buffer.Replace($"<{elementToReplace.Key}", $"<{elementToReplace.Value}");
-            //end
-            State.Buffer.Replace($"</{elementToReplace.Key}>", $"</{elementToReplace.Value}>");
+            IHtmlCollection<IElement> elements = document.QuerySelectorAll(elementToReplace.Key);
+            foreach (var element in elements)
+            {
+                IElement newElement = document.CreateElement(elementToReplace.Value);
+                newElement.InnerHtml = element.InnerHtml;
+                CopyAttributesAndAddCssClass(element, newElement, $".{elementToReplace.Key}");
+                element.Replace(newElement);
+            }
         }
+    }
+
+    private static void CopyAttributesAndAddCssClass(IElement source, IElement target, string cssClass)
+    {
+        foreach (var attribute in source.Attributes)
+        {
+            target.SetAttribute(attribute.Name, attribute.Value);
+        }
+        target.ClassList.Add(cssClass);
+    }
+
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
+    {
+
+        logger.LogInformation("Rendering print template...");
 
         string tempate = await environment.GetTemplate(frontMatterTemplate: null,
                                                        fallbackTemplate: BundledAssets.TemplatePrint,
@@ -70,21 +91,25 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
             AdditionalData = new(),
         };
 
-        var withCss = renderer.Render(tempate, viewData);
-        logger.LogInformation("Moving css into inline atttibutes...");
 
-        using var pm = new PreMailer.Net.PreMailer(withCss);
+        var rendered = new HtmlParser().ParseDocument(renderer.Render(tempate, viewData));
+
+        logger.LogInformation("Replacing html5 tags with xhtml compatible ones...");
+        
+        ReplaceHtml5ElementsWithXhtmlCompatible(rendered);
+
+        logger.LogInformation("Moving css into inline atttibutes...");
+        
+        using var pm = new PreMailer.Net.PreMailer(rendered);
         InlineResult result = pm.MoveCssInline(removeStyleElements: false, preserveMediaQueries: true);
 
-
-        if (result.Warnings.Count> 0)
+        if (result.Warnings.Count > 0)
         {
             foreach (string warning in result.Warnings)
             {
                 logger.LogWarning("Xhtml: {Warning}", warning);
             }
         }
-
 
         logger.LogInformation("Writing xhtml file...");
         await environment.Output.WriteAllTextAsync("print.xhtml.html", result.Html);
