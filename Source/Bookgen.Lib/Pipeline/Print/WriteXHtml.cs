@@ -7,7 +7,10 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 
+using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Templates;
+
+using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
@@ -52,12 +55,30 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
         foreach (KeyValuePair<string, string> elementToReplace in _tagreplacements)
         {
             IHtmlCollection<IElement> elements = document.QuerySelectorAll(elementToReplace.Key);
-            foreach (var element in elements)
+            foreach (IElement element in elements)
             {
                 IElement newElement = document.CreateElement(elementToReplace.Value);
                 newElement.InnerHtml = element.InnerHtml;
                 CopyAttributesAndAddCssClass(element, newElement, $".{elementToReplace.Key}");
                 element.Replace(newElement);
+            }
+        }
+    }
+
+    private static async Task ExtractImages(IHtmlDocument document, IWritableFileSystem output)
+    {
+        IHtmlCollection<IElement> imageElements = document.QuerySelectorAll("img");
+        foreach (IElement imageElement in imageElements)
+        {
+            string? src = imageElement.GetAttribute("src");
+            
+            if (string.IsNullOrEmpty(src))
+                continue;
+
+            if (ImageResult.TryParse(src, out ImageResult? parsed))
+            {
+                await output.WiteBase64EncodedFile(parsed.OriginalName, parsed.Data);
+                imageElement.SetAttribute("src", parsed.OriginalName);
             }
         }
     }
@@ -85,7 +106,7 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
         var viewData = new ViewData
         {
             Host = "",
-            Content = State.Buffer.ToString(),
+            Content = State.HtmlBuffer.ToString(),
             LastModified = DateTime.UtcNow,
             Title = environment.Configuration.BookTitle,
             AdditionalData = new(),
@@ -95,8 +116,10 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
         var rendered = new HtmlParser().ParseDocument(renderer.Render(tempate, viewData));
 
         logger.LogInformation("Replacing html5 tags with xhtml compatible ones...");
-        
         ReplaceHtml5ElementsWithXhtmlCompatible(rendered);
+
+        logger.LogInformation("Extracting images...");
+        await ExtractImages(rendered, environment.Output);
 
         logger.LogInformation("Moving css into inline atttibutes...");
         

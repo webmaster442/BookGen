@@ -126,6 +126,24 @@ public static class Extensions
 
     extension(IWritableFileSystem fs)
     {
+        public async Task WiteBase64EncodedFile(string target, string base64encoded)
+        {
+            await using var stream = fs.CreateWriteStream(target);
+            int maxDecodedSize = (base64encoded.Length * 3 + 3) / 4;
+            byte[] buffer = ArrayPool<byte>.Shared.Rent(maxDecodedSize);
+            try
+            {
+                if (!Convert.TryFromBase64String(base64encoded, buffer, out int bytesWritten))
+                    throw new FormatException("Invalid base64 string.");
+
+                await stream.WriteAsync(buffer.AsMemory(0, bytesWritten));
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
+        }
+
         public XmlWriter CreateXmlWriter(string path)
         {
             return XmlWriter.Create(fs.CreateTextWriter(path));
