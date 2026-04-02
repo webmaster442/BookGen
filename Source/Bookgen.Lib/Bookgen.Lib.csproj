@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AngleSharp" />
     <PackageReference Include="Markdig" />
     <PackageReference Include="PreMailer.Net" />
     <PackageReference Include="System.ServiceModel.Syndication" />

@@ -74,7 +74,7 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
         logger.LogInformation("Moving css into inline atttibutes...");
 
         using var pm = new PreMailer.Net.PreMailer(withCss);
-        var result = pm.MoveCssInline(removeStyleElements: false, preserveMediaQueries: true);
+        InlineResult result = pm.MoveCssInline(removeStyleElements: false, preserveMediaQueries: true);
 
 
         if (result.Warnings.Count> 0)

@@ -4,6 +4,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="AngleSharp" Version="1.1.0" />
     <PackageVersion Include="coverlet.collector" Version="8.0.1" />
     <PackageVersion Include="Markdig" Version="1.1.2" />
     <PackageVersion Include="Microsoft.ClearScript" Version="7.5.0" />

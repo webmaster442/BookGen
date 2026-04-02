@@ -95,11 +95,6 @@
         "resolved": "2.9.0",
         "contentHash": "jlAslft87MA7mlUfU0YR6x4D6BpguIXB8VQ5bKh2D6XbphfNaLjhIGsTKGphiEahl3FGnOBcB8PFD/xaagij/w=="
       },
-      "AngleSharp": {
-        "type": "Transitive",
-        "resolved": "1.1.0",
-        "contentHash": "3baCuPkx2Wrpjr2b67wJAf9fCbYSbEVcdCh88S66HLdfHa2b1Mk1FsGpcH76uHLf3MPxopWngT1imHPEmDimAg=="
-      },
       "ExCSS": {
         "type": "Transitive",
         "resolved": "4.3.1",
@@ -206,6 +201,7 @@
       "bookgen.lib": {
         "type": "Project",
         "dependencies": {
+          "AngleSharp": "[1.1.0, )",
           "BookGen.Shell.Shared": "[1.0.0, )",
           "BookGen.Vfs": "[1.0.0, )",
           "Markdig": "[1.1.2, )",
@@ -231,6 +227,12 @@
       },
       "bookgen.vfs": {
         "type": "Project"
+      },
+      "AngleSharp": {
+        "type": "CentralTransitive",
+        "requested": "[1.1.0, )",
+        "resolved": "1.1.0",
+        "contentHash": "3baCuPkx2Wrpjr2b67wJAf9fCbYSbEVcdCh88S66HLdfHa2b1Mk1FsGpcH76uHLf3MPxopWngT1imHPEmDimAg=="
       },
       "Microsoft.ClearScript": {
         "type": "CentralTransitive",
