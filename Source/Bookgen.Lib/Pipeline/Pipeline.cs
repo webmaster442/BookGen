@@ -48,7 +48,7 @@ public sealed class Pipeline
         var state = new PrintState();
 
         return new Pipeline(
-            new RenderHtmlPages(state, memoryCache),
+            new RenderPages(state, memoryCache),
             new WriteHtml(state),
             new WriteXHtml(state)
         );

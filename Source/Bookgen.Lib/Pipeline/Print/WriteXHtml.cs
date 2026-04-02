@@ -106,7 +106,7 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
         var viewData = new ViewData
         {
             Host = "",
-            Content = State.HtmlBuffer.ToString(),
+            Content = State.Buffer.ToString(),
             LastModified = DateTime.UtcNow,
             Title = environment.Configuration.BookTitle,
             AdditionalData = new(),
