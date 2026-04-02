@@ -2,7 +2,7 @@
 
 namespace Bookgen.Lib.Markdown;
 
-internal sealed class Search
+public static class Search
 {
     internal static readonly char[] Separators = ['\r', '\n', '.', '?', '!', '\t'];
 

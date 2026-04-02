@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace BookGen.Vfs;
 
 [DebuggerDisplay("{Scope}")]
-public sealed class FileSystem : ReadOnlyFileSystem, IWritableFileSystem, IReadOnlyFileSystem
+public sealed class FileSystem : ReadOnlyFileSystem, IReadOnlyFileSystem, IWritableFileSystem
 {
     private static void CreatePathIfNeeded(string file)
     {
