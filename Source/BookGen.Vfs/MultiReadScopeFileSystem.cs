@@ -22,7 +22,7 @@ public sealed class MultiReadScopeFileSystem : IReadOnlyFileSystem
 
     public MultiReadScopeFileSystem(params IEnumerable<string> scopes)
     {
-        _scopes = new HashSet<string>(scopes);
+        _scopes = new(scopes);
     }
 
     public string Scope

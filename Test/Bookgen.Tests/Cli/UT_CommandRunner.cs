@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -17,6 +17,7 @@ internal class UT_CommandRunner
 {
     private CommandRunner _sut;
     private Mock<IServiceProvider> _serviceProviderMock;
+    private Mock<ICommandHelpProvider> _helproviderMock;
     private Mock<ILogger> _loggerMock;
 
     private sealed class Dependency
@@ -52,10 +53,8 @@ internal class UT_CommandRunner
         _serviceProviderMock = new Mock<IServiceProvider>(MockBehavior.Strict);
         _serviceProviderMock.Setup(x => x.GetService(typeof(Dependency))).Returns(new Dependency());
         _loggerMock = new Mock<ILogger>(MockBehavior.Strict);
-        _sut = new CommandRunner(_serviceProviderMock.Object, _loggerMock.Object, new CommandRunnerSettings
-        {
-
-        });
+        _helproviderMock = new Mock<ICommandHelpProvider>(MockBehavior.Strict);
+        _sut = new CommandRunner(_serviceProviderMock.Object, _helproviderMock.Object, _loggerMock.Object, CommandRunnerSettings.Default);
         _sut.AddCommand<TestCommand>();
     }
 

@@ -2,6 +2,7 @@
 require('esbuild').build({
   entryPoints: ['./mathjax-entry.js'],
   bundle: true,
+  minify: true,
   platform: 'browser',
   format: 'iife',
   globalName: 'MathJaxModule',

@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 
@@ -10,10 +12,12 @@ namespace BookGen.Shellprog.CommandCode.Cdg;
 
 internal sealed class CdgArguments : ArgumentsBase
 {
+    [Description("Show hidden files and folders")]
     [Switch("h", "hidden")]
     public bool ShowHidden { get; set; }
 
     [Argument(0, IsOptional = true)]
+    [Description("Starting folder")]
     public string Folder { get; set; }
 
     public CdgArguments()

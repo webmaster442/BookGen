@@ -16,7 +16,6 @@ public sealed class MarkdownConverter : IDisposable
 {
     private readonly MarkdownPipeline _htmlPipeLine;
     private readonly MarkdownPipeline _terminalPipeLine;
-
     public MarkdownConverter(MarkdownRenderSettings settings)
     {
         MarkdownPipelineBuilder configuration = new MarkdownPipelineBuilder()
@@ -55,6 +54,9 @@ public sealed class MarkdownConverter : IDisposable
 
     public string RenderMarkdownToHtml(string markdown)
         => Markdig.Markdown.ToHtml(markdown, _htmlPipeLine);
+
+    public string RenderToPlainText(string markdown)
+        => Markdig.Markdown.ToPlainText(markdown, _htmlPipeLine);
 
     public string RenderMarkdownToTerminal(string markdown, RenderOptions? renderOptions = null)
     {

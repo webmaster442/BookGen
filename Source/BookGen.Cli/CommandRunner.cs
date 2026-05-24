@@ -21,6 +21,7 @@ public sealed class CommandRunner
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly Dictionary<string, Type> _commands;
     private readonly IServiceProvider _serviceProvider;
+    private readonly ICommandHelpProvider _helpProvider;
     private readonly ILogger _log;
     private readonly CommandRunnerSettings _settings;
     private readonly SupportedOs _currentOs;
@@ -125,6 +126,7 @@ public sealed class CommandRunner
     }
 
     public CommandRunner(IServiceProvider serviceProvider,
+                         ICommandHelpProvider helpProvider, 
                          ILogger log,
                          CommandRunnerSettings settings)
     {
@@ -136,6 +138,7 @@ public sealed class CommandRunner
         };
         _commands = new Dictionary<string, Type>();
         _serviceProvider = serviceProvider;
+        _helpProvider = helpProvider;
         _log = log;
         _settings = settings;
         ExceptionHandlerDelegate = DefaultExceptionHandler;
@@ -301,7 +304,16 @@ public sealed class CommandRunner
         if (!validationResult.IsOk)
         {
             _log.LogCritical(validationResult.ToString());
-            _log.LogInformation("Use help {commandName} to get help on command", commandName);
+
+            if (_settings.PrintHelpOnBadArgs)
+            {
+                string help = _helpProvider.GetHelp(commandName, argumentType);
+                _log.LogInformation("Command help:\r\n{help}", help);
+            }
+            else
+            {
+                _log.LogInformation("Use help {commandName} to get help on command", commandName);
+            }
             return _settings.BadParametersExitCode;
         }
 

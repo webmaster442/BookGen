@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -30,13 +30,14 @@ ioc.AddSingleton(logger);
 
 using ServiceProvider provider = ioc.BuildServiceProvider();
 
-CommandRunner runner = new(provider, logger, new CommandRunnerSettings
+CommandRunner runner = new(provider, new ReflectionCommandHelpProvider(), logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,
     ExcptionExitCode = -1,
     PlatformNotSupportedExitCode = 4,
     EnableUtf8Output = true,
+    PrintHelpOnBadArgs = true,
 });
 
 runner

@@ -81,8 +81,8 @@ Arguments:
 Build an epub3 file from the book.
 
 ```
-BookGen BuildEpub -o <output> [-v] [-d [directory]]
-BookGen BuildEpub --output <output> [--verbose] [--dir [directory]]
+BookGen BuildEpub -o <output> [-v] [-d [directory]] [-co [configoverlay]]
+BookGen BuildEpub --output <output> [--verbose] [--dir [directory]] [--configoverlay [configoverlay]]
 ```
 
 Arguments:
@@ -98,14 +98,18 @@ Arguments:
 * `-v`, `--verbose`: 
 
   Optional argument, turns on detailed logging. Usefull for locating issues
+
+* `-co`, `--configoverlay`:
+
+  Optional argument. Specifies a json file that will be used as an overlay for the bookgen.json config file. The values in the overlay file will override the values in the config file. This can be used to specify different output settings for different builds, without having to change the main config file.
 
 # BuildExport
 
 Build a JSON file with schema for post processing of the book.
 
 ```
-BookGen BuildExport -o <output> [-v] [-d [directory]]
-BookGen BuildExport --output <output> [--verbose] [--dir [directory]]
+BookGen BuildExport -o <output> [-v] [-d [directory]] [-co [configoverlay]]
+BookGen BuildExport --output <output> [--verbose] [--dir [directory]] [--configoverlay [configoverlay]]
 ```
 
 Arguments:
@@ -125,14 +129,19 @@ Arguments:
 * `-h`, `--host`:
 
   Optional argument. If specified, the host name set in the config file will be ignored and the host name will be set to the specified value.
+
+* `-co`, `--configoverlay`:
+
+  Optional argument. Specifies a json file that will be used as an overlay for the bookgen.json config file. The values in the overlay file will override the values in the config file. This can be used to specify different output settings for different builds, without having to change the main config file.
+
 
 # BuildFeed
 
 Build an RSS 2.0 and an Atom 1.0 feed from the book.
 
 ```
-BookGen BuildFeed -o <output> [-v] [-d [directory]]
-BookGen BuildFeed --output <output> [--verbose] [--dir [directory]]
+BookGen BuildFeed -o <output> [-v] [-d [directory]] [-co [configoverlay]]
+BookGen BuildFeed --output <output> [--verbose] [--dir [directory]] [--configoverlay [configoverlay]]
 ```
 
 Arguments:
@@ -148,14 +157,19 @@ Arguments:
 * `-v`, `--verbose`: 
 
   Optional argument, turns on detailed logging. Usefull for locating issues
+
+* `-co`, `--configoverlay`:
+
+  Optional argument. Specifies a json file that will be used as an overlay for the bookgen.json config file. The values in the overlay file will override the values in the config file. This can be used to specify different output settings for different builds, without having to change the main config file.
+
 
 # BuildPrint
 
 Build a printable html & xhtml file from the book
 
 ```
-BookGen BuildPrint -o <output> [-v] [-d [directory]]
-BookGen BuildPrint --output <output> [--verbose] [--dir [directory]]
+BookGen BuildPrint -o <output> [-v] [-d [directory]] [-co [configoverlay]]
+BookGen BuildPrint --output <output> [--verbose] [--dir [directory]] [--configoverlay [configoverlay]]
 ```
 
 Arguments:
@@ -175,14 +189,19 @@ Arguments:
 * `-h`, `--host`:
 
   Optional argument. If specified, the host name set in the config file will be ignored and the host name will be set to the specified value.
+
+* `-co`, `--configoverlay`:
+
+  Optional argument. Specifies a json file that will be used as an overlay for the bookgen.json config file. The values in the overlay file will override the values in the config file. This can be used to specify different output settings for different builds, without having to change the main config file.
+
 
 # BuildWeb
 
 Build a static website from the book
 
 ```
-BookGen BuildWeb -o <output> [-v] [-d [directory]]
-BookGen BuildWeb --output <output> [--verbose] [--dir [directory]]
+BookGen BuildWeb -o <output> [-v] [-d [directory]] [-co [configoverlay]]
+BookGen BuildWeb --output <output> [--verbose] [--dir [directory]] [--configoverlay [configoverlay]]
 ```
 
 Arguments:
@@ -203,13 +222,18 @@ Arguments:
 
   Optional argument. If specified, the host name set in the config file will be ignored and the host name will be set to the specified value.
 
+* `-co`, `--configoverlay`:
+
+  Optional argument. Specifies a json file that will be used as an overlay for the bookgen.json config file. The values in the overlay file will override the values in the config file. This can be used to specify different output settings for different builds, without having to change the main config file.
+
+
 # BuildWp
 
 Build a wordpress export file from the book.
 
 ```
-BookGen BuildWp -o <output> [-v] [-d [directory]]
-BookGen BuildWp --output <output> [--verbose] [--dir [directory]]
+BookGen BuildWp -o <output> [-v] [-d [directory]] [-co [configoverlay]]
+BookGen BuildWp --output <output> [--verbose] [--dir [directory]] [--configoverlay [configoverlay]]
 ```
 
 Arguments:
@@ -229,8 +253,11 @@ Arguments:
 
 * `-h`, `--host`:
 
-
   Optional argument. If specified, the host name set in the config file will be ignored and the host name will be set to the specified value.
+
+  * `-co`, `--configoverlay`:
+
+  Optional argument. Specifies a json file that will be used as an overlay for the bookgen.json config file. The values in the overlay file will override the values in the config file. This can be used to specify different output settings for different builds, without having to change the main config file.
 
 # Config
 
@@ -587,6 +614,32 @@ Arguments:
 * `-v`, `--verbose`: 
 
   Optional argument, turns on detailed logging. Usefull for locating issues
+
+# Search
+
+Search for a given text in the markdown files of the book and print the results to the console.
+
+```
+Bookgen Search <query> [-v] [-d [directory]] [-co [configoverlay]]
+Bookgen Search <query> [--verbose] [--dir [directory]] [--configoverlay [configoverlay]]
+```
+
+Arguments:
+
+* `<query>`:
+  Required argument. The text to search for. The command will search for the given text in all markdown files in the book and will print the results to the console.
+
+* `-d`, `--dir`:
+
+  Optional argument. Specifies work directory. If not specified, then the current directory will be used as working directory.
+
+* `-v`, `--verbose`: 
+
+  Optional argument, turns on detailed logging. Usefull for locating issues
+
+  * `-co`, `--configoverlay`:
+
+  Optional argument. Specifies a json file that will be used as an overlay for the bookgen.json config file. The values in the overlay file will override the values in the config file. This can be used to specify different output settings for different builds, without having to change the main config file.
 
 # Serve
 

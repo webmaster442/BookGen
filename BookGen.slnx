@@ -5,8 +5,8 @@
     <File Path=".gitignore" />
     <File Path="Changelog.md" />
     <File Path="Directory.Packages.props" />
+    <File Path="Docs/decision_notes.md" />
     <File Path="getting-started.md" />
-    <File Path="Todo.md" />
   </Folder>
   <Folder Name="/Pipelines/">
     <File Path=".github/dependabot.yml" />

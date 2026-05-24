@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 
@@ -11,9 +13,11 @@ namespace BookGen.Shellprog.CommandCode.Organize;
 internal class OrganizeArguments : ArgumentsBase
 {
     [Argument(0, IsOptional = true)]
+    [Description("Folder to organize")]
     public string Folder { get; set; }
 
     [Switch("s", "simulate")]
+    [Description("Simulate the organize process without making any changes")]
     public bool Simulate { get; set; }
 
     public OrganizeArguments()

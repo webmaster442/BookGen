@@ -133,7 +133,7 @@ public sealed class ImgService : IImgService
 
         return new ImageResult
         {
-            Data = ImageUtils.Base64Encode(fileData),
+            Data = fileData.Base64Encode(),
             ImageType = GetImageType(filePath),
             OriginalName = filePath,
         };

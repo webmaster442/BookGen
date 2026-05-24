@@ -58,7 +58,7 @@ public sealed class BookEnvironment : IBookEnvironment
         }
     }
 
-    public async Task<EnvironmentStatus> Initialize(string configOverlay)
+    public async Task<EnvironmentStatus> Initialize(string? configOverlay)
     {
         if (_isInitialized)
         {
