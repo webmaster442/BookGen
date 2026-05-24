@@ -128,7 +128,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
         using var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.WordpressConfig.CssClasses,
-            DeleteFirstH1 = false,
+            DeleteFirstH1 = true,
             HostUrl = environment.Configuration.WordpressConfig.DeployHost,
             PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
