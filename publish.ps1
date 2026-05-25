@@ -1,19 +1,24 @@
 Clear-Host
 
+function New-Folders {
+    if (Test-Path "bin\publish\windows") {
+        Remove-Item "bin\publish\windows*" -Recurse -Force
+    }
+
+    if (Test-Path "bin\publish\linux") {
+        Remove-Item "bin\publish\linux*" -Recurse -Force
+    }
+
+    New-Item -Path "bin\publish\windows" -ItemType Directory -Force
+    New-Item -Path "bin\publish\linux" -ItemType Directory -Force
+}
+
 function Invoke-Publish {
     param(
         [bool] $SelfContained,
         [string] $WindowsArchiveName,
         [string] $LinuxArchiveName
     )
-
-    if (Test-Path "bin\publish\windows") {
-        Remove-Item "bin\publish\windows*" -Recurse -Force
-    }
-
-    if (Test-Path "bin\publish\linux") {
-        Remove-Item "bin\publish\windows*" -Recurse -Force
-    }
 
     # publish windows & linux
     if ($SelfContained) {
@@ -58,15 +63,19 @@ function Invoke-Publish {
     # zip
     if ($SelfContained) {
         Compress-Archive -Path "bin\publish\windows\*" -DestinationPath "bin\publish\$WindowsArchiveName" -Force
-        clear
+        Clear-Host
         tar -czvf "bin\publish\$LinuxArchiveName" -C "bin\publish\linux" .
     }
     else {
         Compress-Archive -Path "bin\publish\windows\*" -DestinationPath "bin\publish\$WindowsArchiveName" -Force
-        clear
+        Clear-Host
         tar -czvf "bin\publish\$LinuxArchiveName" -C "bin\publish\linux" .
     }
 }
+
+New-Folders
+
+Get-Tools
 
 # Framework-dependent build and archives
 Invoke-Publish -SelfContained $false -WindowsArchiveName "BookGen-windows.zip" -LinuxArchiveName "BookGen-linux.tar.gz"
@@ -75,3 +84,4 @@ Invoke-Publish -SelfContained $false -WindowsArchiveName "BookGen-windows.zip" -
 Invoke-Publish -SelfContained $true -WindowsArchiveName "BookGen-windows-selefcontained.zip" -LinuxArchiveName "BookGen-linux-selefcontained.tar.gz"
  
 .\PublishFiles\mkisofs.exe -V BookGen -o .\bin\publish\bookgen-windows.iso -udf .\bin\publish\windows
+
