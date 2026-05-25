@@ -5,7 +5,7 @@
 
 using System.Text;
 
-namespace Bookgen.Lib.JsInterop;
+namespace Bookgen.Lib;
 
 public sealed class JavascriptBuilder
 {
