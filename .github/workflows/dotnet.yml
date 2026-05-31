@@ -26,7 +26,7 @@ jobs:
         #dotnet-quality: 'preview'
 
     - name: get render dependencies
-      run: download-assets-pipeline.sh
+      run: ./download-assets-pipeline.sh
   
     - name: Restore dependencies
       run: dotnet restore
