@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+﻿using System.Diagnostics;
 
 namespace Bookgen.Lib.Markdown.RenderInterop;
 
@@ -37,11 +34,8 @@ internal static class ProcessInterop
 
         process.WaitForExit();
 
-        if (process.ExitCode != 0)
-        {
-            throw new InvalidOperationException($"Ratex process exited with code {process.ExitCode}");
-        }
-
-        return outout;
+        return process.ExitCode != 0
+            ? throw new InvalidOperationException($"Ratex process exited with code {process.ExitCode}")
+            : outout;
     }
 }

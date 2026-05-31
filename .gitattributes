@@ -11,6 +11,9 @@
 Assets/BundledAssets/* linguist-vendored
 Assets/dictionaries/* linguist-vendored
 
+# Line endings
+*.sh       text eol=lf
+*.sln      text eol=crlf
 #
 # The above will handle all files NOT found below
 #
@@ -18,7 +21,6 @@ Assets/dictionaries/* linguist-vendored
 *.cs     text diff=csharp
 *.cshtml text diff=html
 *.csx    text diff=csharp
-*.sln    text eol=crlf
 
 # Content below from: https://github.com/gitattributes/gitattributes/blob/master/Common.gitattributes
 

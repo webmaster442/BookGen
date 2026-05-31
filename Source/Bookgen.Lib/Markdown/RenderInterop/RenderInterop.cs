@@ -93,7 +93,8 @@ internal sealed class RenderInterop : IRenderInterop
     {
         ObjectDisposedException.ThrowIf(_disposed, nameof(RenderInterop));
 
-        throw new NotImplementedException();
+        return EncodeSvg(ProcessInterop.RunRatex(latex), imageConfig);
+
     }
 
     public ImageResult RenderNomnoml(string nomnomlCode, ImageConfig imageConfig)
