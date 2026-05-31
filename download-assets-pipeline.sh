@@ -7,4 +7,4 @@ tar -xzf ./ratex-cli-v0.1.10-aarch64-unknown-linux-musl.tar.gz -C .
 mv ./ratex-cli-v0.1.10-aarch64-unknown-linux-musl/render-svg ./ratex-svg
 
 curl -L -O "https://github.com/1jehuang/mermaid-rs-renderer/releases/download/v0.2.2/mmdr-x86_64-unknown-linux-gnu.tar.gz"
-tar -xzf .\mmdr-x86_64-unknown-linux-gnu.tar.gz -C .
+tar -xzf ./mmdr-x86_64-unknown-linux-gnu.tar.gz -C .
