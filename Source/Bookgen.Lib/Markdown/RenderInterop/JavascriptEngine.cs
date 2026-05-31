@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Microsoft.ClearScript;
+﻿using Microsoft.ClearScript;
 using Microsoft.ClearScript.JavaScript;
 using Microsoft.ClearScript.V8;
 
@@ -16,7 +12,7 @@ internal sealed class JavascriptEngine : IDisposable
     public JavascriptEngine()
     {
         _engine = new V8ScriptEngine();
-    } 
+    }
 
     public void Dispose()
     {

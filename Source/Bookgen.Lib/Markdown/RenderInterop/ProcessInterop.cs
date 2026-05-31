@@ -16,6 +16,32 @@ internal static class ProcessInterop
 
     public static string RunRatex(string input)
     {
-        throw new NotImplementedException();
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = GetBinary("ratex-svg"),
+                Arguments = "--stdout",
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            }
+        };
+
+        process.Start();
+        process.StandardInput.Write(input);
+        process.StandardInput.Close();
+        string outout = process.StandardOutput.ReadToEnd();
+
+        process.WaitForExit();
+
+        if (process.ExitCode != 0)
+        {
+            throw new InvalidOperationException($"Ratex process exited with code {process.ExitCode}");
+        }
+
+        return outout;
     }
 }
