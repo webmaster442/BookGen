@@ -1,6 +1,7 @@
 #!/bin/sh
 mkdir -p "./Assets/tools"
 mkdir -p "./Assets/dictionaries"
+touch "./Assets/dictionaries/keep.file"
 cd "./Assets/tools"
 
 curl -L -O "https://github.com/erweixin/RaTeX/releases/download/v0.1.10/ratex-cli-v0.1.10-aarch64-unknown-linux-musl.tar.gz"
