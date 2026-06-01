@@ -27,27 +27,27 @@ function download-dictionaries {
 
 function download-tools {
     Set-Location $toolsPath
-    curl.exe -L -O "https://github.com/erweixin/RaTeX/releases/download/v0.1.10/ratex-cli-v0.1.10-x86_64-pc-windows-msvc.zip"
-    curl.exe -L -O "https://github.com/erweixin/RaTeX/releases/download/v0.1.10/ratex-cli-v0.1.10-aarch64-unknown-linux-musl.tar.gz"
-    curl.exe -L -O "https://github.com/1jehuang/mermaid-rs-renderer/releases/download/v0.2.2/mmdr-x86_64-pc-windows-msvc.zip"
-    curl.exe -L -O "https://github.com/1jehuang/mermaid-rs-renderer/releases/download/v0.2.2/mmdr-x86_64-unknown-linux-gnu.tar.gz"
+    curl.exe -L "https://github.com/erweixin/RaTeX/releases/download/v0.1.11/ratex-cli-v0.1.11-x86_64-pc-windows-msvc.zip" -o ratex-windows.zip
+    curl.exe -L "https://github.com/erweixin/RaTeX/releases/download/v0.1.11/ratex-cli-v0.1.11-x86_64-unknown-linux-musl.tar.gz" -o ratex-linux.tar.gz
+    curl.exe -L "https://github.com/1jehuang/mermaid-rs-renderer/releases/download/v0.2.2/mmdr-x86_64-pc-windows-msvc.zip" -o mmdr-windows.zip
+    curl.exe -L "https://github.com/1jehuang/mermaid-rs-renderer/releases/download/v0.2.2/mmdr-x86_64-unknown-linux-gnu.tar.gz" -o mmdr-linux.tar.gz
     
     # mmdr
-    Expand-Archive  .\mmdr-x86_64-pc-windows-msvc.zip -Force -DestinationPath .
-    Remove-Item .\mmdr-x86_64-pc-windows-msvc.zip
-    tar -xzf .\mmdr-x86_64-unknown-linux-gnu.tar.gz -C .
-    Remove-Item .\mmdr-x86_64-unknown-linux-gnu.tar.gz
+    Expand-Archive  .\mmdr-windows.zip -Force -DestinationPath .
+    Remove-Item .\mmdr-windows.zip
+    tar -xzf .\mmdr-linux.tar.gz -C .
+    Remove-Item .\mmdr-linux.tar.gz
     
     # RaTeX
-    Expand-Archive .\ratex-cli-v0.1.10-x86_64-pc-windows-msvc.zip -Force -DestinationPath .
-    Move-Item -Force .\ratex-cli-v0.1.10-x86_64-pc-windows-msvc\render-svg.exe .\ratex-svg.exe
-    Remove-Item .\ratex-cli-v0.1.10-x86_64-pc-windows-msvc.zip
-    Remove-Item .\ratex-cli-v0.1.10-x86_64-pc-windows-msvc -Recurse -Force
+    Expand-Archive .\ratex-windows.zip -Force -DestinationPath .
+    Move-Item -Force .\ratex-cli-v0.1.11-x86_64-pc-windows-msvc\render-svg.exe .\ratex-svg.exe
+    Remove-Item .\ratex-windows.zip
+    Remove-Item .\ratex-cli-v0.1.11-x86_64-pc-windows-msvc -Recurse -Force
 
-    tar -xzf .\ratex-cli-v0.1.10-aarch64-unknown-linux-musl.tar.gz -C .
-    Move-Item -Force .\ratex-cli-v0.1.10-aarch64-unknown-linux-musl\render-svg .\ratex-svg
-    Remove-Item .\ratex-cli-v0.1.10-aarch64-unknown-linux-musl.tar.gz
-    Remove-Item .\ratex-cli-v0.1.10-aarch64-unknown-linux-musl -Recurse -Force
+    tar -xzf .\ratex-linux.tar.gz -C .
+    Move-Item -Force .\ratex-cli-v0.1.11-x86_64-unknown-linux-musl\render-svg .\ratex-svg
+    Remove-Item .\ratex-linux.tar.gz
+    Remove-Item .\ratex-cli-v0.1.11-x86_64-unknown-linux-musl -Recurse -Force
     
     Set-Location $startdir
 }
