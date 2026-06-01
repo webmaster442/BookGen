@@ -13,11 +13,24 @@ internal static class ProcessInterop
 
     public static string RunRatex(string input)
     {
+        var binary = GetBinary("ratex-svg");
+
+        if (OperatingSystem.IsLinux()
+            || OperatingSystem.IsMacOS())
+        {
+            UnixFileMode permissions = File.GetUnixFileMode(binary);
+            if (!permissions.HasFlag(UnixFileMode.UserExecute))
+            {
+                permissions |= UnixFileMode.UserExecute;
+                File.SetUnixFileMode(binary, permissions);
+            }
+        }
+
         var process = new Process
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = GetBinary("ratex-svg"),
+                FileName = binary,
                 Arguments = "--stdout",
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
