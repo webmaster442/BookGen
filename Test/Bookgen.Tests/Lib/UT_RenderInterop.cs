@@ -1,4 +1,6 @@
-﻿using Bookgen.Lib.Domain.IO.Configuration;
+﻿using System.Runtime.InteropServices;
+
+using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Markdown.RenderInterop;
 
@@ -32,6 +34,11 @@ internal class UT_RenderInterop
     [Test]
     public void EnsureThat_RenderLatex_ReturnsCorrectSvg()
     {
+        if (RuntimeInformation.ProcessArchitecture != Architecture.X64)
+        {
+            Assert.Ignore("Test only runs on x64.");
+        }
+
         ImageResult svg = _sut.RenderLatex("\\frac{1}{2} + \\sqrt{x}", _config);
         
         using (Assert.EnterMultipleScope())
