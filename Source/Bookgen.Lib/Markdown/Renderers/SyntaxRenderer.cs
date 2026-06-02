@@ -8,7 +8,6 @@ using System.Text;
 using Bookgen.Lib.Markdown.Renderers.SyntaxRenderPlugins;
 using Bookgen.Lib.Markdown.RenderInterop;
 
-using Markdig.Helpers;
 using Markdig.Parsers;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
@@ -55,38 +54,14 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
         _plugins = new Dictionary<string, SyntaxRendererPlugin>();
         RegisterPlugin(new TerminalRenderPlugin());
         RegisterPlugin(new NomnomlRenderPlugin(_renderInterop));
+        RegisterPlugin(new LatexRenderPlugin(_renderInterop));
+        RegisterPlugin(new QrCodeRenderPlugin(_renderInterop));
     }
 
     private void RegisterPlugin(SyntaxRendererPlugin plugin)
     {
         _plugins[plugin.LanguageMoniker] = plugin;
         _supportedLanguages.Add(plugin.LanguageMoniker);
-    }
-
-    public static string GetCode(LeafBlock node)
-    {
-        StringBuilder code = new StringBuilder();
-        Markdig.Helpers.StringLine[] lines = node.Lines.Lines;
-        int totalLines = lines.Length;
-        for (int i = 0; i < totalLines; i++)
-        {
-            StringLine line = lines[i];
-            StringSlice slice = line.Slice;
-            if (slice.Text == null)
-            {
-                continue;
-            }
-
-            var lineText = slice.Text.Substring(slice.Start, slice.Length);
-            if (i > 0)
-            {
-                code.AppendLine();
-            }
-
-            code.Append(lineText);
-        }
-
-        return code.ToString();
     }
 
     protected override void Write(HtmlRenderer renderer, CodeBlock obj)
@@ -110,7 +85,7 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
             return;
         }
 
-        string code = GetCode(obj);
+        string code = obj.GetCode();
 
         if (_plugins.TryGetValue(languageMoniker, out SyntaxRendererPlugin? plugin))
         {

@@ -9,6 +9,7 @@ using Bookgen.Lib.Markdown.Renderers;
 
 using Markdig;
 using Markdig.Extensions.Figures;
+using Markdig.Extensions.Mathematics;
 using Markdig.Extensions.Tables;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
@@ -60,6 +61,21 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
                 htmlRenderer.ObjectRenderers.Remove(linkInLineRenderer);
                 htmlRenderer.ObjectRenderers.Add(new ExtendedLinkInlineRenderer(_settings.AutoEmbedSupportedLinks));
             }
+
+            HtmlMathBlockRenderer? mathBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<HtmlMathBlockRenderer>();
+            if (mathBlockRenderer != null)
+            {
+                htmlRenderer.ObjectRenderers.Remove(mathBlockRenderer);
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SvgMathBlockRenderer(_settings.RenderInterop));
+            }
+
+            HtmlMathInlineRenderer? mathInlineRenderer = htmlRenderer.ObjectRenderers.FindExact<HtmlMathInlineRenderer>();
+            if (mathInlineRenderer != null)
+            {
+                htmlRenderer.ObjectRenderers.Remove(mathInlineRenderer);
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SvgMathInlineRenderer(_settings.RenderInterop));
+            }
+
             CodeBlockRenderer? codeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
             if (codeBlockRenderer != null)
             {
