@@ -9,8 +9,8 @@ using Bookgen.Lib.Domain;
 using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
-using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Markdown.RenderInterop;
 using Bookgen.Lib.Templates;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -37,11 +37,12 @@ internal sealed class CreateItems : PipeLineStep<SyndicationFeedState>
             CssClasses = environment.Configuration.FeedConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            PrismJsInterop = environment.Configuration.FeedConfig.PreRenderCode ? new SyntaxRenderJsInterop(environment) : null,
+            RenderInterop = new RenderInterop(environment, environment.Configuration.FeedConfig.Images),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
-            ImageRenderJsInterop = new ImageRenderJsInterop(environment, environment.Configuration.FeedConfig.Images)
         };
+
+        settings.RenderInterop.PreRenderCode = environment.Configuration.FeedConfig.PreRenderCode;
 
         using var markdown = new MarkdownConverter(settings);
 

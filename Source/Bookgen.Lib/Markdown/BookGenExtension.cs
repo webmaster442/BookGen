@@ -64,7 +64,7 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
             if (codeBlockRenderer != null)
             {
                 htmlRenderer.ObjectRenderers.Remove(codeBlockRenderer);
-                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(codeBlockRenderer, _settings.PrismJsInterop, _settings.ImageRenderJsInterop));
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(codeBlockRenderer, _settings.RenderInterop));
             }
         }
 

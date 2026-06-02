@@ -9,16 +9,19 @@ using SkiaSharp;
 
 namespace Bookgen.Lib.Markdown.RenderInterop;
 
-internal sealed class RenderInterop : IRenderInterop
+public sealed class RenderInterop : IRenderInterop
 {
     private readonly IAssetSource _assetSource;
     private readonly JavascriptEngine _javascriptEngine;
     private readonly HashSet<string> _loadedScripts;
     private bool _disposed;
 
-    public RenderInterop(IAssetSource assetSource)
+    private readonly ImageConfig _imageConfig;
+
+    public RenderInterop(IAssetSource assetSource, ImageConfig imageConfig)
     {
         _assetSource = assetSource;
+        _imageConfig = imageConfig;
         _javascriptEngine = new JavascriptEngine();
         _loadedScripts = new HashSet<string>();
     }
@@ -79,25 +82,31 @@ internal sealed class RenderInterop : IRenderInterop
         };
     }
 
+    public bool PreRenderCode { get; set; } = true;
 
     public string PrismSyntaxHighlight(string code, string language)
     {
-        ObjectDisposedException.ThrowIf(_disposed, nameof(RenderInterop));
-        LoadScriptIfNotLoaded(BundledAssets.PrismJs);
+        if (PreRenderCode)
+        {
+            ObjectDisposedException.ThrowIf(_disposed, nameof(RenderInterop));
+            LoadScriptIfNotLoaded(BundledAssets.PrismJs);
 
-        _javascriptEngine.Script.code = code;
-        return _javascriptEngine.ExecuteAndGetResult($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
+            _javascriptEngine.Script.code = code;
+            return _javascriptEngine.ExecuteAndGetResult($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
+        }
+
+        return code;
     }
 
-    public ImageResult RenderLatex(string latex, ImageConfig imageConfig)
+    public ImageResult RenderLatex(string latex, double scale = 1.0)
     {
         ObjectDisposedException.ThrowIf(_disposed, nameof(RenderInterop));
 
-        return EncodeSvg(ProcessInterop.RunRatex(latex), imageConfig);
+        return EncodeSvg(ProcessInterop.RunRatex(latex, scale), _imageConfig);
 
     }
 
-    public ImageResult RenderNomnoml(string nomnomlCode, ImageConfig imageConfig)
+    public ImageResult RenderNomnoml(string nomnomlCode)
     {
         ObjectDisposedException.ThrowIf(_disposed, nameof(RenderInterop));
         LoadScriptIfNotLoaded(BundledAssets.GraphreJs);
@@ -105,16 +114,16 @@ internal sealed class RenderInterop : IRenderInterop
 
         _javascriptEngine.Script.nomnomlCode = nomnomlCode;
         string svg = _javascriptEngine.ExecuteAndGetResult("nomnoml.renderSvg(nomnomlCode)");
-        return EncodeSvg(svg, imageConfig);
+        return EncodeSvg(svg, _imageConfig);
     }
 
-    public ImageResult RenderQrCode(string url, ImageConfig imageConfig)
+    public ImageResult RenderQrCode(string url)
     {
         ObjectDisposedException.ThrowIf(_disposed, nameof(RenderInterop));
         LoadScriptIfNotLoaded(BundledAssets.QrCodeJs);
 
         string cmd = $"new QRCode({{content: \"{url}\", padding: 2, color: \"#000000\"}}).svg();";
         string svg = _javascriptEngine.ExecuteAndGetResult(cmd);
-        return EncodeSvg(svg, imageConfig);
+        return EncodeSvg(svg, _imageConfig);
     }
 }

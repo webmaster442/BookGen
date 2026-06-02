@@ -78,8 +78,7 @@ internal sealed class Md2TerminalCommand : Command<Md2TerminalCommand.Arguments>
             AutoEmbedSupportedLinks = false,
             CssClasses = new CssClasses(),
             HostUrl = string.Empty,
-            PrismJsInterop = null,
-            ImageRenderJsInterop = null!
+            RenderInterop = null!,
         };
 
         using var markdonwConverter = new MarkdownConverter(settings);

@@ -4,10 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using System.Text;
-using System.Web;
 
-using Bookgen.Lib.ImageService;
-using Bookgen.Lib.JsInterop;
+using Bookgen.Lib.Markdown.Renderers.SyntaxRenderPlugins;
+using Bookgen.Lib.Markdown.RenderInterop;
 
 using Markdig.Helpers;
 using Markdig.Parsers;
@@ -20,28 +19,15 @@ namespace Bookgen.Lib.Markdown.Renderers;
 internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposable
 {
     private readonly CodeBlockRenderer _originalRenderer;
-    private readonly SyntaxRenderJsInterop? _prism;
-    private readonly ImageRenderJsInterop _imageRenderJsInterop;
+    private readonly IRenderInterop _renderInterop;
     private readonly HashSet<string> _supportedLanguages;
-    public const string TerminalLanguage = "terminal";
-    public const string NomnomlLanguage = "nomnoml";
-
-    public const string TerminalHtml = """
-        <div style="margin-bottom: 1rem;" class="terminaloutput">
-        <div style="background-color: #877EC2; color: #eee8d6; padding: 3px;">$</div>
-        <pre style="text-align: left; font-size: 1.1em; line-height: 1.5; margin: 0px; padding: 8px; background-color: #282c34; color: #DCDFE4; font-family: Monaco, Menlo, Consolas, 'Courier New', monospace; word-break: break-all; word-wrap: break-word; overflow: auto;"><code style="tab-size: 4;"><!--{Code}--></code></pre>
-        </div>
-        """;
-
-    public bool PreRender => _prism != null;
+    private readonly Dictionary<string, SyntaxRendererPlugin> _plugins;
 
     public SyntaxRenderer(CodeBlockRenderer underlyingRenderer,
-                          SyntaxRenderJsInterop? prism,
-                          ImageRenderJsInterop imageRenderJsInterop)
+                          IRenderInterop renderInterop)
     {
         _originalRenderer = underlyingRenderer ?? new CodeBlockRenderer();
-        _prism = prism;
-        _imageRenderJsInterop = imageRenderJsInterop;
+        _renderInterop = renderInterop;
         _supportedLanguages = new HashSet<string>
             {
                 "markup", "css", "clike", "javascript", "abap", "actionscript",
@@ -64,8 +50,17 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
                 "sass", "scss", "scala", "scheme", "smalltalk", "smarty", "sql", "soy",
                 "stylus", "swift", "tap", "tcl", "textile", "tt2", "twig", "typescript",
                 "vbnet", "velocity", "verilog", "vhdl", "vim", "visual-basic", "wasm", "wiki",
-                "xeora", "xojo", "xquery", "yaml", TerminalLanguage, NomnomlLanguage
+                "xeora", "xojo", "xquery", "yaml"
             };
+        _plugins = new Dictionary<string, SyntaxRendererPlugin>();
+        RegisterPlugin(new TerminalRenderPlugin());
+        RegisterPlugin(new NomnomlRenderPlugin(_renderInterop));
+    }
+
+    private void RegisterPlugin(SyntaxRendererPlugin plugin)
+    {
+        _plugins[plugin.LanguageMoniker] = plugin;
+        _supportedLanguages.Add(plugin.LanguageMoniker);
     }
 
     public static string GetCode(LeafBlock node)
@@ -117,53 +112,26 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 
         string code = GetCode(obj);
 
-        switch (languageMoniker)
+        if (_plugins.TryGetValue(languageMoniker, out SyntaxRendererPlugin? plugin))
         {
-            case TerminalLanguage:
-                renderer.Write(RenderTerminalString(code));
-                break;
-            case NomnomlLanguage:
-                ImageResult img = _imageRenderJsInterop.RenderNomnoml(code);
-                renderer.Write(RendererImgage(img));
-                break;
-            default:
-                if (PreRender)
-                {
-                    renderer.Write(RenderWithPrism(code, languageMoniker));
-                }
-                else
-                {
-                    _originalRenderer.Write(renderer, obj);
-                }
-                break;
+            renderer.Write(plugin.Render(code));
+            return;
         }
-    }
 
-    private static string RendererImgage(ImageResult img)
-    {
-        return img.ImageType == ImageType.Svg
-            ? img.Data 
-            : $"<img src=\"data:{img.ImageType.GetMimeType()};base64,{img.Data}\">";
-    }
-
-    public static string RenderTerminalString(string code)
-    {
-        const string codeTag = "<!--{Code}-->";
-        return TerminalHtml.Replace(codeTag, TerminalRenderer.RenderAnsiCode(HttpUtility.HtmlEncode(code)));
-
+        renderer.Write(RenderWithPrism(code, languageMoniker));
     }
 
     private string RenderWithPrism(string code, string languageMoniker)
     {
         var sb = new StringBuilder();
         sb.AppendFormat("<pre><code class=\"language-{0}\">", languageMoniker);
-        sb.AppendLine(_prism?.PrismSyntaxHighlight(code, languageMoniker));
+        sb.AppendLine(_renderInterop?.PrismSyntaxHighlight(code, languageMoniker));
         sb.AppendLine("</code></pre>");
         return sb.ToString();
     }
 
     public void Dispose()
     {
-        _prism?.Dispose();
+        _renderInterop.Dispose();
     }
 }

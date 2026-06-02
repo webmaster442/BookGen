@@ -11,8 +11,8 @@ using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
-using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Markdown.RenderInterop;
 using Bookgen.Lib.Templates;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -57,10 +57,9 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            PrismJsInterop = new SyntaxRenderJsInterop(environment),
+            RenderInterop = new RenderInterop(environment, imgConfig),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
-            ImageRenderJsInterop = new ImageRenderJsInterop(environment, imgConfig),
             ImageUrlRewriter = EpubImageRewrite
         };
 

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 
 namespace Bookgen.Lib.Markdown.RenderInterop;
 
@@ -11,7 +12,7 @@ internal static class ProcessInterop
             : Path.Combine(AppContext.BaseDirectory, name);
     }
 
-    public static string RunRatex(string input)
+    public static string RunRatex(string input, double scale)
     {
         var binary = GetBinary("ratex-svg");
 
@@ -31,7 +32,7 @@ internal static class ProcessInterop
             StartInfo = new ProcessStartInfo
             {
                 FileName = binary,
-                Arguments = "--stdout",
+                Arguments = $"--stdout --dpr {scale.ToString(CultureInfo.InvariantCulture)}",
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,

@@ -3,7 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.JsInterop;
+using System.Runtime.Intrinsics.Arm;
+
+using Bookgen.Lib.ImageService;
+using Bookgen.Lib.Markdown.RenderInterop;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -62,10 +65,11 @@ internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArg
 
     public override async Task<int> ExecuteAsync(Math2SvgArguments arguments, IReadOnlyList<string> context)
     {
-        using var mathJax = new MathJaxInterop(_assets);
-        string svg = mathJax.RenderLatexToSvg(arguments.Formula, arguments.Scale);
+        using var render = IRenderInterop.CreateForSvg(_assets);
 
-        await _fileSystem.WriteAllTextAsync(arguments.OutputFile, svg);
+        ImageResult result = render.RenderLatex(arguments.Formula, arguments.Scale);
+
+        await _fileSystem.WriteAllTextAsync(arguments.OutputFile, result.Data);
 
         return ExitCodes.Success;
     }

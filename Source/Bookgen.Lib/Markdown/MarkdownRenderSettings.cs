@@ -5,7 +5,7 @@
 
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
-using Bookgen.Lib.JsInterop;
+using Bookgen.Lib.Markdown.RenderInterop;
 
 namespace Bookgen.Lib.Markdown;
 
@@ -14,8 +14,7 @@ public sealed class MarkdownRenderSettings : IDisposable
     private readonly IImgService _imgService;
 
     public required string? HostUrl { get; init; }
-    public required SyntaxRenderJsInterop? PrismJsInterop { get; init; }
-    public required ImageRenderJsInterop ImageRenderJsInterop { get; init; }
+    public required IRenderInterop RenderInterop { get; init; }
     public required CssClasses CssClasses { get; init; }
     public required bool DeleteFirstH1 { get; init; }
     public int OffsetHeadingsBy { get; init; } = 0;
@@ -45,7 +44,6 @@ public sealed class MarkdownRenderSettings : IDisposable
 
     public void Dispose()
     {
-        PrismJsInterop?.Dispose();
-        ImageRenderJsInterop.Dispose();
+        RenderInterop.Dispose();
     }
 }

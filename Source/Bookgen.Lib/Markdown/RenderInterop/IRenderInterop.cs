@@ -1,12 +1,23 @@
 ﻿using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
 
+using BookGen.Vfs;
+
 namespace Bookgen.Lib.Markdown.RenderInterop;
 
-internal interface IRenderInterop : IDisposable
+public interface IRenderInterop : IDisposable
 {
-    ImageResult RenderNomnoml(string nomnomlCode, ImageConfig imageConfig);
-    ImageResult RenderLatex(string latex, ImageConfig imageConfig);
-    ImageResult RenderQrCode(string url, ImageConfig imageConfig);
+    ImageResult RenderNomnoml(string nomnomlCode);
+    ImageResult RenderLatex(string latex, double scale = 1.0);
+    ImageResult RenderQrCode(string url);
     string PrismSyntaxHighlight(string code, string language);
+    bool PreRenderCode { get; set; }
+
+    public static IRenderInterop CreateForSvg(IAssetSource assetSource)
+    {
+        return new RenderInterop(assetSource, new ImageConfig
+        {
+            SvgRecode = SvgRecodeOption.Passtrough,
+        });
+    }
 }

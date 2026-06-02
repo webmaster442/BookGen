@@ -8,8 +8,8 @@ using System.Text;
 using Bookgen.Lib;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
-using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Markdown.RenderInterop;
 using Bookgen.Lib.Templates;
 
 using BookGen.Cli;
@@ -138,9 +138,10 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = !arguments.NoEmbed,
-            PrismJsInterop = arguments.NoSyntax ? null : new SyntaxRenderJsInterop(_assetSource),
-            ImageRenderJsInterop = new ImageRenderJsInterop(_assetSource, imgConfig)
+            RenderInterop = new RenderInterop(_assetSource, imgConfig)
         };
+
+        settings.RenderInterop.PreRenderCode = !arguments.NoSyntax;
 
         using var markdownConverter = new MarkdownConverter(settings);
 

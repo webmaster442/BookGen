@@ -8,8 +8,8 @@ using System.Collections.Concurrent;
 using Bookgen.Lib;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
-using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Markdown.RenderInterop;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -78,10 +78,10 @@ internal sealed class SearchCommand : AsyncCommand<SearchCommand.SearchArguments
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
-            PrismJsInterop = null,
-            ImageRenderJsInterop = new ImageRenderJsInterop(_assetSource, imageConfig)
+            RenderInterop = new RenderInterop(_assetSource, imageConfig),
         };
-
+        settings.RenderInterop.PreRenderCode = false;
+        
         using var markdownConverter = new MarkdownConverter(settings);
 
         ConcurrentDictionary<string, string> searchResults = new();
