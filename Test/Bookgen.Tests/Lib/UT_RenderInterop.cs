@@ -21,7 +21,7 @@ internal class UT_RenderInterop
         {
             SvgRecode = SvgRecodeOption.Passtrough,
         };
-        _sut = new RenderInterop(_environment);
+        _sut = new RenderInterop(_environment, _config);
     }
 
     [TearDown]
@@ -39,7 +39,7 @@ internal class UT_RenderInterop
             Assert.Ignore("Test only runs on x64.");
         }
 
-        ImageResult svg = _sut.RenderLatex("\\frac{1}{2} + \\sqrt{x}", _config);
+        ImageResult svg = _sut.RenderLatex("\\frac{1}{2} + \\sqrt{x}");
         
         using (Assert.EnterMultipleScope())
         {
@@ -52,7 +52,7 @@ internal class UT_RenderInterop
     [Test]
     public void EnsureThat_Render_Nomnoml_ReturnsCorrectSvg()
     {
-        ImageResult svg = _sut.RenderNomnoml("[<frame>Test]", _config);
+        ImageResult svg = _sut.RenderNomnoml("[<frame>Test]");
         using (Assert.EnterMultipleScope())
         {
             Assert.That(svg.ImageType, Is.EqualTo(ImageType.Svg));
@@ -64,7 +64,7 @@ internal class UT_RenderInterop
     [Test]
     public void EnsureThat_RenderQrCode_ReturnsCorrectSvg()
     {
-        ImageResult svg = _sut.RenderQrCode("https://example.com", _config);
+        ImageResult svg = _sut.RenderQrCode("https://example.com");
 
         using (Assert.EnterMultipleScope())
         {

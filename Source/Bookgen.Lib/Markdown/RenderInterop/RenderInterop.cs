@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Web;
 
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
@@ -95,7 +96,7 @@ public sealed class RenderInterop : IRenderInterop
             return _javascriptEngine.ExecuteAndGetResult($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
         }
 
-        return code;
+        return HttpUtility.HtmlEncode(code);
     }
 
     public ImageResult RenderLatex(string latex, double scale = 1.0)

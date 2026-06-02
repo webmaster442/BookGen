@@ -5,8 +5,8 @@
 
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
-using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Markdown.RenderInterop;
 
 using Moq;
 
@@ -90,9 +90,8 @@ internal class UT_MarkdownConverter
             },
             DeleteFirstH1 = false,
             HostUrl = null,
-            PrismJsInterop = null,
+            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig()),
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -127,10 +126,10 @@ internal class UT_MarkdownConverter
             CssClasses = new CssClasses(),
             DeleteFirstH1 = true,
             HostUrl = "https://my.domain",
-            PrismJsInterop = null,
+            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig()),
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
+        settings.RenderInterop.PreRenderCode = false;
 
         using var sut = new MarkdownConverter(settings);
 
@@ -163,10 +162,10 @@ internal class UT_MarkdownConverter
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
-            PrismJsInterop = null,
+            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig()),
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
+        settings.RenderInterop.PreRenderCode = false;
 
         using var sut = new MarkdownConverter(settings);
 
@@ -191,9 +190,8 @@ internal class UT_MarkdownConverter
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
-            PrismJsInterop = new Bookgen.Lib.JsInterop.SyntaxRenderJsInterop(_testEnvironment),
+            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig()),
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -218,10 +216,10 @@ internal class UT_MarkdownConverter
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
-            PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
+            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig())
         };
+        settings.RenderInterop.PreRenderCode = false;
 
         using var sut = new MarkdownConverter(settings);
 
@@ -335,9 +333,8 @@ internal class UT_MarkdownConverter
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
-            PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
+            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -456,9 +453,8 @@ internal class UT_MarkdownConverter
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
-            PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig())
+            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);

@@ -5,8 +5,8 @@
 
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.ImageService;
-using Bookgen.Lib.JsInterop;
 using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Markdown.RenderInterop;
 
 using Moq;
 
@@ -31,9 +31,8 @@ internal sealed class UT_MarkdownConverter_Specials
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
-            PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig()
+            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig()
             {
                 SvgRecode = SvgRecodeOption.AsPng
             })
@@ -101,9 +100,8 @@ internal sealed class UT_MarkdownConverter_Specials
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
-            PrismJsInterop = null,
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(_testEnvironment, new ImageConfig
+            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig
             {
                 SvgRecode = SvgRecodeOption.Passtrough
             })
