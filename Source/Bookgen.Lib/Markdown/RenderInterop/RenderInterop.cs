@@ -28,7 +28,7 @@ public sealed class RenderInterop : IRenderInterop
     {
         _assetSource = assetSource;
         _imageConfig = imageConfig;
-        _javascriptEngine = new JavascriptEngine();
+        _javascriptEngine = new JavascriptEngine(assetSource);
         _loadedScripts = new HashSet<string>();
     }
 

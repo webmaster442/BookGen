@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Vfs;
+
 using Microsoft.ClearScript;
 using Microsoft.ClearScript.JavaScript;
 using Microsoft.ClearScript.V8;
@@ -14,9 +16,11 @@ internal sealed class JavascriptEngine : IDisposable
     private readonly V8ScriptEngine _engine;
     private bool _disposed;
 
-    public JavascriptEngine()
+    public JavascriptEngine(IAssetSource? moduleAssets)
     {
         _engine = new V8ScriptEngine();
+        _engine.DocumentSettings.Loader = new JavascriptModuleLoader(moduleAssets);
+        _engine.DocumentSettings.SearchPath = "/";
     }
 
     public void Dispose()
