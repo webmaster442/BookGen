@@ -1,4 +1,9 @@
-﻿using System.Diagnostics;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Diagnostics;
 using System.Globalization;
 
 namespace Bookgen.Lib.Markdown.RenderInterop;
@@ -12,9 +17,9 @@ internal static class ProcessInterop
             : Path.Combine(AppContext.BaseDirectory, name);
     }
 
-    public static string RunRatex(string input, double scale)
+    private static string RunBinaryAndCaptureStdOut(string binaryName, string arguments, string stdin)
     {
-        var binary = GetBinary("ratex-svg");
+        var binary = GetBinary(binaryName);
 
         if (OperatingSystem.IsLinux()
             || OperatingSystem.IsMacOS())
@@ -32,7 +37,7 @@ internal static class ProcessInterop
             StartInfo = new ProcessStartInfo
             {
                 FileName = binary,
-                Arguments = $"--stdout --dpr {scale.ToString(CultureInfo.InvariantCulture)}",
+                Arguments = arguments,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -42,14 +47,20 @@ internal static class ProcessInterop
         };
 
         process.Start();
-        process.StandardInput.Write(input);
+        process.StandardInput.Write(stdin);
         process.StandardInput.Close();
         string outout = process.StandardOutput.ReadToEnd();
 
         process.WaitForExit();
 
         return process.ExitCode != 0
-            ? throw new InvalidOperationException($"Ratex process exited with code {process.ExitCode}")
+            ? throw new InvalidOperationException($"{binaryName} process exited with code {process.ExitCode}")
             : outout;
     }
+
+    public static string RunRatex(string input, double scale)
+        => RunBinaryAndCaptureStdOut("ratex-svg", $"--stdout --dpr {scale.ToString(CultureInfo.InvariantCulture)}", input);
+
+    public static string RunMmmdr(string input)
+        => RunBinaryAndCaptureStdOut("mmdr", "-e svg --nodeSpacing 60 --rankSpacing 80 -i -", input);
 }

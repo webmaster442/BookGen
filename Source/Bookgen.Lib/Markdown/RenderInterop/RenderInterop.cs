@@ -1,4 +1,9 @@
-﻿using System.Diagnostics;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Diagnostics;
 using System.Web;
 
 using Bookgen.Lib.Domain.IO.Configuration;
@@ -126,5 +131,12 @@ public sealed class RenderInterop : IRenderInterop
         string cmd = $"new QRCode({{content: \"{url}\", padding: 2, color: \"#000000\"}}).svg();";
         string svg = _javascriptEngine.ExecuteAndGetResult(cmd);
         return EncodeSvg(svg, _imageConfig);
+    }
+
+    public ImageResult RenderMermaid(string mermaid)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, nameof(RenderInterop));
+
+        return EncodeSvg(ProcessInterop.RunMmmdr(mermaid), _imageConfig);
     }
 }

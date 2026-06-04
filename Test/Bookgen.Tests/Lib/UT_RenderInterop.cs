@@ -32,7 +32,7 @@ internal class UT_RenderInterop
     }
 
     [Test]
-    public void EnsureThat_RenderLatex_ReturnsCorrectSvg()
+    public void EnsureThat_RenderLatex_ReturnsSvg()
     {
         if (RuntimeInformation.ProcessArchitecture != Architecture.X64)
         {
@@ -62,7 +62,24 @@ internal class UT_RenderInterop
     }
 
     [Test]
-    public void EnsureThat_RenderQrCode_ReturnsCorrectSvg()
+    public void EnsureThat_RenderMermaid_ReturnsSvg()
+    {
+        if (RuntimeInformation.ProcessArchitecture != Architecture.X64)
+        {
+            Assert.Ignore("Test only runs on x64.");
+        }
+
+        ImageResult svg = _sut.RenderMermaid("graph TD; A-->B;");
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(svg.ImageType, Is.EqualTo(ImageType.Svg));
+            Assert.That(svg.Data, Does.StartWith("<svg"));
+            Assert.That(svg.Data, Does.EndWith("</svg>"));
+        }
+    }
+
+    [Test]
+    public void EnsureThat_RenderQrCode_ReturnsSvg()
     {
         ImageResult svg = _sut.RenderQrCode("https://example.com");
 
