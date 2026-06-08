@@ -30,5 +30,4 @@
   <Project Path="Source/BookGen.Shellprog/BookGen.Shellprog.csproj" />
   <Project Path="Source/BookGen.Vfs/BookGen.Vfs.csproj" />
   <Project Path="Source/BookGen/BookGen.csproj" />
-  <Project Path="Source/MarkdownLintVS.Linting/MarkdownLintVS.Linting.csproj" />
 </Solution>
