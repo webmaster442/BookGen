@@ -57,6 +57,7 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
         RegisterPlugin(new LatexRenderPlugin(_renderInterop));
         RegisterPlugin(new QrCodeRenderPlugin(_renderInterop));
         RegisterPlugin(new MermaidRenderPlugin(_renderInterop));
+        RegisterPlugin(new PlantUmlRenderPlugin(_renderInterop));
     }
 
     private void RegisterPlugin(SyntaxRendererPlugin plugin)

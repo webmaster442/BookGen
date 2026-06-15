@@ -1,8 +1,16 @@
 ﻿# -----------------------------------------------------------------------------
 # BookGen PowerShell Registration script
-# Version 3.8.0
-# Last modified: 2025-11-16
+# Version 3.9.0
+# Last modified: 2026-06-15
 # -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# utility functions
+# -----------------------------------------------------------------------------
+function Test-Plantuml {
+    $plantumlPath = Join-Path $PSScriptRoot "plantuml.exe"
+    return (Test-Path $plantumlPath)
+}
 
 # -----------------------------------------------------------------------------
 # Node commands
@@ -305,6 +313,15 @@ function intro() {
     if (Test-NodeJs) {
         $nodeVersion = node --version
         Write-Host "Node version: $nodeVersion"
+    }
+
+    if (Test-Plantuml) {
+        $plantumlVersion = plantuml -version
+        Write-Host "PlantUML version: $plantumlVersion"
+    }
+    else {
+        Write-Host "PlantUML is not installed. Download & Extract it to Bookgen install folder"
+        Write-Host "https://github.com/plantuml/plantuml/releases/"
     }
 
     Write-Host ""

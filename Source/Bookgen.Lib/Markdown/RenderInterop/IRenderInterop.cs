@@ -16,6 +16,7 @@ public interface IRenderInterop : IDisposable
     ImageResult RenderLatex(string latex, double scale = 1.0);
     ImageResult RenderMermaid(string mermaid);
     ImageResult RenderQrCode(string url);
+    ImageResult RenderPlantUml(string plantUml);
     string PrismSyntaxHighlight(string code, string language);
     bool PreRenderCode { get; set; }
 

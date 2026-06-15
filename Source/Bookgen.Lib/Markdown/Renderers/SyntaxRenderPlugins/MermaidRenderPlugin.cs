@@ -7,18 +7,12 @@ using Bookgen.Lib.Markdown.RenderInterop;
 
 namespace Bookgen.Lib.Markdown.Renderers.SyntaxRenderPlugins;
 
-internal sealed class MermaidRenderPlugin : SyntaxRendererPlugin
+internal sealed class MermaidRenderPlugin(IRenderInterop renderInterop) : SyntaxRendererPlugin
 {
-    private readonly IRenderInterop _renderInterop;
-
-    public MermaidRenderPlugin(IRenderInterop renderInterop)
-    {
-        _renderInterop = renderInterop;
-    }
     public override string LanguageMoniker { get; } = "mermaid";
 
     public override string Render(string code)
     {
-        return RendererImgage(_renderInterop.RenderMermaid(code));
+        return RendererImgage(renderInterop.RenderMermaid(code));
     }
 }

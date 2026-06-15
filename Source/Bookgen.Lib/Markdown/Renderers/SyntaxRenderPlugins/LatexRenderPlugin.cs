@@ -7,19 +7,12 @@ using Bookgen.Lib.Markdown.RenderInterop;
 
 namespace Bookgen.Lib.Markdown.Renderers.SyntaxRenderPlugins;
 
-internal sealed class LatexRenderPlugin : SyntaxRendererPlugin
+internal sealed class LatexRenderPlugin(IRenderInterop renderInterop) : SyntaxRendererPlugin
 {
-    private readonly IRenderInterop _renderInterop;
-
-    public LatexRenderPlugin(IRenderInterop renderInterop)
-    {
-        _renderInterop = renderInterop;
-    }
-
     public override string LanguageMoniker { get; } = "latex";
 
     public override string Render(string code)
     {
-        return RendererImgage(_renderInterop.RenderLatex(code));
+        return RendererImgage(renderInterop.RenderLatex(code));
     }
 }

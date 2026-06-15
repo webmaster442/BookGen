@@ -7,12 +7,12 @@ using Bookgen.Lib.Markdown.RenderInterop;
 
 namespace Bookgen.Lib.Markdown.Renderers.SyntaxRenderPlugins;
 
-internal sealed class QrCodeRenderPlugin(IRenderInterop renderInterop) : SyntaxRendererPlugin
+internal sealed class PlantUmlRenderPlugin(IRenderInterop renderInterop) : SyntaxRendererPlugin
 {
-    public override string LanguageMoniker { get; } = "qrcode";
+    public override string LanguageMoniker => "plantuml";
 
     public override string Render(string code)
     {
-        return RendererImgage(renderInterop.RenderQrCode(code));
+        return RendererImgage(renderInterop.RenderPlantUml(code));
     }
 }

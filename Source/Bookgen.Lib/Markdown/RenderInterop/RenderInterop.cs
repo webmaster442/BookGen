@@ -139,4 +139,10 @@ public sealed class RenderInterop : IRenderInterop
 
         return EncodeSvg(ProcessInterop.RunMmmdr(mermaid), _imageConfig);
     }
+
+    public ImageResult RenderPlantUml(string plantUml)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, nameof(RenderInterop));
+        return EncodeSvg(ProcessInterop.RunPlantuml(plantUml), _imageConfig);
+    }
 }
