@@ -73,6 +73,13 @@ public static class Extensions
 
     extension(IReadOnlyFileSystem fs)
     {
+        public T? Deserialize<T>(string path)
+        {
+            using Stream stream = fs.OpenReadStream(path);
+            T? result = JsonSerializer.Deserialize<T>(stream, JsonOptions.SerializerOptions);
+            return result;
+        }
+
         public async Task<T?> DeserializeAsync<T>(string path)
         {
             await using Stream stream = fs.OpenReadStream(path);
