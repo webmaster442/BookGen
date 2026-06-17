@@ -4,15 +4,15 @@
     "net10.0": {
       "AngleSharp": {
         "type": "Direct",
-        "requested": "[1.5.0, )",
-        "resolved": "1.5.0",
-        "contentHash": "REAdFOAlTxr6yqmxWFFLLMB/+uvIS3N6tXXUAWjoexA0LsQB/CfZYadg+z+DkcpAwJk8gF1VF4YLsq4U1Gficg=="
+        "requested": "[1.5.1, )",
+        "resolved": "1.5.1",
+        "contentHash": "jFG0tKwFMNzIdv0rX3qvyiKyxAzUIvDyTLTJo2ORKtv/hiJC8juZTknc4b9DQmBFbrky+0twr58QQWt6DR48Og=="
       },
       "Markdig": {
         "type": "Direct",
-        "requested": "[1.2.0, )",
-        "resolved": "1.2.0",
-        "contentHash": "LoBVOgeDWfHthWTPzQJkjDkxImqBXRA5XpuTyjdM4SAURyWQGG1CbEEbfPbmvAavggnAZPaTYpbhIPUurWvIXA=="
+        "requested": "[1.3.0, )",
+        "resolved": "1.3.0",
+        "contentHash": "1cWDY3Rhd24SVe66p2ekhEPhaSAXuH3WgGn6EPNjqXL0Y4ycK7GXtq0UE5oeBYircNlqJIEQk9W2vz60hRaezA=="
       },
       "Microsoft.ClearScript": {
         "type": "Direct",
@@ -72,26 +72,26 @@
       },
       "Svg.Skia": {
         "type": "Direct",
-        "requested": "[5.0.0, )",
-        "resolved": "5.0.0",
-        "contentHash": "O5UGxW7Ci5a0GhJ2rDo8RF4BY/pMG5k3/cSimJmZFcAAgRf7xhTnGSuDyA9EqfFEwIaVHJTJg6knIk0AaMJ1FQ==",
+        "requested": "[5.1.1, )",
+        "resolved": "5.1.1",
+        "contentHash": "zBcxwGQlEOE1HKFOmcGl/Sl/0aeRajRv/yEE5lRFQqufhIERuuzCHmq6xWK0fyeA+B1uufOR/h5+MHGMatJz4w==",
         "dependencies": {
           "HarfBuzzSharp": "8.3.1.3",
           "HarfBuzzSharp.NativeAssets.Linux": "8.3.1.3",
           "HarfBuzzSharp.NativeAssets.Win32": "8.3.1.3",
           "HarfBuzzSharp.NativeAssets.macOS": "8.3.1.3",
           "SkiaSharp": "3.119.2",
-          "Svg.Animation": "5.0.0",
-          "Svg.Custom": "5.0.0",
-          "Svg.Model": "5.0.0",
-          "Svg.SceneGraph": "5.0.0"
+          "Svg.Animation": "5.1.1",
+          "Svg.Custom": "5.1.1",
+          "Svg.Model": "5.1.1",
+          "Svg.SceneGraph": "5.1.1"
         }
       },
       "System.ServiceModel.Syndication": {
         "type": "Direct",
-        "requested": "[10.0.8, )",
-        "resolved": "10.0.8",
-        "contentHash": "xfzCPN0jCQQIS90uKla37E16/0EFxdhs+cOREumboSpSPA2smXyk7jgfFCOXxEAgmZzz5WkR7wckNAAVrSQtSg=="
+        "requested": "[10.0.9, )",
+        "resolved": "10.0.9",
+        "contentHash": "ZxViVHpGq/a/lZsNZlxeAO1e+U0ViqtB99gkQj0W8rD7FmIs1iyL7Ip8d7w9S76EZhRW8Obc74zuoIJpITqD6A=="
       },
       "YamlDotNet": {
         "type": "Direct",
@@ -176,8 +176,8 @@
       },
       "ShimSkiaSharp": {
         "type": "Transitive",
-        "resolved": "5.0.0",
-        "contentHash": "JLNnt0QME9zcqJMdxdNRLkXVwUSgJdzVykHO+GsXc8OQj8dBpziLp+Pwezye0z4MiduXgsJHlMWl1ci6+79JDA=="
+        "resolved": "5.1.1",
+        "contentHash": "yYLSkTgGliFONplDPaSOpmTbV0VhbjHySYAqA3NMJilqPA/OBevX3/4sJ0k4FRhbuI8akyw6O2RMO/xUKwFBxQ=="
       },
       "SkiaSharp.NativeAssets.macOS": {
         "type": "Transitive",
@@ -186,51 +186,51 @@
       },
       "Spectre.Console.Ansi": {
         "type": "Transitive",
-        "resolved": "0.56.0",
-        "contentHash": "AAvLsqrwOrKQQ2mKQ02VUN2s90C758ZlDHVjHZ1MfGgd7+vELPayS/j8nTppEAXd1+JHQQjpey/bMGjbmpMmNg=="
+        "resolved": "0.57.0",
+        "contentHash": "DGeYljyWAIHSeUAoUGqyzyOqS8WlsHKW+y4zOZ0OO61oqrhx90jHS+XG5Kpq/wWz6ovIs2VL/0CTKpUVa7tdWg=="
       },
       "Svg.Animation": {
         "type": "Transitive",
-        "resolved": "5.0.0",
-        "contentHash": "17UFfTLEoLDuam4lyyCAz9ta6BFBoJzFoBkv1sWVtFO8MTNom3qleyMGDDhGJ8nTNoQDj9hElUpQUJXHNsDAfw==",
+        "resolved": "5.1.1",
+        "contentHash": "HUaU5Pa1fvE2CcYMHhA6nQH+4dcJsDEJ5feYfVoO3ha0u506ugOR0gR1fKHANIwEapYs20nLJQHLb39DK/pJlg==",
         "dependencies": {
-          "ShimSkiaSharp": "5.0.0",
+          "ShimSkiaSharp": "5.1.1",
           "SkiaSharp": "3.119.2",
-          "Svg.Custom": "5.0.0",
-          "Svg.Model": "5.0.0"
+          "Svg.Custom": "5.1.1",
+          "Svg.Model": "5.1.1"
         }
       },
       "Svg.Custom": {
         "type": "Transitive",
-        "resolved": "5.0.0",
-        "contentHash": "LQ79IO0dEp1e5KIkcKi87DDB2lm9g+wzHIYI0ARM+yXOpW7/9bnEXBUNAGNSnxhUpUIAxxUe5K+XU/sb9Nes/A==",
+        "resolved": "5.1.1",
+        "contentHash": "i53zvhuauElnLtGzezyfzpAs/zJ3UaexqT+JuAQTL6yC5ym1nQXTnjntDhY4qrouJ5elGjEwjag1nzfdPPPGSQ==",
         "dependencies": {
           "ExCSS": "4.3.1"
         }
       },
       "Svg.Model": {
         "type": "Transitive",
-        "resolved": "5.0.0",
-        "contentHash": "uNih9t+4XOw0ssLm7S8rSuSXFzhhOgYimRXD9bYG50+s1rnrRwHU0IybKbA/xO2pl+/Z/NddJHIdYpZfd23kWw==",
+        "resolved": "5.1.1",
+        "contentHash": "j9j4kqKL5Girwr/2qwzzDRJ7CDXvGipchbNQfxmmUAk70JG3/6mXaF/QJLiIat6p6NU38MBYaOSilVuqaZuC5w==",
         "dependencies": {
-          "ShimSkiaSharp": "5.0.0",
-          "Svg.Custom": "5.0.0"
+          "ShimSkiaSharp": "5.1.1",
+          "Svg.Custom": "5.1.1"
         }
       },
       "Svg.SceneGraph": {
         "type": "Transitive",
-        "resolved": "5.0.0",
-        "contentHash": "/erVvnLb27MRunTzm7trAbMj5Z8InhbHM5k5K+sraFMVeMq9e0pNOomKhzoCgsjnAzVBYq6G8v3AkcL7eM5Gpg==",
+        "resolved": "5.1.1",
+        "contentHash": "p0ti8uOikN7aEg/KDq042xBbWijbOl2sITWMpO9vJ2KEaBeB8jouTDQTK7QssMs8DynR1+FxOsn7WEftXF0jow==",
         "dependencies": {
-          "ShimSkiaSharp": "5.0.0",
-          "Svg.Custom": "5.0.0",
-          "Svg.Model": "5.0.0"
+          "ShimSkiaSharp": "5.1.1",
+          "Svg.Custom": "5.1.1",
+          "Svg.Model": "5.1.1"
         }
       },
       "bookgen.shell.shared": {
         "type": "Project",
         "dependencies": {
-          "Spectre.Console": "[0.56.0, )",
+          "Spectre.Console": "[0.57.0, )",
           "Webmaster442.WindowsTerminal": "[4.1.1, )"
         }
       },
@@ -239,11 +239,11 @@
       },
       "Spectre.Console": {
         "type": "CentralTransitive",
-        "requested": "[0.56.0, )",
-        "resolved": "0.56.0",
-        "contentHash": "ail4U9yR02kKtaOQl0k/bMid/UkujehsYLa8DsYpsmioYkJYmHIWh5us5HTskP74yYcBLcmdTcxBUpNgg2EwZg==",
+        "requested": "[0.57.0, )",
+        "resolved": "0.57.0",
+        "contentHash": "X5+4ZsUYTPlTs5PEoKRlxUuKOa1AkEoAGM34pUeJPjsBdtOnvnaVb31hqewhooomihl1i9fEBid1fz8XxZTacQ==",
         "dependencies": {
-          "Spectre.Console.Ansi": "0.56.0"
+          "Spectre.Console.Ansi": "0.57.0"
         }
       },
       "Webmaster442.WindowsTerminal": {

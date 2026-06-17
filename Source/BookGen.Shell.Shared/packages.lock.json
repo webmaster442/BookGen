@@ -4,20 +4,20 @@
     "net10.0": {
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "Direct",
-        "requested": "[10.0.8, )",
-        "resolved": "10.0.8",
-        "contentHash": "fdVadZmsC8jRP0KvKy8mO8f6GV/HyBvElfcSxEhd+5FM5boAw/01iSaCto5G3G37ApJira4A3pNaVvBv8cUiLQ==",
+        "requested": "[10.0.9, )",
+        "resolved": "10.0.9",
+        "contentHash": "9S/DFt4cohlMPpzIxjG6kk0L8MuN2vDm9pbMCulxtJzzk82oJHVLBd8vuQxaPskaYQwKqmFmbannf5eoChgjYg==",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.8"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.9"
         }
       },
       "Spectre.Console": {
         "type": "Direct",
-        "requested": "[0.56.0, )",
-        "resolved": "0.56.0",
-        "contentHash": "ail4U9yR02kKtaOQl0k/bMid/UkujehsYLa8DsYpsmioYkJYmHIWh5us5HTskP74yYcBLcmdTcxBUpNgg2EwZg==",
+        "requested": "[0.57.0, )",
+        "resolved": "0.57.0",
+        "contentHash": "X5+4ZsUYTPlTs5PEoKRlxUuKOa1AkEoAGM34pUeJPjsBdtOnvnaVb31hqewhooomihl1i9fEBid1fz8XxZTacQ==",
         "dependencies": {
-          "Spectre.Console.Ansi": "0.56.0"
+          "Spectre.Console.Ansi": "0.57.0"
         }
       },
       "Spectre.Console.Analyzer": {
@@ -34,14 +34,14 @@
       },
       "Spectre.Console.Ansi": {
         "type": "Transitive",
-        "resolved": "0.56.0",
-        "contentHash": "AAvLsqrwOrKQQ2mKQ02VUN2s90C758ZlDHVjHZ1MfGgd7+vELPayS/j8nTppEAXd1+JHQQjpey/bMGjbmpMmNg=="
+        "resolved": "0.57.0",
+        "contentHash": "DGeYljyWAIHSeUAoUGqyzyOqS8WlsHKW+y4zOZ0OO61oqrhx90jHS+XG5Kpq/wWz6ovIs2VL/0CTKpUVa7tdWg=="
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "CentralTransitive",
-        "requested": "[10.0.8, )",
-        "resolved": "10.0.8",
-        "contentHash": "21nbDV60SRPWGIivsyl6lqBeEJNG1sginhhfWgRrr3Ais7aQ12To25OAHQxgoiJkjqy1aQ6RxpZBGYuTi7Ge6A=="
+        "requested": "[10.0.9, )",
+        "resolved": "10.0.9",
+        "contentHash": "g41l/30G3K4B/d/L8kjux0+30e27c8D0FVQ/PFCpbekgfDpj9mnDhieP67EqXWvl1EWNeZh2rpR4F5B/jcDOHA=="
       }
     }
   }
