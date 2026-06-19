@@ -1,4 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
@@ -10,29 +15,20 @@ using BookGen.Vfs;
 
 namespace Bookgen.Lib.Confighandling;
 
-internal class AppSettingsAccessor
+public sealed class AppSettingsAccessor : IAppSettingsAccessor
 {
     private readonly AppSetting _appSetting;
     private readonly string _appSettingsFilePath;
     private readonly IWritableFileSystem _fileSystem;
     private readonly SerializedObjectValidator _validator;
-    private readonly HashSet<string> _problematicProperties;
+    private readonly Dictionary<string, List<string>> _problematicProperties;
+    private readonly PropertyInfo[] _properites;
 
     private AppSetting? LoadSettings()
     {
-        return _fileSystem.FileExists(_appSettingsFilePath) 
+        return _fileSystem.FileExists(_appSettingsFilePath)
             ? _fileSystem.Deserialize<AppSetting>(_appSettingsFilePath)
             : null;
-    }
-
-    public AppSettingsAccessor(IWritableFileSystem fileSystem)
-    {
-        _fileSystem = fileSystem;
-        _problematicProperties = new HashSet<string>();
-        _appSettingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgen.app.json");
-        _validator = new SerializedObjectValidator(_fileSystem);
-        _appSetting = LoadSettings() ?? AppSetting.CreateDefault();
-        Validate();
     }
 
     private void Validate()
@@ -44,11 +40,17 @@ internal class AppSettingsAccessor
         _validator.ValidateSingleLevel(_appSetting, issues);
 
         _problematicProperties.Clear();
-        foreach (var issue in issues)
+
+        foreach (ValidationResult issue in issues)
         {
-            foreach (var memberName in issue.MemberNames)
+            foreach (string memberName in issue.MemberNames)
             {
-                _problematicProperties.Add(memberName);
+                if (!_problematicProperties.TryGetValue(memberName, out List<string>? value))
+                {
+                    value = [];
+                    _problematicProperties[memberName] = value;
+                }
+                value.Add(issue.ErrorMessage ?? "Unknown error");
             }
         }
     }
@@ -60,12 +62,22 @@ internal class AppSettingsAccessor
             : throw new ArgumentException("Invalid expression", nameof(expression));
     }
 
+    public AppSettingsAccessor(IWritableFileSystem fileSystem)
+    {
+        _properites = typeof(AppSetting).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        _fileSystem = fileSystem;
+        _problematicProperties = new Dictionary<string, List<string>>();
+        _appSettingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "bookgen.app.json");
+        _validator = new SerializedObjectValidator(_fileSystem);
+        _appSetting = LoadSettings() ?? AppSetting.CreateDefault();
+        Validate();
+    }
+
     public IEnumerable<(string setting, Type type)> KnownSettings
     {
         get
         {
-            PropertyInfo[] properites = typeof(AppSetting).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (PropertyInfo property in properites)
+            foreach (PropertyInfo property in _properites)
             {
                 yield return (property.Name, property.PropertyType);
             }
@@ -73,19 +85,41 @@ internal class AppSettingsAccessor
     }
 
     public T Get<T>(Func<AppSetting, T> selector)
+        => selector(_appSetting);
+
+    public object? Get(string settingName)
     {
-        return selector(_appSetting);
+        var propery = _properites.First(x => x.Name == settingName);
+        return propery.GetValue(_appSetting);
     }
 
-    public void Set<T>(Action<AppSetting> setter)
+    public bool IsSettingValid(string settingName, out IReadOnlyList<string> issues)
     {
-        setter.Invoke(_appSetting);
+        bool ret = _problematicProperties.TryGetValue(settingName, out List<string>? issueList);
+        issues = issueList ?? [];
+        return ret;
+    }
+
+    public bool IsSettingValid<T>(Expression<Func<AppSetting, T>> expression, out IReadOnlyList<string> issues)
+    {
+        string propertyName = GetPropertyName(expression);
+        if (_problematicProperties.TryGetValue(propertyName, out List<string>? value))
+        {
+            issues = value;
+            return false;
+        }
+        issues = [];
+        return true;
+    }
+
+    public void Set(string setting, string value)
+    {
+        PropertyInfo property = _properites.First(x => x.Name == setting);
+        object convertedValue = Convert.ChangeType(value, property.PropertyType);
+        property.SetValue(_appSetting, convertedValue);
         Validate();
     }
 
-    public bool IsSettingValid<T>(Expression<Func<AppSetting, T>> expression)
-    {
-        string propertyName = GetPropertyName(expression);
-        return !_problematicProperties.Contains(propertyName);
-    }
+    public void Save() 
+        => _fileSystem.Serialize<AppSetting>(_appSettingsFilePath, _appSetting);
 }

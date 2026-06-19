@@ -177,5 +177,11 @@ public static class Extensions
                 await fs.WriteSchema<T>(newName);
             }
         }
+
+        public void Serialize<T>(string path, T value)
+        {
+            using Stream stream = fs.CreateWriteStream(path);
+            JsonSerializer.Serialize(stream, value, JsonOptions.SerializerOptions);
+        }
     }
 }

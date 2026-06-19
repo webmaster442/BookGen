@@ -3,70 +3,78 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Reflection;
-
-using Bookgen.Lib.AppSettings;
+using Bookgen.Lib.Confighandling;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Infrastructure.Terminal;
 
 using Microsoft.Extensions.Logging;
+
+using Spectre.Console;
 
 namespace BookGen.Commands;
 
 [CommandName("config")]
-internal sealed class ConfigCommand : Command
+internal sealed class ConfigCommand : Command<ConfigCommand.ConfigCommandSettings>
 {
-    private readonly ILogger _logger;
+    public class ConfigCommandSettings : ArgumentsBase
+    {
+        [Argument(0, IsOptional = true)]
+        public string Setting { get; set; } = string.Empty;
 
-    public ConfigCommand(ILogger logger)
+        [Argument(1, IsOptional = true)]
+        public string Value { get; set; } = string.Empty;
+    }
+
+    private readonly ILogger _logger;
+    private readonly IAppSettingsAccessor _appSettings;
+
+    public ConfigCommand(ILogger logger, IAppSettingsAccessor appSettings)
     {
         _logger = logger;
+        _appSettings = appSettings;
     }
 
-    public override int Execute(IReadOnlyList<string> context)
+    public override int Execute(ConfigCommandSettings arguments, IReadOnlyList<string> context)
     {
-        BookGenAppSettings appSettings = new();
-
-        PropertyInfo[] data = typeof(BookGenAppSettings).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-        if (context.Count == 0)
-            return DisplayConfig(data, appSettings);
-
-        if (context.Count == 1)
-            return DisplaySpecific(data, appSettings, context[0]);
-
-        appSettings.Set(context[1], context[0]);
-        appSettings.Save();
-
-        return ExitCodes.Success;
-    }
-
-    private int DisplaySpecific(PropertyInfo[] data, BookGenAppSettings appSettings, string property)
-    {
-        string[] headers = ["Name", "Type", "Value"];
-        PropertyInfo[] tableData = data.Where(x => x.Name == property).ToArray();
-
-        if (tableData.Length != 0)
-            return DisplayConfig(tableData, appSettings);
-
-        _logger.LogError("Setting not found: {setting}", property);
-        return ExitCodes.ArgumentsError;
-    }
-
-    private static int DisplayConfig(PropertyInfo[] data, BookGenAppSettings appSettings)
-    {
-        string[] headers = ["Name", "Type", "Value"];
-        IEnumerable<string[]> tableData = data.Select(x => new string[]
+        if (string.IsNullOrEmpty(arguments.Setting)
+            && string.IsNullOrEmpty(arguments.Value))
         {
-            x.Name,
-            x.PropertyType.ToString(),
-            x.GetValue(appSettings)?.ToString() ?? "<null>"
-        });
+            PrintCurrentSettings();
+            return ExitCodes.Success;
+        }
 
-        Terminal.Table(headers, tableData);
+        if (!_appSettings.KnownSettings.Any(x => x.setting == arguments.Setting))
+        {
+            _logger.LogError("Unknown setting: {Setting}", arguments.Setting);
+            return ExitCodes.GeneralError;
+        }
 
+        _appSettings.Set(arguments.Setting, arguments.Value);
+
+        if (!_appSettings.IsSettingValid(arguments.Setting, out IReadOnlyList<string> issues))
+        {
+            foreach (var issue in issues)
+            {
+                _logger.LogError(issue);
+            }
+            return ExitCodes.GeneralError;
+        }
+
+        _appSettings.Save();
         return ExitCodes.Success;
+    }
+
+    private void PrintCurrentSettings()
+    {
+        var table = new Table();
+        table.AddColumns("Setting", "Type", "Is Valid?", "Value");
+        foreach ((string setting, Type type) setting in _appSettings.KnownSettings)
+        {
+            object? value = _appSettings.Get(setting.setting);
+            bool isValid = _appSettings.IsSettingValid(setting.setting, out _);
+            table.AddRow(setting.setting, setting.type.Name, isValid ? "Yes" : "No", value?.ToString() ?? "null");
+        }
+        AnsiConsole.Write(table);
     }
 }
