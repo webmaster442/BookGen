@@ -18,4 +18,5 @@ public static class BundledAssets
     public const string JsPageToc = "PageToc.js";
     public const string NomnomlJs = "nomnoml.js";
     public const string GraphreJs = "graphre.js";
+    public const string WordTemplate = "Template.docx";
 }
