@@ -7,9 +7,10 @@ using System.Text;
 
 using Bookgen.Lib;
 using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.ImageService;
-using Bookgen.Lib.Markdown;
-using Bookgen.Lib.Markdown.RenderInterop;
+using Bookgen.Lib.Rendering.Images;
+using Bookgen.Lib.Rendering.Markdown;
+using Bookgen.Lib.Rendering.Markdown.RenderInterop;
+using Bookgen.Lib.Rendering.Templates;
 using Bookgen.Lib.Templates;
 
 using BookGen.Cli;

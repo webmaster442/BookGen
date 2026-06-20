@@ -1,8 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 
 using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.ImageService;
-using Bookgen.Lib.Markdown.RenderInterop;
+using Bookgen.Lib.Rendering.Images;
+using Bookgen.Lib.Rendering.Markdown.RenderInterop;
 
 namespace Bookgen.Tests.Lib;
 

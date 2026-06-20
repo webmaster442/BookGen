@@ -6,7 +6,7 @@
 using System.Text;
 
 using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Rendering.Markdown;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

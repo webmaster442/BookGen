@@ -7,10 +7,11 @@ using System.ServiceModel.Syndication;
 
 using Bookgen.Lib.Domain;
 using Bookgen.Lib.Domain.IO;
-using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
-using Bookgen.Lib.Markdown;
-using Bookgen.Lib.Markdown.RenderInterop;
+using Bookgen.Lib.Rendering.Images;
+using Bookgen.Lib.Rendering.Markdown;
+using Bookgen.Lib.Rendering.Markdown.RenderInterop;
+using Bookgen.Lib.Rendering.Templates;
 using Bookgen.Lib.Templates;
 
 using Microsoft.Extensions.Caching.Memory;

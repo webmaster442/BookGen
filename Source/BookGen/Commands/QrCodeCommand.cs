@@ -6,8 +6,8 @@
 using System.Text.RegularExpressions;
 
 using Bookgen.Lib.Domain.IO.Legacy;
-using Bookgen.Lib.ImageService;
-using Bookgen.Lib.Markdown.RenderInterop;
+using Bookgen.Lib.Rendering.Images;
+using Bookgen.Lib.Rendering.Markdown.RenderInterop;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

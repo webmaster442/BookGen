@@ -7,7 +7,8 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 
-using Bookgen.Lib.ImageService;
+using Bookgen.Lib.Rendering.Images;
+using Bookgen.Lib.Rendering.Templates;
 using Bookgen.Lib.Templates;
 
 using BookGen.Vfs;

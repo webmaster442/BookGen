@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib.Domain;
-using Bookgen.Lib.ImageService;
-using Bookgen.Lib.Markdown;
-using Bookgen.Lib.Markdown.RenderInterop;
+using Bookgen.Lib.Rendering.Images;
+using Bookgen.Lib.Rendering.Markdown;
+using Bookgen.Lib.Rendering.Markdown.RenderInterop;
 using Bookgen.Lib.Templates;
 
 using BookGen.Vfs;

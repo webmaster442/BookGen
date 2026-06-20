@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Templates;
+using Bookgen.Lib.Rendering.Templates;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;
 

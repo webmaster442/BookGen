@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.ImageService;
+using Bookgen.Lib.Rendering.Images;
 
 using Microsoft.Extensions.Logging;
 
