@@ -21,7 +21,7 @@ internal class UT_RenderInterop
         {
             SvgRecode = SvgRecodeOption.Passtrough,
         };
-        _sut = new RenderInterop(_environment, _config);
+        _sut = new RenderInterop(_environment, _environment.ProgramPathResolver, _config);
     }
 
     [TearDown]

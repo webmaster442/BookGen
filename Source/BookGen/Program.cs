@@ -5,7 +5,7 @@
 
 using System.Diagnostics;
 
-using Bookgen.Lib.Confighandling;
+using Bookgen.Lib.AppSettings;
 
 using BookGen;
 using BookGen.Cli;
@@ -59,7 +59,9 @@ ioc.AddSingleton<IHelpProvider>(helpProvider);
 ioc.AddTransient<IWritableFileSystem, FileSystem>();
 ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
 ioc.AddTransient<IApiClient, ApiClient>();
-ioc.AddSingleton<IAppSettingsAccessor, AppSettingsAccessor>();
+ioc.AddTransient<IReadOnlyAppSettings, AppSettings>();
+ioc.AddTransient<IAppSettings, AppSettings>();
+ioc.AddTransient<IProgramPathResolver, ProgramPathResolver>();
 ioc.AddKeyedSingleton<IAssetSource>("dictionaries", (provider, key) =>
 {
     var dictionaries = Path.Combine(AppContext.BaseDirectory, "dictionaries.zip");

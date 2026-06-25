@@ -58,7 +58,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            RenderInterop = new RenderInterop(environment, imgConfig),
+            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, imgConfig),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
             ImageUrlRewriter = EpubImageRewrite

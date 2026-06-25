@@ -13,9 +13,9 @@ using Bookgen.Lib.Internals;
 
 using BookGen.Vfs;
 
-namespace Bookgen.Lib.Confighandling;
+namespace Bookgen.Lib.AppSettings;
 
-public sealed class AppSettingsAccessor : IAppSettingsAccessor
+public sealed class AppSettings : IAppSettings
 {
     private readonly AppSetting _appSetting;
     private readonly string _appSettingsFilePath;
@@ -62,7 +62,7 @@ public sealed class AppSettingsAccessor : IAppSettingsAccessor
             : throw new ArgumentException("Invalid expression", nameof(expression));
     }
 
-    public AppSettingsAccessor(IWritableFileSystem fileSystem)
+    public AppSettings(IWritableFileSystem fileSystem)
     {
         _properites = typeof(AppSetting).GetProperties(BindingFlags.Public | BindingFlags.Instance);
         _fileSystem = fileSystem;

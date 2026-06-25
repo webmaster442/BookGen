@@ -5,6 +5,7 @@
 
 using System.Text.RegularExpressions;
 
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Domain.IO.Legacy;
 using Bookgen.Lib.Rendering.Images;
 using Bookgen.Lib.Rendering.Markdown.RenderInterop;
@@ -52,17 +53,19 @@ internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments
     private readonly ILogger _log;
     private readonly IWritableFileSystem _fileSystem;
     private readonly IAssetSource _assetSource;
+    private readonly IProgramPathResolver _programPathResolver;
 
-    public QrCodeCommand(ILogger log, IWritableFileSystem fileSystem, IAssetSource assetSource)
+    public QrCodeCommand(ILogger log, IWritableFileSystem fileSystem, IProgramPathResolver programPathResolver, IAssetSource assetSource)
     {
         _log = log;
         _fileSystem = fileSystem;
+        _programPathResolver = programPathResolver;
         _assetSource = assetSource;
     }
 
     public override async Task<int> ExecuteAsync(QrCodeArguments arguments, IReadOnlyList<string> context)
     {
-        using var render = IRenderInterop.CreateForSvg(_assetSource);
+        using var render = IRenderInterop.CreateForSvg(_assetSource, _programPathResolver);
 
         ImageResult result = render.RenderQrCode(arguments.Data);
 

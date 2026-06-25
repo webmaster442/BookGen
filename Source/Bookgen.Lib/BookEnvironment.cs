@@ -6,6 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Nodes;
 
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Confighandling;
 using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
@@ -26,11 +27,13 @@ public sealed class BookEnvironment : IBookEnvironment
 
     public BookEnvironment(IWritableFileSystem soruceFolder,
                            IWritableFileSystem output,
+                           IProgramPathResolver programPathResolver,
                            params IAssetSource[] assets)
     {
         _source = soruceFolder;
         Output = output;
         _assets = assets;
+        ProgramPathResolver = programPathResolver;
         AssetNames = assets.SelectMany(a => a.AssetNames).Distinct().ToArray();
     }
 
@@ -43,6 +46,8 @@ public sealed class BookEnvironment : IBookEnvironment
     public IWritableFileSystem Source => _isInitialized ? _source : throw new InvalidOperationException(Error);
 
     public IWritableFileSystem Output => _isInitialized ? field : throw new InvalidOperationException(Error);
+
+    public IProgramPathResolver ProgramPathResolver => _isInitialized ? field : throw new InvalidOperationException(Error);
 
     public IReadOnlyList<string> AssetNames { get; }
 

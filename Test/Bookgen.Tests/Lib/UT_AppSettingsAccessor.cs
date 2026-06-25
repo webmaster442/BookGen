@@ -1,4 +1,4 @@
-﻿using Bookgen.Lib.Confighandling;
+﻿using Bookgen.Lib.AppSettings;
 
 using BookGen.Vfs;
 
@@ -10,14 +10,14 @@ namespace Bookgen.Tests.Lib;
 public class UT_AppSettingsAccessor
 {
     private Mock<IWritableFileSystem> _fileSystem;
-    private AppSettingsAccessor _sut;
+    private AppSettings _sut;
 
     [SetUp]
     public void Setup()
     {
         _fileSystem = new Mock<IWritableFileSystem>(MockBehavior.Strict);
         _fileSystem.Setup(x => x.FileExists(It.IsAny<string>())).Returns(false);
-        _sut = new AppSettingsAccessor(_fileSystem.Object);
+        _sut = new AppSettings(_fileSystem.Object);
     }
 
     [Test]

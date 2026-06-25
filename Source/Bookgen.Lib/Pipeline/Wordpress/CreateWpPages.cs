@@ -131,7 +131,7 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
             CssClasses = environment.Configuration.WordpressConfig.CssClasses,
             DeleteFirstH1 = true,
             HostUrl = environment.Configuration.WordpressConfig.DeployHost,
-            RenderInterop = new RenderInterop(environment, environment.Configuration.WordpressConfig.Images),
+            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.WordpressConfig.Images),
             AutoEmbedSupportedLinks = true,
         };
         settings.RenderInterop.PreRenderCode = false;

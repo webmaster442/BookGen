@@ -6,6 +6,7 @@
 using System.Text;
 
 using Bookgen.Lib;
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Rendering.Images;
 using Bookgen.Lib.Rendering.Markdown;
@@ -92,16 +93,18 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
     private readonly IFileSystemFactory _fileSystemFactory;
     private readonly IWritableFileSystem _fileSystem;
     private readonly IAssetSource _assetSource;
+    private readonly TemplateEngine _templateEngine;
+    private readonly IProgramPathResolver _programPathResolver;
+
     private const string TitleTag = "{{Title}}";
     private const string ContentTag = "{{Content}}";
 
-    private readonly TemplateEngine _templateEngine;
-
-    public Md2HtmlCommand(ILogger log, IFileSystemFactory fileSystemFactory, IAssetSource assetSource)
+    public Md2HtmlCommand(ILogger log, IFileSystemFactory fileSystemFactory, IProgramPathResolver programPathResolver, IAssetSource assetSource)
     {
         _log = log;
         _fileSystemFactory = fileSystemFactory;
         _fileSystem = fileSystemFactory.CreateWritableFileSystem();
+        _programPathResolver = programPathResolver;
         _assetSource = assetSource;
         _templateEngine = new TemplateEngine(log, assetSource);
     }
@@ -139,7 +142,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = !arguments.NoEmbed,
-            RenderInterop = new RenderInterop(_assetSource, imgConfig)
+            RenderInterop = new RenderInterop(_assetSource, _programPathResolver, imgConfig)
         };
 
         settings.RenderInterop.PreRenderCode = !arguments.NoSyntax;

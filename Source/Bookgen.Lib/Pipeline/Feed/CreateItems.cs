@@ -38,7 +38,7 @@ internal sealed class CreateItems : PipeLineStep<SyndicationFeedState>
             CssClasses = environment.Configuration.FeedConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            RenderInterop = new RenderInterop(environment, environment.Configuration.FeedConfig.Images),
+            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.FeedConfig.Images),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
         };

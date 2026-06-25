@@ -90,7 +90,7 @@ internal class UT_MarkdownConverter
             },
             DeleteFirstH1 = false,
             HostUrl = null,
-            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig()),
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()),
             AutoEmbedSupportedLinks = true,
         };
 
@@ -126,7 +126,7 @@ internal class UT_MarkdownConverter
             CssClasses = new CssClasses(),
             DeleteFirstH1 = true,
             HostUrl = "https://my.domain",
-            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig()),
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()),
             AutoEmbedSupportedLinks = true,
         };
         settings.RenderInterop.PreRenderCode = false;
@@ -162,7 +162,7 @@ internal class UT_MarkdownConverter
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
-            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig()),
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()),
             AutoEmbedSupportedLinks = true,
         };
         settings.RenderInterop.PreRenderCode = false;
@@ -190,7 +190,7 @@ internal class UT_MarkdownConverter
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
-            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig()),
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()),
             AutoEmbedSupportedLinks = true,
         };
 
@@ -217,7 +217,7 @@ internal class UT_MarkdownConverter
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig())
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig())
         };
         settings.RenderInterop.PreRenderCode = false;
 
@@ -334,7 +334,7 @@ internal class UT_MarkdownConverter
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig())
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -454,7 +454,7 @@ internal class UT_MarkdownConverter
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig())
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig())
         };
 
         using var sut = new MarkdownConverter(settings);

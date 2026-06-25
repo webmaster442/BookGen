@@ -5,7 +5,7 @@
 
 using System.Diagnostics;
 
-using Bookgen.Lib.Confighandling;
+using Bookgen.Lib.AppSettings;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -36,9 +36,9 @@ internal sealed class EditCommand : Command
     }
 
     private readonly ILogger _log;
-    private readonly IAppSettingsAccessor _appSettings;
+    private readonly IReadOnlyAppSettings _appSettings;
 
-    public EditCommand(ILogger log, IAppSettingsAccessor appSettings)
+    public EditCommand(ILogger log, IReadOnlyAppSettings appSettings)
     {
         _log = log;
         _appSettings = appSettings;

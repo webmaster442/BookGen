@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib;
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Pipeline;
 
 using BookGen.Cli;
@@ -22,15 +23,18 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
     protected readonly ILogger _logger;
     protected readonly IAssetSource _assetSource;
     protected readonly IMemoryCache _memoryCache;
+    private readonly IProgramPathResolver _programPathResolver;
 
     public BuildCommandBase(IWritableFileSystem soruce,
                             IWritableFileSystem target,
+                            IProgramPathResolver programPathResolver,
                             ILogger logger,
                             IAssetSource assetSource,
                             IMemoryCache memoryCache)
     {
         _soruce = soruce;
         _target = target;
+        _programPathResolver = programPathResolver;
         _logger = logger;
         _assetSource = assetSource;
         _memoryCache = memoryCache;
@@ -50,7 +54,7 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
         _soruce.Scope = arguments.Directory;
         _target.Scope = arguments.OutputDirectory;
 
-        using var env = new BookEnvironment(_soruce, _target, _assetSource);
+        using var env = new BookEnvironment(_soruce, _target, _programPathResolver, _assetSource);
         EnvironmentStatus status = await env.Initialize(arguments.ConfigOverlay);
 
         if (!status.IsOk)

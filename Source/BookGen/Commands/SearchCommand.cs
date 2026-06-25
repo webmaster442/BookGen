@@ -6,6 +6,7 @@
 using System.Collections.Concurrent;
 
 using Bookgen.Lib;
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Rendering.Images;
 using Bookgen.Lib.Rendering.Markdown;
@@ -42,10 +43,12 @@ internal sealed class SearchCommand : AsyncCommand<SearchCommand.SearchArguments
     private readonly IWritableFileSystem _soruce;
     private readonly ILogger _logger;
     private readonly IAssetSource _assetSource;
+    private readonly IProgramPathResolver _programPathResolver;
 
-    public SearchCommand(IWritableFileSystem soruce, ILogger logger, IAssetSource assetSource)
+    public SearchCommand(IWritableFileSystem soruce, IProgramPathResolver programPathResolver, ILogger logger, IAssetSource assetSource)
     {
         _soruce = soruce;
+        _programPathResolver = programPathResolver;
         _logger = logger;
         _assetSource = assetSource;
     }
@@ -58,7 +61,7 @@ internal sealed class SearchCommand : AsyncCommand<SearchCommand.SearchArguments
         _soruce.Scope = arguments.Directory;
         IWritableFileSystem target = new ReadOnlyWritableFileSystem();
 
-        using var env = new BookEnvironment(_soruce, target, _assetSource);
+        using var env = new BookEnvironment(_soruce, target, _programPathResolver, _assetSource);
         EnvironmentStatus status = await env.Initialize(arguments.ConfigOverlay);
 
         if (!status.IsOk)
@@ -78,7 +81,7 @@ internal sealed class SearchCommand : AsyncCommand<SearchCommand.SearchArguments
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
-            RenderInterop = new RenderInterop(_assetSource, imageConfig),
+            RenderInterop = new RenderInterop(_assetSource, _programPathResolver, imageConfig),
         };
         settings.RenderInterop.PreRenderCode = false;
         

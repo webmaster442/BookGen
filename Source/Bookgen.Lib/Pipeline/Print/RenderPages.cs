@@ -34,7 +34,7 @@ internal sealed class RenderPages : PipeLineStep<PrintState>
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            RenderInterop = new RenderInterop(environment, environment.Configuration.PrintConfig.Images),
+            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.PrintConfig.Images),
             OffsetHeadingsBy = 1,
             AutoEmbedSupportedLinks = false,
         };

@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Confighandling;
+using Bookgen.Lib.AppSettings;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -27,9 +27,9 @@ internal sealed class ConfigCommand : Command<ConfigCommand.ConfigCommandSetting
     }
 
     private readonly ILogger _logger;
-    private readonly IAppSettingsAccessor _appSettings;
+    private readonly IAppSettings _appSettings;
 
-    public ConfigCommand(ILogger logger, IAppSettingsAccessor appSettings)
+    public ConfigCommand(ILogger logger, IAppSettings appSettings)
     {
         _logger = logger;
         _appSettings = appSettings;

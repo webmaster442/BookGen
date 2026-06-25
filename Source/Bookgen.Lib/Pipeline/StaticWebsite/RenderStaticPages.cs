@@ -38,7 +38,7 @@ internal sealed class RenderStaticPages : PipeLineStep<StaticWebState>
             CssClasses = environment.Configuration.StaticWebsiteConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = environment.Configuration.StaticWebsiteConfig.DeployHost,
-            RenderInterop = new RenderInterop(environment, environment.Configuration.StaticWebsiteConfig.Images),
+            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.StaticWebsiteConfig.Images),
             AutoEmbedSupportedLinks = true,
         };
         settings.RenderInterop.PreRenderCode = false;

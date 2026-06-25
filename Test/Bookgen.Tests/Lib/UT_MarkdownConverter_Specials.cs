@@ -32,7 +32,7 @@ internal sealed class UT_MarkdownConverter_Specials
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig()
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()
             {
                 SvgRecode = SvgRecodeOption.AsPng
             })
@@ -101,7 +101,7 @@ internal sealed class UT_MarkdownConverter_Specials
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
             {
                 SvgRecode = SvgRecodeOption.Passtrough
             })
@@ -188,7 +188,7 @@ internal sealed class UT_MarkdownConverter_Specials
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, new ImageConfig
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
             {
                 SvgRecode = SvgRecodeOption.Passtrough
             })

@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Pipeline;
 
 using BookGen.Cli.Annotations;
@@ -18,10 +19,11 @@ internal sealed class BuildPrintCommand : BuildCommandBase
 {
     public BuildPrintCommand(IWritableFileSystem soruce,
                              IWritableFileSystem target,
+                             IProgramPathResolver programPathResolver,
                              ILogger logger,
                              IAssetSource assetSource,
                              IMemoryCache memoryCache) 
-        : base(soruce, target, logger, assetSource, memoryCache)
+        : base(soruce, target, programPathResolver, logger, assetSource, memoryCache)
     {
     }
 

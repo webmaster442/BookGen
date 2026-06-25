@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib;
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Domain;
 
 using BookGen.Cli;
@@ -22,18 +23,20 @@ namespace BookGen.Commands;
 internal sealed class StatsCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _soruce;
+    private readonly IProgramPathResolver _programPathResolver;
     private readonly ILogger _logger;
 
-    public StatsCommand(IWritableFileSystem soruce, ILogger logger)
+    public StatsCommand(IWritableFileSystem soruce, IProgramPathResolver programPathResolver, ILogger logger)
     {
         _soruce = soruce;
+        _programPathResolver = programPathResolver;
         _logger = logger;
     }
 
     public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
     {
         _soruce.Scope = arguments.Directory;
-        using var env = new BookEnvironment(_soruce, _soruce);
+        using var env = new BookEnvironment(_soruce, _soruce, _programPathResolver);
 
         EnvironmentStatus status = await env.Initialize(arguments.ConfigOverlay);
 

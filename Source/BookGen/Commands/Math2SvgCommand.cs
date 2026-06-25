@@ -3,8 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Runtime.Intrinsics.Arm;
-
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Rendering.Images;
 using Bookgen.Lib.Rendering.Markdown.RenderInterop;
 
@@ -21,6 +20,7 @@ internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArg
 {
     private readonly ILogger _log;
     private readonly IWritableFileSystem _fileSystem;
+    private readonly IProgramPathResolver _programPathResolver;
     private readonly IAssetSource _assets;
 
     public sealed class Math2SvgArguments : ArgumentsBase
@@ -56,16 +56,17 @@ internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArg
         }
     }
 
-    public Math2SvgCommand(ILogger log, IWritableFileSystem fileSystem, IAssetSource assetSource)
+    public Math2SvgCommand(ILogger log, IWritableFileSystem fileSystem, IProgramPathResolver programPathResolver, IAssetSource assetSource)
     {
         _log = log;
         _fileSystem = fileSystem;
+        _programPathResolver = programPathResolver;
         _assets = assetSource;
     }
 
     public override async Task<int> ExecuteAsync(Math2SvgArguments arguments, IReadOnlyList<string> context)
     {
-        using var render = IRenderInterop.CreateForSvg(_assets);
+        using var render = IRenderInterop.CreateForSvg(_assets, _programPathResolver);
 
         ImageResult result = render.RenderLatex(arguments.Formula, arguments.Scale);
 

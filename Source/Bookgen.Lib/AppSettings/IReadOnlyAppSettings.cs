@@ -7,15 +7,14 @@ using System.Linq.Expressions;
 
 using Bookgen.Lib.Domain.IO;
 
-namespace Bookgen.Lib.Confighandling;
+namespace Bookgen.Lib.AppSettings;
 
-public interface IAppSettingsAccessor
+public interface IReadOnlyAppSettings
 {
     IEnumerable<(string setting, Type type)> KnownSettings { get; }
     T Get<T>(Func<AppSetting, T> selector);
     object? Get(string settingName);
     bool IsSettingValid(string settingName, out IReadOnlyList<string> issues);
     bool IsSettingValid<T>(Expression<Func<AppSetting, T>> expression, out IReadOnlyList<string> issues);
-    void Save();
-    void Set(string setting, string value);
+
 }

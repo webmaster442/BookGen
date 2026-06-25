@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Rendering.Images;
 
@@ -20,9 +21,9 @@ public interface IRenderInterop : IDisposable
     string PrismSyntaxHighlight(string code, string language);
     bool PreRenderCode { get; set; }
 
-    public static IRenderInterop CreateForSvg(IAssetSource assetSource)
+    public static IRenderInterop CreateForSvg(IAssetSource assetSource, IProgramPathResolver programPathResolver)
     {
-        return new RenderInterop(assetSource, new ImageConfig
+        return new RenderInterop(assetSource, programPathResolver, new ImageConfig
         {
             SvgRecode = SvgRecodeOption.Passtrough,
         });
