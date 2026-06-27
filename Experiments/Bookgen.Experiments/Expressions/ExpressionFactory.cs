@@ -32,7 +32,7 @@ internal ref struct ExpressionFactory
         {
             case TokenType.Integer:
                 tokens.Eat(TokenType.Integer);
-                return Expression.Constant(int.Parse(token.Value, CultureInfo.InvariantCulture));
+                return Expression.Constant(long.Parse(token.Value, CultureInfo.InvariantCulture));
             case TokenType.Double:
                 tokens.Eat(TokenType.Double);
                 return Expression.Constant(double.Parse(token.Value, CultureInfo.InvariantCulture));

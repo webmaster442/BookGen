@@ -1,10 +1,16 @@
-﻿using System.Linq.Expressions;
+﻿using System.Globalization;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
 using Bookgen.Experiments.Expressions;
 
 namespace Bookgen.Experiments;
+
+public interface ITemplateFileSystem
+{
+    string ReadAlltext(string file);
+}
 
 public sealed class TemplateEngine<TModel>
 {
@@ -17,10 +23,17 @@ public sealed class TemplateEngine<TModel>
         _functions = new();
     }
 
-    public void RegisterFunction(string name, Delegate function)
-    {
-        _functions[name] = function;
-    }
+    public void RegisterFunction(string name, Func<string> func)
+        => _functions[name] = func;
+
+    public void RegisterFunction(string name, Func<ITemplateFileSystem, string> func)
+        => _functions[name] = func;
+
+    public void RegisterFunction(string name, Func<TModel, string> func)
+        => _functions[name] = func;
+
+    public void RegisterFunction(string name, Func<TModel, ITemplateFileSystem, string> func)
+        => _functions[name] = func;
 
     private Dictionary<string, object> GetValues(TModel? model)
     {
@@ -69,6 +82,12 @@ public sealed class TemplateEngine<TModel>
     private string Evaluate(string expression, Dictionary<string, object> values)
     {
         Expression ex = ExpressionFactory.Create(expression, values, _functions);
+        if (ex is ConstantExpression constant)
+        {
+            return constant.Value is IFormattable formattable
+                ? formattable.ToString(null, CultureInfo.InvariantCulture)
+                : constant.Value?.ToString() ?? string.Empty;
+        }
         return ex.ToString();
     }
 }

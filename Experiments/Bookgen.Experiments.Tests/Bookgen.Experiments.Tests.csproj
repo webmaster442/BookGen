@@ -10,10 +10,14 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="NUnit" />
-    <PackageReference Include="NUnit.Analyzers"/>
+    <PackageReference Include="NUnit.Analyzers" />
     <PackageReference Include="NUnit3TestAdapter" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bookgen.Experiments\Bookgen.Experiments.csproj" />
   </ItemGroup>
 
   <ItemGroup>
