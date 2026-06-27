@@ -17,21 +17,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Http;
 
-internal sealed class LoggerProvider : ILoggerProvider
-{
-    private readonly ILogger _logger;
-
-    public LoggerProvider(ILogger logger)
-    {
-        _logger = logger;
-    }
-
-    public ILogger CreateLogger(string categoryName)
-        => _logger;
-
-    public void Dispose() { }
-}
-
 internal sealed class HttpServer : IHttpServer
 {
     private readonly WebApplication _app;

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Bookgen.Experiments.Tests/Bookgen.Experiments.Tests.csproj" />
+  <Project Path="Bookgen.Experiments/Bookgen.Experiments.csproj" />
+</Solution>
