@@ -41,7 +41,4 @@ internal sealed class TokenCollection
 
         Next();
     }
-
-    public bool Check(TokenSet tokens)
-        => tokens.Contains(CurrentToken.Type);
 }

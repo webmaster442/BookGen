@@ -2,7 +2,7 @@
 
 namespace Bookgen.Experiments.Expressions;
 
-internal sealed class Tokenizer
+internal ref struct Tokenizer
 {
     private static bool IsAdditionalyAllowedInNumber(char c)
         => IsFloatCharacter(c) || c == '_';
@@ -16,9 +16,8 @@ internal sealed class Tokenizer
             || c == 'e';
     }
 
-    private static Token HandleNumber(string input, int start, out int newIndex)
+    private static Token HandleNumber(SharedStringBuilder sb, string input, int start, out int newIndex)
     {
-        StringBuilder sb = new StringBuilder();
         int index = start;
         bool containsAtLeastOneDigit = false;
         bool isInScientificMode = false;
@@ -84,9 +83,8 @@ internal sealed class Tokenizer
     }
 
 
-    private static Token HandleStringLiteral(string input, int start, char matcher, out int newIndex)
+    private static Token HandleStringLiteral(SharedStringBuilder sb, string input, int start, char matcher, out int newIndex)
     {
-        var sb = new StringBuilder();
         int index = start + 1;
         while (index < input.Length)
         {
@@ -108,12 +106,12 @@ internal sealed class Tokenizer
     private static bool IsIdentifier(char c)
         => c == '_' || ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
 
-    private static Token HandleIdentifier(string input,
+    private static Token HandleIdentifier(SharedStringBuilder sb,
+                                         string input,
                                          int start,
                                          Predicate<string> isFunctionCheck,
                                          out int newIndex)
     {
-        StringBuilder sb = new();
         int index = start;
         while (index < input.Length)
         {
@@ -149,6 +147,7 @@ internal sealed class Tokenizer
 
     public static TokenCollection Tokenize(string input, Predicate<string> isFunctionCheck)
     {
+        SharedStringBuilder sb = new(512);
         TokenCollection tokens = new();
         int index = 0;
         int newIndex = 0;
@@ -156,25 +155,25 @@ internal sealed class Tokenizer
         {
             if (char.IsNumber(input[index]))
             {
-                Token number = HandleNumber(input, index, out newIndex);
+                Token number = HandleNumber(sb, input, index, out newIndex);
                 tokens.Add(number);
                 index = newIndex;
             }
             else if (input[index] == '"')
             {
-                Token stringLiteral = HandleStringLiteral(input, index, '"', out newIndex);
+                Token stringLiteral = HandleStringLiteral(sb, input, index, '"', out newIndex);
                 tokens.Add(stringLiteral);
                 index = newIndex;
             }
             else if (input[index] == '\'')
             {
-                Token stringLiteral = HandleStringLiteral(input, index, '\'', out newIndex);
+                Token stringLiteral = HandleStringLiteral(sb, input, index, '\'', out newIndex);
                 tokens.Add(stringLiteral);
                 index = newIndex;
             }
             else if (IsIdentifier(input[index]))
             {
-                Token identifier = HandleIdentifier(input, index, isFunctionCheck, out newIndex);
+                Token identifier = HandleIdentifier(sb, input, index, isFunctionCheck, out newIndex);
                 tokens.Add(identifier);
                 index = newIndex;
             }
