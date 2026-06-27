@@ -16,17 +16,25 @@ public sealed class TemplateEngine<TModel>
 {
     private readonly PropertyInfo[] _properties;
     private readonly Dictionary<string, Delegate> _functions;
+    private readonly bool _emitNullString;
 
-    public TemplateEngine()
+    public TemplateEngine(bool emitNullString)
     {
         _properties = typeof(TModel).GetProperties(BindingFlags.Public | BindingFlags.Instance);
         _functions = new();
+        _emitNullString = emitNullString;
     }
 
     public void RegisterFunction(string name, Func<string> func)
         => _functions[name] = func;
+    
+    public void RegisterFunction(string name, Func<object, string> func)
+        => _functions[name] = func;
 
     public void RegisterFunction(string name, Func<ITemplateFileSystem, string> func)
+        => _functions[name] = func;
+
+    public void RegisterFunction(string name, Func<object, ITemplateFileSystem, string> func)
         => _functions[name] = func;
 
     public void RegisterFunction(string name, Func<TModel, string> func)
@@ -79,14 +87,27 @@ public sealed class TemplateEngine<TModel>
         return buffer.ToString();
     }
 
+    private string GetStr(object? value)
+    {
+        if (value is IFormattable formattable)
+        {
+            return formattable.ToString(null, CultureInfo.InvariantCulture);
+        }
+        return value?.ToString() ?? (_emitNullString ? "null" : string.Empty);
+    }
+
     private string Evaluate(string expression, Dictionary<string, object> values)
     {
         Expression ex = ExpressionFactory.Create(expression, values, _functions);
         if (ex is ConstantExpression constant)
         {
-            return constant.Value is IFormattable formattable
-                ? formattable.ToString(null, CultureInfo.InvariantCulture)
-                : constant.Value?.ToString() ?? string.Empty;
+            return GetStr(constant.Value);
+        }
+        else if (ex is InvocationExpression invocation)
+        {
+            Delegate lambda = Expression.Lambda(invocation).Compile();
+            object? result = lambda.DynamicInvoke();
+            return GetStr(result);
         }
         return ex.ToString();
     }

@@ -1,4 +1,6 @@
-﻿namespace Bookgen.Experiments.Tests;
+﻿using System.Globalization;
+
+namespace Bookgen.Experiments.Tests;
 
 public class TemplateEngineTests
 {
@@ -8,7 +10,9 @@ public class TemplateEngineTests
     [SetUp]
     public void Setup()
     {
-        _sut = new TemplateEngine<TestModel>();
+        _sut = new TemplateEngine<TestModel>(emitNullString: true);
+        _sut.RegisterFunction("ToUpper", TestFunctions.ToUpper);
+        _sut.RegisterFunction("ModelFunction", TestFunctions.ModelFunction);
         _model = new TestModel
         {
             Text = "Hello, World!",
@@ -17,6 +21,22 @@ public class TemplateEngineTests
             Boolean = true
         };
     }
+
+    internal static class  TestFunctions
+    {
+        public static string ToUpper(object obj)
+        {
+            if (obj is IFormattable formattable)
+                return formattable.ToString(null, CultureInfo.InvariantCulture).ToUpper();
+
+            return obj?.ToString()?.ToUpper()
+                ?? string.Empty;
+        }
+
+        public static string ModelFunction(TestModel model)
+            => $"Model: {model.Text}, {model.Integer}, {model.Double}, {model.Boolean}";
+    }
+
 
     [TestCase(nameof(TestModel.Text), "Hello, World!")]
     [TestCase(nameof(TestModel.Integer), "42")]
@@ -28,6 +48,15 @@ public class TemplateEngineTests
         Assert.That(result, Is.EqualTo(expected));
     }
 
-
+    [TestCase("\"constant\"", "CONSTANT")]
+    [TestCase(nameof(TestModel.Text), "HELLO, WORLD!")]
+    [TestCase(nameof(TestModel.Boolean), "TRUE")]
+    [TestCase(nameof(TestModel.Integer), "42")]
+    [TestCase(nameof(TestModel.Double), "3.14")]
+    public void EnsureThat_Render_Works_ForParameterizedFunction(string functionArg, string expected)
+    {
+        string result = _sut.Render("{{ToUpper(" + functionArg + ")}}", _model);
+        Assert.That(result, Is.EqualTo(expected));
+    }
 
 }
