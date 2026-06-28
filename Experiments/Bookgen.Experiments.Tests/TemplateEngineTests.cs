@@ -3,13 +3,15 @@
 public class TemplateEngineTests
 {
     private TemplateEngine<TestModel> _sut;
+    private TimeProvider _testTimeProvider;
     private TestModel _model;
 
     [SetUp]
     public void Setup()
     {
+        _testTimeProvider = new TestTimeProvider();
         _sut = new TemplateEngine<TestModel>(emitNullString: true);
-        _sut.RegisterBuiltinFunctions();
+        _sut.RegisterBuiltinFunctions(_testTimeProvider);
         _model = new TestModel
         {
             Text = "Hello, World!",
@@ -43,6 +45,9 @@ public class TemplateEngineTests
     [TestCase("HtmlEncode('<div>')", "&lt;div&gt;")]
     [TestCase("UrlEncode('https://example.com')", "https%3A%2F%2Fexample.com")]
     [TestCase("UrlDecode('https%3A%2F%2Fexample.com')", "https://example.com")]
+    [TestCase("CurrentDate()", "2026-01-01")]
+    [TestCase("CurrentTime()", "11:12:13")]
+    [TestCase("CurrentDateTime()", "2026-01-01 11:12:13")]
     public void EnsureThat_BuiltinFunctions_Work(string functionCall, string expected)
     {
         string result = _sut.Render("{{" + functionCall + "}}", _model);

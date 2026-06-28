@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Bookgen.Experiments;
 
-public static class BuiltinFunctions
+internal sealed class BuiltinFunctions(TimeProvider timeProvider)
 {
     private static string ToString(object? obj)
     {
@@ -30,28 +30,28 @@ public static class BuiltinFunctions
         throw new InvalidCastException($"Cannot convert object of type {obj.GetType()} to int.");
     }
 
-    private static string ToUpper(object obj)
+    internal string ToUpper(object obj)
         => ToString(obj).ToUpper();
 
-    private static string ToLower(object obj)
+    internal string ToLower(object obj)
         => ToString(obj).ToLower();
 
-    private static string Substring(object obj, object startIndex, object length)
+    internal string Substring(object obj, object startIndex, object length)
         => ToString(obj).Substring(ToInt(startIndex), ToInt(length));
 
-    private static string Trim(object obj)
+    internal string Trim(object obj)
         => ToString(obj).Trim();
 
-    private static string TrimStart(object obj)
+    internal string TrimStart(object obj)
         => ToString(obj).TrimStart();
 
-    private static string TrimEnd(object obj)
+    internal string TrimEnd(object obj)
         => ToString(obj).TrimEnd();
 
-    private static string Replace(object obj, object oldValue, object newValue)
+    internal string Replace(object obj, object oldValue, object newValue)
         => ToString(obj).Replace(ToString(oldValue), ToString(newValue));
 
-    private static string Concat(object[] args)
+    internal string Concat(object[] args)
     {
         StringBuilder result = new StringBuilder();
         foreach (object arg in args)
@@ -61,7 +61,7 @@ public static class BuiltinFunctions
         return result.ToString();
     }
 
-    private static string RegexReplace(object obj, object pattern, object replacement)
+    internal string RegexReplace(object obj, object pattern, object replacement)
     {
         var input = ToString(obj);
         var regexPattern = ToString(pattern);
@@ -69,61 +69,39 @@ public static class BuiltinFunctions
         return Regex.Replace(input, regexPattern, replacementStr, RegexOptions.CultureInvariant, TimeSpan.FromSeconds(5));
     }
 
-    private static string HtmlEncode(object obj)
+    internal string HtmlEncode(object obj)
     {
         var input = ToString(obj);
         return System.Net.WebUtility.HtmlEncode(input);
     }
 
-    private static string UrlEncode(object obj)
+    internal string UrlEncode(object obj)
     {
         var input = ToString(obj);
         return System.Net.WebUtility.UrlEncode(input);
     }
 
-    private static string CurrentDate()
-        => DateTime.Now.ToString("yyyy-MM-dd");
+    internal string CurrentDate()
+        => timeProvider.GetLocalNow().ToString("yyyy-MM-dd");
 
-    private static string CurrentDateFormat(object format)
-        => DateTime.Now.ToString(ToString(format));
+    internal string CurrentDateFormat(object format)
+        => timeProvider.GetLocalNow().ToString(ToString(format));
 
-    private static string CurrentTime()
-        => DateTime.Now.ToString("HH:mm:ss");
+    internal string CurrentTime()
+        => timeProvider.GetLocalNow().ToString("HH:mm:ss");
 
-    private static string CurrentTimeFormat(object format)
-        => DateTime.Now.ToString(ToString(format));
+    internal string CurrentTimeFormat(object format)
+        => timeProvider.GetLocalNow().ToString(ToString(format));
 
-    private static string CurrentDateTime()
-        => DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+    internal string CurrentDateTime()
+        => timeProvider.GetLocalNow().ToString("yyyy-MM-dd HH:mm:ss");
 
-    private static string CurrentDateTimeFormat(object format)
-        => DateTime.Now.ToString(ToString(format));
+    internal string CurrentDateTimeFormat(object format)
+        => timeProvider.GetLocalNow().ToString(ToString(format));
 
-    private static string UrlDecode(object obj)
+    internal string UrlDecode(object obj)
     {
         var input = ToString(obj);
         return System.Net.WebUtility.UrlDecode(input);
-    }
-
-    public static void RegisterBuiltinFunctions<T>(this TemplateEngine<T> engine)
-    {
-        engine.RegisterFunction(nameof(ToUpper), ToUpper);
-        engine.RegisterFunction(nameof(ToLower), ToLower);
-        engine.RegisterFunction(nameof(Substring), Substring);
-        engine.RegisterFunction(nameof(Trim), Trim);
-        engine.RegisterFunction(nameof(TrimStart), TrimStart);
-        engine.RegisterFunction(nameof(TrimEnd), TrimEnd);
-        engine.RegisterFunction(nameof(Replace), Replace);
-        engine.RegisterFunction(nameof(Concat), Concat);
-        engine.RegisterFunction(nameof(RegexReplace), RegexReplace);
-        engine.RegisterFunction(nameof(HtmlEncode), HtmlEncode);
-        engine.RegisterFunction(nameof(UrlEncode), UrlEncode);
-        engine.RegisterFunction(nameof(CurrentDate), CurrentDate);
-        engine.RegisterFunction(nameof(CurrentDate), CurrentDateFormat);
-        engine.RegisterFunction(nameof(CurrentDateTime), CurrentDateTime);
-        engine.RegisterFunction(nameof(CurrentDateTime), CurrentDateTimeFormat);
-        engine.RegisterFunction(nameof(CurrentTime), CurrentTime);
-        engine.RegisterFunction(nameof(CurrentTime), CurrentTimeFormat);
-        engine.RegisterFunction(nameof(UrlDecode), UrlDecode);
     }
 }
