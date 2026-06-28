@@ -23,6 +23,9 @@ public sealed class TemplateEngine<TModel> : TemplateEngine
 
     private Dictionary<string, object?> GetValues(TModel? model)
     {
+        if (model is IDictionaryConvertible dictionaryConvertible)
+            return dictionaryConvertible.ToDictionary();
+
         Dictionary<string, object?> values = new();
 
         values.Add(ModelVariableName, model);
@@ -34,10 +37,9 @@ public sealed class TemplateEngine<TModel> : TemplateEngine
         return values;
     }
 
-    public string Render(string template, TModel model)
+    public void Render(string template, TextWriter target, TModel model)
     {
         Dictionary<string, object?> values = GetValues(model);
-        var buffer = new StringBuilder(4096);
         int i = 0;
         string? expression = null;
         while (i < template.Length)
@@ -55,16 +57,15 @@ public sealed class TemplateEngine<TModel> : TemplateEngine
                 }
                 expression = template[start..end].Trim();
                 string replacement = Evaluate(expression, values);
-                buffer.Append(replacement);
+                target.Write(replacement);
                 i = end + 2; // Move past the closing braces
             }
             else
             {
-                buffer.Append(template[i]);
+                target.Write(template[i]);
                 i++;
             }
         }
-        return buffer.ToString();
     }
 
     private string GetStr(object? value)

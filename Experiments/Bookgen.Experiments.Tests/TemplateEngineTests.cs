@@ -28,7 +28,9 @@ public class TemplateEngineTests
     [TestCase(nameof(TestModel.Boolean), "True")]
     public void EnsureThat_RenderWorks_ForProperties(string property, string expected)
     {
-        string result = _sut.Render("{{" + property + "}}", _model);
+        using StringWriter writer = new StringWriter();
+        _sut.Render("{{" + property + "}}", writer, _model);
+        string result = writer.ToString();
         Assert.That(result, Is.EqualTo(expected));
     }
 
@@ -50,7 +52,10 @@ public class TemplateEngineTests
     [TestCase("CurrentDateTime()", "2026-01-01 11:12:13")]
     public void EnsureThat_BuiltinFunctions_Work(string functionCall, string expected)
     {
-        string result = _sut.Render("{{" + functionCall + "}}", _model);
+        using StringWriter writer = new StringWriter();
+
+        _sut.Render("{{" + functionCall + "}}", writer, _model);
+        string result = writer.ToString();
         Assert.That(result, Is.EqualTo(expected));
     }
 }
