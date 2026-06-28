@@ -8,7 +8,7 @@ internal ref struct ExpressionFactory
 {
     public static Expression Create(string expressionString,
                                     Dictionary<string, object?> variables,
-                                    Dictionary<string, Delegate> functions)
+                                    Dictionary<string, List<Delegate>> functions)
     {
         TokenCollection tokens = Tokenizer.Tokenize(expressionString, x => functions.ContainsKey(x));
 
@@ -25,7 +25,7 @@ internal ref struct ExpressionFactory
 
     private static Expression ParseExpression(TokenCollection tokens,
                                               Dictionary<string, object?> variables,
-                                              Dictionary<string, Delegate> functions)
+                                              Dictionary<string, List<Delegate>> functions)
     {
         Token token = tokens.CurrentToken;
         switch (token.Type)
@@ -59,10 +59,10 @@ internal ref struct ExpressionFactory
 
     private static InvocationExpression ParseFunction(TokenCollection tokens,
                                                       Dictionary<string, object?> variables,
-                                                      Dictionary<string, Delegate> functions)
+                                                      Dictionary<string, List<Delegate>> functions)
     {
         Token token = tokens.CurrentToken;
-        Delegate function = functions[token.Value];
+        List<Delegate> functionList = functions[token.Value];
 
         tokens.Eat(TokenType.Function);
         tokens.Eat(TokenType.OpenParen);
@@ -80,7 +80,7 @@ internal ref struct ExpressionFactory
 
         tokens.Eat(TokenType.CloseParen);
 
-        return BuildInvocation(function, arguments);
+        return BuildInvocation(functionList, arguments);
     }
 
     private static ConstantExpression CreateVariable(string name, Dictionary<string, object?> variables)
@@ -91,17 +91,15 @@ internal ref struct ExpressionFactory
         return Expression.Constant(value, value?.GetType() ?? typeof(object));
     }
 
-    private static InvocationExpression BuildInvocation(Delegate function, List<Expression> arguments)
+    private static InvocationExpression BuildInvocation(List<Delegate> functions, List<Expression> arguments)
     {
+        Delegate function = functions.FirstOrDefault(f => f.Method.GetParameters().Length == arguments.Count)
+            ?? throw new InvalidOperationException($"No suitable overload found that takes {arguments.Count} argument(s)");
+
         MethodInfo invoke = function.GetType().GetMethod("Invoke")
             ?? throw new InvalidOperationException($"The delegate '{function}' does not expose an Invoke method.");
 
         ParameterInfo[] parameters = invoke.GetParameters();
-        if (parameters.Length != arguments.Count)
-        {
-            throw new InvalidOperationException(
-                $"Function expects {parameters.Length} argument(s), but {arguments.Count} were supplied.");
-        }
 
         for (int i = 0; i < arguments.Count; i++)
         {
