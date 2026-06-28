@@ -32,18 +32,6 @@ public abstract class TemplateEngine
     public void RegisterFunction(string name, Func<object, object, object, string> function)
         => Register(name, function);
 
-    public void RegisterFunction(string name, Func<object, object, object, object, string> function)
-        => Register(name, function);
-
-    public void RegisterFunction(string name, Func<object, object, object, object, object, string> function)
-        => Register(name, function);
-
-    public void RegisterFunction(string name, Func<object, object, object, object, object, object, string> function)
-        => Register(name, function);
-
-    public void RegisterFunction(string name, Func<object, object, object, object, object, object, object, string> function)
-        => Register(name, function);
-
-    public void RegisterFunction(string name, Func<object, object, object, object, string, object, object, object, string> function)
+    public void RegisterFunction(string name, Func<object[], string> function)
         => Register(name, function);
 }

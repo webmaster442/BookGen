@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Bookgen.Experiments.Tests;
+﻿namespace Bookgen.Experiments.Tests;
 
 public class TemplateEngineTests
 {
@@ -11,7 +9,7 @@ public class TemplateEngineTests
     public void Setup()
     {
         _sut = new TemplateEngine<TestModel>(emitNullString: true);
-        _sut.RegisterFunction("ToUpper", TestFunctions.ToUpper);
+        _sut.RegisterBuiltinFunctions();
         _model = new TestModel
         {
             Text = "Hello, World!",
@@ -19,18 +17,6 @@ public class TemplateEngineTests
             Double = 3.14,
             Boolean = true
         };
-    }
-
-    internal static class  TestFunctions
-    {
-        public static string ToUpper(object obj)
-        {
-            if (obj is IFormattable formattable)
-                return formattable.ToString(null, CultureInfo.InvariantCulture).ToUpper();
-
-            return obj?.ToString()?.ToUpper()
-                ?? string.Empty;
-        }
     }
 
 
@@ -44,15 +30,22 @@ public class TemplateEngineTests
         Assert.That(result, Is.EqualTo(expected));
     }
 
-    [TestCase("\"constant\"", "CONSTANT")]
-    [TestCase(nameof(TestModel.Text), "HELLO, WORLD!")]
-    [TestCase(nameof(TestModel.Boolean), "TRUE")]
-    [TestCase(nameof(TestModel.Integer), "42")]
-    [TestCase(nameof(TestModel.Double), "3.14")]
-    public void EnsureThat_Render_Works_ForParameterizedFunction(string functionArg, string expected)
+    [TestCase("ToUpper(Text)", "HELLO, WORLD!")]
+    [TestCase("ToLower(Text)", "hello, world!")]
+    [TestCase("Substring(Text, 7, 5)", "World")]
+    [TestCase("Trim('  Hello  ')", "Hello")]
+    [TestCase("TrimStart('  Hello  ')", "Hello  ")]
+    [TestCase("TrimEnd('  Hello  ')", "  Hello")]
+    [TestCase("Replace(Text, 'World', 'Universe')", "Hello, Universe!")]
+    [TestCase("Concat(Text, '-','Bar', '-', '42')", "Hello, World!-Bar-42")]
+    [TestCase("Concat(Text, ' ', Integer)", "Hello, World! 42")]
+    [TestCase("RegexReplace(Text, 'World', 'Universe')", "Hello, Universe!")]
+    [TestCase("HtmlEncode('<div>')", "&lt;div&gt;")]
+    [TestCase("UrlEncode('https://example.com')", "https%3A%2F%2Fexample.com")]
+    [TestCase("UrlDecode('https%3A%2F%2Fexample.com')", "https://example.com")]
+    public void EnsureThat_BuiltinFunctions_Work(string functionCall, string expected)
     {
-        string result = _sut.Render("{{ToUpper(" + functionArg + ")}}", _model);
+        string result = _sut.Render("{{" + functionCall + "}}", _model);
         Assert.That(result, Is.EqualTo(expected));
     }
-
 }

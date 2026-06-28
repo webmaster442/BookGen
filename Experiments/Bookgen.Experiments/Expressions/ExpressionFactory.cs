@@ -93,9 +93,34 @@ internal ref struct ExpressionFactory
 
     private static InvocationExpression BuildInvocation(List<Delegate> functions, List<Expression> arguments)
     {
-        Delegate function = functions.FirstOrDefault(f => f.Method.GetParameters().Length == arguments.Count)
+        Delegate? function = functions.FirstOrDefault(f => f.Method.GetParameters().Length == arguments.Count);
+            //?? throw new InvalidOperationException($"No suitable overload found that takes {arguments.Count} argument(s)");
+
+        if (function != null)
+            return BuildRegularFunction(function, arguments);
+
+        function = functions.FirstOrDefault(f => f.Method.GetParameters().Length == 1 && f.Method.GetParameters()[0].ParameterType == typeof(object[]))
             ?? throw new InvalidOperationException($"No suitable overload found that takes {arguments.Count} argument(s)");
 
+        return BuildArgsFunction(function, arguments);
+    }
+
+    private static InvocationExpression BuildArgsFunction(Delegate function, List<Expression> arguments)
+    {
+        MethodInfo invoke = function.GetType().GetMethod("Invoke")
+            ?? throw new InvalidOperationException($"The delegate '{function}' does not expose an Invoke method.");
+
+        var parameters = new Expression[arguments.Count];
+        for (int i = 0; i < arguments.Count; i++)
+        {
+            parameters[i] = Expression.Convert(arguments[i], typeof(object));
+        }
+
+        return Expression.Invoke(Expression.Constant(function), Expression.NewArrayInit(typeof(object), parameters));
+    }
+
+    private static InvocationExpression BuildRegularFunction(Delegate function, List<Expression> arguments)
+    {
         MethodInfo invoke = function.GetType().GetMethod("Invoke")
             ?? throw new InvalidOperationException($"The delegate '{function}' does not expose an Invoke method.");
 

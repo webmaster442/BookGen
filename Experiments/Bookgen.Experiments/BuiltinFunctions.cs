@@ -1,8 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Bookgen.Experiments;
 
-internal static class BuiltinFunctions
+public static class BuiltinFunctions
 {
     private static string ToString(object? obj)
     {
@@ -50,8 +51,15 @@ internal static class BuiltinFunctions
     private static string Replace(object obj, object oldValue, object newValue)
         => ToString(obj).Replace(ToString(oldValue), ToString(newValue));
 
-    private static string Concat(object obj1, object obj2)
-         => ToString(obj1) + ToString(obj2);
+    private static string Concat(object[] args)
+    {
+        StringBuilder result = new StringBuilder();
+        foreach (object arg in args)
+        {
+            result.Append(ToString(arg));
+        }
+        return result.ToString();
+    }
 
     private static string RegexReplace(object obj, object pattern, object replacement)
     {
@@ -97,7 +105,7 @@ internal static class BuiltinFunctions
         return System.Net.WebUtility.UrlDecode(input);
     }
 
-    public static void RegisterBuiltinFunctions(this TemplateEngine engine)
+    public static void RegisterBuiltinFunctions<T>(this TemplateEngine<T> engine)
     {
         engine.RegisterFunction(nameof(ToUpper), ToUpper);
         engine.RegisterFunction(nameof(ToLower), ToLower);
