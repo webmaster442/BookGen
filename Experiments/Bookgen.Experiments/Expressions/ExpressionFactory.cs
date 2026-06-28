@@ -7,7 +7,7 @@ namespace Bookgen.Experiments.Expressions;
 internal ref struct ExpressionFactory
 {
     public static Expression Create(string expressionString,
-                                    Dictionary<string, object> variables,
+                                    Dictionary<string, object?> variables,
                                     Dictionary<string, Delegate> functions)
     {
         TokenCollection tokens = Tokenizer.Tokenize(expressionString, x => functions.ContainsKey(x));
@@ -24,7 +24,7 @@ internal ref struct ExpressionFactory
     }
 
     private static Expression ParseExpression(TokenCollection tokens,
-                                              Dictionary<string, object> variables,
+                                              Dictionary<string, object?> variables,
                                               Dictionary<string, Delegate> functions)
     {
         Token token = tokens.CurrentToken;
@@ -58,7 +58,7 @@ internal ref struct ExpressionFactory
     }
 
     private static InvocationExpression ParseFunction(TokenCollection tokens,
-                                                      Dictionary<string, object> variables,
+                                                      Dictionary<string, object?> variables,
                                                       Dictionary<string, Delegate> functions)
     {
         Token token = tokens.CurrentToken;
@@ -83,7 +83,7 @@ internal ref struct ExpressionFactory
         return BuildInvocation(function, arguments);
     }
 
-    private static ConstantExpression CreateVariable(string name, Dictionary<string, object> variables)
+    private static ConstantExpression CreateVariable(string name, Dictionary<string, object?> variables)
     {
         if (!variables.TryGetValue(name, out object? value))
             throw new InvalidOperationException($"Unknown variable: {name}");

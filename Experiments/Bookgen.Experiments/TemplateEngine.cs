@@ -25,38 +25,51 @@ public sealed class TemplateEngine<TModel>
         _emitNullString = emitNullString;
     }
 
-    public void RegisterFunction(string name, Func<string> func)
-        => _functions[name] = func;
-    
-    public void RegisterFunction(string name, Func<object, string> func)
-        => _functions[name] = func;
+    public void RegisterFunction(string name, Func<string> function)
+        => _functions[name] = function;
 
-    public void RegisterFunction(string name, Func<ITemplateFileSystem, string> func)
-        => _functions[name] = func;
+    public void RegisterFunction(string name, Func<object, string> function)
+        => _functions[name] = function;
 
-    public void RegisterFunction(string name, Func<object, ITemplateFileSystem, string> func)
-        => _functions[name] = func;
+    public void RegisterFunction(string name, Func<object, object, string> function)
+        => _functions[name] = function;
 
-    public void RegisterFunction(string name, Func<TModel, string> func)
-        => _functions[name] = func;
+    public void RegisterFunction(string name, Func<object, object, object, string> function)
+        => _functions[name] = function;
 
-    public void RegisterFunction(string name, Func<TModel, ITemplateFileSystem, string> func)
-        => _functions[name] = func;
+    public void RegisterFunction(string name, Func<object, object, object, object, string> function)
+        => _functions[name] = function;
 
-    private Dictionary<string, object> GetValues(TModel? model)
+    public void RegisterFunction(string name, Func<object, object, object, object, object, string> function)
+        => _functions[name] = function;
+
+    public void RegisterFunction(string name, Func<object, object, object, object, object, object, string> function)
+        => _functions[name] = function;
+
+    public void RegisterFunction(string name, Func<object, object, object, object, object, object, object, string> function)
+        => _functions[name] = function;
+
+    public void RegisterFunction(string name, Func<object, object, object, object, string, object, object, object, string> function)
+        => _functions[name] = function;
+
+    private const string ModelVariableName = "_model";
+
+    private Dictionary<string, object?> GetValues(TModel? model)
     {
-        Dictionary<string, object> values = new();
-        foreach (var property in _properties)
+        Dictionary<string, object?> values = new();
+
+        values.Add(ModelVariableName, model);
+        foreach (PropertyInfo property in _properties)
         {
             object? value = property.GetValue(model);
-            values[property.Name] = value ?? string.Empty;
+            values[property.Name] = value;
         }
         return values;
     }
 
     public string Render(string template, TModel model)
     {
-        Dictionary<string, object> values = GetValues(model);
+        Dictionary<string, object?> values = GetValues(model);
         var buffer = new StringBuilder(4096);
         int i = 0;
         string? expression = null;
@@ -96,7 +109,7 @@ public sealed class TemplateEngine<TModel>
         return value?.ToString() ?? (_emitNullString ? "null" : string.Empty);
     }
 
-    private string Evaluate(string expression, Dictionary<string, object> values)
+    private string Evaluate(string expression, Dictionary<string, object?> values)
     {
         Expression ex = ExpressionFactory.Create(expression, values, _functions);
         if (ex is ConstantExpression constant)

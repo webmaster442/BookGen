@@ -12,7 +12,6 @@ public class TemplateEngineTests
     {
         _sut = new TemplateEngine<TestModel>(emitNullString: true);
         _sut.RegisterFunction("ToUpper", TestFunctions.ToUpper);
-        _sut.RegisterFunction("ModelFunction", TestFunctions.ModelFunction);
         _model = new TestModel
         {
             Text = "Hello, World!",
@@ -32,9 +31,6 @@ public class TemplateEngineTests
             return obj?.ToString()?.ToUpper()
                 ?? string.Empty;
         }
-
-        public static string ModelFunction(TestModel model)
-            => $"Model: {model.Text}, {model.Integer}, {model.Double}, {model.Boolean}";
     }
 
 
