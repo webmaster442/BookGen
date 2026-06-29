@@ -38,30 +38,30 @@ public sealed class TemplateEngine<TModel> : TemplateEngine
     {
         Dictionary<string, object?> values = GetValues(model);
         int i = 0;
-        string? expression = null;
         while (i < template.Length)
         {
-            char current = template[i];
-            char next = (i + 1 < template.Length) ? template[i + 1] : '\0';
-            if (current == '{' && next == '{')
+            int start = template.IndexOf("{{", i, StringComparison.Ordinal);
+            if (start == -1)
             {
-                //store parts in buffer until we find the closing braces
-                int start = i + 2;
-                int end = template.IndexOf("}}", start);
-                if (end == -1)
-                {
-                    throw new InvalidOperationException("Unmatched opening braces in template.");
-                }
-                expression = template[start..end].Trim();
-                string replacement = Evaluate(expression, values);
-                target.Write(replacement);
-                i = end + 2; // Move past the closing braces
+                target.Write(template[i..]);
+                break;
             }
-            else
+
+            if (start > i)
             {
-                target.Write(template[i]);
-                i++;
+                target.Write(template[i..start]);
             }
+
+            int end = template.IndexOf("}}", start + 2, StringComparison.Ordinal);
+            if (end == -1)
+            {
+                throw new InvalidOperationException("Unmatched opening braces in template.");
+            }
+
+            string expression = template[(start + 2)..end].Trim();
+            target.Write(Evaluate(expression, values));
+
+            i = end + 2;
         }
     }
 
