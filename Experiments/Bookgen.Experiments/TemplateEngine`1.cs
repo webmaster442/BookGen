@@ -34,7 +34,7 @@ public sealed class TemplateEngine<TModel> : TemplateEngine
         return values;
     }
 
-    public void Render(string template, TextWriter target, TModel model)
+    public void Render(TextWriter target, string template, TModel model)
     {
         Dictionary<string, object?> values = GetValues(model);
         int i = 0;

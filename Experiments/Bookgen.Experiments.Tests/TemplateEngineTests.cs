@@ -29,7 +29,7 @@ public class TemplateEngineTests
     public void EnsureThat_RenderWorks_ForProperties(string property, string expected)
     {
         using StringWriter writer = new StringWriter();
-        _sut.Render("{{" + property + "}}", writer, _model);
+        _sut.Render(writer, "{{" + property + "}}", _model);
         string result = writer.ToString();
         Assert.That(result, Is.EqualTo(expected));
     }
@@ -54,7 +54,7 @@ public class TemplateEngineTests
     {
         using StringWriter writer = new StringWriter();
 
-        _sut.Render("{{" + functionCall + "}}", writer, _model);
+        _sut.Render(writer, "{{" + functionCall + "}}", _model);
         string result = writer.ToString();
         Assert.That(result, Is.EqualTo(expected));
     }

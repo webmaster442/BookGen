@@ -38,7 +38,7 @@ public class TemplateEngineBenchmarks
         TemplateEngine<SimpleModel> engine = new TemplateEngine<SimpleModel>(true);
         for (int i = 0; i < FileCount; i++)
         {
-            engine.Render(Template, writer, model);
+            engine.Render(writer, Template, model);
             buffer.Clear();
         }
     }
