@@ -6,26 +6,55 @@ namespace Bookgen.Experiments.Expressions;
 
 internal ref struct ExpressionFactory
 {
-    public static Expression Create(string expressionString,
-                                    Dictionary<string, object?> variables,
-                                    Dictionary<string, List<Delegate>> functions)
+    // Variables are read from this single parameter at invoke time instead of being baked
+    // in as constants, so a compiled expression no longer depends on a specific model and
+    // can be cached and reused across renders. The instance is immutable and shared by all
+    // compiled lambdas.
+    private static readonly ParameterExpression VariablesParameter =
+        Expression.Parameter(typeof(IReadOnlyDictionary<string, object?>), "variables");
+
+    private static readonly MethodInfo GetVariableMethod =
+        typeof(ExpressionFactory).GetMethod(nameof(GetVariable), BindingFlags.NonPublic | BindingFlags.Static)!;
+
+    public static Func<IReadOnlyDictionary<string, object?>, object?> Compile(
+        string expressionString,
+        Dictionary<string, List<FunctionOverload>> functions)
     {
         TokenCollection tokens = Tokenizer.Tokenize(expressionString, x => functions.ContainsKey(x));
 
         // The collection is positioned before the first token, advance onto it.
         tokens.Next();
 
-        Expression result = ParseExpression(tokens, variables, functions);
+        // A lone variable reference is the most common template token; serve it with a direct
+        // dictionary lookup instead of emitting and JIT-compiling IL.
+        if (tokens.Count == 2 && tokens.CurrentToken.Type == TokenType.Variable)
+        {
+            string name = tokens.CurrentToken.Value;
+            return variables => GetVariable(variables, name);
+        }
+
+        Expression body = ParseExpression(tokens, functions);
 
         if (tokens.CurrentToken.Type != TokenType.EOF)
             throw new InvalidOperationException($"Unexpected token after expression: {tokens.CurrentToken}");
 
-        return result;
+        // Constant (literal / constant-folded) expressions don't need IL emission either.
+        if (body is ConstantExpression constant)
+        {
+            object? value = constant.Value;
+            return _ => value;
+        }
+
+        if (body.Type != typeof(object))
+            body = Expression.Convert(body, typeof(object));
+
+        return Expression
+            .Lambda<Func<IReadOnlyDictionary<string, object?>, object?>>(body, VariablesParameter)
+            .Compile();
     }
 
     private static Expression ParseExpression(TokenCollection tokens,
-                                              Dictionary<string, object?> variables,
-                                              Dictionary<string, List<Delegate>> functions)
+                                              Dictionary<string, List<FunctionOverload>> functions)
     {
         Token token = tokens.CurrentToken;
         switch (token.Type)
@@ -44,12 +73,12 @@ internal ref struct ExpressionFactory
                 return Expression.Constant(token.Value);
             case TokenType.Variable:
                 tokens.Eat(TokenType.Variable);
-                return CreateVariable(token.Value, variables);
+                return Expression.Call(GetVariableMethod, VariablesParameter, Expression.Constant(token.Value));
             case TokenType.Function:
-                return ParseFunction(tokens, variables, functions);
+                return ParseFunction(tokens, functions);
             case TokenType.OpenParen:
                 tokens.Eat(TokenType.OpenParen);
-                Expression inner = ParseExpression(tokens, variables, functions);
+                Expression inner = ParseExpression(tokens, functions);
                 tokens.Eat(TokenType.CloseParen);
                 return inner;
             default:
@@ -58,11 +87,10 @@ internal ref struct ExpressionFactory
     }
 
     private static InvocationExpression ParseFunction(TokenCollection tokens,
-                                                      Dictionary<string, object?> variables,
-                                                      Dictionary<string, List<Delegate>> functions)
+                                                      Dictionary<string, List<FunctionOverload>> functions)
     {
         Token token = tokens.CurrentToken;
-        List<Delegate> functionList = functions[token.Value];
+        List<FunctionOverload> overloads = functions[token.Value];
 
         tokens.Eat(TokenType.Function);
         tokens.Eat(TokenType.OpenParen);
@@ -70,69 +98,66 @@ internal ref struct ExpressionFactory
         var arguments = new List<Expression>();
         if (tokens.CurrentToken.Type != TokenType.CloseParen)
         {
-            arguments.Add(ParseExpression(tokens, variables, functions));
+            arguments.Add(ParseExpression(tokens, functions));
             while (tokens.CurrentToken.Type == TokenType.ArgumentDelimiter)
             {
                 tokens.Eat(TokenType.ArgumentDelimiter);
-                arguments.Add(ParseExpression(tokens, variables, functions));
+                arguments.Add(ParseExpression(tokens, functions));
             }
         }
 
         tokens.Eat(TokenType.CloseParen);
 
-        return BuildInvocation(functionList, arguments);
+        return BuildInvocation(overloads, arguments);
     }
 
-    private static ConstantExpression CreateVariable(string name, Dictionary<string, object?> variables)
+    private static object? GetVariable(IReadOnlyDictionary<string, object?> variables, string name)
     {
         if (!variables.TryGetValue(name, out object? value))
             throw new InvalidOperationException($"Unknown variable: {name}");
 
-        return Expression.Constant(value, value?.GetType() ?? typeof(object));
+        return value;
     }
 
-    private static InvocationExpression BuildInvocation(List<Delegate> functions, List<Expression> arguments)
+    private static InvocationExpression BuildInvocation(List<FunctionOverload> overloads, List<Expression> arguments)
     {
-        Delegate? function = functions.FirstOrDefault(f => f.Method.GetParameters().Length == arguments.Count);
-            //?? throw new InvalidOperationException($"No suitable overload found that takes {arguments.Count} argument(s)");
+        foreach (FunctionOverload overload in overloads)
+        {
+            if (!overload.IsParamsArray && overload.ParameterTypes.Length == arguments.Count)
+                return BuildRegularFunction(overload, arguments);
+        }
 
-        if (function != null)
-            return BuildRegularFunction(function, arguments);
+        foreach (FunctionOverload overload in overloads)
+        {
+            if (overload.IsParamsArray)
+                return BuildArgsFunction(overload, arguments);
+        }
 
-        function = functions.FirstOrDefault(f => f.Method.GetParameters().Length == 1 && f.Method.GetParameters()[0].ParameterType == typeof(object[]))
-            ?? throw new InvalidOperationException($"No suitable overload found that takes {arguments.Count} argument(s)");
-
-        return BuildArgsFunction(function, arguments);
+        throw new InvalidOperationException($"No suitable overload found that takes {arguments.Count} argument(s)");
     }
 
-    private static InvocationExpression BuildArgsFunction(Delegate function, List<Expression> arguments)
+    private static InvocationExpression BuildArgsFunction(FunctionOverload overload, List<Expression> arguments)
     {
-        MethodInfo invoke = function.GetType().GetMethod("Invoke")
-            ?? throw new InvalidOperationException($"The delegate '{function}' does not expose an Invoke method.");
-
         var parameters = new Expression[arguments.Count];
         for (int i = 0; i < arguments.Count; i++)
         {
             parameters[i] = Expression.Convert(arguments[i], typeof(object));
         }
 
-        return Expression.Invoke(Expression.Constant(function), Expression.NewArrayInit(typeof(object), parameters));
+        return Expression.Invoke(Expression.Constant(overload.Function), Expression.NewArrayInit(typeof(object), parameters));
     }
 
-    private static InvocationExpression BuildRegularFunction(Delegate function, List<Expression> arguments)
+    private static InvocationExpression BuildRegularFunction(FunctionOverload overload, List<Expression> arguments)
     {
-        MethodInfo invoke = function.GetType().GetMethod("Invoke")
-            ?? throw new InvalidOperationException($"The delegate '{function}' does not expose an Invoke method.");
-
-        ParameterInfo[] parameters = invoke.GetParameters();
+        Type[] parameterTypes = overload.ParameterTypes;
 
         for (int i = 0; i < arguments.Count; i++)
         {
-            Type parameterType = parameters[i].ParameterType;
+            Type parameterType = parameterTypes[i];
             if (arguments[i].Type != parameterType)
                 arguments[i] = Expression.Convert(arguments[i], parameterType);
         }
 
-        return Expression.Invoke(Expression.Constant(function), arguments);
+        return Expression.Invoke(Expression.Constant(overload.Function), arguments);
     }
 }

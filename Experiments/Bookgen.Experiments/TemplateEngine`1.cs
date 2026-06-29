@@ -1,9 +1,6 @@
 ﻿using System.Globalization;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-
-using Bookgen.Experiments.Expressions;
 
 namespace Bookgen.Experiments;
 
@@ -79,17 +76,8 @@ public sealed class TemplateEngine<TModel> : TemplateEngine
 
     private string Evaluate(string expression, Dictionary<string, object?> values)
     {
-        Expression ex = ExpressionFactory.Create(expression, values, _functions);
-        if (ex is ConstantExpression constant)
-        {
-            return GetStr(constant.Value);
-        }
-        else if (ex is InvocationExpression invocation)
-        {
-            Delegate lambda = Expression.Lambda(invocation).Compile();
-            object? result = lambda.DynamicInvoke();
-            return GetStr(result);
-        }
-        return ex.ToString();
+        Func<IReadOnlyDictionary<string, object?>, object?> compiled = GetCompiledExpression(expression);
+        object? result = compiled(values);
+        return GetStr(result);
     }
 }
