@@ -32,7 +32,7 @@ internal class UT_CommandRunner
 
         public class Settings : ArgumentsBase
         {
-            [Switch("v", "value")]
+            [Switch("v", "value", false)]
             public int Value { get; set; }
         }
 

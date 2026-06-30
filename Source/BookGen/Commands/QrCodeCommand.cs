@@ -23,10 +23,10 @@ internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments
 {
     internal sealed class QrCodeArguments : ArgumentsBase
     {
-        [Switch("o", "output")]
+        [Switch("o", "output", true)]
         public string Output { get; set; }
 
-        [Switch("d", "data")]
+        [Switch("d", "data", true)]
         public string Data { get; set; }
 
         public QrCodeArguments()

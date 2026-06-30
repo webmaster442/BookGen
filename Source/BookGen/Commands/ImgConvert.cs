@@ -28,19 +28,19 @@ internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
 
     public class ImgConvertArgs : ArgumentsBase
     {
-        [Switch("i", "input")]
+        [Switch("i", "input", true)]
         public string Input { get; set; }
 
-        [Switch("o", "output")]
+        [Switch("o", "output", true)]
         public string Output { get; set; }
 
-        [Switch("f", "format")]
+        [Switch("f", "format", true)]
         public string Format { get; set; }
 
-        [Switch("q", "quality")]
+        [Switch("q", "quality", false)]
         public int Quality { get; set; } = 90;
 
-        [Switch("r", "resolution")]
+        [Switch("r", "resolution", false)]
         public string Resolution { get; set; }
 
         public ImgConvertArgs()
@@ -101,7 +101,7 @@ internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
             Height = int.MaxValue
         };
 
-        if (!string.IsNullOrEmpty(arguments.Resolution) 
+        if (!string.IsNullOrEmpty(arguments.Resolution)
             && !Resolution.TryParse(arguments.Resolution, CultureInfo.InvariantCulture, out maxResolution))
         {
             Console.Error.WriteLine($"Invalid resolution format: '{arguments.Resolution}'. Expected format is 'WidthxHeight'.");

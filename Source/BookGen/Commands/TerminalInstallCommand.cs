@@ -18,10 +18,10 @@ internal sealed class TerminalInstallCommand : AsyncCommand<TerminalInstallComma
 {
     internal sealed class TerminalInstallArguments : ArgumentsBase
     {
-        [Switch("c", "checkinstall")]
+        [Switch("c", "checkinstall", false)]
         public bool CheckInstall { get; set; }
 
-        [Switch("t", "checkterminalinstall")]
+        [Switch("t", "checkterminalinstall", false)]
         public bool CheckTerminalInstall { get; set; }
     }
 

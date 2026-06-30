@@ -17,7 +17,7 @@ internal class TemplatesCommand : AsyncCommand<TemplatesCommand.TemplatesArgumen
 {
     internal class TemplatesArguments : ArgumentsBase
     {
-        [Switch("n", "name")]
+        [Switch("n", "name", false)]
         public string TemplateName { get; set; } = string.Empty;
     }
 

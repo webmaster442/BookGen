@@ -10,6 +10,7 @@ using Bookgen.Lib.AppSettings;
 using BookGen;
 using BookGen.Cli;
 using BookGen.Commands;
+using BookGen.GlobalOptionParsers;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
 using BookGen.Shell.Shared.Loging;
@@ -21,8 +22,6 @@ using Microsoft.Extensions.Logging;
 using Spectre.Console;
 
 ProgramInfo info = new();
-
-List<string> argumentList = ProgramConfigurator.ParseGeneralArgs(args, info);
 
 using ILoggerFactory factory = LoggerFactory
     .Create(builder =>
@@ -82,11 +81,19 @@ CommandRunner runner = new(provider, helpProvider, logger, new CommandRunnerSett
     PlatformNotSupportedExitCode = 4,
     EnableUtf8Output = true,
     PrintHelpOnBadArgs = true,
+    ProgramMetaData = ProgramMetaData.FromExecutingAssembly(),
 })
 {
     ExceptionHandlerDelegate = OnException,
     BeforeRunHook = OnBeforeRun
 };
+
+runner
+    .AddGlobalOptionParser<AttachDebuggerParser>()
+    .AddGlobalOptionParser<WaitDebuggerParser>()
+    .AddGlobalOptionParser(new JsonLogParser(info))
+    .AddGlobalOptionParser(new LogToFileParser(info))
+    .AddGlobalOptionParser(new RuntimePrintingParser(info));
 
 runner
     .AddDefaultCommand<HelpCommand>()
@@ -98,7 +105,7 @@ helpProvider.VerifyHelpData();
 
 Stopwatch stopwatch = Stopwatch.StartNew();
 
-int exitCode = await runner.Run(argumentList);
+int exitCode = await runner.Run(args);
 
 stopwatch.Stop();
 

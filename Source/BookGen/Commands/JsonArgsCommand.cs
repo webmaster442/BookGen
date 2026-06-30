@@ -17,7 +17,7 @@ internal sealed class JsonArgsCommand : Command<JsonArgsCommand.JsonArgsArgument
 {
     internal sealed class JsonArgsArguments : BookGenArgumentBase
     {
-        [Switch("c", "command")]
+        [Switch("c", "command", true)]
         public string CommandName { get; set; }
 
         public JsonArgsArguments()

@@ -16,16 +16,16 @@ internal sealed class Html2PngCommand : AsyncCommand<Html2PngCommand.Html2PngArg
 {
     internal sealed class Html2PngArguments : ArgumentsBase
     {
-        [Switch("i", "input")]
+        [Switch("i", "input", true)]
         public string InputFile { get; set; }
 
-        [Switch("o", "output")]
+        [Switch("o", "output", true)]
         public string OutputFile { get; set; }
 
-        [Switch("w", "width")]
+        [Switch("w", "width", false)]
         public int Width { get; set; }
 
-        [Switch("h", "height")]
+        [Switch("h", "height", false)]
         public int Height { get; set; }
 
         public Html2PngArguments()

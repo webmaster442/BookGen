@@ -10,10 +10,10 @@ namespace BookGen;
 
 public sealed class BuildArguments : BookGenArgumentBase
 {
-    [Switch("o", "output")]
+    [Switch("o", "output", true)]
     public string OutputDirectory { get; set; } = string.Empty;
 
-    [Switch("h", "host")]
+    [Switch("h", "host", false)]
     public string HostOverride { get; set; } = string.Empty;
 
     public override ValidationResult Validate(IValidationContext context)

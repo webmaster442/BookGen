@@ -16,7 +16,7 @@ internal class OrganizeArguments : ArgumentsBase
     [Description("Folder to organize")]
     public string Folder { get; set; }
 
-    [Switch("s", "simulate")]
+    [Switch("s", "simulate", false)]
     [Description("Simulate the organize process without making any changes")]
     public bool Simulate { get; set; }
 

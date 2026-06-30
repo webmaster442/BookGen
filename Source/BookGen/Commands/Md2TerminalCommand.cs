@@ -24,10 +24,10 @@ internal sealed class Md2TerminalCommand : Command<Md2TerminalCommand.Arguments>
 
     internal sealed class Arguments : ArgumentsBase
     {
-        [Switch("i", "input")]
+        [Switch("i", "input", true)]
         public string[] InputFiles { get; set; }
 
-        [Switch("o", "output")]
+        [Switch("o", "output", true)]
         public string OutputFile { get; set; }
 
         public Arguments()

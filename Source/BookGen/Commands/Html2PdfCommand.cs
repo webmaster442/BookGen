@@ -16,10 +16,10 @@ internal sealed class Html2PdfCommand : AsyncCommand<Html2PdfCommand.Html2PdfArg
 {
     internal sealed class Html2PdfArguments : ArgumentsBase
     {
-        [Switch("i", "input")]
+        [Switch("i", "input", true)]
         public string InputFile { get; set; }
 
-        [Switch("o", "output")]
+        [Switch("o", "output", true)]
         public string OutputFile { get; set; }
 
         public Html2PdfArguments()

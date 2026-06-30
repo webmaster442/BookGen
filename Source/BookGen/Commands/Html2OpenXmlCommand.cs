@@ -29,10 +29,10 @@ internal sealed class Html2OpenXmlCommand : AsyncCommand<Html2OpenXmlCommand.Htm
 
     internal sealed class Html2OpenXmlArguments : ArgumentsBase
     {
-        [Switch("i", "input")]
+        [Switch("i", "input", true)]
         public string InputFile { get; set; }
 
-        [Switch("o", "output")]
+        [Switch("o", "output", true)]
         public string OutputFile { get; set; }
 
         public Html2OpenXmlArguments()

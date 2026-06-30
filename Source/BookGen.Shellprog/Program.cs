@@ -38,6 +38,7 @@ CommandRunner runner = new(provider, new ReflectionCommandHelpProvider(), logger
     PlatformNotSupportedExitCode = 4,
     EnableUtf8Output = true,
     PrintHelpOnBadArgs = true,
+    ProgramMetaData = ProgramMetaData.FromExecutingAssembly()
 });
 
 runner

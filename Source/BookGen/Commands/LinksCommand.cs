@@ -25,7 +25,7 @@ internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArgum
 {
     public sealed class LinkArguments : BookGenArgumentBase
     {
-        [Switch("vf", "verify")]
+        [Switch("vf", "verify", false)]
         public bool Verify { get; set; }
     }
 

@@ -25,13 +25,13 @@ internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArg
 
     public sealed class Math2SvgArguments : ArgumentsBase
     {
-        [Switch("f", "formula")]
+        [Switch("f", "formula", true)]
         public string Formula { get; set; } = string.Empty;
 
-        [Switch("o", "output")]
+        [Switch("o", "output", true)]
         public string OutputFile { get; set; } = string.Empty;
 
-        [Switch("s", "scale")]
+        [Switch("s", "scale", false)]
         public double Scale { get; set; } = 1.0;
 
         public override ValidationResult Validate(IValidationContext context)

@@ -24,10 +24,10 @@ internal sealed class AssemblyDocument : Command<AssemblyDocument.Arguments>
 
     public class Arguments : InputOutputArguments
     {
-        [Switch("d", "dry")]
+        [Switch("d", "dry", false)]
         public bool DryRun { get; set; }
 
-        [Switch("n", "namespace-pages")]
+        [Switch("n", "namespace-pages", false)]
         public bool NamespacePages { get; set; }
     }
 

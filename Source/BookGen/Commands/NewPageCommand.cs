@@ -21,7 +21,7 @@ internal sealed class NewPageCommand : Command<NewPageCommand.Arguments>
 {
     internal class Arguments : BookGenArgumentBase
     {
-        [Switch("-n", "name")]
+        [Switch("-n", "name", true)]
         public string Name { get; set; } = string.Empty;
 
         public override ValidationResult Validate(IValidationContext context)

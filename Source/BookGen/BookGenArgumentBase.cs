@@ -11,13 +11,13 @@ namespace BookGen;
 
 public class BookGenArgumentBase : ArgumentsBase, IVerbosablityToggle
 {
-    [Switch("v", "verbose")]
+    [Switch("v", "verbose", false)]
     public bool Verbose { get; set; }
 
-    [Switch("d", "dir")]
+    [Switch("d", "dir", true)]
     public string Directory { get; set; }
 
-    [Switch("co", "configoverlay")]
+    [Switch("co", "configoverlay", false)]
     public string ConfigOverlay { get; set; } = string.Empty;
 
     public BookGenArgumentBase()

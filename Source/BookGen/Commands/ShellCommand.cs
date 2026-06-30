@@ -3,11 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Diagnostics;
-
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Infrastructure;
 
 using Spectre.Console;
 
@@ -70,11 +67,9 @@ internal sealed class ShellCommand : Command
 
                 IEnumerable<string> candidate = items.Where(arg => arg.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
 
-                if (candidate.Any())
-                    return candidate;
-                else
-                    return ProgramConfigurator.GeneralArguments.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
-
+                return candidate.Any()
+                    ? candidate
+                    : _commandNameProider.GlobalOptions.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
             }
         }
 

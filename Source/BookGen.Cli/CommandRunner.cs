@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,6 +10,8 @@ using System.Text.Json;
 
 using BookGen.Cli.Annotations;
 using BookGen.Cli.ArgumentParsing;
+using BookGen.Cli.OpenCli;
+using BookGen.Cli.OpenCli.Draft;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,6 +26,7 @@ public sealed class CommandRunner
     private readonly ICommandHelpProvider _helpProvider;
     private readonly ILogger _log;
     private readonly CommandRunnerSettings _settings;
+    private readonly List<GlobalOptionParser> _globalOptionParsers;
     private readonly SupportedOs _currentOs;
     private string? _defaultCommandName;
 
@@ -126,7 +129,7 @@ public sealed class CommandRunner
     }
 
     public CommandRunner(IServiceProvider serviceProvider,
-                         ICommandHelpProvider helpProvider, 
+                         ICommandHelpProvider helpProvider,
                          ILogger log,
                          CommandRunnerSettings settings)
     {
@@ -136,6 +139,7 @@ public sealed class CommandRunner
             AllowTrailingCommas = true,
             WriteIndented = true
         };
+        _globalOptionParsers = new List<GlobalOptionParser>();
         _commands = new Dictionary<string, Type>();
         _serviceProvider = serviceProvider;
         _helpProvider = helpProvider;
@@ -158,6 +162,21 @@ public sealed class CommandRunner
         }
     }
 
+    // Skip the first argument (command name) and any parsed global options
+    private static List<string> GetArgsToParse(IReadOnlyList<string> args, HashSet<string> parsedGlobals)
+    {
+        List<string> results = new();
+        for (int i = 1; i < args.Count; i++)
+        {
+            if (!parsedGlobals.Contains(args[i]))
+            {
+                results.Add(args[i]);
+            }
+        }
+        return results;
+    }
+
+
     public Action<Exception> ExceptionHandlerDelegate { get; set; }
 
     public CommandRunner AddCommand<TCommand>() where TCommand : ICommand
@@ -177,6 +196,28 @@ public sealed class CommandRunner
         _defaultCommandName = name;
         return this;
     }
+
+    public CommandRunner AddGlobalOptionParser(GlobalOptionParser parser)
+    {
+        _globalOptionParsers.Add(parser);
+        return this;
+    }
+
+    public CommandRunner AddGlobalOptionParser<TParser>() where TParser : GlobalOptionParser, new()
+    {
+        _globalOptionParsers.Add(new TParser());
+        return this;
+    }
+
+    public IEnumerable<string> GetGlobalOptions()
+    {
+        foreach (GlobalOptionParser parser in _globalOptionParsers)
+        {
+            yield return parser.ShortName;
+            yield return parser.LongName;
+        }
+    }
+
 
     public CommandRunner AddCommandsFrom(Assembly assembly)
     {
@@ -216,6 +257,20 @@ public sealed class CommandRunner
         return Array.Empty<string>();
     }
 
+    public Document GenerateOpenCliDocs()
+    {
+        if (string.IsNullOrEmpty(_defaultCommandName))
+            throw new InvalidOperationException("Default command hasn't been set");
+
+        IEnumerable<(Type Value, Type?)> commands = _commands.Select(x => (x.Value, GetArgumentType(x.Value)));
+
+        return OpenCliDraftGenerator.GenerateOpenCli(_settings.ProgramMetaData.AppName,
+                                                     _settings.ProgramMetaData.Version,
+                                                     _commands[_defaultCommandName],
+                                                     _globalOptionParsers,
+                                                     commands);
+    }
+
     public async Task<int> Run(IReadOnlyList<string> args)
     {
         try
@@ -233,7 +288,16 @@ public sealed class CommandRunner
                 commandName = _defaultCommandName;
             }
 
-            var argsToParse = args.Skip(1).ToArray();
+            HashSet<string> parsedGlobals = new();
+            foreach (var parser in _globalOptionParsers)
+            {
+                if (parser.TryParseGlobalOption(args.ToArray(), out string? globalOption))
+                {
+                    parsedGlobals.Add(globalOption);
+                }
+            }
+
+            List<string> argsToParse = GetArgsToParse(args, parsedGlobals);
 
             return await RunCommand(commandName, argsToParse);
         }

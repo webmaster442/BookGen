@@ -19,16 +19,16 @@ internal sealed class SpellCheckCommand : AsyncCommand<SpellCheckCommand.SpellCh
 {
     public sealed class SpellCheckArguments : ArgumentsBase, IVerbosablityToggle
     {
-        [Switch("i", "input")]
+        [Switch("i", "input", true)]
         public string InputFile { get; set; } = string.Empty;
 
-        [Switch("v", "verbose")]
+        [Switch("v", "verbose", false)]
         public bool Verbose { get; set; }
 
-        [Switch("l", "language")]
+        [Switch("l", "language", false)]
         public string Language { get; set; } = "en_US";
 
-        [Switch("-ld", "--list-dictionaires")]
+        [Switch("-ld", "--list-dictionaries", false)]
         public bool DictionariesDisplay { get; set; } = false;
 
         public override ValidationResult Validate(IValidationContext context)

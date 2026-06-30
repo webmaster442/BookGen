@@ -27,28 +27,28 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
 {
     internal sealed class Md2HtmlArguments : ArgumentsBase
     {
-        [Switch("i", "input")]
+        [Switch("i", "input", true)]
         public string[] InputFiles { get; set; }
 
-        [Switch("o", "output")]
+        [Switch("o", "output", true)]
         public string OutputFile { get; set; }
 
-        [Switch("tf", "template")]
+        [Switch("tf", "template", false)]
         public string Template { get; set; }
 
-        [Switch("ns", "no-syntax")]
+        [Switch("ns", "no-syntax", false)]
         public bool NoSyntax { get; set; }
 
-        [Switch("ne", "no-embed")]
+        [Switch("ne", "no-embed", false)]
         public bool NoEmbed { get; set; }
 
-        [Switch("r", "raw")]
+        [Switch("r", "raw", false)]
         public bool RawHtml { get; set; }
 
-        [Switch("s", "svg")]
+        [Switch("s", "svg", false)]
         public bool SvgPassthrough { get; set; }
 
-        [Switch("t", "title")]
+        [Switch("t", "title", false)]
         public string Title { get; set; }
 
 

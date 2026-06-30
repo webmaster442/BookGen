@@ -10,10 +10,10 @@ namespace BookGen.Commands;
 
 public class InputOutputArguments : ArgumentsBase
 {
-    [Switch("i", "input")]
+    [Switch("i", "input", true)]
     public string InputFile { get; set; }
 
-    [Switch("o", "output")]
+    [Switch("o", "output", true)]
     public string OutputFile { get; set; }
 
     public InputOutputArguments()
