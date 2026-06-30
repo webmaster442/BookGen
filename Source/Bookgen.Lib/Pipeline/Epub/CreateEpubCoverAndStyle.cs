@@ -6,8 +6,8 @@
 using System.Text;
 
 using Bookgen.Lib.Domain.Epub;
-using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
+using Bookgen.Lib.Rendering.Images;
 
 using Microsoft.Extensions.Logging;
 

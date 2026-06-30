@@ -1,8 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 
 using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.ImageService;
-using Bookgen.Lib.Markdown.RenderInterop;
+using Bookgen.Lib.Rendering.Images;
+using Bookgen.Lib.Rendering.Markdown.RenderInterop;
 
 namespace Bookgen.Tests.Lib;
 
@@ -21,7 +21,7 @@ internal class UT_RenderInterop
         {
             SvgRecode = SvgRecodeOption.Passtrough,
         };
-        _sut = new RenderInterop(_environment);
+        _sut = new RenderInterop(_environment, _environment.ProgramPathResolver, _config);
     }
 
     [TearDown]
@@ -32,14 +32,14 @@ internal class UT_RenderInterop
     }
 
     [Test]
-    public void EnsureThat_RenderLatex_ReturnsCorrectSvg()
+    public void EnsureThat_RenderLatex_ReturnsSvg()
     {
         if (RuntimeInformation.ProcessArchitecture != Architecture.X64)
         {
             Assert.Ignore("Test only runs on x64.");
         }
 
-        ImageResult svg = _sut.RenderLatex("\\frac{1}{2} + \\sqrt{x}", _config);
+        ImageResult svg = _sut.RenderLatex("\\frac{1}{2} + \\sqrt{x}");
         
         using (Assert.EnterMultipleScope())
         {
@@ -52,7 +52,7 @@ internal class UT_RenderInterop
     [Test]
     public void EnsureThat_Render_Nomnoml_ReturnsCorrectSvg()
     {
-        ImageResult svg = _sut.RenderNomnoml("[<frame>Test]", _config);
+        ImageResult svg = _sut.RenderNomnoml("[<frame>Test]");
         using (Assert.EnterMultipleScope())
         {
             Assert.That(svg.ImageType, Is.EqualTo(ImageType.Svg));
@@ -62,9 +62,26 @@ internal class UT_RenderInterop
     }
 
     [Test]
-    public void EnsureThat_RenderQrCode_ReturnsCorrectSvg()
+    public void EnsureThat_RenderMermaid_ReturnsSvg()
     {
-        ImageResult svg = _sut.RenderQrCode("https://example.com", _config);
+        if (RuntimeInformation.ProcessArchitecture != Architecture.X64)
+        {
+            Assert.Ignore("Test only runs on x64.");
+        }
+
+        ImageResult svg = _sut.RenderMermaid("graph TD; A-->B;");
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(svg.ImageType, Is.EqualTo(ImageType.Svg));
+            Assert.That(svg.Data, Does.StartWith("<svg"));
+            Assert.That(svg.Data, Does.EndWith("</svg>"));
+        }
+    }
+
+    [Test]
+    public void EnsureThat_RenderQrCode_ReturnsSvg()
+    {
+        ImageResult svg = _sut.RenderQrCode("https://example.com");
 
         using (Assert.EnterMultipleScope())
         {

@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.JsInterop;
-
 using Microsoft.Extensions.Logging;
 
 namespace Bookgen.Lib.Pipeline.StaticWebsite;

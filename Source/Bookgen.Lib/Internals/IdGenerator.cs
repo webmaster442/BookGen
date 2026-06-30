@@ -6,7 +6,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-using Bookgen.Lib.ImageService;
+using Bookgen.Lib.Rendering.Images;
 
 namespace Bookgen.Lib.Internals;
 

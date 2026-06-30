@@ -1,15 +1,18 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics.CodeAnalysis;
 
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
 using Bookgen.Lib.Pipeline;
 
 using BookGen.Vfs;
+
+using Moq;
 
 namespace Bookgen.Tests;
 
@@ -25,6 +28,8 @@ internal class TestEnvironment : IBookEnvironment
 
     public IReadOnlyList<string> AssetNames => _assetSoruce.AssetNames;
 
+    public IProgramPathResolver ProgramPathResolver { get; }
+
     public void Dispose()
     {
         _assetSoruce.Dispose();
@@ -35,6 +40,7 @@ internal class TestEnvironment : IBookEnvironment
     public TestEnvironment()
     {
         _assetSoruce = new ZipAssetSoruce(Path.Combine(AppContext.BaseDirectory, "assets.zip"));
+        ProgramPathResolver = new ProgramPathResolver(new TestAppSettings());
     }
 
     public bool TryGetAsset(string name, [NotNullWhen(true)] out string? content)

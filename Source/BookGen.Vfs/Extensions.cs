@@ -73,6 +73,13 @@ public static class Extensions
 
     extension(IReadOnlyFileSystem fs)
     {
+        public T? Deserialize<T>(string path)
+        {
+            using Stream stream = fs.OpenReadStream(path);
+            T? result = JsonSerializer.Deserialize<T>(stream, JsonOptions.SerializerOptions);
+            return result;
+        }
+
         public async Task<T?> DeserializeAsync<T>(string path)
         {
             await using Stream stream = fs.OpenReadStream(path);
@@ -169,6 +176,12 @@ public static class Extensions
                 var newName = Path.ChangeExtension(path, ".schema.json");
                 await fs.WriteSchema<T>(newName);
             }
+        }
+
+        public void Serialize<T>(string path, T value)
+        {
+            using Stream stream = fs.CreateWriteStream(path);
+            JsonSerializer.Serialize(stream, value, JsonOptions.SerializerOptions);
         }
     }
 }

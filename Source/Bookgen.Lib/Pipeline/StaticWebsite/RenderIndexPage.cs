@@ -3,12 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Diagnostics;
-
 using Bookgen.Lib.Domain;
-using Bookgen.Lib.ImageService;
-using Bookgen.Lib.JsInterop;
-using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Rendering.Images;
+using Bookgen.Lib.Rendering.Markdown;
+using Bookgen.Lib.Rendering.Markdown.RenderInterop;
 using Bookgen.Lib.Templates;
 
 using BookGen.Vfs;
@@ -38,10 +36,10 @@ internal sealed class RenderIndexPage : PipeLineStep<StaticWebState>
             CssClasses = environment.Configuration.StaticWebsiteConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = environment.Configuration.StaticWebsiteConfig.DeployHost,
-            PrismJsInterop = null,
+            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.StaticWebsiteConfig.Images),
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(environment, environment.Configuration.StaticWebsiteConfig.Images)
         };
+        settings.RenderInterop.PreRenderCode = environment.Configuration.StaticWebsiteConfig.PreRenderCode;
 
         using var markdown = new MarkdownConverter(settings);
 

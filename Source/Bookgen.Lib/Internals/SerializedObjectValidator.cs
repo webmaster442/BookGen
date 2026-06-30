@@ -41,6 +41,19 @@ internal class SerializedObjectValidator
         _provider.Add<IReadOnlyFileSystem>(readOnlyFileSystem);
     }
 
+    public bool ValidateSingleLevel<T>(T @object, List<ValidationResult> issues) where T : class
+    {
+        ValidationContext context = new ValidationContext(instance: @object,
+                                                          serviceProvider: _provider,
+                                                          items: null);
+
+        bool result = Validator.TryValidateObject(instance: @object,
+                                                  validationContext: context,
+                                                  validationResults: issues,
+                                                  validateAllProperties: true);
+        return result;
+    }
+
     public bool Validate<T>(T @object, ICollection<string> issues) where T : class
     {
         static void AddIssues(ICollection<string> target, string prefix, IEnumerable<ValidationResult> results)

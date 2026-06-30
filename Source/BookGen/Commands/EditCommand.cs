@@ -36,12 +36,12 @@ internal sealed class EditCommand : Command
     }
 
     private readonly ILogger _log;
-    private readonly BookGenAppSettings _appSetting;
+    private readonly IReadOnlyAppSettings _appSettings;
 
-    public EditCommand(ILogger log)
+    public EditCommand(ILogger log, IReadOnlyAppSettings appSettings)
     {
         _log = log;
-        _appSetting = new();
+        _appSettings = appSettings;
     }
 
     public override int Execute(IReadOnlyList<string> context)
@@ -52,13 +52,13 @@ internal sealed class EditCommand : Command
             return ExitCodes.ArgumentsError;
         }
 
-        if (string.IsNullOrEmpty(_appSetting.Editor))
+        if (string.IsNullOrEmpty(_appSettings.Get(x => x.Editor)))
         {
             _log.LogWarning("No Editor configured");
             return ExitCodes.ArgumentsError;
         }
 
-        string? file = System.IO.Path.GetFullPath(context[0]);
+        string? file = Path.GetFullPath(context[0]);
 
         if (!EditorHelper.IsSupportedFile(file))
         {
@@ -69,7 +69,7 @@ internal sealed class EditCommand : Command
         try
         {
             using var p = new Process();
-            p.StartInfo.FileName = _appSetting.Editor;
+            p.StartInfo.FileName = _appSettings.Get(x => x.Editor);
             p.StartInfo.Arguments = $"\"{file}\"";
             p.StartInfo.UseShellExecute = false;
             p.Start();

@@ -8,6 +8,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 
 using Bookgen.Lib;
+using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Domain.IO;
 
 using BookGen.Cli;
@@ -31,10 +32,12 @@ internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArgum
 
     private readonly IWritableFileSystem _soruce;
     private readonly ILogger _logger;
+    private readonly IProgramPathResolver _programPathResolver;
 
-    public LinksCommand(IWritableFileSystem soruce, ILogger logger)
+    public LinksCommand(IWritableFileSystem soruce, IProgramPathResolver programPathResolver, ILogger logger)
     {
         _soruce = soruce;
+        _programPathResolver = programPathResolver;
         _logger = logger;
     }
 
@@ -42,7 +45,7 @@ internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArgum
     {
         _soruce.Scope = arguments.Directory;
 
-        using var env = new BookEnvironment(_soruce, _soruce);
+        using var env = new BookEnvironment(_soruce, _soruce, _programPathResolver);
         EnvironmentStatus status = await env.Initialize(arguments.ConfigOverlay);
 
         if (!status.IsOk)

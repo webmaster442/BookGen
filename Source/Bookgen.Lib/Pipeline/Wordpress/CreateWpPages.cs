@@ -10,10 +10,11 @@ using System.Text;
 using Bookgen.Lib.Domain;
 using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.Wordpress;
-using Bookgen.Lib.ImageService;
 using Bookgen.Lib.Internals;
-using Bookgen.Lib.JsInterop;
-using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Rendering.Images;
+using Bookgen.Lib.Rendering.Markdown;
+using Bookgen.Lib.Rendering.Markdown.RenderInterop;
+using Bookgen.Lib.Rendering.Templates;
 using Bookgen.Lib.Templates;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -69,12 +70,12 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
     }
 
     private Item CreateItem(int uid,
-                        int parent,
-                        int order,
-                        string content,
-                        string title,
-                        string path,
-                        IBookEnvironment environment)
+                            int parent,
+                            int order,
+                            string content,
+                            string title,
+                            string path,
+                            IBookEnvironment environment)
     {
 #if DEBUG
         if (_usedids.Contains(uid))
@@ -130,10 +131,10 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
             CssClasses = environment.Configuration.WordpressConfig.CssClasses,
             DeleteFirstH1 = true,
             HostUrl = environment.Configuration.WordpressConfig.DeployHost,
-            PrismJsInterop = null,
+            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.WordpressConfig.Images),
             AutoEmbedSupportedLinks = true,
-            ImageRenderJsInterop = new ImageRenderJsInterop(environment, environment.Configuration.WordpressConfig.Images)
         };
+        settings.RenderInterop.PreRenderCode = false;
 
         using var markdown = new MarkdownConverter(settings);
 

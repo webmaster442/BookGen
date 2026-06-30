@@ -300,6 +300,23 @@ Arguments:
 
   Optional argument, turns on detailed logging. Usefull for locating issues.
 
+# Html2OpenXml
+
+Converts a HTML file to an Office Compatible DOCX file.
+
+```
+BookGen Html2OpenXml -i <input> -o <output>
+BookGen Html2OpenXml --input <input> --output <output>
+```
+
+* `-i`, `--input`:
+
+  Input html file with extension of .htm or .html
+
+* `-o`, `--output`:
+
+  Output DOCX file.
+
 # Html2Pdf
 
 Converts a HTML file to a png using edges or chromes headless mode. The tool will use chrome, 

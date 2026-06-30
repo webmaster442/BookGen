@@ -6,7 +6,7 @@
 using System.Text;
 
 using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.Markdown;
+using Bookgen.Lib.Rendering.Markdown;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -78,8 +78,7 @@ internal sealed class Md2TerminalCommand : Command<Md2TerminalCommand.Arguments>
             AutoEmbedSupportedLinks = false,
             CssClasses = new CssClasses(),
             HostUrl = string.Empty,
-            PrismJsInterop = null,
-            ImageRenderJsInterop = null!
+            RenderInterop = null!,
         };
 
         using var markdonwConverter = new MarkdownConverter(settings);

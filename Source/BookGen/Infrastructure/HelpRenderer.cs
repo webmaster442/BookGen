@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Markdown.Renderers.Terminal;
+using Bookgen.Lib.Rendering.Markdown.Renderers.Terminal;
 
 using Markdig;
 using Markdig.Parsers;

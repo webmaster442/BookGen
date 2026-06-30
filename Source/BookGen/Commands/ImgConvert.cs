@@ -6,7 +6,7 @@
 using System.Globalization;
 
 using Bookgen.Lib.Domain;
-using Bookgen.Lib.ImageService;
+using Bookgen.Lib.Rendering.Images;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

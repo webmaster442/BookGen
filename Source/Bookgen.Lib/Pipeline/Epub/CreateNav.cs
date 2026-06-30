@@ -7,6 +7,7 @@ using System.Text;
 
 using Bookgen.Lib.Domain.Epub;
 using Bookgen.Lib.Internals;
+using Bookgen.Lib.Rendering.Templates;
 using Bookgen.Lib.Templates;
 
 using Microsoft.Extensions.Logging;

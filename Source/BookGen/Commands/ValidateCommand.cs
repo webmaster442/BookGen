@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib;
+using Bookgen.Lib.AppSettings;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -18,10 +19,12 @@ internal sealed class ValidateCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;
     private readonly ILogger _logger;
+    private readonly IProgramPathResolver _programPathResolver;
 
-    public ValidateCommand(IWritableFileSystem writableFileSystem, ILogger logger)
+    public ValidateCommand(IWritableFileSystem writableFileSystem, IProgramPathResolver programPathResolver, ILogger logger)
     {
         _writableFileSystem = writableFileSystem;
+        _programPathResolver = programPathResolver;
         _logger = logger;
     }
 
@@ -29,7 +32,7 @@ internal sealed class ValidateCommand : AsyncCommand<BookGenArgumentBase>
     {
         _writableFileSystem.Scope = arguments.Directory;
 
-        using var environment = new BookEnvironment(_writableFileSystem, _writableFileSystem);
+        using var environment = new BookEnvironment(_writableFileSystem, _writableFileSystem, _programPathResolver);
 
         EnvironmentStatus status = await environment.Initialize(arguments.ConfigOverlay);
 

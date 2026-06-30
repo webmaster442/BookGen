@@ -29,7 +29,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
     }
 
     protected override Md2HtmlCommand CreateSut()
-        => new Md2HtmlCommand(LoggerMock.Object, FilesystemFactoryMock.Object, AssetSourceMock.Object);
+        => new Md2HtmlCommand(LoggerMock.Object, FilesystemFactoryMock.Object, ProgramPathResolverMock.Object, AssetSourceMock.Object);
 
     [Test]
     public async Task EnsureThat_GenerateRawWorks()

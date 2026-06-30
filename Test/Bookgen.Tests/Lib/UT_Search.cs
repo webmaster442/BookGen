@@ -1,4 +1,4 @@
-﻿using Bookgen.Lib.Markdown;
+﻿using Bookgen.Lib.Rendering.Markdown;
 
 namespace Bookgen.Tests.Lib;
 

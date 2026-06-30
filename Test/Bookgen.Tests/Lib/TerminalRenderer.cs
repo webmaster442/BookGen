@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Markdown.Renderers;
+using Bookgen.Lib.Rendering.Markdown.Renderers;
 
 namespace Bookgen.Tests.Lib;
 
