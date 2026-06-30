@@ -16,7 +16,7 @@ using Moq;
 namespace Bookgen.Tests;
 
 [TestFixture]
-internal class TestDocumentation
+internal class UT_Documentation
 {
     private Mock<IServiceProvider> _serviceProviderMock;
     private Mock<ICommandHelpProvider> _helpProviderMock;
