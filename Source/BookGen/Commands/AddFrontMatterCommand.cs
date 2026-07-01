@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
 using System.Text;
 
 using Bookgen.Lib;
@@ -22,6 +23,8 @@ using YamlDotNet.Serialization;
 namespace BookGen.Commands;
 
 [CommandName("addfrontmatter")]
+[Description("Add a basic YAML frontmatter information to all markdown files located in the current folder and it's subfolders.")]
+[ExitCode(ExitCodes.Success, "The front matter was added successfully.")]
 internal sealed class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;

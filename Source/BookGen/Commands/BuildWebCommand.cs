@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Pipeline;
 
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("buildweb")]
+[Description("Build a static website from the book.")]
 internal sealed class BuildWebCommand : BuildCommandBase
 {
     public BuildWebCommand(IWritableFileSystem soruce,

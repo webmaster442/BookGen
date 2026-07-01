@@ -8,6 +8,7 @@ using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Pipeline;
 
 using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Loging;
 using BookGen.Vfs;
 
@@ -16,6 +17,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen;
 
+[ExitCode(ExitCodes.Success, "The Book was built successfully.")]
+[ExitCode(ExitCodes.ConfigError, "The configuration was invalid.")]
+[ExitCode(ExitCodes.GeneralError, "An error occurred during the build.")]
 internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
 {
     protected readonly IWritableFileSystem _soruce;

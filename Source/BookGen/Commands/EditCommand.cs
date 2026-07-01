@@ -66,19 +66,12 @@ internal sealed class EditCommand : Command
             return ExitCodes.ArgumentsError;
         }
 
-        try
-        {
-            using var p = new Process();
-            p.StartInfo.FileName = _appSettings.Get(x => x.Editor);
-            p.StartInfo.Arguments = $"\"{file}\"";
-            p.StartInfo.UseShellExecute = false;
-            p.Start();
-            return ExitCodes.Success;
-        }
-        catch (Exception ex)
-        {
-            _log.LogCritical(ex, "Critical Error: {ex}", ex.Message);
-            return ExitCodes.GeneralError;
-        }
+        using var p = new Process();
+        p.StartInfo.FileName = _appSettings.Get(x => x.Editor);
+        p.StartInfo.Arguments = $"\"{file}\"";
+        p.StartInfo.UseShellExecute = false;
+        p.Start();
+        return ExitCodes.Success;
+
     }
 }

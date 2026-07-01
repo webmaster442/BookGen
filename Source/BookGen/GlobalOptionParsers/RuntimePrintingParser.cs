@@ -3,14 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 
 namespace BookGen.GlobalOptionParsers;
 
+[Description("Disables printing the command running time information.")]
 internal class RuntimePrintingParser : GlobalOptionParser
 {
-    private const string NoRuntimeShort = "-nr";
-    private const string NoRuntimeLong = "--no-runtime";
+    private const string NoRuntimeShort = "nr";
+    private const string NoRuntimeLong = "no-runtime";
 
     private readonly ProgramInfo _info;
 

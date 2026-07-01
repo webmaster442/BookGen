@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Pipeline;
 
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("buildfeed")]
+[Description("Build an RSS 2.0 and an Atom 1.0 feed from the book.")]
 internal sealed class BuildFeedCommand : BuildCommandBase
 {
     public BuildFeedCommand(IWritableFileSystem soruce,

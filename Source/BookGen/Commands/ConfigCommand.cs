@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib.AppSettings;
 
 using BookGen.Cli;
@@ -15,14 +17,19 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("config")]
+[Description("Get or set the application settings. Without any arguments, the command will display the current settings.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "An error occurred while executing the command.")]
 internal sealed class ConfigCommand : Command<ConfigCommand.ConfigCommandSettings>
 {
     public class ConfigCommandSettings : ArgumentsBase
     {
         [Argument(0, IsOptional = true)]
+        [Description("The setting to be configured.")]
         public string Setting { get; set; } = string.Empty;
 
         [Argument(1, IsOptional = true)]
+        [Description("The value to set for the specified setting.")]
         public string Value { get; set; } = string.Empty;
     }
 

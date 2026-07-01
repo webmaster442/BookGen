@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Pipeline;
 
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("buildepub")]
+[Description("Build an epub3 file from the book.")]
 internal sealed class BuildEpub : BuildCommandBase
 {
     public BuildEpub(IWritableFileSystem soruce,

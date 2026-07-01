@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
 using System.Diagnostics;
 
 using BookGen.Cli;
@@ -11,10 +12,11 @@ using Spectre.Console;
 
 namespace BookGen.GlobalOptionParsers;
 
+[Description("Waits for a debugger to be attached before continuing execution.")]
 internal sealed class WaitDebuggerParser : GlobalOptionParser
 {
-    private const string DebuggerShort = "-wd";
-    private const string DebuggerLong = "--wait-debugger";
+    private const string DebuggerShort = "wd";
+    private const string DebuggerLong = "wait-debugger";
 
     public WaitDebuggerParser() 
         : base(DebuggerShort, DebuggerLong)

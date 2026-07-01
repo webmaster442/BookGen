@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 
@@ -11,9 +13,11 @@ namespace BookGen.Commands;
 public class InputOutputArguments : ArgumentsBase
 {
     [Switch("i", "input", true)]
+    [Description("Required argument. Specifies the input file.")]
     public string InputFile { get; set; }
 
     [Switch("o", "output", true)]
+    [Description("Required argument. Specifies the output file or path")]
     public string OutputFile { get; set; }
 
     public InputOutputArguments()

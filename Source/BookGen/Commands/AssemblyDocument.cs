@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 
@@ -13,6 +15,8 @@ using XmlDocMarkdown.Core;
 namespace BookGen.Commands;
 
 [CommandName("assembly-document")]
+[Description("Generates a markdown file(s) from a given .NET assembly and it's XML documentation file.")]
+[ExitCode(ExitCodes.Success, "The markdown file(s) was generated successfully.")]
 internal sealed class AssemblyDocument : Command<AssemblyDocument.Arguments>
 {
     private readonly ILogger _logger;
@@ -25,9 +29,11 @@ internal sealed class AssemblyDocument : Command<AssemblyDocument.Arguments>
     public class Arguments : InputOutputArguments
     {
         [Switch("d", "dry", false)]
+        [Description("Optional argument. If specified, the command will not generate any files, but will only log the actions that would be taken.")]
         public bool DryRun { get; set; }
 
         [Switch("n", "namespace-pages", false)]
+        [Description("Optional argument. If specified, the command will create a separate markdown file for each namespace in the assembly.")]
         public bool NamespacePages { get; set; }
     }
 

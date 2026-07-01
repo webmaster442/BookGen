@@ -2,7 +2,7 @@
 
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-internal sealed class ExitCodeAttribute : Attribute
+public sealed class ExitCodeAttribute : Attribute
 {
     public int ExitCode { get; }
     public string Description { get; }

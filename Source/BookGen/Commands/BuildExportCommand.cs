@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Pipeline;
 
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("buildexport")]
+[Description("Build a JSON file with schema for post processing of the book.")]
 internal sealed class BuildExportCommand : BuildCommandBase
 {
     public BuildExportCommand(IWritableFileSystem soruce,
