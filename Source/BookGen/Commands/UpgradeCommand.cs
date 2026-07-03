@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib;
 using Bookgen.Lib.Confighandling;
 using Bookgen.Lib.Domain.IO;
@@ -17,6 +19,8 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("upgrade")]
+[Description("Upgrades the bookgen project to the latest version. This command will upgrade the bookgen.json config file to the latest version, and will also upgrade the bookgen.toc.json file to the latest version.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal class UpgradeCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly ILogger _logger;

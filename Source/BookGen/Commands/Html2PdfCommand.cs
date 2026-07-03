@@ -15,17 +15,17 @@ namespace BookGen.Commands;
 
 [CommandName("html2pdf")]
 [Description("Converts a HTML file to a png using edges or chromes headless mode. The tool will use chrome, if it's installed, otherwise it will use edge. This command is only supported on Windows OS.")]
-[ExitCode(ExitCodes.Success, "The command completed successfully")]
-[ExitCode(ExitCodes.GeneralError, "The command failed")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "The command failed.")]
 internal sealed class Html2PdfCommand : AsyncCommand<Html2PdfCommand.Html2PdfArguments>
 {
     internal sealed class Html2PdfArguments : ArgumentsBase
     {
-        [Switch("i", "input", true)]
+        [Switch("i", "input", Required = true)]
         [Description("Specifies the input HTML file.")]
         public string InputFile { get; set; }
 
-        [Switch("o", "output", true)]
+        [Switch("o", "output", Required = true)]
         [Description("Specifies the output PDF file.")]
         public string OutputFile { get; set; }
 

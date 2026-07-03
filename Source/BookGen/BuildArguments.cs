@@ -12,11 +12,11 @@ namespace BookGen;
 
 public sealed class BuildArguments : BookGenArgumentBase
 {
-    [Switch("o", "output", true)]
+    [Switch("o", "output", Required = true)]
     [Description("Required argument. Specifies the output directory name.")]
     public string OutputDirectory { get; set; } = string.Empty;
 
-    [Switch("h", "host", false)]
+    [Switch("h", "host", Required = false)]
     [Description("Optional argument. Specifies the host override for the book. If specified, then the book will be generated with the given host override.")]
     public string HostOverride { get; set; } = string.Empty;
 

@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib;
 using Bookgen.Lib.Domain.IO;
 using Bookgen.Lib.Domain.IO.Configuration;
@@ -16,6 +18,9 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("newbook")]
+[Description("Creates a new book structure in the given folder.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "The specified folder contains an existing book structure.")]
 internal sealed class NewBookCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly ILogger _logger;

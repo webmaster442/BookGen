@@ -10,12 +10,11 @@ public sealed class SwitchAttribute : Attribute
 {
     public string LongName { get; }
     public string ShortName { get; }
-    public bool Required { get; }
+    public required bool Required { get; set; }
 
-    public SwitchAttribute(string shortName, string longName, bool required)
+    public SwitchAttribute(string shortName, string longName)
     {
         LongName = longName;
         ShortName = shortName;
-        Required = required;
     }
 }

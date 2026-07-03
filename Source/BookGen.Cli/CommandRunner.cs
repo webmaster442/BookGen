@@ -5,11 +5,10 @@
 
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 
-using BookGen.Cli.Annotations;
 using BookGen.Cli.ArgumentParsing;
+using BookGen.Cli.Internals;
 using BookGen.Cli.OpenCli;
 using BookGen.Cli.OpenCli.Draft;
 
@@ -30,78 +29,13 @@ public sealed class CommandRunner
     private readonly SupportedOs _currentOs;
     private string? _defaultCommandName;
 
-    private static string GetCommandName(Type t)
-    {
-        CommandNameAttribute? nameAttribure = t.GetCustomAttribute<CommandNameAttribute>();
-        return nameAttribure?.Name
-            ?? throw new InvalidOperationException($"Command {t.FullName} is missing a {nameof(CommandNameAttribute)}");
-    }
-
     public IValidationContext ValidationContext { get; set; }
+
     public Func<ArgumentsBase, IReadOnlyList<string>, Task>? BeforeRunHook { get; set; }
 
-    private static SupportedOs GetCurrentOs()
-    {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            return SupportedOs.Windows;
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            return SupportedOs.Linux;
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            return SupportedOs.OsX;
-        else
-            return SupportedOs.None;
-    }
-
-    private static Type? GetArgumentType(Type cmd)
-    {
-        Type originalType = cmd;
-
-        // Walk up the inheritance hierarchy to find Command<T> or AsyncCommand<T>
-        while (cmd != null && cmd != typeof(object))
-        {
-            if (cmd.IsGenericType)
-            {
-                Type baseGeneric = cmd.GetGenericTypeDefinition();
-
-                if (baseGeneric == typeof(Command<>) || baseGeneric == typeof(AsyncCommand<>))
-                {
-                    // Get the concrete TArguments
-                    Type tArguments = cmd.GetGenericArguments()[0];
-#if DEBUG
-                    Debug.WriteLine($"Via generics: {tArguments.FullName}");
-#endif
-                    return tArguments;
-                }
-            }
-            if (cmd.BaseType == null)
-            {
-                break;
-            }
-            cmd = cmd.BaseType;
-        }
-
-        MethodInfo? method = originalType.GetMethod(nameof(AsyncCommand.ExecuteAsync))
-                     ?? originalType.GetMethod(nameof(Command.Execute));
-
-        if (method == null)
-            throw new InvalidOperationException($"Command {originalType.FullName} is missing Exetutable method");
-
-        Type? parameter = method
-            ?.GetParameters()
-            .FirstOrDefault(p => p.ParameterType.IsAssignableTo(typeof(ArgumentsBase)))
-            ?.ParameterType;
-
-#if DEBUG
-        Debug.WriteLine($"Via methodinfo: {parameter?.FullName}");
-#endif
-
-        return parameter;
-    }
 
     private void DefaultExceptionHandler(Exception obj)
-    {
-        _log.LogCritical(obj, obj.Message);
-    }
+        => _log.LogCritical(obj, obj.Message);
 
     private ICommand CreateCommand(string commandName)
     {
@@ -146,49 +80,25 @@ public sealed class CommandRunner
         _log = log;
         _settings = settings;
         ExceptionHandlerDelegate = DefaultExceptionHandler;
-        _currentOs = GetCurrentOs();
+        _currentOs = Helpers.GetCurrentOs();
 
         ValidationContext = new IoCValidationContext(serviceProvider);
 
-        ConfigureUtfSupport(_settings.EnableUtf8Output);
+        Helpers.ConfigureUtfSupport(_settings.EnableUtf8Output);
     }
-
-    private static void ConfigureUtfSupport(bool enableUtf8Output)
-    {
-        if (enableUtf8Output)
-        {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Console.InputEncoding = System.Text.Encoding.UTF8;
-        }
-    }
-
-    // Skip the first argument (command name) and any parsed global options
-    private static List<string> GetArgsToParse(IReadOnlyList<string> args, HashSet<string> parsedGlobals)
-    {
-        List<string> results = new();
-        for (int i = 1; i < args.Count; i++)
-        {
-            if (!parsedGlobals.Contains(args[i]))
-            {
-                results.Add(args[i]);
-            }
-        }
-        return results;
-    }
-
 
     public Action<Exception> ExceptionHandlerDelegate { get; set; }
 
     public CommandRunner AddCommand<TCommand>() where TCommand : ICommand
     {
-        string name = GetCommandName(typeof(TCommand));
+        string name = typeof(TCommand).GetCommandName();
         _commands.Add(name.ToLower(), typeof(TCommand));
         return this;
     }
 
     public CommandRunner AddDefaultCommand<TCommand>() where TCommand : ICommand
     {
-        string name = GetCommandName(typeof(TCommand));
+        string name = typeof(TCommand).GetCommandName();
         if (!_commands.ContainsKey(name))
         {
             AddCommand<TCommand>();
@@ -228,7 +138,7 @@ public sealed class CommandRunner
 
         foreach (Type? command in commands)
         {
-            string name = GetCommandName(command);
+            string name = command.GetCommandName();
             if (!_commands.ContainsKey(name))
             {
                 _commands.Add(name.ToLower(), command);
@@ -247,7 +157,7 @@ public sealed class CommandRunner
         {
             Type type = value;
 
-            Type? args = GetArgumentType(type);
+            Type? args = type.GetArgumentType();
 
             if (args != null)
             {
@@ -262,7 +172,7 @@ public sealed class CommandRunner
         if (string.IsNullOrEmpty(_defaultCommandName))
             throw new InvalidOperationException("Default command hasn't been set");
 
-        IEnumerable<(Type Value, Type?)> commands = _commands.Select(x => (x.Value, GetArgumentType(x.Value)));
+        IEnumerable<(Type Value, Type?)> commands = _commands.Select(x => (x.Value, x.Value.GetArgumentType()));
 
         return OpenCliDraftGenerator.GenerateOpenCli(_settings.ProgramMetaData.AppName,
                                                      _settings.ProgramMetaData.Version,
@@ -273,6 +183,7 @@ public sealed class CommandRunner
 
     public async Task<int> Run(IReadOnlyList<string> args)
     {
+        _helpProvider.CommandsChanged(GenerateOpenCliDocs());
         try
         {
             string commandName;
@@ -297,7 +208,7 @@ public sealed class CommandRunner
                 }
             }
 
-            List<string> argsToParse = GetArgsToParse(args, parsedGlobals);
+            List<string> argsToParse = Helpers.GetArgsToParse(args, parsedGlobals);
 
             return await RunCommand(commandName, argsToParse);
         }
@@ -327,7 +238,7 @@ public sealed class CommandRunner
             return _settings.UnknownCommandCodeAndMessage.code;
         }
 
-        Type? argumentType = GetArgumentType(value);
+        Type? argumentType = value.GetArgumentType();
         ICommand command = CreateCommand(commandName);
 
         if (!command.SupportedOs.HasFlag(_currentOs))
@@ -371,7 +282,7 @@ public sealed class CommandRunner
 
             if (_settings.PrintHelpOnBadArgs)
             {
-                string help = _helpProvider.GetHelp(commandName, argumentType);
+                string help = _helpProvider.GetHelp(commandName);
                 _log.LogInformation("Command help:\r\n{help}", help);
             }
             else

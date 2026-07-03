@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib.Domain.VsCode;
 
 using BookGen.Cli;
@@ -12,6 +14,8 @@ using BookGen.Vfs;
 namespace BookGen.Commands;
 
 [CommandName("vstasks")]
+[Description("Generates a Visual Studio Code tasks.json file for the bookgen project.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class VsTasksCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;

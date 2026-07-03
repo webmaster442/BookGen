@@ -18,8 +18,8 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("math2svg")]
-[Description("Renders a single markdown file containing Tex formulas to svg files")]
-[ExitCode(ExitCodes.Success, "The command completed successfully")]
+[Description("Renders a single markdown file containing Tex formulas to svg files.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArguments>
 {
     private readonly ILogger _log;
@@ -29,15 +29,15 @@ internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArg
 
     public sealed class Math2SvgArguments : ArgumentsBase
     {
-        [Switch("f", "formula", true)]
+        [Switch("f", "formula", Required = true)]
         [Description("The formula to render. It must be a valid Tex formula.")]
         public string Formula { get; set; } = string.Empty;
 
-        [Switch("o", "output", true)]
+        [Switch("o", "output", Required = true)]
         [Description("The output file where the rendered SVG will be saved.")]
         public string OutputFile { get; set; } = string.Empty;
 
-        [Switch("s", "scale", false)]
+        [Switch("s", "scale", Required = false)]
         [Description("The scale factor for the rendered SVG. Must be between 0.1 and 40.")]
         public double Scale { get; set; } = 1.0;
 

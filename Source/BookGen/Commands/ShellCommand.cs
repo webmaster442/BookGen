@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 
@@ -11,6 +13,8 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("shell")]
+[Description("Autocompleter command, that is used by Powershell.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class ShellCommand : Command
 {
     private readonly ICommandRunnerProxy _commandNameProider;

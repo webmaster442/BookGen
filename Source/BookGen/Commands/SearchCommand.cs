@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Concurrent;
+using System.ComponentModel;
 
 using Bookgen.Lib;
 using Bookgen.Lib.AppSettings;
@@ -22,11 +23,16 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("search")]
+[Description("Search for a given text in the markdown files of the book and print the results to the console.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "Search produced no results.")]
+[ExitCode(ExitCodes.ConfigError, "Project has config issues.")]
 internal sealed class SearchCommand : AsyncCommand<SearchCommand.SearchArguments>
 {
     public sealed class SearchArguments : BookGenArgumentBase
     {
         [Argument(0)]
+        [Description("Required argument. The text to search for. The command will search for the given text in all markdown files in the book and will print the results to the console.")]
         public string Query { get; set; } = string.Empty;
 
         public override ValidationResult Validate(IValidationContext context)

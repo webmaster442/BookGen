@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Runtime.InteropServices.Marshalling;
+using System.ComponentModel;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -13,6 +13,8 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("version")]
+[Description("Print the current program and config API version.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class VersionCommand : Command
 {
     private readonly ProgramInfo _programInfo;

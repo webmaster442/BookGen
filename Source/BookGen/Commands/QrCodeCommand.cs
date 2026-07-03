@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 using Bookgen.Lib.AppSettings;
@@ -19,14 +20,18 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("qrcode")]
+[Description("Renders an url into a SVG QRCode image.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
 {
     internal sealed class QrCodeArguments : ArgumentsBase
     {
-        [Switch("o", "output", true)]
+        [Switch("o", "output", Required = true)]
+        [Description("Output file.")]
         public string Output { get; set; }
 
-        [Switch("d", "data", true)]
+        [Switch("d", "data", Required = true)]
+        [Description("Url data to encode. Minimum 1 byte, Maximum 900 bytes")]
         public string Data { get; set; }
 
         public QrCodeArguments()
@@ -46,6 +51,11 @@ internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments
                 result.AddIssue("Output file must be specified");
 
             return result;
+        }
+
+        public override void ModifyAfterValidation()
+        {
+            Output = Path.ChangeExtension(Output, ".svg");
         }
     }
 

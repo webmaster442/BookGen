@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib;
 using Bookgen.Lib.AppSettings;
 
@@ -15,6 +17,9 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("validate")]
+[Description("Validate the configuration files used by bookgen in the specified folder.")]
+[ExitCode(ExitCodes.Success, "The configuration is valid.")]
+[ExitCode(ExitCodes.ConfigError, "The configuration was invalid.")]
 internal sealed class ValidateCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;

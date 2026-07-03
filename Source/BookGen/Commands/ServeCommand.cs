@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib;
 using Bookgen.Lib.Http;
 
@@ -15,6 +17,9 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("serve")]
+[Description("Starts a local only http server that serves file from the given directory.")]
+[ExitCode(ExitCodes.FolderLocked, "A serve command is running in the given folder.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class ServeCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly ILogger _log;

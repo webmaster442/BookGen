@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib;
 using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Domain;
@@ -20,6 +22,9 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("stats")]
+[Description("Displays various statistics about the bookgen project.")]
+[ExitCode(ExitCodes.ConfigError, "The configuration was invalid.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class StatsCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _soruce;

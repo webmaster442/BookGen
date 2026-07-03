@@ -1,6 +1,9 @@
-﻿namespace BookGen.Cli;
+﻿using BookGen.Cli.OpenCli.Draft;
+
+namespace BookGen.Cli;
 
 public interface ICommandHelpProvider
 {
-    string GetHelp(string commandName, Type argumentType);
+    void CommandsChanged(Document openCliDocument);
+    string GetHelp(string commandName);
 }

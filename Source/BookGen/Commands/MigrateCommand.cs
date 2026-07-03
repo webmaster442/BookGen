@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib.Confighandling.LegacyMigration;
 
 using BookGen.Cli;
@@ -14,6 +16,9 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("migrate")]
+[Description("Migrate an old Bookgen book to the new format.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "An error occurred during the conversion.")]
 internal sealed class MigrateCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;

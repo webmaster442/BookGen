@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Terminal;
@@ -17,6 +19,8 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("tools")]
+[Description("Display a list of downloadable tools that can be installed and used with BookGen shell. This command is only supported on Windows OS.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class ToolsCommand : AsyncCommand
 {
     private readonly TooldownloaderBase[] _tooldownloaders;

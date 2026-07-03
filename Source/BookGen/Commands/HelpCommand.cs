@@ -14,9 +14,9 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("help")]
-[Description("Displays help information about the specified command")]
-[ExitCode(ExitCodes.Success, "The command completed successfully")]
-[ExitCode(ExitCodes.GeneralError, "The command failed")]
+[Description("Displays help information about the specified command.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "The command failed.")]
 //TODO: Add proper argument class
 internal sealed class HelpCommand : Command
 {

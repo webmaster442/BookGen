@@ -793,9 +793,7 @@ BookGen Tools
 
 # Upgrade
 
-Upgrades the bookgen project to the latest version. This command will upgrade the bookgen.json 
-config file to the latest version, and will also upgrade the bookgen.toc.json file to the
-latest version.
+Upgrades the bookgen project to the latest version. This command will upgrade the bookgen.json config file to the latest version, and will also upgrade the bookgen.toc.json file to the latest version.
 
 ```
 BookGen Upgrade [-v] [-d [directory]]

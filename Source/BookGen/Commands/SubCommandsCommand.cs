@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Terminal;
@@ -12,6 +14,8 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("subcommands")]
+[Description("Listst all available subcommands.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class SubCommandsCommand : Command
 {
     private readonly IEnumerable<IGrouping<char, string>> _commands;

@@ -15,7 +15,7 @@ namespace BookGen.Commands;
 
 [CommandName("install")]
 [Description("Windows only command that installs BookGen to the system PATH & optionally to the windows terminal.")]
-[ExitCode(ExitCodes.Success, "The command completed successfully")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal class InstallCommand : AsyncCommand
 {
     private readonly ILogger _logger;

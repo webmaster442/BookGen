@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Schema;
 
@@ -19,6 +20,8 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("schemas")]
+[Description("Creates a `schemas.md` documentation file, describing the various config schemas used by bookgen.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class SchemasCommand : Command<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _writableFileSystem;

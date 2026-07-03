@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Terminal;
@@ -13,11 +15,15 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("templates")]
+[Description("Lists all available templates, or extracts a single template to the current directory.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "Specified template was not found.")]
 internal class TemplatesCommand : AsyncCommand<TemplatesCommand.TemplatesArguments>
 {
     internal class TemplatesArguments : ArgumentsBase
     {
-        [Switch("n", "name", false)]
+        [Switch("n", "name", Required = false)]
+        [Description(" If specified, only the template with the given name will be extracted. If not specified, all available templates will be printed.")]
         public string TemplateName { get; set; } = string.Empty;
     }
 

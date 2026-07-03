@@ -24,41 +24,41 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("md2html")]
-[Description("Renders a single markdown file to an HTML file")]
-[ExitCode(ExitCodes.Success, "The command completed successfully")]
+[Description("Renders a single markdown file to an HTML file.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
 {
     internal sealed class Md2HtmlArguments : ArgumentsBase
     {
-        [Switch("i", "input", true)]
+        [Switch("i", "input", Required = true)]
         [Description("Input markdown file path. Multiple files can be set with multiple `-i` arguments")]
         public string[] InputFiles { get; set; }
 
-        [Switch("o", "output", true)]
+        [Switch("o", "output", Required = true)]
         [Description("Output html file path. If file name is `-`, outputs to console.")]
         public string OutputFile { get; set; }
 
-        [Switch("tf", "template", false)]
+        [Switch("tf", "template", Required = false)]
         [Description("If not specified, default template is used. If custom file provided, then the file must contain the folloing tags: `<!--{title}-->`, `<!--{content}-->`")]
         public string Template { get; set; }
 
-        [Switch("ns", "no-syntax", false)]
+        [Switch("ns", "no-syntax", Required = false)]
         [Description("Disables syntax highlighting in the output HTML.")]
         public bool NoSyntax { get; set; }
 
-        [Switch("ne", "no-embed", false)]
+        [Switch("ne", "no-embed", Required = false)]
         [Description("Disables embedding of assets in the output HTML.")]
         public bool NoEmbed { get; set; }
 
-        [Switch("r", "raw", false)]
+        [Switch("r", "raw", Required = false)]
         [Description("Disables full html generation, only outputs the html produced by the markdown formatting.")]
         public bool RawHtml { get; set; }
 
-        [Switch("s", "svg", false)]
+        [Switch("s", "svg", Required = false)]
         [Description("When enabled SVG files will be embedded in resulting html, instead of being rendered to webp.")]
         public bool SvgPassthrough { get; set; }
 
-        [Switch("t", "title", false)]
+        [Switch("t", "title", Required = false)]
         [Description("Specifies the rendered HTML page title. Only has affect, when `-r` or `--raw` is not specified.")]
         public string Title { get; set; }
 

@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
 using System.Text;
 
 using Bookgen.Lib.Domain.IO.Configuration;
@@ -17,6 +18,8 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("md2terminal")]
+[Description("Converts a markdown file to terminal formatted text.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class Md2TerminalCommand : Command<Md2TerminalCommand.Arguments>
 {
     private readonly ILogger _log;
@@ -24,10 +27,12 @@ internal sealed class Md2TerminalCommand : Command<Md2TerminalCommand.Arguments>
 
     internal sealed class Arguments : ArgumentsBase
     {
-        [Switch("i", "input", true)]
+        [Switch("i", "input", Required = true)]
+        [Description("Input markdown file path. Multiple files can be set with multiple `-i` arguments")]
         public string[] InputFiles { get; set; }
 
-        [Switch("o", "output", true)]
+        [Switch("o", "output", Required = true)]
+        [Description("Output html file path. If file name is `-`, outputs to console.")]
         public string OutputFile { get; set; }
 
         public Arguments()

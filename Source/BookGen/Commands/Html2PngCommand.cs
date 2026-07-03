@@ -15,25 +15,25 @@ namespace BookGen.Commands;
 
 [CommandName("html2png")]
 [Description("Converts a HTML file to a png using edges or chromes headless mode. The tool will use chrome, if it's installed, otherwise it will use edge. This command is only supported on Windows OS.")]
-[ExitCode(ExitCodes.Success, "The command completed successfully")]
-[ExitCode(ExitCodes.GeneralError, "The command failed")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "The command failed.")]
 internal sealed class Html2PngCommand : AsyncCommand<Html2PngCommand.Html2PngArguments>
 {
     internal sealed class Html2PngArguments : ArgumentsBase
     {
-        [Switch("i", "input", true)]
+        [Switch("i", "input", Required = true)]
         [Description("Specifies the input HTML file.")]
         public string InputFile { get; set; }
 
-        [Switch("o", "output", true)]
+        [Switch("o", "output", Required = true)]
         [Description("Specifies the output PNG file.")]
         public string OutputFile { get; set; }
 
-        [Switch("w", "width", false)]
+        [Switch("w", "width", Required = false)]
         [Description("Specifies the width of the output PNG. If not given, the default is 1920.")]
         public int Width { get; set; }
 
-        [Switch("h", "height", false)]
+        [Switch("h", "height", Required = false)]
         [Description("Specifies the height of the output PNG. If not given, the default is 1080.")]
         public int Height { get; set; }
 

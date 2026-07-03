@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib;
 using Bookgen.Lib.Domain.IO;
 
@@ -17,11 +19,14 @@ using YamlDotNet.Serialization;
 namespace BookGen.Commands;
 
 [CommandName("newpage")]
+[Description("Creates a new markdown page.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class NewPageCommand : Command<NewPageCommand.Arguments>
 {
     internal class Arguments : BookGenArgumentBase
     {
-        [Switch("-n", "name", true)]
+        [Switch("-n", "name", Required = true)]
+        [Description("File name. Specifies new file name")]
         public string Name { get; set; } = string.Empty;
 
         public override ValidationResult Validate(IValidationContext context)

@@ -20,9 +20,9 @@ using WinTerminal = Webmaster442.WindowsTerminal.Terminal;
 namespace BookGen.Commands;
 
 [CommandName("gui")]
-[Description("Starts the program with a command line gui interface")]
-[ExitCode(ExitCodes.Success, "The command completed successfully")]
-[ExitCode(ExitCodes.GeneralError, "The command failed")]
+[Description("Starts the program with a command line gui interface.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "The command failed.")]
 internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _fileSystem;

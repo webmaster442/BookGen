@@ -6,6 +6,7 @@
 using Bookgen.Lib;
 
 using BookGen.Cli;
+using BookGen.Cli.OpenCli.Draft;
 
 using Microsoft.Extensions.Logging;
 
@@ -102,6 +103,11 @@ internal class HelpProvider : IHelpProvider, ICommandHelpProvider
         }
     }
 
-    public string GetHelp(string commandName, Type argumentType)
+    public string GetHelp(string commandName)
         => string.Join(Environment.NewLine, GetCommandHelp(commandName));
+
+    public void CommandsChanged(Document openCliDocument)
+    {
+        //unused
+    }
 }

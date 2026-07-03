@@ -28,11 +28,11 @@ internal sealed class AssemblyDocument : Command<AssemblyDocument.Arguments>
 
     public class Arguments : InputOutputArguments
     {
-        [Switch("d", "dry", false)]
+        [Switch("d", "dry", Required = false)]
         [Description("Optional argument. If specified, the command will not generate any files, but will only log the actions that would be taken.")]
         public bool DryRun { get; set; }
 
-        [Switch("n", "namespace-pages", false)]
+        [Switch("n", "namespace-pages", Required = false)]
         [Description("Optional argument. If specified, the command will create a separate markdown file for each namespace in the assembly.")]
         public bool NamespacePages { get; set; }
     }

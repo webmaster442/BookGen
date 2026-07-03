@@ -13,7 +13,7 @@ namespace BookGen.Shellprog.CommandCode.Cdg;
 internal sealed class CdgArguments : ArgumentsBase
 {
     [Description("Show hidden files and folders")]
-    [Switch("h", "hidden", false)]
+    [Switch("h", "hidden", Required = false)]
     public bool ShowHidden { get; set; }
 
     [Argument(0, IsOptional = true)]

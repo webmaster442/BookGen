@@ -12,11 +12,11 @@ namespace BookGen;
 
 public class InputOutputArguments : ArgumentsBase
 {
-    [Switch("i", "input", true)]
+    [Switch("i", "input", Required = true)]
     [Description("Required argument. Specifies the input file.")]
     public string InputFile { get; set; }
 
-    [Switch("o", "output", true)]
+    [Switch("o", "output", Required = true)]
     [Description("Required argument. Specifies the output file or path")]
     public string OutputFile { get; set; }
 
