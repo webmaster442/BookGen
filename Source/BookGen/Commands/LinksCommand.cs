@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -21,11 +22,14 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("links")]
+[Description("Scans all markdown files in the current book and writes the links to a markdown file, named links.md")]
+[ExitCode(ExitCodes.Success, "The command completed successfully")]
 internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArguments>
 {
     public sealed class LinkArguments : BookGenArgumentBase
     {
         [Switch("vf", "verify", false)]
+        [Description("Verify if the links are accessible and will print the result to the console. If not specified, the command will only write the links to the output file.")]
         public bool Verify { get; set; }
     }
 

@@ -8,7 +8,7 @@ using System.ComponentModel;
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 
-namespace BookGen.Commands;
+namespace BookGen;
 
 public class InputOutputArguments : ArgumentsBase
 {

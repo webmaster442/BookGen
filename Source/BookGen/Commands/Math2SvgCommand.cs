@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib.AppSettings;
 using Bookgen.Lib.Rendering.Images;
 using Bookgen.Lib.Rendering.Markdown.RenderInterop;
@@ -16,6 +18,8 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("math2svg")]
+[Description("Renders a single markdown file containing Tex formulas to svg files")]
+[ExitCode(ExitCodes.Success, "The command completed successfully")]
 internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArguments>
 {
     private readonly ILogger _log;
@@ -26,12 +30,15 @@ internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArg
     public sealed class Math2SvgArguments : ArgumentsBase
     {
         [Switch("f", "formula", true)]
+        [Description("The formula to render. It must be a valid Tex formula.")]
         public string Formula { get; set; } = string.Empty;
 
         [Switch("o", "output", true)]
+        [Description("The output file where the rendered SVG will be saved.")]
         public string OutputFile { get; set; } = string.Empty;
 
         [Switch("s", "scale", false)]
+        [Description("The scale factor for the rendered SVG. Must be between 0.1 and 40.")]
         public double Scale { get; set; } = 1.0;
 
         public override ValidationResult Validate(IValidationContext context)

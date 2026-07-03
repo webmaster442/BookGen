@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
 using System.Globalization;
 
 using Bookgen.Lib.Domain;
@@ -15,6 +16,9 @@ using BookGen.Vfs;
 namespace BookGen.Commands;
 
 [CommandName("imgconvert")]
+[Description("Converts an image file to a different format. The tool supports png, jpeg, webp and svg formats.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully")]
+[ExitCode(ExitCodes.ArgumentsError, "Invalid arguments provided")]
 internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
 {
     private readonly IWritableFileSystem _fileSystem;
@@ -29,18 +33,23 @@ internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
     public class ImgConvertArgs : ArgumentsBase
     {
         [Switch("i", "input", true)]
+        [Description("Specifies the input image file or directory.")]
         public string Input { get; set; }
 
         [Switch("o", "output", true)]
+        [Description("Specifies the output image file or directory.")]
         public string Output { get; set; }
 
         [Switch("f", "format", true)]
+        [Description("Specifies the output image format (jpg, png, webp).")]
         public string Format { get; set; }
 
         [Switch("q", "quality", false)]
+        [Description("Specifies the quality of the output image (0-100). If not given, the default is 90.")]
         public int Quality { get; set; } = 90;
 
         [Switch("r", "resolution", false)]
+        [Description("Specifies the maximum resolution of the output image (WidthxHeight). If not given, the default is the size of the input image")]
         public string Resolution { get; set; }
 
         public ImgConvertArgs()

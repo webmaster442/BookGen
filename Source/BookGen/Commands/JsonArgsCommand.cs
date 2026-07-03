@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
 using System.Text.Json;
 
 using BookGen.Cli;
@@ -13,11 +14,14 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("jsonargs")]
+[Description("Creates an empty json arguments template file for a given bookgen command.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully")]
 internal sealed class JsonArgsCommand : Command<JsonArgsCommand.JsonArgsArguments>
 {
     internal sealed class JsonArgsArguments : BookGenArgumentBase
     {
         [Switch("c", "command", true)]
+        [Description("Specifies the command for which the json template will be created.")]
         public string CommandName { get; set; }
 
         public JsonArgsArguments()

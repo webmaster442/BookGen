@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib;
 
 using BookGen.Cli;
@@ -21,6 +23,9 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("html2openxml")]
+[Description("Converts a HTML file to an Office Compatible DOCX file.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully")]
+[ExitCode(ExitCodes.GeneralError, "The command failed")]
 internal sealed class Html2OpenXmlCommand : AsyncCommand<Html2OpenXmlCommand.Html2OpenXmlArguments>
 {
     private readonly ILogger _logger;
@@ -30,9 +35,11 @@ internal sealed class Html2OpenXmlCommand : AsyncCommand<Html2OpenXmlCommand.Htm
     internal sealed class Html2OpenXmlArguments : ArgumentsBase
     {
         [Switch("i", "input", true)]
+        [Description("Specifies the input HTML file.")]
         public string InputFile { get; set; }
 
         [Switch("o", "output", true)]
+        [Description("Specifies the output DOCX file.")]
         public string OutputFile { get; set; }
 
         public Html2OpenXmlArguments()

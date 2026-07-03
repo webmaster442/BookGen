@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure;
@@ -12,6 +14,10 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("help")]
+[Description("Displays help information about the specified command")]
+[ExitCode(ExitCodes.Success, "The command completed successfully")]
+[ExitCode(ExitCodes.GeneralError, "The command failed")]
+//TODO: Add proper argument class
 internal sealed class HelpCommand : Command
 {
     private readonly IHelpProvider _helpProvider;

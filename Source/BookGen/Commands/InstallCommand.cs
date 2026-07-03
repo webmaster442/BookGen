@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Terminal;
@@ -12,6 +14,8 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("install")]
+[Description("Windows only command that installs BookGen to the system PATH & optionally to the windows terminal.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully")]
 internal class InstallCommand : AsyncCommand
 {
     private readonly ILogger _logger;

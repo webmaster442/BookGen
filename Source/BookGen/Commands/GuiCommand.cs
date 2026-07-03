@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using Bookgen.Lib.Http;
 
 using BookGen.Cli;
@@ -18,6 +20,9 @@ using WinTerminal = Webmaster442.WindowsTerminal.Terminal;
 namespace BookGen.Commands;
 
 [CommandName("gui")]
+[Description("Starts the program with a command line gui interface")]
+[ExitCode(ExitCodes.Success, "The command completed successfully")]
+[ExitCode(ExitCodes.GeneralError, "The command failed")]
 internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _fileSystem;

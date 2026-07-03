@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
 using System.Diagnostics;
 
 using Bookgen.Lib.AppSettings;
@@ -15,6 +16,10 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands;
 
 [CommandName("edit")]
+[Description("Open a file for editing with configured editor.")]
+[ExitCode(ExitCodes.ArgumentsError, "Invalid arguments provided.")]
+[ExitCode(ExitCodes.Success, "File opened successfully.")]
+//TODO Add proper argument
 internal sealed class EditCommand : Command
 {
     internal static class EditorHelper

@@ -7,7 +7,6 @@ using System.ComponentModel;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Commands;
 
 namespace BookGen;
 
