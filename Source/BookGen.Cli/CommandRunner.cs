@@ -20,7 +20,7 @@ namespace BookGen.Cli;
 public sealed class CommandRunner
 {
     private readonly JsonSerializerOptions _serializerOptions;
-    private readonly Dictionary<string, Type> _commands;
+    private readonly CommandTree _commands;
     private readonly IServiceProvider _serviceProvider;
     private readonly ICommandHelpProvider _helpProvider;
     private readonly ILogger _log;
@@ -39,7 +39,9 @@ public sealed class CommandRunner
 
     private ICommand CreateCommand(string commandName)
     {
-        ConstructorInfo constructor = _commands[commandName]
+        Type commandType = _commands.GetCommandByName(commandName);
+
+        ConstructorInfo constructor = commandType
             .GetConstructors(BindingFlags.Public | BindingFlags.Instance)
             .OrderByDescending(c => c.GetParameters().Length)
             .First();
@@ -49,6 +51,16 @@ public sealed class CommandRunner
         {
             FromKeyedServicesAttribute? keyAttribute = param.GetCustomAttribute<FromKeyedServicesAttribute>();
 
+            if (param.ParameterType == typeof(BranchItemsProvider))
+            {
+                BranchItemsProvider provider = new()
+                {
+                    BranchItems = _commands.CommandNames.Where(c => c.StartsWith(commandName)).ToList()
+                };
+                constructorParameters.Add(provider);
+                continue;
+            }
+
             object parameterInstance = keyAttribute != null
                 ? _serviceProvider.GetRequiredKeyedService(param.ParameterType, keyAttribute.Key)
                 : _serviceProvider.GetRequiredService(param.ParameterType);
@@ -56,7 +68,7 @@ public sealed class CommandRunner
             constructorParameters.Add(parameterInstance);
         }
 
-        var instance = Activator.CreateInstance(_commands[commandName], constructorParameters.ToArray())
+        var instance = Activator.CreateInstance(commandType, constructorParameters.ToArray())
             ?? throw new InvalidOperationException();
 
         return (ICommand)instance;
@@ -74,7 +86,7 @@ public sealed class CommandRunner
             WriteIndented = true
         };
         _globalOptionParsers = new List<GlobalOptionParser>();
-        _commands = new Dictionary<string, Type>();
+        _commands = new CommandTree();
         _serviceProvider = serviceProvider;
         _helpProvider = helpProvider;
         _log = log;
@@ -92,14 +104,14 @@ public sealed class CommandRunner
     public CommandRunner AddCommand<TCommand>() where TCommand : ICommand
     {
         string name = typeof(TCommand).GetCommandName();
-        _commands.Add(name.ToLower(), typeof(TCommand));
+        _commands.Add(name, typeof(TCommand));
         return this;
     }
 
     public CommandRunner AddDefaultCommand<TCommand>() where TCommand : ICommand
     {
         string name = typeof(TCommand).GetCommandName();
-        if (!_commands.ContainsKey(name))
+        if (!_commands.ContainsCommand(name))
         {
             AddCommand<TCommand>();
         }
@@ -128,7 +140,6 @@ public sealed class CommandRunner
         }
     }
 
-
     public CommandRunner AddCommandsFrom(Assembly assembly)
     {
         IEnumerable<Type> commands = assembly
@@ -139,7 +150,7 @@ public sealed class CommandRunner
         foreach (Type? command in commands)
         {
             string name = command.GetCommandName();
-            if (!_commands.ContainsKey(name))
+            if (!_commands.ContainsCommand(name))
             {
                 _commands.Add(name.ToLower(), command);
             }
@@ -149,11 +160,11 @@ public sealed class CommandRunner
     }
 
     public IEnumerable<string> CommandNames
-        => _commands.Keys;
+        => _commands.CommandNames;
 
     public string[] GetAutoCompleteItems(string commandName)
     {
-        if (_commands.TryGetValue(commandName, out Type? value))
+        if (_commands.TryGetCommand(commandName, out Type? value))
         {
             Type type = value;
 
@@ -172,11 +183,11 @@ public sealed class CommandRunner
         if (string.IsNullOrEmpty(_defaultCommandName))
             throw new InvalidOperationException("Default command hasn't been set");
 
-        IEnumerable<(Type Value, Type?)> commands = _commands.Select(x => (x.Value, x.Value.GetArgumentType()));
+        IEnumerable<(Type Value, Type?)> commands = _commands.CommandTypes.Select(x => (x, x.GetArgumentType()));
 
         return OpenCliDraftGenerator.GenerateOpenCli(_settings.ProgramMetaData.AppName,
                                                      _settings.ProgramMetaData.Version,
-                                                     _commands[_defaultCommandName],
+                                                     _commands.GetCommand(_defaultCommandName),
                                                      _globalOptionParsers,
                                                      commands);
     }
@@ -232,7 +243,7 @@ public sealed class CommandRunner
 
     public async Task<int> RunCommand(string commandName, IReadOnlyList<string> argsToParse)
     {
-        if (!_commands.TryGetValue(commandName, out Type? value))
+        if (!_commands.TryGetCommand(commandName, out Type? value))
         {
             _log.LogCritical(_settings.UnknownCommandCodeAndMessage.message);
             return _settings.UnknownCommandCodeAndMessage.code;

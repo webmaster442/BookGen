@@ -48,9 +48,14 @@ internal static class OpenCliDraftGenerator
         List<Draft.Command> result = new();
         foreach (var commandType in commandTypes)
         {
+            var name = GetCommandName(commandType.commandType);
+
+            if (string.IsNullOrEmpty(name))
+                continue;
+
             result.Add(new Draft.Command
             {
-                Name = GetCommandName(commandType.commandType),
+                Name = name,
                 Description = GetDescription(commandType.commandType),
                 ExitCodes = GetExitCodes(commandType.commandType),
                 Arguments = GetArguments(commandType.argumentType),
