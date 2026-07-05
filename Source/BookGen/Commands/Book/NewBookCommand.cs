@@ -15,7 +15,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Book;
 
 [CommandName("newbook")]
 [Description("Creates a new book structure in the given folder.")]

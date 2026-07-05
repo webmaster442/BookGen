@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Book;
 
 [CommandName("stats")]
 [Description("Displays various statistics about the bookgen project.")]

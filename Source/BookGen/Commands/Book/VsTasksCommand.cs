@@ -11,7 +11,7 @@ using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Vfs;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Book;
 
 [CommandName("vstasks")]
 [Description("Generates a Visual Studio Code tasks.json file for the bookgen project.")]

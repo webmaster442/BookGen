@@ -13,7 +13,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Book;
 
 [CommandName("migrate")]
 [Description("Migrate an old Bookgen book to the new format.")]

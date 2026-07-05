@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 using YamlDotNet.Serialization;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Book;
 
 [CommandName("newpage")]
 [Description("Creates a new markdown page.")]

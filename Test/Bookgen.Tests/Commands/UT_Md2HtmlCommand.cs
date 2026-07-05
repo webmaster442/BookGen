@@ -5,7 +5,7 @@
 
 using Bookgen.Lib;
 
-using BookGen.Commands;
+using BookGen.Commands.Convert;
 using BookGen.Vfs;
 
 using Moq;

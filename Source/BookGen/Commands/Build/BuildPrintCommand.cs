@@ -14,22 +14,22 @@ using BookGen.Vfs;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Build;
 
-[CommandName("buildepub")]
-[Description("Build an epub3 file from the book.")]
-internal sealed class BuildEpub : BuildCommandBase
+[CommandName("buildprint")]
+[Description("Build a printable HTML & XHTML file from the book.")]
+internal sealed class BuildPrintCommand : BuildCommandBase
 {
-    public BuildEpub(IWritableFileSystem soruce,
-                     IWritableFileSystem target,
-                     IProgramPathResolver programPathResolver,
-                     ILogger logger,
-                     IAssetSource assetSource,
-                     IMemoryCache memoryCache)
+    public BuildPrintCommand(IWritableFileSystem soruce,
+                             IWritableFileSystem target,
+                             IProgramPathResolver programPathResolver,
+                             ILogger logger,
+                             IAssetSource assetSource,
+                             IMemoryCache memoryCache) 
         : base(soruce, target, programPathResolver, logger, assetSource, memoryCache)
     {
     }
 
     public override Pipeline GetPipeLine()
-        => Pipeline.CreateEpubPileLine(_memoryCache);
+        => Pipeline.CratePrintPipeLine(_memoryCache);
 }

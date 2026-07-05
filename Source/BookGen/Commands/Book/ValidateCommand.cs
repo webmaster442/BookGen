@@ -14,7 +14,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Book;
 
 [CommandName("validate")]
 [Description("Validate the configuration files used by bookgen in the specified folder.")]

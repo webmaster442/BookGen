@@ -17,7 +17,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Convert;
 
 [CommandName("qrcode")]
 [Description("Renders an url into a SVG QRCode image.")]

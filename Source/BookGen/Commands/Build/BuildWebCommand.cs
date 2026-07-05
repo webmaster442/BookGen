@@ -14,7 +14,7 @@ using BookGen.Vfs;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Build;
 
 [CommandName("buildweb")]
 [Description("Build a static website from the book.")]

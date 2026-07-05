@@ -14,22 +14,22 @@ using BookGen.Vfs;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Build;
 
-[CommandName("buildprint")]
-[Description("Build a printable HTML & XHTML file from the book.")]
-internal sealed class BuildPrintCommand : BuildCommandBase
+[CommandName("buildwp")]
+[Description("Build a wordpress XML export file from the book.")]
+internal sealed class BuildWordpressCommand : BuildCommandBase
 {
-    public BuildPrintCommand(IWritableFileSystem soruce,
-                             IWritableFileSystem target,
-                             IProgramPathResolver programPathResolver,
-                             ILogger logger,
-                             IAssetSource assetSource,
-                             IMemoryCache memoryCache) 
+    public BuildWordpressCommand(IWritableFileSystem soruce,
+                                 IWritableFileSystem target,
+                                 IProgramPathResolver programPathResolver,
+                                 ILogger logger,
+                                 IAssetSource assetSource,
+                                 IMemoryCache memoryCache) 
         : base(soruce, target, programPathResolver, logger, assetSource, memoryCache)
     {
     }
 
     public override Pipeline GetPipeLine()
-        => Pipeline.CratePrintPipeLine(_memoryCache);
+        => Pipeline.CreateWordpressPipeLine(_memoryCache);
 }

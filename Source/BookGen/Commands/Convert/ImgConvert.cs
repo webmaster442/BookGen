@@ -13,7 +13,7 @@ using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Vfs;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Convert;
 
 [CommandName("imgconvert")]
 [Description("Converts an image file to a different format. The tool supports png, jpeg, webp and svg formats.")]

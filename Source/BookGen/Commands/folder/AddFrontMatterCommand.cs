@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 
 using YamlDotNet.Serialization;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.folder;
 
 [CommandName("addfrontmatter")]
 [Description("Add a basic YAML frontmatter information to all markdown files located in the current folder and it's subfolders.")]

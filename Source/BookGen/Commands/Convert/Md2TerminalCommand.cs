@@ -15,7 +15,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Convert;
 
 [CommandName("md2terminal")]
 [Description("Converts a markdown file to terminal formatted text.")]

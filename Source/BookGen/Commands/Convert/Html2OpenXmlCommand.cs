@@ -20,7 +20,7 @@ using HtmlToOpenXml;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Convert;
 
 [CommandName("html2openxml")]
 [Description("Converts a HTML file to an Office Compatible DOCX file.")]

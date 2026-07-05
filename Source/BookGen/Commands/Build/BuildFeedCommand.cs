@@ -14,7 +14,7 @@ using BookGen.Vfs;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Build;
 
 [CommandName("buildfeed")]
 [Description("Build an RSS 2.0 and an Atom 1.0 feed from the book.")]

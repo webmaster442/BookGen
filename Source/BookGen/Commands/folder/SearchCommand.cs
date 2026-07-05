@@ -20,7 +20,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.folder;
 
 [CommandName("search")]
 [Description("Search for a given text in the markdown files of the book and print the results to the console.")]

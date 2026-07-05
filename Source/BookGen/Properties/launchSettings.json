@@ -53,6 +53,10 @@
       "commandName": "Project",
       "commandLineArgs": "links --verify",
       "workingDirectory": "G:\\Konyv\\hellocsharp"
+    },
+    "build": {
+      "commandName": "Project",
+      "commandLineArgs": "build"
     }
   }
 }

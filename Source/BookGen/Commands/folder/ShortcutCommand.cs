@@ -11,7 +11,7 @@ using BookGen.Shell.Shared;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.folder;
 
 [CommandName("shortcut")]
 [Description("Create a cmd file in the current directory that can be used to start the bookgen Shell in the current directory.")]

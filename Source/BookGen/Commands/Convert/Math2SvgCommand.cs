@@ -15,7 +15,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Convert;
 
 [CommandName("math2svg")]
 [Description("Renders a single markdown file containing Tex formulas to svg files.")]
