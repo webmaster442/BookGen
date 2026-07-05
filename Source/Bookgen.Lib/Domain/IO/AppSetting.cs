@@ -9,8 +9,6 @@ namespace Bookgen.Lib.Domain.IO;
 
 public sealed record class AppSetting
 {
-    public string? Editor { get; set; }
-
     [WhenNotEmptyFileMustExist]
     public string? NodeJsPath { get; set; }
 
@@ -30,7 +28,6 @@ public sealed record class AppSetting
     {
         return new AppSetting
         {
-            Editor = "notepad.exe",
         };
     }
 }
