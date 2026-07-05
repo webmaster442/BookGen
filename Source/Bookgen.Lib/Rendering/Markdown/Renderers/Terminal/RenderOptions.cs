@@ -1,4 +1,9 @@
-﻿using Webmaster442.WindowsTerminal;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using Webmaster442.WindowsTerminal;
 
 namespace Bookgen.Lib.Rendering.Markdown.Renderers.Terminal;
 
