@@ -53,13 +53,17 @@ internal static class OpenCliDraftGenerator
             if (string.IsNullOrEmpty(name))
                 continue;
 
+            List<Argument>? arguments = GetArguments(commandType.argumentType);
+            List<Option>? options = GetOptions(commandType.argumentType);
+
             result.Add(new Draft.Command
             {
                 Name = name,
                 Description = GetDescription(commandType.commandType),
                 ExitCodes = GetExitCodes(commandType.commandType),
-                Arguments = GetArguments(commandType.argumentType),
-                Options = GetOptions(commandType.argumentType),
+                Arguments = arguments,
+                Options = options,
+                Examples = GenerateExamples(name, arguments, options),
             });
         }
         return result;
@@ -101,12 +105,24 @@ internal static class OpenCliDraftGenerator
                     Name = @switch.ShortName,
                     Aliases = [@switch.LongName],
                     Description = description?.Description,
-                    OpenClRequired = @switch.Required
+                    OpenClRequired = @switch.Required,
+                    Metadata = MakeTypeMetadata(property.PropertyType),
                 });
             }
         }
-        
+
         return options.Count > 0 ? options : null;
+    }
+
+    private static List<Metadata> MakeTypeMetadata(Type propertyType)
+    {
+        return
+        [
+            new() {
+                Name = "type",
+                Value = propertyType.FullName
+            }
+        ];
     }
 
     private static List<Argument>? GetArguments(Type? commandArgType)
@@ -127,12 +143,55 @@ internal static class OpenCliDraftGenerator
                 {
                     Name = property.Name,
                     Description = description?.Description,
-                    OpenClRequired = !argument.IsOptional
+                    OpenClRequired = !argument.IsOptional,
+                    Metadata = MakeTypeMetadata(property.PropertyType)
                 });
             }
         }
 
         return arguments.Count > 0 ? arguments : null;
+    }
+
+    private static List<string>? GenerateExamples(string name, List<Argument>? arguments, List<Option>? options)
+    {
+        static string NeedsValue(List<Metadata>? metadata)
+        {
+            if (metadata == null)
+                return string.Empty;
+
+            Metadata? typeMetadata = metadata.FirstOrDefault(x => x.Name == "type");
+
+            return typeMetadata?.Value?.ToString() == typeof(bool).FullName
+                ? string.Empty
+                : " <value>";
+        }
+
+        List<string> result = [name];
+
+        foreach (Argument argument in arguments?.OrderBy(x => x.OpenClRequired).ThenBy(x => x.Name) ?? Enumerable.Empty<Argument>())
+        {
+            string item = argument.OpenClRequired == true
+                ? $"  <{argument.Name}>"
+                : $"  [{argument.Name}]";
+
+            result.Add(item);
+        }
+
+        foreach (Option option in options?.OrderBy(x => x.OpenClRequired).ThenBy(x => x.Name) ?? Enumerable.Empty<Option>())
+        {
+            string item = option.OpenClRequired == true
+                ? $"  --{option.Name}{NeedsValue(option.Metadata)}"
+                : $"  [--{option.Name}{NeedsValue(option.Metadata)}]";
+
+            result.Add(item);
+        }
+
+        for (int i = 0; i < result.Count -1; i++)
+        {
+            result[i] = $"{result[i]} \\";
+        }
+
+        return result.Count > 0 ? result : null;
     }
 
     private static string GetCommandName(Type commandType)

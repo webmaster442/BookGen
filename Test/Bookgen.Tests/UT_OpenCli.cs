@@ -109,8 +109,13 @@ internal class UT_OpenCli
             Assert.That(cmd, Is.Not.Null, $"Command '{command}' is missing in OpenCli documentation.");
             Assert.That(cmd?.Description, Is.Not.Null.And.Not.Empty, $"Command '{command}' is missing description in OpenCli documentation.");
             Assert.That(cmd?.Name, Is.Not.Null.And.Not.Empty, $"Command '{command}' is missing name in OpenCli documentation.");
-
             Assert.That(cmd?.ExitCodes, Has.Count.GreaterThanOrEqualTo(1), $"Command '{command}' is missing exit codes in OpenCli documentation.");
+            Assert.That(cmd?.Examples, Is.Not.Null.And.Count.GreaterThan(0), $"Command '{command}' is missing examples in OpenCli documentation.");
+
+            foreach (string example in cmd?.Examples ?? Enumerable.Empty<string>())
+            {
+                Assert.That(example, Is.Not.Null.And.Not.Empty, $"Command '{command}' has an empty example in OpenCli documentation.");
+            }
 
             foreach (ExitCode exitCode in cmd?.ExitCodes ?? Enumerable.Empty<ExitCode>())
             {

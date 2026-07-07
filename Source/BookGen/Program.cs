@@ -45,8 +45,6 @@ using ILoggerFactory factory = LoggerFactory
 ILogger logger = factory.CreateLogger("Bookgen");
 CommandRunnerProxy runnerProxy = new();
 
-var helpProvider = new HelpProvider(logger, runnerProxy);
-
 var ioc = new ServiceCollection();
 ioc.AddMemoryCache();
 ioc.AddSingleton(logger);
@@ -54,7 +52,6 @@ ioc.AddSingleton(info);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.AddSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
 ioc.AddSingleton<IFileSystemFactory, FileSystemFactory>();
-ioc.AddSingleton<IHelpProvider>(helpProvider);
 ioc.AddTransient<IWritableFileSystem, FileSystem>();
 ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
 ioc.AddTransient<IApiClient, ApiClient>();
@@ -73,7 +70,7 @@ ioc.AddKeyedSingleton<IAssetSource>("dictionaries", (provider, key) =>
 
 using ServiceProvider provider = ioc.BuildServiceProvider();
 
-CommandRunner runner = new(provider, helpProvider, logger, new CommandRunnerSettings
+CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,
@@ -100,8 +97,6 @@ runner
     .AddCommandsFrom(typeof(HelpCommand).Assembly);
 
 runnerProxy.ConfigureWith(runner);
-
-helpProvider.VerifyHelpData();
 
 Stopwatch stopwatch = Stopwatch.StartNew();
 

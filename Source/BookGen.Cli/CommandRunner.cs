@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text.Json;
 
@@ -37,6 +38,27 @@ public sealed class CommandRunner
     private void DefaultExceptionHandler(Exception obj)
         => _log.LogCritical(obj, obj.Message);
 
+    private bool TryProvideInternal(Type parameterType, string commandName, [NotNullWhen(true)] out object? instance)
+    {
+        if (parameterType == typeof(BranchItemsProvider))
+        {
+            instance = new BranchItemsProvider()
+            {
+                BranchItems = _commands.CommandNames.Where(c => c.StartsWith(commandName)).ToList()
+            };
+            return true;
+        }
+
+        if (parameterType == typeof(ICommandHelpProvider))
+        {
+            instance = _helpProvider;
+            return true;
+        }
+
+        instance = null;
+        return false;
+    }
+
     private ICommand CreateCommand(string commandName)
     {
         Type commandType = _commands.GetCommandByName(commandName);
@@ -51,13 +73,9 @@ public sealed class CommandRunner
         {
             FromKeyedServicesAttribute? keyAttribute = param.GetCustomAttribute<FromKeyedServicesAttribute>();
 
-            if (param.ParameterType == typeof(BranchItemsProvider))
+            if (TryProvideInternal(param.ParameterType, commandName, out object? dependency))
             {
-                BranchItemsProvider provider = new()
-                {
-                    BranchItems = _commands.CommandNames.Where(c => c.StartsWith(commandName)).ToList()
-                };
-                constructorParameters.Add(provider);
+                constructorParameters.Add(dependency);
                 continue;
             }
 

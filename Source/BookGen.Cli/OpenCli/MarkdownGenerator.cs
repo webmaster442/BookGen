@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 using BookGen.Cli.OpenCli.Draft;
@@ -11,33 +12,84 @@ namespace BookGen.Cli.OpenCli;
 
 public static class MarkdownGenerator
 {
-    public static string GenerateMarkdown(this Document document)
+    public static string GenerateMarkdown(OpenCli.Draft.Command command, int level = 1)
     {
-        var sb = new StringBuilder();
-        sb.AppendLine($"# {document.Info.Title}");
-        sb.AppendLine();
-        sb.AppendLine(document.Info.Description);
-        sb.AppendLine();
-        if (document.Commands != null)
+        static string LevelPrefix(int level) => new('#', level);
+
+        StringBuilder result = new();
+        result
+            .AppendLine($"{LevelPrefix(level)} {command.Name}")
+            .AppendLine()
+            .AppendLine(command.Description)
+            .AppendLine();
+
+        if (command.Examples?.Count > 0)
         {
-            foreach (Draft.Command command in document.Commands)
+            result.AppendLine("```sh");
+            foreach (string example in command.Examples)
             {
-                sb.AppendLine($"## {command.Name}");
-                sb.AppendLine();
-                sb.AppendLine(command.Description);
-                sb.AppendLine();
-                if (command.Options?.Count > 0)
-                {
-                    sb.AppendLine("### Options");
-                    sb.AppendLine();
-                    foreach (var option in command.Options)
-                    {
-                        sb.AppendLine($"- **{option.Name}**: {option.Description}");
-                    }
-                    sb.AppendLine();
-                }
+                result.AppendLine(example);
             }
+            result
+                .AppendLine("```")
+                .AppendLine();
         }
-        return sb.ToString();
+
+        if (command.Arguments?.Count > 0)
+        {
+            result
+                .AppendLine($"{LevelPrefix(level + 1)} Arguments")
+                .AppendLine();
+
+            foreach (Argument argument in command.Arguments.OrderBy(a => a.OpenClRequired).ThenBy(a => a.Name))
+            {
+                result
+                    .AppendLine($"* `{argument.Name}`")
+                    .AppendLine(RequiredOrNot(argument.OpenClRequired, "argument"))
+                    .AppendLine($"  {argument.Description}");
+            }
+
+            result.AppendLine();
+        }
+
+        if (command.Options?.Count > 0)
+        {
+            result
+                .AppendLine($"{LevelPrefix(level + 1)} Options")
+                .AppendLine();
+
+            foreach (Option option in command.Options.OrderBy(o => o.OpenClRequired).ThenBy(o => o.Name))
+            {
+                result
+                    .AppendLine($"* -`{option.Name}`, `--{string.Join(' ', option.Aliases ?? new List<string>())}`")
+                    .AppendLine(RequiredOrNot(option.OpenClRequired, "option"))
+                    .AppendLine($"  {option.Description}");
+            }
+
+            result.AppendLine();
+        }
+
+        result
+            .AppendLine($"{LevelPrefix(level + 1)} Exit codes")
+            .AppendLine();
+
+        foreach (ExitCode exitCode in command.ExitCodes ?? new List<ExitCode>())
+        {
+            result
+                .AppendLine($"* {exitCode.Code} - {exitCode.Description}");
+        }
+
+        result.AppendLine();
+
+        return result.ToString();
+    }
+
+    private static string? RequiredOrNot(bool? required, string type)
+    {
+        if (required == null)
+        {
+            return null;
+        }
+        return required == true ? $"**Required {type}**" : $"**Optional {type}**";
     }
 }

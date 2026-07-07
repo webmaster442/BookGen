@@ -5,6 +5,7 @@
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Cli.OpenCli.Draft;
 
 using Microsoft.Extensions.Logging;
 
@@ -54,8 +55,9 @@ internal class UT_CommandRunner
         _serviceProviderMock.Setup(x => x.GetService(typeof(Dependency))).Returns(new Dependency());
         _loggerMock = new Mock<ILogger>(MockBehavior.Strict);
         _helproviderMock = new Mock<ICommandHelpProvider>(MockBehavior.Strict);
+        _helproviderMock.Setup(x => x.CommandsChanged(It.IsAny<Document>()));
         _sut = new CommandRunner(_serviceProviderMock.Object, _helproviderMock.Object, _loggerMock.Object, CommandRunnerSettings.Default);
-        _sut.AddCommand<TestCommand>();
+        _sut.AddDefaultCommand<TestCommand>();
     }
 
     [Test]

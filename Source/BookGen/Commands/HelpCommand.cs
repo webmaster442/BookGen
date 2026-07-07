@@ -17,35 +17,39 @@ namespace BookGen.Commands;
 [Description("Displays help information about the specified command.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "The command failed.")]
-//TODO: Add proper argument class
-internal sealed class HelpCommand : Command
+internal sealed class HelpCommand : Command<HelpCommand.Arguments>
 {
-    private readonly IHelpProvider _helpProvider;
-    private readonly HashSet<string> _commandNames;
-    private readonly HelpRenderer _renderer = new();
-
-    public HelpCommand(IHelpProvider helpProvider, ICommandRunnerProxy runnerProxy)
+    public class Arguments : ArgumentsBase
     {
-        _helpProvider = helpProvider;
-        _commandNames = [.. runnerProxy.CommandNames];
+        [Argument(0, IsOptional = true)]
+        [Description("The name of the command to display help for.")]
+        public string CommandName { get; set; } = string.Empty;
     }
 
-    public override int Execute(IReadOnlyList<string> context)
-    {
-        if (context.Count == 0)
-        {
-            _renderer.RenderHelp(_helpProvider.GetCommandHelp("help"));
-            return ExitCodes.Success;
-        }
+    private readonly HashSet<string> _commandNames;
+    private readonly HelpRenderer _renderer = new();
+    private readonly ICommandHelpProvider _commandHelpProvider;
 
-        string command = context[0].ToLower();
-        if (!_commandNames.Contains(command))
+    public HelpCommand(ICommandHelpProvider commandHelpProvider, ICommandRunnerProxy runnerProxy)
+    {
+        _commandNames = [.. runnerProxy.CommandNames];
+        _commandHelpProvider = commandHelpProvider;
+    }
+
+    public override int Execute(Arguments arguments, IReadOnlyList<string> context)
+    {
+        if (string.IsNullOrEmpty(arguments.CommandName))
         {
-            AnsiConsole.WriteLine("Unknown Command: {0}", command);
+            arguments.CommandName = "help";
+        }
+        if (!_commandNames.Contains(arguments.CommandName))
+        {
+            AnsiConsole.WriteLine("Unknown Command: {0}", arguments.CommandName);
             return ExitCodes.GeneralError;
         }
 
-        _renderer.RenderHelp(_helpProvider.GetCommandHelp(command));
+        string helpdocument = _commandHelpProvider.GetHelp(arguments.CommandName);
+        _renderer.RenderHelp(helpdocument.Split('\n'));
         return ExitCodes.Success;
 
     }
