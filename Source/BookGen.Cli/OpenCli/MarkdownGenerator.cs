@@ -61,8 +61,13 @@ public static class MarkdownGenerator
             {
                 result
                     .AppendLine($"* -`{option.Name}`, `--{string.Join(' ', option.Aliases ?? new List<string>())}`")
+                    .AppendLine()
+                    .Append("  ")
                     .AppendLine(RequiredOrNot(option.OpenClRequired, "option"))
-                    .AppendLine($"  {option.Description}");
+                    .AppendLine()
+                    .Append("  ")
+                    .AppendLine(option.Description)
+                    .AppendLine();
             }
 
             result.AppendLine();
@@ -75,7 +80,7 @@ public static class MarkdownGenerator
         foreach (ExitCode exitCode in command.ExitCodes ?? new List<ExitCode>())
         {
             result
-                .AppendLine($"* {exitCode.Code} - {exitCode.Description}");
+                .AppendLine($"* `{exitCode.Code}` - {exitCode.Description}");
         }
 
         result.AppendLine();

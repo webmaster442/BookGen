@@ -39,11 +39,11 @@ internal static class OpenCliDraftGenerator
                 GroupOptions = false,
                 OptionSeparator = " ",
             },
-            Commands = GenerateCommands(commandTypes),
+            Commands = GenerateCommands(appName, commandTypes),
         };
     }
 
-    private static List<Draft.Command> GenerateCommands(IEnumerable<(Type commandType, Type? argumentType)> commandTypes)
+    private static List<Draft.Command> GenerateCommands(string appName, IEnumerable<(Type commandType, Type? argumentType)> commandTypes)
     {
         List<Draft.Command> result = new();
         foreach (var commandType in commandTypes)
@@ -63,7 +63,7 @@ internal static class OpenCliDraftGenerator
                 ExitCodes = GetExitCodes(commandType.commandType),
                 Arguments = arguments,
                 Options = options,
-                Examples = GenerateExamples(name, arguments, options),
+                Examples = GenerateExamples(appName, name, arguments, options),
             });
         }
         return result;
@@ -152,7 +152,7 @@ internal static class OpenCliDraftGenerator
         return arguments.Count > 0 ? arguments : null;
     }
 
-    private static List<string>? GenerateExamples(string name, List<Argument>? arguments, List<Option>? options)
+    private static List<string>? GenerateExamples(string appName, string name, List<Argument>? arguments, List<Option>? options)
     {
         static string NeedsValue(List<Metadata>? metadata)
         {
@@ -166,7 +166,7 @@ internal static class OpenCliDraftGenerator
                 : " <value>";
         }
 
-        List<string> result = [name];
+        List<string> result = [$"{appName} {name}"];
 
         foreach (Argument argument in arguments?.OrderBy(x => x.OpenClRequired).ThenBy(x => x.Name) ?? Enumerable.Empty<Argument>())
         {
@@ -180,8 +180,8 @@ internal static class OpenCliDraftGenerator
         foreach (Option option in options?.OrderBy(x => x.OpenClRequired).ThenBy(x => x.Name) ?? Enumerable.Empty<Option>())
         {
             string item = option.OpenClRequired == true
-                ? $"  --{option.Name}{NeedsValue(option.Metadata)}"
-                : $"  [--{option.Name}{NeedsValue(option.Metadata)}]";
+                ? $"  -{option.Name}, --{string.Join(' ', option.Aliases ?? new List<string>())}{NeedsValue(option.Metadata)}"
+                : $"  [-{option.Name}, --{string.Join(' ', option.Aliases ?? new List<string>())}{NeedsValue(option.Metadata)}]";
 
             result.Add(item);
         }

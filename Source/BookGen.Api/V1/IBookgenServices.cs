@@ -16,4 +16,8 @@ public interface IBookgenServices
     /// <param name="rendererOptions">The options to configure the renderer.</param>
     /// <returns>A renderer instance configured with the specified options.</returns>
     IRenderer Create(RendererOptions rendererOptions);
+    /// <summary>
+    /// Gets the output folder where the generated book files will be stored.
+    /// </summary>
+    IFileSystem OutputFolder { get; }
 }

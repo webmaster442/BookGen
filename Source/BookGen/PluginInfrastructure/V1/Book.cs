@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.PluginInfrastructure.V1;
 
-internal class Book : IBook
+internal sealed class Book : IBook
 {
     public IDocument Index { get; }
     public IReadOnlyList<IChapter> Chapters { get; }
