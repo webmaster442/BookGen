@@ -272,6 +272,9 @@
         "resolved": "10.0.2",
         "contentHash": "JTpM4z0wpoIHHDvlCU27HsXo+zVnpWib94HXQpzzr+jc/P9NYf4w353AK4MXyGq/grm1mbLi7eXsOsDU8sGmNg=="
       },
+      "bookgen.api": {
+        "type": "Project"
+      },
       "bookgen.cli": {
         "type": "Project",
         "dependencies": {

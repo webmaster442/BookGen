@@ -14,7 +14,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands.folder;
+namespace BookGen.Commands.Folder;
 
 [CommandName("serve")]
 [Description("Starts a local only http server that serves file from the given directory.")]

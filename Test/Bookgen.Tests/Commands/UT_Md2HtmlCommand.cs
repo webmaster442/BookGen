@@ -34,7 +34,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
     [Test]
     public async Task EnsureThat_GenerateRawWorks()
     {
-        var arguments = new Md2HtmlCommand.Md2HtmlArguments
+        var arguments = new Md2HtmlCommand.Arguments
         {
             InputFiles = ["test.md"],
             NoSyntax = true,
@@ -59,7 +59,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
     [Test]
     public async Task EnsureThat_GenerateHtml_Works()
     {
-        var arguments = new Md2HtmlCommand.Md2HtmlArguments
+        var arguments = new Md2HtmlCommand.Arguments
         {
             InputFiles = ["test.md"],
             NoSyntax = true,

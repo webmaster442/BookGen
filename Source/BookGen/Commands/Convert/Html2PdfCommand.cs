@@ -17,9 +17,9 @@ namespace BookGen.Commands.Convert;
 [Description("Converts a HTML file to a png using edges or chromes headless mode. The tool will use chrome, if it's installed, otherwise it will use edge. This command is only supported on Windows OS.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "The command failed.")]
-internal sealed class Html2PdfCommand : AsyncCommand<Html2PdfCommand.Html2PdfArguments>
+internal sealed class Html2PdfCommand : AsyncCommand<Html2PdfCommand.Arguments>
 {
-    internal sealed class Html2PdfArguments : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Switch("i", "input", Required = true)]
         [Description("Specifies the input HTML file.")]
@@ -29,7 +29,7 @@ internal sealed class Html2PdfCommand : AsyncCommand<Html2PdfCommand.Html2PdfArg
         [Description("Specifies the output PDF file.")]
         public string OutputFile { get; set; }
 
-        public Html2PdfArguments()
+        public Arguments()
         {
             InputFile = string.Empty;
             OutputFile = string.Empty;
@@ -69,7 +69,7 @@ internal sealed class Html2PdfCommand : AsyncCommand<Html2PdfCommand.Html2PdfArg
         _browser = new BrowserInteract(log);
     }
 
-    public override async Task<int> ExecuteAsync(Html2PdfArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
     {
         bool result = await _browser.Html2Pdf(arguments.InputFile,
                                               arguments.OutputFile);

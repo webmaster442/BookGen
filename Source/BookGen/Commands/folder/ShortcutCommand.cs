@@ -11,12 +11,12 @@ using BookGen.Shell.Shared;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands.folder;
+namespace BookGen.Commands.Folder;
 
 [CommandName("shortcut")]
 [Description("Create a cmd file in the current directory that can be used to start the bookgen Shell in the current directory.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal class ShortcutCommand : Command
+internal sealed class ShortcutCommand : Command
 {
     private readonly ILogger _logger;
 

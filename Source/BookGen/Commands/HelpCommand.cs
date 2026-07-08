@@ -19,7 +19,7 @@ namespace BookGen.Commands;
 [ExitCode(ExitCodes.GeneralError, "The command failed.")]
 internal sealed class HelpCommand : Command<HelpCommand.Arguments>
 {
-    public class Arguments : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Argument(0, IsOptional = true)]
         [Description("The name of the command to display help for.")]

@@ -4,10 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 
 using Bookgen.Lib.AppSettings;
-using Bookgen.Lib.Domain.IO.Legacy;
 using Bookgen.Lib.Rendering.Images;
 using Bookgen.Lib.Rendering.Markdown.RenderInterop;
 
@@ -22,9 +20,9 @@ namespace BookGen.Commands.Convert;
 [CommandName("qrcode")]
 [Description("Renders an url into a SVG QRCode image.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments>
+internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.Arguments>
 {
-    internal sealed class QrCodeArguments : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Switch("o", "output", Required = true)]
         [Description("Output file.")]
@@ -34,7 +32,7 @@ internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments
         [Description("Url data to encode. Minimum 1 byte, Maximum 900 bytes")]
         public string Data { get; set; }
 
-        public QrCodeArguments()
+        public Arguments()
         {
             Output = string.Empty;
             Data = string.Empty;
@@ -73,7 +71,7 @@ internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.QrCodeArguments
         _assetSource = assetSource;
     }
 
-    public override async Task<int> ExecuteAsync(QrCodeArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
     {
         using var render = IRenderInterop.CreateForSvg(_assetSource, _programPathResolver);
 

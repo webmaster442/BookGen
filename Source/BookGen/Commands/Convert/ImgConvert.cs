@@ -19,18 +19,18 @@ namespace BookGen.Commands.Convert;
 [Description("Converts an image file to a different format. The tool supports png, jpeg, webp and svg formats.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.ArgumentsError, "Invalid arguments provided.")]
-internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
+internal sealed class ImgConvert : Command<ImgConvert.Arguments>
 {
     private readonly IWritableFileSystem _fileSystem;
 
-    public enum ImageFormat
+    internal enum ImageFormat
     {
         Jpg,
         Png,
         Webp
     }
 
-    public class ImgConvertArgs : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Switch("i", "input", Required = true)]
         [Description("Specifies the input image file or directory.")]
@@ -52,7 +52,7 @@ internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
         [Description("Specifies the maximum resolution of the output image (WidthxHeight). If not given, the default is the size of the input image")]
         public string Resolution { get; set; }
 
-        public ImgConvertArgs()
+        public Arguments()
         {
             Input = string.Empty;
             Output = string.Empty;
@@ -97,7 +97,7 @@ internal sealed class ImgConvert : Command<ImgConvert.ImgConvertArgs>
         _fileSystem = fileSystem;
     }
 
-    public override int Execute(ImgConvertArgs arguments, IReadOnlyList<string> context)
+    public override int Execute(Arguments arguments, IReadOnlyList<string> context)
     {
         HashSet<string> supportedExtensions = new(StringComparer.InvariantCultureIgnoreCase)
         {

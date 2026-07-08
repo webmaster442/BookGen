@@ -18,9 +18,9 @@ namespace BookGen.Commands;
 [Description("Lists all available templates, or extracts a single template to the current directory.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "Specified template was not found.")]
-internal class TemplatesCommand : AsyncCommand<TemplatesCommand.TemplatesArguments>
+internal class TemplatesCommand : AsyncCommand<TemplatesCommand.Arguments>
 {
-    internal class TemplatesArguments : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Switch("n", "name", Required = false)]
         [Description(" If specified, only the template with the given name will be extracted. If not specified, all available templates will be printed.")]
@@ -40,7 +40,7 @@ internal class TemplatesCommand : AsyncCommand<TemplatesCommand.TemplatesArgumen
         _defaultTemplates = ["Epub.html", "Md2Html.html", "Print.html", "Static.html"];
     }
 
-    public override async Task<int> ExecuteAsync(TemplatesArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
     {
         if (string.IsNullOrEmpty(arguments.TemplateName))
         {

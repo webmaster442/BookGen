@@ -10,7 +10,7 @@ namespace BookGen.Cli.OpenCli.Draft;
 /// <summary>
 /// The argument arity. Arity defines the minimum and maximum number of argument values
 /// </summary>
-public partial class Arity
+public sealed class Arity
 {
     /// <summary>
     /// The maximum number of values allowed

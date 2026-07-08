@@ -20,9 +20,9 @@ namespace BookGen.Commands;
 [Description("Get or set the application settings. Without any arguments, the command will display the current settings.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "An error occurred while executing the command.")]
-internal sealed class ConfigCommand : Command<ConfigCommand.ConfigCommandSettings>
+internal sealed class ConfigCommand : Command<ConfigCommand.Arguments>
 {
-    public class ConfigCommandSettings : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Argument(0, IsOptional = true)]
         [Description("The setting to be configured.")]
@@ -42,7 +42,7 @@ internal sealed class ConfigCommand : Command<ConfigCommand.ConfigCommandSetting
         _appSettings = appSettings;
     }
 
-    public override int Execute(ConfigCommandSettings arguments, IReadOnlyList<string> context)
+    public override int Execute(Arguments arguments, IReadOnlyList<string> context)
     {
         if (string.IsNullOrEmpty(arguments.Setting)
             && string.IsNullOrEmpty(arguments.Value))

@@ -5,6 +5,7 @@
 
 using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 using Bookgen.Lib;
 using Bookgen.Lib.AppSettings;
@@ -20,20 +21,24 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands.folder;
+namespace BookGen.Commands.Folder;
 
 [CommandName("search")]
 [Description("Search for a given text in the markdown files of the book and print the results to the console.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "Search produced no results.")]
 [ExitCode(ExitCodes.ConfigError, "Project has config issues.")]
-internal sealed class SearchCommand : AsyncCommand<SearchCommand.SearchArguments>
+internal sealed class SearchCommand : AsyncCommand<SearchCommand.Arguments>
 {
-    public sealed class SearchArguments : BookGenArgumentBase
+    public sealed class Arguments : BookGenArgumentBase
     {
         [Argument(0)]
         [Description("Required argument. The text to search for. The command will search for the given text in all markdown files in the book and will print the results to the console.")]
         public string Query { get; set; } = string.Empty;
+
+        [Switch("r", "regex", Required = false)]
+        [Description("Optional switch. If specified, the query will be treated as a regular expression.")]
+        public bool Regex { get; set; }
 
         public override ValidationResult Validate(IValidationContext context)
         {
@@ -59,7 +64,7 @@ internal sealed class SearchCommand : AsyncCommand<SearchCommand.SearchArguments
         _assetSource = assetSource;
     }
 
-    public override async Task<int> ExecuteAsync(SearchArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
     {
         _soruce.Scope = arguments.Directory;
 
@@ -95,16 +100,32 @@ internal sealed class SearchCommand : AsyncCommand<SearchCommand.SearchArguments
 
         ConcurrentDictionary<string, string> searchResults = new();
 
-        await Parallel.ForEachAsync(env.TableOfContents.GetFiles(), async (file, ct) =>
+        if (arguments.Regex)
         {
-            string markdown = await env.Source.ReadAllTextAsync(file);
-            string plain = markdownConverter.RenderToPlainText(markdown);
-
-            if (Search.Contains(plain, arguments.Query, 0.8f, out string? context))
+            Regex regex = new Regex(arguments.Query, RegexOptions.Compiled, TimeSpan.FromSeconds(5));
+            await Parallel.ForEachAsync(env.TableOfContents.GetFiles(), async (file, ct) =>
             {
-                searchResults.TryAdd(file, context);
-            }
-        });
+                string markdown = await env.Source.ReadAllTextAsync(file);
+                string plain = markdownConverter.RenderToPlainText(markdown);
+                if (Search.RegexContains(plain, regex, out string? context))
+                {
+                    searchResults.TryAdd(file, context);
+                }
+            });
+        }
+        else
+        {
+            await Parallel.ForEachAsync(env.TableOfContents.GetFiles(), async (file, ct) =>
+            {
+                string markdown = await env.Source.ReadAllTextAsync(file);
+                string plain = markdownConverter.RenderToPlainText(markdown);
+
+                if (Search.Contains(plain, arguments.Query, 0.8f, out string? context))
+                {
+                    searchResults.TryAdd(file, context);
+                }
+            });
+        }
 
         if (searchResults.IsEmpty)
         {

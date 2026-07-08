@@ -26,7 +26,7 @@ internal sealed class AssemblyDocument : Command<AssemblyDocument.Arguments>
         _logger = logger;
     }
 
-    public class Arguments : InputOutputArguments
+    internal sealed class Arguments : InputOutputArguments
     {
         [Switch("d", "dry", Required = false)]
         [Description("Optional argument. If specified, the command will not generate any files, but will only log the actions that would be taken.")]

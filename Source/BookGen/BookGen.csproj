@@ -15,6 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
     <ProjectReference Include="..\BookGen.Cli\BookGen.Cli.csproj" />
     <ProjectReference Include="..\BookGen.Contents\BookGen.Contents.csproj" />
     <ProjectReference Include="..\Bookgen.Lib\Bookgen.Lib.csproj" />

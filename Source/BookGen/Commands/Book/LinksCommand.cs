@@ -24,9 +24,9 @@ namespace BookGen.Commands;
 [CommandName("links")]
 [Description("Scans all markdown files in the current book and writes the links to a markdown file, named links.md")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArguments>
+internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.Arguments>
 {
-    public sealed class LinkArguments : BookGenArgumentBase
+    internal sealed class Arguments : BookGenArgumentBase
     {
         [Switch("vf", "verify", Required = false)]
         [Description("Verify if the links are accessible and will print the result to the console. If not specified, the command will only write the links to the output file.")]
@@ -45,7 +45,7 @@ internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.LinkArgum
         _logger = logger;
     }
 
-    public override async Task<int> ExecuteAsync(LinkArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
     {
         _soruce.Scope = arguments.Directory;
 

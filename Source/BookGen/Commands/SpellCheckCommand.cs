@@ -24,9 +24,9 @@ namespace BookGen.Commands;
 [Description("Perform spell check on a given markdown file or text file. The command will print the misspelled words to the console.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "Dictionary was not found or file contained spelling mistakes.")]
-internal sealed class SpellCheckCommand : AsyncCommand<SpellCheckCommand.SpellCheckArguments>
+internal sealed class SpellCheckCommand : AsyncCommand<SpellCheckCommand.Arguments>
 {
-    public sealed class SpellCheckArguments : ArgumentsBase, IVerbosablityToggle
+    internal sealed class Arguments : ArgumentsBase, IVerbosablityToggle
     {
         [Switch("i", "input", Required = true)]
         [Description("Specifies the input file path. The file must be a markdown file or a text file.")]
@@ -74,7 +74,7 @@ internal sealed class SpellCheckCommand : AsyncCommand<SpellCheckCommand.SpellCh
         _fileSystem = fileSystem;
     }
 
-    public override async Task<int> ExecuteAsync(SpellCheckArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
     {
         if (arguments.DictionariesDisplay)
         {

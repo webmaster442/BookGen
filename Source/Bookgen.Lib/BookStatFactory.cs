@@ -5,8 +5,8 @@
 
 using Bookgen.Lib.Domain;
 using Bookgen.Lib.Domain.IO;
-using Bookgen.Lib.Internals;
 using Bookgen.Lib.Pipeline;
+using Bookgen.Lib.Rendering;
 
 using Microsoft.Extensions.Logging;
 

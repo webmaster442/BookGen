@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using Bookgen.Lib.Domain;
-using Bookgen.Lib.Internals;
+using Bookgen.Lib.Rendering;
 
 using Microsoft.Extensions.Logging;
 

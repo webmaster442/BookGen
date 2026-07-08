@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 using BookGen.Cli.OpenCli.Draft;
@@ -12,7 +11,7 @@ namespace BookGen.Cli.OpenCli;
 
 public static class MarkdownGenerator
 {
-    public static string GenerateMarkdown(OpenCli.Draft.Command command, int level = 1)
+    public static string GenerateMarkdown(Draft.Command command, int level = 1)
     {
         static string LevelPrefix(int level) => new('#', level);
 

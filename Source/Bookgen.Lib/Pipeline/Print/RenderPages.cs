@@ -5,7 +5,7 @@
 
 using Bookgen.Lib.Domain;
 using Bookgen.Lib.Domain.IO;
-using Bookgen.Lib.Internals;
+using Bookgen.Lib.Rendering;
 using Bookgen.Lib.Rendering.Images;
 using Bookgen.Lib.Rendering.Markdown;
 using Bookgen.Lib.Rendering.Markdown.RenderInterop;

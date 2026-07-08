@@ -20,14 +20,14 @@ namespace BookGen.Commands.Convert;
 [CommandName("math2svg")]
 [Description("Renders a single markdown file containing Tex formulas to svg files.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArguments>
+internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Arguments>
 {
     private readonly ILogger _log;
     private readonly IWritableFileSystem _fileSystem;
     private readonly IProgramPathResolver _programPathResolver;
     private readonly IAssetSource _assets;
 
-    public sealed class Math2SvgArguments : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Switch("f", "formula", Required = true)]
         [Description("The formula to render. It must be a valid Tex formula.")]
@@ -71,7 +71,7 @@ internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Math2SvgArg
         _assets = assetSource;
     }
 
-    public override async Task<int> ExecuteAsync(Math2SvgArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
     {
         using var render = IRenderInterop.CreateForSvg(_assets, _programPathResolver);
 

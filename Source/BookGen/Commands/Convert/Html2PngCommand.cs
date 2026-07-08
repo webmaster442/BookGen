@@ -17,9 +17,9 @@ namespace BookGen.Commands.Convert;
 [Description("Converts a HTML file to a png using edges or chromes headless mode. The tool will use chrome, if it's installed, otherwise it will use edge. This command is only supported on Windows OS.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "The command failed.")]
-internal sealed class Html2PngCommand : AsyncCommand<Html2PngCommand.Html2PngArguments>
+internal sealed class Html2PngCommand : AsyncCommand<Html2PngCommand.Arguments>
 {
-    internal sealed class Html2PngArguments : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Switch("i", "input", Required = true)]
         [Description("Specifies the input HTML file.")]
@@ -37,7 +37,7 @@ internal sealed class Html2PngCommand : AsyncCommand<Html2PngCommand.Html2PngArg
         [Description("Specifies the height of the output PNG. If not given, the default is 1080.")]
         public int Height { get; set; }
 
-        public Html2PngArguments()
+        public Arguments()
         {
             InputFile = string.Empty;
             OutputFile = string.Empty;
@@ -85,7 +85,7 @@ internal sealed class Html2PngCommand : AsyncCommand<Html2PngCommand.Html2PngArg
         _browser = new BrowserInteract(log);
     }
 
-    public override async Task<int> ExecuteAsync(Html2PngArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
     {
         bool result = await _browser.Html2Png(arguments.InputFile,
                                               arguments.OutputFile,

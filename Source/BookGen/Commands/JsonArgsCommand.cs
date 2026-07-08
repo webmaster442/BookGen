@@ -16,15 +16,15 @@ namespace BookGen.Commands;
 [CommandName("jsonargs")]
 [Description("Creates an empty json arguments template file for a given bookgen command.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class JsonArgsCommand : Command<JsonArgsCommand.JsonArgsArguments>
+internal sealed class JsonArgsCommand : Command<JsonArgsCommand.Arguments>
 {
-    internal sealed class JsonArgsArguments : BookGenArgumentBase
+    internal sealed class Arguments : BookGenArgumentBase
     {
         [Switch("c", "command", Required = true)]
         [Description("Specifies the command for which the json template will be created.")]
         public string CommandName { get; set; }
 
-        public JsonArgsArguments()
+        public Arguments()
         {
             CommandName = string.Empty;
         }
@@ -49,7 +49,7 @@ internal sealed class JsonArgsCommand : Command<JsonArgsCommand.JsonArgsArgument
         _log = log;
     }
 
-    public override int Execute(JsonArgsArguments arguments, IReadOnlyList<string> context)
+    public override int Execute(Arguments arguments, IReadOnlyList<string> context)
     {
         if (!_commandNames.Contains(arguments.CommandName))
         {

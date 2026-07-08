@@ -17,7 +17,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Commands;
+namespace BookGen.Commands.Docs;
 
 [CommandName("schemas")]
 [Description("Creates a `schemas.md` documentation file, describing the various config schemas used by bookgen.")]

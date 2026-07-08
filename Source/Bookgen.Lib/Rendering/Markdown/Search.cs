@@ -4,12 +4,25 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 namespace Bookgen.Lib.Rendering.Markdown;
 
 public static class Search
 {
     internal static readonly char[] Separators = ['\r', '\n', '.', '?', '!', '\t'];
+
+    public static bool RegexContains(string document, Regex pattern, [NotNullWhen(true)] out string? context)
+    {
+        MatchCollection matches = pattern.Matches(document);
+        if (matches.Count == 0)
+        {
+            context = null;
+            return false;
+        }
+        context = matches.First().Value;
+        return true;
+    }
 
     public static bool Contains(string document, string seachTerm, float similarity, [NotNullWhen(true)] out string? context)
     {

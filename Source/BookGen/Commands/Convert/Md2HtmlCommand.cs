@@ -26,9 +26,9 @@ namespace BookGen.Commands.Convert;
 [CommandName("md2html")]
 [Description("Renders a single markdown file to an HTML file.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
+internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
 {
-    internal sealed class Md2HtmlArguments : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Switch("i", "input", Required = true)]
         [Description("Input markdown file path. Multiple files can be set with multiple `-i` arguments")]
@@ -63,7 +63,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         public string Title { get; set; }
 
 
-        public Md2HtmlArguments()
+        public Arguments()
         {
             Template = string.Empty;
             Title = "Markdown document";
@@ -120,7 +120,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Md2HtmlArguments>
         _templateEngine = new TemplateEngine(log, assetSource);
     }
 
-    public override int Execute(Md2HtmlArguments arguments, IReadOnlyList<string> context)
+    public override int Execute(Arguments arguments, IReadOnlyList<string> context)
     {
         IEnumerable<string?> inputFolders = arguments.InputFiles.Select(i => Path.GetDirectoryName(i));
 

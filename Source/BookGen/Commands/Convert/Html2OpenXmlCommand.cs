@@ -26,13 +26,13 @@ namespace BookGen.Commands.Convert;
 [Description("Converts a HTML file to an Office Compatible DOCX file.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "The command failed.")]
-internal sealed class Html2OpenXmlCommand : AsyncCommand<Html2OpenXmlCommand.Html2OpenXmlArguments>
+internal sealed class Html2OpenXmlCommand : AsyncCommand<Html2OpenXmlCommand.Arguments>
 {
     private readonly ILogger _logger;
     private readonly IAssetSource _assetSource;
     private readonly IWritableFileSystem _fileSystem;
 
-    internal sealed class Html2OpenXmlArguments : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Switch("i", "input", Required = true)]
         [Description("Specifies the input HTML file.")]
@@ -42,7 +42,7 @@ internal sealed class Html2OpenXmlCommand : AsyncCommand<Html2OpenXmlCommand.Htm
         [Description("Specifies the output DOCX file.")]
         public string OutputFile { get; set; }
 
-        public Html2OpenXmlArguments()
+        public Arguments()
         {
             InputFile = string.Empty;
             OutputFile = string.Empty;
@@ -81,7 +81,7 @@ internal sealed class Html2OpenXmlCommand : AsyncCommand<Html2OpenXmlCommand.Htm
     }
 
 
-    public override async Task<int> ExecuteAsync(Html2OpenXmlArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
     {
         using Stream generated = _fileSystem.CreateWriteStream(arguments.OutputFile);
         using (Stream template = _assetSource.GetBinaryAssetStream(BundledAssets.WordTemplate))

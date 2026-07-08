@@ -23,7 +23,7 @@ namespace BookGen.Commands.Book;
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class NewPageCommand : Command<NewPageCommand.Arguments>
 {
-    internal class Arguments : BookGenArgumentBase
+    internal sealed class Arguments : BookGenArgumentBase
     {
         [Switch("-n", "name", Required = true)]
         [Description("File name. Specifies new file name")]
