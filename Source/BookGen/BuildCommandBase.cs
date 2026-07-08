@@ -3,9 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib;
-using Bookgen.Lib.AppSettings;
-using Bookgen.Lib.Pipeline;
+using BookGen.Lib;
+using BookGen.Lib.AppSettings;
+using BookGen.Lib.Pipeline;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

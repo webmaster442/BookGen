@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Domain.Github;
+using BookGen.Lib.Domain.Github;
 
 using BookGen.Infrastructure.Tools;
 using BookGen.Vfs;

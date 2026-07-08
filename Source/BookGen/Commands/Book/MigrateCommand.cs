@@ -5,7 +5,7 @@
 
 using System.ComponentModel;
 
-using Bookgen.Lib.Confighandling.LegacyMigration;
+using BookGen.Lib.Confighandling.LegacyMigration;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

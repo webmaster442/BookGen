@@ -5,9 +5,9 @@
 
 using System.ComponentModel;
 
-using Bookgen.Lib.AppSettings;
-using Bookgen.Lib.Rendering.Images;
-using Bookgen.Lib.Rendering.Markdown.RenderInterop;
+using BookGen.Lib.AppSettings;
+using BookGen.Lib.Rendering.Images;
+using BookGen.Lib.Rendering.Markdown.RenderInterop;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

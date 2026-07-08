@@ -5,8 +5,8 @@
 
 using System.ComponentModel;
 
-using Bookgen.Lib.AppSettings;
-using Bookgen.Lib.Pipeline;
+using BookGen.Lib.AppSettings;
+using BookGen.Lib.Pipeline;
 
 using BookGen.Cli.Annotations;
 using BookGen.Vfs;

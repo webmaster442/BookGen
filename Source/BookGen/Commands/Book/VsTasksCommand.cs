@@ -5,7 +5,7 @@
 
 using System.ComponentModel;
 
-using Bookgen.Lib.Domain.VsCode;
+using BookGen.Lib.Domain.VsCode;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

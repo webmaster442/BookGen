@@ -39,7 +39,7 @@ public sealed class CssClasses
     /// css classes aplied to `blockquote` element
     /// </summary>
     public string Blockquote { get; set; } = string.Empty;
-    
+
     /// <summary>   
     /// css classes aplied to `figure` element
     /// </summary>

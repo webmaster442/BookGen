@@ -6,8 +6,8 @@
 using System.ComponentModel;
 using System.Text;
 
-using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.Rendering.Markdown;
+using BookGen.Lib.Domain.IO.Configuration;
+using BookGen.Lib.Rendering.Markdown;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

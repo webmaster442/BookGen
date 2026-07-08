@@ -5,10 +5,10 @@
 
 using System.ComponentModel;
 
-using Bookgen.Lib;
-using Bookgen.Lib.Confighandling;
-using Bookgen.Lib.Domain.IO;
-using Bookgen.Lib.Domain.IO.Configuration;
+using BookGen.Lib;
+using BookGen.Lib.Confighandling;
+using BookGen.Lib.Domain.IO;
+using BookGen.Lib.Domain.IO.Configuration;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

@@ -3,10 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.Rendering.Images;
-using Bookgen.Lib.Rendering.Markdown;
-using Bookgen.Lib.Rendering.Markdown.RenderInterop;
+using BookGen.Lib.Domain.IO.Configuration;
+using BookGen.Lib.Rendering.Images;
+using BookGen.Lib.Rendering.Markdown;
+using BookGen.Lib.Rendering.Markdown.RenderInterop;
 
 using Moq;
 

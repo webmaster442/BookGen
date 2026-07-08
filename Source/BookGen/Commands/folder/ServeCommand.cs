@@ -5,8 +5,8 @@
 
 using System.ComponentModel;
 
-using Bookgen.Lib;
-using Bookgen.Lib.Http;
+using BookGen.Lib;
+using BookGen.Lib.Http;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

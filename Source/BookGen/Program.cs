@@ -5,7 +5,7 @@
 
 using System.Diagnostics;
 
-using Bookgen.Lib.AppSettings;
+using BookGen.Lib.AppSettings;
 
 using BookGen;
 using BookGen.Cli;

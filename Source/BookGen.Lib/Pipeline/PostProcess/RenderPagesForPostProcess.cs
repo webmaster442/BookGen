@@ -1,0 +1,86 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Lib.Domain;
+using BookGen.Lib.Domain.IO;
+using BookGen.Lib.Domain.IO.Configuration;
+using BookGen.Lib.Domain.PostProcess;
+using BookGen.Lib.Rendering;
+using BookGen.Lib.Rendering.Images;
+using BookGen.Lib.Rendering.Markdown;
+using BookGen.Lib.Rendering.Markdown.RenderInterop;
+
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+
+namespace BookGen.Lib.Pipeline.PostProcess;
+
+internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
+{
+    private readonly IMemoryCache _memoryCache;
+
+    public RenderPagesForPostProcess(PostProcessState state, IMemoryCache memoryCache) : base(state)
+    {
+        _memoryCache = memoryCache;
+    }
+
+    public override async Task<StepResult> ExecuteAsync(IBookEnvironment environment, ILogger logger)
+    {
+        var imgConfig = new ImageConfig()
+        {
+            ResizeAndRecodeImages = ImgRecodeOption.Passtrough,
+            SvgRecode = SvgRecodeOption.Passtrough,
+        };
+
+        var imgService = new ImgService(environment.Source, logger, imgConfig);
+
+        var cached = new CachedImageService(imgService, _memoryCache);
+
+        using var settings = new MarkdownRenderSettings(cached)
+        {
+            CssClasses = environment.Configuration.PrintConfig.CssClasses,
+            DeleteFirstH1 = false,
+            HostUrl = string.Empty,
+            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, imgConfig),
+            OffsetHeadingsBy = 1,
+            AutoEmbedSupportedLinks = false,
+        };
+
+        using var markdown = new MarkdownConverter(settings);
+
+        State.Export = new PostProcessExport
+        {
+            BookTitle = environment.Configuration.BookTitle,
+            Chapters = new List<ExportChapter>()
+        };
+
+        foreach (TocChapter chapter in environment.TableOfContents.Chapters)
+        {
+            ExportChapter exportChapter = new ExportChapter
+            {
+                Title = chapter.Title,
+                Items = new List<ChapterItem>()
+            };
+
+            foreach (var file in chapter.Files)
+            {
+                logger.LogDebug("Rendering {file}...", file);
+
+                SourceFile sourceData = await environment.Source.GetSourceFile(file, logger);
+
+                exportChapter.Items.Add(new ChapterItem
+                {
+                    Title = sourceData.FrontMatter.Title,
+                    Tags = sourceData.FrontMatter.TagArray,
+                    Html = markdown.RenderMarkdownToHtml(sourceData.Content),
+                });
+            }
+
+            State.Export.Chapters.Add(exportChapter);
+        }
+
+        return StepResult.Success;
+    }
+}

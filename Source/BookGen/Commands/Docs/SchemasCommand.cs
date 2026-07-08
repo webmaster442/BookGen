@@ -7,9 +7,9 @@ using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Schema;
 
-using Bookgen.Lib;
-using Bookgen.Lib.Domain.IO;
-using Bookgen.Lib.Domain.IO.Configuration;
+using BookGen.Lib;
+using BookGen.Lib.Domain.IO;
+using BookGen.Lib.Domain.IO.Configuration;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

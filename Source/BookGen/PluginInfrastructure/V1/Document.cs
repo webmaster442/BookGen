@@ -3,8 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Domain;
-using Bookgen.Lib.Rendering;
+using BookGen.Lib.Domain;
+using BookGen.Lib.Rendering;
 
 using BookGen.Api.V1;
 using BookGen.Vfs;

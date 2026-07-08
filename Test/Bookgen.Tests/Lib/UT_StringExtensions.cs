@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Internals;
+using BookGen.Lib.Internals;
 
 namespace Bookgen.Tests.Lib;
 

@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib;
+using BookGen.Lib;
 
 using BookGen.Commands.Convert;
 using BookGen.Vfs;

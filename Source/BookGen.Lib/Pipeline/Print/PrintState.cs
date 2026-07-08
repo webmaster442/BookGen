@@ -1,0 +1,13 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Text;
+
+namespace BookGen.Lib.Pipeline.Print;
+
+internal class PrintState
+{
+    public StringBuilder Buffer { get; } = new StringBuilder(1024 * 1024);
+}

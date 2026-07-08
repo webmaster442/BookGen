@@ -5,9 +5,9 @@
 
 using System.ComponentModel;
 
-using Bookgen.Lib;
-using Bookgen.Lib.Domain.IO;
-using Bookgen.Lib.Domain.IO.Configuration;
+using BookGen.Lib;
+using BookGen.Lib.Domain.IO;
+using BookGen.Lib.Domain.IO.Configuration;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -46,7 +46,7 @@ internal sealed class NewBookCommand : AsyncCommand<BookGenArgumentBase>
         await _fileSystem.SerializeAsync(FileNameConstants.ConfigFile, new Config(), writeSchema: true);
 
         _logger.LogInformation("Creating {toc}...", FileNameConstants.TableOfContents);
-        await _fileSystem.SerializeAsync(FileNameConstants.TableOfContents, new Bookgen.Lib.Domain.IO.TableOfContents(), writeSchema: true);
+        await _fileSystem.SerializeAsync(FileNameConstants.TableOfContents, new BookGen.Lib.Domain.IO.TableOfContents(), writeSchema: true);
 
         return ExitCodes.Success;
     }

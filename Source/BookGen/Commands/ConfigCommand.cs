@@ -5,7 +5,7 @@
 
 using System.ComponentModel;
 
-using Bookgen.Lib.AppSettings;
+using BookGen.Lib.AppSettings;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

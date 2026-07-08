@@ -50,7 +50,7 @@ public sealed class RendererOptions
     /// A value of -1 indicates that the original width should be preserved.
     /// </summary>
     public int ResizeWidth { get; set; } = -1;
-    
+
     /// <summary>
     /// Specifies the height to which images should be resized during the rendering process.
     /// A value of -1 indicates that the original height should be preserved.

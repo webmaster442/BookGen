@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Domain.IO;
+using BookGen.Lib.Domain.IO;
 
 using BookGen.Api.V1;
 

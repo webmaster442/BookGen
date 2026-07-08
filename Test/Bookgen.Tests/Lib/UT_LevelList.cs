@@ -5,7 +5,7 @@
 
 using System.Text;
 
-using Bookgen.Lib.Rendering.Markdown.TableOfContents;
+using BookGen.Lib.Rendering.Markdown.TableOfContents;
 
 namespace Bookgen.Tests.Lib;
 

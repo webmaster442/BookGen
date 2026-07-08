@@ -5,7 +5,7 @@
 
 using System.Reflection;
 
-using Bookgen.Lib.Domain.IO.Configuration;
+using BookGen.Lib.Domain.IO.Configuration;
 
 using Microsoft.Extensions.Logging;
 

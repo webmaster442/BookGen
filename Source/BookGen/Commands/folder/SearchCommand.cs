@@ -7,12 +7,12 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
-using Bookgen.Lib;
-using Bookgen.Lib.AppSettings;
-using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.Rendering.Images;
-using Bookgen.Lib.Rendering.Markdown;
-using Bookgen.Lib.Rendering.Markdown.RenderInterop;
+using BookGen.Lib;
+using BookGen.Lib.AppSettings;
+using BookGen.Lib.Domain.IO.Configuration;
+using BookGen.Lib.Rendering.Images;
+using BookGen.Lib.Rendering.Markdown;
+using BookGen.Lib.Rendering.Markdown.RenderInterop;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;

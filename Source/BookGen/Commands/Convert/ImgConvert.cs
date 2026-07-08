@@ -6,8 +6,8 @@
 using System.ComponentModel;
 using System.Globalization;
 
-using Bookgen.Lib.Domain;
-using Bookgen.Lib.Rendering.Images;
+using BookGen.Lib.Domain;
+using BookGen.Lib.Rendering.Images;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
