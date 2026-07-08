@@ -11,7 +11,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.PluginInfrastructure.V1;
+namespace BookGen.Infrastructure.Plugins.V1;
 
 internal sealed class Document : IDocument
 {

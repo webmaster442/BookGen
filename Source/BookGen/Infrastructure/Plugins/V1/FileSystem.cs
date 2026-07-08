@@ -5,7 +5,7 @@
 
 using BookGen.Api.V1;
 
-namespace BookGen.PluginInfrastructure.V1;
+namespace BookGen.Infrastructure.Plugins.V1;
 
 internal sealed class FileSystem : IFileSystem
 {

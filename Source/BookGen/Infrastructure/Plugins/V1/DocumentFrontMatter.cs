@@ -7,7 +7,7 @@ using BookGen.Lib.Domain.IO;
 
 using BookGen.Api.V1;
 
-namespace BookGen.PluginInfrastructure.V1;
+namespace BookGen.Infrastructure.Plugins.V1;
 
 internal sealed class DocumentFrontMatter : IDocumentFrontMatter
 {

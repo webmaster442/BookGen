@@ -11,7 +11,7 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.PluginInfrastructure;
+namespace BookGen.Infrastructure.Plugins;
 
 internal sealed class PluginLoader : IDisposable
 {

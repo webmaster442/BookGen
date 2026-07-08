@@ -6,7 +6,7 @@
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace BookGen.PluginInfrastructure;
+namespace BookGen.Infrastructure.Plugins;
 
 internal sealed class PluginLoadContext : AssemblyLoadContext
 {
