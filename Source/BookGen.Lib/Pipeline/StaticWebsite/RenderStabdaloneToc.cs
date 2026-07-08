@@ -3,8 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Lib.Templates;
-
+using BookGen.Lib.Rendering.Templates;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;

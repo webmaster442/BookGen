@@ -9,7 +9,6 @@ using AngleSharp.Html.Parser;
 
 using BookGen.Lib.Rendering.Images;
 using BookGen.Lib.Rendering.Templates;
-using BookGen.Lib.Templates;
 
 using BookGen.Vfs;
 

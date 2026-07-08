@@ -9,7 +9,7 @@ using BookGen.Lib.Domain;
 using BookGen.Lib.Rendering.Images;
 using BookGen.Lib.Rendering.Markdown;
 using BookGen.Lib.Rendering.Markdown.RenderInterop;
-using BookGen.Lib.Templates;
+using BookGen.Lib.Rendering.Templates;
 
 using BookGen.Vfs;
 

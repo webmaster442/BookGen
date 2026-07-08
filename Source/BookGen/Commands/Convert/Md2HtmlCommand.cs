@@ -6,6 +6,8 @@
 using System.ComponentModel;
 using System.Text;
 
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Lib;
 using BookGen.Lib.AppSettings;
 using BookGen.Lib.Domain.IO.Configuration;
@@ -13,10 +15,6 @@ using BookGen.Lib.Rendering.Images;
 using BookGen.Lib.Rendering.Markdown;
 using BookGen.Lib.Rendering.Markdown.RenderInterop;
 using BookGen.Lib.Rendering.Templates;
-using BookGen.Lib.Templates;
-
-using BookGen.Cli;
-using BookGen.Cli.Annotations;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;

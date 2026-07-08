@@ -1,0 +1,11 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Lib.Rendering.Templates;
+
+public interface IDictionaryConvertible
+{
+    Dictionary<string, object?> ToDictionary(StringComparer comparer);
+}

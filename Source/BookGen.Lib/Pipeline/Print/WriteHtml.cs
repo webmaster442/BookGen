@@ -3,8 +3,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Lib.Rendering.Templates;
+
 using BookGen.Lib.Rendering.Templates;
-using BookGen.Lib.Templates;
 
 using Microsoft.Extensions.Logging;
 
@@ -21,8 +22,8 @@ internal sealed class WriteHtml : PipeLineStep<PrintState>
         logger.LogInformation("Writing print html...");
 
         string tempate = await environment.GetTemplate(frontMatterTemplate: null,
-                                               fallbackTemplate: BundledAssets.TemplatePrint,
-                                               defaultTemplateSelector: cfg => cfg.PrintConfig.DefaultTempate);
+                                                       fallbackTemplate: BundledAssets.TemplatePrint,
+                                                       defaultTemplateSelector: cfg => cfg.PrintConfig.DefaultTempate);
 
         var renderer = new TemplateEngine(logger, environment);
 

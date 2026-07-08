@@ -5,6 +5,8 @@
 
 using System.Text;
 
+using Bookgen.Lib.Rendering.Templates;
+
 using BookGen.Lib.Domain;
 using BookGen.Lib.Domain.Epub;
 using BookGen.Lib.Domain.IO;
@@ -15,7 +17,6 @@ using BookGen.Lib.Rendering.Images;
 using BookGen.Lib.Rendering.Markdown;
 using BookGen.Lib.Rendering.Markdown.RenderInterop;
 using BookGen.Lib.Rendering.Templates;
-using BookGen.Lib.Templates;
 
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;

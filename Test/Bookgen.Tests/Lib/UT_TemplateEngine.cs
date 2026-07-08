@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Lib.Rendering.Templates;
-using BookGen.Lib.Templates;
 
 using BookGen.Vfs;
 

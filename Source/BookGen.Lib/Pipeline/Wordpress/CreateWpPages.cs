@@ -16,7 +16,6 @@ using BookGen.Lib.Rendering.Images;
 using BookGen.Lib.Rendering.Markdown;
 using BookGen.Lib.Rendering.Markdown.RenderInterop;
 using BookGen.Lib.Rendering.Templates;
-using BookGen.Lib.Templates;
 
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;

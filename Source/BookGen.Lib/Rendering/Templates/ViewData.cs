@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace BookGen.Lib.Rendering.Templates;
 
-public class ViewData
+public class ViewData : IDictionaryConvertible, ICanProvideRoughSize
 {
     /// <summary>
     /// HTML document title
@@ -31,16 +31,24 @@ public class ViewData
 
     public Dictionary<string, string> AdditionalData { get; init; } = new();
 
-    public Dictionary<string, string> GetDataTable(StringComparer comparer)
+    public int CalculateRoughSize()
     {
-        Dictionary<string, string> result = new(comparer);
+        return Title.Length
+            + Content.Length
+            + Host.Length
+            + AdditionalData.Sum(kvp => kvp.Key.Length + kvp.Value.Length);
+    }
+
+    public Dictionary<string, object?> ToDictionary(StringComparer comparer)
+    {
+        Dictionary<string, object?> result = new(comparer);
         IEnumerable<PropertyInfo> properties = GetType()
             .GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .Where(p => p.Name != nameof(AdditionalData));
 
         foreach (PropertyInfo? property in properties)
         {
-            result.Add(property.Name, property.GetValue(this)?.ToString() ?? "");
+            result.Add(property.Name, property.GetValue(this));
         }
 
         foreach (KeyValuePair<string, string> kvp in AdditionalData)

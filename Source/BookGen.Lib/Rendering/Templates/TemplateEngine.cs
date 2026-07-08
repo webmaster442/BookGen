@@ -1,124 +1,38 @@
-﻿//-----------------------------------------------------------------------------
-// (c) 2019-2026 Ruzsinszki Gábor
-// This code is licensed under MIT license (see LICENSE for details)
-//-----------------------------------------------------------------------------
-
-using System.Text;
-using System.Text.RegularExpressions;
-
-using BookGen.Lib.Rendering.Templates;
-
-using BookGen.Vfs;
+﻿using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
-namespace BookGen.Lib.Templates;
+namespace BookGen.Lib.Rendering.Templates;
 
-public sealed partial class TemplateEngine
+public sealed class TemplateEngine : GenericTemplateEngine<ViewData>
 {
-    private readonly StringComparer _comparer;
-    private readonly Dictionary<string, Func<string[], string>> _lambdaTable;
-    private readonly ILogger _logger;
-    private readonly DefaultFunctions _functions;
+    private readonly IAssetSource _assetSource;
 
-    public void RegisterFunction(string name, Func<string[], string> function)
+    public TemplateEngine(ILogger logger, IAssetSource assetSource) : this(logger, assetSource, new TemplateEngineOptions())
     {
-        _lambdaTable.Add(name, function);
     }
 
-    public TemplateEngine(ILogger logger, IAssetSource assetSource)
+    public TemplateEngine(ILogger logger, IAssetSource assetSource, TemplateEngineOptions options) : base(logger, options)
     {
-        _comparer = StringComparer.InvariantCultureIgnoreCase;
-        _logger = logger;
-        _functions = new DefaultFunctions(assetSource);
-        _lambdaTable = new Dictionary<string, Func<string[], string>>(_comparer)
-        {
-            { "BuildDate", _functions.BuildDate },
-            { "JSPageToc", _functions.JSPageToc },
-        };
-    }
-
-    [GeneratedRegex(@"\b([\w\-]+)\s*\(\s*(?:""([^""]*)""(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?(?:\s*,\s*""([^""]*)"")?)?\s*\)")]
-    private static partial Regex FunctionRegex();
-
-    [GeneratedRegex(@"\{\{([\w-\(\)\""\, -_])+\}\}")]
-    private static partial Regex TemplatePartRegex();
-
-    public string Render<TData>(string template, TData viewData) where TData : ViewData
-    {
-        using var stringWriter = new StringWriter(new StringBuilder(template.Length + viewData.Content.Length + viewData.Title.Length));
-        Render(stringWriter, template, viewData);
-        return stringWriter.ToString();
-    }
-
-    public void Render<TData>(TextWriter target, string template, TData viewData) where TData : ViewData
-    {
-        Dictionary<string, string> dataTable = viewData.GetDataTable(_comparer);
-
-        StringBuilder lineBuffer = new(120);
-
-        using StringReader reader = new(template.Replace("{{content}}", viewData.Content, StringComparison.InvariantCultureIgnoreCase));
-        string? line;
-
-        while ((line = reader.ReadLine()) != null)
-        {
-            MatchCollection templatePartsInLine = TemplatePartRegex().Matches(line);
-
-            if (templatePartsInLine.Count < 1)
-            {
-                target.WriteLine(line);
-                continue;
-            }
-
-            int lastIndex = 0;
-            lineBuffer.Clear();
-
-            foreach (Match templatePart in templatePartsInLine)
-            {
-                lineBuffer.Append(line, lastIndex, templatePart.Index - lastIndex);
-                if (FunctionRegex().IsMatch(templatePart.Value))
-                {
-                    string[] templateFunction = FunctionRegex().Split(templatePart.Value);
-                    string functionName = templateFunction.Skip(1).First();
-                    string[] arguments = templateFunction.Skip(2).TakeWhile(f => f != "}}").ToArray();
-
-                    if (!_lambdaTable.TryGetValue(functionName, out Func<string[], string>? function))
-                    {
-                        _logger.LogWarning("Function {FunctionName} is not registered.", functionName);
-                        lineBuffer.Append($"Function {functionName} is not registered.");
-                        continue;
-                    }
-                    string result = _lambdaTable[functionName].Invoke(arguments);
-                    lineBuffer.Append(result);
-                }
-                else
-                {
-                    string key = templatePart.Value[2..^2];
-
-                    if (key.Equals("content", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        throw new InvalidOperationException("Content found in markdown document. Recursive replacement detected.");
-                    }
-
-                    if (!dataTable.TryGetValue(key, out var value))
-                    {
-                        _logger.LogWarning("Key {Key} is not found in data table.", key);
-                        //lineBuffer.Append($"Key {key} is not found in data table.");
-                        continue;
-                    }
-
-                    lineBuffer.Append(dataTable[key]);
-
-                }
-                lastIndex = templatePart.Index + templatePart.Length;
-            }
-            lineBuffer.Append(line, lastIndex, line.Length - lastIndex);
-
-            if (lineBuffer.Length > 0)
-            {
-                target.Write(lineBuffer);
-                target.WriteLine();
-            }
-        }
+        _assetSource = assetSource;
+        var functions = new TemplateFunctions(options.TimeProvider);
+        RegisterFunction(nameof(functions.ToUpper), functions.ToUpper);
+        RegisterFunction(nameof(functions.ToLower), functions.ToLower);
+        RegisterFunction(nameof(functions.Substring), functions.Substring);
+        RegisterFunction(nameof(functions.Trim), functions.Trim);
+        RegisterFunction(nameof(functions.TrimStart), functions.TrimStart);
+        RegisterFunction(nameof(functions.TrimEnd), functions.TrimEnd);
+        RegisterFunction(nameof(functions.Replace), functions.Replace);
+        RegisterFunction(nameof(functions.Concat), functions.Concat);
+        RegisterFunction(nameof(functions.RegexReplace), functions.RegexReplace);
+        RegisterFunction(nameof(functions.HtmlEncode), functions.HtmlEncode);
+        RegisterFunction(nameof(functions.UrlEncode), functions.UrlEncode);
+        RegisterFunction(nameof(functions.CurrentDate), functions.CurrentDate);
+        RegisterFunction(nameof(functions.CurrentDateFormat), functions.CurrentDateFormat);
+        RegisterFunction(nameof(functions.CurrentDateTime), functions.CurrentDateTime);
+        RegisterFunction(nameof(functions.CurrentDateTimeFormat), functions.CurrentDateTimeFormat);
+        RegisterFunction(nameof(functions.CurrentTime), functions.CurrentTime);
+        RegisterFunction(nameof(functions.CurrentTimeFormat), functions.CurrentTimeFormat);
+        RegisterFunction(nameof(functions.UrlDecode), functions.UrlDecode);
     }
 }

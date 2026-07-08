@@ -5,10 +5,11 @@
 
 using System.Text;
 
+using Bookgen.Lib.Rendering.Templates;
+
 using BookGen.Lib.Domain.Epub;
 using BookGen.Lib.Internals;
 using BookGen.Lib.Rendering.Templates;
-using BookGen.Lib.Templates;
 
 using Microsoft.Extensions.Logging;
 
