@@ -57,6 +57,11 @@
     "build": {
       "commandName": "Project",
       "commandLineArgs": "build"
+    },
+    "commands": {
+      "commandName": "Project",
+      "commandLineArgs": "commands",
+      "workingDirectory": "p:\\"
     }
   }
 }

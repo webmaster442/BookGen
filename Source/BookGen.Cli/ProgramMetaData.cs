@@ -14,7 +14,9 @@ public sealed record class ProgramMetaData
 
     public static ProgramMetaData FromExecutingAssembly()
     {
-        AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+        AssemblyName assemblyName = Assembly.GetEntryAssembly()?.GetName()
+            ?? throw new InvalidOperationException("Failed to get entry assembly.");
+
         return new ProgramMetaData
         {
             AppName = assemblyName.Name ?? "",

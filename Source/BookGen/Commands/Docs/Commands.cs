@@ -37,17 +37,15 @@ internal sealed class Commands : Command<BookGenArgumentBase>
         StringBuilder commandsDoc = new(4096);
         Document openCliDocs = _commandRunnerProxy.GetOpenCliDocs();
         commandsDoc
-            .Append("# Commands")
+            .AppendLine("# Commands")
             .AppendLine();
 
-        foreach (var command in openCliDocs?.Commands ?? new List<Cli.OpenCli.Draft.Command>())
+        foreach (Cli.OpenCli.Draft.Command command in openCliDocs?.Commands?.OrderBy(x => x.Name) ?? Enumerable.Empty<Cli.OpenCli.Draft.Command>())
         {
             var cmd = MarkdownGenerator.GenerateMarkdown(command, 2);
             commandsDoc
-                .Append(cmd)
-                .AppendLine();
+                .Append(cmd);
         }
-
 
         _logger.LogInformation("Writing commands.md...");
         _writableFileSystem.Scope = arguments.Directory;
