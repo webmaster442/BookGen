@@ -71,7 +71,7 @@ internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Arguments>
         _assets = assetSource;
     }
 
-    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         using var render = IRenderInterop.CreateForSvg(_assets, _programPathResolver);
 

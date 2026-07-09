@@ -36,7 +36,7 @@ internal sealed class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
         _logger = logger;
     }
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         int modified = 0;
         _writableFileSystem.Scope = arguments.Directory;

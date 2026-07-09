@@ -33,7 +33,7 @@ internal sealed class ValidateCommand : AsyncCommand<BookGenArgumentBase>
         _logger = logger;
     }
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         _writableFileSystem.Scope = arguments.Directory;
 

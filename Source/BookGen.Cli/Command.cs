@@ -17,7 +17,7 @@ public abstract class Command : ICommand
     /// <returns>reurtn value to shell</returns>
     public abstract int Execute(IReadOnlyList<string> context);
 
-    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, IReadOnlyList<string> context)
+    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         return Task.FromResult(Execute(context));
     }

@@ -45,7 +45,7 @@ internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.Arguments
         _logger = logger;
     }
 
-    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         _soruce.Scope = arguments.Directory;
 

@@ -91,7 +91,7 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
         _memoryCache = memoryCache;
     }
 
-    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         using var loader = new PluginLoader(_logger, _soruce);
         if (!loader.TryLoadPlugin(arguments.PluginFile, out IBuildPluginV1? plugin))

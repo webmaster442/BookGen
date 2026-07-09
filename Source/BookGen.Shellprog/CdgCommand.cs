@@ -13,7 +13,7 @@ namespace BookGen.Shellprog;
 [CommandName("cdg")]
 internal sealed class CdgCommand : AsyncCommand<CdgArguments>
 {
-    public override async Task<int> ExecuteAsync(CdgArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(CdgArguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         var menu = new CdgSelector(arguments.Folder, arguments.ShowHidden);
         await menu.ShowMenu();

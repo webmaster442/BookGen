@@ -64,7 +64,7 @@ internal sealed class SearchCommand : AsyncCommand<SearchCommand.Arguments>
         _assetSource = assetSource;
     }
 
-    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         _soruce.Scope = arguments.Directory;
 

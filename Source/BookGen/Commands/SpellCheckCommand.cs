@@ -74,7 +74,7 @@ internal sealed class SpellCheckCommand : AsyncCommand<SpellCheckCommand.Argumen
         _fileSystem = fileSystem;
     }
 
-    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         if (arguments.DictionariesDisplay)
         {

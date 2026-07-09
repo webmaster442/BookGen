@@ -46,7 +46,7 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
 
     public abstract Pipeline GetPipeLine();
 
-    public override async Task<int> ExecuteAsync(BuildArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(BuildArguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         if (_target.DirectoryExists(arguments.OutputDirectory))
         {
@@ -75,8 +75,7 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
 
         Pipeline pipeline = GetPipeLine();
 
-
-        bool result = await pipeline.ExecuteAsync(env, _logger, CancellationToken.None);
+        bool result = await pipeline.ExecuteAsync(env, _logger, token);
 
         return result ? ExitCodes.Success : ExitCodes.GeneralError;
     }

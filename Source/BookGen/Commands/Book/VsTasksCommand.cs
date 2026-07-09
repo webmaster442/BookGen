@@ -66,7 +66,7 @@ internal sealed class VsTasksCommand : AsyncCommand<BookGenArgumentBase>
         _writableFileSystem = writableFileSystem;
     }
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         var file = Path.Combine(arguments.Directory, ".vscode", "tasks.json");
 

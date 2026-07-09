@@ -51,7 +51,7 @@ internal sealed class ToolsCommand : AsyncCommand
     public string ToSDisplayString(TooldownloaderBase tool)
         => $"{tool.ToolInfo.Name} (~{tool.ToolInfo.ApproximateSize})";
 
-    public override async Task<int> ExecuteAsync(IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(IReadOnlyList<string> context, CancellationToken token)
     {
         AnsiConsole.Clear();
         AnsiConsole.Write(new FigletText("Tool installer"));

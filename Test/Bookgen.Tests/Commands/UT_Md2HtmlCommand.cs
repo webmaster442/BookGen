@@ -44,7 +44,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
             Title = "Document title"
         };
 
-        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>());
+        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>(), CancellationToken.None);
 
         const string expectedContent = "<p>test</p>\n";
 
@@ -69,7 +69,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
             Title = "Document title"
         };
 
-        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>());
+        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>(), CancellationToken.None);
 
         using (Assert.EnterMultipleScope())
         {

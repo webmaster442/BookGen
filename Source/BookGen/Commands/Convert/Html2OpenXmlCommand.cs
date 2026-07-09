@@ -81,7 +81,7 @@ internal sealed class Html2OpenXmlCommand : AsyncCommand<Html2OpenXmlCommand.Arg
     }
 
 
-    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         using Stream generated = _fileSystem.CreateWriteStream(arguments.OutputFile);
         using (Stream template = _assetSource.GetBinaryAssetStream(BundledAssets.WordTemplate))

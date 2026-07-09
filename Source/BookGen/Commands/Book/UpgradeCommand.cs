@@ -32,7 +32,7 @@ internal class UpgradeCommand : AsyncCommand<BookGenArgumentBase>
         _source = source;
     }
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         var upgrader = new ConfigUpgrader(_logger);
         _source.Scope = arguments.Directory;

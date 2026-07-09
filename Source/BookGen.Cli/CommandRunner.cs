@@ -276,28 +276,32 @@ public sealed class CommandRunner
             return _settings.PlatformNotSupportedExitCode;
         }
 
-        if (argumentType == null)
-            return await command.ExecuteAsync(ArgumentsBase.Empty, argsToParse);
-
-        string jsonFileName = Path.ChangeExtension(commandName, ".json");
-
-        string argsJson = Path.Combine(Environment.CurrentDirectory, jsonFileName);
-
-        if (argsToParse.Count < 1
-            && File.Exists(argsJson))
+        using (var tokenSource = new ConsoleCancellationTokenSource())
         {
-            _log.LogInformation("Loading arguments from {filename}...", jsonFileName);
-            ArgumentJsonItem[] items = await LoadFromJsonFile(argsJson);
+            if (argumentType == null)
+                return await command.ExecuteAsync(ArgumentsBase.Empty, argsToParse, tokenSource.Token);
 
-            return await ExecuteMultiple(items, argumentType, command, commandName);
+            string jsonFileName = Path.ChangeExtension(commandName, ".json");
+
+            string argsJson = Path.Combine(Environment.CurrentDirectory, jsonFileName);
+
+            if (argsToParse.Count < 1
+                && File.Exists(argsJson))
+            {
+                _log.LogInformation("Loading arguments from {filename}...", jsonFileName);
+                ArgumentJsonItem[] items = await LoadFromJsonFile(argsJson);
+
+                return await ExecuteMultiple(items, argumentType, command, commandName, tokenSource.Token);
+            }
+            return await ExecuteSingle(argsToParse, argumentType, command, commandName, tokenSource.Token);
         }
-        return await ExecuteSingle(argsToParse, argumentType, command, commandName);
     }
 
     private async Task<int> ExecuteSingle(IReadOnlyList<string> argsToParse,
                                           Type argumentType,
                                           ICommand command,
-                                          string commandName)
+                                          string commandName,
+                                          CancellationToken token)
     {
         ArgumentsBase args = ArgumentsBase.Empty;
         ArgumentParser parser = new(argumentType, _log);
@@ -326,18 +330,19 @@ public sealed class CommandRunner
         if (BeforeRunHook != null)
             await BeforeRunHook.Invoke(args, argsToParse);
 
-        return await command.ExecuteAsync(args, argsToParse);
+        return await command.ExecuteAsync(args, argsToParse, token);
     }
 
     private async Task<int> ExecuteMultiple(ArgumentJsonItem[] items,
                                             Type argumentType,
                                             ICommand command,
-                                            string commandName)
+                                            string commandName,
+                                            CancellationToken token)
     {
         foreach (ArgumentJsonItem item in items)
         {
             _log.LogInformation("Executing {name} from json file...", item.Name);
-            int exitcode = await ExecuteSingle(item.Arguments, argumentType, command, commandName);
+            int exitcode = await ExecuteSingle(item.Arguments, argumentType, command, commandName, token);
             if (exitcode != 0)
             {
                 _log.LogCritical("Failed to execute {name}. Exit code: {exitcode}", item.Name, exitcode);

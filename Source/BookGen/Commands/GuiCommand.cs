@@ -38,7 +38,7 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
         _commandRunnerProxy = commandRunnerProxy;
     }
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         WinTerminal.SetWindowTitle("BookGen Gui");
         AnsiConsole.Clear();

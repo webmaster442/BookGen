@@ -83,7 +83,7 @@ internal sealed class InstallCommand : AsyncCommand<InstallCommand.Arguments>
         return Task.CompletedTask;
     }
 
-    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         if (arguments.CheckTerminalInstall)
         {

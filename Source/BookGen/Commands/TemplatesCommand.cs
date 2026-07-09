@@ -40,7 +40,7 @@ internal class TemplatesCommand : AsyncCommand<TemplatesCommand.Arguments>
         _defaultTemplates = ["Epub.html", "Md2Html.html", "Print.html", "Static.html"];
     }
 
-    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         if (string.IsNullOrEmpty(arguments.TemplateName))
         {

@@ -71,7 +71,7 @@ internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.Arguments>
         _assetSource = assetSource;
     }
 
-    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         using var render = IRenderInterop.CreateForSvg(_assetSource, _programPathResolver);
 

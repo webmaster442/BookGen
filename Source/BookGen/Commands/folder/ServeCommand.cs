@@ -31,7 +31,7 @@ internal sealed class ServeCommand : AsyncCommand<BookGenArgumentBase>
         _fs = fs;
     }
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         _fs.Scope = arguments.Directory;
 

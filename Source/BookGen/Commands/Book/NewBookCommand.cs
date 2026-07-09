@@ -32,7 +32,7 @@ internal sealed class NewBookCommand : AsyncCommand<BookGenArgumentBase>
         _fileSystem = writableFileSystem;
     }
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         _fileSystem.Scope = arguments.Directory;
 
