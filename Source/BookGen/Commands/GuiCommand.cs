@@ -5,11 +5,10 @@
 
 using System.ComponentModel;
 
-using BookGen.Lib.Http;
-
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Terminal;
+using BookGen.Lib.Http;
 using BookGen.Vfs;
 
 using Spectre.Console;

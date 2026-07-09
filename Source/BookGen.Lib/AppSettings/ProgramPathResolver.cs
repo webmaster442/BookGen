@@ -50,7 +50,8 @@ public sealed class ProgramPathResolver : IProgramPathResolver
             string fullPath = Path.Combine(path, binaryToSearch);
             if (File.Exists(fullPath))
                 return fullPath;
-        };
+        }
+        ;
 
         return null;
     }

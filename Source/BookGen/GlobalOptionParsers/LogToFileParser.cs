@@ -17,7 +17,7 @@ internal class LogToFileParser : GlobalOptionParser
 
     private readonly ProgramInfo _info;
 
-    public LogToFileParser(ProgramInfo info) 
+    public LogToFileParser(ProgramInfo info)
         : base(LogFileShort, LogFileLong)
     {
         _info = info;

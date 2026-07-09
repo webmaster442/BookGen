@@ -13,7 +13,7 @@ public static class ProcessRunner
     {
         if (!Uri.TryCreate(url, UriKind.Absolute, out _))
             throw new ArgumentException("invalid url", nameof(url));
-           
+
         using (var process = new Process())
         {
             process.StartInfo.UseShellExecute = true;

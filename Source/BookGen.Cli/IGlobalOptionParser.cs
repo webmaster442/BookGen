@@ -19,7 +19,7 @@ public abstract class GlobalOptionParser
 
         if (shortName.StartsWith('-'))
             throw new ArgumentException("Short name cannot start with '-'", nameof(shortName));
-        
+
         ShortName = $"-{shortName}";
         LongName = $"--{longName}";
     }

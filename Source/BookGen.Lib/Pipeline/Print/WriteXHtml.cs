@@ -71,7 +71,7 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
         foreach (IElement imageElement in imageElements)
         {
             string? src = imageElement.GetAttribute("src");
-            
+
             if (string.IsNullOrEmpty(src))
                 continue;
 
@@ -122,7 +122,7 @@ internal sealed class WriteXHtml : PipeLineStep<PrintState>
         await ExtractImages(rendered, environment.Output);
 
         logger.LogInformation("Moving css into inline atttibutes...");
-        
+
         using var pm = new PreMailer.Net.PreMailer(rendered);
         InlineResult result = pm.MoveCssInline(removeStyleElements: false, preserveMediaQueries: true);
 

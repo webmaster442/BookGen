@@ -3,9 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Lib.AppSettings;
-
 using BookGen.Cli;
+using BookGen.Lib.AppSettings;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
@@ -24,7 +23,7 @@ internal abstract class CommandTestBase<TCommand> where TCommand : ICommand
     protected readonly Mock<IFileSystemFactory> FilesystemFactoryMock = new Mock<IFileSystemFactory>(MockBehavior.Strict);
     protected readonly Mock<IProgramPathResolver> ProgramPathResolverMock = new Mock<IProgramPathResolver>(MockBehavior.Strict);
 
-    protected ICommand Command { get; private set; }
+    protected ICommand? Command { get; private set; }
 
     [SetUp]
     public void Setup()

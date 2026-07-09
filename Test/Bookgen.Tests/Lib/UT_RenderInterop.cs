@@ -14,9 +14,9 @@ namespace Bookgen.Tests.Lib;
 [TestFixture]
 internal class UT_RenderInterop
 {
-    private RenderInterop _sut;
-    private ImageConfig _config;
-    private TestEnvironment _environment;
+    private RenderInterop? _sut;
+    private ImageConfig? _config;
+    private TestEnvironment? _environment;
 
     [SetUp]
     public void Setup()
@@ -45,7 +45,7 @@ internal class UT_RenderInterop
         }
 
         ImageResult svg = _sut.RenderLatex("\\frac{1}{2} + \\sqrt{x}");
-        
+
         using (Assert.EnterMultipleScope())
         {
             Assert.That(svg.ImageType, Is.EqualTo(ImageType.Svg));

@@ -5,14 +5,13 @@
 
 using System.Diagnostics;
 
-using BookGen.Lib.AppSettings;
-
 using BookGen;
 using BookGen.Cli;
 using BookGen.Commands;
 using BookGen.GlobalOptionParsers;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
+using BookGen.Lib.AppSettings;
 using BookGen.Shell.Shared.Loging;
 using BookGen.Vfs;
 

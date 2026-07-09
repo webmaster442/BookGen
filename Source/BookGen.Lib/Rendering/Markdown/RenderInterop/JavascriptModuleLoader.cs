@@ -96,7 +96,7 @@ internal sealed class JavascriptModuleLoader : DocumentLoader
         }
 
         return !sourceUri.IsAbsoluteUri
-            ? null 
+            ? null
             : sourceUri;
     }
 
@@ -216,7 +216,7 @@ internal sealed class JavascriptModuleLoader : DocumentLoader
                                                    DocumentCategory category,
                                                    DocumentContextCallback contextCallback)
     {
-        if (_moduleAssets  == null)
+        if (_moduleAssets == null)
         {
             throw new InvalidOperationException("Module assets source is not provided.");
         }

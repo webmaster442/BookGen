@@ -7,12 +7,11 @@ using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Schema;
 
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Lib;
 using BookGen.Lib.Domain.IO;
 using BookGen.Lib.Domain.IO.Configuration;
-
-using BookGen.Cli;
-using BookGen.Cli.Annotations;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;

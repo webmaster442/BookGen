@@ -5,13 +5,12 @@
 
 using System.ComponentModel;
 
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Lib;
 using BookGen.Lib.Confighandling;
 using BookGen.Lib.Domain.IO;
 using BookGen.Lib.Domain.IO.Configuration;
-
-using BookGen.Cli;
-using BookGen.Cli.Annotations;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;

@@ -43,7 +43,7 @@ internal sealed class NuGetTempFolder : IDisposable
         var probePath = Path.Combine(_tempPath, "lib", frameworkMoniker);
 
         return Directory.Exists(probePath)
-            ? Directory.GetFiles(probePath, "*.dll", SearchOption.TopDirectoryOnly) 
+            ? Directory.GetFiles(probePath, "*.dll", SearchOption.TopDirectoryOnly)
             : Array.Empty<string>();
     }
 

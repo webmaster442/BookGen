@@ -3,9 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Lib.Domain.Github;
-
 using BookGen.Infrastructure.Tools;
+using BookGen.Lib.Domain.Github;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;

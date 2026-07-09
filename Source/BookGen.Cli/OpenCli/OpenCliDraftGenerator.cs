@@ -186,7 +186,7 @@ internal static class OpenCliDraftGenerator
             result.Add(item);
         }
 
-        for (int i = 0; i < result.Count -1; i++)
+        for (int i = 0; i < result.Count - 1; i++)
         {
             result[i] = $"{result[i]} \\";
         }

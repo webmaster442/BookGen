@@ -5,10 +5,9 @@
 
 using System.ComponentModel;
 
-using BookGen.Lib;
-
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Lib;
 using BookGen.Vfs;
 
 using DocumentFormat.OpenXml;

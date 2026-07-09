@@ -21,7 +21,7 @@ internal sealed class PluginLoadContext : AssemblyLoadContext
     {
         string? assemblyPath = _resolver.ResolveAssemblyToPath(assemblyName);
         return assemblyPath != null
-            ? LoadFromAssemblyPath(assemblyPath) 
+            ? LoadFromAssemblyPath(assemblyPath)
             : null;
     }
 
@@ -29,7 +29,7 @@ internal sealed class PluginLoadContext : AssemblyLoadContext
     {
         string? libraryPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
         return libraryPath != null
-            ? LoadUnmanagedDllFromPath(libraryPath) 
+            ? LoadUnmanagedDllFromPath(libraryPath)
             : IntPtr.Zero;
     }
 }

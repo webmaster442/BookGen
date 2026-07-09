@@ -5,10 +5,9 @@
 
 using System.ComponentModel;
 
+using BookGen.Cli.Annotations;
 using BookGen.Lib.AppSettings;
 using BookGen.Lib.Pipeline;
-
-using BookGen.Cli.Annotations;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -25,7 +24,7 @@ internal sealed class BuildPrintCommand : BuildCommandBase
                              IProgramPathResolver programPathResolver,
                              ILogger logger,
                              IAssetSource assetSource,
-                             IMemoryCache memoryCache) 
+                             IMemoryCache memoryCache)
         : base(soruce, target, programPathResolver, logger, assetSource, memoryCache)
     {
     }

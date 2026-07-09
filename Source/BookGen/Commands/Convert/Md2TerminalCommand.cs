@@ -6,11 +6,10 @@
 using System.ComponentModel;
 using System.Text;
 
-using BookGen.Lib.Domain.IO.Configuration;
-using BookGen.Lib.Rendering.Markdown;
-
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Lib.Domain.IO.Configuration;
+using BookGen.Lib.Rendering.Markdown;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;

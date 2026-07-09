@@ -30,7 +30,7 @@ public sealed class CommandRunnerProxy : ICommandRunnerProxy
     }
 
     public IEnumerable<string> GlobalOptions
-        => _globalOptions 
+        => _globalOptions
         ?? throw new InvalidOperationException("Provider hasn't been setup correctly");
 
     public string[] GetAutoCompleteItems(string commandName)

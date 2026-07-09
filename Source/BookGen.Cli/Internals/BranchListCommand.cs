@@ -76,7 +76,7 @@ internal class BranchListCommand : Command
         Console.WriteLine($"{spacing}{node.Name}");
         foreach (TreeNode child in node.Children)
         {
-            string childSpacing = new string(' ', level+1 * 2);
+            string childSpacing = new string(' ', level + 1 * 2);
             Console.WriteLine($"{childSpacing}├ {child.Name}");
             if (child.Children.Count > 0)
             {

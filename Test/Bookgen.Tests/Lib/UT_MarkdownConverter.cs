@@ -14,12 +14,12 @@ namespace Bookgen.Tests.Lib;
 
 internal class UT_MarkdownConverter
 {
-    private Mock<IImgService> _imgServiceMock;
-    private TestEnvironment _testEnvironment;
-    private string _markdown;
-    private string _soruceCode;
+    private Mock<IImgService>? _imgServiceMock;
+    private TestEnvironment? _testEnvironment;
+    private string? _markdown;
+    private string? _soruceCode;
     private readonly IEqualityComparer<string?> comparer = new LineEndingIgnoreComparer();
-    
+
 
     [SetUp]
     public void Setup()

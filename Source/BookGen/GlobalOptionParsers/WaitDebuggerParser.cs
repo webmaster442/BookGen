@@ -18,7 +18,7 @@ internal sealed class WaitDebuggerParser : GlobalOptionParser
     private const string DebuggerShort = "wd";
     private const string DebuggerLong = "wait-debugger";
 
-    public WaitDebuggerParser() 
+    public WaitDebuggerParser()
         : base(DebuggerShort, DebuggerLong)
     {
     }

@@ -3,9 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Lib;
-
 using BookGen.Commands.Convert;
+using BookGen.Lib;
 using BookGen.Vfs;
 
 using Moq;

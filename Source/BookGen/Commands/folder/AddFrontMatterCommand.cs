@@ -6,11 +6,10 @@
 using System.ComponentModel;
 using System.Text;
 
-using BookGen.Lib;
-using BookGen.Lib.Domain.IO;
-
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Lib;
+using BookGen.Lib.Domain.IO;
 using BookGen.Vfs;
 
 using Markdig;

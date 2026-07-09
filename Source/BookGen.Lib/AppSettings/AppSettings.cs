@@ -120,6 +120,6 @@ public sealed class AppSettings : IAppSettings
         Validate();
     }
 
-    public void Save() 
+    public void Save()
         => _fileSystem.Serialize<AppSetting>(_appSettingsFilePath, _appSetting);
 }

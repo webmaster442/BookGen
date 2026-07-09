@@ -8,13 +8,12 @@ using System.ComponentModel;
 using System.Net;
 using System.Text.RegularExpressions;
 
-using BookGen.Lib;
-using BookGen.Lib.AppSettings;
-using BookGen.Lib.Domain.IO;
-
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Loging;
+using BookGen.Lib;
+using BookGen.Lib.AppSettings;
+using BookGen.Lib.Domain.IO;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;

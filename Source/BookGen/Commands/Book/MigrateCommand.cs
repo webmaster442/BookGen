@@ -5,10 +5,9 @@
 
 using System.ComponentModel;
 
-using BookGen.Lib.Confighandling.LegacyMigration;
-
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Lib.Confighandling.LegacyMigration;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;

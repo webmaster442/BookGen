@@ -72,7 +72,7 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
             {
                 return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid NuGet package.");
             }
-        
+
             return ValidationResult.Ok();
         }
     }

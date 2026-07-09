@@ -5,10 +5,9 @@
 
 using System.ComponentModel;
 
-using BookGen.Lib.Domain.VsCode;
-
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Lib.Domain.VsCode;
 using BookGen.Vfs;
 
 namespace BookGen.Commands.Book;

@@ -17,7 +17,7 @@ namespace Bookgen.Tests;
 [TestFixture]
 internal class UT_OpenCli
 {
-    private Document _openCliDocument;
+    private Document? _openCliDocument;
 
     private static CommandRunner SetupCommandRunner()
     {

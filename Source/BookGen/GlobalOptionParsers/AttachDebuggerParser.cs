@@ -18,7 +18,7 @@ internal sealed class AttachDebuggerParser : GlobalOptionParser
     private const string DebuggerStartShort = "ad";
     private const string DebuggerStartLong = "attach-debugger";
 
-    public AttachDebuggerParser() 
+    public AttachDebuggerParser()
         : base(DebuggerStartShort, DebuggerStartLong)
     {
     }

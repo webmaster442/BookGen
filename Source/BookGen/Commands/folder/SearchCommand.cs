@@ -7,16 +7,15 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
+using BookGen.Infrastructure.Loging;
 using BookGen.Lib;
 using BookGen.Lib.AppSettings;
 using BookGen.Lib.Domain.IO.Configuration;
 using BookGen.Lib.Rendering.Images;
 using BookGen.Lib.Rendering.Markdown;
 using BookGen.Lib.Rendering.Markdown.RenderInterop;
-
-using BookGen.Cli;
-using BookGen.Cli.Annotations;
-using BookGen.Infrastructure.Loging;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
@@ -95,7 +94,7 @@ internal sealed class SearchCommand : AsyncCommand<SearchCommand.Arguments>
             RenderInterop = new RenderInterop(_assetSource, _programPathResolver, imageConfig),
         };
         settings.RenderInterop.PreRenderCode = false;
-        
+
         using var markdownConverter = new MarkdownConverter(settings);
 
         ConcurrentDictionary<string, string> searchResults = new();

@@ -6,11 +6,10 @@
 using System.ComponentModel;
 using System.Globalization;
 
-using BookGen.Lib.Domain;
-using BookGen.Lib.Rendering.Images;
-
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Lib.Domain;
+using BookGen.Lib.Rendering.Images;
 using BookGen.Vfs;
 
 namespace BookGen.Commands.Convert;

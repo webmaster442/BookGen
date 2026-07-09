@@ -3,9 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Lib.Domain.IO;
-
 using BookGen.Api.V1;
+using BookGen.Lib.Domain.IO;
 
 namespace BookGen.Infrastructure.Plugins.V1;
 
