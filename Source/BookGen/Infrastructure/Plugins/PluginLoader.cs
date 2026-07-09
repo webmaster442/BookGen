@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics.CodeAnalysis;
+using System.IO.Compression;
 using System.Reflection;
 
 using BookGen.Api.V1;
@@ -17,25 +18,79 @@ internal sealed class PluginLoader : IDisposable
 {
     private readonly ILogger _logger;
     private readonly IReadOnlyFileSystem _readOnlyFileSystem;
-    private readonly Dictionary<string, PluginLoadContext> _loadedContexts;
+    private PluginLoadContext? _pluginLoadContext;
+    private NuGetTempFolder? _nuGetTempFolder;
     private bool _disposed;
 
+    private const string CompatibleFrameworkMoniker = "netstandard2.1";
 
     public PluginLoader(ILogger logger, IReadOnlyFileSystem readOnlyFileSystem)
     {
         _logger = logger;
         _readOnlyFileSystem = readOnlyFileSystem;
-        _loadedContexts = new Dictionary<string, PluginLoadContext>();
     }
 
     public void Dispose()
     {
-        foreach (PluginLoadContext context in _loadedContexts.Values)
-        {
-            context.Unload();
-        }
-        _loadedContexts.Clear();
+        _pluginLoadContext?.Unload();
+        _nuGetTempFolder?.Dispose();
         _disposed = true;
+    }
+
+    private bool TryExtractNuget(string filePath, string destination)
+    {
+        using ZipArchive archive = ZipFile.OpenRead(filePath);
+        bool canLoad = false;
+        foreach (var entry in archive.Entries)
+        {
+            if (entry.FullName.StartsWith($"lib\\{CompatibleFrameworkMoniker}", StringComparison.OrdinalIgnoreCase)
+                || entry.FullName.StartsWith($"lib/{CompatibleFrameworkMoniker}", StringComparison.OrdinalIgnoreCase))
+            {
+                canLoad = true;
+                break;
+            }
+        }
+
+        if (!canLoad)
+        {
+            _logger.LogError("NuGet package does not contain a compatible assembly for {CompatibleFrameworkMoniker}: {FilePath}", CompatibleFrameworkMoniker, filePath);
+            return false;
+        }
+
+        try
+        {
+            ZipFile.ExtractToDirectory(filePath, destination, overwriteFiles: true);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to extract NuGet package: {FilePath}", filePath);
+            return false;
+        }
+    }
+
+    private bool ContainsPluginType(Assembly assembly, [NotNullWhen(true)] out Type? pluginType)
+    {
+        Type[] buildPluginTypes = assembly.GetTypes()
+            .Where(type => type.IsAssignableTo(typeof(IBuildPluginV1)))
+            .ToArray();
+
+        if (buildPluginTypes.Length == 0)
+        {
+            _logger.LogDebug("No IBuildPlugin implementation found in assembly: {AssemblyName}", assembly.FullName);
+            pluginType = null;
+            return false;
+        }
+
+        if (buildPluginTypes.Length > 1)
+        {
+            _logger.LogError("Multiple IBuildPlugin implementations found in assembly: {AssemblyName}", assembly.FullName);
+            pluginType = null;
+            return false;
+        }
+
+        pluginType = buildPluginTypes[0];
+        return true;
     }
 
     public bool TryLoadPlugin(string filePath, [NotNullWhen(true)] out IBuildPluginV1? buildPlugin)
@@ -49,41 +104,33 @@ internal sealed class PluginLoader : IDisposable
             return false;
         }
 
-        PluginLoadContext pluginLoadContext = new(filePath);
-        Assembly assembly = pluginLoadContext.LoadFromAssemblyName(new(Path.GetFileNameWithoutExtension(filePath)));
+        _nuGetTempFolder = new NuGetTempFolder(filePath);
 
-        Type[] buildPluginTypes = assembly.GetTypes()
-            .Where(type => type.IsAssignableTo(typeof(IBuildPluginV1)))
-            .ToArray();
-
-        if (buildPluginTypes.Length == 0)
+        if (!TryExtractNuget(filePath, _nuGetTempFolder))
         {
-            pluginLoadContext.Unload();
-            _logger.LogError("No IBuildPlugin implementation found in assembly: {AssemblyName}", assembly.FullName);
             buildPlugin = null;
             return false;
         }
 
-        if (buildPluginTypes.Length > 1)
+        _pluginLoadContext = new(_nuGetTempFolder.GetFrameworkPath(CompatibleFrameworkMoniker));
+        foreach (string dllFile in _nuGetTempFolder.GetDllFiles(CompatibleFrameworkMoniker))
         {
-            pluginLoadContext.Unload();
-            _logger.LogError("Multiple IBuildPlugin implementations found in assembly: {AssemblyName}", assembly.FullName);
-            buildPlugin = null;
-            return false;
+            try
+            {
+                Assembly assembly = _pluginLoadContext.LoadFromAssemblyPath(dllFile);
+                if (ContainsPluginType(assembly, out Type? pluginType))
+                {
+                    buildPlugin = Activator.CreateInstance(pluginType) as IBuildPluginV1;
+                    return buildPlugin != null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "Error while loading assembly: {DllFile}, Error: {Message}", dllFile, ex.Message);
+            }
         }
 
-        try
-        {
-            buildPlugin = Activator.CreateInstance(buildPluginTypes[0]) as IBuildPluginV1;
-            _loadedContexts.Add(filePath, pluginLoadContext);
-            return buildPlugin != null;
-        }
-        catch (Exception ex)
-        {
-            pluginLoadContext.Unload();
-            _logger.LogError(ex, "Failed to create instance of IBuildPlugin from assembly: {AssemblyName}", assembly.FullName);
-            buildPlugin = null;
-            return false;
-        }
+        buildPlugin = null;
+        return false;
     }
 }

@@ -1,4 +1,9 @@
-﻿using System.ComponentModel;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.ComponentModel;
 
 using BookGen.Api.V1;
 using BookGen.Cli;
@@ -16,12 +21,17 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Build;
 
+[CommandName("buildplugin")]
+[Description("Builds a book using a plugin nuget file.")]
+[ExitCode(ExitCodes.Success, "The book was built successfully.")]
+[ExitCode(ExitCodes.PluginError, "Failed to load the plugin.")]
+[ExitCode(ExitCodes.ConfigError, "Failed to initialize the book environment.")]
 internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
 {
     internal sealed class Arguments : ArgumentsBase, IVerbosablityToggle
     {
         [Argument(0, IsOptional = false)]
-        [Description("Required argument. Specifies the plugin DLL file name.")]
+        [Description("Required argument. Specifies the plugin nupkg file name.")]
         public string PluginFile { get; set; } = string.Empty;
 
         [Switch("v", "verbose", Required = false)]
@@ -58,9 +68,9 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
                 return ValidationResult.Error($"Plugin file '{PluginFile}' does not exist.");
             }
 
-            if (!PluginFile.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+            if (!PluginFile.EndsWith(".nupkg", StringComparison.OrdinalIgnoreCase))
             {
-                return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid DLL file.");
+                return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid NuGet package.");
             }
         
             return ValidationResult.Ok();
@@ -73,8 +83,6 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
     private readonly ILogger _logger;
     private readonly IAssetSource _assetSource;
     private readonly IMemoryCache _memoryCache;
-
-
 
     public BuildPlugin(IWritableFileSystem soruce,
                        IWritableFileSystem target,
@@ -96,7 +104,6 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
         using var loader = new PluginLoader(_logger, _soruce);
         if (!loader.TryLoadPlugin(arguments.PluginFile, out IBuildPluginV1? plugin))
         {
-            _logger.LogError("Failed to load plugin from file '{PluginFile}'", arguments.PluginFile);
             return ExitCodes.PluginError;
         }
 

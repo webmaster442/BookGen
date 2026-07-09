@@ -1,4 +1,9 @@
-﻿using System.Globalization;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
