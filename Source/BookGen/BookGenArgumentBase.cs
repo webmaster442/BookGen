@@ -29,7 +29,7 @@ public class BookGenArgumentBase : ArgumentsBase, IVerbosablityToggle
         Directory = Environment.CurrentDirectory;
     }
 
-    override public ValidationResult Validate(IValidationContext context)
+    public override ValidationResult Validate(IValidationContext context)
     {
         if (!context.FileSystem.DirectoryExists(Directory))
         {

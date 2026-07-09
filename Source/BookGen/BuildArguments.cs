@@ -23,12 +23,23 @@ public sealed class BuildArguments : BookGenArgumentBase
     public override ValidationResult Validate(IValidationContext context)
     {
         ValidationResult originalResult = base.Validate(context);
-        if (originalResult.IsOk
-            && !string.IsNullOrEmpty(HostOverride)
+
+        if (!originalResult.IsOk)
+        {
+            return originalResult;
+        }
+
+        if (!string.IsNullOrEmpty(HostOverride)
             && !HostOverride.EndsWith('/'))
         {
             return ValidationResult.Error("Host override must end with a slash.");
         }
+
+        if (string.IsNullOrWhiteSpace(OutputDirectory))
+        {
+            return ValidationResult.Error("Output directory must not be empty.");
+        }
+
         return originalResult;
     }
 }

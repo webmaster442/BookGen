@@ -3,9 +3,7 @@
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
     <File Path=".gitignore" />
-    <File Path="Changelog.md" />
     <File Path="Directory.Packages.props" />
-    <File Path="Docs/decision_notes.md" />
     <File Path="download-assets-pipeline.sh" />
     <File Path="download-assets.ps1" />
     <File Path="getting-started.md" />
@@ -26,7 +24,7 @@
   <Project Path="Source/BookGen.Api/BookGen.Api.csproj" />
   <Project Path="Source/BookGen.Cli/BookGen.Cli.csproj" />
   <Project Path="Source/BookGen.Contents/BookGen.Contents.csproj" />
-  <Project Path="Source/Bookgen.Lib/Bookgen.Lib.csproj" DisplayName="BookGen.Lib" />
+  <Project Path="Source/Bookgen.Lib/Bookgen.Lib.csproj" />
   <Project Path="Source/BookGen.Shell.Shared/BookGen.Shell.Shared.csproj" />
   <Project Path="Source/BookGen.Shellprog/BookGen.Shellprog.csproj" />
   <Project Path="Source/BookGen.Vfs/BookGen.Vfs.csproj" />

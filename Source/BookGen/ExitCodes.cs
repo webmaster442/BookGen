@@ -24,6 +24,10 @@ internal static class ExitCodes
     /// </summary>
     public const int FolderLocked = 3;
     /// <summary>
+    /// Plugin error exit code = 4
+    /// </summary>
+    public const int PluginError = 4;
+    /// <summary>
     /// General error
     /// </summary>
     public const int GeneralError = int.MaxValue;

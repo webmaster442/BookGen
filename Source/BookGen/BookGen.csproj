@@ -42,10 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\..\Commands.md" Link="Resources\Commands.md" />
-  </ItemGroup>
-
-  <ItemGroup>
     <InternalsVisibleTo Include="Bookgen.Tests" />
   </ItemGroup>
 
