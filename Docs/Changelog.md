@@ -1,5 +1,9 @@
-# Next
+# 2026. 07
 
+* New: Mermaid diagram rendering supported via mmdr
+* New: Support for openCli specification
+* Change: Template engine supports functions and are actually better working
+* Change: Faster & better latex formula rendering support via katex
 * Change: Better logging of critical errors
 
 # 2026. 03. 04 (Prerelease)
