@@ -49,4 +49,13 @@
     <InternalsVisibleTo Include="Bookgen.Tests" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Docs\Changelog.md" Link="Resources\Changelog.md" />
+    <None Include="..\..\Docs\manual.md" Link="Resources\manual.md" />
+  </ItemGroup>
+
 </Project>

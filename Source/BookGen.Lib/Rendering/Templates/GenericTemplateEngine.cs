@@ -73,7 +73,9 @@ public class GenericTemplateEngine<TModel>
     {
         if (value is IFormattable formattable)
         {
-            return formattable.ToString(null, CultureInfo.InvariantCulture);
+            return formattable is DateTime dateTime
+                ? dateTime.ToString("yyyy-MM-dd HH:mm:ss")
+                : formattable.ToString(null, CultureInfo.InvariantCulture);
         }
         return value?.ToString() ?? (_options.EmitNullString ? "null" : string.Empty);
     }

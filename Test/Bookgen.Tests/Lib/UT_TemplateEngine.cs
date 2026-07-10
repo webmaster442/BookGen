@@ -44,7 +44,7 @@ internal class UT_TemplateEngine
     [TestCase("", "")]
     [TestCase("<p>No template tags</p>", "<p>No template tags</p>")]
     [TestCase("<h1>{{Title}}</h1><p>{{Content}}</p>", "<h1>title</h1><p>This is content</p>")]
-    [TestCase("{{LastModified}}", "1987-10-11")]
+    [TestCase("{{LastModified}}", "1987-10-11 00:00:00")]
     [TestCase("{{ToUpper(Title)}}", "TITLE")]
     [TestCase("{{ToLower(Title)}}", "title")]
     [TestCase("{{Substring(Content, 0, 4)}}", "This")]
