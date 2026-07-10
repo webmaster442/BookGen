@@ -16,10 +16,10 @@ namespace Bookgen.Tests.Cli;
 [TestFixture]
 internal class UT_CommandRunner
 {
-    private CommandRunner? _sut;
-    private Mock<IServiceProvider>? _serviceProviderMock;
-    private Mock<ICommandHelpProvider>? _helproviderMock;
-    private Mock<ILogger>? _loggerMock;
+    private CommandRunner _sut;
+    private Mock<IServiceProvider> _serviceProviderMock;
+    private Mock<ICommandHelpProvider> _helproviderMock;
+    private Mock<ILogger> _loggerMock;
 
     private sealed class Dependency
     {

@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PackageManifest",
+  "description": "Manifest describing a BookGen plugin package.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "entryAssembly",
+    "description",
+    "apiVersion"
+  ],
+  "properties": {
+    "entryAssembly": {
+      "type": "string",
+      "description": "The plugin entry assembly. Must have a .dll extension.",
+      "minLength": 1,
+      "pattern": "(?i)\\.dll$"
+    },
+    "description": {
+      "type": "string",
+      "description": "A human readable description of the plugin.",
+      "minLength": 1
+    },
+    "apiVersion": {
+      "type": "string",
+      "description": "The API version. Must be a valid version string with a major version of 1.",
+      "minLength": 1,
+      "pattern": "^1(\\.\\d+){0,3}$"
+    }
+  }
+}

@@ -101,37 +101,46 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
 
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
-        using var loader = new PluginLoader(_logger, _soruce);
-        if (!loader.TryLoadPlugin(arguments.PluginFile, out IBuildPluginV1? plugin))
+        using var loader = new PluginPackageLoader(_logger, _soruce);
+        if (!loader.TryLoad(arguments.PluginFile, out IBuildPluginV1? plugin))
         {
             return ExitCodes.PluginError;
         }
 
-        if (_target.DirectoryExists(arguments.OutputDirectory))
+        try
         {
-            _target.Delete(arguments.OutputDirectory);
+            if (_target.DirectoryExists(arguments.OutputDirectory))
+            {
+                _target.Delete(arguments.OutputDirectory);
+            }
+
+            _target.CreateDirectoryIfNotExist(arguments.OutputDirectory);
+
+            _soruce.Scope = arguments.Directory;
+            _target.Scope = arguments.OutputDirectory;
+
+            using var env = new BookEnvironment(_soruce, _target, _programPathResolver, _assetSource);
+            EnvironmentStatus status = await env.Initialize(null);
+
+            if (!status.IsOk)
+            {
+                _logger.EnvironmentStatus(status);
+                return ExitCodes.ConfigError;
+            }
+
+
+            IBook book = Infrastructure.Plugins.V1.Book.CreateFrom(env, _logger);
+            IBookgenServices services = new BookGenServices(env, _memoryCache, _logger);
+
+            await plugin.Build(book, services, CancellationToken.None);
         }
-
-        _target.CreateDirectoryIfNotExist(arguments.OutputDirectory);
-
-        _soruce.Scope = arguments.Directory;
-        _target.Scope = arguments.OutputDirectory;
-
-        using var env = new BookEnvironment(_soruce, _target, _programPathResolver, _assetSource);
-        EnvironmentStatus status = await env.Initialize(null);
-
-        if (!status.IsOk)
+        finally
         {
-            _logger.EnvironmentStatus(status);
-            return ExitCodes.ConfigError;
+            if (plugin is IDisposable disposablePlugin)
+            {
+                disposablePlugin.Dispose();
+            }
         }
-
-
-        IBook book = Infrastructure.Plugins.V1.Book.CreateFrom(env, _logger);
-        IBookgenServices services = new BookGenServices(env, _memoryCache, _logger);
-
-        await plugin.Build(book, services, CancellationToken.None);
-
         return ExitCodes.Success;
 
     }

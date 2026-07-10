@@ -15,9 +15,9 @@ namespace Bookgen.Tests.Lib;
 [TestFixture]
 internal sealed class UT_MarkdownConverter_Specials
 {
-    private Mock<IImgService>? _imgServiceMock;
-    private MarkdownRenderSettings? _settings;
-    private TestEnvironment? _testEnvironment;
+    private Mock<IImgService> _imgServiceMock;
+    private MarkdownRenderSettings _settings;
+    private TestEnvironment _testEnvironment;
     private readonly IEqualityComparer<string?> comparer = new LineEndingIgnoreComparer();
 
     [SetUp]

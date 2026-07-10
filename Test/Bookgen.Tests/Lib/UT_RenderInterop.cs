@@ -14,9 +14,9 @@ namespace Bookgen.Tests.Lib;
 [TestFixture]
 internal class UT_RenderInterop
 {
-    private RenderInterop? _sut;
-    private ImageConfig? _config;
-    private TestEnvironment? _environment;
+    private RenderInterop _sut;
+    private ImageConfig _config;
+    private TestEnvironment _environment;
 
     [SetUp]
     public void Setup()

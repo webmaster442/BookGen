@@ -35,7 +35,7 @@ public class UT_LevelList
         }
     }
 
-    private TestLevelList? _root;
+    private TestLevelList _root;
 
     [SetUp]
     public void Setup()
