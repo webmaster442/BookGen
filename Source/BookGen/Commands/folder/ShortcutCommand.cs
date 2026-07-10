@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands.Folder;
 
 [CommandName("shortcut")]
-[Description("Create a cmd file in the current directory that can be used to start the bookgen Shell in the current directory.")]
+[Description("Create a shortcut file in the current directory that can be used to start the bookgen Shell in the current directory.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class ShortcutCommand : Command
 {

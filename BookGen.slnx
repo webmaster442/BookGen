@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Documents/">
+    <File Path="Docs/Changelog.md" />
+    <File Path="Docs/manual.md" />
+  </Folder>
   <Folder Name="/Misc/" Id="209479ab-f6dc-4e64-8458-43e805966b28">
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />

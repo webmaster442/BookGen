@@ -49,7 +49,15 @@ internal sealed class HelpCommand : Command<HelpCommand.Arguments>
         }
 
         string helpdocument = _commandHelpProvider.GetHelp(arguments.CommandName);
-        _renderer.RenderHelp(helpdocument.Split('\n'));
+
+        if (Console.IsOutputRedirected)
+        {
+            Console.WriteLine(helpdocument);
+        }
+        else
+        {
+            _renderer.RenderHelp(helpdocument.Split('\n'));
+        }
         return ExitCodes.Success;
 
     }
