@@ -15,6 +15,10 @@
     <Content Include="..\..\Branding\icon-bookgen.png" Link="icon-bookgen.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <PackageReference Include="Roslynator.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <None Update="autorun.inf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

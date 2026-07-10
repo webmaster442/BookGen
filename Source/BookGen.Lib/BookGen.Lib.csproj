@@ -29,6 +29,10 @@
     <PackageReference Include="AngleSharp" />
     <PackageReference Include="Markdig" />
     <PackageReference Include="PreMailer.Net" />
+    <PackageReference Include="Roslynator.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.ServiceModel.Syndication" />
     <PackageReference Include="YamlDotNet" />
     <PackageReference Include="SkiaSharp" />

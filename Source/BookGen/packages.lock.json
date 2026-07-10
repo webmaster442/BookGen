@@ -82,6 +82,12 @@
         "resolved": "3.0.1",
         "contentHash": "s/s20YTVY9r9TPfTrN5g8zPF1YhwxyqO6PxUkrYTGI2B+OGPe9AdajWZrLhFqXIvqIW23fnUE4+ztrUWNU1+9g=="
       },
+      "Roslynator.Analyzers": {
+        "type": "Direct",
+        "requested": "[4.15.0, )",
+        "resolved": "4.15.0",
+        "contentHash": "E8fu71Y+vzhniJKy1K13Rzwm8Vjcj7CDFBpflqncKUZfc3SzuF0kMBiyMmgXNPkjWTdE3Z+30HlGgYjHONZY/Q=="
+      },
       "Spectre.Console": {
         "type": "Direct",
         "requested": "[0.57.2, )",
@@ -280,11 +286,15 @@
         "dependencies": {
           "BookGen.Vfs": "[1.0.0, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.9, )",
-          "Microsoft.Extensions.Logging.Abstractions": "[10.0.9, )"
+          "Microsoft.Extensions.Logging.Abstractions": "[10.0.9, )",
+          "Roslynator.Analyzers": "[4.15.0, )"
         }
       },
       "bookgen.contents": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "Roslynator.Analyzers": "[4.15.0, )"
+        }
       },
       "bookgen.lib": {
         "type": "Project",
@@ -297,6 +307,7 @@
           "Microsoft.ClearScript.V8.Native.linux-x64": "[7.5.1, )",
           "Microsoft.ClearScript.V8.Native.win-x64": "[7.5.1, )",
           "PreMailer.Net": "[2.7.3, )",
+          "Roslynator.Analyzers": "[4.15.0, )",
           "SkiaSharp": "[4.148.0, )",
           "SkiaSharp.NativeAssets.Linux": "[4.148.0, )",
           "SkiaSharp.NativeAssets.Win32": "[4.148.0, )",
@@ -309,12 +320,16 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.9, )",
+          "Roslynator.Analyzers": "[4.15.0, )",
           "Spectre.Console": "[0.57.2, )",
           "Webmaster442.WindowsTerminal": "[4.1.1, )"
         }
       },
       "bookgen.vfs": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "Roslynator.Analyzers": "[4.15.0, )"
+        }
       },
       "AngleSharp": {
         "type": "CentralTransitive",

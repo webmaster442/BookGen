@@ -48,6 +48,12 @@
           "AngleSharp": "1.5.1"
         }
       },
+      "Roslynator.Analyzers": {
+        "type": "Direct",
+        "requested": "[4.15.0, )",
+        "resolved": "4.15.0",
+        "contentHash": "E8fu71Y+vzhniJKy1K13Rzwm8Vjcj7CDFBpflqncKUZfc3SzuF0kMBiyMmgXNPkjWTdE3Z+30HlGgYjHONZY/Q=="
+      },
       "SkiaSharp": {
         "type": "Direct",
         "requested": "[4.148.0, )",
@@ -230,12 +236,16 @@
       "bookgen.shell.shared": {
         "type": "Project",
         "dependencies": {
+          "Roslynator.Analyzers": "[4.15.0, )",
           "Spectre.Console": "[0.57.2, )",
           "Webmaster442.WindowsTerminal": "[4.1.1, )"
         }
       },
       "bookgen.vfs": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "Roslynator.Analyzers": "[4.15.0, )"
+        }
       },
       "Spectre.Console": {
         "type": "CentralTransitive",
