@@ -1,4 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 using System.Reflection;
@@ -90,7 +95,7 @@ internal sealed class PluginPackageLoader : IDisposable
             manifest = null;
             return false;
         }
-        using var manifestStream = manifestEntry.Open();
+        using Stream manifestStream = manifestEntry.Open();
         try
         {
             PackageManifest? manifestObject = JsonSerializer.Deserialize<PackageManifest>(manifestStream, JsonSerializerOptions.Web);
@@ -160,32 +165,8 @@ internal sealed class PluginPackageLoader : IDisposable
         return true;
     }
 
-    public bool TryLoad(string packagePath, [NotNullWhen(true)] out IBuildPluginV1? buildPlugin)
+    private bool TryLoadDll(string entryAssemblyPath, out IBuildPluginV1? buildPlugin)
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
-
-        using ZipArchive archive = ZipFile.OpenRead(packagePath);
-        if (!TryGetPluginManifest(archive, packagePath, out PackageManifest? manifest))
-        {
-            buildPlugin = null;
-            return false;
-        }
-
-        _pluginTempFolder = new PluginTempFolder();
-        if (!TryExtractArchive(archive, _pluginTempFolder.FullPath))
-        {
-            buildPlugin = null;
-            return false;
-        }
-
-        string entryAssemblyPath = Path.Combine(_pluginTempFolder.FullPath, manifest.EntryAssembly);
-        if (!File.Exists(entryAssemblyPath))
-        {
-            _logger.LogError("Entry assembly specified in manifest does not exist: {EntryAssemblyPath}", entryAssemblyPath);
-            buildPlugin = null;
-            return false;
-        }
-
         _pluginLoadContext = new PluginLoadContext(entryAssemblyPath);
         try
         {
@@ -205,5 +186,41 @@ internal sealed class PluginPackageLoader : IDisposable
 
         buildPlugin = null;
         return false;
+    }
+
+
+    public bool TryLoad(string packagePath, bool isDevMode, [NotNullWhen(true)] out IBuildPluginV1? buildPlugin)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        string entryAssemblyPath = packagePath;
+
+        if (!isDevMode)
+        {
+            using ZipArchive archive = ZipFile.OpenRead(packagePath);
+            if (!TryGetPluginManifest(archive, packagePath, out PackageManifest? manifest))
+            {
+                buildPlugin = null;
+                return false;
+            }
+
+            _pluginTempFolder = new PluginTempFolder();
+            if (!TryExtractArchive(archive, _pluginTempFolder.FullPath))
+            {
+                buildPlugin = null;
+                return false;
+            }
+
+            entryAssemblyPath = Path.Combine(_pluginTempFolder.FullPath, manifest.EntryAssembly);
+        }
+
+        if (!File.Exists(entryAssemblyPath))
+        {
+            _logger.LogError("Entry assembly specified in manifest does not exist: {EntryAssemblyPath}", entryAssemblyPath);
+            buildPlugin = null;
+            return false;
+        }
+
+        return TryLoadDll(entryAssemblyPath, out buildPlugin);
     }
 }

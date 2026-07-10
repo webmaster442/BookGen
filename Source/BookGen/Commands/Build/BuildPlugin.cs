@@ -31,7 +31,7 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
     internal sealed class Arguments : ArgumentsBase, IVerbosablityToggle
     {
         [Argument(0, IsOptional = false)]
-        [Description("Required argument. Specifies the plugin nupkg file name.")]
+        [Description("Required argument. Specifies the plugin zip file name.")]
         public string PluginFile { get; set; } = string.Empty;
 
         [Switch("v", "verbose", Required = false)]
@@ -45,6 +45,10 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
         [Switch("o", "output", Required = true)]
         [Description("Required argument. Specifies the output directory name.")]
         public string OutputDirectory { get; set; } = string.Empty;
+
+        [Switch("dev", "devmode", Required = false)]
+        [Description("Optional argument. Enables developer mode. This allows loading plugins with dll file")]
+        public bool IsDevMode { get; set; }
 
         public Arguments()
         {
@@ -68,9 +72,13 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
                 return ValidationResult.Error($"Plugin file '{PluginFile}' does not exist.");
             }
 
-            if (!PluginFile.EndsWith(".nupkg", StringComparison.OrdinalIgnoreCase))
+            if (IsDevMode && !PluginFile.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
             {
-                return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid NuGet package.");
+                return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid dll file.");
+            }
+            else if (!PluginFile.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+            {
+                return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid zip package.");
             }
 
             return ValidationResult.Ok();
@@ -102,7 +110,7 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         using var loader = new PluginPackageLoader(_logger, _soruce);
-        if (!loader.TryLoad(arguments.PluginFile, out IBuildPluginV1? plugin))
+        if (!loader.TryLoad(arguments.PluginFile, arguments.IsDevMode, out IBuildPluginV1? plugin))
         {
             return ExitCodes.PluginError;
         }
