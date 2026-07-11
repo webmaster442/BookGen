@@ -4,9 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Globalization;
-using System.Text;
 
-using BookGen.Lib.Domain;
 using BookGen.Lib.Domain.IO;
 
 using BookGen.Vfs;
@@ -15,8 +13,6 @@ using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 
 using Microsoft.Extensions.Logging;
-
-using YamlDotNet.Serialization;
 
 namespace BookGen.Lib.Internals;
 

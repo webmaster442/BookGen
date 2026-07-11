@@ -4,7 +4,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="AngleSharp" Version="1.5.1" />
+    <PackageVersion Include="AngleSharp" Version="1.5.2" />
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
     <PackageVersion Include="HtmlToOpenXml.dll" Version="3.4.1" />
@@ -27,9 +27,9 @@
     <PackageVersion Include="NUnit3TestAdapter" Version="6.2.0" />
     <PackageVersion Include="PreMailer.Net" Version="2.7.3" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.15.0" />
-    <PackageVersion Include="SkiaSharp" Version="4.148.0" />
-    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="4.148.0" />
-    <PackageVersion Include="SkiaSharp.NativeAssets.Win32" Version="4.148.0" />
+    <PackageVersion Include="SkiaSharp" Version="4.150.0" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="4.150.0" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Win32" Version="4.150.0" />
     <PackageVersion Include="Spectre.Console" Version="0.57.2" />
     <PackageVersion Include="Spectre.Console.Analyzer" Version="1.0.0" />
     <PackageVersion Include="Svg.Skia" Version="5.1.1" />
