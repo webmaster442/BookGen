@@ -23,6 +23,7 @@ public sealed class MarkdownConverter : IDisposable
             .UseAdvancedExtensions()
             .UseTableOfContents()
             .UseMathematics()
+            .UseAlertBlocks()
             .UseYamlFrontMatter()
             .Use<BookGenExtension>();
 

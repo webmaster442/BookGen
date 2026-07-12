@@ -73,7 +73,7 @@ internal class CreateHtmlPages : PipeLineStep<EpubState>
         int chapterId = 1;
         int fileId = 1;
 
-        string template = environment.GetAsset("Epub.html");
+        string template = environment.GetAsset(BundledAssets.TemplateEpub);
 
         logger.LogInformation("Rendering cover/index...");
 

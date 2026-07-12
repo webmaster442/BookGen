@@ -70,7 +70,7 @@ Recommended tools to have installed:
 	
 	* `buildepub` - Build an epub3 file
 	* `buildepxort` - Build a JSON export file, that can be post processed with your favorite JSON processor
-	* `buildfeed - Build RSS and ATOM feed files from your book
+	* `buildfeed` - Build RSS and ATOM feed files from your book
 	* `buildprint` - Build a HTML and XHTML document that can be imported into word processors
 	* `buildweb` - Build a static website
 	* `buildwp` - Build a WordPress export XML that can be imported into a WordPress site
@@ -186,6 +186,7 @@ Markdown files are the main input format for BookGen. BookGen supports the follo
 * [Task lists](https://github.com/xoofx/markdig/blob/main/src/Markdig.Tests/Specs/TaskListSpecs.md)
 * [Diagrams](https://github.com/xoofx/markdig/blob/main/src/Markdig.Tests/Specs/DiagramsSpecs.md)
 * [Auto links](https://github.com/xoofx/markdig/blob/main/src/Markdig.Tests/Specs/AutoLinks.md)
+* [Alert blocks](https://xoofx.github.io/markdig/docs/extensions/alert-blocks/)
 * YAML front matter for metadata
 * Table of contents via the `[toc]` or `[toc maxlevel=n]` tag, where n is the level of headdings to include
 

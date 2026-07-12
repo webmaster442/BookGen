@@ -37,7 +37,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
         public string OutputFile { get; set; }
 
         [Switch("tf", "template", Required = false)]
-        [Description("If not specified, default template is used. If custom file provided, then the file must contain the folloing tags: `<!--{title}-->`, `<!--{content}-->`")]
+        [Description("If not specified, default template is used. If custom file provided, then the file must contain the folloing tags: `<!--{Title}-->`, `<!--{Content}-->`")]
         public string Template { get; set; }
 
         [Switch("ns", "no-syntax", Required = false)]

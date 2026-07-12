@@ -121,6 +121,12 @@ internal class UT_TemplateEngine
     [TestCase(BundledAssets.TemplatePrint)]
     [TestCase(BundledAssets.TemplateSinglePage)]
     [TestCase(BundledAssets.TemplateStaticWeb)]
+    [TestCase(BundledAssets.TemplateEpub)]
+    [TestCase(BundledAssets.Md2HtmlTemplateAir)]
+    [TestCase(BundledAssets.Md2HtmlTemplateRetro)]
+    [TestCase(BundledAssets.Md2HtmlTemplatteTinyDark)]
+    [TestCase(BundledAssets.Md2HtmlTemplatteTinyLight)]
+    [TestCase(BundledAssets.Md2HtmlTemplatteMvp)]
     public void EnsureThat_BundledTemplates_Correct(string template)
     {
         IAssetSource assetSource = _environment;
