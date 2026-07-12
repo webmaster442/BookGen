@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Runtime.CompilerServices;
-
 using BookGen.DomainServices.Markdown.TableOfContents;
 
 using Markdig;

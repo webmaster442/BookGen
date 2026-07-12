@@ -189,6 +189,7 @@ Markdown files are the main input format for BookGen. BookGen supports the follo
 * [Alert blocks](https://xoofx.github.io/markdig/docs/extensions/alert-blocks/)
 * YAML front matter for metadata
 * Table of contents via the `[toc]` or `[toc maxlevel=n]` tag, where n is the level of headdings to include
+* Keyboard input via the `<<` and `>>` tags, which will render the text between them as keyboard input.
 
 ### YAML Front matter
 

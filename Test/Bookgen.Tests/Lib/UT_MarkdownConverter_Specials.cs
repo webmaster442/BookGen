@@ -174,6 +174,30 @@ internal sealed class UT_MarkdownConverter_Specials
         Assert.That(result, Does.Contain("<img src=\"data:image/png;base64"));
     }
 
+    [TestCase("<<Ctrl>>+<<O>>", "<p><kbd>Ctrl</kbd>+<kbd>O</kbd></p>\n")]
+    [TestCase("<<>>", "<p>&lt;&lt;&gt;&gt;</p>\n")]
+    [TestCase("Press <<Ctrl+O>> to open <http://www.example.com>", "<p>Press <kbd>Ctrl+O</kbd> to open <a href=\"http://www.example.com\">http://www.example.com</a></p>\n")]
+    public void EnsureThat_Kbd_Tag_Works(string input, string expected)
+    {
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            AutoEmbedSupportedLinks = true,
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
+            {
+                SvgRecode = SvgRecodeOption.Passtrough
+            })
+        };
+
+        using var sut = new MarkdownConverter(settings);
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+    }
+
     [Test]
     public void EnsureThat_Math_Block_Works()
     {

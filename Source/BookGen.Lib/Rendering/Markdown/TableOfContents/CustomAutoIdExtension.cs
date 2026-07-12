@@ -5,8 +5,6 @@
 
 using System.Text;
 
-using ExCSS;
-
 using Markdig;
 using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Helpers;

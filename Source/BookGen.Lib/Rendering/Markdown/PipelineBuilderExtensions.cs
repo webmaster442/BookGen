@@ -3,13 +3,17 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Lib.Rendering.Markdown.Keyboard;
+using BookGen.Lib.Rendering.Markdown.TableOfContents;
+
 using Markdig;
 using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Extensions.GenericAttributes;
+using Markdig.Helpers;
 
-namespace BookGen.Lib.Rendering.Markdown.TableOfContents;
+namespace Bookgen.Lib.Rendering.Markdown;
 
-internal static class TocExtensions
+internal static class PipelineBuilderExtensions
 {
     public static MarkdownPipelineBuilder UseTableOfContents(this MarkdownPipelineBuilder pipelineBuilder)
     {
@@ -26,5 +30,17 @@ internal static class TocExtensions
             pipelineBuilder.Extensions.AddIfNotAlready(tocExtension);
 
         return pipelineBuilder;
+    }
+
+    public static MarkdownPipelineBuilder UseKeyboard(this MarkdownPipelineBuilder pipeline)
+    {
+        OrderedList<IMarkdownExtension> extensions = pipeline.Extensions;
+
+        if (!extensions.Contains<KeyboardExtension>())
+        {
+            extensions.Add(new KeyboardExtension());
+        }
+
+        return pipeline;
     }
 }

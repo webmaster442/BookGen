@@ -3,9 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Bookgen.Lib.Rendering.Markdown;
+
 using BookGen.Lib.Markdown;
 using BookGen.Lib.Rendering.Markdown.Renderers.Terminal;
-using BookGen.Lib.Rendering.Markdown.TableOfContents;
 
 using Markdig;
 using Markdig.Parsers;
@@ -24,6 +25,7 @@ public sealed class MarkdownConverter : IDisposable
             .UseTableOfContents()
             .UseMathematics()
             .UseAlertBlocks()
+            .UseKeyboard()
             .UseYamlFrontMatter()
             .Use<BookGenExtension>();
 
