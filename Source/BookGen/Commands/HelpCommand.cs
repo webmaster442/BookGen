@@ -52,7 +52,7 @@ internal sealed class HelpCommand : Command<HelpCommand.Arguments>
 
         if (Console.IsOutputRedirected)
         {
-            Console.WriteLine(helpdocument);
+            AnsiConsole.WriteLine(helpdocument);
         }
         else
         {

@@ -3,11 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Lib;
 using BookGen.Lib.Rendering.Templates;
 
 using BookGen.Vfs;
-
-using Moq;
 
 namespace Bookgen.Tests.Lib;
 
@@ -16,7 +15,7 @@ internal class UT_TemplateEngine
 {
     private TemplateEngine _sut;
     private TestLogger _logger;
-    private Mock<IAssetSource> _assetSourceMock;
+    private TestEnvironment _environment;
 
     public class TestTimeProvider : TimeProvider
     {
@@ -33,12 +32,18 @@ internal class UT_TemplateEngine
     [SetUp]
     public void Setup()
     {
-        _assetSourceMock = new Mock<IAssetSource>(MockBehavior.Strict);
+        _environment = new TestEnvironment();
         _logger = new TestLogger();
-        _sut = new TemplateEngine(_logger, _assetSourceMock.Object, new TemplateEngineOptions
+        _sut = new TemplateEngine(_logger, _environment, new TemplateEngineOptions
         {
             TimeProvider = new TestTimeProvider()
         });
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _environment.Dispose();
     }
 
     [TestCase("", "")]
@@ -105,8 +110,37 @@ internal class UT_TemplateEngine
             Host = string.Empty,
             LastModified = new DateTime(1987, 10, 11)
         };
+
         string template = "<h1>{{Title}}</h1><p>{{UnrecognizedFunction()}}</p>";
         _sut.Render(template, viewData);
+
         Assert.That(_logger.Errors, Is.EqualTo(1));
+    }
+
+    [TestCase(BundledAssets.TemplateBlank)]
+    [TestCase(BundledAssets.TemplatePrint)]
+    [TestCase(BundledAssets.TemplateSinglePage)]
+    [TestCase(BundledAssets.TemplateStaticWeb)]
+    public void EnsureThat_BundledTemplates_Correct(string template)
+    {
+        IAssetSource assetSource = _environment;
+        string TemplateContent = assetSource.GetAsset(template);
+
+        var viewData = new ViewData
+        {
+            Content = "",
+            Title = "",
+            Host = string.Empty,
+            LastModified = new DateTime(1987, 10, 11)
+        };
+
+        string result = _sut.Render(template, viewData);
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result, Does.Not.Contain("{{Content}}"));
+            Assert.That(result, Does.Not.Contain("{{Title}}"));
+            Assert.That(_logger.Errors, Is.Zero);
+        }
     }
 }
