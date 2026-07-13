@@ -19,6 +19,8 @@ using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
+using Spectre.Console;
+
 namespace BookGen.Commands.Convert;
 
 [CommandName("md2html")]
@@ -60,6 +62,9 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
         [Description("Specifies the rendered HTML page title. Only has affect, when `-r` or `--raw` is not specified.")]
         public string Title { get; set; }
 
+        [Switch("lt", "list-templates", Required = false)]
+        [Description("When specified, lists all available built-in templates to used with the `-tf` or `--template` option and exits")]
+        public bool ListTemplates { get; set; }
 
         public Arguments()
         {
@@ -120,6 +125,11 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
 
     public override int Execute(Arguments arguments, IReadOnlyList<string> context)
     {
+        if (arguments.ListTemplates)
+        {
+            return ListTemplatesAndExit();
+        }
+
         IEnumerable<string?> inputFolders = arguments.InputFiles.Select(i => Path.GetDirectoryName(i));
 
         IReadOnlyFileSystem inputFilesScope = _fileSystemFactory.CreateMultiReadScopeFileSystem(inputFolders!);
@@ -186,6 +196,16 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
         return ExitCodes.Success;
     }
 
+    private static int ListTemplatesAndExit()
+    {
+        AnsiConsole.WriteLine("Available built-in templates:");
+        foreach (var template in BundledAssets.Md2HtmlTemplates)
+        {
+            AnsiConsole.WriteLine($"- {template}");
+        }
+        return ExitCodes.Success;
+    }
+
     private bool ValidateTemplate(string pageTemplate)
     {
         bool returnValue = true;
@@ -207,6 +227,6 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
     private static void WriteToStdout(string rendered)
     {
         Console.OutputEncoding = Encoding.UTF8;
-        Spectre.Console.AnsiConsole.WriteLine(rendered);
+        AnsiConsole.WriteLine(rendered);
     }
 }
