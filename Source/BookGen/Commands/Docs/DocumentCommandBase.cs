@@ -13,18 +13,6 @@ namespace BookGen.Commands.Docs;
 [ExitCode(ExitCodes.Success, "The command executed successfully.")]
 internal abstract class DocumentCommandBase : Cli.Command
 {
-    protected string ReadEmbeddedResource(string resourceName)
-    {
-        using var stream = GetType().Assembly.GetManifestResourceStream(resourceName);
-        if (stream == null)
-        {
-            throw new InvalidOperationException($"Resource '{resourceName}' not found.");
-        }
-
-        using var reader = new StreamReader(stream);
-        return reader.ReadToEnd();
-    }
-
     protected abstract string GetDocumentContent();
 
     public override int Execute(IReadOnlyList<string> context)

@@ -16,7 +16,7 @@ public sealed class CommandRunnerProxy : ICommandRunnerProxy
 
     public void ConfigureWith(CommandRunner runner)
     {
-        CommandNames = runner.CommandNames;
+        CommandNames = runner.CommandNames.Order();
         _autoComplete = runner.GetAutoCompleteItems;
         _runCommand = runner.RunCommand;
         _openCliGenerator = runner.GenerateOpenCliDocs;

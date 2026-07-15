@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 
 using Spectre.Console;
@@ -101,5 +102,22 @@ public static class Terminal
         {
             AnsiConsole.WriteLine($"* {item}");
         }
+    }
+
+    public static void Tree(string rootNode, Dictionary<string, List<string>> treeData)
+    {
+        var tree = new Spectre.Console.Tree(rootNode);
+        foreach (var item in treeData)
+        {
+            var node = tree.AddNode(item.Key);
+            if (item.Value.Count > 0)
+            {
+                foreach (var subItem in item.Value)
+                {
+                    node.AddNode(subItem);
+                }
+            }
+        }
+        AnsiConsole.Write(tree);
     }
 }

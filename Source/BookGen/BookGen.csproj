@@ -15,6 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\DefaultCommand.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj" />
     <ProjectReference Include="..\BookGen.Cli\BookGen.Cli.csproj" />
     <ProjectReference Include="..\BookGen.Contents\BookGen.Contents.csproj" />
@@ -50,12 +54,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="..\..\Docs\changelog.md" Link="Resources\changelog.md" />
     <EmbeddedResource Include="..\..\Docs\manual.md" Link="Resources\manual.md" />
+    <EmbeddedResource Include="Resources\DefaultCommand.md" />
   </ItemGroup>
 
 </Project>

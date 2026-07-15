@@ -6,6 +6,7 @@
 using System.ComponentModel;
 
 using BookGen.Cli.Annotations;
+using BookGen.Infrastructure;
 
 namespace BookGen.Commands.Docs;
 
@@ -14,5 +15,5 @@ namespace BookGen.Commands.Docs;
 internal sealed class ManualCommand : DocumentCommandBase
 {
     protected override string GetDocumentContent()
-        => ReadEmbeddedResource("BookGen.Resources.manual.md");
+        => Embedded.ReadEmbeddedResource("BookGen.Resources.manual.md");
 }

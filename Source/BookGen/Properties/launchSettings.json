@@ -6,8 +6,7 @@
     },
     "BookGen": {
       "commandName": "Project",
-      "commandLineArgs": "Addfrontmatter ",
-      "workingDirectory": "G:\\HelloCsharp\\C"
+      "commandLineArgs": ""
     },
     "Gui": {
       "commandName": "Project",
