@@ -39,6 +39,7 @@ internal sealed class CodeBlockRenderer : TerminalObjectRenderer<CodeBlock>
                 }
             }
 
+            renderer.WriteReset();
             renderer.WriteLine();
         }
     }

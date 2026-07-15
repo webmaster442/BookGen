@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using BookGen.Infrastructure.Terminal;
 using BookGen.Lib.Rendering.Markdown.Renderers.Terminal;
 
 using Markdig;
@@ -30,11 +31,12 @@ internal sealed class HelpRenderer
 
         renderer.Render(document);
         renderer.Writer.Flush();
-
+;
         using var reader = new StringReader(writer.ToString());
 
-        Webmaster442.WindowsTerminal.Wigets.Pager pager = new(reader);
+        Pager pager = new(reader);
 
         pager.Show(false);
     }
 }
+
