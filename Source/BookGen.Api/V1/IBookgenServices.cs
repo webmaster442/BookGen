@@ -20,4 +20,8 @@ public interface IBookgenServices
     /// Gets the output folder where the generated book files will be stored.
     /// </summary>
     IFileSystem OutputFolder { get; }
+    /// <summary>
+    /// Gets the asset source that provides access to the assets used by the Bookgen application.
+    /// </summary>
+    IAssetSource AssetSource { get; }
 }

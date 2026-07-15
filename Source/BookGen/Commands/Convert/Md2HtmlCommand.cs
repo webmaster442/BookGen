@@ -74,9 +74,9 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
             OutputFile = string.Empty;
         }
 
-        public override ValidationResult Validate(IValidationContext context)
+        public override Cli.ValidationResult Validate(IValidationContext context)
         {
-            ValidationResult result = new();
+            Cli.ValidationResult result = new();
 
             if (!string.IsNullOrEmpty(Template)
                 && context.IsValidTemplateFile(Template))

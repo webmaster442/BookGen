@@ -89,14 +89,14 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
     private readonly IWritableFileSystem _target;
     private readonly IProgramPathResolver _programPathResolver;
     private readonly ILogger _logger;
-    private readonly IAssetSource _assetSource;
+    private readonly Vfs.IAssetSource _assetSource;
     private readonly IMemoryCache _memoryCache;
 
     public BuildPlugin(IWritableFileSystem soruce,
                        IWritableFileSystem target,
                        IProgramPathResolver programPathResolver,
                        ILogger logger,
-                       IAssetSource assetSource,
+                       Vfs.IAssetSource assetSource,
                        IMemoryCache memoryCache)
     {
         _soruce = soruce;

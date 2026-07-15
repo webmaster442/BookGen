@@ -20,12 +20,15 @@ internal class BookGenServices : IBookgenServices
     public BookGenServices(BookEnvironment environment, IMemoryCache cache, ILogger logger)
     {
         OutputFolder = new FileSystem(environment.Output);
+        AssetSource = new AssetSource(environment);
         _environment = environment;
         _cache = cache;
         _logger = logger;
     }
 
     public IFileSystem OutputFolder { get; }
+
+    public IAssetSource AssetSource { get; }
 
     public IRenderer Create(RendererOptions rendererOptions)
         => new Renderer(rendererOptions, _environment, _cache, _logger);
