@@ -44,6 +44,7 @@ public sealed class CommandRunner
         {
             instance = new BranchItemsProvider()
             {
+                BranchName = commandName,
                 BranchItems = _commands.CommandNames.Where(c => c.StartsWith(commandName)).ToList()
             };
             return true;
@@ -263,7 +264,7 @@ public sealed class CommandRunner
     {
         if (!_commands.TryGetCommand(commandName, out Type? value))
         {
-            _log.LogCritical(_settings.UnknownCommandCodeAndMessage.message);
+            _log.LogCritical(_settings.UnknownCommandCodeAndMessage.message + " {cmdName}", commandName);
             return _settings.UnknownCommandCodeAndMessage.code;
         }
 

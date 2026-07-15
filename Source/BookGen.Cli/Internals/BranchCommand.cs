@@ -8,7 +8,7 @@ using BookGen.Cli.Annotations;
 namespace BookGen.Cli.Internals;
 
 [CommandName("")]
-internal class BranchListCommand : Command
+internal class BranchCommand : AsyncCommand
 {
     internal class TreeNode
     {
@@ -26,6 +26,8 @@ internal class BranchListCommand : Command
     }
 
     private readonly TreeNode _tree;
+    private readonly BranchItemsProvider _branchItemsProvider;
+    private readonly ICommandRunnerProxy _commandRunnerProxy;
 
     private TreeNode BuildTree(List<string> branchItems)
     {
@@ -54,13 +56,24 @@ internal class BranchListCommand : Command
         return rootNode;
     }
 
-    public BranchListCommand(BranchItemsProvider branchItemsProvider)
+    public BranchCommand(BranchItemsProvider branchItemsProvider, ICommandRunnerProxy commandRunnerProxy)
     {
         _tree = BuildTree(branchItemsProvider.BranchItems);
+        _branchItemsProvider = branchItemsProvider;
+        _commandRunnerProxy = commandRunnerProxy;
     }
 
-    public override int Execute(IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(IReadOnlyList<string> context, CancellationToken token)
     {
+        if (context.Count > 0)
+        {
+            string commandToRun = $"{_branchItemsProvider.BranchName} {context[0]}";
+            if (_branchItemsProvider.BranchItems.Contains(commandToRun, StringComparer.OrdinalIgnoreCase))
+            {
+                return await _commandRunnerProxy.RunCommand(commandToRun, context.Skip(1).ToList());
+            }
+        }
+
         Console.WriteLine("Available subcommands: ");
         Console.WriteLine();
         foreach (TreeNode item in _tree.Children)

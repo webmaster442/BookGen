@@ -9,17 +9,13 @@
       "commandLineArgs": "Addfrontmatter ",
       "workingDirectory": "G:\\HelloCsharp\\C"
     },
-    "TerminalInstall -t": {
-      "commandName": "Project",
-      "commandLineArgs": "terminalinstall -t"
-    },
     "Gui": {
       "commandName": "Project",
       "commandLineArgs": "Gui"
     },
-    "Schemas": {
+    "document schemas": {
       "commandName": "Project",
-      "commandLineArgs": "schemas"
+      "commandLineArgs": "document schemas"
     },
     "md2html": {
       "commandName": "Project",
@@ -53,10 +49,6 @@
       "commandName": "Project",
       "commandLineArgs": "links --verify",
       "workingDirectory": "G:\\Konyv\\hellocsharp"
-    },
-    "build": {
-      "commandName": "Project",
-      "commandLineArgs": "build"
     },
     "commands": {
       "commandName": "Project",

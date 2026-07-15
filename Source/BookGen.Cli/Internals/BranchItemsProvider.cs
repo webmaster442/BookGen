@@ -7,5 +7,6 @@ namespace BookGen.Cli.Internals;
 
 internal class BranchItemsProvider
 {
+    public required string BranchName { get; set; }
     public required List<string> BranchItems { get; set; }
 }

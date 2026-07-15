@@ -53,7 +53,7 @@ internal sealed class CommandTree
             {
                 if (!_commands.ContainsKey(branch))
                 {
-                    _commands[branch] = typeof(BranchListCommand);
+                    _commands[branch] = typeof(BranchCommand);
                 }
             }
         }
