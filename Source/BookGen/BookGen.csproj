@@ -54,8 +54,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\Docs\Changelog.md" Link="Resources\Changelog.md" />
-    <None Include="..\..\Docs\manual.md" Link="Resources\manual.md" />
+    <EmbeddedResource Include="..\..\Docs\changelog.md" Link="Resources\changelog.md" />
+    <EmbeddedResource Include="..\..\Docs\manual.md" Link="Resources\manual.md" />
   </ItemGroup>
 
 </Project>

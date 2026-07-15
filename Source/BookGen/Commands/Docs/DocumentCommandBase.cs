@@ -3,14 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Cli;
 using BookGen.Infrastructure;
 
 using Spectre.Console;
 
 namespace BookGen.Commands.Docs;
 
-internal abstract class DocumentCommandBase : Command
+internal abstract class DocumentCommandBase : Cli.Command
 {
     protected string ReadEmbeddedResource(string resourceName)
     {

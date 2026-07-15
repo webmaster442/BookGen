@@ -10,32 +10,24 @@ using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Cli.OpenCli;
 using BookGen.Cli.OpenCli.Draft;
-using BookGen.Vfs;
-
-using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Docs;
 
-[CommandName("commands")]
-[Description("Creates a `commands.md` documentation file, describing the various commands available in bookgen.")]
-[ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class Commands : Command<BookGenArgumentBase>
+[CommandName("document commands")]
+[Description("Displays commands reference on the terminal. Output can be redirected to a file.")]
+internal sealed class CommandsCommand : DocumentCommandBase
 {
-    private readonly IWritableFileSystem _writableFileSystem;
-    private readonly ILogger _logger;
     private readonly ICommandRunnerProxy _commandRunnerProxy;
 
-    public Commands(IWritableFileSystem writableFileSystem, ILogger logger, ICommandRunnerProxy commandRunnerProxy)
+    public CommandsCommand(ICommandRunnerProxy commandRunnerProxy)
     {
-        _writableFileSystem = writableFileSystem;
-        _logger = logger;
         _commandRunnerProxy = commandRunnerProxy;
     }
 
-    public override int Execute(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    protected override string GetDocumentContent()
     {
-        StringBuilder commandsDoc = new(4096);
         Document openCliDocs = _commandRunnerProxy.GetOpenCliDocs();
+        StringBuilder commandsDoc = new(openCliDocs.Commands?.Count * 1024 ?? 1024);
         commandsDoc
             .AppendLine("# Commands")
             .AppendLine();
@@ -47,10 +39,6 @@ internal sealed class Commands : Command<BookGenArgumentBase>
                 .Append(cmd);
         }
 
-        _logger.LogInformation("Writing commands.md...");
-        _writableFileSystem.Scope = arguments.Directory;
-        _writableFileSystem.WriteAllText("commands.md", commandsDoc.ToString());
-
-        return ExitCodes.Success;
+        return commandsDoc.ToString();
     }
 }

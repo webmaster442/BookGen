@@ -1,38 +1,20 @@
-﻿//-----------------------------------------------------------------------------
-// (c) 2019-2026 Ruzsinszki Gábor
-// This code is licensed under MIT license (see LICENSE for details)
-//-----------------------------------------------------------------------------
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Schema;
 
-using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Lib;
 using BookGen.Lib.Domain.IO;
 using BookGen.Lib.Domain.IO.Configuration;
 using BookGen.Vfs;
 
-using Microsoft.Extensions.Logging;
-
 namespace BookGen.Commands.Docs;
 
-[CommandName("schemas")]
-[Description("Creates a `schemas.md` documentation file, describing the various config schemas used by bookgen.")]
-[ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class SchemasCommand : Command<BookGenArgumentBase>
+[CommandName("document schemas")]
+[Description("Outputs the JSON schemas used by Bookgen on the terminal. Output can be redirected to a file.")]
+internal class SchemasCommand : DocumentCommandBase
 {
-    private readonly IWritableFileSystem _writableFileSystem;
-    private readonly ILogger _logger;
-
-    public SchemasCommand(IWritableFileSystem writableFileSystem, ILogger logger)
-    {
-        _writableFileSystem = writableFileSystem;
-        _logger = logger;
-    }
-
-    public override int Execute(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    protected override string GetDocumentContent()
     {
         JsonSerializerOptions options = JsonOptions.SerializerOptions;
         JsonSchemaExporterOptions exporterOptions = JsonOptions.ExporterOptions;
@@ -49,10 +31,6 @@ internal sealed class SchemasCommand : Command<BookGenArgumentBase>
             .Paragraph("Each page in the table of contents must have a YAML front matter.")
             .CodeBlock(options.GetJsonSchemaAsNode(typeof(FrontMatter), exporterOptions).ToString(), "json");
 
-        _logger.LogInformation("Writing schemas.md...");
-        _writableFileSystem.Scope = arguments.Directory;
-        _writableFileSystem.WriteAllText("schemas.md", markdownBuilder.ToString());
-
-        return ExitCodes.Success;
+        return markdownBuilder.ToString();
     }
 }
