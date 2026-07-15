@@ -92,7 +92,7 @@ runner
     .AddGlobalOptionParser(new RuntimePrintingParser(info));
 
 runner
-    .AddDefaultCommand<HelpCommand>()
+    .AddDefaultCommand<DefaultCommand>()
     .AddCommandsFrom(typeof(HelpCommand).Assembly);
 
 runnerProxy.ConfigureWith(runner);

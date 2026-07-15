@@ -54,6 +54,10 @@
       "commandName": "Project",
       "commandLineArgs": "commands",
       "workingDirectory": "p:\\"
+    },
+    "Shell": {
+      "commandName": "Project",
+      "commandLineArgs": "Shell -nr bookgen assemblydo"
     }
   }
 }

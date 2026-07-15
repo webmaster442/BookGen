@@ -41,9 +41,9 @@ internal sealed class CommandTree
             : throw new KeyNotFoundException($"Command '{name}' not found.");
     }
 
-    public void Add(string name, Type type)
+    public void Add(string name, Type type, bool isDefault = false)
     {
-        if (string.IsNullOrWhiteSpace(name))
+        if (string.IsNullOrWhiteSpace(name) && !isDefault)
         {
             throw new ArgumentException("Command name cannot be null or whitespace.", nameof(name));
         }

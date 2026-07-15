@@ -132,7 +132,7 @@ public sealed class CommandRunner
         string name = typeof(TCommand).GetCommandName();
         if (!_commands.ContainsCommand(name))
         {
-            AddCommand<TCommand>();
+            _commands.Add(string.Empty, typeof(TCommand), isDefault: true);
         }
         _defaultCommandName = name;
         return this;

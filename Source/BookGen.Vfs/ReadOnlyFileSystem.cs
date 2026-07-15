@@ -12,6 +12,9 @@ public class ReadOnlyFileSystem : IReadOnlyFileSystem
 {
     protected string GetAndValidateFullNameInScope(string path)
     {
+        if (string.IsNullOrEmpty(path))
+            return string.Empty;
+
         string returnValue = string.IsNullOrEmpty(Scope)
             ? Path.GetFullPath(path)
             : Path.GetFullPath(path, Scope);
