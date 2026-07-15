@@ -17,7 +17,8 @@ internal static class OpenCliDraftGenerator
                                            Version version,
                                            Type defaultCommand,
                                            IEnumerable<GlobalOptionParser> globalOptionParsers,
-                                           IEnumerable<(Type commandType, Type? argumentType)> commandTypes)
+                                           IEnumerable<(Type commandType, Type? argumentType)> commandTypes,
+                                           IEnumerable<string> branchCommands)
     {
         return new Document
         {
@@ -39,14 +40,14 @@ internal static class OpenCliDraftGenerator
                 GroupOptions = false,
                 OptionSeparator = " ",
             },
-            Commands = GenerateCommands(appName, commandTypes),
+            Commands = GenerateCommands(appName, commandTypes, branchCommands),
         };
     }
 
-    private static List<Draft.Command> GenerateCommands(string appName, IEnumerable<(Type commandType, Type? argumentType)> commandTypes)
+    private static List<Draft.Command> GenerateCommands(string appName, IEnumerable<(Type commandType, Type? argumentType)> commandTypes, IEnumerable<string> branchCommands)
     {
         List<Draft.Command> result = new();
-        foreach (var commandType in commandTypes)
+        foreach ((Type commandType, Type? argumentType) commandType in commandTypes)
         {
             var name = GetCommandName(commandType.commandType);
 
@@ -66,13 +67,34 @@ internal static class OpenCliDraftGenerator
                 Examples = GenerateExamples(appName, name, arguments, options),
             });
         }
+        foreach (var branch in branchCommands)
+        {
+            result.Add(new Draft.Command
+            {
+                Name = branch,
+                Description = $"Displays commands starting with: {branch}",
+                Examples = new List<string>
+                {
+                    $"{appName} {branch}",
+                },
+                ExitCodes = new List<ExitCode>
+                {
+                    new ExitCode
+                    {
+                        Code = 0,
+                        Description = "Success"
+                    },
+                },
+            });
+        }
+
         return result;
     }
 
     private static List<Option>? GetGlobalOptions(IEnumerable<GlobalOptionParser> globalOptionParsers)
     {
-        List<Option> result = new List<Option>();
-        foreach (var globalOptionParser in globalOptionParsers)
+        var result = new List<Option>();
+        foreach (GlobalOptionParser globalOptionParser in globalOptionParsers)
         {
             DescriptionAttribute? description = globalOptionParser.GetType().GetCustomAttribute<DescriptionAttribute>();
             result.Add(new Option

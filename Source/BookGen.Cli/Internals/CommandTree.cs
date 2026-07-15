@@ -16,7 +16,7 @@ internal sealed class CommandTree
         _commands = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
     }
 
-    private bool TryGetBranchNames(string name, out string[] branches)
+    private static bool TryGetBranchNames(string name, out string[] branches)
     {
         string[] parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length == 1)
@@ -74,4 +74,9 @@ internal sealed class CommandTree
 
     public Type GetCommand(string name)
         => _commands[name];
+
+    public IEnumerable<string> BranchCommandNames
+        => _commands.Where(k => k.Value == typeof(BranchCommand))
+                .Select(k => k.Key)
+                .Order();
 }

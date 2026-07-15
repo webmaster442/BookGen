@@ -208,7 +208,8 @@ public sealed class CommandRunner
                                                      _settings.ProgramMetaData.Version,
                                                      _commands.GetCommand(_defaultCommandName),
                                                      _globalOptionParsers,
-                                                     commands);
+                                                     commands,
+                                                     _commands.BranchCommandNames);
     }
 
     public async Task<int> Run(IReadOnlyList<string> args)
