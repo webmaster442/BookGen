@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Build;
 
-[CommandName("buildfeed")]
+[CommandName("build feed")]
 [Description("Build an RSS 2.0 and an Atom 1.0 feed from the book.")]
 internal sealed class BuildFeedCommand : BuildCommandBase
 {

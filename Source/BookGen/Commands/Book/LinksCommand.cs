@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands;
 
-[CommandName("links")]
+[CommandName("book links")]
 [Description("Scans all markdown files in the current book and writes the links to a markdown file, named links.md")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed partial class LinksCommand : AsyncCommand<LinksCommand.Arguments>

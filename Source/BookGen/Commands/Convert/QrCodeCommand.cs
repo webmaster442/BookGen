@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Convert;
 
-[CommandName("qrcode")]
+[CommandName("convert qrcode")]
 [Description("Renders an url into a SVG QRCode image.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.Arguments>

@@ -23,7 +23,7 @@ using Spectre.Console;
 
 namespace BookGen.Commands.Convert;
 
-[CommandName("md2html")]
+[CommandName("convert md2html")]
 [Description("Renders a single markdown file to an HTML file.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>

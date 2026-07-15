@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Build;
 
-[CommandName("buildepub")]
+[CommandName("build epub")]
 [Description("Build an epub3 file from the book.")]
 internal sealed class BuildEpub : BuildCommandBase
 {

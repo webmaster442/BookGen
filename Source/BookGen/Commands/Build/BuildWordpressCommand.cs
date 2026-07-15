@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Build;
 
-[CommandName("buildwp")]
+[CommandName("build wp")]
 [Description("Build a wordpress XML export file from the book.")]
 internal sealed class BuildWordpressCommand : BuildCommandBase
 {

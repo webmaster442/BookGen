@@ -20,7 +20,7 @@ using Spectre.Console;
 
 namespace BookGen.Commands.Book;
 
-[CommandName("stats")]
+[CommandName("book stats")]
 [Description("Displays various statistics about the bookgen project.")]
 [ExitCode(ExitCodes.ConfigError, "The configuration was invalid.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]

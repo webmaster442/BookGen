@@ -14,7 +14,7 @@ using BookGen.Vfs;
 
 namespace BookGen.Commands.Convert;
 
-[CommandName("imgconvert")]
+[CommandName("convert images")]
 [Description("Converts an image file to a different format. The tool supports png, jpeg, webp and svg formats.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.ArgumentsError, "Invalid arguments provided.")]

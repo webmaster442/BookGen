@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Folder;
 
-[CommandName("serve")]
+[CommandName("folder serve")]
 [Description("Starts a local only http server that serves file from the given directory.")]
 [ExitCode(ExitCodes.FolderLocked, "A serve command is running in the given folder.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]

@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Book;
 
-[CommandName("validate")]
+[CommandName("book validate")]
 [Description("Validate the configuration files used by bookgen in the specified folder.")]
 [ExitCode(ExitCodes.Success, "The configuration is valid.")]
 [ExitCode(ExitCodes.ConfigError, "The configuration was invalid.")]

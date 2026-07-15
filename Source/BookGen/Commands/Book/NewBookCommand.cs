@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Book;
 
-[CommandName("newbook")]
+[CommandName("book new")]
 [Description("Creates a new book structure in the given folder.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "The specified folder contains an existing book structure.")]

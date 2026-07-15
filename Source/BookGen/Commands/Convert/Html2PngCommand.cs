@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Convert;
 
-[CommandName("html2png")]
+[CommandName("convert html2png")]
 [Description("Converts a HTML file to a png using edges or chromes headless mode. The tool will use chrome, if it's installed, otherwise it will use edge. This command is only supported on Windows OS.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "The command failed.")]

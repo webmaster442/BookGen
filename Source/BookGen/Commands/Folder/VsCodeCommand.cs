@@ -17,7 +17,7 @@ using BookGen.Vfs;
 
 namespace BookGen.Commands.Folder;
 
-[CommandName("vscode")]
+[CommandName("folder vscode")]
 [Description("Creates Vs Code task and extension files")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class VsCodeCommand : AsyncCommand<VsCodeCommand.Arguments>

@@ -17,7 +17,7 @@ using YamlDotNet.Serialization;
 
 namespace BookGen.Commands.Book;
 
-[CommandName("newpage")]
+[CommandName("book newpage")]
 [Description("Creates a new markdown page.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class NewPageCommand : Command<NewPageCommand.Arguments>

@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Build;
 
-[CommandName("buildweb")]
+[CommandName("build web")]
 [Description("Build a static website from the book.")]
 internal sealed class BuildWebCommand : BuildCommandBase
 {

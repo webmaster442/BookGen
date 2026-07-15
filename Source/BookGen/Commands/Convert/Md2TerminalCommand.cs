@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Convert;
 
-[CommandName("md2terminal")]
+[CommandName("convert md2terminal")]
 [Description("Converts a markdown file to terminal formatted text.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class Md2TerminalCommand : Command<Md2TerminalCommand.Arguments>

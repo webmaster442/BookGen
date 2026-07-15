@@ -21,7 +21,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Build;
 
-[CommandName("buildplugin")]
+[CommandName("build plugin")]
 [Description("Builds a book using a plugin nuget file.")]
 [ExitCode(ExitCodes.Success, "The book was built successfully.")]
 [ExitCode(ExitCodes.PluginError, "Failed to load the plugin.")]

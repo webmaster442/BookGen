@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Book;
 
-[CommandName("migrate")]
+[CommandName("book migrate")]
 [Description("Migrate an old Bookgen book to the new format.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "An error occurred during the conversion.")]

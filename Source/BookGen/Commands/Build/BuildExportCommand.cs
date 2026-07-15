@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Build;
 
-[CommandName("buildexport")]
+[CommandName("build export")]
 [Description("Build a JSON file with schema for post processing of the book.")]
 internal sealed class BuildExportCommand : BuildCommandBase
 {

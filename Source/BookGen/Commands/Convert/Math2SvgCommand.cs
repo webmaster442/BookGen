@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Convert;
 
-[CommandName("math2svg")]
+[CommandName("convert math2svg")]
 [Description("Renders a single markdown file containing Tex formulas to svg files.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Arguments>

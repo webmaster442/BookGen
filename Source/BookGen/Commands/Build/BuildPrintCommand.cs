@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Build;
 
-[CommandName("buildprint")]
+[CommandName("build print")]
 [Description("Build a printable HTML & XHTML file from the book.")]
 internal sealed class BuildPrintCommand : BuildCommandBase
 {

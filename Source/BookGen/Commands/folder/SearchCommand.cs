@@ -22,7 +22,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Folder;
 
-[CommandName("search")]
+[CommandName("folder search")]
 [Description("Search for a given text in the markdown files of the book and print the results to the console.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "Search produced no results.")]

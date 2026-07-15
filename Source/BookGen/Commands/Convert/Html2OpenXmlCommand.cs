@@ -21,7 +21,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Convert;
 
-[CommandName("html2openxml")]
+[CommandName("convert html2openxml")]
 [Description("Converts a HTML file to an Office Compatible DOCX file.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 [ExitCode(ExitCodes.GeneralError, "The command failed.")]
