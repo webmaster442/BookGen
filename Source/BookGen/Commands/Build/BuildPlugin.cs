@@ -72,13 +72,16 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
                 return ValidationResult.Error($"Plugin file '{PluginFile}' does not exist.");
             }
 
-            if (IsDevMode && !PluginFile.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+            if (IsDevMode)
             {
-                return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid dll file.");
+                if (!PluginFile.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+                {
+                    return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid dll file.");
+                }
             }
-            else if (!PluginFile.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+            else if (!PluginFile.EndsWith(".plugin", StringComparison.OrdinalIgnoreCase))
             {
-                return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid zip package.");
+                return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid plugin package.");
             }
 
             return ValidationResult.Ok();
@@ -109,12 +112,14 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
 
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
+        string pluginAssemblyPath = Path.GetFullPath(arguments.PluginFile, AppContext.BaseDirectory);
+        _logger.LogInformation("Loading plugin from: {PluginAssemblyPath}", pluginAssemblyPath);
+
         using var loader = new PluginPackageLoader(_logger, _soruce);
-        if (!loader.TryLoad(arguments.PluginFile, arguments.IsDevMode, out IBuildPluginV1? plugin))
+        if (!loader.TryLoad(pluginAssemblyPath, arguments.IsDevMode, out IBuildPluginV1? plugin))
         {
             return ExitCodes.PluginError;
         }
-
         try
         {
             if (_target.DirectoryExists(arguments.OutputDirectory))

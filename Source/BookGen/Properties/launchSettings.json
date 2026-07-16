@@ -60,7 +60,10 @@
     "Shell": {
       "commandName": "Project",
       "commandLineArgs": "Shell -nr bookgen assemblydo"
+    },
+    "Build sampleplugin": {
+      "commandName": "Project",
+      "commandLineArgs": "build plugin ..\\..\\Source\\BookGen.SamplePlugin\\bin\\Debug\\netstandard2.1\\BookGen.SamplePlugin.dll -v -d ..\\..\\Docs -dev -o ..\\SamplePluginOutput"
     }
-
   }
 }

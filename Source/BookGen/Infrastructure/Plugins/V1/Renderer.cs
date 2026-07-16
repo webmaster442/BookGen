@@ -28,7 +28,7 @@ internal sealed class Renderer : IRenderer
     public Renderer(RendererOptions options,
                     IBookEnvironment environment,
                     IMemoryCache memoryCache,
-                    ILogger logger)
+                    Microsoft.Extensions.Logging.ILogger logger)
     {
         var imgConfig = new ImageConfig
         {

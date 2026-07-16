@@ -24,4 +24,14 @@ public interface IBookgenServices
     /// Gets the asset source that provides access to the assets used by the Bookgen application.
     /// </summary>
     IAssetSource AssetSource { get; }
+
+    /// <summary>
+    /// Gets the logger that can be used to log messages with different severity levels.
+    /// </summary>
+    IPluginLogger Logger { get; }
+
+    /// <summary>
+    /// Gets the dynamic documentation service that provides access to the documentation of the Bookgen application.
+    /// </summary>
+    IDynamicDocumentation DynamicDocumentation { get; }
 }

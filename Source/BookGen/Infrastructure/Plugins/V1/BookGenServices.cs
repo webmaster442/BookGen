@@ -17,10 +17,13 @@ internal class BookGenServices : IBookgenServices
     private readonly IMemoryCache _cache;
     private readonly ILogger _logger;
 
-    public BookGenServices(BookEnvironment environment, IMemoryCache cache, ILogger logger)
+    public BookGenServices(BookEnvironment environment,
+                           IMemoryCache cache,
+                           ILogger logger)
     {
         OutputFolder = new FileSystem(environment.Output);
         AssetSource = new AssetSource(environment);
+        Logger = new PluginLogger(logger);
         _environment = environment;
         _cache = cache;
         _logger = logger;
@@ -29,6 +32,8 @@ internal class BookGenServices : IBookgenServices
     public IFileSystem OutputFolder { get; }
 
     public IAssetSource AssetSource { get; }
+
+    public IPluginLogger Logger { get; }
 
     public IRenderer CreateRenderer(RendererOptions rendererOptions)
         => new Renderer(rendererOptions, _environment, _cache, _logger);

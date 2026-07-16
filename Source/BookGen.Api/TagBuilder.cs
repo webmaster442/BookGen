@@ -26,6 +26,16 @@ public sealed class HtmlBuilder(int size)
     }
 
     /// <summary>
+    /// Gets the name of the last unclosed HTML tag, or null if there are no open tags.
+    /// </summary>
+    public string? LastUnclosedTag => _openTags.Count > 0 ? _openTags.Peek() : null;
+
+    /// <summary>
+    /// Gets an enumerable of all currently open HTML tags in reverse order (from the most recently opened to the least).
+    /// </summary>
+    public IEnumerable<string> OpenTags => _openTags.Reverse();
+
+    /// <summary>
     /// Creates an HTML element with the specified tag name and optional content.
     /// </summary>
     /// <param name="tag">The name of the HTML tag.</param>
@@ -90,7 +100,7 @@ public sealed class HtmlBuilder(int size)
     /// </summary>
     /// <returns>The current <see cref="HtmlBuilder"/> instance.</returns>
     /// <exception cref="InvalidOperationException">Thrown if there are no open elements to close.</exception>
-    public HtmlBuilder End()
+    public HtmlBuilder CloseOpenTag()
     {
         if (_openTags.Count == 0)
         {

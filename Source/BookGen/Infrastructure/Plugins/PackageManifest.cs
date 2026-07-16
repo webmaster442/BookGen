@@ -12,10 +12,18 @@ internal sealed class PackageManifest : IValidatableObject
 {
     [JsonPropertyName("entryAssembly")]
     public required string EntryAssembly { get; init; }
+
+    [JsonPropertyName("author")]
+    public required string Author { get; init; }
+
     [JsonPropertyName("description")]
     public required string Description { get; init; }
+    
     [JsonPropertyName("apiVersion")]
     public required string ApiVersion { get; init; }
+    
+    [JsonPropertyName("url")]
+    public string? Url { get; init; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
@@ -23,16 +31,20 @@ internal sealed class PackageManifest : IValidatableObject
         {
             yield return new ValidationResult("EntryAssembly cannot be null or whitespace.", [nameof(EntryAssembly)]);
         }
-
         string extension = Path.GetExtension(EntryAssembly);
-        if (string.Compare(extension, ".dll", StringComparison.OrdinalIgnoreCase) != 0)
+        if (!string.Equals(extension, ".dll", StringComparison.OrdinalIgnoreCase))
         {
             yield return new ValidationResult("EntryAssembly must have a .dll extension.", [nameof(EntryAssembly)]);
+        }
+        if (string.IsNullOrWhiteSpace(Author))
+        {
+            yield return new ValidationResult("Author cannot be null or whitespace.", [nameof(Author)]);
         }
         if (string.IsNullOrWhiteSpace(Description))
         {
             yield return new ValidationResult("Description cannot be null or whitespace.", [nameof(Description)]);
         }
+
         if (string.IsNullOrWhiteSpace(ApiVersion))
         {
             yield return new ValidationResult("ApiVersion cannot be null or whitespace.", [nameof(ApiVersion)]);
