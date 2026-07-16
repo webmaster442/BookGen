@@ -1,0 +1,7 @@
+﻿{
+  "entryAssembly": "BookGen.SamplePlugin.dll",
+  "description": "A sample plugin for BookGen demonstrating how to create a plugin.",
+  "apiVersion": "1.0",
+  "author": "Webmaster442",
+  "url": "https://github.com/webmaster442/BookGen"
+}

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!-- Bookgen plugins use netstandard 2.1 --> 
+    <!-- Bookgen plugins use netstandard 2.1 -->
     <TargetFramework>netstandard2.1</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -21,5 +21,18 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PackagePlugin" AfterTargets="Build">
+    <PropertyGroup>
+      <PluginPackage>$(OutputPath)..\$(AssemblyName).plugin</PluginPackage>
+    </PropertyGroup>
+    <ZipDirectory Overwrite="true" SourceDirectory="$(TargetDir)" DestinationFile="$(PluginPackage)" />
+  </Target>
 
 </Project>
