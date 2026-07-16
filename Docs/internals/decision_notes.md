@@ -1,3 +1,8 @@
+---
+title: 2026.04
+tags: ''
+---
+
 # 2026.04
 
 - KaTex requires DOM to work, so It can't be used in the current markdown rendering pipeline.

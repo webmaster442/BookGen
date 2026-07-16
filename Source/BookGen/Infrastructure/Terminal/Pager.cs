@@ -68,6 +68,7 @@ public partial class Pager : WigetBase
             Console.Clear();
             foreach (var line in _pages[currentPage])
             {
+                if (line == null) continue;
                 AnsiConsole.WriteLine(_options.LineFormatter(line));
             }
             var navbar = $"{currentPage + 1} of {_pages.Count} | esc/q: quit | up: previous | down: next";

@@ -1,3 +1,8 @@
+---
+title: Bookgen manual
+tags: ''
+---
+
 # Bookgen
 
 - [Bookgen](#bookgen)

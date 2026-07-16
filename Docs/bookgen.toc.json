@@ -1,0 +1,14 @@
+{
+  "$schema": "bookgen.toc.schema.json",
+  "IndexFile": "readme.md",
+  "Chapters": [
+    {
+      "Title": "Documentation",
+      "Files": [
+        "manual.md",
+        "changelog.md",
+        "plugin.md"
+      ]
+    }
+  ]
+}

@@ -1,3 +1,8 @@
+---
+title: Changelog
+tags: ''
+---
+
 # 2026. 07
 
 * Breaking: Removed edit command

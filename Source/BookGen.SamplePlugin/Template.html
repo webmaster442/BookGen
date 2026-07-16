@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{Title}}</title>
+  <style type="text/css">
+    :root {
+        --sidebar-width: 200px;
+        --sidebar-background-color: #282A36;
+        --sidebar-text-color: #F8F8F2;
+        --sidebar-link-color: #BD93F9;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Lato", sans-serif;
+        font-size: 14pt;
+    }
+
+    .fixedsidebar {
+        height: 100%;
+        width: var(--sidebar-width);
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: var(--sidebar-background-color);
+        color: var(--sidebar-text-color);
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .fixedsidebar a {
+        color: var(--sidebar-link-color);
+        text-decoration: none;
+    }
+
+    .fixedsidebar a:hover {
+        text-decoration: underline;
+    }
+
+    .main-article {
+        margin-left: var(--sidebar-width);
+        padding: 20px;
+        max-width: 1000px;
+    }
+
+    .hidden {
+        display: none;
+    }
+  </style>
+</head>
+
+<body>
+    <main>
+        <aside>
+            <nav id="articleNav" class="fixedsidebar">
+                <!-- Navigation will go here -->
+                 {{Sidebar}}
+                 <ul>
+                    <li><a href="#">Item</a></li>
+                 </ul>
+            </nav>
+        </aside>
+
+        <article class="main-article" id="currentArticle">
+        </article>
+    </main>
+
+    <aside class="hidden" id="articleStore">
+        {{Content}}
+    </aside>
+</body>
+
+</html>

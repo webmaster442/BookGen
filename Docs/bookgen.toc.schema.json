@@ -1,0 +1,59 @@
+{
+  "type": [
+    "object",
+    "null"
+  ],
+  "properties": {
+    "$schema": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "IndexFile": {
+      "type": "string",
+      "description": "First page of the book",
+      "minLength": 1
+    },
+    "Chapters": {
+      "type": "array",
+      "items": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "properties": {
+          "Title": {
+            "type": "string",
+            "description": "Chapter Title",
+            "minLength": 1
+          },
+          "Files": {
+            "type": "array",
+            "items": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "description": "List of files associated with chapter",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "Title",
+          "Files"
+        ],
+        "additionalProperties": false
+      },
+      "description": "List of chapters in the book",
+      "minItems": 1
+    }
+  },
+  "required": [
+    "$schema",
+    "IndexFile",
+    "Chapters"
+  ],
+  "additionalProperties": false
+}
