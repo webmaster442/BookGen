@@ -19,11 +19,13 @@ internal class BookGenServices : IBookgenServices
 
     public BookGenServices(BookEnvironment environment,
                            IMemoryCache cache,
-                           ILogger logger)
+                           ILogger logger,
+                           IDynamicDocumentGenerator dynamicDocumentGenerator)
     {
         OutputFolder = new FileSystem(environment.Output);
         AssetSource = new AssetSource(environment);
         Logger = new PluginLogger(logger);
+        DynamicDocumentation = new DynamicDocumentation(dynamicDocumentGenerator);
         _environment = environment;
         _cache = cache;
         _logger = logger;
@@ -34,6 +36,8 @@ internal class BookGenServices : IBookgenServices
     public IAssetSource AssetSource { get; }
 
     public IPluginLogger Logger { get; }
+
+    public IDynamicDocumentation DynamicDocumentation { get; }
 
     public IRenderer CreateRenderer(RendererOptions rendererOptions)
         => new Renderer(rendererOptions, _environment, _cache, _logger);

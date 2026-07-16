@@ -4,12 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using System.ComponentModel;
-using System.Text;
 
-using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Cli.OpenCli;
-using BookGen.Cli.OpenCli.Draft;
+using BookGen.Infrastructure;
 
 namespace BookGen.Commands.Docs;
 
@@ -17,28 +14,13 @@ namespace BookGen.Commands.Docs;
 [Description("Displays commands reference on the terminal. Output can be redirected to a file.")]
 internal sealed class CommandsCommand : DocumentCommandBase
 {
-    private readonly ICommandRunnerProxy _commandRunnerProxy;
+    private readonly IDynamicDocumentGenerator _dynamicDocumentGenerator;
 
-    public CommandsCommand(ICommandRunnerProxy commandRunnerProxy)
+    public CommandsCommand(IDynamicDocumentGenerator dynamicDocumentGenerator)
     {
-        _commandRunnerProxy = commandRunnerProxy;
+        _dynamicDocumentGenerator = dynamicDocumentGenerator;
     }
 
     protected override string GetDocumentContent()
-    {
-        Document openCliDocs = _commandRunnerProxy.GetOpenCliDocs();
-        StringBuilder commandsDoc = new(openCliDocs.Commands?.Count * 1024 ?? 1024);
-        commandsDoc
-            .AppendLine("# Commands")
-            .AppendLine();
-
-        foreach (Cli.OpenCli.Draft.Command command in openCliDocs?.Commands?.OrderBy(x => x.Name) ?? Enumerable.Empty<Cli.OpenCli.Draft.Command>())
-        {
-            var cmd = MarkdownGenerator.GenerateMarkdown(command, 2);
-            commandsDoc
-                .Append(cmd);
-        }
-
-        return commandsDoc.ToString();
-    }
+        => _dynamicDocumentGenerator.GenerateCommandsDocument();
 }

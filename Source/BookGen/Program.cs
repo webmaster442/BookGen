@@ -49,6 +49,7 @@ ioc.AddMemoryCache();
 ioc.AddSingleton(logger);
 ioc.AddSingleton(info);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
+ioc.AddSingleton<IDynamicDocumentGenerator, DynamicDocumentGenerator>();
 ioc.AddSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
 ioc.AddSingleton<IFileSystemFactory, FileSystemFactory>();
 ioc.AddTransient<IWritableFileSystem, FileSystem>();

@@ -9,6 +9,7 @@ using BookGen.Api.V1;
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Cli.OpenCli.Draft;
+using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
 using BookGen.Infrastructure.Plugins;
 using BookGen.Infrastructure.Plugins.V1;
@@ -94,13 +95,15 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
     private readonly ILogger _logger;
     private readonly Vfs.IAssetSource _assetSource;
     private readonly IMemoryCache _memoryCache;
+    private readonly IDynamicDocumentGenerator _dynamicDocumentGenerator;
 
     public BuildPlugin(IWritableFileSystem soruce,
                        IWritableFileSystem target,
                        IProgramPathResolver programPathResolver,
                        ILogger logger,
                        Vfs.IAssetSource assetSource,
-                       IMemoryCache memoryCache)
+                       IMemoryCache memoryCache,
+                       IDynamicDocumentGenerator dynamicDocumentGenerator)
     {
         _soruce = soruce;
         _target = target;
@@ -108,6 +111,7 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
         _logger = logger;
         _assetSource = assetSource;
         _memoryCache = memoryCache;
+        _dynamicDocumentGenerator = dynamicDocumentGenerator;
     }
 
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
@@ -143,9 +147,9 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
 
 
             IBook book = Infrastructure.Plugins.V1.Book.CreateFrom(env, _logger);
-            IBookgenServices services = new BookGenServices(env, _memoryCache, _logger);
+            IBookgenServices services = new BookGenServices(env, _memoryCache, _logger, _dynamicDocumentGenerator);
 
-            await plugin.Build(book, services, CancellationToken.None);
+            await plugin.Build(book, services, token);
         }
         finally
         {
