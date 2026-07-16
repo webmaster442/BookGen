@@ -34,7 +34,7 @@ public sealed class WordpressConfig : OutputConfig
 
     public WordpressConfig()
     {
-        DeployHost = string.Empty;
+        DeployHost = "http://localhost/";
         ItemType = "docs";
         OpenLinksOutsideHostOnNewTab = true;
         TagCategory = "post_tag";

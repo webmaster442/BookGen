@@ -34,10 +34,11 @@ internal sealed class ExtendedLinkInlineRenderer : LinkInlineRenderer
             return;
         }
 
-        if (_autoEmbedSupportedLinks && !string.IsNullOrEmpty(obj.Url))
+        if (_autoEmbedSupportedLinks
+            && !string.IsNullOrEmpty(obj.Url)
+            && Uri.TryCreate(obj.Url, UriKind.Absolute, out Uri? uri))
         {
-            Uri uri = new Uri(obj.Url);
-            foreach (var embedder in _embedders)
+            foreach (BaseLinkEmbedder embedder in _embedders)
             {
                 if (embedder.TryRender(uri, out string? rendered))
                 {

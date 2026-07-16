@@ -30,7 +30,7 @@ public sealed class StaticWebsiteConfig : OutputConfig
 
     public StaticWebsiteConfig()
     {
-        DeployHost = string.Empty;
+        DeployHost = "http://localhost/";
         CssClasses = new CssClasses();
         Images = new ImageConfig();
         OpenLinksOutsideHostOnNewTab = false;
