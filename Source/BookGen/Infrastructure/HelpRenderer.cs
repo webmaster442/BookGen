@@ -4,39 +4,25 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Infrastructure.Terminal;
-using BookGen.Lib.Rendering.Markdown.Renderers.Terminal;
-
-using Markdig;
-using Markdig.Parsers;
-using Markdig.Syntax;
+using BookGen.Lib.Rendering.Markdown;
 
 namespace BookGen.Infrastructure;
 
-internal sealed class HelpRenderer
+internal static class HelpRenderer
 {
-    private readonly MarkdownPipeline _terminalPipeLine;
-
-    public HelpRenderer()
+    public static void RenderHelp(string markdown)
     {
-        _terminalPipeLine = new MarkdownPipelineBuilder().Build();
-    }
+        string rendered = MarkdownConverter.RenderMarkdownToTerminal(markdown);
 
-    public void RenderHelp(IEnumerable<string> article)
-    {
-        string md = string.Join(Environment.NewLine, article);
-        MarkdownDocument document = MarkdownParser.Parse(md, _terminalPipeLine);
-
-        using var writer = new StringWriter();
-        var renderer = new TerminalRenderer(writer, new RenderOptions());
-
-        renderer.Render(document);
-        renderer.Writer.Flush();
-;
-        using var reader = new StringReader(writer.ToString());
-
-        Pager pager = new(reader);
+        Pager pager = new(rendered);
 
         pager.Show(false);
+    }
+
+    public static void RenderHelp(IEnumerable<string> article)
+    {
+        string md = string.Join(Environment.NewLine, article);
+        RenderHelp(md);
     }
 }
 

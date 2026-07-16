@@ -17,7 +17,6 @@ namespace BookGen.Lib.Rendering.Markdown;
 public sealed class MarkdownConverter : IDisposable
 {
     private readonly MarkdownPipeline _htmlPipeLine;
-    private readonly MarkdownPipeline _terminalPipeLine;
     public MarkdownConverter(MarkdownRenderSettings settings)
     {
         MarkdownPipelineBuilder configuration = new MarkdownPipelineBuilder()
@@ -38,11 +37,6 @@ public sealed class MarkdownConverter : IDisposable
         }
 
         _htmlPipeLine = configuration.Build();
-
-        _terminalPipeLine = new MarkdownPipelineBuilder()
-            .UseYamlFrontMatter()
-            .UseAutoLinks()
-            .Build();
     }
 
     public void Dispose()
@@ -62,9 +56,14 @@ public sealed class MarkdownConverter : IDisposable
     public string RenderToPlainText(string markdown)
         => Markdig.Markdown.ToPlainText(markdown, _htmlPipeLine);
 
-    public string RenderMarkdownToTerminal(string markdown, RenderOptions? renderOptions = null)
+    public static string RenderMarkdownToTerminal(string markdown, RenderOptions? renderOptions = null)
     {
-        MarkdownDocument document = MarkdownParser.Parse(markdown, _terminalPipeLine);
+        MarkdownPipeline pipeline = new MarkdownPipelineBuilder()
+            .UseAutoLinks()
+            .UseYamlFrontMatter()
+            .Build();
+
+        MarkdownDocument document = MarkdownParser.Parse(markdown, pipeline);
 
         using var writer = new StringWriter();
 

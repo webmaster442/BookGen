@@ -74,20 +74,9 @@ internal sealed class Md2TerminalCommand : Command<Md2TerminalCommand.Arguments>
 
     public override int Execute(Arguments arguments, IReadOnlyList<string> context)
     {
-        (string md, _) = _fileSystem.ReadInputFiles(arguments.InputFiles);
+        (string md, _) = _fileSystem.ReadInputFiles(arguments.InputFiles);;
 
-        using var settings = new MarkdownRenderSettings(null!)
-        {
-            DeleteFirstH1 = false,
-            AutoEmbedSupportedLinks = false,
-            CssClasses = new CssClasses(),
-            HostUrl = string.Empty,
-            RenderInterop = null!,
-        };
-
-        using var markdonwConverter = new MarkdownConverter(settings);
-
-        var rendered = markdonwConverter.RenderMarkdownToTerminal(md);
+        var rendered = MarkdownConverter.RenderMarkdownToTerminal(md);
 
         if (arguments.OutputFile == "-")
             WriteToStdout(rendered);

@@ -20,6 +20,10 @@
       "commandName": "Project",
       "commandLineArgs": "document schemas"
     },
+    "document changelog": {
+      "commandName": "Project",
+      "commandLineArgs": "document changelog"
+    },
     "Migrate": {
       "commandName": "Project",
       "commandLineArgs": "migrate -d g:\\HelloCsharp\\C\\"

@@ -11,12 +11,12 @@ namespace BookGen.Lib.Rendering.Markdown.Renderers.Terminal;
 
 public sealed class TerminalRenderer : TextRendererBase<TerminalRenderer>
 {
-
     public TerminalRenderer(TextWriter writer, RenderOptions renderOptions) : base(writer)
     {
         RenderOptions = renderOptions;
         Builder = new TerminalFormattedStringBuilder();
 
+        ObjectRenderers.Add(new YamlFrontMatterRenderer());
         ObjectRenderers.Add(new CodeBlockRenderer());
         ObjectRenderers.Add(new ListRenderer());
         ObjectRenderers.Add(new HeadingRenderer());

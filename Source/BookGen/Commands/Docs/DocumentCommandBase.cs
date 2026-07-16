@@ -24,8 +24,7 @@ internal abstract class DocumentCommandBase : Cli.Command
             return ExitCodes.Success;
         }
 
-        HelpRenderer renderer = new();
-        renderer.RenderHelp(GetDocumentContent().Split('\n'));
+        HelpRenderer.RenderHelp(GetDocumentContent());
 
         return ExitCodes.Success;
     }

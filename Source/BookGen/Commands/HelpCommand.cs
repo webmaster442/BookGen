@@ -27,7 +27,6 @@ internal sealed class HelpCommand : Command<HelpCommand.Arguments>
     }
 
     private readonly HashSet<string> _commandNames;
-    private readonly HelpRenderer _renderer = new();
     private readonly ICommandHelpProvider _commandHelpProvider;
 
     public HelpCommand(ICommandHelpProvider commandHelpProvider, ICommandRunnerProxy runnerProxy)
@@ -56,7 +55,7 @@ internal sealed class HelpCommand : Command<HelpCommand.Arguments>
         }
         else
         {
-            _renderer.RenderHelp(helpdocument.Split('\n'));
+            HelpRenderer.RenderHelp(helpdocument.Split('\n'));
         }
         return ExitCodes.Success;
 
