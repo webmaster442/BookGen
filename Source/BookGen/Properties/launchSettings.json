@@ -5,32 +5,36 @@
       "distributionName": ""
     },
     "BookGen": {
-      "commandName": "Project",
-      "commandLineArgs": ""
+      "commandName": "Project"
     },
     "Gui": {
       "commandName": "Project",
       "commandLineArgs": "Gui"
     },
+    "book Links --verify": {
+      "commandName": "Project",
+      "commandLineArgs": "book links --verify",
+      "workingDirectory": "G:\\Konyv\\hellocsharp"
+    },
     "document schemas": {
       "commandName": "Project",
       "commandLineArgs": "document schemas"
-    },
-    "md2html": {
-      "commandName": "Project",
-      "commandLineArgs": "md2html -i schemas.md -o output.html"
     },
     "Migrate": {
       "commandName": "Project",
       "commandLineArgs": "migrate -d g:\\HelloCsharp\\C\\"
     },
-    "Math2Svg": {
+    "convert md2html": {
       "commandName": "Project",
-      "commandLineArgs": "math2svg -f \"e=m \\cdot c^2\" -o test.svg -s 15"
+      "commandLineArgs": "convert md2html -i schemas.md -o output.html"
     },
-    "QrCode": {
+    "convert Math2Svg": {
       "commandName": "Project",
-      "commandLineArgs": "qrcode -d test -o qrcode_test.svg -c #ff0000"
+      "commandLineArgs": "convert math2svg -f \"e=m \\cdot c^2\" -o test.svg -s 15"
+    },
+    "convert QrCode": {
+      "commandName": "Project",
+      "commandLineArgs": "convert qrcode -d test -o qrcode_test.svg -c #ff0000"
     },
     "Tools": {
       "commandName": "Project",
@@ -44,11 +48,6 @@
       "commandName": "Project",
       "commandLineArgs": "help"
     },
-    "Links --verify": {
-      "commandName": "Project",
-      "commandLineArgs": "links --verify",
-      "workingDirectory": "G:\\Konyv\\hellocsharp"
-    },
     "commands": {
       "commandName": "Project",
       "commandLineArgs": "commands",
@@ -58,5 +57,6 @@
       "commandName": "Project",
       "commandLineArgs": "Shell -nr bookgen assemblydo"
     }
+
   }
 }

@@ -15,36 +15,6 @@ public static class Terminal
 {
     private static readonly Palette _palette = new();
 
-    public static void Table(string[] headers, IEnumerable<string[]> rows)
-    {
-        var table = new Table();
-        table.AddColumns(headers);
-
-        foreach (var row in rows)
-        {
-            table.AddRow(row);
-        }
-
-        AnsiConsole.Write(table);
-    }
-
-    public static void BarChart(IDictionary<string, double> items, string title = "")
-    {
-        BarChart chart = new BarChart()
-            .Width(Console.WindowWidth)
-            .Label(title)
-            .CenterLabel();
-
-        _palette.Reset();
-
-        foreach (KeyValuePair<string, double> item in items)
-        {
-            chart.AddItem(item.Key, item.Value, _palette.GetNextColor());
-        }
-
-        AnsiConsole.Write(chart);
-    }
-
     public static void BreakDownChart(IDictionary<string, double> items, string title, bool descendingOrder = true)
     {
         Rule rule = new Rule(title).Centered();
@@ -77,12 +47,6 @@ public static class Terminal
             AnsiConsole.WriteLine();
     }
 
-    public static bool Confirm(string message)
-    {
-        var prompt = new ConfirmationPrompt(message);
-        return prompt.Show(AnsiConsole.Console);
-    }
-
     public static List<T> SelectionMenu<T>(IEnumerable<T> items, string title, string instructions, Func<T, string> displaySelector) where T : notnull
     {
         MultiSelectionPrompt<T> prompt = new MultiSelectionPrompt<T>()
@@ -102,22 +66,5 @@ public static class Terminal
         {
             AnsiConsole.WriteLine($"* {item}");
         }
-    }
-
-    public static void Tree(string rootNode, Dictionary<string, List<string>> treeData)
-    {
-        var tree = new Spectre.Console.Tree(rootNode);
-        foreach (var item in treeData)
-        {
-            var node = tree.AddNode(item.Key);
-            if (item.Value.Count > 0)
-            {
-                foreach (var subItem in item.Value)
-                {
-                    node.AddNode(subItem);
-                }
-            }
-        }
-        AnsiConsole.Write(tree);
     }
 }
