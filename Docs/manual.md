@@ -200,8 +200,7 @@ Markdown files are the main input format for BookGen. BookGen supports the follo
 
 BookGen stores metadata information about each markdown file in a yaml front matter block, that will look something like this at the beginning of the markdown file:
 
-```yaml
----
+```yml
 title: "Getting Started with BookGen"
 tags: "bookgen, markdown, publishing, tutorial"
 template: "tiny-light.html"
@@ -210,12 +209,11 @@ data:
   audience: "Developers"
   version: "1.0"
   category: "Documentation"
----
 ```
 
 The front matter used in the beginning of the files follows the following schema:
 
-```yaml
+```yml
 $schema: "https://json-schema.org/draft/2020-12/schema"
 $id: "https://example.com/schemas/frontmatter.schema.yaml"
 title: "FrontMatter"

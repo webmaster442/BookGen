@@ -6,7 +6,7 @@
   "BookAuthor": "Ruzsinszki Gábor",
   "StaticWebsiteConfig": {
     "OpenLinksOutsideHostOnNewTab": false,
-    "DeployHost": "",
+    "DeployHost": "http://localhost/",
     "CopyToOutput": [],
     "TocConfiguration": {
       "ContainerId": "tableofcontents",
@@ -42,7 +42,7 @@
   },
   "WordpressConfig": {
     "OpenLinksOutsideHostOnNewTab": true,
-    "DeployHost": "",
+    "DeployHost": "http://localhost/",
     "ItemType": "docs",
     "AllowComments": false,
     "TagCategory": "post_tag",
