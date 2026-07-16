@@ -30,6 +30,6 @@ internal class BookGenServices : IBookgenServices
 
     public IAssetSource AssetSource { get; }
 
-    public IRenderer Create(RendererOptions rendererOptions)
+    public IRenderer CreateRenderer(RendererOptions rendererOptions)
         => new Renderer(rendererOptions, _environment, _cache, _logger);
 }

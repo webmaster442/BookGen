@@ -128,4 +128,20 @@ internal sealed class Renderer : IRenderer
 
         return _engine.Render(pageTemplate, viewData);
     }
+
+    public string RenderMarkdownToHtml(string pageTemplate, RenderTags tags)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        var viewData = new ViewData
+        {
+            Title = tags.Title,
+            Content = RenderMarkdownToRawHtml(tags.Content),
+            Host = tags.Host,
+            AdditionalData = tags.AdditionalData,
+            LastModified = tags.LastModified,
+        };
+
+        return _engine.Render(pageTemplate, viewData);
+    }
 }

@@ -24,4 +24,12 @@ public interface IRenderer : IDisposable
     /// <param name="document">The document containing the Markdown content.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the rendered HTML content.</returns>
     Task<string> RenderMarkdownToHtml(string pageTemplate, IDocument document);
+
+    /// <summary>
+    /// Renders the specified Markdown content to HTML using the provided page template and tags.
+    /// </summary>
+    /// <param name="pageTemplate">The page template to use for rendering.</param>
+    /// <param name="tags">The tags containing the content and metadata for rendering.</param>
+    /// <returns>The rendered HTML content.</returns>
+    string RenderMarkdownToHtml(string pageTemplate, RenderTags tags);
 }
