@@ -70,18 +70,18 @@ internal sealed partial class BookGenExtension : IMarkdownExtension, IDisposable
                 htmlRenderer.ObjectRenderers.AddIfNotAlready(new SvgMathBlockRenderer(_settings.RenderInterop));
             }
 
-            HtmlMathInlineRenderer? mathInlineRenderer = htmlRenderer.ObjectRenderers.FindExact<HtmlMathInlineRenderer>();
-            if (mathInlineRenderer != null)
-            {
-                htmlRenderer.ObjectRenderers.Remove(mathInlineRenderer);
-                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SvgMathInlineRenderer(_settings.RenderInterop));
-            }
-
             CodeBlockRenderer? codeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
             if (codeBlockRenderer != null)
             {
                 htmlRenderer.ObjectRenderers.Remove(codeBlockRenderer);
                 htmlRenderer.ObjectRenderers.AddIfNotAlready(new SyntaxRenderer(codeBlockRenderer, _settings.RenderInterop));
+            }
+
+            HtmlMathInlineRenderer? mathInlineRenderer = htmlRenderer.ObjectRenderers.FindExact<HtmlMathInlineRenderer>();
+            if (mathInlineRenderer != null)
+            {
+                htmlRenderer.ObjectRenderers.Remove(mathInlineRenderer);
+                htmlRenderer.ObjectRenderers.AddIfNotAlready(new SvgMathInlineRenderer(_settings.RenderInterop));
             }
         }
 

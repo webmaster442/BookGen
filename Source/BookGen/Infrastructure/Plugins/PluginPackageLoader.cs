@@ -3,12 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.Loader;
-using System.Text.Json;
 
 using BookGen.Api.V1;
 using BookGen.Vfs;
@@ -86,47 +84,6 @@ internal sealed class PluginPackageLoader : IDisposable
         _disposed = true;
     }
 
-    private bool TryGetPluginManifest(ZipArchive archive, string packagePath, [NotNullWhen(true)] out PackageManifest? manifest)
-    {
-        ZipArchiveEntry? manifestEntry = archive.GetEntry("manifest.json");
-        if (manifestEntry == null)
-        {
-            _logger.LogError("Plugin package does not contain a manifest.json: {PackagePath}", packagePath);
-            manifest = null;
-            return false;
-        }
-        using Stream manifestStream = manifestEntry.Open();
-        try
-        {
-            PackageManifest? manifestObject = JsonSerializer.Deserialize<PackageManifest>(manifestStream, JsonSerializerOptions.Web);
-            if (manifestObject == null)
-            {
-                _logger.LogError("Failed to deserialize manifest.json in plugin package: {PackagePath}", packagePath);
-                manifest = null;
-                return false;
-            }
-            IEnumerable<ValidationResult> validationResults = manifestObject.Validate(new ValidationContext(manifestObject));
-            if (validationResults.Any())
-            {
-                foreach (ValidationResult validationResult in validationResults)
-                {
-                    _logger.LogError("Manifest validation error: {ErrorMessage}", validationResult.ErrorMessage);
-                }
-                manifest = null;
-                return false;
-            }
-
-            manifest = manifestObject;
-            return true;
-        }
-        catch (Exception)
-        {
-            _logger.LogError("Failed to deserialize manifest.json in plugin package: {PackagePath}", packagePath);
-            manifest = null;
-            return false;
-        }
-    }
-
     private bool TryExtractArchive(ZipArchive archive, string fullPath)
     {
         try
@@ -193,12 +150,19 @@ internal sealed class PluginPackageLoader : IDisposable
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        string entryAssemblyPath = packagePath;
+        string? resolvedPath = PluginPathResolver.Resolve(Environment.CurrentDirectory, packagePath, isDevMode);
+        if (string.IsNullOrEmpty(resolvedPath))
+        {
+            buildPlugin = null;
+            return false;
+        }
+
+        string entryAssemblyPath = resolvedPath;
 
         if (!isDevMode)
         {
-            using ZipArchive archive = ZipFile.OpenRead(packagePath);
-            if (!TryGetPluginManifest(archive, packagePath, out PackageManifest? manifest))
+            using ZipArchive archive = ZipFile.OpenRead(resolvedPath);
+            if (!archive.TryGetPluginManifest(resolvedPath, _logger, out PackageManifest? manifest))
             {
                 buildPlugin = null;
                 return false;

@@ -11,12 +11,39 @@
         --sidebar-background-color: #282A36;
         --sidebar-text-color: #F8F8F2;
         --sidebar-link-color: #BD93F9;
+        --table-boder-color: #ddd;
+        --table-alternate-row-color: #f2f2f2;
+        --table-hover-row-color: #ddd;
+        --code-color: #c7254e;
     }
 
     body {
         margin: 0;
         font-family: "Lato", sans-serif;
         font-size: 14pt;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid var(--table-boder-color);
+        padding: 8px;
+    }
+
+    tr:nth-child(even){
+        background-color: var(--table-alternate-row-color);
+    }
+
+    tr:hover {
+        background-color: var(--table-hover-row-color);
+    }
+
+    code {
+        font-family: "Courier New", monospace;
+        color: var(--code-color);
     }
 
     .fixedsidebar {
@@ -69,6 +96,29 @@
     <aside class="hidden" id="articleStore">
         {{Content}}
     </aside>
+
+    <script type="text/javascript">
+        function onLoaded() {
+            var id = window.location.hash.substring(1);
+            if (!id) {
+                return;
+            }
+
+            var currentArticle = document.getElementById('currentArticle');
+            var articleStore = document.getElementById('articleStore');
+            var source = articleStore ? articleStore.querySelector('#' + id) : null;
+
+            if (source) {
+                currentArticle.innerHTML = source.innerHTML;
+            } else {
+                currentArticle.innerHTML = '<p style="color: red;">The given id \'' + id + '\' is not found.</p>';
+            }
+        }
+
+        window.addEventListener('load', onLoaded);
+        window.addEventListener('hashchange', onLoaded);
+    </script>
+
 </body>
 
 </html>

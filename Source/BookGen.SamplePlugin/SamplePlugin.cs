@@ -1,4 +1,6 @@
-﻿using BookGen.Api;
+﻿using System.Xml.Linq;
+
+using BookGen.Api;
 using BookGen.Api.V1;
 
 namespace BookGen.SamplePlugin;
@@ -20,7 +22,7 @@ public sealed class SamplePlugin : IBuildPluginV1
 
         string IndexHtml = renderer.RenderMarkdownToRawHtml(indexData.content);
 
-        Add(contentHtml, navHtml, indexData, renderer);
+        Add(contentHtml, navHtml, renderer, indexData);
 
         foreach (IChapter chapter in book.Chapters)
         {
@@ -28,9 +30,12 @@ public sealed class SamplePlugin : IBuildPluginV1
             {
                 bookgenServices.Logger.LogDebug("Processing document: {DocumentPath}", document.FilePath);
                 (string content, IDocumentFrontMatter frontMatter) docData = await document.ReadContent();
-                Add(contentHtml, navHtml, docData, renderer);
+                Add(contentHtml, navHtml, renderer, docData);
             }
         }
+
+        Add(contentHtml, navHtml, renderer, "Schemas", bookgenServices.DynamicDocumentation.GetSchemasMarkdown());
+        Add(contentHtml, navHtml, renderer, "Commands", bookgenServices.DynamicDocumentation.GetCommandsMarkdown());
 
         if (navHtml.LastUnclosedTag != null)
             navHtml.CloseOpenTag();
@@ -57,22 +62,39 @@ public sealed class SamplePlugin : IBuildPluginV1
 
     private void Add(HtmlBuilder contentHtml,
                      HtmlBuilder navHtml,
-                     (string content, IDocumentFrontMatter frontMatter) docData,
-                     IRenderer renderer)
+                     IRenderer renderer,
+                     string title,
+                     string content)
     {
+        string generatedId = $"a{Helpers.GetId(title)}";
+
+        string html = renderer.RenderMarkdownToRawHtml(content);
+
         contentHtml.Element("div",
-                    tag => tag.Id(Helpers.GetId(docData.frontMatter.Title).ToString()),
-                    div => div.Raw(renderer.RenderMarkdownToRawHtml(docData.content)));
+                    tag => tag.Id(generatedId),
+                    div => div.Raw(html));
 
         if (navHtml.LastUnclosedTag == "ul")
         {
             navHtml.Element("li",
-                li => li.Element("a", tag => tag.Attr("href", "#"),
-                a => a.Text(docData.frontMatter.Title)));
+                li => li.Element("a", tag =>
+                {
+                    tag.Attr("href", $"#{generatedId}");
+                },
+                a => a.Text(title)));
         }
         else
         {
             navHtml.Element("ul");
         }
+    }
+
+    private void Add(HtmlBuilder contentHtml,
+                     HtmlBuilder navHtml,
+                     IRenderer renderer,
+                     (string content, IDocumentFrontMatter frontMatter) docData)
+                     
+    {
+        Add(contentHtml, navHtml, renderer, docData.frontMatter.Title, docData.content);
     }
 }

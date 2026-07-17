@@ -49,7 +49,7 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
                 "sass", "scss", "scala", "scheme", "smalltalk", "smarty", "sql", "soy",
                 "stylus", "swift", "tap", "tcl", "textile", "tt2", "twig", "typescript",
                 "vbnet", "velocity", "verilog", "vhdl", "vim", "visual-basic", "wasm", "wiki",
-                "xeora", "xojo", "xquery", "yaml"
+                "xeora", "xojo", "xquery", "yaml", "xml"
             };
         _plugins = new Dictionary<string, SyntaxRendererPlugin>();
         RegisterPlugin(new TerminalRenderPlugin());

@@ -5,40 +5,32 @@ tags: ''
 
 # Bookgen
 
-- [Bookgen](#bookgen)
-  - [Listing commands and getting help](#listing-commands-and-getting-help)
-  - [Installation](#installation)
-  - [Writing your book workflow](#writing-your-book-workflow)
-    - [Convinience commands](#convinience-commands)
-  - [Updating bookgen](#updating-bookgen)
-  - [Converting a single markdown file to html](#converting-a-single-markdown-file-to-html)
-    - [Options](#options)
-  - [Markdown files](#markdown-files)
-    - [YAML Front matter](#yaml-front-matter)
-  - [Templates](#templates)
-    - [Template functions](#template-functions)
-      - [String Case Functions](#string-case-functions)
-      - [String Manipulation Functions](#string-manipulation-functions)
-      - [Encoding Functions](#encoding-functions)
-      - [Date and Time Functions](#date-and-time-functions)
+BookGen is a command-line Markdown processor designed to streamline the creation of books and technical documentation. 
+It consists of two binaries: `BookGen` is the main command-line program and `BookGen.Shellprog.exe` is the shell helper
+for PowerShell and works on Windows. 
 
-BookGen is a command-line Markdown processor designed to streamline the creation of books and technical documentation. It consists of two binaries: `BookGen` is the main command-line program and `BookGen.Shellprog.exe` is the shell helper for PowerShell and works on Windows. 
-
-For existing books, the most common tasks are available through the `Gui` sub-command. Running `BookGen Gui` starts a terminal user interface (TUI) that lets you perform various book maintenance and workflow tasks.
+For existing books, the most common tasks are available through the `Gui` sub-command. Running `BookGen Gui` starts a
+terminal user interface (TUI) that lets you perform various book maintenance and workflow tasks.
 
 To get the latest version of BookGen, please visit the releases page at: https://github.com/webmaster442/BookGen/releases
 
 ## Listing commands and getting help
 
-BookGen is a command driven application. To get documentation on all the available commands use the `Bookgen doc commands` command. This will display all the available commands. To get help on a specific command use the `help` sub-command with the commands name. For example: `bookgen help doc commands`.
+BookGen is a command driven application. To get documentation on all the available commands use the `Bookgen doc commands`
+command. This will display all the available commands. To get help on a specific command use the `help` sub-command with
+the commands name. For example: `bookgen help doc commands`.
 
 ## Installation
 
-Installation is straight-forward. Extract or copy BookGen into your folder of choice and you can then use it from that folder with your shell. However I recommend running the `bookgen install` command that can install a Windows Terminal profile and add BookGen into your `PATH` environment variable, so that you can use it from any folder.
+Installation is straight-forward. Extract or copy BookGen into your folder of choice and you can then use it from that folder
+with your shell. However I recommend running the `bookgen install` command that can install a Windows Terminal profile and add
+BookGen into your `PATH` environment variable, so that you can use it from any folder.
 
 ## Writing your book workflow
 
-The first step in writing any book is to know roughly what it's going to be about, but I suppose if you are looking for tools, then you have your rough idea. The first step in using bookgen is to create a folder that you are going to be working in. After this, navigate to the folder and follow these steps.
+The first step in writing any book is to know roughly what it's going to be about, but I suppose if you are looking for tools,
+then you have your rough idea. The first step in using bookgen is to create a folder that you are going to be working in. 
+After this, navigate to the folder and follow these steps.
 
 Recommended tools to have installed:
 
@@ -47,23 +39,32 @@ Recommended tools to have installed:
 
 0. **Make sure that your folder is a GIT repository or some other version controlled folder**
 
-    This is a somewhat optional step, nobody will stop you if it's not a GIT repository, but I highly recommend it, since if you mess up something, than at least, you can revert to any revision at anytime. If you don't know what is GIT you can find a detailed tutorial about it at https://www.w3schools.com/git/
+    This is a somewhat optional step, nobody will stop you if it's not a GIT repository, but I highly recommend it, since if 
+    you mess up something, than at least, you can revert to any revision at anytime. If you don't know what is GIT you can 
+    find a detailed tutorial about it at https://www.w3schools.com/git/
 
 1. **Create the Bookgen configuration files**
 
-    This can be performed via executing the `bookgen newbook` command. This will create four files. A table of contents file and a configuration file. For both files a JSON schema document is also created and for editing the configurations an editor that supports JSON schema based autocomplete and validation is recommended, like Visual studio code.
+    This can be performed via executing the `bookgen newbook` command. This will create four files. A table of contents file
+    and a configuration file. For both files a JSON schema document is also created and for editing the configurations an 
+    editor that supports JSON schema based autocomplete and validation is recommended, like Visual studio code.
 
 2. **Create a page**
 
-	You can create a page by using your favorite text editor or by using the `bookgen newpage` command. The later adds the necessary front matter configuration to the file as well. If you have existing files without front matter content you can use the `bookgen addfrontmatter` command to add them to existing files.
+	You can create a page by using your favorite text editor or by using the `bookgen newpage` command. The later adds the
+    necessary front matter configuration to the file as well. If you have existing files without front matter content you 
+    can use the `bookgen addfrontmatter` command to add them to existing files.
 
 3. **Edit your page**
 
-	Create your content. This is the hardest part and if you are like me, you will struggle a lot with finding proper words and inspiration. What I can recommend is don't stress. There are some days, when writing just one line is exhausting and there are others, where inspiration finds you and you just write and write.
+	Create your content. This is the hardest part and if you are like me, you will struggle a lot with finding proper words
+    and inspiration. What I can recommend is don't stress. There are some days, when writing just one line is exhausting and
+    there are others, where inspiration finds you and you just write and write.
 
 4. **Add page to table of contents**
 
-	Your created page is not automatically part of your book. You need to place it your table of contents file into your specific chapter.
+	Your created page is not automatically part of your book. You need to place it your table of contents file into 
+    your specific chapter.
 
 5. **Review and edit your configuration**
 
@@ -82,9 +83,10 @@ Recommended tools to have installed:
 
 ### Convinience commands
 
-The philosophy behind BookGen that it should support the workflow as much as possible, that is why it has a few convenience commands, that should make writing much more enjoyable. These commands are:
+The philosophy behind BookGen that it should support the workflow as much as possible, that is why it has a few convenience
+commands, that should make writing much more enjoyable. These commands are:
 
-* `bookgen vstasks` - Creates a `.vscode` folder with Visual Studio code and configures BookGen as available tasks. Optionally this command also creates a recommended extension list file to easily install the best tools for working with markdown files.
+  * `bookgen vstasks` - Creates a `.vscode` folder with Visual Studio code and configures BookGen as available tasks. Optionally this command also creates a recommended extension list file to easily install the best tools for working with markdown files.
 
 * `bookgen shortcut` - This command creates a shortcut file in the current directory that can be used to start the bookgen Shell in the current directory.
 	
@@ -98,7 +100,8 @@ To make sure after updating your existing book is compatible with the tool run t
 Config file is too old. Run bookgen upgrade to update it
 ```
 
-To update to the latest configuration format run the `bookgen upgrade` command. This will upgrade your configuration to the latest version. **Warning**: It's highly unlikely that this will fail and mess up your configuration, but as a fail-safe please back up your existing configuration before migrating.
+To update to the latest configuration format run the `bookgen upgrade` command. This will upgrade your configuration to the latest version. **Warning**: 
+It's highly unlikely that this will fail and mess up your configuration, but as a fail-safe please back up your existing configuration before migrating.
 
 Migration also updates the configuration and the table of contents document schema files as well. 
 
@@ -200,7 +203,7 @@ Markdown files are the main input format for BookGen. BookGen supports the follo
 
 BookGen stores metadata information about each markdown file in a yaml front matter block, that will look something like this at the beginning of the markdown file:
 
-```yml
+```yaml
 title: "Getting Started with BookGen"
 tags: "bookgen, markdown, publishing, tutorial"
 template: "tiny-light.html"
@@ -213,7 +216,7 @@ data:
 
 The front matter used in the beginning of the files follows the following schema:
 
-```yml
+```yaml
 $schema: "https://json-schema.org/draft/2020-12/schema"
 $id: "https://example.com/schemas/frontmatter.schema.yaml"
 title: "FrontMatter"

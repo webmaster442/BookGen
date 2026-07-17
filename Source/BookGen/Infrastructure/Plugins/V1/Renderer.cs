@@ -14,7 +14,6 @@ using BookGen.Lib.Rendering.Markdown.RenderInterop;
 using BookGen.Lib.Rendering.Templates;
 
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 
 namespace BookGen.Infrastructure.Plugins.V1;
 
@@ -117,12 +116,19 @@ internal sealed class Renderer : IRenderer
 
         (string content, IDocumentFrontMatter frontMatter) = await document.ReadContent();
 
+        return RenderMarkdownToHtml(pageTemplate, (content, frontMatter));
+    }
+
+    public string RenderMarkdownToHtml(string pageTemplate, (string content, IDocumentFrontMatter frontMatter) docData)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
         var viewData = new ViewData
         {
-            Title = frontMatter.Title,
-            Content = RenderMarkdownToRawHtml(content),
+            Title = docData.frontMatter.Title,
+            Content = RenderMarkdownToRawHtml(docData.content),
             Host = _markdownRenderSettings.HostUrl ?? string.Empty,
-            AdditionalData = frontMatter.AdditionalData.ToDictionary(),
+            AdditionalData = docData.frontMatter.AdditionalData.ToDictionary(),
             LastModified = DateTime.Now,
         };
 

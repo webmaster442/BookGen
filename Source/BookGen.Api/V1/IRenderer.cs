@@ -26,6 +26,14 @@ public interface IRenderer : IDisposable
     Task<string> RenderMarkdownToHtml(string pageTemplate, IDocument document);
 
     /// <summary>
+    /// Renders the specified Markdown content to HTML using the provided page template and document data.
+    /// </summary>
+    /// <param name="pageTemplate">The page template to use for rendering.</param>
+    /// <param name="docData">The document data containing the Markdown content and front matter.</param>
+    /// <returns>The rendered HTML content.</returns>
+    string RenderMarkdownToHtml(string pageTemplate, (string content, IDocumentFrontMatter frontMatter) docData);
+
+    /// <summary>
     /// Renders the specified Markdown content to HTML using the provided page template and tags.
     /// </summary>
     /// <param name="pageTemplate">The page template to use for rendering.</param>

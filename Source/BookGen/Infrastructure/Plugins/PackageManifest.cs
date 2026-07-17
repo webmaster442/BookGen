@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using System.IO.Compression;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace BookGen.Infrastructure.Plugins;
