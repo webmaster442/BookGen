@@ -222,24 +222,20 @@ $id: "https://example.com/schemas/frontmatter.schema.yaml"
 title: "FrontMatter"
 type: object
 additionalProperties: false
-
 properties:
   title:
     type: string
     minLength: 1
     description: "Document title"
-
   tags:
     type: string
     minLength: 1
     description: "A comma separated list of tags"
-
   template:
     type:
       - string
       - "null"
     description: "Template file to use. If empty, default template is used"
-
   data:
     type:
       - object
@@ -247,7 +243,6 @@ properties:
     description: "Additional data that can be used during rendering"
     additionalProperties:
       type: string
-
 required:
   - title
   - tags

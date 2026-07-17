@@ -1,17 +1,17 @@
-﻿using System.Xml.Linq;
-
-using BookGen.Api;
+﻿using BookGen.Api;
 using BookGen.Api.V1;
 
 namespace BookGen.SamplePlugin;
 
 public sealed class SamplePlugin : IBuildPluginV1
 {
-    public async Task<bool> Build(IBook book, IBookgenServices bookgenServices, CancellationToken cancellationToken)
+    public async Task<bool> Build(IBook book,
+                                  IBookgenServices bookgenServices,
+                                  CancellationToken cancellationToken)
     {
         HtmlBuilder contentHtml = new(32 * 1024);
         HtmlBuilder navHtml = new(4 * 1024);
-        
+
         IRenderer renderer = bookgenServices.CreateRenderer(new RendererOptions
         {
             SvgRecode = RendererOptions.ImageOption.Passtrough,
@@ -40,6 +40,12 @@ public sealed class SamplePlugin : IBuildPluginV1
         if (navHtml.LastUnclosedTag != null)
             navHtml.CloseOpenTag();
 
+        if (!bookgenServices.AssetSource.TryGetAsset("prism.css", out string? prismCss))
+        {
+            bookgenServices.Logger.LogError("Failed to get asset 'prism.css'");
+            return false;
+        }
+
         RenderTags tags = new()
         {
             Content = contentHtml.ToString(),
@@ -47,7 +53,8 @@ public sealed class SamplePlugin : IBuildPluginV1
             AdditionalData = new()
             {
                 { "Navigation", navHtml.ToString() },
-                { "Index", IndexHtml }
+                { "Index", IndexHtml },
+                { "PrismCss", prismCss }
             }
         };
 
@@ -74,19 +81,17 @@ public sealed class SamplePlugin : IBuildPluginV1
                     tag => tag.Id(generatedId),
                     div => div.Raw(html));
 
-        if (navHtml.LastUnclosedTag == "ul")
-        {
-            navHtml.Element("li",
-                li => li.Element("a", tag =>
-                {
-                    tag.Attr("href", $"#{generatedId}");
-                },
-                a => a.Text(title)));
-        }
-        else
+        if (navHtml.LastUnclosedTag != "ul")
         {
             navHtml.Element("ul");
         }
+        
+        navHtml.Element("li",
+            li => li.Element("a", tag =>
+            {
+                tag.Attr("href", $"#{generatedId}");
+            },
+            a => a.Text(title)));
     }
 
     private void Add(HtmlBuilder contentHtml,

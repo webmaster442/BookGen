@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Web;
 
 using BookGen.Lib.Rendering.Markdown.Renderers.SyntaxRenderPlugins;
 using BookGen.Lib.Rendering.Markdown.RenderInterop;

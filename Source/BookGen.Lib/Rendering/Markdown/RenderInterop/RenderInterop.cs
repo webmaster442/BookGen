@@ -5,6 +5,7 @@
 
 using System.Diagnostics;
 using System.Globalization;
+using System.Text;
 using System.Web;
 
 using BookGen.Lib.AppSettings;

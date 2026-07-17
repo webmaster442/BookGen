@@ -3,4 +3,6 @@ title: Bookgen Docs
 tags: ''
 ---
 
-This is the documentation for Bookgen, a static site generator for books and documentation.
+![BookGen Logo](icon-bookgen.webp)
+
+This is the documentation for BookGen, a static site generator for books and documentation.

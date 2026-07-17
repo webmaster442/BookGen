@@ -115,9 +115,8 @@ since the plugin API isn't mature enough to be published as a NuGet package.
 
 A simple plugin project structure looks like this:
 
-```xml
+```markup
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <!-- Bookgen plugins use netstandard 2.1 -->
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -128,31 +127,26 @@ A simple plugin project structure looks like this:
     <!-- Important for plugin loadability -->
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Template.html" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\BookGen.Api\BookGen.Api.csproj">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </ProjectReference>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <Target Name="PackagePlugin" AfterTargets="Build">
     <PropertyGroup>
       <PluginPackage>$(OutputPath)..\$(AssemblyName).plugin</PluginPackage>
     </PropertyGroup>
     <ZipDirectory Overwrite="true" SourceDirectory="$(TargetDir)" DestinationFile="$(PluginPackage)" />
   </Target>
-
 </Project>
 ```
 

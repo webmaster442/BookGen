@@ -37,7 +37,7 @@ public static class MarkdownGenerator
         if (command.Arguments?.Count > 0)
         {
             result
-                .AppendLine($"{LevelPrefix(level + 1)} Arguments")
+                .AppendLine($"**Arguments**")
                 .AppendLine();
 
             foreach (Argument argument in command.Arguments.OrderBy(a => a.OpenClRequired).ThenBy(a => a.Name))
@@ -54,7 +54,7 @@ public static class MarkdownGenerator
         if (command.Options?.Count > 0)
         {
             result
-                .AppendLine($"{LevelPrefix(level + 1)} Options")
+                .AppendLine($"**Options**")
                 .AppendLine();
 
             foreach (Option option in command.Options.OrderBy(o => o.OpenClRequired).ThenBy(o => o.Name))
@@ -74,7 +74,7 @@ public static class MarkdownGenerator
         }
 
         result
-            .AppendLine($"{LevelPrefix(level + 1)} Exit codes")
+            .AppendLine($"**Exit codes**")
             .AppendLine();
 
         foreach (ExitCode exitCode in command.ExitCodes ?? new List<ExitCode>())
