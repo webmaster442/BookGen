@@ -9,6 +9,8 @@
     <LangVersion>latest</LangVersion>
     <!-- Important for plugin loadability -->
     <EnableDynamicLoading>true</EnableDynamicLoading>
+    <OutputPath>..\..\bin\sampleplugin\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,9 +32,9 @@
 
   <Target Name="PackagePlugin" AfterTargets="Build">
     <PropertyGroup>
-      <PluginPackage>$(OutputPath)..\$(AssemblyName).plugin</PluginPackage>
+      <PluginPackage>$(OutputPath)..\..\$(Configuration)\plugins\$(AssemblyName).plugin</PluginPackage>
     </PropertyGroup>
-    <ZipDirectory Overwrite="true" SourceDirectory="$(TargetDir)" DestinationFile="$(PluginPackage)" />
+    <ZipDirectory Overwrite="true" CompressionLevel="Optimal" SourceDirectory="$(TargetDir)" DestinationFile="$(PluginPackage)" />
   </Target>
 
 </Project>

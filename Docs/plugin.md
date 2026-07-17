@@ -177,4 +177,9 @@ it will automatically create a `.plugin` file in the output directory.
 
 ## Plugin API
 
-TODO
+The main entry point for a plugin is the `IBookPlugin` interface. A plugin assembly must contain only one class 
+that implements this interface. The class must have a public parameterless constructor, so that BookGen can
+instantiate it when loading the plugin.
+
+If the plugin assembly contains more than one class that implements `IBookPlugin`, BookGen will not load the plugin.
+
