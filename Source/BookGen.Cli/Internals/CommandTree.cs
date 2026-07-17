@@ -4,12 +4,18 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+
+using BookGen.Cli.Annotations;
+using BookGen.Cli.OpenCli.Draft;
 
 namespace BookGen.Cli.Internals;
 
 internal sealed class CommandTree
 {
     private readonly Dictionary<string, Type> _commands;
+    private Type? _defaultCommandType;
+    private string? _defaultCommandName;
 
     public CommandTree()
     {
@@ -41,9 +47,15 @@ internal sealed class CommandTree
             : throw new KeyNotFoundException($"Command '{name}' not found.");
     }
 
-    public void Add(string name, Type type, bool isDefault = false)
+    public void AddDefault(Type type)
     {
-        if (string.IsNullOrWhiteSpace(name) && !isDefault)
+        _defaultCommandType = type;
+        _defaultCommandName = type.GetCommandName();
+    }
+
+    public void Add(string name, Type type)
+    {
+        if (string.IsNullOrWhiteSpace(name))
         {
             throw new ArgumentException("Command name cannot be null or whitespace.", nameof(name));
         }
@@ -75,8 +87,23 @@ internal sealed class CommandTree
     public Type GetCommand(string name)
         => _commands[name];
 
+    public Type GetDefaultCommand()
+    {
+        return _defaultCommandType
+            ?? throw new InvalidOperationException("Default command hasn't been set");
+    }
+
+    public string GetDefaultCommandName()
+    {
+        return _defaultCommandName 
+            ?? throw new InvalidOperationException("Default command hasn't been set");
+    }
+
     public IEnumerable<string> BranchCommandNames
         => _commands.Where(k => k.Value == typeof(BranchCommand))
                 .Select(k => k.Key)
                 .Order();
+
+    public bool IsDefaultCommandSet
+        => _defaultCommandType is not null;
 }

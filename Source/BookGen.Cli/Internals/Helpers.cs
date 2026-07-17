@@ -31,10 +31,12 @@ internal static class Helpers
     }
 
     // Skip the first argument (command name) and any parsed global options
-    public static List<string> GetArgsToParse(IReadOnlyList<string> args, HashSet<string> parsedGlobals)
+    public static List<string> GetArgsToParse(IReadOnlyList<string> args,
+                                              HashSet<string> parsedGlobals,
+                                              int skipCount)
     {
         List<string> results = new();
-        for (int i = 1; i < args.Count; i++)
+        for (int i = skipCount; i < args.Count; i++)
         {
             if (!parsedGlobals.Contains(args[i]))
             {

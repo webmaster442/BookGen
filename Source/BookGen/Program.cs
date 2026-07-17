@@ -94,7 +94,7 @@ runner
 
 runner
     .AddDefaultCommand<DefaultCommand>()
-    .AddCommandsFrom(typeof(HelpCommand).Assembly);
+    .AddCommandsFrom(typeof(DefaultCommand).Assembly, includeDefault: false);
 
 runnerProxy.ConfigureWith(runner);
 

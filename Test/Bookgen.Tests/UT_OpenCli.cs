@@ -35,8 +35,8 @@ internal class UT_OpenCli
             .AddGlobalOptionParser(new LogToFileParser(info))
             .AddGlobalOptionParser(new RuntimePrintingParser(info));
 
-        runner.AddDefaultCommand<HelpCommand>();
-        runner.AddCommandsFrom(typeof(HelpCommand).Assembly);
+        runner.AddDefaultCommand<DefaultCommand>();
+        runner.AddCommandsFrom(typeof(DefaultCommand).Assembly, includeDefault: false);
         return runner;
     }
 

@@ -24,7 +24,7 @@ public abstract class GlobalOptionParser
         LongName = $"--{longName}";
     }
 
-    public bool TryParseGlobalOption(string[] args, [NotNullWhen(true)] out string? parsedOne)
+    public bool TryParseGlobalOption(IReadOnlyList<string> args, [NotNullWhen(true)] out string? parsedOne)
     {
         bool handle = false;
         parsedOne = null;

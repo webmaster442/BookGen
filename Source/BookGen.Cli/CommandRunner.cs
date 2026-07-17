@@ -28,7 +28,6 @@ public sealed class CommandRunner
     private readonly CommandRunnerSettings _settings;
     private readonly List<GlobalOptionParser> _globalOptionParsers;
     private readonly SupportedOs _currentOs;
-    private string? _defaultCommandName;
 
     public IValidationContext ValidationContext { get; set; }
 
@@ -130,11 +129,11 @@ public sealed class CommandRunner
     public CommandRunner AddDefaultCommand<TCommand>() where TCommand : ICommand
     {
         string name = typeof(TCommand).GetCommandName();
-        if (!_commands.ContainsCommand(name))
-        {
-            _commands.Add(string.Empty, typeof(TCommand), isDefault: true);
-        }
-        _defaultCommandName = name;
+
+        if (_commands.IsDefaultCommandSet)
+            throw new InvalidOperationException("Default command has already been set");
+
+        _commands.AddDefault(typeof(TCommand));
         return this;
     }
 
@@ -159,7 +158,7 @@ public sealed class CommandRunner
         }
     }
 
-    public CommandRunner AddCommandsFrom(Assembly assembly)
+    public CommandRunner AddCommandsFrom(Assembly assembly, bool includeDefault)
     {
         IEnumerable<Type> commands = assembly
             .GetTypes()
@@ -169,6 +168,10 @@ public sealed class CommandRunner
         foreach (Type? command in commands)
         {
             string name = command.GetCommandName();
+
+            if (_commands.GetDefaultCommandName() == name && !includeDefault)
+                continue;
+
             if (!_commands.ContainsCommand(name))
             {
                 _commands.Add(name.ToLower(), command);
@@ -199,14 +202,14 @@ public sealed class CommandRunner
 
     public Document GenerateOpenCliDocs()
     {
-        if (string.IsNullOrEmpty(_defaultCommandName))
+        if (!_commands.IsDefaultCommandSet)
             throw new InvalidOperationException("Default command hasn't been set");
 
         IEnumerable<(Type Value, Type?)> commands = _commands.CommandTypes.Select(x => (x, x.GetArgumentType()));
 
         return OpenCliDraftGenerator.GenerateOpenCli(_settings.ProgramMetaData.AppName,
                                                      _settings.ProgramMetaData.Version,
-                                                     _commands.GetCommand(_defaultCommandName),
+                                                     _commands.GetDefaultCommand(),
                                                      _globalOptionParsers,
                                                      commands,
                                                      _commands.BranchCommandNames);
@@ -215,31 +218,41 @@ public sealed class CommandRunner
     public async Task<int> Run(IReadOnlyList<string> args)
     {
         _helpProvider.CommandsChanged(GenerateOpenCliDocs());
+        int skipCount = 1;
         try
         {
             string commandName;
             if (args.Count > 0)
             {
-                commandName = args[0].ToLower();
+                if (args[0].StartsWith('-'))
+                {
+                    commandName = _commands.GetDefaultCommandName();
+                    skipCount = 0;
+                }
+                else
+                {
+                    commandName = args[0].ToLower();
+                }
             }
             else
             {
-                if (string.IsNullOrEmpty(_defaultCommandName))
+                if (!_commands.IsDefaultCommandSet)
                     throw new InvalidOperationException("Default command hasn't been setup");
 
-                commandName = _defaultCommandName;
+                commandName = _commands.GetDefaultCommandName();
+                skipCount = 0;
             }
 
             HashSet<string> parsedGlobals = new();
             foreach (var parser in _globalOptionParsers)
             {
-                if (parser.TryParseGlobalOption(args.ToArray(), out string? globalOption))
+                if (parser.TryParseGlobalOption(args, out string? globalOption))
                 {
                     parsedGlobals.Add(globalOption);
                 }
             }
 
-            List<string> argsToParse = Helpers.GetArgsToParse(args, parsedGlobals);
+            List<string> argsToParse = Helpers.GetArgsToParse(args, parsedGlobals, skipCount);
 
             return await RunCommand(commandName, argsToParse);
         }

@@ -58,12 +58,21 @@ internal class UT_CommandRunner
         _helproviderMock.Setup(x => x.CommandsChanged(It.IsAny<Document>()));
         _sut = new CommandRunner(_serviceProviderMock.Object, _helproviderMock.Object, _loggerMock.Object, CommandRunnerSettings.Default);
         _sut.AddDefaultCommand<TestCommand>();
+        _sut.AddCommand<TestCommand>();
     }
 
     [Test]
-    public async Task EnsureThat_Run_Works()
+    public async Task EnsureThat_Run_Works_For_Command()
     {
         string[] args = ["test", "-v", "2"];
+        int result = await _sut.Run(args);
+        Assert.That(result, Is.EqualTo(10));
+    }
+
+    [Test]
+    public async Task EnsureThat_Run_Works_For_DefaultCommand()
+    {
+        string[] args = ["-v", "2"];
         int result = await _sut.Run(args);
         Assert.That(result, Is.EqualTo(10));
     }
