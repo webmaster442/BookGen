@@ -59,10 +59,8 @@ public sealed class CommandRunner
         return false;
     }
 
-    private ICommand CreateCommand(string commandName)
+    private ICommand CreateCommand(Type commandType, string commandName)
     {
-        Type commandType = _commands.GetCommandByName(commandName);
-
         ConstructorInfo constructor = commandType
             .GetConstructors(BindingFlags.Public | BindingFlags.Instance)
             .OrderByDescending(c => c.GetParameters().Length)
@@ -276,14 +274,18 @@ public sealed class CommandRunner
 
     public async Task<int> RunCommand(string commandName, IReadOnlyList<string> argsToParse)
     {
-        if (!_commands.TryGetCommand(commandName, out Type? value))
+        Type? commandType;
+        if (!_commands.TryGetDefaultCommand(commandName, out commandType))
         {
-            _log.LogCritical(_settings.UnknownCommandCodeAndMessage.message + " {cmdName}", commandName);
-            return _settings.UnknownCommandCodeAndMessage.code;
+            if (!_commands.TryGetCommand(commandName, out commandType))
+            {
+                _log.LogCritical(_settings.UnknownCommandCodeAndMessage.message + " {cmdName}", commandName);
+                return _settings.UnknownCommandCodeAndMessage.code;
+            }
         }
 
-        Type? argumentType = value.GetArgumentType();
-        ICommand command = CreateCommand(commandName);
+        Type? argumentType = commandType.GetArgumentType();
+        ICommand command = CreateCommand(commandType, commandName);
 
         if (!command.SupportedOs.HasFlag(_currentOs))
         {

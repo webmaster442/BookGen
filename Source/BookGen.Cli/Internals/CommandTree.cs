@@ -84,8 +84,17 @@ internal sealed class CommandTree
     public bool TryGetCommand(string name, [NotNullWhen(true)] out Type? commandType)
         => _commands.TryGetValue(name, out commandType);
 
-    public Type GetCommand(string name)
-        => _commands[name];
+    public bool TryGetDefaultCommand(string commandName, [NotNullWhen(true)] out Type? value)
+    {
+        if (string.Equals(commandName, _defaultCommandName, StringComparison.OrdinalIgnoreCase)
+            && _defaultCommandType != null)
+        {
+            value = _defaultCommandType;
+            return true;
+        }
+        value = null;
+        return false;
+    }
 
     public Type GetDefaultCommand()
     {

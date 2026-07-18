@@ -182,4 +182,3 @@ that implements this interface. The class must have a public parameterless const
 instantiate it when loading the plugin.
 
 If the plugin assembly contains more than one class that implements `IBookPlugin`, BookGen will not load the plugin.
-

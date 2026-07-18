@@ -26,6 +26,21 @@ internal class UT_CommandRunner
         public int Value => 5;
     }
 
+    [CommandName("default")]
+    public class DefaultCommand: Command<DefaultCommand.Settings>
+    {
+        public class Settings : ArgumentsBase
+        {
+            [Switch("v", "value", Required = false)]
+            public int Value { get; set; } = 0;
+        }
+
+        public override int Execute(Settings arguments, IReadOnlyList<string> context)
+        {
+            return arguments.Value;
+        }
+    }
+
     [CommandName("test")]
     private sealed class TestCommand : Command<TestCommand.Settings>
     {
@@ -57,7 +72,7 @@ internal class UT_CommandRunner
         _helproviderMock = new Mock<ICommandHelpProvider>(MockBehavior.Strict);
         _helproviderMock.Setup(x => x.CommandsChanged(It.IsAny<Document>()));
         _sut = new CommandRunner(_serviceProviderMock.Object, _helproviderMock.Object, _loggerMock.Object, CommandRunnerSettings.Default);
-        _sut.AddDefaultCommand<TestCommand>();
+        _sut.AddDefaultCommand<DefaultCommand>();
         _sut.AddCommand<TestCommand>();
     }
 
@@ -70,10 +85,18 @@ internal class UT_CommandRunner
     }
 
     [Test]
-    public async Task EnsureThat_Run_Works_For_DefaultCommand()
+    public async Task EnsureThat_Run_Works_For_DefaultCommand_WithArgs()
     {
         string[] args = ["-v", "2"];
         int result = await _sut.Run(args);
-        Assert.That(result, Is.EqualTo(10));
+        Assert.That(result, Is.EqualTo(2));
+    }
+
+    [Test]
+    public async Task EnsureThat_Run_Works_For_DefaultCommand_WithOutArgs()
+    {
+        string[] args = Array.Empty<string>();
+        int result = await _sut.Run(args);
+        Assert.That(result, Is.EqualTo(0));
     }
 }
