@@ -1,5 +1,3 @@
-Clear-Host
-
 function New-Folders {
     if (Test-Path "bin\publish\windows") {
         Remove-Item "bin\publish\windows*" -Recurse -Force
@@ -20,14 +18,18 @@ function Invoke-Publish {
         [string] $LinuxArchiveName
     )
 
+    dotnet build .\Source\BookGen.SamplePlugin\ -c Release
+
     # publish windows & linux
     if ($SelfContained) {
-        dotnet publish -c release -o "bin\publish\windows\bin" --self-contained true -r win-x64 -p PublishReadyToRun BookGen.slnx
-        dotnet publish -c release -o "bin\publish\linux\bin" --self-contained true -r linux-x64 -p PublishReadyToRun BookGen.slnx
+        dotnet publish -c release -o "bin\publish\windows\bin" --self-contained true -r win-x64 -p PublishReadyToRun BookGen.Build.slnx
+        dotnet publish -c release -o "bin\publish\linux\bin" --self-contained true -r linux-x64 -p PublishReadyToRun BookGen.Build.slnx
+        cp "bin\Release\plugins\BookGen.SamplePlugin.plugin" "bin\publish\windows\bin\plugins\BookGen.SamplePlugin.plugin"
     }
     else {
-        dotnet publish -c release -o "bin\publish\windows\bin" -r win-x64 -p PublishReadyToRun BookGen.slnx
-        dotnet publish -c release -o "bin\publish\linux\bin" -r linux-x64 -p PublishReadyToRun BookGen.slnx
+        dotnet publish -c release -o "bin\publish\windows\bin" -r win-x64 -p PublishReadyToRun BookGen.Build.slnx
+        dotnet publish -c release -o "bin\publish\linux\bin" -r linux-x64 -p PublishReadyToRun BookGen.Build.slnx
+        cp "bin\Release\plugins\BookGen.SamplePlugin.plugin" "bin\publish\linux\bin\plugins\BookGen.SamplePlugin.plugin"
     }
 
     # copy installer scripts
@@ -40,7 +42,7 @@ function Invoke-Publish {
 
     # write version.txt
     .\bin\publish\windows\bin\BookGen.exe version > .\bin\publish\windows\version.txt
-    .\bin\publish\windows\bin\BookGen version > .\bin\publish\linux\version.txt
+    .\bin\publish\windows\bin\BookGen.exe version > .\bin\publish\linux\version.txt
 
     # make docs folder
     New-Item -Path "bin\publish\windows\docs" -ItemType Directory -Force
@@ -51,14 +53,8 @@ function Invoke-Publish {
     Copy-Item ".\LICENCE" "bin\publish\linux\docs\LICENCE.txt"
 
     # Generate docs
-    .\bin\publish\windows\bin\BookGen Schemas
-    .\bin\publish\windows\bin\BookGen md2html -i Schemas.md -o "bin\publish\windows\docs\Schemas.html" -t "Configuration schemas"
-    .\bin\publish\windows\bin\BookGen md2html -i Schemas.md -o "bin\publish\linux\docs\Schemas.html" -t "Configuration schemas"
-    .\bin\publish\windows\bin\BookGen md2html -i Changelog.md -o "bin\publish\windows\docs\Changelog.html" -t "Change Log"
-    .\bin\publish\windows\bin\BookGen md2html -i Changelog.md -o "bin\publish\linux\docs\Changelog.html" -t "Change Log"
-    .\bin\publish\windows\bin\BookGen md2html -i Commands.md -o "bin\publish\windows\docs\Commands.html" -t "BookGen Commands"
-    .\bin\publish\windows\bin\BookGen md2html -i Commands.md -o "bin\publish\linux\docs\Commands.html" -t "BookGen Commands"
-    Remove-Item Schemas.md
+    .\bin\publish\windows\bin\BookGen.exe build plugin BookGen.SamplePlugin.plugin -d .\Docs -o "bin\publish\windows\docs"
+    .\bin\publish\windows\bin\BookGen.exe build plugin BookGen.SamplePlugin.plugin -d .\Docs -o "bin\publish\linux\docs"
 
     # zip
     if ($SelfContained) {
@@ -73,9 +69,12 @@ function Invoke-Publish {
     }
 }
 
+Clear-Host
+
 New-Folders
 
-Get-Tools
+cp BookGen.slnx BookGen.Build.slnx
+dotnet sln .\BookGen.Build.slnx remove .\Source\BookGen.SamplePlugin\
 
 # Framework-dependent build and archives
 Invoke-Publish -SelfContained $false -WindowsArchiveName "BookGen-windows.zip" -LinuxArchiveName "BookGen-linux.tar.gz"
@@ -85,3 +84,4 @@ Invoke-Publish -SelfContained $true -WindowsArchiveName "BookGen-windows-selefco
  
 .\PublishFiles\mkisofs.exe -V BookGen -o .\bin\publish\bookgen-windows.iso -udf .\bin\publish\windows
 
+rm BookGen.Build.slnx

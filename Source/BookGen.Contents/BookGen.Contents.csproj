@@ -27,7 +27,7 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
+  <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
     <None Include="..\..\Assets\tools\mmdr" Link="mmdr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -35,8 +35,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
-  <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+
+  <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('win')) OR '$(OS)' == 'Windows_NT'">
     <None Include="..\..\Assets\tools\mmdr.exe" Link="mmdr.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
