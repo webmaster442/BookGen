@@ -109,12 +109,6 @@
         "resolved": "7.0.1",
         "contentHash": "Ha0x66QWA+IPj2kJYoweA8MSnB1tymBW6kAIS6Kkj/U3SlMLCBPjDlUXzrrY1zJAxVItrGpFIXjkl3eEIYIE9A=="
       },
-      "XmlDocMarkdown.Core": {
-        "type": "Direct",
-        "requested": "[2.9.0, )",
-        "resolved": "2.9.0",
-        "contentHash": "jlAslft87MA7mlUfU0YR6x4D6BpguIXB8VQ5bKh2D6XbphfNaLjhIGsTKGphiEahl3FGnOBcB8PFD/xaagij/w=="
-      },
       "DocumentFormat.OpenXml": {
         "type": "Transitive",
         "resolved": "3.5.1",
