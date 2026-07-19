@@ -119,7 +119,7 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
 
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
-        string? pluginAssemblyPath = PluginPathResolver.Resolve(arguments.Directory, arguments.PluginFile, arguments.IsDevMode);
+        string? pluginAssemblyPath = PluginPathResolver.Resolve(Path.GetFullPath(arguments.Directory), arguments.PluginFile, arguments.IsDevMode);
 
         if (string.IsNullOrEmpty(pluginAssemblyPath))
         {
