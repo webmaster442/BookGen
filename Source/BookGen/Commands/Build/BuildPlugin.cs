@@ -68,19 +68,22 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
                 return ValidationResult.Error("Output directory must not be empty.");
             }
 
-            if (!context.FileSystem.FileExists(PluginFile))
+            if (string.IsNullOrWhiteSpace(PluginFile))
             {
-                return ValidationResult.Error($"Plugin file '{PluginFile}' does not exist.");
+                return ValidationResult.Error("Plugin file must not be empty.");
             }
+
+            string extension = Path.GetExtension(PluginFile);
 
             if (IsDevMode)
             {
-                if (!PluginFile.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+
+                if (!extension.Equals(".dll", StringComparison.OrdinalIgnoreCase))
                 {
                     return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid dll file.");
                 }
             }
-            else if (!PluginFile.EndsWith(".plugin", StringComparison.OrdinalIgnoreCase))
+            else if (!extension.Equals(".plugin", StringComparison.OrdinalIgnoreCase))
             {
                 return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid plugin package.");
             }
@@ -116,7 +119,14 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
 
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
-        string pluginAssemblyPath = Path.GetFullPath(arguments.PluginFile, AppContext.BaseDirectory);
+        string? pluginAssemblyPath = PluginPathResolver.Resolve(arguments.Directory, arguments.PluginFile, arguments.IsDevMode);
+
+        if (string.IsNullOrEmpty(pluginAssemblyPath))
+        {
+            _logger.LogError("Plugin assembly path could not be resolved.");
+            return ExitCodes.PluginError;
+        }
+
         _logger.LogInformation("Loading plugin from: {PluginAssemblyPath}", pluginAssemblyPath);
 
         using var loader = new PluginPackageLoader(_logger, _soruce);

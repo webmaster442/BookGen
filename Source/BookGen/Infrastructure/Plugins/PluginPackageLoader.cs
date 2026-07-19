@@ -80,6 +80,7 @@ internal sealed class PluginPackageLoader : IDisposable
     public void Dispose()
     {
         _pluginLoadContext?.Unload();
+        Thread.Sleep(100); // Give the unload a moment to complete
         _pluginTempFolder?.Dispose();
         _disposed = true;
     }
