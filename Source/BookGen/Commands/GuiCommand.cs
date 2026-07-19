@@ -4,12 +4,16 @@
 //-----------------------------------------------------------------------------
 
 using System.ComponentModel;
+using System.IO.Compression;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Infrastructure.Plugins;
 using BookGen.Infrastructure.Terminal;
 using BookGen.Lib.Http;
 using BookGen.Vfs;
+
+using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
 
@@ -25,15 +29,19 @@ namespace BookGen.Commands;
 internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _fileSystem;
+    private readonly ILogger _logger;
     private readonly ICommandRunnerProxy _commandRunnerProxy;
     private readonly CommandArgsBuilder _argsBuilder;
 
     private BookGenArgumentBase? _currentArgs;
 
-    public GuiCommand(IWritableFileSystem writableFileSystem, ICommandRunnerProxy commandRunnerProxy)
+    public GuiCommand(IWritableFileSystem writableFileSystem,
+                      ILogger logger,
+                      ICommandRunnerProxy commandRunnerProxy)
     {
         _argsBuilder = new();
         _fileSystem = writableFileSystem;
+        _logger = logger;
         _commandRunnerProxy = commandRunnerProxy;
     }
 
@@ -82,6 +90,7 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
                 new(Emoji.Known.Star, " Build an RSS/Atom Feed", async () => await Run("build feed", "-o", "Output/Feed")),
                 new(Emoji.Known.GreenBook, "Build epub export", async() => await Run("build epub", "-o", "Output/Epub")),
             ])
+            .AddChoiceGroup(MenuItem.GroupHeader("Build plugins"), GetPlugins())
             .AddChoiceGroup(MenuItem.GroupHeader("Other"),
             [
                 new(Emoji.Known.Door, "Exit", OnExit)
@@ -91,12 +100,32 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
         return await selected.ExecuteAsync();
     }
 
+    private IEnumerable<MenuItem> GetPlugins()
+    {
+        foreach (var plugin in PluginPathResolver.GetPluginPackages())
+        {
+            using ZipArchive archive = ZipFile.OpenRead(plugin);
+            if (archive.TryGetPluginManifest(plugin, _logger, out PackageManifest? manifest))
+            {
+                string pluginFile = Path.GetFileName(plugin);
+                string name = Truncate($"{pluginFile} - {manifest.Description}", 90);
+                yield return new MenuItem(Emoji.Known.Package, name, async () => await Run("build plugin", pluginFile, "-o", $"Output/Plugins/{pluginFile}"));
+            }
+        }
+    }
+
+    private static string Truncate(string str, int maxLength)
+    {
+        return str.Length <= maxLength 
+            ? str 
+            : $"{str.AsSpan(0, maxLength - 3)}...";
+    }
+
     private async Task<int> Run(string cmd, params string[] additionals)
     {
-        if (_currentArgs == null)
-            throw new InvalidOperationException("Command not initialized");
-
-        return await _commandRunnerProxy.RunCommand(cmd, _argsBuilder.New().Add(_currentArgs).Add(additionals).Build());
+        return _currentArgs == null
+            ? throw new InvalidOperationException("Command not initialized")
+            : await _commandRunnerProxy.RunCommand(cmd, _argsBuilder.New().Add(_currentArgs).Add(additionals).Build());
     }
 
     private Task<int> OnExit()

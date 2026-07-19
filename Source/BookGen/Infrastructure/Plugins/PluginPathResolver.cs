@@ -3,8 +3,8 @@
 internal static class PluginPathResolver
 {
     public const string PluginFolder = "plugins";
-    public const string PluginFileExtension = ".plugin";
-    public const string DllFileExtension = ".dll";
+    public const string PluginFileExtension = "*.plugin";
+    public const string DllFileExtension = "*.dll";
 
     public static IEnumerable<string> GetPluginPackages()
     {
