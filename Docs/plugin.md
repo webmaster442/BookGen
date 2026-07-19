@@ -177,13 +177,13 @@ it will automatically create a `.plugin` file in the output directory.
 
 ## Plugin API
 
-The main entry point for a plugin is the `IBookPlugin` interface. A plugin assembly must contain only one class 
-that implements this interface. The class must have a public parameterless constructor, so that BookGen can
-instantiate it when loading the plugin.
+The main entry point for a plugin is the `IBookPlugin` interface. This interface is located in the
+`Bookgen.Api.V1` namespace. A plugin assembly must contain only one class that implements this interface. 
+The class must have a public parameterless constructor, so that BookGen can instantiate it when loading the plugin.
 
 If the plugin assembly contains more than one class that implements `IBookPlugin`, BookGen will not load the plugin.
 
-The `IBookPlugin` defines a sigle method that needs to be implemented:
+The `IBookPlugin` defines a single method that needs to be implemented:
 
 
 ```csharp
@@ -201,105 +201,15 @@ public Task<bool> Build(
 | `IBookgenServices bookgenServices`    | The services offered by the Bookgen application. |
 | `CancellationToken cancellationToken` | A token to monitor for cancellation requests.    |
 
-### IBook
+The complete up-to-date API reference can be found in the Wiki page of BookGen at the following
+link: [BookGen API Reference](https://github.com/webmaster442/BookGen/wiki)
 
-This interface represents a book with an index and chapters
+### API Versioning
 
-**Members**
+The plugin API is versioned using [Semantic Versioning](https://semver.org/). The major version of the API is `1`,
+and the minor and patch versions can be incremented as needed.
 
-| name                                        | description                |
-| ------------------------------------------- | -------------------------- |
-| `IReadOnlyList<IChapter> Chapters { get; }` | Chapters of the book       |
-| `IDocument Index { get; }`                  | Index document of the book |
+### Sample plugin
 
-### IDocument
-
-This interface represents a single markdown file in the book.
-
-**Members**
-
-| name                                                                     | description                                                           |
-| ------------------------------------------------------------------------ | --------------------------------------------------------------------- |
-| `string FilePath { get; }`                                               | File path of the document                                             |
-| `Task<(string content, IDocumentFrontMatter frontMatter)> ReadContent()` | Reads the content of the document and its front matter asynchronously |
-
-### IDocumentFrontMatter
-
-This interface represents a the markdown documents front matter metadata
-
-**Members**
-
-| name                                                         | description                              |
-| ------------------------------------------------------------ | ---------------------------------------- |
-| `IReadOnlyDictionary<string, string>` AdditionalData{ get; } | Additional document data                 |
-| `IReadOnlyList<string> Tags { get; }`                        | Document tags                            |
-| `string? Template { get; }`                                  | Custom template for the document, if any |
-| `string Title { get; }`                                      | Document title                           |
-
-### IChapter
-
-This interface represents a chapter in the book
-
-**Members**
-
-| name                                          | description      |
-| --------------------------------------------- | ---------------- |
-| `IReadOnlyList<IDocument> Documents { get; }` | Chapter contents |
-| `string Title { get; }`                       | Chapter title    |
-
-## Services
-
-The `IBookgenServices` interface represents services, that are offered by BookGen can be used from the plugin system. These services are:
-
-| name                                                        | description                                                                                                  |
-| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `IAssetSource AssetSource { get; }`                         | Gets the asset source that provides access to the assets used by the Bookgen application.                    |
-| `IDynamicDocumentation DynamicDocumentation { get; }`       | Gets the dynamic documentation service that provides access to the documentation of the Bookgen application. |
-| `IPluginLogger Logger { get; }`                             | Gets the logger that can be used to log messages with different severity levels.                             |
-| `IFileSystem OutputFolder { get; }`                         | Gets the output folder where the generated book files will be stored.                                        |
-| `IRenderer CreateRenderer(RendererOptions rendererOptions)` | Creates a renderer based on the provided renderer options.                                                   |
-
-### IAssetSource
-
-**Members**
-
-| name                                                 | description                                                                                                    |
-| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `IReadOnlyList<string> AvailableAssets { get; }`     | Gets a read-only list of available asset names provided by this asset source.                                  |
-| `Stream GetBinaryAssetStream(string name)`           | Gets a stream for reading the binary content of an asset by its name.                                          |
-| `bool TryGetAsset(string name, out string? content)` | Attempts to retrieve the content of an asset by its name. Returns true if the asset is found, otherwise false. |
-
-### IDynamicDocumentation
-
-**Members**
-
-| name                           | description                                                               |
-| ------------------------------ | ------------------------------------------------------------------------- |
-| `string GetCommandsMarkdown()` | Gets the dynamically generated commands documentation in markdown format. |
-| `string GetSchemasMarkdown()`  | Gets the dynamically generated schemas documentation in markdown format.  |
-
-### IPluginLogger
-
-**Members**
-
-| name                                                                             | description                                    |
-| -------------------------------------------------------------------------------- | ---------------------------------------------- |
-| `void LogCritical(string? message, params object?[] args)`                       | Formats and writes a critical log message.     |
-| `void LogCritical(Exception? exception, string? message, params object?[] args)` | Formats and writes a critical log message.     |
-| `void LogDebug(string? message, params object?[] args)`                          | Formats and writes a debug log message.        |
-| `void LogError(string? message, params object?[] args)`                          | Formats and writes an error log message.       |
-| `void LogInformation(string? message, params object?[] args)`                    | Formats and writes an information log message. |
-| `void LogWarning(string? message, params object?[] args)`                        | Formats and writes a warning log message.      |
-| `void LogWarning(Exception? exception, string? message, params object?[] args)`  | Formats and writes a warning log message.      |
-
-### IFileSystem
-
-**Members**
-
-| name                                                      | description                                                             |
-| --------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `bool FileExists(string relativePath)`                    | Checks if a file exists at the specified relative path.                 |
-| `Task WriteTextFile(string relativePath, string content)` | Writes the specified content to a text file at the given relative path. |
-
-### IRenderer
-
+The repository contains a sample plugin that demonstrates how to implement the `IBookPlugin` interface and use the plugin API.
+It is located in the `BookGen.SamplePlugin` project. You can use this sample as a starting point for your own plugin development.

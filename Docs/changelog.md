@@ -5,6 +5,7 @@ tags: ''
 
 # 2026. 07
 
+* Breaking: Removed assemblydocument command, since xmldoc2markdown provides better functionality
 * Breaking: Removed edit command
 * Breaking: Removed terminalinstall command, now part of install command
 * Breaking: Removed Vstasks command and reworked it into a vscode command
