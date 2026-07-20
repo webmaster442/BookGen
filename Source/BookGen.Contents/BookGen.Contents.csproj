@@ -27,7 +27,7 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
+  <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) OR '$(OS)' != 'Windows_NT'">
     <None Include="..\..\Assets\tools\mmdr" Link="mmdr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
