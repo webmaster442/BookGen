@@ -1,4 +1,9 @@
-﻿using BookGen.Api;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using BookGen.Api;
 using BookGen.Api.V1;
 
 namespace BookGen.SamplePlugin;
