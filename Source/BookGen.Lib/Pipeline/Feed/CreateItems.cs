@@ -5,7 +5,7 @@
 
 using System.ServiceModel.Syndication;
 
-using Bookgen.Lib.Rendering.Templates;
+using BookGen.Lib.Rendering.Templates;
 
 using BookGen.Lib.Domain;
 using BookGen.Lib.Domain.IO;

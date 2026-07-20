@@ -8,7 +8,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 
-using Bookgen.Lib.Rendering.Templates.Expressions;
+using BookGen.Lib.Rendering.Templates.Expressions;
 
 using Microsoft.Extensions.Logging;
 

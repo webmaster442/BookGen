@@ -5,7 +5,7 @@
 
 using System.Text;
 
-namespace Bookgen.Lib.Rendering.Templates.Expressions;
+namespace BookGen.Lib.Rendering.Templates.Expressions;
 
 internal sealed class SharedStringBuilder(int capacity)
 {

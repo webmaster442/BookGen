@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Bookgen.Lib.Rendering.Templates.Expressions;
+namespace BookGen.Lib.Rendering.Templates.Expressions;
 
 internal ref struct ExpressionFactory
 {

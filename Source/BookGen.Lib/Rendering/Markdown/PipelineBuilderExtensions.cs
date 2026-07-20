@@ -11,7 +11,7 @@ using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Extensions.GenericAttributes;
 using Markdig.Helpers;
 
-namespace Bookgen.Lib.Rendering.Markdown;
+namespace BookGen.Lib.Rendering.Markdown;
 
 internal static class PipelineBuilderExtensions
 {

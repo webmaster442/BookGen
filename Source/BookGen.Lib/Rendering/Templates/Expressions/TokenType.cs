@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace Bookgen.Lib.Rendering.Templates.Expressions;
+namespace BookGen.Lib.Rendering.Templates.Expressions;
 
 internal enum TokenType
 {

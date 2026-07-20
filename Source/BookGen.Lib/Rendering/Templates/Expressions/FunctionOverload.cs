@@ -5,7 +5,7 @@
 
 using System.Reflection;
 
-namespace Bookgen.Lib.Rendering.Templates.Expressions;
+namespace BookGen.Lib.Rendering.Templates.Expressions;
 
 internal sealed class FunctionOverload
 {

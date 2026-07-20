@@ -3,7 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace Bookgen.Lib.Rendering.Templates.Expressions;
+namespace BookGen.Lib.Rendering.Templates.Expressions;
 
 internal sealed class TokenCollection
 {
