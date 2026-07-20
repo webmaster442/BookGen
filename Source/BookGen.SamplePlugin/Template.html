@@ -125,8 +125,12 @@
             if (source) {
                 currentArticle.innerHTML = source.innerHTML;
                 GenerateChapterNavigation();
-            } else {
-                currentArticle.innerHTML = '<p style="color: red;">The given id \'' + id + '\' is not found.</p>';
+            } 
+            else {
+                const p = document.createElement("p");
+                p.style.color = "red";
+                p.textContent = `The given id '${id}' is not found.`;
+                currentArticle.replaceChildren(p);
             }
         }
 
