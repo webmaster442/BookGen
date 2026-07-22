@@ -34,7 +34,7 @@ internal sealed class DynamicDocumentGenerator : IDynamicDocumentGenerator
             .AppendLine("# Commands")
             .AppendLine();
 
-        foreach (Cli.OpenCli.Draft.Command command in openCliDocs?.Commands?.OrderBy(x => x.Name) ?? Enumerable.Empty<Cli.OpenCli.Draft.Command>())
+        foreach (Cli.OpenCli.Draft.Command command in openCliDocs.Commands?.OrderBy(x => x.Name) ?? Enumerable.Empty<Cli.OpenCli.Draft.Command>())
         {
             var cmd = MarkdownGenerator.GenerateMarkdown(command, 2);
             commandsDoc

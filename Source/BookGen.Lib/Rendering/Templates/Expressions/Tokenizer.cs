@@ -55,7 +55,7 @@ internal ref struct Tokenizer
                         break;
                     }
                 }
-                else if (input[index] == 'e' || input[index] == 'E' && !isInScientificMode)
+                else if ((input[index] == 'e' || input[index] == 'E') && !isInScientificMode)
                 {
                     isInScientificMode = true;
                     sb.Append(input[index]);

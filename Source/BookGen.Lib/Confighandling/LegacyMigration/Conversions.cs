@@ -45,11 +45,13 @@ internal static class Conversions
 
     private static ImgRecodeOption MapResizeOpion(ImageOptions imageOptions)
     {
-        if (imageOptions.RecodeJpegToWebp || imageOptions.RecodePngToWebp || imageOptions.EnableResize)
-            return ImgRecodeOption.AsWebp;
-
         if (imageOptions.EnableResize)
+        {
+            if (imageOptions.RecodeJpegToWebp || imageOptions.RecodePngToWebp)
+                return ImgRecodeOption.AsWebp;
+
             return ImgRecodeOption.AsPng;
+        }
 
         return ImgRecodeOption.Passtrough;
     }

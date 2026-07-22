@@ -66,9 +66,6 @@ internal sealed class SearchCommand : AsyncCommand<SearchCommand.Arguments>
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         _soruce.Scope = arguments.Directory;
-
-
-        _soruce.Scope = arguments.Directory;
         IWritableFileSystem target = new ReadOnlyWritableFileSystem();
 
         using var env = new BookEnvironment(_soruce, target, _programPathResolver, _assetSource);

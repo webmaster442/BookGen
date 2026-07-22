@@ -93,6 +93,12 @@ internal sealed class TocRenderer
             case ItemContainer.Details:
                 _buffer.AppendLine("<details>");
                 break;
+            case ItemContainer.Paragraph:
+                _buffer.AppendLine("<p>");
+                break;
+            case ItemContainer.Span:
+                _buffer.AppendLine("<span>");
+                break;
         }
     }
 
@@ -128,6 +134,12 @@ internal sealed class TocRenderer
                 break;
             case ItemContainer.Details:
                 _buffer.AppendLine("</details>");
+                break;
+            case ItemContainer.Paragraph:
+                _buffer.AppendLine("</p>");
+                break;
+            case ItemContainer.Span:
+                _buffer.AppendLine("</span>");
                 break;
         }
     }

@@ -73,11 +73,6 @@ internal sealed class JavascriptModuleLoader : DocumentLoader
             }
         }
 
-        if (exceptions.Count < 1)
-        {
-            throw new FileNotFoundException(null, specifier);
-        }
-
         if (exceptions.Count == 1)
         {
             throw new FileLoadException(exceptions[0].Message, specifier, exceptions[0]);

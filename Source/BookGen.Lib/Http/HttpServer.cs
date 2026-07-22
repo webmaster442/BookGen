@@ -114,6 +114,7 @@ internal sealed class HttpServer : IHttpServer
             case ApiMethod.Patch:
                 _app.MapPatch(metaData.Path, async context => await handler(context));
                 break;
+            case ApiMethod.Connect:
             case ApiMethod.Head:
             case ApiMethod.Options:
             case ApiMethod.Trace:

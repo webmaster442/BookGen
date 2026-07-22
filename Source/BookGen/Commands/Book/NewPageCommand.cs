@@ -39,7 +39,7 @@ internal sealed class NewPageCommand : Command<NewPageCommand.Arguments>
         public override void ModifyAfterValidation()
         {
             if (!string.Equals(Path.GetExtension(Name), ".md", StringComparison.OrdinalIgnoreCase))
-                Path.ChangeExtension(Name, ".md");
+                Name = Path.ChangeExtension(Name, ".md");
         }
     }
 
