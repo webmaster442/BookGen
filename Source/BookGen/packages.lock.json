@@ -4,11 +4,11 @@
     "net10.0": {
       "HtmlToOpenXml.dll": {
         "type": "Direct",
-        "requested": "[3.4.1, )",
-        "resolved": "3.4.1",
-        "contentHash": "JfjqNFWbELi++XjM6hDRmfKG039QKrQdzZCPgbGZY4SSVIXkqJR6TNQmB1l+n0vR0x0zietKScE6syS28HZ4fQ==",
+        "requested": "[3.5.0, )",
+        "resolved": "3.5.0",
+        "contentHash": "ULQqQidtvWfGhds11YWG0uAkRYGXFzn3mNA6ZVnByJUV/1pqkR4fVAF3f7V1cSbpdSWCwoPtFbAef//rUNCmKA==",
         "dependencies": {
-          "AngleSharp": "1.4.0",
+          "AngleSharp": "1.5.0",
           "DocumentFormat.OpenXml": "3.5.1",
           "Microsoft.Extensions.Logging.Abstractions": "6.0.0"
         }

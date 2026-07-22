@@ -5,8 +5,6 @@
 
 using System.Text;
 
-using BookGen.Lib.Rendering.Templates;
-
 using BookGen.Lib.Domain.Epub;
 using BookGen.Lib.Internals;
 using BookGen.Lib.Rendering.Templates;

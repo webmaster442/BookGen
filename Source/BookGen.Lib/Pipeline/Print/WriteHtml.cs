@@ -5,8 +5,6 @@
 
 using BookGen.Lib.Rendering.Templates;
 
-using BookGen.Lib.Rendering.Templates;
-
 using Microsoft.Extensions.Logging;
 
 namespace BookGen.Lib.Pipeline.Print;
