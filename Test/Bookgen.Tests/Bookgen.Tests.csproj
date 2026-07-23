@@ -28,12 +28,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NUnit3TestAdapter" />
+    <PackageReference Include="Roslynator.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\BookGen.Cli\BookGen.Cli.csproj" />
     <ProjectReference Include="..\..\Source\BookGen.Contents\BookGen.Contents.csproj" />
-    <ProjectReference Include="..\..\Source\Bookgen.Lib\Bookgen.Lib.csproj" />
+    <ProjectReference Include="..\..\Source\BookGen.Lib\BookGen.Lib.csproj" />
     <ProjectReference Include="..\..\Source\BookGen.Shell.Shared\BookGen.Shell.Shared.csproj" />
     <ProjectReference Include="..\..\Source\BookGen\BookGen.csproj" />
   </ItemGroup>

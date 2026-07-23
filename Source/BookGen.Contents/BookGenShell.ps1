@@ -300,13 +300,13 @@ function intro() {
     Write-Host ""
     Write-Host "To download additonal tools in this shell run bookgen tools command"
 
-    Bookgen.exe terminalinstall -t -nr
+    Bookgen.exe install -ct -nr
     if ($LastExitCode -eq 0) {
-        Bookgen.exe terminalinstall -c -nr
+        Bookgen.exe install -ctp -nr
         if ($LastExitCode -ne 0) {
             Write-Host ""
             Write-Host "To install this shell as a windows terminal profile run:";
-            Write-Host "Bookgen terminalinstall"
+            Write-Host "Bookgen install"
         }
     }
 

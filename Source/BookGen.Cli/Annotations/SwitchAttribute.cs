@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -10,6 +10,7 @@ public sealed class SwitchAttribute : Attribute
 {
     public string LongName { get; }
     public string ShortName { get; }
+    public required bool Required { get; set; }
 
     public SwitchAttribute(string shortName, string longName)
     {

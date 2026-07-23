@@ -5,10 +5,10 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-using Bookgen.Lib.AppSettings;
-using Bookgen.Lib.Domain.IO;
-using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.Pipeline;
+using BookGen.Lib.AppSettings;
+using BookGen.Lib.Domain.IO;
+using BookGen.Lib.Domain.IO.Configuration;
+using BookGen.Lib.Pipeline;
 
 using BookGen.Vfs;
 

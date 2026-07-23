@@ -1,14 +1,19 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Http;
+using System.ComponentModel;
+using System.IO.Compression;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Infrastructure.Plugins;
 using BookGen.Infrastructure.Terminal;
+using BookGen.Lib.Http;
 using BookGen.Vfs;
+
+using Microsoft.Extensions.Logging;
 
 using Spectre.Console;
 
@@ -18,22 +23,29 @@ using WinTerminal = Webmaster442.WindowsTerminal.Terminal;
 namespace BookGen.Commands;
 
 [CommandName("gui")]
+[Description("Starts the program with a command line gui interface.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "The command failed.")]
 internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _fileSystem;
+    private readonly ILogger _logger;
     private readonly ICommandRunnerProxy _commandRunnerProxy;
     private readonly CommandArgsBuilder _argsBuilder;
 
     private BookGenArgumentBase? _currentArgs;
 
-    public GuiCommand(IWritableFileSystem writableFileSystem, ICommandRunnerProxy commandRunnerProxy)
+    public GuiCommand(IWritableFileSystem writableFileSystem,
+                      ILogger logger,
+                      ICommandRunnerProxy commandRunnerProxy)
     {
         _argsBuilder = new();
         _fileSystem = writableFileSystem;
+        _logger = logger;
         _commandRunnerProxy = commandRunnerProxy;
     }
 
-    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         WinTerminal.SetWindowTitle("BookGen Gui");
         AnsiConsole.Clear();
@@ -64,20 +76,21 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
             .UseConverter(mi => mi.ToString())
             .AddChoiceGroup(MenuItem.GroupHeader("Folder operations"),
             [
-                new(Emoji.Known.RedQuestionMark, "Validate current configuration", async () => await Run("validate")),
-                new(Emoji.Known.Information, " Statistics", async() => await Run("stats")),
-                new(Emoji.Known.SpiderWeb, " Start a webserver in curent directory", async () => await Run("serve")),
-                new(Emoji.Known.Toolbox, " Generate VS code tasks", async () => await Run("vstasks")),
+                new(Emoji.Known.RedQuestionMark, "Validate current configuration", async () => await Run("book validate")),
+                new(Emoji.Known.Information, " Statistics", async() => await Run("book stats")),
+                new(Emoji.Known.SpiderWeb, " Start a webserver in curent directory", async () => await Run("folder serve")),
+                new(Emoji.Known.Toolbox, " Generate VS code tasks", async () => await Run("folder vscode")),
             ])
             .AddChoiceGroup(MenuItem.GroupHeader("Build"),
             [
                 new(Emoji.Known.ExclamationQuestionMark, "Build test website", OnTest),
-                new(Emoji.Known.GlobeShowingAmericas, "Build static website", async () => await Run("buildweb", "-o", "Output/Web")),
-                new(Emoji.Known.Printer, " Build printable html", async () => await Run("buildprint", "-o", "Output/Print")),
-                new(Emoji.Known.FileCabinet, " Build wordpress export", async () => await Run("buildwp", "-o", "Output/Wp")),
-                new(Emoji.Known.Star, " Build an RSS/Atom Feed", async () => await Run("buildfeed", "-o", "Output/Feed")),
-                new(Emoji.Known.GreenBook, "Build epub export", async() => await Run("buildepub", "-o", "Output/Epub")),
+                new(Emoji.Known.GlobeShowingAmericas, "Build static website", async () => await Run("build web", "-o", "Output/Web")),
+                new(Emoji.Known.Printer, " Build printable html", async () => await Run("build print", "-o", "Output/Print")),
+                new(Emoji.Known.FileCabinet, " Build wordpress export", async () => await Run("build wp", "-o", "Output/Wp")),
+                new(Emoji.Known.Star, " Build an RSS/Atom Feed", async () => await Run("build feed", "-o", "Output/Feed")),
+                new(Emoji.Known.GreenBook, "Build epub export", async() => await Run("build epub", "-o", "Output/Epub")),
             ])
+            .AddChoiceGroup(MenuItem.GroupHeader("Build plugins"), GetPlugins())
             .AddChoiceGroup(MenuItem.GroupHeader("Other"),
             [
                 new(Emoji.Known.Door, "Exit", OnExit)
@@ -87,12 +100,32 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
         return await selected.ExecuteAsync();
     }
 
+    private IEnumerable<MenuItem> GetPlugins()
+    {
+        foreach (var plugin in PluginPathResolver.GetPluginPackages())
+        {
+            using ZipArchive archive = ZipFile.OpenRead(plugin);
+            if (archive.TryGetPluginManifest(plugin, _logger, out PackageManifest? manifest))
+            {
+                string pluginFile = Path.GetFileName(plugin);
+                string name = Truncate($"{pluginFile} - {manifest.Description}", 90);
+                yield return new MenuItem(Emoji.Known.Package, name, async () => await Run("build plugin", pluginFile, "-o", $"Output/Plugins/{pluginFile}"));
+            }
+        }
+    }
+
+    private static string Truncate(string str, int maxLength)
+    {
+        return str.Length <= maxLength 
+            ? str 
+            : $"{str.AsSpan(0, maxLength - 3)}...";
+    }
+
     private async Task<int> Run(string cmd, params string[] additionals)
     {
-        if (_currentArgs == null)
-            throw new InvalidOperationException("Command not initialized");
-
-        return await _commandRunnerProxy.RunCommand(cmd, _argsBuilder.New().Add(_currentArgs).Add(additionals).Build());
+        return _currentArgs == null
+            ? throw new InvalidOperationException("Command not initialized")
+            : await _commandRunnerProxy.RunCommand(cmd, _argsBuilder.New().Add(_currentArgs).Add(additionals).Build());
     }
 
     private Task<int> OnExit()
@@ -107,12 +140,12 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
         if (_currentArgs == null)
             return ExitCodes.GeneralError;
 
-        int result = await Run("buildweb", "-o", "Output/Test", "-h", $"http://localhost:{ServerFactory.HostingPort}/");
+        int result = await Run("build web", "-o", "Output/Test", "-h", $"http://localhost:{ServerFactory.HostingPort}/");
 
         if (result == ExitCodes.Success)
         {
             _currentArgs.Directory = Path.Combine(_currentArgs.Directory, "Output", "Test");
-            return await Run("serve");
+            return await Run("folder serve");
         }
 
         return result;

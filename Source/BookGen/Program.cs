@@ -5,13 +5,13 @@
 
 using System.Diagnostics;
 
-using Bookgen.Lib.AppSettings;
-
 using BookGen;
 using BookGen.Cli;
 using BookGen.Commands;
+using BookGen.GlobalOptionParsers;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
+using BookGen.Lib.AppSettings;
 using BookGen.Shell.Shared.Loging;
 using BookGen.Vfs;
 
@@ -21,8 +21,6 @@ using Microsoft.Extensions.Logging;
 using Spectre.Console;
 
 ProgramInfo info = new();
-
-List<string> argumentList = ProgramConfigurator.ParseGeneralArgs(args, info);
 
 using ILoggerFactory factory = LoggerFactory
     .Create(builder =>
@@ -46,16 +44,14 @@ using ILoggerFactory factory = LoggerFactory
 ILogger logger = factory.CreateLogger("Bookgen");
 CommandRunnerProxy runnerProxy = new();
 
-var helpProvider = new HelpProvider(logger, runnerProxy);
-
 var ioc = new ServiceCollection();
 ioc.AddMemoryCache();
 ioc.AddSingleton(logger);
 ioc.AddSingleton(info);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
+ioc.AddSingleton<IDynamicDocumentGenerator, DynamicDocumentGenerator>();
 ioc.AddSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
 ioc.AddSingleton<IFileSystemFactory, FileSystemFactory>();
-ioc.AddSingleton<IHelpProvider>(helpProvider);
 ioc.AddTransient<IWritableFileSystem, FileSystem>();
 ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
 ioc.AddTransient<IApiClient, ApiClient>();
@@ -74,7 +70,7 @@ ioc.AddKeyedSingleton<IAssetSource>("dictionaries", (provider, key) =>
 
 using ServiceProvider provider = ioc.BuildServiceProvider();
 
-CommandRunner runner = new(provider, helpProvider, logger, new CommandRunnerSettings
+CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,
@@ -82,6 +78,7 @@ CommandRunner runner = new(provider, helpProvider, logger, new CommandRunnerSett
     PlatformNotSupportedExitCode = 4,
     EnableUtf8Output = true,
     PrintHelpOnBadArgs = true,
+    ProgramMetaData = ProgramMetaData.FromExecutingAssembly(),
 })
 {
     ExceptionHandlerDelegate = OnException,
@@ -89,16 +86,21 @@ CommandRunner runner = new(provider, helpProvider, logger, new CommandRunnerSett
 };
 
 runner
-    .AddDefaultCommand<HelpCommand>()
-    .AddCommandsFrom(typeof(HelpCommand).Assembly);
+    .AddGlobalOptionParser<AttachDebuggerParser>()
+    .AddGlobalOptionParser<WaitDebuggerParser>()
+    .AddGlobalOptionParser(new JsonLogParser(info))
+    .AddGlobalOptionParser(new LogToFileParser(info))
+    .AddGlobalOptionParser(new RuntimePrintingParser(info));
+
+runner
+    .AddDefaultCommand<DefaultCommand>()
+    .AddCommandsFrom(typeof(DefaultCommand).Assembly, includeDefault: false);
 
 runnerProxy.ConfigureWith(runner);
 
-helpProvider.VerifyHelpData();
-
 Stopwatch stopwatch = Stopwatch.StartNew();
 
-int exitCode = await runner.Run(argumentList);
+int exitCode = await runner.Run(args);
 
 stopwatch.Stop();
 

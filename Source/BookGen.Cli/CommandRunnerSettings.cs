@@ -13,6 +13,7 @@ public sealed record class CommandRunnerSettings
     public required int ExcptionExitCode { get; init; }
     public required bool EnableUtf8Output { get; init; }
     public required bool PrintHelpOnBadArgs { get; init; }
+    public required ProgramMetaData ProgramMetaData { get; init; }
 
     public static readonly CommandRunnerSettings Default = new()
     {
@@ -22,5 +23,10 @@ public sealed record class CommandRunnerSettings
         ExcptionExitCode = -4,
         EnableUtf8Output = true,
         PrintHelpOnBadArgs = false,
+        ProgramMetaData = new ProgramMetaData
+        {
+            AppName = "",
+            Version = new Version()
+        }
     };
 }

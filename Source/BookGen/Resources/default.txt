@@ -1,0 +1,24 @@
+﻿ ______________________________
+/ [green bold]BookGen[/] - [green italic]A C# documentation[/] \
+\ [green italic]generator[/]                    /
+ ------------------------------
+   \
+    \
+
+     |\_/|
+     |o o|__
+     --*--__\
+     C_C_(___)
+-----------------------------------------------------------------------------------------------------------------------
+
+[italic]BookGen is a command line toolchain for writing books and documentation in markdown. It was inspired by GitBook. 
+Generally speaking you can call it a static website generator, but it has some neat features compared to other products.[/]
+
+To get started read the docs by executing the following commands:
+
+* [bold]bookgen documents manual[/]
+* [bold]bookgen documents commands[/]
+
+To get help on a command type [bold]bookgen help <command>[/].
+
+To list the availble command tree type [bold]bookgen commands[/].

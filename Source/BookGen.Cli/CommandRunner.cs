@@ -1,15 +1,17 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 
-using BookGen.Cli.Annotations;
 using BookGen.Cli.ArgumentParsing;
+using BookGen.Cli.Internals;
+using BookGen.Cli.OpenCli;
+using BookGen.Cli.OpenCli.Draft;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -19,90 +21,47 @@ namespace BookGen.Cli;
 public sealed class CommandRunner
 {
     private readonly JsonSerializerOptions _serializerOptions;
-    private readonly Dictionary<string, Type> _commands;
+    private readonly CommandTree _commands;
     private readonly IServiceProvider _serviceProvider;
     private readonly ICommandHelpProvider _helpProvider;
     private readonly ILogger _log;
     private readonly CommandRunnerSettings _settings;
+    private readonly List<GlobalOptionParser> _globalOptionParsers;
     private readonly SupportedOs _currentOs;
-    private string? _defaultCommandName;
-
-    private static string GetCommandName(Type t)
-    {
-        CommandNameAttribute? nameAttribure = t.GetCustomAttribute<CommandNameAttribute>();
-        return nameAttribure?.Name
-            ?? throw new InvalidOperationException($"Command {t.FullName} is missing a {nameof(CommandNameAttribute)}");
-    }
 
     public IValidationContext ValidationContext { get; set; }
+
     public Func<ArgumentsBase, IReadOnlyList<string>, Task>? BeforeRunHook { get; set; }
 
-    private static SupportedOs GetCurrentOs()
-    {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            return SupportedOs.Windows;
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            return SupportedOs.Linux;
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            return SupportedOs.OsX;
-        else
-            return SupportedOs.None;
-    }
-
-    private static Type? GetArgumentType(Type cmd)
-    {
-        Type originalType = cmd;
-
-        // Walk up the inheritance hierarchy to find Command<T> or AsyncCommand<T>
-        while (cmd != null && cmd != typeof(object))
-        {
-            if (cmd.IsGenericType)
-            {
-                Type baseGeneric = cmd.GetGenericTypeDefinition();
-
-                if (baseGeneric == typeof(Command<>) || baseGeneric == typeof(AsyncCommand<>))
-                {
-                    // Get the concrete TArguments
-                    Type tArguments = cmd.GetGenericArguments()[0];
-#if DEBUG
-                    Debug.WriteLine($"Via generics: {tArguments.FullName}");
-#endif
-                    return tArguments;
-                }
-            }
-            if (cmd.BaseType == null)
-            {
-                break;
-            }
-            cmd = cmd.BaseType;
-        }
-
-        MethodInfo? method = originalType.GetMethod(nameof(AsyncCommand.ExecuteAsync))
-                     ?? originalType.GetMethod(nameof(Command.Execute));
-
-        if (method == null)
-            throw new InvalidOperationException($"Command {originalType.FullName} is missing Exetutable method");
-
-        Type? parameter = method
-            ?.GetParameters()
-            .FirstOrDefault(p => p.ParameterType.IsAssignableTo(typeof(ArgumentsBase)))
-            ?.ParameterType;
-
-#if DEBUG
-        Debug.WriteLine($"Via methodinfo: {parameter?.FullName}");
-#endif
-
-        return parameter;
-    }
 
     private void DefaultExceptionHandler(Exception obj)
+        => _log.LogCritical(obj, obj.Message);
+
+    private bool TryProvideInternal(Type parameterType, string commandName, [NotNullWhen(true)] out object? instance)
     {
-        _log.LogCritical(obj, obj.Message);
+        if (parameterType == typeof(BranchItemsProvider))
+        {
+            instance = new BranchItemsProvider()
+            {
+                BranchName = commandName,
+                BranchItems = _commands.CommandNames.Where(c => c.StartsWith(commandName)).ToList()
+            };
+            return true;
+        }
+
+        if (parameterType == typeof(ICommandHelpProvider))
+        {
+            instance = _helpProvider;
+            return true;
+        }
+
+        instance = null;
+        return false;
     }
 
-    private ICommand CreateCommand(string commandName)
+    private ICommand CreateCommand(Type commandType, string commandName)
     {
-        ConstructorInfo constructor = _commands[commandName]
+        ConstructorInfo constructor = commandType
             .GetConstructors(BindingFlags.Public | BindingFlags.Instance)
             .OrderByDescending(c => c.GetParameters().Length)
             .First();
@@ -112,6 +71,12 @@ public sealed class CommandRunner
         {
             FromKeyedServicesAttribute? keyAttribute = param.GetCustomAttribute<FromKeyedServicesAttribute>();
 
+            if (TryProvideInternal(param.ParameterType, commandName, out object? dependency))
+            {
+                constructorParameters.Add(dependency);
+                continue;
+            }
+
             object parameterInstance = keyAttribute != null
                 ? _serviceProvider.GetRequiredKeyedService(param.ParameterType, keyAttribute.Key)
                 : _serviceProvider.GetRequiredService(param.ParameterType);
@@ -119,14 +84,14 @@ public sealed class CommandRunner
             constructorParameters.Add(parameterInstance);
         }
 
-        var instance = Activator.CreateInstance(_commands[commandName], constructorParameters.ToArray())
+        var instance = Activator.CreateInstance(commandType, constructorParameters.ToArray())
             ?? throw new InvalidOperationException();
 
         return (ICommand)instance;
     }
 
     public CommandRunner(IServiceProvider serviceProvider,
-                         ICommandHelpProvider helpProvider, 
+                         ICommandHelpProvider helpProvider,
                          ILogger log,
                          CommandRunnerSettings settings)
     {
@@ -136,49 +101,62 @@ public sealed class CommandRunner
             AllowTrailingCommas = true,
             WriteIndented = true
         };
-        _commands = new Dictionary<string, Type>();
+        _globalOptionParsers = new List<GlobalOptionParser>();
+        _commands = new CommandTree();
         _serviceProvider = serviceProvider;
         _helpProvider = helpProvider;
         _log = log;
         _settings = settings;
         ExceptionHandlerDelegate = DefaultExceptionHandler;
-        _currentOs = GetCurrentOs();
+        _currentOs = Helpers.GetCurrentOs();
 
         ValidationContext = new IoCValidationContext(serviceProvider);
 
-        ConfigureUtfSupport(_settings.EnableUtf8Output);
-    }
-
-    private static void ConfigureUtfSupport(bool enableUtf8Output)
-    {
-        if (enableUtf8Output)
-        {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Console.InputEncoding = System.Text.Encoding.UTF8;
-        }
+        Helpers.ConfigureUtfSupport(_settings.EnableUtf8Output);
     }
 
     public Action<Exception> ExceptionHandlerDelegate { get; set; }
 
     public CommandRunner AddCommand<TCommand>() where TCommand : ICommand
     {
-        string name = GetCommandName(typeof(TCommand));
-        _commands.Add(name.ToLower(), typeof(TCommand));
+        string name = typeof(TCommand).GetCommandName();
+        _commands.Add(name, typeof(TCommand));
         return this;
     }
 
     public CommandRunner AddDefaultCommand<TCommand>() where TCommand : ICommand
     {
-        string name = GetCommandName(typeof(TCommand));
-        if (!_commands.ContainsKey(name))
-        {
-            AddCommand<TCommand>();
-        }
-        _defaultCommandName = name;
+        string name = typeof(TCommand).GetCommandName();
+
+        if (_commands.IsDefaultCommandSet)
+            throw new InvalidOperationException("Default command has already been set");
+
+        _commands.AddDefault(typeof(TCommand));
         return this;
     }
 
-    public CommandRunner AddCommandsFrom(Assembly assembly)
+    public CommandRunner AddGlobalOptionParser(GlobalOptionParser parser)
+    {
+        _globalOptionParsers.Add(parser);
+        return this;
+    }
+
+    public CommandRunner AddGlobalOptionParser<TParser>() where TParser : GlobalOptionParser, new()
+    {
+        _globalOptionParsers.Add(new TParser());
+        return this;
+    }
+
+    public IEnumerable<string> GetGlobalOptions()
+    {
+        foreach (GlobalOptionParser parser in _globalOptionParsers)
+        {
+            yield return parser.ShortName;
+            yield return parser.LongName;
+        }
+    }
+
+    public CommandRunner AddCommandsFrom(Assembly assembly, bool includeDefault)
     {
         IEnumerable<Type> commands = assembly
             .GetTypes()
@@ -187,8 +165,12 @@ public sealed class CommandRunner
 
         foreach (Type? command in commands)
         {
-            string name = GetCommandName(command);
-            if (!_commands.ContainsKey(name))
+            string name = command.GetCommandName();
+
+            if (_commands.GetDefaultCommandName() == name && !includeDefault)
+                continue;
+
+            if (!_commands.ContainsCommand(name))
             {
                 _commands.Add(name.ToLower(), command);
             }
@@ -198,15 +180,15 @@ public sealed class CommandRunner
     }
 
     public IEnumerable<string> CommandNames
-        => _commands.Keys;
+        => _commands.CommandNames;
 
     public string[] GetAutoCompleteItems(string commandName)
     {
-        if (_commands.TryGetValue(commandName, out Type? value))
+        if (_commands.TryGetCommand(commandName, out Type? value))
         {
             Type type = value;
 
-            Type? args = GetArgumentType(type);
+            Type? args = type.GetArgumentType();
 
             if (args != null)
             {
@@ -216,24 +198,59 @@ public sealed class CommandRunner
         return Array.Empty<string>();
     }
 
+    public Document GenerateOpenCliDocs()
+    {
+        if (!_commands.IsDefaultCommandSet)
+            throw new InvalidOperationException("Default command hasn't been set");
+
+        IEnumerable<(Type Value, Type?)> commands = _commands.CommandTypes.Select(x => (x, x.GetArgumentType()));
+
+        return OpenCliDraftGenerator.GenerateOpenCli(_settings.ProgramMetaData.AppName,
+                                                     _settings.ProgramMetaData.Version,
+                                                     _commands.GetDefaultCommand(),
+                                                     _globalOptionParsers,
+                                                     commands,
+                                                     _commands.BranchCommandNames);
+    }
+
     public async Task<int> Run(IReadOnlyList<string> args)
     {
+        _helpProvider.CommandsChanged(GenerateOpenCliDocs());
+        int skipCount = 1;
         try
         {
             string commandName;
             if (args.Count > 0)
             {
-                commandName = args[0].ToLower();
+                if (args[0].StartsWith('-'))
+                {
+                    commandName = _commands.GetDefaultCommandName();
+                    skipCount = 0;
+                }
+                else
+                {
+                    commandName = args[0].ToLower();
+                }
             }
             else
             {
-                if (string.IsNullOrEmpty(_defaultCommandName))
+                if (!_commands.IsDefaultCommandSet)
                     throw new InvalidOperationException("Default command hasn't been setup");
 
-                commandName = _defaultCommandName;
+                commandName = _commands.GetDefaultCommandName();
+                skipCount = 0;
             }
 
-            var argsToParse = args.Skip(1).ToArray();
+            HashSet<string> parsedGlobals = new();
+            foreach (var parser in _globalOptionParsers)
+            {
+                if (parser.TryParseGlobalOption(args, out string? globalOption))
+                {
+                    parsedGlobals.Add(globalOption);
+                }
+            }
+
+            List<string> argsToParse = Helpers.GetArgsToParse(args, parsedGlobals, skipCount);
 
             return await RunCommand(commandName, argsToParse);
         }
@@ -257,14 +274,18 @@ public sealed class CommandRunner
 
     public async Task<int> RunCommand(string commandName, IReadOnlyList<string> argsToParse)
     {
-        if (!_commands.TryGetValue(commandName, out Type? value))
+        Type? commandType;
+        if (!_commands.TryGetDefaultCommand(commandName, out commandType))
         {
-            _log.LogCritical(_settings.UnknownCommandCodeAndMessage.message);
-            return _settings.UnknownCommandCodeAndMessage.code;
+            if (!_commands.TryGetCommand(commandName, out commandType))
+            {
+                _log.LogCritical(_settings.UnknownCommandCodeAndMessage.message + " {cmdName}", commandName);
+                return _settings.UnknownCommandCodeAndMessage.code;
+            }
         }
 
-        Type? argumentType = GetArgumentType(value);
-        ICommand command = CreateCommand(commandName);
+        Type? argumentType = commandType.GetArgumentType();
+        ICommand command = CreateCommand(commandType, commandName);
 
         if (!command.SupportedOs.HasFlag(_currentOs))
         {
@@ -272,28 +293,32 @@ public sealed class CommandRunner
             return _settings.PlatformNotSupportedExitCode;
         }
 
-        if (argumentType == null)
-            return await command.ExecuteAsync(ArgumentsBase.Empty, argsToParse);
-
-        string jsonFileName = Path.ChangeExtension(commandName, ".json");
-
-        string argsJson = Path.Combine(Environment.CurrentDirectory, jsonFileName);
-
-        if (argsToParse.Count < 1
-            && File.Exists(argsJson))
+        using (var tokenSource = new ConsoleCancellationTokenSource())
         {
-            _log.LogInformation("Loading arguments from {filename}...", jsonFileName);
-            ArgumentJsonItem[] items = await LoadFromJsonFile(argsJson);
+            if (argumentType == null)
+                return await command.ExecuteAsync(ArgumentsBase.Empty, argsToParse, tokenSource.Token);
 
-            return await ExecuteMultiple(items, argumentType, command, commandName);
+            string jsonFileName = Path.ChangeExtension(commandName, ".json");
+
+            string argsJson = Path.Combine(Environment.CurrentDirectory, jsonFileName);
+
+            if (argsToParse.Count < 1
+                && File.Exists(argsJson))
+            {
+                _log.LogInformation("Loading arguments from {filename}...", jsonFileName);
+                ArgumentJsonItem[] items = await LoadFromJsonFile(argsJson);
+
+                return await ExecuteMultiple(items, argumentType, command, commandName, tokenSource.Token);
+            }
+            return await ExecuteSingle(argsToParse, argumentType, command, commandName, tokenSource.Token);
         }
-        return await ExecuteSingle(argsToParse, argumentType, command, commandName);
     }
 
     private async Task<int> ExecuteSingle(IReadOnlyList<string> argsToParse,
                                           Type argumentType,
                                           ICommand command,
-                                          string commandName)
+                                          string commandName,
+                                          CancellationToken token)
     {
         ArgumentsBase args = ArgumentsBase.Empty;
         ArgumentParser parser = new(argumentType, _log);
@@ -307,7 +332,7 @@ public sealed class CommandRunner
 
             if (_settings.PrintHelpOnBadArgs)
             {
-                string help = _helpProvider.GetHelp(commandName, argumentType);
+                string help = _helpProvider.GetHelp(commandName);
                 _log.LogInformation("Command help:\r\n{help}", help);
             }
             else
@@ -322,18 +347,19 @@ public sealed class CommandRunner
         if (BeforeRunHook != null)
             await BeforeRunHook.Invoke(args, argsToParse);
 
-        return await command.ExecuteAsync(args, argsToParse);
+        return await command.ExecuteAsync(args, argsToParse, token);
     }
 
     private async Task<int> ExecuteMultiple(ArgumentJsonItem[] items,
                                             Type argumentType,
                                             ICommand command,
-                                            string commandName)
+                                            string commandName,
+                                            CancellationToken token)
     {
         foreach (ArgumentJsonItem item in items)
         {
             _log.LogInformation("Executing {name} from json file...", item.Name);
-            int exitcode = await ExecuteSingle(item.Arguments, argumentType, command, commandName);
+            int exitcode = await ExecuteSingle(item.Arguments, argumentType, command, commandName, token);
             if (exitcode != 0)
             {
                 _log.LogCritical("Failed to execute {name}. Exit code: {exitcode}", item.Name, exitcode);

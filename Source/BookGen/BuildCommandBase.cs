@@ -3,12 +3,12 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib;
-using Bookgen.Lib.AppSettings;
-using Bookgen.Lib.Pipeline;
-
 using BookGen.Cli;
+using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Loging;
+using BookGen.Lib;
+using BookGen.Lib.AppSettings;
+using BookGen.Lib.Pipeline;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -16,6 +16,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen;
 
+[ExitCode(ExitCodes.Success, "The Book was built successfully.")]
+[ExitCode(ExitCodes.ConfigError, "The configuration was invalid.")]
+[ExitCode(ExitCodes.GeneralError, "An error occurred during the build.")]
 internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
 {
     protected readonly IWritableFileSystem _soruce;
@@ -42,7 +45,7 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
 
     public abstract Pipeline GetPipeLine();
 
-    public override async Task<int> ExecuteAsync(BuildArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(BuildArguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         if (_target.DirectoryExists(arguments.OutputDirectory))
         {
@@ -71,8 +74,7 @@ internal abstract class BuildCommandBase : AsyncCommand<BuildArguments>
 
         Pipeline pipeline = GetPipeLine();
 
-
-        bool result = await pipeline.ExecuteAsync(env, _logger, CancellationToken.None);
+        bool result = await pipeline.ExecuteAsync(env, _logger, token);
 
         return result ? ExitCodes.Success : ExitCodes.GeneralError;
     }

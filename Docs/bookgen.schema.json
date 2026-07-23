@@ -1,0 +1,714 @@
+{
+  "type": [
+    "object",
+    "null"
+  ],
+  "properties": {
+    "$schema": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "VersionTag": {
+      "type": "integer",
+      "description": "Configuration version",
+      "minimum": 2000,
+      "maximum": 2147483647
+    },
+    "BookTitle": {
+      "type": "string",
+      "description": "Book title",
+      "minLength": 1
+    },
+    "Book2LetterISO639Language": {
+      "type": "string",
+      "description": "Book language - 2 letter ISO 639 code"
+    },
+    "BookAuthor": {
+      "type": "string",
+      "description": "Book author",
+      "minLength": 1
+    },
+    "StaticWebsiteConfig": {
+      "type": "object",
+      "properties": {
+        "OpenLinksOutsideHostOnNewTab": {
+          "type": "boolean",
+          "description": "When enabled, links that point outside of host are opened in a new tab"
+        },
+        "DeployHost": {
+          "type": "string",
+          "description": "Deploy host name"
+        },
+        "CopyToOutput": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": "Files to copy to the output directory"
+        },
+        "TocConfiguration": {
+          "type": "object",
+          "properties": {
+            "ContainerId": {
+              "type": "string",
+              "description": "The ID of the container element for the table of contents."
+            },
+            "ContainerElement": {
+              "enum": [
+                "None",
+                "Article",
+                "Aside",
+                "Details",
+                "Dialog",
+                "Div",
+                "Footer",
+                "Header",
+                "Main",
+                "Nav",
+                "Section"
+              ],
+              "description": "The HTML element type for the container of the table of contents."
+            },
+            "ContainerClass": {
+              "type": "string",
+              "description": "The CSS class for the container element of the table of contents."
+            },
+            "ChapterContainer": {
+              "enum": [
+                "None",
+                "Article",
+                "Aside",
+                "Details",
+                "Dialog",
+                "Div",
+                "Footer",
+                "Header",
+                "Main",
+                "Nav",
+                "Section"
+              ],
+              "description": "The HTML element type for the container of each chapter in the table of contents."
+            },
+            "ItemContainer": {
+              "enum": [
+                "OrderedList",
+                "UnorderedList",
+                "Paragraph",
+                "Span",
+                "Details"
+              ],
+              "description": "The HTML element type for the items in the table of contents."
+            },
+            "StandaloneFileName": {
+              "type": "string",
+              "description": "If set to a file name, then the table of contents will be rendered as a standalone page"
+            }
+          },
+          "required": [
+            "ContainerId",
+            "ContainerElement",
+            "ContainerClass",
+            "ChapterContainer",
+            "ItemContainer",
+            "StandaloneFileName"
+          ],
+          "additionalProperties": false,
+          "description": "Table of contents rendering configuration"
+        },
+        "Images": {
+          "type": "object",
+          "properties": {
+            "SvgRecode": {
+              "enum": [
+                "Passtrough",
+                "AsPng",
+                "AsWebp"
+              ],
+              "description": "Svg re-encode options"
+            },
+            "ResizeWith": {
+              "type": "integer",
+              "description": "Resize to max width. -1 means use input width",
+              "minimum": -1,
+              "maximum": 2147483647
+            },
+            "ResizeHeight": {
+              "type": "integer",
+              "description": "Resize to max height. -1 means use input height",
+              "minimum": -1,
+              "maximum": 2147483647
+            },
+            "ResizeAndRecodeImages": {
+              "enum": [
+                "Passtrough",
+                "AsPng",
+                "AsWebp"
+              ],
+              "description": "Sets Image resize and recoding behaviour"
+            },
+            "ImageQualityOnResize": {
+              "type": "integer",
+              "description": "WebP compression quality level",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "SvgRecode",
+            "ResizeWith",
+            "ResizeHeight",
+            "ResizeAndRecodeImages",
+            "ImageQualityOnResize"
+          ],
+          "additionalProperties": false,
+          "description": "Image processing settings"
+        },
+        "CssClasses": {
+          "type": "object",
+          "properties": {
+            "H1": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch1\u003E element"
+            },
+            "H2": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch2\u003E element"
+            },
+            "H3": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch3\u003E element"
+            },
+            "Img": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cimg\u003E element"
+            },
+            "Table": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ctable\u003E element"
+            },
+            "Blockquote": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cbockquote\u003E element"
+            },
+            "Figure": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cfigure\u003E element"
+            },
+            "FigureCaption": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cfigcaption\u003E element"
+            },
+            "Link": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ca\u003E element"
+            },
+            "Ol": {
+              "type": "string",
+              "description": "css classes aplied to \u003Col\u003E element"
+            },
+            "Ul": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cul\u003E element"
+            },
+            "Li": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cli\u003E element"
+            }
+          },
+          "required": [
+            "H1",
+            "H2",
+            "H3",
+            "Img",
+            "Table",
+            "Blockquote",
+            "Figure",
+            "FigureCaption",
+            "Link",
+            "Ol",
+            "Ul",
+            "Li"
+          ],
+          "additionalProperties": false,
+          "description": "Css classes to aply to various elements"
+        },
+        "PreRenderCode": {
+          "type": "boolean",
+          "description": "Toggles pre-rendering of source code"
+        },
+        "DefaultTempate": {
+          "type": "string",
+          "description": "Default template file name"
+        }
+      },
+      "required": [
+        "OpenLinksOutsideHostOnNewTab",
+        "DeployHost",
+        "CopyToOutput",
+        "TocConfiguration",
+        "Images",
+        "CssClasses",
+        "PreRenderCode",
+        "DefaultTempate"
+      ],
+      "additionalProperties": false,
+      "description": "Static website settings"
+    },
+    "WordpressConfig": {
+      "type": "object",
+      "properties": {
+        "OpenLinksOutsideHostOnNewTab": {
+          "type": "boolean",
+          "description": "When enabled, links that point outside of host are opened in a new tab"
+        },
+        "DeployHost": {
+          "type": "string",
+          "description": "Deploy host name"
+        },
+        "ItemType": {
+          "type": "string",
+          "description": "Wordpress item type. Usually page, post or docs for WeDocs"
+        },
+        "AllowComments": {
+          "type": "boolean",
+          "description": "Enable or disable comments"
+        },
+        "TagCategory": {
+          "type": "string",
+          "description": "Wordpress tag category name. By default: post_tag"
+        },
+        "Images": {
+          "type": "object",
+          "properties": {
+            "SvgRecode": {
+              "enum": [
+                "Passtrough",
+                "AsPng",
+                "AsWebp"
+              ],
+              "description": "Svg re-encode options"
+            },
+            "ResizeWith": {
+              "type": "integer",
+              "description": "Resize to max width. -1 means use input width",
+              "minimum": -1,
+              "maximum": 2147483647
+            },
+            "ResizeHeight": {
+              "type": "integer",
+              "description": "Resize to max height. -1 means use input height",
+              "minimum": -1,
+              "maximum": 2147483647
+            },
+            "ResizeAndRecodeImages": {
+              "enum": [
+                "Passtrough",
+                "AsPng",
+                "AsWebp"
+              ],
+              "description": "Sets Image resize and recoding behaviour"
+            },
+            "ImageQualityOnResize": {
+              "type": "integer",
+              "description": "WebP compression quality level",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "SvgRecode",
+            "ResizeWith",
+            "ResizeHeight",
+            "ResizeAndRecodeImages",
+            "ImageQualityOnResize"
+          ],
+          "additionalProperties": false,
+          "description": "Image processing settings"
+        },
+        "CssClasses": {
+          "type": "object",
+          "properties": {
+            "H1": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch1\u003E element"
+            },
+            "H2": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch2\u003E element"
+            },
+            "H3": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch3\u003E element"
+            },
+            "Img": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cimg\u003E element"
+            },
+            "Table": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ctable\u003E element"
+            },
+            "Blockquote": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cbockquote\u003E element"
+            },
+            "Figure": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cfigure\u003E element"
+            },
+            "FigureCaption": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cfigcaption\u003E element"
+            },
+            "Link": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ca\u003E element"
+            },
+            "Ol": {
+              "type": "string",
+              "description": "css classes aplied to \u003Col\u003E element"
+            },
+            "Ul": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cul\u003E element"
+            },
+            "Li": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cli\u003E element"
+            }
+          },
+          "required": [
+            "H1",
+            "H2",
+            "H3",
+            "Img",
+            "Table",
+            "Blockquote",
+            "Figure",
+            "FigureCaption",
+            "Link",
+            "Ol",
+            "Ul",
+            "Li"
+          ],
+          "additionalProperties": false,
+          "description": "Css classes to aply to various elements"
+        },
+        "PreRenderCode": {
+          "type": "boolean",
+          "description": "Toggles pre-rendering of source code"
+        },
+        "DefaultTempate": {
+          "type": "string",
+          "description": "Default template file name"
+        }
+      },
+      "required": [
+        "OpenLinksOutsideHostOnNewTab",
+        "DeployHost",
+        "ItemType",
+        "AllowComments",
+        "TagCategory",
+        "Images",
+        "CssClasses",
+        "PreRenderCode",
+        "DefaultTempate"
+      ],
+      "additionalProperties": false,
+      "description": "Wordpress settings"
+    },
+    "PrintConfig": {
+      "type": "object",
+      "properties": {
+        "Images": {
+          "type": "object",
+          "properties": {
+            "SvgRecode": {
+              "enum": [
+                "Passtrough",
+                "AsPng",
+                "AsWebp"
+              ],
+              "description": "Svg re-encode options"
+            },
+            "ResizeWith": {
+              "type": "integer",
+              "description": "Resize to max width. -1 means use input width",
+              "minimum": -1,
+              "maximum": 2147483647
+            },
+            "ResizeHeight": {
+              "type": "integer",
+              "description": "Resize to max height. -1 means use input height",
+              "minimum": -1,
+              "maximum": 2147483647
+            },
+            "ResizeAndRecodeImages": {
+              "enum": [
+                "Passtrough",
+                "AsPng",
+                "AsWebp"
+              ],
+              "description": "Sets Image resize and recoding behaviour"
+            },
+            "ImageQualityOnResize": {
+              "type": "integer",
+              "description": "WebP compression quality level",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "SvgRecode",
+            "ResizeWith",
+            "ResizeHeight",
+            "ResizeAndRecodeImages",
+            "ImageQualityOnResize"
+          ],
+          "additionalProperties": false,
+          "description": "Image processing settings"
+        },
+        "CssClasses": {
+          "type": "object",
+          "properties": {
+            "H1": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch1\u003E element"
+            },
+            "H2": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch2\u003E element"
+            },
+            "H3": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch3\u003E element"
+            },
+            "Img": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cimg\u003E element"
+            },
+            "Table": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ctable\u003E element"
+            },
+            "Blockquote": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cbockquote\u003E element"
+            },
+            "Figure": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cfigure\u003E element"
+            },
+            "FigureCaption": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cfigcaption\u003E element"
+            },
+            "Link": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ca\u003E element"
+            },
+            "Ol": {
+              "type": "string",
+              "description": "css classes aplied to \u003Col\u003E element"
+            },
+            "Ul": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cul\u003E element"
+            },
+            "Li": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cli\u003E element"
+            }
+          },
+          "required": [
+            "H1",
+            "H2",
+            "H3",
+            "Img",
+            "Table",
+            "Blockquote",
+            "Figure",
+            "FigureCaption",
+            "Link",
+            "Ol",
+            "Ul",
+            "Li"
+          ],
+          "additionalProperties": false,
+          "description": "Css classes to aply to various elements"
+        },
+        "PreRenderCode": {
+          "type": "boolean",
+          "description": "Toggles pre-rendering of source code"
+        },
+        "DefaultTempate": {
+          "type": "string",
+          "description": "Default template file name"
+        }
+      },
+      "required": [
+        "Images",
+        "CssClasses",
+        "PreRenderCode",
+        "DefaultTempate"
+      ],
+      "additionalProperties": false,
+      "description": "Print settings"
+    },
+    "FeedConfig": {
+      "type": "object",
+      "properties": {
+        "Images": {
+          "type": "object",
+          "properties": {
+            "SvgRecode": {
+              "enum": [
+                "Passtrough",
+                "AsPng",
+                "AsWebp"
+              ],
+              "description": "Svg re-encode options"
+            },
+            "ResizeWith": {
+              "type": "integer",
+              "description": "Resize to max width. -1 means use input width",
+              "minimum": -1,
+              "maximum": 2147483647
+            },
+            "ResizeHeight": {
+              "type": "integer",
+              "description": "Resize to max height. -1 means use input height",
+              "minimum": -1,
+              "maximum": 2147483647
+            },
+            "ResizeAndRecodeImages": {
+              "enum": [
+                "Passtrough",
+                "AsPng",
+                "AsWebp"
+              ],
+              "description": "Sets Image resize and recoding behaviour"
+            },
+            "ImageQualityOnResize": {
+              "type": "integer",
+              "description": "WebP compression quality level",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "SvgRecode",
+            "ResizeWith",
+            "ResizeHeight",
+            "ResizeAndRecodeImages",
+            "ImageQualityOnResize"
+          ],
+          "additionalProperties": false,
+          "description": "Image processing settings"
+        },
+        "CssClasses": {
+          "type": "object",
+          "properties": {
+            "H1": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch1\u003E element"
+            },
+            "H2": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch2\u003E element"
+            },
+            "H3": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ch3\u003E element"
+            },
+            "Img": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cimg\u003E element"
+            },
+            "Table": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ctable\u003E element"
+            },
+            "Blockquote": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cbockquote\u003E element"
+            },
+            "Figure": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cfigure\u003E element"
+            },
+            "FigureCaption": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cfigcaption\u003E element"
+            },
+            "Link": {
+              "type": "string",
+              "description": "css classes aplied to \u003Ca\u003E element"
+            },
+            "Ol": {
+              "type": "string",
+              "description": "css classes aplied to \u003Col\u003E element"
+            },
+            "Ul": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cul\u003E element"
+            },
+            "Li": {
+              "type": "string",
+              "description": "css classes aplied to \u003Cli\u003E element"
+            }
+          },
+          "required": [
+            "H1",
+            "H2",
+            "H3",
+            "Img",
+            "Table",
+            "Blockquote",
+            "Figure",
+            "FigureCaption",
+            "Link",
+            "Ol",
+            "Ul",
+            "Li"
+          ],
+          "additionalProperties": false,
+          "description": "Css classes to aply to various elements"
+        },
+        "PreRenderCode": {
+          "type": "boolean",
+          "description": "Toggles pre-rendering of source code"
+        },
+        "DefaultTempate": {
+          "type": "string",
+          "description": "Default template file name"
+        }
+      },
+      "required": [
+        "Images",
+        "CssClasses",
+        "PreRenderCode",
+        "DefaultTempate"
+      ],
+      "additionalProperties": false,
+      "description": "RSS/ATOM Feed settings"
+    }
+  },
+  "required": [
+    "$schema",
+    "VersionTag",
+    "BookTitle",
+    "Book2LetterISO639Language",
+    "BookAuthor",
+    "StaticWebsiteConfig",
+    "WordpressConfig",
+    "PrintConfig",
+    "FeedConfig"
+  ],
+  "additionalProperties": false
+}

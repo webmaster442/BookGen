@@ -1,11 +1,11 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
 using System.Text;
 
-using Bookgen.Lib.Rendering.Markdown.TableOfContents;
+using BookGen.Lib.Rendering.Markdown.TableOfContents;
 
 namespace Bookgen.Tests.Lib;
 

@@ -1,12 +1,13 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.AppSettings;
+using System.ComponentModel;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Lib.AppSettings;
 
 using Microsoft.Extensions.Logging;
 
@@ -15,14 +16,19 @@ using Spectre.Console;
 namespace BookGen.Commands;
 
 [CommandName("config")]
-internal sealed class ConfigCommand : Command<ConfigCommand.ConfigCommandSettings>
+[Description("Get or set the application settings. Without any arguments, the command will display the current settings.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "An error occurred while executing the command.")]
+internal sealed class ConfigCommand : Command<ConfigCommand.Arguments>
 {
-    public class ConfigCommandSettings : ArgumentsBase
+    internal sealed class Arguments : ArgumentsBase
     {
         [Argument(0, IsOptional = true)]
+        [Description("The setting to be configured.")]
         public string Setting { get; set; } = string.Empty;
 
         [Argument(1, IsOptional = true)]
+        [Description("The value to set for the specified setting.")]
         public string Value { get; set; } = string.Empty;
     }
 
@@ -35,7 +41,7 @@ internal sealed class ConfigCommand : Command<ConfigCommand.ConfigCommandSetting
         _appSettings = appSettings;
     }
 
-    public override int Execute(ConfigCommandSettings arguments, IReadOnlyList<string> context)
+    public override int Execute(Arguments arguments, IReadOnlyList<string> context)
     {
         if (string.IsNullOrEmpty(arguments.Setting)
             && string.IsNullOrEmpty(arguments.Value))

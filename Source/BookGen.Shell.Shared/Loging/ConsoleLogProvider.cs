@@ -28,7 +28,7 @@ public sealed class ConsoleLogProvider : ILoggerProvider
         }
         else
         {
-            logger = new ConsoleLogger(categoryName);
+            logger = new ConsoleLogger();
             _loggers.Add(categoryName, logger);
             return logger;
         }
@@ -46,7 +46,7 @@ public sealed class ConsoleLogProvider : ILoggerProvider
     {
         private readonly List<string> _logBuffer;
 
-        public ConsoleLogger(string categoryName)
+        public ConsoleLogger()
         {
             _logBuffer = new List<string>();
         }

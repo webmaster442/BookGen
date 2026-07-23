@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -12,6 +12,9 @@ public class ReadOnlyFileSystem : IReadOnlyFileSystem
 {
     protected string GetAndValidateFullNameInScope(string path)
     {
+        if (string.IsNullOrEmpty(path))
+            return string.Empty;
+
         string returnValue = string.IsNullOrEmpty(Scope)
             ? Path.GetFullPath(path)
             : Path.GetFullPath(path, Scope);

@@ -1,0 +1,70 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.ComponentModel;
+
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
+using BookGen.Infrastructure.Loging;
+using BookGen.Infrastructure.Terminal;
+using BookGen.Lib;
+using BookGen.Lib.AppSettings;
+using BookGen.Lib.Domain;
+using BookGen.Vfs;
+
+using Microsoft.Extensions.Logging;
+
+using Spectre.Console;
+
+namespace BookGen.Commands.Book;
+
+[CommandName("book stats")]
+[Description("Displays various statistics about the bookgen project.")]
+[ExitCode(ExitCodes.ConfigError, "The configuration was invalid.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+internal sealed class StatsCommand : AsyncCommand<BookGenArgumentBase>
+{
+    private readonly IWritableFileSystem _soruce;
+    private readonly IProgramPathResolver _programPathResolver;
+    private readonly ILogger _logger;
+
+    public StatsCommand(IWritableFileSystem soruce, IProgramPathResolver programPathResolver, ILogger logger)
+    {
+        _soruce = soruce;
+        _programPathResolver = programPathResolver;
+        _logger = logger;
+    }
+
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
+    {
+        _soruce.Scope = arguments.Directory;
+        using var env = new BookEnvironment(_soruce, _soruce, _programPathResolver);
+
+        EnvironmentStatus status = await env.Initialize(arguments.ConfigOverlay);
+
+        if (!status.IsOk)
+        {
+            _logger.EnvironmentStatus(status);
+            return ExitCodes.ConfigError;
+        }
+
+        BookStat stats = await BookStatFactory.CreateBookStat(env, _logger);
+
+        var table = new Table();
+        table.AddColumns("Property", "Value");
+        table.AddRow("Line Count", stats.LineCount.ToString("N0"));
+        table.AddRow("Word Count", stats.WordCount.ToString("N0"));
+        table.AddRow("Character Count", stats.CharacterCount.ToString("N0"));
+        table.AddRow("Total File Size", stats.TotalSize.ToFileSize());
+        AnsiConsole.Write(table);
+
+        Terminal.BreakDownChart(stats.ChapterSizes, "Chapter sizes", descendingOrder: false);
+        Terminal.BreakDownChart(stats.FileCountsByExtension, "File counts by extension");
+        Terminal.BreakDownChart(stats.FileSizeByExtension, "File sizes by extension");
+        Terminal.BreakDownChart(stats.CodeBocks, "Code blocks by language");
+
+        return ExitCodes.Success;
+    }
+}

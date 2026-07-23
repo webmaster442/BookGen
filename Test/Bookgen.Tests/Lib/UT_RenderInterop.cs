@@ -1,8 +1,13 @@
-﻿using System.Runtime.InteropServices;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Domain.IO.Configuration;
-using Bookgen.Lib.Rendering.Images;
-using Bookgen.Lib.Rendering.Markdown.RenderInterop;
+using System.Runtime.InteropServices;
+
+using BookGen.Lib.Domain.IO.Configuration;
+using BookGen.Lib.Rendering.Images;
+using BookGen.Lib.Rendering.Markdown.RenderInterop;
 
 namespace Bookgen.Tests.Lib;
 
@@ -40,7 +45,7 @@ internal class UT_RenderInterop
         }
 
         ImageResult svg = _sut.RenderLatex("\\frac{1}{2} + \\sqrt{x}");
-        
+
         using (Assert.EnterMultipleScope())
         {
             Assert.That(svg.ImageType, Is.EqualTo(ImageType.Svg));

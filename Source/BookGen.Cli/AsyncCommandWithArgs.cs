@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -12,11 +12,11 @@ namespace BookGen.Cli;
 public abstract class AsyncCommand<TArguments> : ICommand
     where TArguments : ArgumentsBase
 {
-    public abstract Task<int> ExecuteAsync(TArguments arguments, IReadOnlyList<string> context);
+    public abstract Task<int> ExecuteAsync(TArguments arguments, IReadOnlyList<string> context, CancellationToken token);
 
-    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, IReadOnlyList<string> context)
+    Task<int> ICommand.ExecuteAsync(ArgumentsBase arguments, IReadOnlyList<string> context, CancellationToken token)
     {
-        return ExecuteAsync((TArguments)arguments, context);
+        return ExecuteAsync((TArguments)arguments, context, token);
     }
 
     public virtual SupportedOs SupportedOs

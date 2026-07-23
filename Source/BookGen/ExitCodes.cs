@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -23,6 +23,10 @@ internal static class ExitCodes
     /// Folder lock exit code = 3
     /// </summary>
     public const int FolderLocked = 3;
+    /// <summary>
+    /// Plugin error exit code = 4
+    /// </summary>
+    public const int PluginError = 4;
     /// <summary>
     /// General error
     /// </summary>

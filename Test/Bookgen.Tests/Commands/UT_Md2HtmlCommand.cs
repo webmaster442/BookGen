@@ -1,11 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib;
-
-using BookGen.Commands;
+using BookGen.Commands.Convert;
+using BookGen.Lib;
 using BookGen.Vfs;
 
 using Moq;
@@ -34,7 +33,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
     [Test]
     public async Task EnsureThat_GenerateRawWorks()
     {
-        var arguments = new Md2HtmlCommand.Md2HtmlArguments
+        var arguments = new Md2HtmlCommand.Arguments
         {
             InputFiles = ["test.md"],
             NoSyntax = true,
@@ -44,7 +43,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
             Title = "Document title"
         };
 
-        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>());
+        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>(), CancellationToken.None);
 
         const string expectedContent = "<p>test</p>\n";
 
@@ -59,7 +58,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
     [Test]
     public async Task EnsureThat_GenerateHtml_Works()
     {
-        var arguments = new Md2HtmlCommand.Md2HtmlArguments
+        var arguments = new Md2HtmlCommand.Arguments
         {
             InputFiles = ["test.md"],
             NoSyntax = true,
@@ -69,7 +68,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
             Title = "Document title"
         };
 
-        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>());
+        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>(), CancellationToken.None);
 
         using (Assert.EnterMultipleScope())
         {

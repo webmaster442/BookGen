@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ internal class OrganizeArguments : ArgumentsBase
     [Description("Folder to organize")]
     public string Folder { get; set; }
 
-    [Switch("s", "simulate")]
+    [Switch("s", "simulate", Required = false)]
     [Description("Simulate the organize process without making any changes")]
     public bool Simulate { get; set; }
 

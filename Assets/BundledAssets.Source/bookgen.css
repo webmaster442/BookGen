@@ -12,10 +12,12 @@ Version: 2026-03-04
     --blue: #003e8a;
     --brightBlue: #2e6cba;
     --selection: #CACACA;
-    --box-info: #d1e7dd;
-    --box-waring: #fff3cd;
-    --box-error: #f8d7da;
-    --box-foreground: #3e3e3e;
+    --box-note: #0eb3d8;
+    --box-tip: #24c27b;
+    --box-important: #0eb3d8;
+    --box-warning: #e1ae05;
+    --box-caution: #b82e39;
+    --box-foreground: #f4f4f4;
     --max-width: 1200px;
 }
 
@@ -26,10 +28,12 @@ body.dark-mode {
     --blue: #82aaff;
     --brightBlue: #d6acff;
     --selection: #5D5D5D;
-    --box-info: #B9E5D1;
-    --box-waring: #FFECB5;
-    --box-error: #F7BEC4;
-    --box-foreground: #212121;
+    --box-note: #064f60;
+    --box-tip: #105637;
+    --box-important: #064f60;
+    --box-warning: #644d02;
+    --box-caution: #521419;
+    --box-foreground: #f8f8f2;
 }
 
 h1,
@@ -151,6 +155,17 @@ pre:hover {
     transform: translateY(-4px);
 }
 
+kbd {
+    font-family: "JetBrains Mono", monospace;
+    border-radius: 0.25rem;
+    border: 1px solid var(--foreground);
+    box-shadow: 0 2px 0 1px var(--selection);
+    line-height: 1;
+    min-width: 0.75rem;
+    text-align: center;
+    padding: 2px 5px;
+}
+
 /*Aside nav*/
 .float {
     position: fixed;
@@ -236,46 +251,66 @@ dialog #container #dialogBase {
     color: var(--foreground);
 }
 
-/* Boxes */
-
-.info {
-    background-color: var(--box-info);
-    color: var(--box-foreground);
-    margin: 1rem;
+/* Alerts */
+.markdown-alert {
     padding: 1rem;
     border-radius: 0.5rem;
+    border: 1px solid var(--foreground);
+    margin-bottom: 1rem;
 }
 
-.info::before {
-    content: "ℹ️";
-    display: block;
+.markdown-alert .markdown-alert-title {
+    font-weight: bold;
 }
 
-.warning {
-    background-color: var(--box-waring);
+.markdown-alert-note {
+    background-color: var(--box-note);
     color: var(--box-foreground);
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
 }
 
-.warning::before {
+.markdown-alert-note .markdown-alert-title::before {
+    content: "📝";
+    font-size: 1.6rem;
+}
+
+.markdown-alert-important {
+    background-color: var(--box-important);
+    color: var(--box-foreground);
+}
+
+.markdown-alert-important .markdown-alert-title::before {
+    content: "🚩";
+    font-size: 1.6rem;
+}
+
+.markdown-alert-tip {
+    background-color: var(--box-tip);
+    color: var(--box-foreground);
+}
+
+.markdown-alert-tip .markdown-alert-title::before {
+    content: "💡";
+    font-size: 1.6rem;
+}
+
+.markdown-alert-warning {
+    background-color: var(--box-warning);
+    color: var(--box-foreground);
+}
+
+.markdown-alert-warning .markdown-alert-title::before {
     content: "⚠️";
-    display: block;
+    font-size: 1.6rem;
 }
 
-
-.error {
-    background-color: var(--box-error);
+.markdown-alert-caution {
+    background-color: var(--box-caution);
     color: var(--box-foreground);
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
 }
 
-.error::before {
-    content: "🛑";
-    display: block;
+.markdown-alert-caution .markdown-alert-title::before {
+    content: "❌";
+    font-size: 1.6rem;
 }
 
 @media print {

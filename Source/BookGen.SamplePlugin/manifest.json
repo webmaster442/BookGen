@@ -1,0 +1,7 @@
+﻿{
+  "entryAssembly": "BookGen.SamplePlugin.dll",
+  "description": "BookGen self documentation generator sample plugin",
+  "apiVersion": "1.0",
+  "author": "Webmaster442",
+  "url": "https://github.com/webmaster442/BookGen"
+}

@@ -15,18 +15,19 @@
     <Content Include="..\..\Branding\icon-bookgen.png" Link="icon-bookgen.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <PackageReference Include="Roslynator.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <None Update="autorun.inf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="BookGenShell.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="getting-started.mdr">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
-  <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
+  <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) OR '$(OS)' != 'Windows_NT'">
     <None Include="..\..\Assets\tools\mmdr" Link="mmdr">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -34,8 +35,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
-  <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+
+  <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('win')) OR '$(OS)' == 'Windows_NT'">
     <None Include="..\..\Assets\tools\mmdr.exe" Link="mmdr.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -1,0 +1,123 @@
+{
+  "$schema": "bookgen.schema.json",
+  "VersionTag": 2008,
+  "BookTitle": "BookGen documentation",
+  "Book2LetterISO639Language": "en",
+  "BookAuthor": "Ruzsinszki Gábor",
+  "StaticWebsiteConfig": {
+    "OpenLinksOutsideHostOnNewTab": false,
+    "DeployHost": "http://localhost/",
+    "CopyToOutput": [],
+    "TocConfiguration": {
+      "ContainerId": "tableofcontents",
+      "ContainerElement": "Nav",
+      "ContainerClass": "",
+      "ChapterContainer": "Section",
+      "ItemContainer": "UnorderedList",
+      "StandaloneFileName": ""
+    },
+    "Images": {
+      "SvgRecode": "Passtrough",
+      "ResizeWith": -1,
+      "ResizeHeight": -1,
+      "ResizeAndRecodeImages": "Passtrough",
+      "ImageQualityOnResize": 90
+    },
+    "CssClasses": {
+      "H1": "",
+      "H2": "",
+      "H3": "",
+      "Img": "",
+      "Table": "",
+      "Blockquote": "",
+      "Figure": "",
+      "FigureCaption": "",
+      "Link": "",
+      "Ol": "",
+      "Ul": "",
+      "Li": ""
+    },
+    "PreRenderCode": false,
+    "DefaultTempate": ""
+  },
+  "WordpressConfig": {
+    "OpenLinksOutsideHostOnNewTab": true,
+    "DeployHost": "http://localhost/",
+    "ItemType": "docs",
+    "AllowComments": false,
+    "TagCategory": "post_tag",
+    "Images": {
+      "SvgRecode": "Passtrough",
+      "ResizeWith": -1,
+      "ResizeHeight": -1,
+      "ResizeAndRecodeImages": "Passtrough",
+      "ImageQualityOnResize": 90
+    },
+    "CssClasses": {
+      "H1": "",
+      "H2": "",
+      "H3": "",
+      "Img": "",
+      "Table": "",
+      "Blockquote": "",
+      "Figure": "",
+      "FigureCaption": "",
+      "Link": "",
+      "Ol": "",
+      "Ul": "",
+      "Li": ""
+    },
+    "PreRenderCode": false,
+    "DefaultTempate": ""
+  },
+  "PrintConfig": {
+    "Images": {
+      "SvgRecode": "Passtrough",
+      "ResizeWith": -1,
+      "ResizeHeight": -1,
+      "ResizeAndRecodeImages": "Passtrough",
+      "ImageQualityOnResize": 90
+    },
+    "CssClasses": {
+      "H1": "",
+      "H2": "",
+      "H3": "",
+      "Img": "",
+      "Table": "",
+      "Blockquote": "",
+      "Figure": "",
+      "FigureCaption": "",
+      "Link": "",
+      "Ol": "",
+      "Ul": "",
+      "Li": ""
+    },
+    "PreRenderCode": false,
+    "DefaultTempate": ""
+  },
+  "FeedConfig": {
+    "Images": {
+      "SvgRecode": "Passtrough",
+      "ResizeWith": -1,
+      "ResizeHeight": -1,
+      "ResizeAndRecodeImages": "Passtrough",
+      "ImageQualityOnResize": 90
+    },
+    "CssClasses": {
+      "H1": "",
+      "H2": "",
+      "H3": "",
+      "Img": "",
+      "Table": "",
+      "Blockquote": "",
+      "Figure": "",
+      "FigureCaption": "",
+      "Link": "",
+      "Ol": "",
+      "Ul": "",
+      "Li": ""
+    },
+    "PreRenderCode": false,
+    "DefaultTempate": ""
+  }
+}

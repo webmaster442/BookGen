@@ -1,65 +1,67 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Infrastructure.Terminal;
+using BookGen.Shell.Shared;
 
 using Microsoft.Extensions.Logging;
+
+using Webmaster442.WindowsTerminal;
+
 
 namespace BookGen.Commands;
 
 [CommandName("install")]
-internal class InstallCommand : AsyncCommand
+[Description("Windows only command that installs BookGen to the system PATH & optionally to the windows terminal.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+internal sealed class InstallCommand : AsyncCommand<InstallCommand.Arguments>
 {
-    private readonly ILogger _logger;
+    internal sealed class Arguments : ArgumentsBase
+    {
+        [Switch("ctp", "check-terminal-profile", Required = false)]
+        [Description("When specified checks, if terminal profile installed or not. If exit code is 0, profile is installed.")]
+        public bool CheckTerminalProfileInstall { get; set; }
 
-    private class InstallOption
+        [Switch("ct", "check-terminal-install", Required = false)]
+        [Description("When specified checks, if windows terminal is installed or not. If exit code is 0, terminal is installed.")]
+        public bool CheckTerminalInstall { get; set; }
+    }
+
+    private sealed class InstallOption
     {
         public required string DisplayText { get; init; }
         public required Task Action { get; init; }
     }
+
+    private readonly ILogger _logger;
 
     public InstallCommand(ILogger logger)
     {
         _logger = logger;
     }
 
-    public override SupportedOs SupportedOs => SupportedOs.Windows;
-
-    public override async Task<int> ExecuteAsync(IReadOnlyList<string> context)
-    {
-        var menu = new InstallOption[]
-        {
-            new() {
-                DisplayText = "Add install folder to PATH variable",
-                Action = AddToPath(),
-            },
-            new() {
-                DisplayText = "Install windows terminal profile",
-                Action = InstallTerminalProfile()
-            }
-        };
-        List<InstallOption> selction = Terminal.SelectionMenu(menu, "Bookgen installer", "Select install options", f => f.DisplayText);
-
-        foreach (InstallOption item in selction)
-        {
-            await item.Action;
-        }
-
-        return ExitCodes.Success;
-    }
+    public override SupportedOs SupportedOs
+        => SupportedOs.Windows;
 
     private async Task InstallTerminalProfile()
     {
-        var terminalInstall = new TerminalInstallCommand(_logger);
-        await terminalInstall.ExecuteAsync(new TerminalInstallCommand.TerminalInstallArguments
+        var result = await TerminalProfileInstaller.TryInstallAsync();
+        if (result == null)
         {
-            CheckInstall = false,
-            CheckTerminalInstall = false,
-        }, Array.Empty<string>());
+            _logger.LogWarning("Windows terminal is not installed, can't proceed");
+            Environment.Exit(ExitCodes.GeneralError);
+        }
+        else if (result == false)
+        {
+            _logger.LogCritical("Terminal profile install failed");
+            Environment.Exit(ExitCodes.GeneralError);
+        }
+        _logger.LogInformation("Successfully installed windows terminal profile");
     }
 
     private Task AddToPath()
@@ -79,5 +81,40 @@ internal class InstallCommand : AsyncCommand
         Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.User);
 
         return Task.CompletedTask;
+    }
+
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
+    {
+        if (arguments.CheckTerminalInstall)
+        {
+            InstallResult installReult = InstallDetector.GetInstallResult();
+            return installReult.IsWindowsTerminalInstalled ? ExitCodes.Success : ExitCodes.GeneralError;
+        }
+
+        if (arguments.CheckTerminalProfileInstall)
+        {
+            bool installed = TerminalProfileInstaller.IsInstalled();
+            return installed ? ExitCodes.Success : ExitCodes.GeneralError;
+        }
+
+        var menu = new InstallOption[]
+        {
+            new() {
+                DisplayText = "Add install folder to PATH variable",
+                Action = AddToPath(),
+            },
+            new() {
+                DisplayText = "Install windows terminal profile",
+                Action = InstallTerminalProfile()
+            }
+        };
+        List<InstallOption> selction = Infrastructure.Terminal.Terminal.SelectionMenu(menu, "Bookgen installer", "Select install options", f => f.DisplayText);
+
+        foreach (InstallOption item in selction)
+        {
+            await item.Action;
+        }
+
+        return ExitCodes.Success;
     }
 }

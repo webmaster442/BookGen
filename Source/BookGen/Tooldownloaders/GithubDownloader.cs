@@ -1,11 +1,10 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Bookgen.Lib.Domain.Github;
-
 using BookGen.Infrastructure.Tools;
+using BookGen.Lib.Domain.Github;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;

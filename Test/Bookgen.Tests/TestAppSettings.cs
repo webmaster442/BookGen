@@ -5,8 +5,8 @@
 
 using System.Linq.Expressions;
 
-using Bookgen.Lib.AppSettings;
-using Bookgen.Lib.Domain.IO;
+using BookGen.Lib.AppSettings;
+using BookGen.Lib.Domain.IO;
 
 namespace Bookgen.Tests;
 

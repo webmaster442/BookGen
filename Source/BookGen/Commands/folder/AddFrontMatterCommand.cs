@@ -1,0 +1,86 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.ComponentModel;
+using System.Text;
+
+using BookGen.Cli;
+using BookGen.Cli.Annotations;
+using BookGen.Lib;
+using BookGen.Lib.Domain.IO;
+using BookGen.Vfs;
+
+using Markdig;
+using Markdig.Syntax;
+
+using Microsoft.Extensions.Logging;
+
+using YamlDotNet.Serialization;
+
+namespace BookGen.Commands.Folder;
+
+[CommandName("folder addfrontmatter")]
+[Description("Add a basic YAML frontmatter information to all markdown files located in the current folder and it's subfolders.")]
+[ExitCode(ExitCodes.Success, "The front matter was added successfully.")]
+internal sealed class AddFrontMatterCommand : AsyncCommand<BookGenArgumentBase>
+{
+    private readonly IWritableFileSystem _writableFileSystem;
+    private readonly ILogger _logger;
+
+    public AddFrontMatterCommand(IWritableFileSystem writableFileSystem, ILogger logger)
+    {
+        _writableFileSystem = writableFileSystem;
+        _logger = logger;
+    }
+
+    public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
+    {
+        int modified = 0;
+        _writableFileSystem.Scope = arguments.Directory;
+        var files = _writableFileSystem.GetFiles(arguments.Directory, "*.md", true).ToArray();
+        _logger.LogInformation("Found {count} markdown files in {directory}", files.Length, arguments.Directory);
+
+        ISerializer serializer = YamlSerializerFactory.CreateSerializer();
+
+        foreach (var file in files)
+        {
+            string content = await _writableFileSystem.ReadAllTextAsync(file);
+            if (content.StartsWith("---\r\n") || content.StartsWith("---\n"))
+            {
+                //File has yaml frontmatter, ignore it
+                continue;
+            }
+
+            _logger.LogDebug("Adding front matter to: {file}...", file);
+
+            HeadingBlock? firstHedding = Markdown.Parse(content).OfType<HeadingBlock>().FirstOrDefault();
+
+            string title = firstHedding?.Inline != null
+                ? string.Join("", firstHedding.Inline)
+                : Path.GetFileName(file);
+
+            FrontMatter frontMatter = new()
+            {
+                Title = title,
+                Tags = string.Empty
+            };
+
+            const string divider = "---";
+
+            StringBuilder result = new();
+            result.AppendLine(divider)
+                  .Append(serializer.Serialize(frontMatter))
+                  .AppendLine(divider).AppendLine()
+                  .Append(content);
+
+            await _writableFileSystem.WriteAllTextAsync(file, result.ToString());
+            ++modified;
+        }
+
+        _logger.LogInformation("Added frontMatter to {count} files", modified);
+
+        return ExitCodes.Success;
+    }
+}

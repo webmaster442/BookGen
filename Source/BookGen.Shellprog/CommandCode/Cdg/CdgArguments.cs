@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ namespace BookGen.Shellprog.CommandCode.Cdg;
 internal sealed class CdgArguments : ArgumentsBase
 {
     [Description("Show hidden files and folders")]
-    [Switch("h", "hidden")]
+    [Switch("h", "hidden", Required = false)]
     public bool ShowHidden { get; set; }
 
     [Argument(0, IsOptional = true)]

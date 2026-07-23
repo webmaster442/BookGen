@@ -1,4 +1,10 @@
-﻿using System.Text;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.ComponentModel;
+using System.Text;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
@@ -15,20 +21,27 @@ using WeCantSpell.Hunspell;
 namespace BookGen.Commands;
 
 [CommandName("spellcheck")]
-internal sealed class SpellCheckCommand : AsyncCommand<SpellCheckCommand.SpellCheckArguments>
+[Description("Perform spell check on a given markdown file or text file. The command will print the misspelled words to the console.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
+[ExitCode(ExitCodes.GeneralError, "Dictionary was not found or file contained spelling mistakes.")]
+internal sealed class SpellCheckCommand : AsyncCommand<SpellCheckCommand.Arguments>
 {
-    public sealed class SpellCheckArguments : ArgumentsBase, IVerbosablityToggle
+    internal sealed class Arguments : ArgumentsBase, IVerbosablityToggle
     {
-        [Switch("i", "input")]
+        [Switch("i", "input", Required = true)]
+        [Description("Specifies the input file path. The file must be a markdown file or a text file.")]
         public string InputFile { get; set; } = string.Empty;
 
-        [Switch("v", "verbose")]
+        [Switch("v", "verbose", Required = false)]
+        [Description("Turns on detailed logging. Usefull for locating issues")]
         public bool Verbose { get; set; }
 
-        [Switch("l", "language")]
+        [Switch("l", "language", Required = false)]
+        [Description("Specifies the language to use for spell checking. The value must be a valid language code, like en_US or hu_HU. If not specified, then en_US will be used as the default language.")]
         public string Language { get; set; } = "en_US";
 
-        [Switch("-ld", "--list-dictionaires")]
+        [Switch("-ld", "--list-dictionaries", Required = false)]
+        [Description("When specified, the command will list all available dictionaries and exit.")]
         public bool DictionariesDisplay { get; set; } = false;
 
         public override ValidationResult Validate(IValidationContext context)
@@ -61,7 +74,7 @@ internal sealed class SpellCheckCommand : AsyncCommand<SpellCheckCommand.SpellCh
         _fileSystem = fileSystem;
     }
 
-    public override async Task<int> ExecuteAsync(SpellCheckArguments arguments, IReadOnlyList<string> context)
+    public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
         if (arguments.DictionariesDisplay)
         {

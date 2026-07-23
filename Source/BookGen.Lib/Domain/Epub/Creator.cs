@@ -1,0 +1,17 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Xml.Serialization;
+
+namespace BookGen.Lib.Domain.Epub;
+
+[Serializable]
+[XmlType(AnonymousType = true, Namespace = "http://purl.org/dc/elements/1.1/")]
+[XmlRoot(Namespace = "http://purl.org/dc/elements/1.1/", IsNullable = false)]
+public sealed class Creator
+{
+    [XmlText]
+    public required string Value { get; set; }
+}

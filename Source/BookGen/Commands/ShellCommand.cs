@@ -1,19 +1,20 @@
 ﻿//-----------------------------------------------------------------------------
-// (c) 2019-2025 Ruzsinszki Gábor
+// (c) 2019-2026 Ruzsinszki Gábor
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Diagnostics;
+using System.ComponentModel;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Infrastructure;
 
 using Spectre.Console;
 
 namespace BookGen.Commands;
 
 [CommandName("shell")]
+[Description("Autocompleter command, that is used by Powershell.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class ShellCommand : Command
 {
     private readonly ICommandRunnerProxy _commandNameProider;
@@ -70,11 +71,9 @@ internal sealed class ShellCommand : Command
 
                 IEnumerable<string> candidate = items.Where(arg => arg.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
 
-                if (candidate.Any())
-                    return candidate;
-                else
-                    return ProgramConfigurator.GeneralArguments.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
-
+                return candidate.Any()
+                    ? candidate
+                    : _commandNameProider.GlobalOptions.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
             }
         }
 
