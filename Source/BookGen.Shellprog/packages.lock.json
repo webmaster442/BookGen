@@ -97,7 +97,10 @@
         }
       },
       "bookgen.vfs": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "[10.0.10, )"
+        }
       },
       "Webmaster442.WindowsTerminal": {
         "type": "CentralTransitive",
