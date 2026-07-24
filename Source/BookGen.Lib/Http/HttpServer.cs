@@ -19,6 +19,7 @@ namespace BookGen.Lib.Http;
 internal sealed class HttpServer : IHttpServer
 {
     private readonly WebApplication _app;
+    private readonly DisposableTracker _disposableTracker;
 
     public int Port { get; }
 
@@ -30,6 +31,7 @@ internal sealed class HttpServer : IHttpServer
         builder.Logging.AddProvider(new LoggerProvider(logger));
 #pragma warning restore CA2000 // Dispose objects before losing scope
         builder.WebHost.ConfigureKestrel((context, serverOptions) => serverOptions.ListenAnyIP(port));
+        _disposableTracker = new DisposableTracker();
         _app = builder.Build();
         Port = port;
 
@@ -59,6 +61,12 @@ internal sealed class HttpServer : IHttpServer
                 await context.Response.WriteAsync(content);
             });
         });
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        _disposableTracker.Dispose();
+        return _app.DisposeAsync();
     }
 
     public void AddStaticFiles(string directory, string requestPath, bool directoryBrowseEnabled)
@@ -122,12 +130,21 @@ internal sealed class HttpServer : IHttpServer
         }
     }
 
-    public void AddRoutes(IReadOnlyDictionary<ApiMetaData, RequestDelegate> routes)
+    public void AddRoutes(IEnumerable<KeyValuePair<ApiMetaData, RequestDelegate>> routes)
     {
         foreach (KeyValuePair<ApiMetaData, RequestDelegate> route in routes)
         {
             AddRoute(route.Key, route.Value);
         }
+    }
+
+    public void AddRoutes(IRouteProvider provider)
+    {
+        if (provider is IDisposable disposable)
+        {
+            _disposableTracker.Track(disposable);
+        }
+        AddRoutes(provider.Routes);
     }
 
     public IEnumerable<string> GetListenUrls()
@@ -160,7 +177,4 @@ internal sealed class HttpServer : IHttpServer
 
     public async Task StopAsync()
         => await _app.StopAsync();
-
-    public ValueTask DisposeAsync()
-        => _app.DisposeAsync();
 }
