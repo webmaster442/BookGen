@@ -103,12 +103,11 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
         _renderSettings.Dispose();
     }
 
-    public IEnumerable<KeyValuePair<ApiMetaData, RequestDelegate>> Routes
+    public IEnumerable<(ApiMetaData metaData, RequestDelegate handler)> Routes
     {
         get
         {
-            var metaData = new ApiMetaData("/preview", MediaTypeNames.Text.Html, ApiMethod.Get);
-            yield return new KeyValuePair<ApiMetaData, RequestDelegate>(metaData, RenderPreview);
+            yield return (new ApiMetaData("/preview", MediaTypeNames.Text.Html, ApiMethod.Get), RenderPreview);
         }
     }
 
@@ -151,10 +150,8 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
 
     private bool CanServe([NotNullWhen(true)] string? fileName)
     {
-        if (string.IsNullOrEmpty(fileName))
-            return false;
-
-        return _allowedFiles.Contains(fileName);
+        return !string.IsNullOrEmpty(fileName)
+            && _allowedFiles.Contains(fileName);
     }
 
     private static async Task SendData(HttpContext httpContext, HttpStatusCode httpStatusCode, string data, string mimeType)

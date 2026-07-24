@@ -44,7 +44,7 @@ internal sealed class ServeCommand : AsyncCommand<BookGenArgumentBase>
 
 #pragma warning disable CA2000 // Dispose objects before losing scope
         //runner is responsible for disposing the server
-        await using (var runner = new ConsoleHttpServerRunner(ServerFactory.CreateServerForDirectoryHosting(arguments.Directory, _log)))
+        await using (var runner = new ConsoleHttpServerRunner(HttpServerFactory.CreateServerForDirectoryHosting(arguments.Directory, _log)))
         {
             var serverurls = string.Join(' ', runner.Server.GetListenUrls());
             var qrcodes = string.Join(' ', runner.Server.GetListenUrls().Select(x => $"{x}/qrcodelink"));

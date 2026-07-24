@@ -144,7 +144,10 @@ internal sealed class HttpServer : IHttpServer
         {
             _disposableTracker.Track(disposable);
         }
-        AddRoutes(provider.Routes);
+        foreach ((ApiMetaData metaData, RequestDelegate handler) in provider.Routes)
+        {
+            AddRoute(metaData, handler);
+        }
     }
 
     public IEnumerable<string> GetListenUrls()
