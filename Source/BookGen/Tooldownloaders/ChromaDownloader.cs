@@ -21,16 +21,19 @@ internal sealed class ChromaDownloader : TooldownloaderBase
     {
     }
 
-    protected override ToolInfo CreateToolInfo()
+    public override ToolInfo ToolInfo
     {
-        return new ToolInfo
+        get
         {
-            Name = "Chroma",
-            ApproximateSize = "8 MiB",
-            RepoOwner = "alecthomas",
-            RepoName = "chroma",
-            FolderName = "chroma",
-        };
+            return new ToolInfo
+            {
+                Name = "Chroma",
+                ApproximateSize = "8 MiB",
+                RepoOwner = "alecthomas",
+                RepoName = "chroma",
+                FolderName = "chroma",
+            };
+        }
     }
 
     protected override Task Extract(IDownloadUi ui, Stream stream)

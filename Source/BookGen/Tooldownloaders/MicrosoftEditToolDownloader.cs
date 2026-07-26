@@ -21,16 +21,19 @@ internal sealed class MicrosoftEditToolDownloader : TooldownloaderBase
     {
     }
 
-    protected override ToolInfo CreateToolInfo()
+    public override ToolInfo ToolInfo
     {
-        return new ToolInfo
+        get
         {
-            Name = "Microsoft Edit",
-            ApproximateSize = "3.6 MiB",
-            RepoOwner = "microsoft",
-            RepoName = "edit",
-            FolderName = "ms-edit",
-        };
+            return new ToolInfo
+            {
+                Name = "Microsoft Edit",
+                ApproximateSize = "3.6 MiB",
+                RepoOwner = "microsoft",
+                RepoName = "edit",
+                FolderName = "ms-edit",
+            };
+        }
     }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
