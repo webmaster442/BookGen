@@ -15,6 +15,7 @@ public static class BundledAssets
     public const string TemplatePrint = "Print.html";
     public const string TemplateEpub = "Epub.html";
     public const string TemplateBlank = "Blank.html";
+    public const string TemplatePreview = "Preview.html";
     public const string QrCodeJs = "qrcode.min.js";
     public const string JsPageToc = "PageToc.js";
     public const string NomnomlJs = "nomnoml.js";

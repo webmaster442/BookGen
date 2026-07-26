@@ -19,18 +19,28 @@ namespace BookGen.Lib.Http;
 internal sealed class HttpServer : IHttpServer
 {
     private readonly WebApplication _app;
+    private readonly bool _localhostOnly;
     private readonly DisposableTracker _disposableTracker;
 
     public int Port { get; }
 
-    public HttpServer(int port, ILogger logger)
+    public HttpServer(int port, ILogger logger, bool localHostOnly)
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder();
         builder.Logging.ClearProviders();
 #pragma warning disable CA2000 // Dispose objects before losing scope
         builder.Logging.AddProvider(new LoggerProvider(logger));
 #pragma warning restore CA2000 // Dispose objects before losing scope
-        builder.WebHost.ConfigureKestrel((context, serverOptions) => serverOptions.ListenAnyIP(port));
+
+        if (localHostOnly)
+        {
+            builder.WebHost.ConfigureKestrel((context, serverOptions) => serverOptions.ListenLocalhost(port));
+        }
+        else
+        {
+            builder.WebHost.ConfigureKestrel((context, serverOptions) => serverOptions.ListenAnyIP(port));
+        }
+        _localhostOnly = localHostOnly;
         _disposableTracker = new DisposableTracker();
         _app = builder.Build();
         Port = port;
@@ -152,6 +162,12 @@ internal sealed class HttpServer : IHttpServer
 
     public IEnumerable<string> GetListenUrls()
     {
+        if (_localhostOnly)
+        {
+            yield return $"http://localhost:{Port}";
+            yield break;
+        }
+
         foreach ((IPAddress? adress, IPAddress _) in GetIpAdresses())
         {
             yield return $"http://{adress}:{Port}";

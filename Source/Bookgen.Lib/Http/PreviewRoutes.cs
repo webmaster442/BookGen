@@ -58,12 +58,16 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
 
         _markdownConverter = new MarkdownConverter(_renderSettings);
         _templateEngine = new TemplateEngine(_logger, assetSource);
-        _template = assetSource.GetAsset(BundledAssets.TemplateSinglePage);
+        _template = assetSource.GetAsset(BundledAssets.TemplatePreview);
 
         _observer = _source.CreateObserver(logger, "*.*");
         _observer.FileChanged += OnFileChange;
         _allowedFiles.Clear();
-        _allowedFiles.AddRange(_source.GetFiles(_source.Scope, "*.md", true));
+
+        var files = _source.GetFiles(_source.Scope, "*.md", true)
+            .Select(f => Path.GetRelativePath(_source.Scope, f));
+
+        _allowedFiles.AddRange(files);
     }
 
     private void OnFileChange(object? sender, FileSystemChangeEventArgs e)
@@ -73,23 +77,23 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
             switch (e.ChangeType)
             {
                 case FileSystemChangeEventArgs.Change.Created:
-                    _allowedFiles.Add(e.FileName);
+                    _allowedFiles.Add(Path.GetRelativePath(_source.Scope, e.FileName));
                     break;
                 case FileSystemChangeEventArgs.Change.Changed:
                     break;
                 case FileSystemChangeEventArgs.Change.Renamed:
-                    int oldindex = _allowedFiles.IndexOf(e.FileName);
-                    if (oldindex != -1)
+                    int oldindex = _allowedFiles.IndexOf(Path.GetRelativePath(_source.Scope, e.FileName));
+                    if (oldindex != -1 && !string.IsNullOrEmpty(e.NewFileName))
                     {
-                        _allowedFiles[oldindex] = e.FileName;
+                        _allowedFiles[oldindex] = Path.GetRelativePath(_source.Scope, e.NewFileName);
                     }
-                    else
+                    else if (!string.IsNullOrEmpty(e.NewFileName))
                     {
-                        _allowedFiles.Add(e.FileName);
+                        _allowedFiles.Add(Path.GetRelativePath(_source.Scope, e.NewFileName));
                     }
                     break;
                 case FileSystemChangeEventArgs.Change.Deleted:
-                    _allowedFiles.Remove(e.FileName);
+                    _allowedFiles.Remove(Path.GetRelativePath(_source.Scope, e.FileName));
                     break;
             }
         }
@@ -108,7 +112,24 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
         get
         {
             yield return (new ApiMetaData("/preview", MediaTypeNames.Text.Html, ApiMethod.Get), RenderPreview);
+            yield return (new ApiMetaData("/", MediaTypeNames.Text.Html, ApiMethod.Get), RenderIndex);
         }
+    }
+
+    private async Task RenderIndex(HttpContext context)
+    {
+        var viewData = new ViewData
+        {
+            Host = "/",
+            Content = PageFactory.GetFiles(_allowedFiles),
+            Title = "Previewable files",
+            LastModified = DateTime.UtcNow,
+        };
+
+        await SendData(context,
+                       HttpStatusCode.OK,
+                       _templateEngine.Render(_template, viewData),
+                       MediaTypeNames.Text.Html);
     }
 
     private async Task RenderPreview(HttpContext context)
@@ -118,7 +139,7 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
         {
             var viewData = new ViewData
             {
-                Host = string.Empty,
+                Host = "/",
                 Content = "Not a markdown file",
                 Title = "Error",
                 LastModified = DateTime.UtcNow,
@@ -138,7 +159,7 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
             Content = _markdownConverter.RenderMarkdownToHtml(source.Content),
             Title = source.FrontMatter.Title,
             LastModified = source.LastModified,
-            Host = "http://localhost"
+            Host = "/"
         };
 
         await SendData(context,

@@ -22,10 +22,27 @@ internal static class PageFactory
         return content;
     }
 
+    public static string GetFiles(List<string> allowedFiles)
+    {
+        var files = new StringBuilder();
+        IEnumerable<IGrouping<string, string>> groups = allowedFiles.GroupBy(f => Path.GetDirectoryName(f) ?? string.Empty);
+        foreach (IGrouping<string, string> group in groups)
+        {
+            files.AppendLine($"<h2>{group.Key}</h2>");
+            files.AppendLine("<ul>");
+            foreach (var file in group)
+            {
+                files.AppendLine($"<li><a href=\"/preview?file={HttpUtility.UrlEncode(file)}\">{file}</a></li>");
+            }
+            files.AppendLine("</ul>");
+        }
+        return files.ToString();
+    }
+
     public static string GetErrorPage(int code, string message)
     {
         var page = GetResource($"BookGen.Lib.Http.ErrorPageTemplate.html");
-        return page.Replace("{{code}}", code.ToString()).Replace("{{message}}", message);
+        return page.Replace("{{Code}}", code.ToString()).Replace("{{Message}}", message);
     }
 
     public static string GetQrCodePage(IEnumerable<string> urls)
@@ -39,6 +56,6 @@ internal static class PageFactory
             qrcodes.AppendLine("</figure>");
         }
 
-        return GetResource("BookGen.Lib.Http.QRCodeTemplate.html").Replace("{{links}}", qrcodes.ToString());
+        return GetResource("BookGen.Lib.Http.QRCodeTemplate.html").Replace("{{Links}}", qrcodes.ToString());
     }
 }

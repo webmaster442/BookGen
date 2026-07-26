@@ -56,7 +56,7 @@ public static class HttpServerFactory
 
     public static IHttpServer CreateServerForDirectoryHosting(string directoryToServe, ILogger logger)
     {
-        var server = new HttpServer(ChoosePort(), logger);
+        var server = new HttpServer(ChoosePort(), logger, localHostOnly: false);
         server.AddStaticFiles(directory: directoryToServe, requestPath: "", directoryBrowseEnabled: true);
         server.AddRoute(new ApiMetaData("/qrcodelink", MediaTypeNames.Text.Html), async context =>
         {
@@ -72,7 +72,7 @@ public static class HttpServerFactory
                                                      IProgramPathResolver programPathResolver,
                                                      IAssetSource assetSource)
     {
-        var server = new HttpServer(ChoosePort(), logger);
+        var server = new HttpServer(ChoosePort(), logger, localHostOnly: true);
         var previewRoutes = new PreviewRoutes(source, logger, programPathResolver, assetSource);
         server.AddRoutes(previewRoutes);
         return server;
