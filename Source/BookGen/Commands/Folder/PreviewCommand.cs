@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Lib;
@@ -15,6 +17,9 @@ using Microsoft.Extensions.Logging;
 namespace BookGen.Commands.Folder;
 
 [CommandName("folder preview")]
+[Description("Starts a preview server for the specified folder.")]
+[ExitCode(ExitCodes.FolderLocked, "A serve command is running in the given folder.")]
+[ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class PreviewCommand : AsyncCommand<BookGenArgumentBase>
 {
     private readonly IWritableFileSystem _fs;
