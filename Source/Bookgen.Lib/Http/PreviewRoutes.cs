@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Mime;
 
 using BookGen.Lib.AppSettings;
+using BookGen.Lib.Domain;
 using BookGen.Lib.Domain.IO.Configuration;
 using BookGen.Lib.Rendering;
 using BookGen.Lib.Rendering.Images;
@@ -118,10 +119,16 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
 
     private async Task RenderIndex(HttpContext context)
     {
+        string content;
+        lock (_lock)
+        {
+            content = PageFactory.GetFiles(_allowedFiles);
+        }
+
         var viewData = new ViewData
         {
             Host = "/",
-            Content = PageFactory.GetFiles(_allowedFiles),
+            Content = content,
             Title = "Previewable files",
             LastModified = DateTime.UtcNow,
         };
@@ -152,7 +159,7 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
             return;
         }
 
-        var source = await _source.GetSourceFile(fileName, _logger);
+        SourceFile source = await _source.GetSourceFile(fileName, _logger);
 
         var data = new ViewData
         {
@@ -171,8 +178,11 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
 
     private bool CanServe([NotNullWhen(true)] string? fileName)
     {
-        return !string.IsNullOrEmpty(fileName)
-            && _allowedFiles.Contains(fileName);
+        lock (_lock)
+        {
+            return !string.IsNullOrEmpty(fileName)
+                && _allowedFiles.Contains(fileName);
+        }
     }
 
     private static async Task SendData(HttpContext httpContext, HttpStatusCode httpStatusCode, string data, string mimeType)

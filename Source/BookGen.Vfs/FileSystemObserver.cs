@@ -11,6 +11,7 @@ public sealed class FileSystemObserver : IFileSystemObserver
 
     public FileSystemObserver(ILogger logger, string folder, string filter)
     {
+        _logger = logger;
         _watcher = new FileSystemWatcher
         {
             Filter = filter,
@@ -21,14 +22,13 @@ public sealed class FileSystemObserver : IFileSystemObserver
                          | NotifyFilters.LastWrite
                          | NotifyFilters.Size,
             IncludeSubdirectories = true,
-            EnableRaisingEvents = true
         };
         _watcher.Changed += OnChanged;
         _watcher.Created += OnChanged;
         _watcher.Deleted += OnChanged;
         _watcher.Renamed += OnRenamed;
         _watcher.Error += OnError;
-        _logger = logger;
+        _watcher.EnableRaisingEvents = true;
     }
 
     public void Dispose()

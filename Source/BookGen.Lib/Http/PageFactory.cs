@@ -28,11 +28,11 @@ internal static class PageFactory
         IEnumerable<IGrouping<string, string>> groups = allowedFiles.GroupBy(f => Path.GetDirectoryName(f) ?? string.Empty);
         foreach (IGrouping<string, string> group in groups)
         {
-            files.AppendLine($"<h2>{group.Key}</h2>");
+            files.AppendLine($"<h2>{HttpUtility.HtmlEncode(group.Key)}</h2>");
             files.AppendLine("<ul>");
             foreach (var file in group)
             {
-                files.AppendLine($"<li><a href=\"/preview?file={HttpUtility.UrlEncode(file)}\">{file}</a></li>");
+                files.AppendLine($"<li><a href=\"/preview?file={HttpUtility.UrlEncode(file)}\">{HttpUtility.HtmlEncode(file)}</a></li>");
             }
             files.AppendLine("</ul>");
         }

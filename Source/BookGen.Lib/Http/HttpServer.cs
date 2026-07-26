@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 
+using BookGen.Lib;
+
 namespace BookGen.Lib.Http;
 
 internal sealed class HttpServer : IHttpServer
