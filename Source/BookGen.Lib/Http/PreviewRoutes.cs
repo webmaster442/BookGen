@@ -1,4 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Mime;
 
@@ -61,7 +66,7 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
         _templateEngine = new TemplateEngine(_logger, assetSource);
         _template = assetSource.GetAsset(BundledAssets.TemplatePreview);
 
-        _observer = _source.CreateObserver(logger, "*.*");
+        _observer = _source.CreateObserver(logger, "*.md");
         _observer.FileChanged += OnFileChange;
         _allowedFiles.Clear();
 
