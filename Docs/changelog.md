@@ -9,6 +9,8 @@ tags: ''
 * Breaking: Removed edit command
 * Breaking: Removed terminalinstall command, now part of install command
 * Breaking: Removed Vstasks command and reworked it into a vscode command
+* New: Based on .NET 11
+* New: New logo by Mariann Kobzi
 * New: Build system can be extended with custom build plugins
 * New: VSCode command that can generate VSCode tasks.json file for the current project and recomend extensions
 * New: Mermaid diagram rendering supported via mmdr
@@ -19,6 +21,7 @@ tags: ''
 * New: Mixcloud media embeding supported
 * New: Html2OpenXml command to convert HTML to OpenXML format for Word processing
 * New: Template engine reworked, now supports functions and is more robust
+* New: Preview command to preview the current project files in a browser
 * Change: Commands documentation generated from code and is now more complete
 * Change: App settings reworked
 * Change: Dropped mathjax as dependency for formula rendering. New formula rendering is based on katex and works with markdown syntax
