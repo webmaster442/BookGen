@@ -31,7 +31,7 @@ internal sealed class SvgMathInlineRenderer : HtmlObjectRenderer<MathInline>
         }
 
         renderer.Write("<span").WriteAttributes(obj).Write(">");
-        renderer.Write(_latexRenderPlugin.Render(obj.Content.Text));
+        renderer.Write(_latexRenderPlugin.Render(obj.Content.Text, ""));
         renderer.Write("</span>");
     }
 }

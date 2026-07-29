@@ -9,9 +9,9 @@ namespace BookGen.Lib.Rendering.Markdown.Renderers.SyntaxRenderPlugins;
 
 internal sealed class MermaidRenderPlugin(IRenderInterop renderInterop) : SyntaxRendererPlugin
 {
-    public override string LanguageMoniker { get; } = "mermaid";
+    public override string[] LanguageMonikers { get; } = ["mermaid"];
 
-    public override string Render(string code)
+    public override string Render(string code, string parsedLanguageMoniker)
     {
         return RendererImgage(renderInterop.RenderMermaid(code));
     }

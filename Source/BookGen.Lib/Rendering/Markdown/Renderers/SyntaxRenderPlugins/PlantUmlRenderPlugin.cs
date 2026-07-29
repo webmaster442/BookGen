@@ -9,9 +9,9 @@ namespace BookGen.Lib.Rendering.Markdown.Renderers.SyntaxRenderPlugins;
 
 internal sealed class PlantUmlRenderPlugin(IRenderInterop renderInterop) : SyntaxRendererPlugin
 {
-    public override string LanguageMoniker => "plantuml";
+    public override string[] LanguageMonikers { get; } = ["plantuml"];
 
-    public override string Render(string code)
+    public override string Render(string code, string parsedLanguageMoniker)
     {
         return RendererImgage(renderInterop.RenderPlantUml(code));
     }

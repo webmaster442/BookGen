@@ -232,4 +232,83 @@ internal sealed class UT_MarkdownConverter_Specials
 
         Assert.That(result, Is.EqualTo(expected).Using(comparer));
     }
+
+    private const string Tsv = """
+            ```table-tsv
+            foo	bar	baz
+            "col11 >ong"	col12	col13
+            col21	col22	col23
+            col31	col32	col33
+            ```
+            """;
+
+    private const string Csv = """
+            ```table-csv
+            foo,bar,baz
+            "col11 >ong",col12,col13
+            col21,col22,col23
+            col31,col32,col33
+            ```
+            """;
+
+    private const string Ssv = """
+            ```table-ssv
+            foo;bar;baz
+            "col11 >ong";col12;col13
+            col21;col22;col23
+            col31;col32;col33
+            ```
+            """;
+
+
+    [TestCase(Tsv)]
+    [TestCase(Csv)]
+    [TestCase(Ssv)]
+    public void EnsureThat_Language_Csv_Works(string input)
+    {
+        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        {
+            CssClasses = new CssClasses(),
+            DeleteFirstH1 = false,
+            HostUrl = null,
+            AutoEmbedSupportedLinks = true,
+            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
+            {
+                SvgRecode = SvgRecodeOption.Passtrough
+            })
+        };
+
+        using var sut = new MarkdownConverter(settings);
+
+        string result = sut.RenderMarkdownToHtml(input);
+
+        string expected = """
+            <table>
+            <tr>
+            <td>foo</td>
+            <td>bar</td>
+            <td>baz</td>
+            </tr>
+            <tr>
+            <td>col11 &gt;ong</td>
+            <td>col12</td>
+            <td>col13</td>
+            </tr>
+            <tr>
+            <td>col21</td>
+            <td>col22</td>
+            <td>col23</td>
+            </tr>
+            <tr>
+            <td>col31</td>
+            <td>col32</td>
+            <td>col33</td>
+            </tr>
+            </table>
+
+            """;
+
+        Assert.That(result, Is.EqualTo(expected).Using(comparer));
+
+    }
 }

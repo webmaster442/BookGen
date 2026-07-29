@@ -26,7 +26,7 @@ internal class SvgMathBlockRenderer : HtmlObjectRenderer<MathBlock>
         renderer.EnsureLine();
         renderer.Write("<div").WriteAttributes(obj).WriteLine(">");
         string code = obj.GetCode();
-        renderer.Write(_latexRenderPlugin.Render(code));
+        renderer.Write(_latexRenderPlugin.Render(code, ""));
         renderer.WriteLine("</div>");
     }
 }

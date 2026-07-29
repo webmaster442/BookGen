@@ -9,9 +9,9 @@ namespace BookGen.Lib.Rendering.Markdown.Renderers.SyntaxRenderPlugins;
 
 internal sealed class NomnomlRenderPlugin(IRenderInterop renderInterop) : SyntaxRendererPlugin
 {
-    public override string LanguageMoniker { get; } = "nomnoml";
+    public override string[] LanguageMonikers { get; } = ["nomnoml"];
 
-    public override string Render(string code)
+    public override string Render(string code, string parsedLanguageMoniker)
     {
         return RendererImgage(renderInterop.RenderNomnoml(code));
     }

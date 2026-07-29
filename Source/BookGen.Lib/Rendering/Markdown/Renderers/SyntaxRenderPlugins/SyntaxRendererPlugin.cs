@@ -9,9 +9,9 @@ namespace BookGen.Lib.Rendering.Markdown.Renderers.SyntaxRenderPlugins;
 
 internal abstract class SyntaxRendererPlugin
 {
-    public abstract string LanguageMoniker { get; }
+    public abstract string[] LanguageMonikers { get; }
 
-    public abstract string Render(string code);
+    public abstract string Render(string code, string parsedLanguageMoniker);
 
     protected static string RendererImgage(ImageResult img)
     {
