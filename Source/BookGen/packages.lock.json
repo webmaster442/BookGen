@@ -41,9 +41,9 @@
       },
       "Microsoft.IO.RecyclableMemoryStream": {
         "type": "Direct",
-        "requested": "[3.0.1, )",
-        "resolved": "3.0.1",
-        "contentHash": "s/s20YTVY9r9TPfTrN5g8zPF1YhwxyqO6PxUkrYTGI2B+OGPe9AdajWZrLhFqXIvqIW23fnUE4+ztrUWNU1+9g=="
+        "requested": "[4.0.0-preview, )",
+        "resolved": "4.0.0-preview",
+        "contentHash": "ueAhj4Qj4HgGyS0+efG2IjvqYHPWkayE+GWUnseWe6aJQagoxHWr2ljabmXd9k4QpSH2jpoTd7TTzgUsc2selA=="
       },
       "Roslynator.Analyzers": {
         "type": "Direct",
