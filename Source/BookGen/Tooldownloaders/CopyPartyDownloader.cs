@@ -19,11 +19,7 @@ internal sealed class CopyPartyDownloader : TooldownloaderBase
                               ILogger logger)
         : base(apiClient, memoryStreamManager, logger)
     {
-    }
-
-    protected override ToolInfo CreateToolInfo()
-    {
-        return new ToolInfo
+        ToolInfo = new ToolInfo
         {
             Name = "Copyparty.exe",
             ApproximateSize = "13 MiB",
@@ -32,6 +28,8 @@ internal sealed class CopyPartyDownloader : TooldownloaderBase
             FolderName = "copyparty",
         };
     }
+
+    public override ToolInfo ToolInfo { get; }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
     {

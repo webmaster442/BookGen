@@ -1,7 +1,7 @@
 {
   "version": 2,
   "dependencies": {
-    "net10.0": {
+    "net11.0": {
       "AngleSharp": {
         "type": "Direct",
         "requested": "[1.5.2, )",
@@ -95,9 +95,9 @@
       },
       "System.ServiceModel.Syndication": {
         "type": "Direct",
-        "requested": "[10.0.10, )",
-        "resolved": "10.0.10",
-        "contentHash": "jU3WQG477Tk7RYlM2Ky8oySb6WHd744LgK7MYRMe4L8FcoJI3Gbpcf29sB2lIlJVS82ah9i4FUw3RfbXeJs8jw=="
+        "requested": "[11.0.0-preview.6.26359.118, )",
+        "resolved": "11.0.0-preview.6.26359.118",
+        "contentHash": "StArv4DSO8I8QjDo1n+FzKeaq6UTNKvgkHHFaAt8ueexUWJZSEZ5/EasqwKt7413n3carQjaFzSULDI7sxwg0A=="
       },
       "YamlDotNet": {
         "type": "Direct",

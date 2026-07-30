@@ -8,6 +8,7 @@ using System.ComponentModel;
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Lib;
+using BookGen.Lib.AppSettings;
 using BookGen.Lib.Http;
 using BookGen.Vfs;
 
@@ -15,19 +16,26 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Commands.Folder;
 
-[CommandName("folder serve")]
-[Description("Starts a local only http server that serves file from the given directory.")]
+[CommandName("folder preview")]
+[Description("Starts a preview server for the specified folder.")]
 [ExitCode(ExitCodes.FolderLocked, "A serve command is running in the given folder.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class ServeCommand : AsyncCommand<BookGenArgumentBase>
+internal sealed class PreviewCommand : AsyncCommand<BookGenArgumentBase>
 {
-    private readonly ILogger _log;
     private readonly IWritableFileSystem _fs;
+    private readonly ILogger _log;
+    private readonly IProgramPathResolver _programPathResolver;
+    private readonly IAssetSource _assetSource;
 
-    public ServeCommand(ILogger log, IWritableFileSystem fs)
+    public PreviewCommand(IWritableFileSystem source,
+                          ILogger logger,
+                          IProgramPathResolver programPathResolver,
+                          IAssetSource assetSource)
     {
-        _log = log;
-        _fs = fs;
+        _fs = source;
+        _log = logger;
+        _programPathResolver = programPathResolver;
+        _assetSource = assetSource;
     }
 
     public override async Task<int> ExecuteAsync(BookGenArgumentBase arguments, IReadOnlyList<string> context, CancellationToken token)
@@ -42,20 +50,13 @@ internal sealed class ServeCommand : AsyncCommand<BookGenArgumentBase>
             return ExitCodes.FolderLocked;
         }
 
-#pragma warning disable CA2000 // Dispose objects before losing scope
-        //runner is responsible for disposing the server
-        await using (var runner = new ConsoleHttpServerRunner(HttpServerFactory.CreateServerForDirectoryHosting(arguments.Directory, _log)))
+        await using (var runner = new ConsoleHttpServerRunner(HttpServerFactory.CreateServerForPreview(_fs, _log, _programPathResolver, _assetSource)))
         {
             var serverurls = string.Join(' ', runner.Server.GetListenUrls());
-            var qrcodes = string.Join(' ', runner.Server.GetListenUrls().Select(x => $"{x}/qrcodelink"));
-
-            _log.LogInformation("Serving: {directory}", arguments.Directory);
-            _log.LogInformation("Server running on {urls}", serverurls);
-            _log.LogInformation("To get QR code for another device visit: {qrcodes}", qrcodes);
-
+            _log.LogInformation("Preview server working in: {directory}", arguments.Directory);
+            _log.LogInformation("Preview server running on {urls}", serverurls);
             await runner.RunServer();
         }
-#pragma warning restore CA2000 // Dispose objects before losing scope
 
         return ExitCodes.Success;
     }

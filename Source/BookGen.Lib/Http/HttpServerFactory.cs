@@ -6,16 +6,20 @@
 using System.Net.Mime;
 using System.Net.NetworkInformation;
 
+using BookGen.Lib.AppSettings;
+using BookGen.Vfs;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace BookGen.Lib.Http;
 
-public static class ServerFactory
+public static class HttpServerFactory
 {
     public const int HostingPort = 8081;
+    public const int PreviewPort = 8181;
 
-    private static int ChoosePort(int @default = HostingPort)
+    private static int ChoosePort(int @default)
     {
         IPGlobalProperties ipProps = IPGlobalProperties.GetIPGlobalProperties();
 
@@ -52,7 +56,7 @@ public static class ServerFactory
 
     public static IHttpServer CreateServerForDirectoryHosting(string directoryToServe, ILogger logger)
     {
-        var server = new HttpServer(ChoosePort(), logger);
+        var server = new HttpServer(ChoosePort(HostingPort), logger, localHostOnly: false);
         server.AddStaticFiles(directory: directoryToServe, requestPath: "", directoryBrowseEnabled: true);
         server.AddRoute(new ApiMetaData("/qrcodelink", MediaTypeNames.Text.Html), async context =>
         {
@@ -60,6 +64,17 @@ public static class ServerFactory
             context.Response.ContentType = MediaTypeNames.Text.Html;
             await context.Response.WriteAsync(PageFactory.GetQrCodePage(server.GetListenUrls()));
         });
+        return server;
+    }
+
+    public static IHttpServer CreateServerForPreview(IReadOnlyFileSystem source,
+                                                     ILogger logger,
+                                                     IProgramPathResolver programPathResolver,
+                                                     IAssetSource assetSource)
+    {
+        var server = new HttpServer(ChoosePort(PreviewPort), logger, localHostOnly: true);
+        var previewRoutes = new PreviewRoutes(source, logger, programPathResolver, assetSource);
+        server.AddRoutes(previewRoutes);
         return server;
     }
 }

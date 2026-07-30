@@ -60,12 +60,16 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
         RegisterPlugin(new QrCodeRenderPlugin(_renderInterop));
         RegisterPlugin(new MermaidRenderPlugin(_renderInterop));
         RegisterPlugin(new PlantUmlRenderPlugin(_renderInterop));
+        RegisterPlugin(new CsvRenderPlugin());
     }
 
     private void RegisterPlugin(SyntaxRendererPlugin plugin)
     {
-        _plugins[plugin.LanguageMoniker] = plugin;
-        _supportedLanguages.Add(plugin.LanguageMoniker);
+        foreach (var languageMoniker in plugin.LanguageMonikers.Distinct())
+        {
+            _plugins[languageMoniker] = plugin;
+            _supportedLanguages.Add(languageMoniker);
+        }
     }
 
     protected override void Write(HtmlRenderer renderer, CodeBlock obj)
@@ -93,7 +97,7 @@ internal sealed class SyntaxRenderer : HtmlObjectRenderer<CodeBlock>, IDisposabl
 
         if (_plugins.TryGetValue(languageMoniker, out SyntaxRendererPlugin? plugin))
         {
-            renderer.Write(plugin.Render(code));
+            renderer.Write(plugin.Render(code, languageMoniker));
             return;
         }
 

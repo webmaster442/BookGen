@@ -19,11 +19,7 @@ internal sealed class MicrosoftEditToolDownloader : TooldownloaderBase
                                        ILogger logger)
         : base(apiClient, memoryStreamManager, logger)
     {
-    }
-
-    protected override ToolInfo CreateToolInfo()
-    {
-        return new ToolInfo
+        ToolInfo = new ToolInfo
         {
             Name = "Microsoft Edit",
             ApproximateSize = "3.6 MiB",
@@ -32,6 +28,8 @@ internal sealed class MicrosoftEditToolDownloader : TooldownloaderBase
             FolderName = "ms-edit",
         };
     }
+
+    public override ToolInfo ToolInfo { get; }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
     {

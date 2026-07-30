@@ -9,9 +9,9 @@ namespace BookGen.Lib.Rendering.Markdown.Renderers.SyntaxRenderPlugins;
 
 internal sealed class QrCodeRenderPlugin(IRenderInterop renderInterop) : SyntaxRendererPlugin
 {
-    public override string LanguageMoniker { get; } = "qrcode";
+    public override string[] LanguageMonikers { get; } = ["qrcode"];
 
-    public override string Render(string code)
+    public override string Render(string code, string parsedLanguageMoniker)
     {
         return RendererImgage(renderInterop.RenderQrCode(code));
     }

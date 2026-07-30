@@ -19,11 +19,7 @@ internal sealed class GithubDownloader : TooldownloaderBase
                             ILogger logger)
         : base(apiClient, memoryStreamManager, logger)
     {
-    }
-
-    protected override ToolInfo CreateToolInfo()
-    {
-        return new ToolInfo
+        ToolInfo = new ToolInfo
         {
             Name = "Github CLI",
             ApproximateSize = "38 MiB",
@@ -32,6 +28,8 @@ internal sealed class GithubDownloader : TooldownloaderBase
             FolderName = "github-cli",
         };
     }
+
+    public override ToolInfo ToolInfo { get; }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
     {

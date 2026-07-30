@@ -33,5 +33,5 @@ public sealed class RenderTags
     /// <summary>
     /// Additional data that can be used in the rendering process.
     /// </summary>
-    public Dictionary<string, string> AdditionalData { get; set; } = new();
+    public Dictionary<string, string> AdditionalData { get; set; } = [];
 }

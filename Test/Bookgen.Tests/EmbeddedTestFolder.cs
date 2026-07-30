@@ -5,6 +5,8 @@
 
 using BookGen.Vfs;
 
+using Microsoft.Extensions.Logging;
+
 namespace Bookgen.Tests;
 
 internal class EmbeddedTestFileSystem : IReadOnlyFileSystem
@@ -20,6 +22,11 @@ internal class EmbeddedTestFileSystem : IReadOnlyFileSystem
     }
 
     public string Scope { get; set; }
+
+    public IFileSystemObserver CreateObserver(ILogger logger, string filter = "*.*")
+    {
+        throw new NotImplementedException();
+    }
 
     public bool DirectoryExists(string path)
     {

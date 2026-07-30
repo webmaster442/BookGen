@@ -198,6 +198,9 @@ Markdown files are the main input format for BookGen. BookGen supports the follo
 * YAML front matter for metadata
 * Table of contents via the `[toc]` or `[toc maxlevel=n]` tag, where n is the level of headdings to include
 * Keyboard input via the `<<` and `>>` tags, which will render the text between them as keyboard input.
+* Comma separated values tables via the `table-csv` language identifier for source code. It only works for comma separated values.
+* Tab separated values tables via the `table-tsv` language identifier for source code. It only works for tab separated values.
+* Semicolon separated values tables via the `table-ssv` language identifier for source code. It only works for semicolon separated values.
 
 ### YAML Front matter
 

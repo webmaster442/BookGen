@@ -3,10 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Diagnostics.CodeAnalysis;
-
-using Microsoft.AspNetCore.StaticFiles;
-
 namespace BookGen.Lib.Http;
 
 /// <summary>

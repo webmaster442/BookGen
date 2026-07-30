@@ -140,7 +140,7 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
         if (_currentArgs == null)
             return ExitCodes.GeneralError;
 
-        int result = await Run("build web", "-o", "Output/Test", "-h", $"http://localhost:{ServerFactory.HostingPort}/");
+        int result = await Run("build web", "-o", "Output/Test", "-h", $"http://localhost:{HttpServerFactory.HostingPort}/");
 
         if (result == ExitCodes.Success)
         {

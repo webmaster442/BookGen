@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Microsoft.Extensions.Logging;
+
 namespace BookGen.Vfs;
 
 public interface IReadOnlyFileSystem
@@ -18,4 +20,5 @@ public interface IReadOnlyFileSystem
     bool DirectoryExists(string path);
     IEnumerable<string> GetFiles(string path, string filter, bool recursive);
     IEnumerable<string> GetDirectories(string path, bool recursive);
+    IFileSystemObserver CreateObserver(ILogger logger, string filter = "*.*");
 }

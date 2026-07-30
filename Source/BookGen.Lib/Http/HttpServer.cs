@@ -10,27 +10,40 @@ using System.Net.Sockets;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+
+using BookGen.Lib;
 
 namespace BookGen.Lib.Http;
 
 internal sealed class HttpServer : IHttpServer
 {
     private readonly WebApplication _app;
+    private readonly bool _localhostOnly;
+    private readonly DisposableTracker _disposableTracker;
 
     public int Port { get; }
 
-    public HttpServer(int port, ILogger logger)
+    public HttpServer(int port, ILogger logger, bool localHostOnly)
     {
         WebApplicationBuilder builder = WebApplication.CreateBuilder();
         builder.Logging.ClearProviders();
 #pragma warning disable CA2000 // Dispose objects before losing scope
         builder.Logging.AddProvider(new LoggerProvider(logger));
 #pragma warning restore CA2000 // Dispose objects before losing scope
-        builder.WebHost.ConfigureKestrel((context, serverOptions) => serverOptions.ListenAnyIP(port));
+
+        if (localHostOnly)
+        {
+            builder.WebHost.ConfigureKestrel((context, serverOptions) => serverOptions.ListenLocalhost(port));
+        }
+        else
+        {
+            builder.WebHost.ConfigureKestrel((context, serverOptions) => serverOptions.ListenAnyIP(port));
+        }
+        _localhostOnly = localHostOnly;
+        _disposableTracker = new DisposableTracker();
         _app = builder.Build();
         Port = port;
 
@@ -60,6 +73,12 @@ internal sealed class HttpServer : IHttpServer
                 await context.Response.WriteAsync(content);
             });
         });
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        _disposableTracker.Dispose();
+        return _app.DisposeAsync();
     }
 
     public void AddStaticFiles(string directory, string requestPath, bool directoryBrowseEnabled)
@@ -123,7 +142,7 @@ internal sealed class HttpServer : IHttpServer
         }
     }
 
-    public void AddRoutes(IReadOnlyDictionary<ApiMetaData, RequestDelegate> routes)
+    public void AddRoutes(IEnumerable<KeyValuePair<ApiMetaData, RequestDelegate>> routes)
     {
         foreach (KeyValuePair<ApiMetaData, RequestDelegate> route in routes)
         {
@@ -131,8 +150,26 @@ internal sealed class HttpServer : IHttpServer
         }
     }
 
+    public void AddRoutes(IRouteProvider provider)
+    {
+        if (provider is IDisposable disposable)
+        {
+            _disposableTracker.Track(disposable);
+        }
+        foreach ((ApiMetaData metaData, RequestDelegate handler) in provider.Routes)
+        {
+            AddRoute(metaData, handler);
+        }
+    }
+
     public IEnumerable<string> GetListenUrls()
     {
+        if (_localhostOnly)
+        {
+            yield return $"http://localhost:{Port}";
+            yield break;
+        }
+
         foreach ((IPAddress? adress, IPAddress _) in GetIpAdresses())
         {
             yield return $"http://{adress}:{Port}";
@@ -161,7 +198,4 @@ internal sealed class HttpServer : IHttpServer
 
     public async Task StopAsync()
         => await _app.StopAsync();
-
-    public ValueTask DisposeAsync()
-        => _app.DisposeAsync();
 }

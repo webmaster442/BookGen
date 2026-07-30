@@ -25,12 +25,9 @@ internal abstract class TooldownloaderBase
         _apiClient = apiClient;
         _memoryStreamManager = memoryStreamManager;
         _log = log;
-        ToolInfo = CreateToolInfo();
     }
 
-    protected abstract ToolInfo CreateToolInfo();
-
-    public ToolInfo ToolInfo { get; }
+    public abstract ToolInfo ToolInfo { get; }
 
     protected abstract ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets);
 

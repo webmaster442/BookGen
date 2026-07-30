@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Microsoft.Extensions.Logging;
+
 namespace BookGen.Vfs;
 
 public sealed class MultiReadScopeFileSystem : IReadOnlyFileSystem
@@ -118,5 +120,16 @@ public sealed class MultiReadScopeFileSystem : IReadOnlyFileSystem
     {
         var actualPath = Resolve(path);
         return await File.ReadAllTextAsync(actualPath);
+    }
+
+    public IFileSystemObserver CreateObserver(ILogger logger, string filter = "*.*")
+    {
+        if (_scopes.Count < 1)
+            throw new InvalidOperationException("Scope must be defined to create a file system observer.");
+
+        if (_scopes.Count > 1)
+            throw new InvalidOperationException("MultiReadScopeFileSystem does not support file system observers with multiple scopes.");
+
+        return new FileSystemObserver(logger, Path.GetFullPath(_scopes.First()), filter);
     }
 }

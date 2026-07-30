@@ -9,9 +9,9 @@ namespace BookGen.Lib.Rendering.Markdown.Renderers.SyntaxRenderPlugins;
 
 internal sealed class LatexRenderPlugin(IRenderInterop renderInterop) : SyntaxRendererPlugin
 {
-    public override string LanguageMoniker { get; } = "latex";
+    public override string[] LanguageMonikers { get; } = ["latex"];
 
-    public override string Render(string code)
+    public override string Render(string code, string parsedLanguageMoniker)
     {
         return RendererImgage(renderInterop.RenderLatex(code));
     }

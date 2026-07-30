@@ -19,11 +19,7 @@ internal sealed class PandocTooldownloader : TooldownloaderBase
                                 ILogger logger)
         : base(apiClient, memoryStreamManager, logger)
     {
-    }
-
-    protected override ToolInfo CreateToolInfo()
-    {
-        return new ToolInfo
+        ToolInfo = new ToolInfo
         {
             Name = "Pandoc",
             ApproximateSize = "217 MiB",
@@ -32,6 +28,8 @@ internal sealed class PandocTooldownloader : TooldownloaderBase
             FolderName = "pandoc",
         };
     }
+
+    public override ToolInfo ToolInfo { get; }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
     {

@@ -5,6 +5,8 @@
 
 using System.Diagnostics;
 
+using Microsoft.Extensions.Logging;
+
 namespace BookGen.Vfs;
 
 [DebuggerDisplay("{Scope}")]
@@ -102,5 +104,12 @@ public class ReadOnlyFileSystem : IReadOnlyFileSystem
     {
         var actualPath = GetAndValidateFullNameInScope(path);
         return await File.ReadAllTextAsync(actualPath);
+    }
+
+    public IFileSystemObserver CreateObserver(ILogger logger, string filter = "*.*")
+    {
+        return string.IsNullOrEmpty(Scope)
+            ? throw new InvalidOperationException("Scope must be defined to create a file system observer.")
+            : (IFileSystemObserver)new FileSystemObserver(logger, Path.GetFullPath(Scope), filter);
     }
 }

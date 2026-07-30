@@ -18,9 +18,9 @@ internal sealed class TerminalRenderPlugin : SyntaxRendererPlugin
         </div>
         """;
 
-    public override string LanguageMoniker { get; } = "terminal";
+    public override string[] LanguageMonikers { get; } = ["terminal"];
 
-    public override string Render(string code)
+    public override string Render(string code, string parsedLanguageMoniker)
     {
         const string codeTag = "<!--{Code}-->";
         return TerminalHtml.Replace(codeTag, TerminalRenderer.RenderAnsiCode(HttpUtility.HtmlEncode(code)));
