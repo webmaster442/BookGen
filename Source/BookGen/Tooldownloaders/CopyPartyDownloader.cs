@@ -19,22 +19,17 @@ internal sealed class CopyPartyDownloader : TooldownloaderBase
                               ILogger logger)
         : base(apiClient, memoryStreamManager, logger)
     {
+        ToolInfo = new ToolInfo
+        {
+            Name = "Copyparty.exe",
+            ApproximateSize = "13 MiB",
+            RepoOwner = "9001",
+            RepoName = "copyparty",
+            FolderName = "copyparty",
+        };
     }
 
-    public override ToolInfo ToolInfo
-    {
-        get
-        {
-            return new ToolInfo
-            {
-                Name = "Copyparty.exe",
-                ApproximateSize = "13 MiB",
-                RepoOwner = "9001",
-                RepoName = "copyparty",
-                FolderName = "copyparty",
-            };
-        }
-    }
+    public override ToolInfo ToolInfo { get; }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
     {

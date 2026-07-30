@@ -19,22 +19,17 @@ internal sealed class GlowDownloader : TooldownloaderBase
                           ILogger log)
         : base(apiClient, memoryStreamManager, log)
     {
+        ToolInfo = new ToolInfo
+        {
+            Name = "Glow",
+            ApproximateSize = "18 MiB",
+            RepoOwner = "charmbracelet",
+            RepoName = "glow",
+            FolderName = "glow",
+        };
     }
 
-    public override ToolInfo ToolInfo
-    {
-        get
-        {
-            return new ToolInfo
-            {
-                Name = "Glow",
-                ApproximateSize = "18 MiB",
-                RepoOwner = "charmbracelet",
-                RepoName = "glow",
-                FolderName = "glow",
-            };
-        }
-    }
+    public override ToolInfo ToolInfo { get; }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
     {

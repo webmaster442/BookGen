@@ -19,22 +19,17 @@ internal sealed class PandocTooldownloader : TooldownloaderBase
                                 ILogger logger)
         : base(apiClient, memoryStreamManager, logger)
     {
+        ToolInfo = new ToolInfo
+        {
+            Name = "Pandoc",
+            ApproximateSize = "217 MiB",
+            RepoOwner = "jgm",
+            RepoName = "pandoc",
+            FolderName = "pandoc",
+        };
     }
 
-    public override ToolInfo ToolInfo
-    {
-        get
-        {
-            return new ToolInfo
-            {
-                Name = "Pandoc",
-                ApproximateSize = "217 MiB",
-                RepoOwner = "jgm",
-                RepoName = "pandoc",
-                FolderName = "pandoc",
-            };
-        }
-    }
+    public override ToolInfo ToolInfo { get; }
 
     protected override ReleaseAsset? GetReleaseAsset(IEnumerable<ReleaseAsset> releaseAssets)
     {

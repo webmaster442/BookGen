@@ -19,22 +19,17 @@ internal sealed class ChromaDownloader : TooldownloaderBase
                             ILogger logger)
         : base(apiClient, memoryStreamManager, logger)
     {
+        ToolInfo = new ToolInfo
+        {
+            Name = "Chroma",
+            ApproximateSize = "8 MiB",
+            RepoOwner = "alecthomas",
+            RepoName = "chroma",
+            FolderName = "chroma",
+        };
     }
 
-    public override ToolInfo ToolInfo
-    {
-        get
-        {
-            return new ToolInfo
-            {
-                Name = "Chroma",
-                ApproximateSize = "8 MiB",
-                RepoOwner = "alecthomas",
-                RepoName = "chroma",
-                FolderName = "chroma",
-            };
-        }
-    }
+    public override ToolInfo ToolInfo { get; }
 
     protected override Task Extract(IDownloadUi ui, Stream stream)
         => Extractor.ExtractTarGz(ui, stream, ToolInfo.FolderName);
