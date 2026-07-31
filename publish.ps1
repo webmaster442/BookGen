@@ -1,3 +1,11 @@
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+
+# PowerShell 7+ only: treat non-zero native exit codes as terminating errors
+if ($PSVersionTable.PSVersion.Major -ge 7) {
+    $PSNativeCommandUseErrorActionPreference = $true
+}
+
 function New-Folders {
     if (Test-Path "bin\publish\windows") {
         Remove-Item "bin\publish\windows*" -Recurse -Force
@@ -22,14 +30,12 @@ function Invoke-Publish {
 
     # publish windows & linux
     if ($SelfContained) {
-        dotnet publish -c release -o "bin\publish\windows\bin" --self-contained true -r win-x64 -p PublishReadyToRun BookGen.Build.slnx
-        dotnet publish -c release -o "bin\publish\linux\bin" --self-contained true -r linux-x64 -p PublishReadyToRun BookGen.Build.slnx
-        cp "bin\Release\plugins\BookGen.SamplePlugin.plugin" "bin\publish\windows\bin\plugins\BookGen.SamplePlugin.plugin"
+        dotnet publish -c release -o "bin\publish\windows\bin" --self-contained true -r win-x64 BookGen.Build.slnx
+        dotnet publish -c release -o "bin\publish\linux\bin" --self-contained true -r linux-x64 BookGen.Build.slnx
     }
     else {
-        dotnet publish -c release -o "bin\publish\windows\bin" -r win-x64 -p PublishReadyToRun BookGen.Build.slnx
-        dotnet publish -c release -o "bin\publish\linux\bin" -r linux-x64 -p PublishReadyToRun BookGen.Build.slnx
-        cp "bin\Release\plugins\BookGen.SamplePlugin.plugin" "bin\publish\linux\bin\plugins\BookGen.SamplePlugin.plugin"
+        dotnet publish -c release -o "bin\publish\windows\bin" -r win-x64 BookGen.Build.slnx
+        dotnet publish -c release -o "bin\publish\linux\bin" -r linux-x64 BookGen.Build.slnx
     }
 
     # copy installer scripts
@@ -39,6 +45,10 @@ function Invoke-Publish {
     # copy assets
     Copy-Item "bin\Release\assets.zip" "bin\publish\windows\bin\assets.zip"
     Copy-Item "bin\Release\assets.zip" "bin\publish\linux\bin\assets.zip"
+
+    # Copy sample plugin
+    Copy-Item "bin\Release\plugins\BookGen.SamplePlugin.plugin" "bin\publish\windows\bin\plugins\BookGen.SamplePlugin.plugin"
+    Copy-Item "bin\Release\plugins\BookGen.SamplePlugin.plugin" "bin\publish\linux\bin\plugins\BookGen.SamplePlugin.plugin"
 
     # write version.txt
     .\bin\publish\windows\bin\BookGen.exe version > .\bin\publish\windows\version.txt
@@ -58,13 +68,13 @@ function Invoke-Publish {
 
     # zip
     if ($SelfContained) {
-        Compress-Archive -Path "bin\publish\windows\*" -DestinationPath "bin\publish\$WindowsArchiveName" -Force
-        Clear-Host
+        Compress-Archive -Path "bin\publish\windows\*" -DestinationPath "bin\publish\$WindowsArchiveName" -Force -ErrorAction Stop -Verbose
+        #Clear-Host
         tar -czvf "bin\publish\$LinuxArchiveName" -C "bin\publish\linux" .
     }
     else {
-        Compress-Archive -Path "bin\publish\windows\*" -DestinationPath "bin\publish\$WindowsArchiveName" -Force
-        Clear-Host
+        Compress-Archive -Path "bin\publish\windows\*" -DestinationPath "bin\publish\$WindowsArchiveName" -Force -ErrorAction Stop -Verbose
+        #Clear-Host
         tar -czvf "bin\publish\$LinuxArchiveName" -C "bin\publish\linux" .
     }
 }
@@ -73,7 +83,7 @@ Clear-Host
 
 New-Folders
 
-cp BookGen.slnx BookGen.Build.slnx
+Copy-Item BookGen.slnx BookGen.Build.slnx
 dotnet sln .\BookGen.Build.slnx remove .\Source\BookGen.SamplePlugin\
 
 # Framework-dependent build and archives
@@ -84,4 +94,4 @@ Invoke-Publish -SelfContained $true -WindowsArchiveName "BookGen-windows-selefco
  
 .\PublishFiles\mkisofs.exe -V BookGen -o .\bin\publish\bookgen-windows.iso -udf .\bin\publish\windows
 
-rm BookGen.Build.slnx
+Remove-Item BookGen.Build.slnx

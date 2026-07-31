@@ -3,7 +3,7 @@ title: Changelog
 tags: ''
 ---
 
-# 2026. 07
+# 2026. 07. 31 (Prerelease)
 
 * Breaking: Removed assemblydocument command, since xmldoc2markdown provides better functionality
 * Breaking: Removed edit command
