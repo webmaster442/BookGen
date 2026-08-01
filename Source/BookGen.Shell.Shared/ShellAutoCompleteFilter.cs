@@ -7,7 +7,7 @@ namespace BookGen.Shell.Shared;
 
 public static class ShellAutoCompleteFilter
 {
-    public static IEnumerable<string> DoFilter(IReadOnlyList<string> candidates, string input, int cursorposition)
+    public static IEnumerable<string> DoFilter(IReadOnlyList<string> candidates, string input, int cursorposition, StringComparison comparison = StringComparison.Ordinal)
     {
         if (candidates.Count < 1
             || string.IsNullOrEmpty(input)
@@ -21,7 +21,7 @@ public static class ShellAutoCompleteFilter
         int prefixLength = cursorposition >= prefix.Length ? prefix.Length - 1 : cursorposition;
 
         IEnumerable<string> filteredCommands = candidates
-            .Where(cmd => cmd.StartsWith(prefix));
+            .Where(cmd => cmd.StartsWith(prefix, comparison));
 
         foreach (var filtered in filteredCommands)
         {

@@ -14,7 +14,7 @@ public class UT_ShellAutoCompleteFilter
     public void EnsureThat_ShellAutoCompleteFilter_DoFilter_ReturnsGood()
     {
         IEnumerable<string> results = ShellAutoCompleteFilter.DoFilter(["git add", "git add ."], "git a", 5);
-        Assert.That(results, Is.EqualTo(new[] { "add", "add ." }).AsCollection);
+        Assert.That(results, Is.EqualTo(["add", "add ."]).AsCollection);
     }
 
     [TestCase("git me", 6, "merge master")]

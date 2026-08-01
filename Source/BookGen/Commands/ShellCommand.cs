@@ -3,10 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Buffers;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Shell.Shared;
 
 using Spectre.Console;
 
@@ -17,66 +20,72 @@ namespace BookGen.Commands;
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
 internal sealed class ShellCommand : Command
 {
-    private readonly ICommandRunnerProxy _commandNameProider;
+    private readonly ICommandRunnerProxy _commandRunner;
 
     private const string ProgramName = "BookGen";
+    private readonly string[] _commandNames;
+    private readonly StringComparison _comparison;
 
-    public ShellCommand(ICommandRunnerProxy commandNameProvider)
+    public ShellCommand(ICommandRunnerProxy runnerProxy)
     {
-        _commandNameProider = commandNameProvider;
+        _commandRunner = runnerProxy;
+        _commandNames = runnerProxy.CommandNames.Select(x => $"{ProgramName} {x}").ToArray();
+        _comparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+    }
+
+    internal bool TryGetCommandName(string input, [NotNullWhen(true)] out string? commandName)
+    {
+        commandName = null;
+
+        if (string.IsNullOrWhiteSpace(input))
+            return false;
+
+        foreach (string candidate in _commandNames.OrderByDescending(x => x.Length))
+        {
+            if (input.Equals(candidate, _comparison)
+                || input.StartsWith(candidate + " ", _comparison ))
+            {
+                commandName = candidate.Substring(ProgramName.Length).Trim();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public override int Execute(IReadOnlyList<string> context)
     {
-        foreach (string? item in DoComplete(context))
+        if (context.Count == 2
+            && int.TryParse(context[0], out int index)
+            && !string.IsNullOrEmpty(context[1]))
         {
-            AnsiConsole.WriteLine(item);
-        }
-        return ExitCodes.Success;
-    }
+            IEnumerable<string> candidates = ShellAutoCompleteFilter.DoFilter(_commandNames, context[1], index, _comparison);
 
-    internal IEnumerable<string> DoComplete(IReadOnlyList<string> args)
-    {
-        if (args.Count == 0)
-            return _commandNameProider.CommandNames;
-
-        string request = args[0] ?? "";
-
-        if (request.StartsWith(ProgramName, StringComparison.OrdinalIgnoreCase))
-        {
-            request = request[ProgramName.Length..];
-        }
-        string[] words = request.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-        if (words.Length > 0)
-        {
-            var commands = _commandNameProider
-                .CommandNames
-                .Where(cmd => cmd.StartsWith(words[0], StringComparison.OrdinalIgnoreCase))
-                .ToArray();
-
-            if (commands.Length > 1)
+            if (!candidates.Any() 
+                && TryGetCommandName(context[1], out string? commandName))
             {
-                return commands;
+                candidates = _commandRunner.GetAutoCompleteItems(commandName);
             }
-            else if (!string.IsNullOrEmpty(commands[0]))
+
+            //var json = System.Text.Json.JsonSerializer.Serialize(new
+            //{
+            //    i = index,
+            //    commandName = commandName ?? "no command name",
+            //    context = context,
+            //    candidates = candidates.ToArray(),
+            //},
+            //new System.Text.Json.JsonSerializerOptions
+            //{
+            //    WriteIndented = true,
+            //});
+            //File.WriteAllText($"complete-{DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.json", json);
+
+            foreach (var candidate in candidates)
             {
-                if (!string.Equals(words[0], commands[0], StringComparison.OrdinalIgnoreCase))
-                    return commands;
-
-                string[] items = _commandNameProider.GetAutoCompleteItems(commands[0]);
-
-                if (words.Length <= 1)
-                    return items;
-
-                IEnumerable<string> candidate = items.Where(arg => arg.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
-
-                return candidate.Any()
-                    ? candidate
-                    : _commandNameProider.GlobalOptions.Where(c => c.StartsWith(words.Last(), StringComparison.OrdinalIgnoreCase));
+                AnsiConsole.WriteLine(candidate);
             }
         }
 
-        return new string[] { ProgramName };
+        return 0;
     }
 }

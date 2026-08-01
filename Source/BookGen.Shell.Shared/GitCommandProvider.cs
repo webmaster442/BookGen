@@ -39,6 +39,8 @@ public static class GitCommandProvider
         yield return "git commit -m ";
         yield return "git commit";
         yield return "git fetch";
+        yield return "git stash";
+        yield return "git stash apply";
         yield return "git gc";
         yield return "git init";
         yield return "git lfs ext list";

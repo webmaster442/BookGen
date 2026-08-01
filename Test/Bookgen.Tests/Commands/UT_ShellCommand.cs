@@ -3,17 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using BookGen;
 using BookGen.Cli;
 using BookGen.Commands;
 
 using Moq;
+
+using Spectre.Console;
 
 namespace Bookgen.Tests.Commands;
 
@@ -28,7 +24,42 @@ internal class UT_ShellCommand : CommandTestBase<ShellCommand>
 
     protected override void SetupMocks()
     {
-        CommandRunnerProxyMock.Setup(x => x.CommandNames).Returns(new string[] { "validate", "shell", "gui", "addfrontmatter", "check" });
+        CommandRunnerProxyMock.Setup(x => x.CommandNames).Returns(
+        [
+            "BookGen book", 
+            "BookGen book validate",
+            "BookGen shell", 
+            "BookGen gui",
+            "BookGen folder addfrontmatter",
+            "BookGen convert",
+            "BookGen convert diagram2svg",
+            "BookGen convert html2openxml",
+            "BookGen convert html2pdf",
+            "BookGen convert html2png",
+            "BookGen convert images",
+            "BookGen convert math2svg",
+            "BookGen convert md2html",
+            "BookGen convert md2terminal",
+            "BookGen convert qrcode",
+            "BookGen check"
+        ]);
+    }
+
+    [TestCase("BookGen convert md", 0, "BookGen convert md2html")]
+    [TestCase("BookGen b", 0, "BookGen book")]
+    [TestCase("BookGen book", 0, "BookGen book validate")]
+    [TestCase("BookGen convert m", 0, "BookGen convert md2html")]
+    public async Task EnsureThat_Autocomplete_ReturnsExpected(string input, int index, string expected)
+    {
+        AnsiConsole.Record();
+        var result = await Command.ExecuteAsync(ArgumentsBase.Empty, [index.ToString(), input], CancellationToken.None);
+        string output= AnsiConsole.ExportText();
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result, Is.EqualTo(0));
+            Assert.That(output, Does.Contain(expected));
+        }
     }
 
     [Test]
