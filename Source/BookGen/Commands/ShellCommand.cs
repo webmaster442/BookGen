@@ -45,7 +45,7 @@ internal sealed class ShellCommand : Command
             if (input.Equals(candidate, _comparison)
                 || input.StartsWith(candidate + " ", _comparison ))
             {
-                commandName = candidate.Substring(ProgramName.Length).Trim();
+                commandName = candidate[ProgramName.Length..].Trim();
                 return true;
             }
         }

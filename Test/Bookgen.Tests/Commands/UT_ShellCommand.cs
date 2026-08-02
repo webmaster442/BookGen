@@ -3,11 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen;
 using BookGen.Cli;
 using BookGen.Commands;
-
-using Moq;
 
 using Spectre.Console;
 
@@ -57,7 +54,7 @@ internal class UT_ShellCommand : CommandTestBase<ShellCommand>
 
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(result, Is.EqualTo(0));
+            Assert.That(result, Is.Zero);
             Assert.That(output, Does.Contain(expected));
         }
     }
@@ -65,8 +62,14 @@ internal class UT_ShellCommand : CommandTestBase<ShellCommand>
     [Test]
     public async Task Test_Execute_NoArgs()
     {
+        AnsiConsole.Record();
         var result = await Command.ExecuteAsync(ArgumentsBase.Empty, ["c"], CancellationToken.None);
-        Assert.That(result, Is.EqualTo(ExitCodes.Success));
-        CommandRunnerProxyMock.Verify(x => x.CommandNames, Times.Once);
+        string output = AnsiConsole.ExportText();
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result, Is.Zero);
+            Assert.That(output, Is.Empty);
+        }
     }
 }
