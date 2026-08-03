@@ -79,7 +79,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
             Cli.ValidationResult result = new();
 
             if (!string.IsNullOrEmpty(Template)
-                && context.IsValidTemplateFile(Template))
+                && !context.IsValidTemplateFile(Template))
             {
                 result.AddIssue($"Template file: {Template} doesn't exist");
             }
