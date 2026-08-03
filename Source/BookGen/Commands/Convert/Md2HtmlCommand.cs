@@ -130,7 +130,9 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
             return ListTemplatesAndExit();
         }
 
-        IEnumerable<string?> inputFolders = arguments.InputFiles.Select(i => Path.GetDirectoryName(i));
+        IEnumerable<string?> inputFolders = arguments.InputFiles
+            .Select(i => Path.GetDirectoryName(Path.GetFullPath(i)))
+            .Append(Environment.CurrentDirectory);
 
         IReadOnlyFileSystem inputFilesScope = _fileSystemFactory.CreateMultiReadScopeFileSystem(inputFolders!);
 
