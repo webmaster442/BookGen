@@ -29,7 +29,7 @@ internal sealed class ShellCommand : Command
     public ShellCommand(ICommandRunnerProxy runnerProxy)
     {
         _commandRunner = runnerProxy;
-        _commandNames = runnerProxy.CommandNames.Select(x => $"{ProgramName} {x}").ToArray();
+        _commandNames = runnerProxy.CommandNames.Select(x => $"{ProgramName} {x}").Order().ToArray();
         _comparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
     }
 
@@ -59,18 +59,18 @@ internal sealed class ShellCommand : Command
             && int.TryParse(context[0], out int index)
             && !string.IsNullOrEmpty(context[1]))
         {
-            IEnumerable<string> candidates = ShellAutoCompleteFilter.DoFilter(_commandNames, context[1], index, _comparison);
+            IEnumerable<string> candidates = ShellAutoCompleteFilter.FilterCommandNames(_commandNames, context[1], index, _comparison);
 
-            if (!candidates.Any() 
+            if (!candidates.Any()
                 && TryGetCommandName(context[1], out string? commandName))
             {
-                candidates = _commandRunner.GetAutoCompleteItems(commandName);
+                IOrderedEnumerable<string> items = _commandRunner.GetAutoCompleteItems(commandName).Order();
+                candidates = ShellAutoCompleteFilter.FilterSwitchesAndArgs(items, context[1], index, _comparison);
             }
 
             //var json = System.Text.Json.JsonSerializer.Serialize(new
             //{
             //    i = index,
-            //    commandName = commandName ?? "no command name",
             //    context = context,
             //    candidates = candidates.ToArray(),
             //},
@@ -82,7 +82,11 @@ internal sealed class ShellCommand : Command
 
             foreach (var candidate in candidates)
             {
-                AnsiConsole.WriteLine(candidate);
+#pragma warning disable Spectre1000
+                // Tests use console redirect to capture output, so
+                // we need to use Console.WriteLine here instead of AnsiConsole.WriteLine
+                Console.WriteLine(candidate);
+#pragma warning restore Spectre1000
             }
         }
 

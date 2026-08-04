@@ -7,7 +7,10 @@ namespace BookGen.Shell.Shared;
 
 public static class ShellAutoCompleteFilter
 {
-    public static IEnumerable<string> DoFilter(IReadOnlyList<string> candidates, string input, int cursorposition, StringComparison comparison = StringComparison.Ordinal)
+    public static IEnumerable<string> FilterCommandNames(IReadOnlyList<string> candidates,
+                                                         string input,
+                                                         int cursorposition,
+                                                         StringComparison comparison = StringComparison.Ordinal)
     {
         if (candidates.Count < 1
             || string.IsNullOrEmpty(input)
@@ -27,6 +30,27 @@ public static class ShellAutoCompleteFilter
         {
             (int start, int _) = GetWordPositions(filtered).FirstOrDefault(p => cursorposition >= p.start && cursorposition <= p.end);
             yield return filtered[start..];
+        }
+    }
+
+    public static IEnumerable<string> FilterSwitchesAndArgs(IEnumerable<string> candidates,
+                                                            string input,
+                                                            int cursorposition,
+                                                            StringComparison comparison)
+    {
+        string currentWord = cursorposition > 0 && cursorposition <= input.Length
+            ? input[..cursorposition].Split(' ').LastOrDefault() ?? string.Empty
+            : string.Empty;
+
+        if (string.IsNullOrEmpty(currentWord))
+            yield break;
+
+        foreach (var candidate in candidates)
+        {
+            if (!input.Contains(candidate, comparison))
+            {
+                yield return candidate;
+            }
         }
     }
 

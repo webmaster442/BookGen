@@ -101,6 +101,14 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
 
             return result;
         }
+
+        public override void ModifyAfterValidation()
+        {
+            if (Directory.Exists(OutputFile))
+            {
+                OutputFile = Path.Combine(OutputFile, Path.ChangeExtension(Path.GetFileNameWithoutExtension(InputFiles[0]), ".html"));
+            }
+        }
     }
 
     private readonly ILogger _log;

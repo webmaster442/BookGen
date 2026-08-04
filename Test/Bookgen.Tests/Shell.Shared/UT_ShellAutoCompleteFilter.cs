@@ -13,7 +13,7 @@ public class UT_ShellAutoCompleteFilter
     [Test]
     public void EnsureThat_ShellAutoCompleteFilter_DoFilter_ReturnsGood()
     {
-        IEnumerable<string> results = ShellAutoCompleteFilter.DoFilter(["git add", "git add ."], "git a", 5);
+        IEnumerable<string> results = ShellAutoCompleteFilter.FilterCommandNames(["git add", "git add ."], "git a", 5);
         Assert.That(results, Is.EqualTo(["add", "add ."]).AsCollection);
     }
 
@@ -25,7 +25,7 @@ public class UT_ShellAutoCompleteFilter
         [
             "git merge master",
         ];
-        IEnumerable<string> results = ShellAutoCompleteFilter.DoFilter(data, input, position);
+        IEnumerable<string> results = ShellAutoCompleteFilter.FilterCommandNames(data, input, position);
         Assert.That(results, Is.EqualTo(new[] { expected }).AsCollection);
     }
 

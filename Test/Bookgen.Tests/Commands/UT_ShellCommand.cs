@@ -23,53 +23,63 @@ internal class UT_ShellCommand : CommandTestBase<ShellCommand>
     {
         CommandRunnerProxyMock.Setup(x => x.CommandNames).Returns(
         [
-            "BookGen book", 
-            "BookGen book validate",
-            "BookGen shell", 
-            "BookGen gui",
-            "BookGen folder addfrontmatter",
-            "BookGen convert",
-            "BookGen convert diagram2svg",
-            "BookGen convert html2openxml",
-            "BookGen convert html2pdf",
-            "BookGen convert html2png",
-            "BookGen convert images",
-            "BookGen convert math2svg",
-            "BookGen convert md2html",
-            "BookGen convert md2terminal",
-            "BookGen convert qrcode",
-            "BookGen check"
+            "book", 
+            "book validate",
+            "shell", 
+            "gui",
+            "folder addfrontmatter",
+            "convert",
+            "convert diagram2svg",
+            "convert html2openxml",
+            "convert html2pdf",
+            "convert html2png",
+            "convert images",
+            "convert math2svg",
+            "convert md2html",
+            "convert md2terminal",
+            "convert qrcode",
+            "check"
+        ]);
+        CommandRunnerProxyMock.Setup(x => x.GetAutoCompleteItems("convert md2html")).Returns(
+        [
+            "-i",
+            "-o",
+            "--input",
+            "--output"
         ]);
     }
 
-    [TestCase("BookGen convert md", 0, "BookGen convert md2html")]
-    [TestCase("BookGen b", 0, "BookGen book")]
-    [TestCase("BookGen book", 0, "BookGen book validate")]
-    [TestCase("BookGen convert m", 0, "BookGen convert md2html")]
+    [TestCase("BookGen convert md", 17, "md2html")]
+    [TestCase("BookGen b", 8, "book")]
+    [TestCase("BookGen book", 11, "book validate")]
+    [TestCase("BookGen convert m", 16, "md2html")]
+    [TestCase("BookGen convert md2html -i", 27, "")]
     public async Task EnsureThat_Autocomplete_ReturnsExpected(string input, int index, string expected)
     {
-        AnsiConsole.Record();
+        using var writer = new StringWriter();
+        Console.SetOut(writer);
+
         var result = await Command.ExecuteAsync(ArgumentsBase.Empty, [index.ToString(), input], CancellationToken.None);
-        string output= AnsiConsole.ExportText();
 
         using (Assert.EnterMultipleScope())
         {
             Assert.That(result, Is.Zero);
-            Assert.That(output, Does.Contain(expected));
+            Assert.That(writer.ToString(), Does.Contain(expected));
         }
     }
 
     [Test]
     public async Task Test_Execute_NoArgs()
     {
-        AnsiConsole.Record();
+        using var writer = new StringWriter();
+        Console.SetOut(writer);
+
         var result = await Command.ExecuteAsync(ArgumentsBase.Empty, ["c"], CancellationToken.None);
-        string output = AnsiConsole.ExportText();
 
         using (Assert.EnterMultipleScope())
         {
             Assert.That(result, Is.Zero);
-            Assert.That(output, Is.Empty);
+            Assert.That(writer.ToString(), Is.Empty);
         }
     }
 }

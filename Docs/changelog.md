@@ -3,6 +3,13 @@ title: Changelog
 tags: ''
 ---
 
+# 2026. 08.
+
+* New: Md2html command output file now can be a folder. If a folder is specified, the output file name is generated from the input file name. 
+* Fix: Shell atuocomplete now correctly handles command tree
+* Fix: Fixed md2html external template file validation
+* Fix: Fixed md2html input file scoping
+
 # 2026. 07. 31 (Prerelease)
 
 * Breaking: Removed assemblydocument command, since xmldoc2markdown provides better functionality
