@@ -14,7 +14,6 @@ using BookGen.Infrastructure.Loging;
 using BookGen.Infrastructure.Plugins;
 using BookGen.Infrastructure.Plugins.V1;
 using BookGen.Lib;
-using BookGen.Lib.AppSettings;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Caching.Memory;

@@ -6,10 +6,29 @@ public sealed class DotEnvSettings
 {
     private readonly Dictionary<string, string> _keyValues;
 
-    internal DotEnvSettings(Dictionary<string, string> keyValues)
+    public DotEnvSettings(Dictionary<string, string> keyValues)
     {
         _keyValues = keyValues;
     }
+
+    public DotEnvSettings()
+    {
+        _keyValues = new Dictionary<string, string>();
+    }
+
+    public void AddRange(IEnumerable<KeyValuePair<string, string>> keyValues)
+    {
+        foreach (var kvp in keyValues)
+        {
+            _keyValues[kvp.Key] = kvp.Value;
+        }
+    }
+
+    public void Add(string key, string value)
+        => _keyValues.Add(key, value);
+
+    public void Clear()
+        => _keyValues.Clear();
 
     public IEnumerable<string> Keys
         => _keyValues.Keys;

@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
-using BookGen.Lib.AppSettings;
+using BookGen.Lib;
 using BookGen.Lib.Rendering.Images;
 using BookGen.Lib.Rendering.Markdown.RenderInterop;
 using BookGen.Vfs;

@@ -7,11 +7,12 @@ using System.Diagnostics;
 
 using BookGen;
 using BookGen.Cli;
+using BookGen.Cli.Dotenv;
 using BookGen.Commands;
 using BookGen.GlobalOptionParsers;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
-using BookGen.Lib.AppSettings;
+using BookGen.Lib;
 using BookGen.Shell.Shared.Loging;
 using BookGen.Vfs;
 
@@ -48,6 +49,7 @@ var ioc = new ServiceCollection();
 ioc.AddMemoryCache();
 ioc.AddSingleton(logger);
 ioc.AddSingleton(info);
+ioc.AddSingleton<DotEnvSettings>();
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.AddSingleton<IDynamicDocumentGenerator, DynamicDocumentGenerator>();
 ioc.AddSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
@@ -55,8 +57,6 @@ ioc.AddSingleton<IFileSystemFactory, FileSystemFactory>();
 ioc.AddTransient<IWritableFileSystem, FileSystem>();
 ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
 ioc.AddTransient<IApiClient, ApiClient>();
-ioc.AddTransient<IReadOnlyAppSettings, AppSettings>();
-ioc.AddTransient<IAppSettings, AppSettings>();
 ioc.AddTransient<IProgramPathResolver, ProgramPathResolver>();
 ioc.AddKeyedSingleton<IAssetSource>("dictionaries", (provider, key) =>
 {

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Cli;
-using BookGen.Lib.AppSettings;
+using BookGen.Lib;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;

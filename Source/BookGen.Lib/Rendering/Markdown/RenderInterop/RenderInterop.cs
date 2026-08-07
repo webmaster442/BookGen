@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Web;
 
-using BookGen.Lib.AppSettings;
 using BookGen.Lib.Domain.IO.Configuration;
 using BookGen.Lib.Rendering.Images;
 

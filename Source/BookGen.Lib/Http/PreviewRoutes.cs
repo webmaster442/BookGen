@@ -7,7 +7,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Mime;
 
-using BookGen.Lib.AppSettings;
 using BookGen.Lib.Domain;
 using BookGen.Lib.Domain.IO.Configuration;
 using BookGen.Lib.Rendering;
