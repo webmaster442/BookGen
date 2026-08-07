@@ -245,9 +245,12 @@ public sealed class CommandRunner
             HashSet<string> parsedGlobals = new();
             foreach (var parser in _globalOptionParsers)
             {
-                if (parser.TryParseGlobalOption(args, out string? globalOption))
+                if (parser.TryParseGlobalOption(args, out List<string> globalOptions))
                 {
-                    parsedGlobals.Add(globalOption);
+                    foreach (var option in globalOptions)
+                    {
+                        parsedGlobals.Add(option);
+                    }
                 }
             }
 

@@ -44,12 +44,31 @@ using ILoggerFactory factory = LoggerFactory
 
 ILogger logger = factory.CreateLogger("Bookgen");
 CommandRunnerProxy runnerProxy = new();
+DotEnvSettings settings = new();
+
+string defaultEnvFile = Path.Combine(AppContext.BaseDirectory, "BookGen.env");
+
+if (File.Exists(defaultEnvFile))
+{
+    try
+    {
+        logger.LogInformation("Loading default env-file '{defaultEnvFile}'.", defaultEnvFile);
+        using StreamReader reader = File.OpenText(defaultEnvFile);
+        DotEnvSettings loaded = DotEnvParser.Parse(reader, StringComparer.Ordinal);
+        settings.Merge(loaded);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Failed to load default env-file '{defaultEnvFile}'.", defaultEnvFile);
+        Environment.Exit(ExitCodes.GeneralError);
+    }
+}
 
 var ioc = new ServiceCollection();
 ioc.AddMemoryCache();
 ioc.AddSingleton(logger);
 ioc.AddSingleton(info);
-ioc.AddSingleton<DotEnvSettings>();
+ioc.AddSingleton(settings);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.AddSingleton<IDynamicDocumentGenerator, DynamicDocumentGenerator>();
 ioc.AddSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
@@ -86,8 +105,9 @@ CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new Comm
 };
 
 runner
-    .AddGlobalOptionParser<AttachDebuggerParser>()
-    .AddGlobalOptionParser<WaitDebuggerParser>()
+    .AddGlobalOptionParser(new DotEnvFileParser(logger, settings))
+    .AddGlobalOptionParser(new AttachDebuggerParser(logger))
+    .AddGlobalOptionParser(new WaitDebuggerParser(logger))
     .AddGlobalOptionParser(new JsonLogParser(info))
     .AddGlobalOptionParser(new LogToFileParser(info))
     .AddGlobalOptionParser(new RuntimePrintingParser(info));

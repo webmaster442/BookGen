@@ -16,9 +16,9 @@ public sealed class DotEnvSettings
         _keyValues = new Dictionary<string, string>();
     }
 
-    public void AddRange(IEnumerable<KeyValuePair<string, string>> keyValues)
+    public void Merge(DotEnvSettings other)
     {
-        foreach (var kvp in keyValues)
+        foreach (KeyValuePair<string, string> kvp in other._keyValues)
         {
             _keyValues[kvp.Key] = kvp.Value;
         }

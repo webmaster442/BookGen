@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 using BookGen.Cli;
 
-using Spectre.Console;
+using Microsoft.Extensions.Logging;
 
 namespace BookGen.GlobalOptionParsers;
 
@@ -17,15 +17,17 @@ internal sealed class AttachDebuggerParser : GlobalOptionParser
 {
     private const string DebuggerStartShort = "ad";
     private const string DebuggerStartLong = "attach-debugger";
+    private readonly ILogger _log;
 
-    public AttachDebuggerParser()
+    public AttachDebuggerParser(ILogger log)
         : base(DebuggerStartShort, DebuggerStartLong)
     {
+        _log = log;
     }
 
-    protected override void OnOptionWasPresent()
+    protected override void OnOptionWasPresent(string value)
     {
-        AnsiConsole.WriteLine("Attaching debugger...");
+        _log.LogInformation("Attaching debugger...");
         if (!Debugger.IsAttached)
         {
             Debugger.Launch();

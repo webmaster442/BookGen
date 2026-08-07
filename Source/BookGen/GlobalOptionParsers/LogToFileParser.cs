@@ -23,7 +23,7 @@ internal class LogToFileParser : GlobalOptionParser
         _info = info;
     }
 
-    protected override void OnOptionWasPresent()
+    protected override void OnOptionWasPresent(string value)
     {
         _info.LogToFile = true;
     }
