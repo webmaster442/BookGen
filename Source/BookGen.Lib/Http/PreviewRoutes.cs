@@ -25,6 +25,7 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
 {
     private readonly IReadOnlyFileSystem _source;
     private readonly ILogger _logger;
+    private readonly RenderInterop _renderInterop;
     private readonly MarkdownRenderSettings _renderSettings;
     private readonly MarkdownConverter _markdownConverter;
     private readonly TemplateEngine _templateEngine;
@@ -51,6 +52,8 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
 
         var imgService = new ImgService(source, _logger, imageConfig);
 
+        _renderInterop = new RenderInterop(assetSource, programPathResolver, imageConfig);
+
         _renderSettings = new MarkdownRenderSettings(imgService)
         {
             HostUrl = "http://localhost",
@@ -58,7 +61,7 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(assetSource, programPathResolver, imageConfig)
+            RenderInterop = _renderInterop
         };
 
         _markdownConverter = new MarkdownConverter(_renderSettings);
@@ -109,7 +112,7 @@ internal sealed class PreviewRoutes : IDisposable, IRouteProvider
         _observer.FileChanged -= OnFileChange;
         _observer.Dispose();
         _markdownConverter.Dispose();
-        _renderSettings.Dispose();
+        _renderInterop.Dispose();
     }
 
     public IEnumerable<(ApiMetaData metaData, RequestDelegate handler)> Routes

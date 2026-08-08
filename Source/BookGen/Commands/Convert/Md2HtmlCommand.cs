@@ -172,7 +172,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>, IDispo
 
         _renderInterop.ImageConfig = imgConfig;
 
-        using var settings = new MarkdownRenderSettings(imgService)
+        var settings = new MarkdownRenderSettings(imgService)
         {
             HostUrl = string.Empty,
             DeleteFirstH1 = false,

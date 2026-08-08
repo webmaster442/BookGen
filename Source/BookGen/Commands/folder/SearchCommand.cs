@@ -80,14 +80,16 @@ internal sealed class SearchCommand : AsyncCommand<SearchCommand.Arguments>
 
         var imgService = new ImgService(env.Source, _logger, imageConfig);
 
-        using var settings = new MarkdownRenderSettings(imgService)
+        using var renderInterop = new RenderInterop(_assetSource, _programPathResolver, imageConfig);
+
+        var settings = new MarkdownRenderSettings(imgService)
         {
             HostUrl = string.Empty,
             DeleteFirstH1 = false,
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
-            RenderInterop = new RenderInterop(_assetSource, _programPathResolver, imageConfig),
+            RenderInterop = renderInterop,
         };
         settings.RenderInterop.PreRenderCode = false;
 

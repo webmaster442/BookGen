@@ -126,12 +126,14 @@ internal sealed class CreateWpPages : PipeLineStep<WpState>
         var cached = new CachedImageService(imgService, _memoryCache);
         var renderer = new TemplateEngine(logger, environment);
 
-        using var settings = new MarkdownRenderSettings(cached)
+        using var renderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.WordpressConfig.Images);
+
+        var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.WordpressConfig.CssClasses,
             DeleteFirstH1 = true,
             HostUrl = environment.Configuration.WordpressConfig.DeployHost,
-            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.WordpressConfig.Images),
+            RenderInterop = renderInterop,
             AutoEmbedSupportedLinks = true,
         };
         settings.RenderInterop.PreRenderCode = false;
