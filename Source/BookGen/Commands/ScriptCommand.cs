@@ -139,13 +139,11 @@ internal sealed class ScriptCommand : AsyncCommand<ScriptCommand.Arguments>
     private static bool TryGetLogMessage(string line, out string? message)
     {
         message = null;
-        string trimmed = line.TrimStart();
-
         foreach (string marker in (ReadOnlySpan<string>)["#log", "//log"])
         {
-            if (trimmed.StartsWith(marker, StringComparison.Ordinal))
+            if (line.StartsWith(marker, StringComparison.Ordinal))
             {
-                string rest = trimmed[marker.Length..];
+                string rest = line[marker.Length..];
 
                 // The marker must be followed by whitespace or the end of line to be treated as a log instruction.
                 if (rest.Length == 0 || char.IsWhiteSpace(rest[0]))
@@ -186,11 +184,11 @@ internal sealed class ScriptCommand : AsyncCommand<ScriptCommand.Arguments>
                     inQuotes = true;
                     hasToken = true;
                     break;
-                case '#':
+                case '#' when i == 0 || char.IsWhiteSpace(line[i - 1]):
                     // Rest of the line is a comment.
                     FlushToken(tokens, current, ref hasToken);
                     return tokens;
-                case '/' when i + 1 < line.Length && line[i + 1] == '/':
+                case '/' when i + 1 < line.Length && line[i + 1] == '/' && (i == 0 || char.IsWhiteSpace(line[i - 1])):
                     // Rest of the line is a comment.
                     FlushToken(tokens, current, ref hasToken);
                     return tokens;
