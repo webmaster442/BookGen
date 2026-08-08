@@ -4,11 +4,6 @@
       "commandName": "WSL2",
       "distributionName": ""
     },
-    "BookGen": {
-      "commandName": "Project",
-      "commandLineArgs": "convert md2html --svg -i .\\src\\075-generics.md -tf .\\template\\template.html -o .\\docs --title \"Generics\"",
-      "workingDirectory": "P:\\github\\ultimatedotnetcheatsheet"
-    },
     "Gui": {
       "commandName": "Project",
       "commandLineArgs": "Gui"

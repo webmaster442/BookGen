@@ -6,7 +6,7 @@ tags: ''
 # 2026. 08.
 
 * Breaking: Removed json args support for commands
-* Breaking: Removed config command. Configuration is now loaded from the bookgen.env file or from a configuration specified by the -env option
+* Breaking: Removed config command. Configuration is now loaded from the `BookGen.env` file or from a configuration specified by the `-env` option
 * Breaking: Removed jsonargs command.
 * New: Md2html command output file now can be a folder. If a folder is specified, the output file name is generated from the input file name. 
 * Fix: Shell atuocomplete now correctly handles command tree

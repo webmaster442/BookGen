@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 using BookGen.Cli;
 using BookGen.Cli.Dotenv;
 
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.GlobalOptionParsers;
 
+[Description("Loads BookGen settings from the specified environment file.")]
 internal class DotEnvFileParser : GlobalOptionParser
 {
     private readonly ILogger _log;

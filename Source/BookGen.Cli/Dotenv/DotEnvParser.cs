@@ -112,7 +112,10 @@ public static class DotEnvParser
                 if (c == quote)
                 {
                     pos++;
-                    return sb.ToString();
+                    int suffixStart = SkipWhitespace(line, pos);
+                    return suffixStart < line.Length && !IsCommentStart(line, suffixStart)
+                        ? throw EnvironmentException.Env001(line) 
+                        : sb.ToString();
                 }
                 sb.Append(c);
                 pos++;

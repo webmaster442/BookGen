@@ -129,6 +129,7 @@ public class UT_DotEnvParser
     }
 
     [TestCase("foo\nbar\nbaz=qux", "ENV001: Invalid Line Format")]
+    [TestCase("FOO=\"bar\"garbage", "ENV001: Invalid Line Format")]
     [TestCase("foo=bar\r\nfoo=bar", "ENV002: Duplicate Key")]
     [TestCase("123FOO=value", "ENV003: Invalid Key Format")]
     [TestCase("FOO-BAR=value", "ENV003: Invalid Key Format")]
