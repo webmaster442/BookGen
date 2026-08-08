@@ -30,7 +30,7 @@ ioc.AddSingleton(logger);
 
 using ServiceProvider provider = ioc.BuildServiceProvider();
 
-CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new CommandRunnerSettings
+using CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,

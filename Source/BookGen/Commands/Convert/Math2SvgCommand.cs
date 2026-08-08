@@ -19,7 +19,7 @@ namespace BookGen.Commands.Convert;
 [CommandName("convert math2svg")]
 [Description("Renders a single markdown file containing Tex formulas to svg files.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Arguments>
+internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Arguments>, IDisposable
 {
     private readonly ILogger _log;
     private readonly IWritableFileSystem _fileSystem;
@@ -62,19 +62,25 @@ internal sealed class Math2SvgCommand : AsyncCommand<Math2SvgCommand.Arguments>
         }
     }
 
+    private readonly IRenderInterop _renderInterop;
+
     public Math2SvgCommand(ILogger log, IWritableFileSystem fileSystem, IProgramPathResolver programPathResolver, IAssetSource assetSource)
     {
         _log = log;
         _fileSystem = fileSystem;
         _programPathResolver = programPathResolver;
         _assets = assetSource;
+        _renderInterop = IRenderInterop.CreateForSvg(_assets, _programPathResolver);
+    }
+
+    public void Dispose()
+    {
+        _renderInterop.Dispose();
     }
 
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
-        using var render = IRenderInterop.CreateForSvg(_assets, _programPathResolver);
-
-        ImageResult result = render.RenderLatex(arguments.Formula, arguments.Scale);
+        ImageResult result = _renderInterop.RenderLatex(arguments.Formula, arguments.Scale);
 
         await _fileSystem.WriteAllTextAsync(arguments.OutputFile, result.Data);
 

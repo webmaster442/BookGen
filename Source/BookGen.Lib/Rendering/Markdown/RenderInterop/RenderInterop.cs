@@ -24,18 +24,19 @@ public sealed class RenderInterop : IRenderInterop
     private readonly HashSet<string> _loadedScripts;
     private bool _disposed;
 
-    private readonly ImageConfig _imageConfig;
-
     public RenderInterop(IAssetSource assetSource,
                          IProgramPathResolver programPathResolver,
                          ImageConfig imageConfig)
     {
         _assetSource = assetSource;
         _programPathResolver = programPathResolver;
-        _imageConfig = imageConfig;
+        ImageConfig = imageConfig;
         _javascriptEngine = new JavascriptEngine(assetSource);
         _loadedScripts = new HashSet<string>();
     }
+
+    public ImageConfig ImageConfig { get; set; }
+
 
     public void Dispose()
     {
@@ -207,7 +208,7 @@ public sealed class RenderInterop : IRenderInterop
 
         _javascriptEngine.Script.nomnomlCode = nomnomlCode;
         string svg = _javascriptEngine.ExecuteAndGetResult("nomnoml.renderSvg(nomnomlCode)");
-        return EncodeSvg(svg, _imageConfig);
+        return EncodeSvg(svg, ImageConfig);
     }
 
     public ImageResult RenderQrCode(string url)
@@ -217,7 +218,7 @@ public sealed class RenderInterop : IRenderInterop
 
         string cmd = $"new QRCode({{content: \"{url}\", padding: 2, color: \"#000000\"}}).svg();";
         string svg = _javascriptEngine.ExecuteAndGetResult(cmd);
-        return EncodeSvg(svg, _imageConfig);
+        return EncodeSvg(svg, ImageConfig);
     }
 
     public ImageResult RenderLatex(string latex, double scale = 1.0)
@@ -226,11 +227,11 @@ public sealed class RenderInterop : IRenderInterop
 
         if (!_programPathResolver.TryResolveRatex(out string? ratexPath))
         {
-            return EncodeSvg(ErrorSvg("Ratex binary not found"), _imageConfig);
+            return EncodeSvg(ErrorSvg("Ratex binary not found"), ImageConfig);
         }
 
         string svg = RunBinaryAndCaptureStdOut(ratexPath, $"--stdout --dpr {scale.ToString(CultureInfo.InvariantCulture)}", latex);
-        return EncodeSvg(svg, _imageConfig);
+        return EncodeSvg(svg, ImageConfig);
 
     }
 
@@ -240,11 +241,11 @@ public sealed class RenderInterop : IRenderInterop
 
         if (!_programPathResolver.TryResolveMmdr(out string? mmmdrPath))
         {
-            return EncodeSvg(ErrorSvg("Mmmdr binary not found"), _imageConfig);
+            return EncodeSvg(ErrorSvg("Mmmdr binary not found"), ImageConfig);
         }
 
         string svg = RunBinaryAndCaptureStdOut(mmmdrPath, "-e svg --nodeSpacing 60 --rankSpacing 80 -i -", mermaid);
-        return EncodeSvg(svg, _imageConfig);
+        return EncodeSvg(svg, ImageConfig);
     }
 
     public ImageResult RenderPlantUml(string plantUml)
@@ -253,10 +254,10 @@ public sealed class RenderInterop : IRenderInterop
 
         if (!_programPathResolver.TryResolvePlantUml(out string? plantUmlPath))
         {
-            return EncodeSvg(ErrorSvg("PlantUML binary not found"), _imageConfig);
+            return EncodeSvg(ErrorSvg("PlantUML binary not found"), ImageConfig);
         }
 
         string svg = RunBinaryAndCaptureStdOut(plantUmlPath, "--svg -pipe", plantUml);
-        return EncodeSvg(svg, _imageConfig);
+        return EncodeSvg(svg, ImageConfig);
     }
 }

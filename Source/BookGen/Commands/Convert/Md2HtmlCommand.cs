@@ -25,7 +25,7 @@ namespace BookGen.Commands.Convert;
 [CommandName("convert md2html")]
 [Description("Renders a single markdown file to an HTML file.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
+internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>, IDisposable
 {
     internal sealed class Arguments : ArgumentsBase
     {
@@ -116,6 +116,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
     private readonly IAssetSource _assetSource;
     private readonly TemplateEngine _templateEngine;
     private readonly IProgramPathResolver _programPathResolver;
+    private readonly RenderInterop _renderInterop;
 
     private const string TitleTag = "{{Title}}";
     private const string ContentTag = "{{Content}}";
@@ -128,6 +129,12 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
         _programPathResolver = programPathResolver;
         _assetSource = assetSource;
         _templateEngine = new TemplateEngine(log, assetSource);
+        _renderInterop = new RenderInterop(_assetSource, _programPathResolver, new ImageConfig());
+    }
+
+    public void Dispose()
+    {
+        _renderInterop.Dispose();
     }
 
     public override int Execute(Arguments arguments, IReadOnlyList<string> context)
@@ -163,6 +170,8 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
 
         var imgService = new ImgService(inputFilesScope, _log, imgConfig);
 
+        _renderInterop.ImageConfig = imgConfig;
+
         using var settings = new MarkdownRenderSettings(imgService)
         {
             HostUrl = string.Empty,
@@ -170,7 +179,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = !arguments.NoEmbed,
-            RenderInterop = new RenderInterop(_assetSource, _programPathResolver, imgConfig)
+            RenderInterop = _renderInterop
         };
 
         settings.RenderInterop.PreRenderCode = !arguments.NoSyntax;

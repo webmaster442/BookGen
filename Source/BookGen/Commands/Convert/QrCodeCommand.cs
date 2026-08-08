@@ -19,7 +19,7 @@ namespace BookGen.Commands.Convert;
 [CommandName("convert qrcode")]
 [Description("Renders an url into a SVG QRCode image.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.Arguments>
+internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.Arguments>, IDisposable
 {
     internal sealed class Arguments : ArgumentsBase
     {
@@ -60,6 +60,7 @@ internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.Arguments>
     private readonly ILogger _log;
     private readonly IWritableFileSystem _fileSystem;
     private readonly IAssetSource _assetSource;
+    private readonly IRenderInterop _renderInteop;
     private readonly IProgramPathResolver _programPathResolver;
 
     public QrCodeCommand(ILogger log, IWritableFileSystem fileSystem, IProgramPathResolver programPathResolver, IAssetSource assetSource)
@@ -68,13 +69,17 @@ internal sealed class QrCodeCommand : AsyncCommand<QrCodeCommand.Arguments>
         _fileSystem = fileSystem;
         _programPathResolver = programPathResolver;
         _assetSource = assetSource;
+        _renderInteop = IRenderInterop.CreateForSvg(_assetSource, _programPathResolver);
+    }
+
+    public void Dispose()
+    {
+        _renderInteop.Dispose();
     }
 
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
-        using var render = IRenderInterop.CreateForSvg(_assetSource, _programPathResolver);
-
-        ImageResult result = render.RenderQrCode(arguments.Data);
+        ImageResult result = _renderInteop.RenderQrCode(arguments.Data);
 
         await _fileSystem.WriteAllTextAsync(arguments.Output, result.Data);
 

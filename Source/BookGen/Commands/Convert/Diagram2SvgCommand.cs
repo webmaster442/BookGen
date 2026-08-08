@@ -19,7 +19,7 @@ namespace BookGen.Commands.Convert;
 [CommandName("convert diagram2svg")]
 [Description("Renders a diagram definition file to an SVG file.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class Diagram2SvgCommand : AsyncCommand<Diagram2SvgCommand.Arguments>
+internal sealed class Diagram2SvgCommand : AsyncCommand<Diagram2SvgCommand.Arguments>, IDisposable
 {
     internal sealed class Arguments : ArgumentsBase
     {
@@ -71,6 +71,7 @@ internal sealed class Diagram2SvgCommand : AsyncCommand<Diagram2SvgCommand.Argum
     private readonly IWritableFileSystem _fileSystem;
     private readonly IProgramPathResolver _programPathResolver;
     private readonly IAssetSource _assetSource;
+    private readonly IRenderInterop _renderInterop;
 
     public Diagram2SvgCommand(ILogger log, IWritableFileSystem fileSystem, IProgramPathResolver programPathResolver, IAssetSource assetSource)
     {
@@ -78,18 +79,22 @@ internal sealed class Diagram2SvgCommand : AsyncCommand<Diagram2SvgCommand.Argum
         _fileSystem = fileSystem;
         _programPathResolver = programPathResolver;
         _assetSource = assetSource;
+        _renderInterop = IRenderInterop.CreateForSvg(_assetSource, _programPathResolver);
+    }
+
+    public void Dispose()
+    {
+        _renderInterop.Dispose();
     }
 
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
-        using var render = IRenderInterop.CreateForSvg(_assetSource, _programPathResolver);
-
         string inputContent = await _fileSystem.ReadAllTextAsync(arguments.InputFile);
 
         ImageResult result = arguments.Type switch
         {
-            Arguments.DiagramType.Mermaid => render.RenderMermaid(inputContent),
-            Arguments.DiagramType.Nomnoml => render.RenderNomnoml(inputContent),
+            Arguments.DiagramType.Mermaid => _renderInterop.RenderMermaid(inputContent),
+            Arguments.DiagramType.Nomnoml => _renderInterop.RenderNomnoml(inputContent),
             _ => throw new InvalidOperationException($"Unsupported diagram type: {arguments.Type}"),
         };
 

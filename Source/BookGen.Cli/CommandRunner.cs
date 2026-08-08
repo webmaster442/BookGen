@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Cli;
 
-public sealed class CommandRunner
+public sealed class CommandRunner : IDisposable
 {
     private readonly CommandTree _commands;
     private readonly IServiceProvider _serviceProvider;
@@ -114,6 +114,18 @@ public sealed class CommandRunner
         ValidationContext = new IoCValidationContext(serviceProvider);
 
         Helpers.ConfigureUtfSupport(_settings.EnableUtf8Output);
+    }
+
+    public void Dispose()
+    {
+        foreach (KeyValuePair<string, ICommand> cached in _cachedCommands)
+        {
+            if (cached.Value is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+        }
+        _cachedCommands.Clear();
     }
 
     public Action<Exception> ExceptionHandlerDelegate { get; set; }
