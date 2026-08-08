@@ -25,6 +25,8 @@ internal abstract class CommandTestBase<TCommand> where TCommand : ICommand
 
     protected ICommand Command { get; private set; }
 
+    public const int TenSeconds = 10_000;
+
     [SetUp]
     public void Setup()
     {

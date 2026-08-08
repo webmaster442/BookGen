@@ -8,6 +8,7 @@ using System.Text;
 
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
+using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
 
@@ -39,22 +40,26 @@ internal sealed class ScriptCommand : AsyncCommand<ScriptCommand.Arguments>
 
     private readonly ICommandRunnerProxy _commandRunnerProxy;
     private readonly ILogger _logger;
+    private readonly IReadOnlyFileSystem _fileSystem;
 
-    public ScriptCommand(ICommandRunnerProxy commandRunnerProxy, ILogger logger)
+    public ScriptCommand(ICommandRunnerProxy commandRunnerProxy, ILogger logger, IReadOnlyFileSystem fileSystem)
     {
         _commandRunnerProxy = commandRunnerProxy;
         _logger = logger;
+        _fileSystem = fileSystem;
     }
 
     public override async Task<int> ExecuteAsync(Arguments arguments, IReadOnlyList<string> context, CancellationToken token)
     {
-        if (!File.Exists(arguments.ScriptPath))
+        if (!_fileSystem.FileExists(arguments.ScriptPath))
         {
             _logger.LogError("Script file doesn't exist: {path}", arguments.ScriptPath);
             return ExitCodes.ArgumentsError;
         }
 
-        string[] rawLines = await File.ReadAllLinesAsync(arguments.ScriptPath, token);
+        using TextReader reader = _fileSystem.OpenTextReader(arguments.ScriptPath);
+
+        List<string> rawLines = await reader.ReadAllLinesAsync(token);
 
         IReadOnlyList<string> commandNames = _commandRunnerProxy.CommandNames
             .OrderByDescending(x => x.Length)

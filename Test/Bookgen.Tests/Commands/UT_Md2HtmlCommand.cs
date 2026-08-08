@@ -31,7 +31,8 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
         => new Md2HtmlCommand(LoggerMock.Object, FilesystemFactoryMock.Object, ProgramPathResolverMock.Object, AssetSourceMock.Object);
 
     [Test]
-    public async Task EnsureThat_GenerateRawWorks()
+    [CancelAfter(TenSeconds)]
+    public async Task EnsureThat_GenerateRawWorks(CancellationToken token)
     {
         var arguments = new Md2HtmlCommand.Arguments
         {
@@ -43,7 +44,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
             Title = "Document title"
         };
 
-        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>(), CancellationToken.None);
+        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>(), token);
 
         const string expectedContent = "<p>test</p>\n";
 
@@ -56,7 +57,8 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
     }
 
     [Test]
-    public async Task EnsureThat_GenerateHtml_Works()
+    [CancelAfter(TenSeconds)]
+    public async Task EnsureThat_GenerateHtml_Works(CancellationToken token)
     {
         var arguments = new Md2HtmlCommand.Arguments
         {
@@ -68,7 +70,7 @@ internal class UT_Md2HtmlCommand : CommandTestBase<Md2HtmlCommand>
             Title = "Document title"
         };
 
-        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>(), CancellationToken.None);
+        int exitCode = await Command.ExecuteAsync(arguments, Array.Empty<string>(), token);
 
         using (Assert.EnterMultipleScope())
         {
