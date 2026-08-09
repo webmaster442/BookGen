@@ -89,8 +89,6 @@ internal sealed class ScriptCommand : AsyncCommand<ScriptCommand.Arguments>
                 return ExitCodes.ArgumentsError;
             }
 
-            //_logger.LogInformation("Running: {command}", logicalLine.Trim());
-
             exitCode = await _commandRunnerProxy.RunCommandAsync(commandName, commandArgs);
 
             // pipefail style: stop on the first failing command and return its exit code.
@@ -112,7 +110,12 @@ internal sealed class ScriptCommand : AsyncCommand<ScriptCommand.Arguments>
         {
             string current = line;
 
-            if (current.EndsWith('\\'))
+            // A trailing backslash only continues the logical line when it is
+            // syntactic — i.e. it is not inside a quoted string and not part
+            // of a trailing comment. Detect comments/quotes here to avoid
+            // consuming the next command when a backslash appears inside a
+            // comment (e.g. "cmd1 # note \").
+            if (IsSyntacticFinalBackslash(current))
             {
                 builder ??= new StringBuilder();
                 builder.Append(current.AsSpan(0, current.Length - 1));
@@ -134,6 +137,46 @@ internal sealed class ScriptCommand : AsyncCommand<ScriptCommand.Arguments>
 
         if (builder != null)
             yield return builder.ToString();
+    }
+
+    private static bool IsSyntacticFinalBackslash(string line)
+    {
+        if (line.Length == 0 || line[^1] != '\\')
+            return false;
+
+        bool inQuotes = false;
+
+        for (int i = 0; i < line.Length - 1; i++)
+        {
+            char c = line[i];
+
+            if (inQuotes)
+            {
+                if (c == '"')
+                    inQuotes = false;
+
+                continue;
+            }
+
+            if (c == '"')
+            {
+                inQuotes = true;
+                continue;
+            }
+
+            if (c == '#' && (i == 0 || char.IsWhiteSpace(line[i - 1])))
+                return false;
+
+            if (c == '/' &&
+                i + 1 < line.Length &&
+                line[i + 1] == '/' &&
+                (i == 0 || char.IsWhiteSpace(line[i - 1])))
+            {
+                return false;
+            }
+        }
+
+        return !inQuotes;
     }
 
     private static bool TryGetLogMessage(string line, out string? message)

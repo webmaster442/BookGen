@@ -185,8 +185,9 @@ public static class DotEnvParser
             sb.Append(line, pos, end - pos);
             pos = end;
 
-            // Trailing whitespace on an unquoted value is not allowed.
-            if (valueEnd > end)
+            // Trailing whitespace on an unquoted value is not allowed,
+            // unless it precedes an inline comment.
+            if (valueEnd > end && !sawComment)
             {
                 throw EnvironmentException.Env001(line);
             }

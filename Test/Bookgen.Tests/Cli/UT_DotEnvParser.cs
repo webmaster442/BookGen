@@ -51,6 +51,7 @@ public class UT_DotEnvParser
     [TestCase("MESSAGE='Hello World'", "MESSAGE", "Hello World")]
     [TestCase("PATH=\"C:\\Program Files\\App\"", "PATH", "C:\\Program Files\\App")]
     [TestCase("HASH=\"my#password\"", "HASH", "my#password")]
+    [TestCase("FOO=bar # comment", "FOO", "bar")]
     public void EnsureThat_Keys_And_Values_ParsedCorrectly(string input, string expectedKey, string expectedValue)
     {
         using var reader = new StringReader(input);
