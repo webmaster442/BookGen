@@ -125,7 +125,7 @@ internal sealed class GuiCommand : AsyncCommand<BookGenArgumentBase>
     {
         return _currentArgs == null
             ? throw new InvalidOperationException("Command not initialized")
-            : await _commandRunnerProxy.RunCommand(cmd, _argsBuilder.New().Add(_currentArgs).Add(additionals).Build());
+            : await _commandRunnerProxy.RunCommandAsync(cmd, _argsBuilder.New().Add(_currentArgs).Add(additionals).Build());
     }
 
     private Task<int> OnExit()

@@ -89,9 +89,9 @@ internal sealed class ScriptCommand : AsyncCommand<ScriptCommand.Arguments>
                 return ExitCodes.ArgumentsError;
             }
 
-            _logger.LogInformation("Running: {command}", logicalLine.Trim());
+            //_logger.LogInformation("Running: {command}", logicalLine.Trim());
 
-            exitCode = await _commandRunnerProxy.RunCommand(commandName, commandArgs);
+            exitCode = await _commandRunnerProxy.RunCommandAsync(commandName, commandArgs);
 
             // pipefail style: stop on the first failing command and return its exit code.
             if (exitCode != ExitCodes.Success)

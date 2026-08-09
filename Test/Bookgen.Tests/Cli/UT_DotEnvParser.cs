@@ -59,7 +59,7 @@ public class UT_DotEnvParser
 
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(env.Keys, Contains.Key(expectedKey));
+            Assert.That(env.Keys, Does.Contain(expectedKey));
             Assert.That(env.GetValueOrDefault(expectedKey, string.Empty), Is.EqualTo(expectedValue));
         }
     }
@@ -98,7 +98,7 @@ public class UT_DotEnvParser
 
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(env.Keys, Contains.Key("PRIVATE_KEY"));
+            Assert.That(env.Keys, Does.Contain("PRIVATE_KEY"));
             Assert.That(env.GetValueOrDefault("PRIVATE_KEY", string.Empty), Is.EqualTo(expectedValue).IgnoreLineEndingFormat);
         }
     }
@@ -123,7 +123,7 @@ public class UT_DotEnvParser
 
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(env.Keys, Contains.Key("LONG_MESSAGE"));
+            Assert.That(env.Keys, Does.Contain("LONG_MESSAGE"));
             Assert.That(env.GetValueOrDefault("LONG_MESSAGE", string.Empty), Is.EqualTo(expectedValue).IgnoreLineEndingFormat);
         }
     }

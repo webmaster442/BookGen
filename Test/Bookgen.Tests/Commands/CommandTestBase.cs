@@ -34,6 +34,15 @@ internal abstract class CommandTestBase<TCommand> where TCommand : ICommand
         Command = CreateSut();
     }
 
+    [TearDown]
+    public virtual void Teardown()
+    {
+        if (Command is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+    }
+
     protected abstract TCommand CreateSut();
 
     protected abstract void SetupMocks();
