@@ -24,10 +24,10 @@ public abstract class GlobalOptionParser
         NeedsValue = needsValue;
     }
 
-    public bool TryParseGlobalOption(IReadOnlyList<string> args, out List<string> parsedValues)
+    public bool TryParseGlobalOption(IReadOnlyList<string> args, out List<int> consumedIndexes)
     {
         bool handle = false;
-        parsedValues = new List<string>();
+        consumedIndexes = new List<int>();
 
         int optionIndex = 0;
 
@@ -36,7 +36,6 @@ public abstract class GlobalOptionParser
             if (args[i] == ShortName || args[i] == LongName)
             {
                 handle = true;
-                parsedValues.Add(args[i]);
                 optionIndex = i;
                 break;
             }
@@ -45,23 +44,27 @@ public abstract class GlobalOptionParser
         if (handle)
         {
             string value = string.Empty;
+            int valueIndex = -1;
             if (NeedsValue)
             {
                 int index = optionIndex + 1;
                 if (index < args.Count)
                 {
                     value = args[index];
+                    valueIndex = index;
                 }
                 else
                 {
-                    Console.WriteLine($"Ignored Option '{parsedValues[0]}': requires a value, but none was provided.");
+                    Console.WriteLine($"Ignored Option '{args[optionIndex]}': requires a value, but none was provided.");
                     handle = false;
                 }
             }
             if (handle)
             {
                 OnOptionWasPresent(value);
-                parsedValues.Add(value);
+                consumedIndexes.Add(optionIndex);
+                if (valueIndex >= 0)
+                    consumedIndexes.Add(valueIndex);
             }
         }
 

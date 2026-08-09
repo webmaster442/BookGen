@@ -254,19 +254,19 @@ public sealed class CommandRunner : IDisposable
                 skipCount = 0;
             }
 
-            HashSet<string> parsedGlobals = new();
-            foreach (var parser in _globalOptionParsers)
+            HashSet<int> parsedGlobalIndexes = new();
+            foreach (GlobalOptionParser parser in _globalOptionParsers)
             {
-                if (parser.TryParseGlobalOption(args, out List<string> globalOptions))
+                if (parser.TryParseGlobalOption(args, out List<int> consumedIndexes))
                 {
-                    foreach (var option in globalOptions)
+                    foreach (var index in consumedIndexes)
                     {
-                        parsedGlobals.Add(option);
+                        parsedGlobalIndexes.Add(index);
                     }
                 }
             }
 
-            List<string> argsToParse = Helpers.GetArgsToParse(args, parsedGlobals, skipCount);
+            List<string> argsToParse = Helpers.GetArgsToParse(args, parsedGlobalIndexes, skipCount);
 
             return await RunCommand(commandName, argsToParse);
         }
