@@ -52,7 +52,6 @@ if (File.Exists(defaultEnvFile))
 {
     try
     {
-        logger.LogDebug("Loading default env-file '{defaultEnvFile}'.", defaultEnvFile);
         using StreamReader reader = File.OpenText(defaultEnvFile);
         DotEnvSettings loaded = DotEnvParser.Parse(reader, StringComparer.Ordinal);
         settings.Merge(loaded);
