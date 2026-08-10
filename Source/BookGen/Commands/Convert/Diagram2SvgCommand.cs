@@ -56,14 +56,40 @@ internal sealed class Diagram2SvgCommand : AsyncCommand<Diagram2SvgCommand.Argum
                 result.AddIssue("Output file must be specified");
 
             if (Type == DiagramType.Unknown)
-                result.AddIssue("Diagram type must be specified");
+            {
+                var extension = Path.GetExtension(InputFile).ToLower();
+                switch (extension)
+                {
+                    case ".mmd":
+                    case ".mermaid":
+                    case ".nomnoml":
+                        // Infer the diagram type from the file extension
+                        break;
+                    default:
+                        result.AddIssue("Diagram type must be specified");
+                        break;
+                }
+            }
 
             return result;
         }
 
         public override void ModifyAfterValidation()
         {
-            OutputFile = Path.ChangeExtension(OutputFile, ".svg");
+            var extension = Path.GetExtension(InputFile).ToLower();
+
+            if (extension != ".svg")
+                OutputFile = Path.ChangeExtension(OutputFile, ".svg");
+
+            if (Type == DiagramType.Unknown)
+            {
+                Type = extension switch
+                {
+                    ".mmd" or ".mermaid" => DiagramType.Mermaid,
+                    ".nomnoml" => DiagramType.Nomnoml,
+                    _ => throw new System.Diagnostics.UnreachableException("Shouldn't happen"),
+                };
+            }
         }
     }
 
