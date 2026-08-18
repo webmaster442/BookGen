@@ -50,9 +50,9 @@
       },
       "Roslynator.Analyzers": {
         "type": "Direct",
-        "requested": "[4.15.0, )",
-        "resolved": "4.15.0",
-        "contentHash": "E8fu71Y+vzhniJKy1K13Rzwm8Vjcj7CDFBpflqncKUZfc3SzuF0kMBiyMmgXNPkjWTdE3Z+30HlGgYjHONZY/Q=="
+        "requested": "[4.16.1, )",
+        "resolved": "4.16.1",
+        "contentHash": "AGzq3UZvIwTGSh9xyIna+Q9F666S8UaLlX/Pk3Iz21qIAWjL8iYporVCcX1k/oi5chrRZ8VJRahup4me4HZptw=="
       },
       "SkiaSharp": {
         "type": "Direct",
@@ -78,26 +78,26 @@
       },
       "Svg.Skia": {
         "type": "Direct",
-        "requested": "[5.2.0, )",
-        "resolved": "5.2.0",
-        "contentHash": "AABURGBPTwWNFPnETLgjteTqcGfoNMJu+z1LNcNc8R280oVRMHgCf8dwGkIDj9rDD6A4Xt5w/LLmcZh0Iv7tTw==",
+        "requested": "[5.2.1, )",
+        "resolved": "5.2.1",
+        "contentHash": "es8F7MSeJJgc30Dmi0ZsrPpGQmLTQuS3DCvHcJ9wYlNAt3oHEoEzg5ugX3bwMPFejrPNLNjPpr1VOiMrpFyvIA==",
         "dependencies": {
           "HarfBuzzSharp": "14.2.0",
           "HarfBuzzSharp.NativeAssets.Linux": "14.2.0",
           "HarfBuzzSharp.NativeAssets.Win32": "14.2.0",
           "HarfBuzzSharp.NativeAssets.macOS": "14.2.0",
           "SkiaSharp": "4.148.0",
-          "Svg.Animation": "5.2.0",
-          "Svg.Custom": "5.2.0",
-          "Svg.Model": "5.2.0",
-          "Svg.SceneGraph": "5.2.0"
+          "Svg.Animation": "5.2.1",
+          "Svg.Custom": "5.2.1",
+          "Svg.Model": "5.2.1",
+          "Svg.SceneGraph": "5.2.1"
         }
       },
       "System.ServiceModel.Syndication": {
         "type": "Direct",
-        "requested": "[11.0.0-preview.6.26359.118, )",
-        "resolved": "11.0.0-preview.6.26359.118",
-        "contentHash": "StArv4DSO8I8QjDo1n+FzKeaq6UTNKvgkHHFaAt8ueexUWJZSEZ5/EasqwKt7413n3carQjaFzSULDI7sxwg0A=="
+        "requested": "[11.0.0-preview.7.26381.103, )",
+        "resolved": "11.0.0-preview.7.26381.103",
+        "contentHash": "FEtlmar1uSt6u+qmefCO77alkcf4/IoK0qu0bmZ7GfL3vWDAXmBZUxM5uaJvoGoqGDOiKec7s9Qg9N1aH8dCrw=="
       },
       "YamlDotNet": {
         "type": "Direct",
@@ -182,8 +182,8 @@
       },
       "ShimSkiaSharp": {
         "type": "Transitive",
-        "resolved": "5.2.0",
-        "contentHash": "CNCbWDhCjuLTcbqsV2207BzCEr9+fWZ7veeS6/qZZp0h/GUzA0+aMGOEd2g+F1qllAIitvmdrNqiTOijQR/2+g=="
+        "resolved": "5.2.1",
+        "contentHash": "mUPSMxfW+vjtwDPrbhK3ILQg8D7aud7JO7p2Y5cqPmKf+s2erTyfEWohlVHCjSSDPvpT5L4aKLqnW02JCfGvag=="
       },
       "SkiaSharp.NativeAssets.macOS": {
         "type": "Transitive",
@@ -197,40 +197,40 @@
       },
       "Svg.Animation": {
         "type": "Transitive",
-        "resolved": "5.2.0",
-        "contentHash": "eUGhVM4dl+FQdsDM7N3zzKM1gYrNRfaCytNdD5VPGxooGc05GZlzoNVI8dwhh5jcYuCO2hxRPzsspyxfZdAgJA==",
+        "resolved": "5.2.1",
+        "contentHash": "/WKtsXMKAGIoiNzETQvQQtwoO3V2gEonkxqwrEdiGPSXuTG9Q0c6K34P06HhVXnLaZjjvxja+vOIKVSUucXOug==",
         "dependencies": {
-          "ShimSkiaSharp": "5.2.0",
+          "ShimSkiaSharp": "5.2.1",
           "SkiaSharp": "4.148.0",
-          "Svg.Custom": "5.2.0",
-          "Svg.Model": "5.2.0"
+          "Svg.Custom": "5.2.1",
+          "Svg.Model": "5.2.1"
         }
       },
       "Svg.Custom": {
         "type": "Transitive",
-        "resolved": "5.2.0",
-        "contentHash": "Up4hK0GphasgVzPOB5JT7Md3FP1dHaQK6AkBD7XH0uBWvu8d/DVVXp5qjWvpmBayIYWF4FAHnb2b/OPl+U2UkA==",
+        "resolved": "5.2.1",
+        "contentHash": "7qAG1I0FGlMwOJk0Js41TmvRJ0eLJPpz8Edd8DOzsotLikUhYGDZZlwXV+6sKvsApfIZEfarH0KwI38T9OHsmw==",
         "dependencies": {
           "ExCSS": "4.3.1"
         }
       },
       "Svg.Model": {
         "type": "Transitive",
-        "resolved": "5.2.0",
-        "contentHash": "G3ZXXnlo6eD+oU/e+a33oVkf27a3oYu+djAwIEt4BU8w4S9t5UWsjcrR3bsq6SdO9r154+KiflpW/eznmGCtZQ==",
+        "resolved": "5.2.1",
+        "contentHash": "0+fG1BFw3QoXj+4sxpaXpLDZXz+Snb289epyP3HKjEjUUoWVsErMZb6teo4dVj8KElRJIeXjX6jD1C0B1vLRXw==",
         "dependencies": {
-          "ShimSkiaSharp": "5.2.0",
-          "Svg.Custom": "5.2.0"
+          "ShimSkiaSharp": "5.2.1",
+          "Svg.Custom": "5.2.1"
         }
       },
       "Svg.SceneGraph": {
         "type": "Transitive",
-        "resolved": "5.2.0",
-        "contentHash": "Yr4T6Nzwi+Hd2sKOKik1qbCteLNnuapzvKxMblIuJ2SHwEbMb+2FjFwA6FenD7CRWhlCEiIwTvAe3/IJswTYoQ==",
+        "resolved": "5.2.1",
+        "contentHash": "vm2QxbPv5MraL7T2+1dh0m8lGQqtW37RK4iOHvBsJQHQzcuDlCR+uX/Oiun77kS2US2OC23zfaIFEYWGwocXLw==",
         "dependencies": {
-          "ShimSkiaSharp": "5.2.0",
-          "Svg.Custom": "5.2.0",
-          "Svg.Model": "5.2.0"
+          "ShimSkiaSharp": "5.2.1",
+          "Svg.Custom": "5.2.1",
+          "Svg.Model": "5.2.1"
         }
       },
       "bookgen.shell.shared": {

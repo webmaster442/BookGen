@@ -12,24 +12,24 @@
     <PackageVersion Include="Microsoft.ClearScript" Version="7.5.1" />
     <PackageVersion Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.5.1" />
     <PackageVersion Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.5.1" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="11.0.0-preview.6.26359.118" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="11.0.0-preview.6.26359.118" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="11.0.0-preview.6.26359.118" />
-    <PackageVersion Include="Microsoft.IO.RecyclableMemoryStream" Version="4.0.0-preview" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="11.0.0-preview.7.26381.103" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="11.0.0-preview.7.26381.103" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="11.0.0-preview.7.26381.103" />
+    <PackageVersion Include="Microsoft.IO.RecyclableMemoryStream" Version="4.0.1-preview" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="NUnit" Version="4.6.1" />
     <PackageVersion Include="NUnit.Analyzers" Version="4.14.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.2.0" />
     <PackageVersion Include="PreMailer.Net" Version="2.7.3" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.15.0" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.16.1" />
     <PackageVersion Include="SkiaSharp" Version="4.151.1" />
     <PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="4.151.1" />
     <PackageVersion Include="SkiaSharp.NativeAssets.Win32" Version="4.151.1" />
     <PackageVersion Include="Spectre.Console" Version="0.57.2" />
     <PackageVersion Include="Spectre.Console.Analyzer" Version="1.0.0" />
-    <PackageVersion Include="Svg.Skia" Version="5.2.0" />
-    <PackageVersion Include="System.ServiceModel.Syndication" Version="11.0.0-preview.6.26359.118" />
+    <PackageVersion Include="Svg.Skia" Version="5.2.1" />
+    <PackageVersion Include="System.ServiceModel.Syndication" Version="11.0.0-preview.7.26381.103" />
     <PackageVersion Include="Webmaster442.WindowsTerminal" Version="4.1.1" />
     <PackageVersion Include="WeCantSpell.Hunspell" Version="7.0.1" />
     <PackageVersion Include="XmlDocMarkdown.Core" Version="2.9.0" />
