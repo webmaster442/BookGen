@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Globalization;
+
 using BookGen.Vfs;
 
 using Microsoft.ClearScript;
@@ -29,10 +31,26 @@ internal sealed class JavascriptEngine : IDisposable
         _disposed = true;
     }
 
-    public dynamic Script => _engine.Script;
+    public void SetVariable(string name, string value)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, nameof(_engine));
+        string script = $$"""
+            if ({{name}} === 'undefined') {
+                var {{name}} = `{{value}}`;
+            }
+            else {
+                {{name}} = `{{value}}`;
+            }
+            """;
+        _engine.Execute(script);
+    }
+
+    public void SetVariable(string name, double value)
+        => SetVariable(name, value.ToString(CultureInfo.InvariantCulture));
 
     public void Execute(string code)
     {
+
         ObjectDisposedException.ThrowIf(_disposed, nameof(_engine));
 
         _engine.Execute(code);

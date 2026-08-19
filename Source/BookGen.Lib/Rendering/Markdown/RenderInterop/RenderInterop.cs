@@ -192,8 +192,7 @@ public sealed class RenderInterop : IRenderInterop
         {
             ObjectDisposedException.ThrowIf(_disposed, nameof(RenderInterop));
             LoadScriptIfNotLoaded(BundledAssets.PrismJs);
-
-            _javascriptEngine.Script.code = code;
+            _javascriptEngine.SetVariable("code", code);
             return _javascriptEngine.ExecuteAndGetResult($"Prism.highlight(code, Prism.languages.{language}, '{language}');");
         }
 
@@ -206,7 +205,8 @@ public sealed class RenderInterop : IRenderInterop
         LoadScriptIfNotLoaded(BundledAssets.GraphreJs);
         LoadScriptIfNotLoaded(BundledAssets.NomnomlJs);
 
-        _javascriptEngine.Script.nomnomlCode = nomnomlCode;
+        _javascriptEngine.SetVariable("nomnomlCode", nomnomlCode);
+
         string svg = _javascriptEngine.ExecuteAndGetResult("nomnoml.renderSvg(nomnomlCode)");
         return EncodeSvg(svg, ImageConfig);
     }
