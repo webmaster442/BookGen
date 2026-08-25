@@ -33,17 +33,7 @@ internal sealed class JavascriptEngine : IDisposable
 
     public void SetVariable(string name, string value)
     {
-        ObjectDisposedException.ThrowIf(_disposed, nameof(_engine));
-        string encoded = System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(value);
-        string script = $$"""
-            if ({{name}} === 'undefined') {
-                var {{name}} = "{{encoded}}";
-            }
-            else {
-                {{name}} = "{{encoded}}";
-            }
-            """;
-        _engine.Execute(script);
+        _engine.Script[name] = value;
     }
 
     public void SetVariable(string name, double value)

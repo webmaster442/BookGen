@@ -205,7 +205,7 @@ public sealed class RenderInterop : IRenderInterop
         LoadScriptIfNotLoaded(BundledAssets.GraphreJs);
         LoadScriptIfNotLoaded(BundledAssets.NomnomlJs);
 
-        _javascriptEngine.SetVariable("nomnomlCode", nomnomlCode);
+        _javascriptEngine.SetVariable("nomnomlCode", nomnomlCode.Replace("\r\n", "\n"));
 
         string svg = _javascriptEngine.ExecuteAndGetResult("nomnoml.renderSvg(nomnomlCode)");
         return EncodeSvg(svg, ImageConfig);
