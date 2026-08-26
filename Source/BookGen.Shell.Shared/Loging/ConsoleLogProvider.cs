@@ -75,12 +75,12 @@ public sealed class ConsoleLogProvider : ILoggerProvider
             {
                 return logLevel switch
                 {
-                    LogLevel.Trace => $"{DateTime.Now.ToShortTimeString()} [grey]TRACE[/]: ",
-                    LogLevel.Debug => $"{DateTime.Now.ToShortTimeString()} [blue]DEBUG[/]: ",
-                    LogLevel.Information => $"{DateTime.Now.ToShortTimeString()} [green]INFO[/]: ",
-                    LogLevel.Warning => $"{DateTime.Now.ToShortTimeString()} [yellow]WARN[/]: ",
-                    LogLevel.Error => $"{DateTime.Now.ToShortTimeString()} [red]ERROR[/]: ",
-                    LogLevel.Critical => $"{DateTime.Now.ToShortTimeString()} [red bold]CRITICAL[/]: ",
+                    LogLevel.Trace => $"{DateTime.Now:t} [grey]TRACE[/]: ",
+                    LogLevel.Debug => $"{DateTime.Now:t} [blue]DEBUG[/]: ",
+                    LogLevel.Information => $"{DateTime.Now:t} [green]INFO[/]: ",
+                    LogLevel.Warning => $"{DateTime.Now:t} [yellow]WARN[/]: ",
+                    LogLevel.Error => $"{DateTime.Now:t} [red]ERROR[/]: ",
+                    LogLevel.Critical => $"{DateTime.Now:t} [red bold]CRITICAL[/]: ",
                     LogLevel.None => string.Empty,
                     _ => throw new UnreachableException(),
                 };
@@ -88,7 +88,6 @@ public sealed class ConsoleLogProvider : ILoggerProvider
 
             var line = $"{LevelToString(logLevel)} {formatter(state, exception).EscapeMarkup()}";
             AnsiConsole.MarkupLine(line);
-
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 using BookGen;
 using BookGen.Cli;
+using BookGen.Cli.CrashReporting;
 using BookGen.Cli.Dotenv;
 using BookGen.Commands;
 using BookGen.GlobalOptionParsers;
@@ -23,11 +24,14 @@ using Spectre.Console;
 
 ProgramInfo info = new();
 
+var debugLogProvider = new DebugLoggerProvider(30);
+var crashDumpGenerator = new CrashDumpGenerator("BookGen");
+
 using ILoggerFactory factory = LoggerFactory
     .Create(builder =>
     {
         builder.ClearProviders();
-        builder.AddFilter(level => level >= info.LogLevel);
+        builder.AddProvider(debugLogProvider);
         if (info.JsonLogging)
         {
             builder.AddJsonConsole();
@@ -35,10 +39,12 @@ using ILoggerFactory factory = LoggerFactory
         else
         {
             builder.AddProvider(new ConsoleLogProvider());
+            builder.AddFilter<ConsoleLogProvider>(level => level >= info.LogLevel);
         }
         if (info.LogToFile)
         {
             builder.AddProvider(new FileLoggerProvider());
+            builder.AddFilter<ConsoleLogProvider>(level => level >= info.LogLevel);
         }
     });
 
@@ -144,8 +150,11 @@ Task OnBeforeRun(ArgumentsBase @base, IReadOnlyList<string> list)
 
 void OnException(Exception exception)
 {
-    logger.LogCritical(exception.Message);
-    CrashDumpFactory.TryCreateCrashDump(exception);
+    logger.LogCritical(exception, exception.Message);
+
+    crashDumpGenerator
+        .GenerateCrashDump(exception, debugLogProvider.GetEntries());
+
 #if DEBUG
     AnsiConsole.WriteException(exception);
 #endif

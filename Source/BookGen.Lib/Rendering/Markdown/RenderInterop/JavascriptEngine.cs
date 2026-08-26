@@ -31,26 +31,21 @@ internal sealed class JavascriptEngine : IDisposable
         _disposed = true;
     }
 
-    public void SetVariable(string name, string value)
-    {
-        _engine.Script[name] = value;
-    }
+    public void SetVariable(string name, string value) 
+        => _engine.Script[name] = value;
 
     public void SetVariable(string name, double value)
         => SetVariable(name, value.ToString(CultureInfo.InvariantCulture));
 
     public void Execute(string code)
     {
-
         ObjectDisposedException.ThrowIf(_disposed, nameof(_engine));
-
         _engine.Execute(code);
     }
 
     public object Evaluate(string code)
     {
         ObjectDisposedException.ThrowIf(_disposed, nameof(_engine));
-
         return _engine.Evaluate(code);
     }
 
