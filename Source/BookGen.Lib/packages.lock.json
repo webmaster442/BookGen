@@ -4,9 +4,9 @@
     "net11.0": {
       "AngleSharp": {
         "type": "Direct",
-        "requested": "[1.7.1, )",
-        "resolved": "1.7.1",
-        "contentHash": "QBblGpRB3SYD66Mls7fHyl1mWkP93n7ErWDWHc1vd9sPHhdlTkmUoY3CjgfjcWNxGF9m7xjNyztRfErXqoBKOA=="
+        "requested": "[1.7.2, )",
+        "resolved": "1.7.2",
+        "contentHash": "r1rb5Qo/0KPzmP0nbSiXPDVfh4Ctu0B+y1RyyUq73g4sgAmEW7q10RDyTq2ZsILwtO9O2LAvMrUles7eD4zz1g=="
       },
       "Markdig": {
         "type": "Direct",
@@ -41,18 +41,18 @@
       },
       "PreMailer.Net": {
         "type": "Direct",
-        "requested": "[2.7.3, )",
-        "resolved": "2.7.3",
-        "contentHash": "p6LB7Qu4ZsPmjiFtWmytiERhopuGxq3Ql/SVuOZueGzfrDNvvSi8sGaDVHVvJt0S+RCHU422TWLu2aMXDE9ejg==",
+        "requested": "[2.7.4, )",
+        "resolved": "2.7.4",
+        "contentHash": "SrmoWjabHeK4a5mrolGzLMi+z5DMTGzK/Jce0ORs/lGDzvNggDNJF260v4gj5k9aU4LRMp8qILCMCI71t+oa0g==",
         "dependencies": {
-          "AngleSharp": "1.5.1"
+          "AngleSharp": "1.7.2"
         }
       },
       "Roslynator.Analyzers": {
         "type": "Direct",
-        "requested": "[4.16.1, )",
-        "resolved": "4.16.1",
-        "contentHash": "AGzq3UZvIwTGSh9xyIna+Q9F666S8UaLlX/Pk3Iz21qIAWjL8iYporVCcX1k/oi5chrRZ8VJRahup4me4HZptw=="
+        "requested": "[5.0.0, )",
+        "resolved": "5.0.0",
+        "contentHash": "+J5kR/naCd62IwY2BG9P0QoHnJM8liBUFFAk6jga1t9s61JC3M+ofb3AY3wc73/pdROyKFCURqctQh8WRCIT/w=="
       },
       "SkiaSharp": {
         "type": "Direct",
@@ -78,19 +78,19 @@
       },
       "Svg.Skia": {
         "type": "Direct",
-        "requested": "[5.2.1, )",
-        "resolved": "5.2.1",
-        "contentHash": "es8F7MSeJJgc30Dmi0ZsrPpGQmLTQuS3DCvHcJ9wYlNAt3oHEoEzg5ugX3bwMPFejrPNLNjPpr1VOiMrpFyvIA==",
+        "requested": "[5.2.3, )",
+        "resolved": "5.2.3",
+        "contentHash": "slGSy5Aje/30Ou2a5aezbGGWLZspBIBYlEzqgtaIVex4FUYAR3mxaYrvMZj1tHy+ESDFCGY7+2FjF6UzqGUZew==",
         "dependencies": {
           "HarfBuzzSharp": "14.2.0",
           "HarfBuzzSharp.NativeAssets.Linux": "14.2.0",
           "HarfBuzzSharp.NativeAssets.Win32": "14.2.0",
           "HarfBuzzSharp.NativeAssets.macOS": "14.2.0",
           "SkiaSharp": "4.148.0",
-          "Svg.Animation": "5.2.1",
-          "Svg.Custom": "5.2.1",
-          "Svg.Model": "5.2.1",
-          "Svg.SceneGraph": "5.2.1"
+          "Svg.Animation": "5.2.3",
+          "Svg.Custom": "5.2.3",
+          "Svg.Model": "5.2.3",
+          "Svg.SceneGraph": "5.2.3"
         }
       },
       "System.ServiceModel.Syndication": {
@@ -182,8 +182,8 @@
       },
       "ShimSkiaSharp": {
         "type": "Transitive",
-        "resolved": "5.2.1",
-        "contentHash": "mUPSMxfW+vjtwDPrbhK3ILQg8D7aud7JO7p2Y5cqPmKf+s2erTyfEWohlVHCjSSDPvpT5L4aKLqnW02JCfGvag=="
+        "resolved": "5.2.3",
+        "contentHash": "BBmIvh70WduWEF8C9HeU12LmHkg6+h2SRwJzey/tmztRk4ttAxhyu9eAD/jlsNGlqquYpoCQyyTx+QynavyfVA=="
       },
       "SkiaSharp.NativeAssets.macOS": {
         "type": "Transitive",
@@ -197,40 +197,40 @@
       },
       "Svg.Animation": {
         "type": "Transitive",
-        "resolved": "5.2.1",
-        "contentHash": "/WKtsXMKAGIoiNzETQvQQtwoO3V2gEonkxqwrEdiGPSXuTG9Q0c6K34P06HhVXnLaZjjvxja+vOIKVSUucXOug==",
+        "resolved": "5.2.3",
+        "contentHash": "mlbLFKzSVL2wMvDxnlMKLbdbbCbZBjDwSgmCZ7dHE4l0DtVUX5kHixngZlUP8AuBoikzqsXZt4+IXJhbeJjAdA==",
         "dependencies": {
-          "ShimSkiaSharp": "5.2.1",
+          "ShimSkiaSharp": "5.2.3",
           "SkiaSharp": "4.148.0",
-          "Svg.Custom": "5.2.1",
-          "Svg.Model": "5.2.1"
+          "Svg.Custom": "5.2.3",
+          "Svg.Model": "5.2.3"
         }
       },
       "Svg.Custom": {
         "type": "Transitive",
-        "resolved": "5.2.1",
-        "contentHash": "7qAG1I0FGlMwOJk0Js41TmvRJ0eLJPpz8Edd8DOzsotLikUhYGDZZlwXV+6sKvsApfIZEfarH0KwI38T9OHsmw==",
+        "resolved": "5.2.3",
+        "contentHash": "epicuKTb55l7Y6c3f9pdP0RkoifVieS9sWvA9HsppTfYyV7RFZg89+fUA9TTPcuccqi0GUGwiPEi+9b881zlDw==",
         "dependencies": {
           "ExCSS": "4.3.1"
         }
       },
       "Svg.Model": {
         "type": "Transitive",
-        "resolved": "5.2.1",
-        "contentHash": "0+fG1BFw3QoXj+4sxpaXpLDZXz+Snb289epyP3HKjEjUUoWVsErMZb6teo4dVj8KElRJIeXjX6jD1C0B1vLRXw==",
+        "resolved": "5.2.3",
+        "contentHash": "iZInP4/48rIkpFxVJNMmxDDjIBaUcGOHrzancQ3cmneHXrtH4MYkm6bzggL9hCiS2dxfLhk3JCiERoGf8j0MlA==",
         "dependencies": {
-          "ShimSkiaSharp": "5.2.1",
-          "Svg.Custom": "5.2.1"
+          "ShimSkiaSharp": "5.2.3",
+          "Svg.Custom": "5.2.3"
         }
       },
       "Svg.SceneGraph": {
         "type": "Transitive",
-        "resolved": "5.2.1",
-        "contentHash": "vm2QxbPv5MraL7T2+1dh0m8lGQqtW37RK4iOHvBsJQHQzcuDlCR+uX/Oiun77kS2US2OC23zfaIFEYWGwocXLw==",
+        "resolved": "5.2.3",
+        "contentHash": "t9HrB1n499YCvziq+sdapDjMvgY7iSzyldEDalWnoZCP3cncu92gEktBqzhUgo8A+r9mfow2TNf0u5jgV5FvlQ==",
         "dependencies": {
-          "ShimSkiaSharp": "5.2.1",
-          "Svg.Custom": "5.2.1",
-          "Svg.Model": "5.2.1"
+          "ShimSkiaSharp": "5.2.3",
+          "Svg.Custom": "5.2.3",
+          "Svg.Model": "5.2.3"
         }
       },
       "bookgen.shell.shared": {
