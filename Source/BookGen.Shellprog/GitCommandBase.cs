@@ -13,26 +13,21 @@ using Spectre.Console;
 
 namespace BookGen.Shellprog;
 
-internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
+internal class GitArguments : ArgumentsBase
+{
+    [Description("Working directory for prompt")]
+    [Argument(0, IsOptional = true)]
+    public string WorkDirectory { get; set; }
+
+    public GitArguments()
+    {
+        WorkDirectory = string.Empty;
+    }
+}
+
+internal abstract class GitCommandBase<T> : Command<T> where T : GitArguments
 {
     protected const int TimeOut = 10;
-    protected readonly IAnsiConsole _console;
-
-    internal sealed class GitArguments : ArgumentsBase
-    {
-        [Description("Working directory to check for git repository")]
-        [Argument(0, IsOptional = true)]
-        public string WorkDirectory { get; set; }
-        public GitArguments()
-        {
-            WorkDirectory = string.Empty;
-        }
-    }
-
-    protected GitCommandBase(IAnsiConsole console)
-    {
-        _console = console;
-    }
 
     public enum GitDirectoryStatus
     {
@@ -91,45 +86,5 @@ internal abstract class GitCommandBase : Command<GitCommandBase.GitArguments>
         {
             return null;
         }
-    }
-
-    protected void PrintUntrusted()
-    {
-        TerminalOutputBuilder builder = new TerminalOutputBuilder()
-            .Append(TerminalOutputBuilder.ForegroundColor.Yellow, TerminalOutputBuilder.BackgroundColor.Black, "<untrusted>");
-
-        _console.WriteLine(builder.ToString());
-    }
-
-    protected void PrintStatus(GitStatus? status)
-    {
-        if (status is null)
-        {
-            return;
-        }
-
-        TerminalOutputBuilder builder = new TerminalOutputBuilder()
-            .Append(TerminalOutputBuilder.ForegroundColor.Default, TerminalOutputBuilder.BackgroundColor.Green, $"({status.BranchName}) ");
-
-        if (status.IncommingCommits > 0)
-        {
-            builder.Append(TerminalOutputBuilder.ForegroundColor.Black,
-                           TerminalOutputBuilder.BackgroundColor.Magenta,
-                           $"↓: {status.IncommingCommits}");
-        }
-        if (status.OutGoingCommits > 0)
-        {
-            builder.Append(TerminalOutputBuilder.ForegroundColor.Black,
-                           TerminalOutputBuilder.BackgroundColor.Yellow,
-                           $" ↑: {status.OutGoingCommits}");
-        }
-        if (status.NotCommitedChanges > 0)
-        {
-            builder.Append(TerminalOutputBuilder.ForegroundColor.Black,
-                           TerminalOutputBuilder.BackgroundColor.Cyan,
-                           $" M: {status.NotCommitedChanges}");
-        }
-
-        _console.WriteLine(builder.ToString());
     }
 }

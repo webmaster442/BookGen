@@ -5,7 +5,7 @@
     },
     "Prompt": {
       "commandName": "Project",
-      "commandLineArgs": "prompt b:\\HelloCsharp\\C"
+      "commandLineArgs": "prompt c:\\Users\\ruzsi true"
     }
   }
 }

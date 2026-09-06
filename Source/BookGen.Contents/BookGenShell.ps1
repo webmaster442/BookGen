@@ -431,20 +431,7 @@ function prompt {
     $lastOk = $?
     $lastExit = $LASTEXITCODE
     $success = $lastOk -and (($null -eq $lastExit) -or ($lastExit -eq 0))
-    $status = if ($success) { "`e[32m✓`e[0m" } else { "`e[31m✗`e[0m" }
-
-    $git = $(BookGen.Shellprog.exe "prompt" $(Get-Location).Path)
-    $location = (Get-Location).Path
-    $locationUri = [System.Uri]::new($location).AbsoluteUri
-    $link = "`e]8;;$locationUri`a$location`e]8;;`a"
-    $topLine = "╭╴$link"+"`n"
-
-    if (-not [string]::IsNullOrWhiteSpace($git)) {
-        $topLine + '╰╴ PS ' + $git + $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' ' + $status + ' > '
-    }
-    else {
-        $topLine + '╰╴ PS ' + $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' ' + $status + ' > '
-    }
+    (BookGen.Shellprog.exe "prompt" $(Get-Location).Path $success) -join "`n"
 }
 
 
