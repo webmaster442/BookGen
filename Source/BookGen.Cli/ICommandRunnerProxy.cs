@@ -12,6 +12,6 @@ public interface ICommandRunnerProxy
     IEnumerable<string> CommandNames { get; }
     IEnumerable<string> GlobalOptions { get; }
     string[] GetAutoCompleteItems(string commandName);
-    Task<int> RunCommand(string commandName, IReadOnlyList<string> argsToParse);
+    Task<int> RunCommandAsync(string commandName, IReadOnlyList<string> argsToParse);
     Document GetOpenCliDocs();
 }

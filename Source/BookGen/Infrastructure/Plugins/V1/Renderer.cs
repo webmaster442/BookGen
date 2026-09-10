@@ -20,6 +20,7 @@ namespace BookGen.Infrastructure.Plugins.V1;
 internal sealed class Renderer : IRenderer
 {
     private readonly MarkdownRenderSettings _markdownRenderSettings;
+    private readonly RenderInterop _renderInterop;
     private readonly MarkdownConverter _markdownConverter;
     private readonly TemplateEngine _engine;
     private bool _disposed;
@@ -41,12 +42,14 @@ internal sealed class Renderer : IRenderer
         var imgService = new ImgService(environment.Source, logger, imgConfig);
         var cachedImageService = new CachedImageService(imgService, memoryCache);
 
+        _renderInterop = new RenderInterop(environment, environment.ProgramPathResolver, imgConfig);
+
         _markdownRenderSettings = new MarkdownRenderSettings(cachedImageService)
         {
             CssClasses = Map(options.CssClasses),
             DeleteFirstH1 = options.DeleteFirstH1,
             HostUrl = options.HostUrl,
-            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, imgConfig),
+            RenderInterop = _renderInterop,
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = options.AutoEmbedSupportedLinks,
         };
@@ -58,7 +61,7 @@ internal sealed class Renderer : IRenderer
     public void Dispose()
     {
         _markdownConverter.Dispose();
-        _markdownRenderSettings.Dispose();
+        _renderInterop.Dispose();
         _disposed = true;
     }
 

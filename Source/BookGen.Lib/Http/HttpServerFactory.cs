@@ -6,7 +6,6 @@
 using System.Net.Mime;
 using System.Net.NetworkInformation;
 
-using BookGen.Lib.AppSettings;
 using BookGen.Vfs;
 
 using Microsoft.AspNetCore.Http;

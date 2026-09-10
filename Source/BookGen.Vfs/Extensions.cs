@@ -184,4 +184,19 @@ public static class Extensions
             JsonSerializer.Serialize(stream, value, JsonOptions.SerializerOptions);
         }
     }
+
+    extension(TextReader reader)
+    {
+        public async Task<List<string>> ReadAllLinesAsync(CancellationToken cancellationToken)
+        {
+            string? line;
+            var lines = new List<string>();
+            while ((line = await reader.ReadLineAsync(cancellationToken).ConfigureAwait(false)) != null)
+            {
+                lines.Add(line);
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+            return lines;
+        }
+    }
 }

@@ -70,7 +70,7 @@ internal class BranchCommand : AsyncCommand
             string commandToRun = $"{_branchItemsProvider.BranchName} {context[0]}";
             if (_branchItemsProvider.BranchItems.Contains(commandToRun, StringComparer.OrdinalIgnoreCase))
             {
-                return await _commandRunnerProxy.RunCommand(commandToRun, context.Skip(1).ToList());
+                return await _commandRunnerProxy.RunCommandAsync(commandToRun, context.Skip(1).ToList());
             }
         }
 

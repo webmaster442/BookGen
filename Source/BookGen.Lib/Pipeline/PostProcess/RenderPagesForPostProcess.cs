@@ -38,12 +38,14 @@ internal sealed class RenderPagesForPostProcess : PipeLineStep<PostProcessState>
 
         var cached = new CachedImageService(imgService, _memoryCache);
 
-        using var settings = new MarkdownRenderSettings(cached)
+        using var renderInterop = new RenderInterop(environment, environment.ProgramPathResolver, imgConfig);
+
+        var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, imgConfig),
+            RenderInterop = renderInterop,
             OffsetHeadingsBy = 1,
             AutoEmbedSupportedLinks = false,
         };

@@ -24,7 +24,7 @@ internal class RuntimePrintingParser : GlobalOptionParser
         _info.PrintRuntime = true;
     }
 
-    protected override void OnOptionWasPresent()
+    protected override void OnOptionWasPresent(string value)
     {
         _info.PrintRuntime = false;
     }

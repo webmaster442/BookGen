@@ -1,0 +1,75 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2019-2026 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace BookGen.Cli;
+
+public abstract class GlobalOptionParser
+{
+    public string LongName { get; }
+    public string ShortName { get; }
+    public bool NeedsValue { get; }
+
+    public GlobalOptionParser(string shortName, string longName, bool needsValue = false)
+    {
+        if (longName.StartsWith('-'))
+            throw new ArgumentException("Long name cannot start with '--'", nameof(longName));
+
+        if (shortName.StartsWith('-'))
+            throw new ArgumentException("Short name cannot start with '-'", nameof(shortName));
+
+        ShortName = $"-{shortName}";
+        LongName = $"--{longName}";
+        NeedsValue = needsValue;
+    }
+
+    public bool TryParseGlobalOption(IReadOnlyList<string> args, out List<int> consumedIndexes)
+    {
+        bool handle = false;
+        consumedIndexes = new List<int>();
+
+        int optionIndex = 0;
+
+        for (int i=0; i<args.Count; i++)
+        {
+            if (args[i] == ShortName || args[i] == LongName)
+            {
+                handle = true;
+                optionIndex = i;
+                break;
+            }
+        }
+
+        if (handle)
+        {
+            string value = string.Empty;
+            int valueIndex = -1;
+            if (NeedsValue)
+            {
+                int index = optionIndex + 1;
+                if (index < args.Count)
+                {
+                    value = args[index];
+                    valueIndex = index;
+                }
+                else
+                {
+                    Console.WriteLine($"Ignored Option '{args[optionIndex]}': requires a value, but none was provided.");
+                    handle = false;
+                }
+            }
+            if (handle)
+            {
+                OnOptionWasPresent(value);
+                consumedIndexes.Add(optionIndex);
+                if (valueIndex >= 0)
+                    consumedIndexes.Add(valueIndex);
+            }
+        }
+
+        return handle;
+    }
+
+    protected abstract void OnOptionWasPresent(string value);
+}

@@ -7,11 +7,13 @@ using System.Diagnostics;
 
 using BookGen;
 using BookGen.Cli;
+using BookGen.Cli.CrashReporting;
+using BookGen.Cli.Dotenv;
 using BookGen.Commands;
 using BookGen.GlobalOptionParsers;
 using BookGen.Infrastructure;
 using BookGen.Infrastructure.Loging;
-using BookGen.Lib.AppSettings;
+using BookGen.Lib;
 using BookGen.Shell.Shared.Loging;
 using BookGen.Vfs;
 
@@ -22,11 +24,14 @@ using Spectre.Console;
 
 ProgramInfo info = new();
 
+var debugLogProvider = new DebugLoggerProvider(30);
+var crashDumpGenerator = new CrashDumpGenerator("BookGen");
+
 using ILoggerFactory factory = LoggerFactory
     .Create(builder =>
     {
         builder.ClearProviders();
-        builder.AddFilter(level => level >= info.LogLevel);
+        builder.AddProvider(debugLogProvider);
         if (info.JsonLogging)
         {
             builder.AddJsonConsole();
@@ -34,20 +39,41 @@ using ILoggerFactory factory = LoggerFactory
         else
         {
             builder.AddProvider(new ConsoleLogProvider());
+            builder.AddFilter<ConsoleLogProvider>(level => level >= info.LogLevel);
         }
         if (info.LogToFile)
         {
             builder.AddProvider(new FileLoggerProvider());
+            builder.AddFilter<ConsoleLogProvider>(level => level >= info.LogLevel);
         }
     });
 
 ILogger logger = factory.CreateLogger("Bookgen");
 CommandRunnerProxy runnerProxy = new();
+DotEnvSettings settings = new();
+
+string defaultEnvFile = Path.Combine(AppContext.BaseDirectory, "BookGen.env");
+
+if (File.Exists(defaultEnvFile))
+{
+    try
+    {
+        using StreamReader reader = File.OpenText(defaultEnvFile);
+        DotEnvSettings loaded = DotEnvParser.Parse(reader, StringComparer.Ordinal);
+        settings.Merge(loaded);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Failed to load default env-file '{defaultEnvFile}'.", defaultEnvFile);
+        Environment.Exit(ExitCodes.GeneralError);
+    }
+}
 
 var ioc = new ServiceCollection();
 ioc.AddMemoryCache();
 ioc.AddSingleton(logger);
 ioc.AddSingleton(info);
+ioc.AddSingleton(settings);
 ioc.AddSingleton<ICommandRunnerProxy>(runnerProxy);
 ioc.AddSingleton<IDynamicDocumentGenerator, DynamicDocumentGenerator>();
 ioc.AddSingleton<IAssetSource>(ZipAssetSoruce.DefaultAssets());
@@ -55,8 +81,6 @@ ioc.AddSingleton<IFileSystemFactory, FileSystemFactory>();
 ioc.AddTransient<IWritableFileSystem, FileSystem>();
 ioc.AddTransient<IReadOnlyFileSystem, FileSystem>();
 ioc.AddTransient<IApiClient, ApiClient>();
-ioc.AddTransient<IReadOnlyAppSettings, AppSettings>();
-ioc.AddTransient<IAppSettings, AppSettings>();
 ioc.AddTransient<IProgramPathResolver, ProgramPathResolver>();
 ioc.AddKeyedSingleton<IAssetSource>("dictionaries", (provider, key) =>
 {
@@ -70,7 +94,7 @@ ioc.AddKeyedSingleton<IAssetSource>("dictionaries", (provider, key) =>
 
 using ServiceProvider provider = ioc.BuildServiceProvider();
 
-CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new CommandRunnerSettings
+using CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,
@@ -86,8 +110,9 @@ CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new Comm
 };
 
 runner
-    .AddGlobalOptionParser<AttachDebuggerParser>()
-    .AddGlobalOptionParser<WaitDebuggerParser>()
+    .AddGlobalOptionParser(new DotEnvFileParser(logger, settings))
+    .AddGlobalOptionParser(new AttachDebuggerParser(logger))
+    .AddGlobalOptionParser(new WaitDebuggerParser(logger))
     .AddGlobalOptionParser(new JsonLogParser(info))
     .AddGlobalOptionParser(new LogToFileParser(info))
     .AddGlobalOptionParser(new RuntimePrintingParser(info));
@@ -125,8 +150,11 @@ Task OnBeforeRun(ArgumentsBase @base, IReadOnlyList<string> list)
 
 void OnException(Exception exception)
 {
-    logger.LogCritical(exception.Message);
-    CrashDumpFactory.TryCreateCrashDump(exception);
+    logger.LogCritical(exception, exception.Message);
+
+    crashDumpGenerator
+        .GenerateCrashDump(exception, debugLogProvider.GetEntries());
+
 #if DEBUG
     AnsiConsole.WriteException(exception);
 #endif

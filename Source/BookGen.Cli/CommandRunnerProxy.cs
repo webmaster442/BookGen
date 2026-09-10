@@ -37,7 +37,7 @@ public sealed class CommandRunnerProxy : ICommandRunnerProxy
         => _autoComplete?.Invoke(commandName)
         ?? throw new InvalidOperationException("Provider hasn't been setup correctly");
 
-    public async Task<int> RunCommand(string commandName, IReadOnlyList<string> argsToParse)
+    public async Task<int> RunCommandAsync(string commandName, IReadOnlyList<string> argsToParse)
     {
         if (_runCommand == null)
             throw new InvalidOperationException("Provider hasn't been setup correctly");

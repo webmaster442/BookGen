@@ -9,7 +9,6 @@ using System.Text;
 using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Lib;
-using BookGen.Lib.AppSettings;
 using BookGen.Lib.Domain.IO.Configuration;
 using BookGen.Lib.Rendering.Images;
 using BookGen.Lib.Rendering.Markdown;
@@ -26,7 +25,7 @@ namespace BookGen.Commands.Convert;
 [CommandName("convert md2html")]
 [Description("Renders a single markdown file to an HTML file.")]
 [ExitCode(ExitCodes.Success, "The command completed successfully.")]
-internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
+internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>, IDisposable
 {
     internal sealed class Arguments : ArgumentsBase
     {
@@ -117,6 +116,7 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
     private readonly IAssetSource _assetSource;
     private readonly TemplateEngine _templateEngine;
     private readonly IProgramPathResolver _programPathResolver;
+    private readonly RenderInterop _renderInterop;
 
     private const string TitleTag = "{{Title}}";
     private const string ContentTag = "{{Content}}";
@@ -129,6 +129,12 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
         _programPathResolver = programPathResolver;
         _assetSource = assetSource;
         _templateEngine = new TemplateEngine(log, assetSource);
+        _renderInterop = new RenderInterop(_assetSource, _programPathResolver, new ImageConfig());
+    }
+
+    public void Dispose()
+    {
+        _renderInterop.Dispose();
     }
 
     public override int Execute(Arguments arguments, IReadOnlyList<string> context)
@@ -164,14 +170,16 @@ internal sealed class Md2HtmlCommand : Command<Md2HtmlCommand.Arguments>
 
         var imgService = new ImgService(inputFilesScope, _log, imgConfig);
 
-        using var settings = new MarkdownRenderSettings(imgService)
+        _renderInterop.ImageConfig = imgConfig;
+
+        var settings = new MarkdownRenderSettings(imgService)
         {
             HostUrl = string.Empty,
             DeleteFirstH1 = false,
             CssClasses = new CssClasses(),
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = !arguments.NoEmbed,
-            RenderInterop = new RenderInterop(_assetSource, _programPathResolver, imgConfig)
+            RenderInterop = _renderInterop
         };
 
         settings.RenderInterop.PreRenderCode = !arguments.NoSyntax;

@@ -4,6 +4,7 @@
     <File Path="Docs/manual.md" />
     <File Path="Docs/plugin.md" />
     <File Path="Docs/readme.md" />
+    <File Path="Docs/scripts.md" />
   </Folder>
   <Folder Name="/Misc/" Id="209479ab-f6dc-4e64-8458-43e805966b28">
     <File Path=".editorconfig" />

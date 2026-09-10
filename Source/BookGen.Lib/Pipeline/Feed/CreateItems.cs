@@ -32,12 +32,14 @@ internal sealed class CreateItems : PipeLineStep<SyndicationFeedState>
         var imgService = new ImgService(environment.Source, logger, environment.Configuration.FeedConfig.Images);
         var cached = new CachedImageService(imgService, _memoryCache);
 
-        using var settings = new MarkdownRenderSettings(cached)
+        using var renderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.FeedConfig.Images);
+
+        var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.FeedConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.FeedConfig.Images),
+            RenderInterop = renderInterop,
             OffsetHeadingsBy = 0,
             AutoEmbedSupportedLinks = false,
         };

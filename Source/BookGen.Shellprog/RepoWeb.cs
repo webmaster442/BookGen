@@ -11,10 +11,13 @@ using Spectre.Console;
 namespace BookGen.Shellprog;
 
 [CommandName("repoweb")]
-internal sealed class RepoWeb : GitCommandBase
+internal sealed class RepoWeb : GitCommandBase<GitArguments>
 {
-    public RepoWeb(IAnsiConsole console) : base(console)
+    private readonly IAnsiConsole _console;
+
+    public RepoWeb(IAnsiConsole console)
     {
+        _console = console;
     }
 
     public override int Execute(GitArguments arguments, IReadOnlyList<string> context)

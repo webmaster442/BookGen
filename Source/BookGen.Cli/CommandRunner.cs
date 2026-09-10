@@ -6,7 +6,6 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Text.Json;
 
 using BookGen.Cli.ArgumentParsing;
 using BookGen.Cli.Internals;
@@ -18,9 +17,8 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Cli;
 
-public sealed class CommandRunner
+public sealed class CommandRunner : IDisposable
 {
-    private readonly JsonSerializerOptions _serializerOptions;
     private readonly CommandTree _commands;
     private readonly IServiceProvider _serviceProvider;
     private readonly ICommandHelpProvider _helpProvider;
@@ -28,6 +26,7 @@ public sealed class CommandRunner
     private readonly CommandRunnerSettings _settings;
     private readonly List<GlobalOptionParser> _globalOptionParsers;
     private readonly SupportedOs _currentOs;
+    private readonly Dictionary<string, ICommand> _cachedCommands;
 
     public IValidationContext ValidationContext { get; set; }
 
@@ -59,8 +58,13 @@ public sealed class CommandRunner
         return false;
     }
 
-    private ICommand CreateCommand(Type commandType, string commandName)
+    private ICommand GetOrCreateCommand(Type commandType, string commandName)
     {
+        if (_cachedCommands.ContainsKey(commandName))
+        {
+            return _cachedCommands[commandName];
+        }
+
         ConstructorInfo constructor = commandType
             .GetConstructors(BindingFlags.Public | BindingFlags.Instance)
             .OrderByDescending(c => c.GetParameters().Length)
@@ -84,10 +88,12 @@ public sealed class CommandRunner
             constructorParameters.Add(parameterInstance);
         }
 
-        var instance = Activator.CreateInstance(commandType, constructorParameters.ToArray())
+        ICommand instance = Activator.CreateInstance(commandType, constructorParameters.ToArray()) as ICommand
             ?? throw new InvalidOperationException();
 
-        return (ICommand)instance;
+        _cachedCommands.TryAdd(commandName, instance);
+
+        return instance;
     }
 
     public CommandRunner(IServiceProvider serviceProvider,
@@ -95,12 +101,7 @@ public sealed class CommandRunner
                          ILogger log,
                          CommandRunnerSettings settings)
     {
-        _serializerOptions = new JsonSerializerOptions
-        {
-            ReadCommentHandling = JsonCommentHandling.Skip,
-            AllowTrailingCommas = true,
-            WriteIndented = true
-        };
+        _cachedCommands = new Dictionary<string, ICommand>();
         _globalOptionParsers = new List<GlobalOptionParser>();
         _commands = new CommandTree();
         _serviceProvider = serviceProvider;
@@ -113,6 +114,18 @@ public sealed class CommandRunner
         ValidationContext = new IoCValidationContext(serviceProvider);
 
         Helpers.ConfigureUtfSupport(_settings.EnableUtf8Output);
+    }
+
+    public void Dispose()
+    {
+        foreach (KeyValuePair<string, ICommand> cached in _cachedCommands)
+        {
+            if (cached.Value is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+        }
+        _cachedCommands.Clear();
     }
 
     public Action<Exception> ExceptionHandlerDelegate { get; set; }
@@ -241,16 +254,19 @@ public sealed class CommandRunner
                 skipCount = 0;
             }
 
-            HashSet<string> parsedGlobals = new();
-            foreach (var parser in _globalOptionParsers)
+            HashSet<int> parsedGlobalIndexes = new();
+            foreach (GlobalOptionParser parser in _globalOptionParsers)
             {
-                if (parser.TryParseGlobalOption(args, out string? globalOption))
+                if (parser.TryParseGlobalOption(args, out List<int> consumedIndexes))
                 {
-                    parsedGlobals.Add(globalOption);
+                    foreach (var index in consumedIndexes)
+                    {
+                        parsedGlobalIndexes.Add(index);
+                    }
                 }
             }
 
-            List<string> argsToParse = Helpers.GetArgsToParse(args, parsedGlobals, skipCount);
+            List<string> argsToParse = Helpers.GetArgsToParse(args, parsedGlobalIndexes, skipCount);
 
             return await RunCommand(commandName, argsToParse);
         }
@@ -263,13 +279,6 @@ public sealed class CommandRunner
             ExceptionHandlerDelegate.Invoke(ex);
             return _settings.ExcptionExitCode;
         }
-    }
-
-    private async Task<ArgumentJsonItem[]> LoadFromJsonFile(string jsonFile)
-    {
-        await using FileStream stream = File.OpenRead(jsonFile);
-        return await JsonSerializer.DeserializeAsync<ArgumentJsonItem[]>(stream, _serializerOptions)
-            ?? throw new InvalidOperationException("Failed to load arguments from json");
     }
 
     public async Task<int> RunCommand(string commandName, IReadOnlyList<string> argsToParse)
@@ -285,7 +294,7 @@ public sealed class CommandRunner
         }
 
         Type? argumentType = commandType.GetArgumentType();
-        ICommand command = CreateCommand(commandType, commandName);
+        ICommand command = GetOrCreateCommand(commandType, commandName);
 
         if (!command.SupportedOs.HasFlag(_currentOs))
         {
@@ -298,18 +307,6 @@ public sealed class CommandRunner
             if (argumentType == null)
                 return await command.ExecuteAsync(ArgumentsBase.Empty, argsToParse, tokenSource.Token);
 
-            string jsonFileName = Path.ChangeExtension(commandName, ".json");
-
-            string argsJson = Path.Combine(Environment.CurrentDirectory, jsonFileName);
-
-            if (argsToParse.Count < 1
-                && File.Exists(argsJson))
-            {
-                _log.LogInformation("Loading arguments from {filename}...", jsonFileName);
-                ArgumentJsonItem[] items = await LoadFromJsonFile(argsJson);
-
-                return await ExecuteMultiple(items, argumentType, command, commandName, tokenSource.Token);
-            }
             return await ExecuteSingle(argsToParse, argumentType, command, commandName, tokenSource.Token);
         }
     }
@@ -348,24 +345,5 @@ public sealed class CommandRunner
             await BeforeRunHook.Invoke(args, argsToParse);
 
         return await command.ExecuteAsync(args, argsToParse, token);
-    }
-
-    private async Task<int> ExecuteMultiple(ArgumentJsonItem[] items,
-                                            Type argumentType,
-                                            ICommand command,
-                                            string commandName,
-                                            CancellationToken token)
-    {
-        foreach (ArgumentJsonItem item in items)
-        {
-            _log.LogInformation("Executing {name} from json file...", item.Name);
-            int exitcode = await ExecuteSingle(item.Arguments, argumentType, command, commandName, token);
-            if (exitcode != 0)
-            {
-                _log.LogCritical("Failed to execute {name}. Exit code: {exitcode}", item.Name, exitcode);
-                return exitcode;
-            }
-        }
-        return 0;
     }
 }

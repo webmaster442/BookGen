@@ -10,7 +10,6 @@ using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Loging;
 using BookGen.Infrastructure.Terminal;
 using BookGen.Lib;
-using BookGen.Lib.AppSettings;
 using BookGen.Lib.Domain;
 using BookGen.Vfs;
 

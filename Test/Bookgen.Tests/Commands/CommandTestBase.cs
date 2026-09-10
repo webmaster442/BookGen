@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using BookGen.Cli;
-using BookGen.Lib.AppSettings;
+using BookGen.Lib;
 using BookGen.Vfs;
 
 using Microsoft.Extensions.Logging;
@@ -25,11 +25,22 @@ internal abstract class CommandTestBase<TCommand> where TCommand : ICommand
 
     protected ICommand Command { get; private set; }
 
+    public const int TenSeconds = 10_000;
+
     [SetUp]
     public void Setup()
     {
         SetupMocks();
         Command = CreateSut();
+    }
+
+    [TearDown]
+    public virtual void Teardown()
+    {
+        if (Command is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
     }
 
     protected abstract TCommand CreateSut();
