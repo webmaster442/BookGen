@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using AngleSharp.Html;
+
 using BookGen.Lib.Domain.IO.Configuration;
 using BookGen.Lib.Rendering.Images;
 using BookGen.Lib.Rendering.Markdown;
@@ -18,6 +20,7 @@ internal sealed class UT_MarkdownConverter_Specials
     private Mock<IImgService> _imgServiceMock;
     private MarkdownRenderSettings _settings;
     private TestEnvironment _testEnvironment;
+    private RenderInterop _renderInterop;
     private readonly IEqualityComparer<string?> comparer = new LineEndingIgnoreComparer();
 
     [SetUp]
@@ -25,17 +28,17 @@ internal sealed class UT_MarkdownConverter_Specials
     {
         _testEnvironment = new TestEnvironment();
         _imgServiceMock = new Mock<IImgService>(MockBehavior.Strict);
-
+        _renderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()
+        {
+            SvgRecode = SvgRecodeOption.AsPng
+        });
         _settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()
-            {
-                SvgRecode = SvgRecodeOption.AsPng
-            })
+            RenderInterop = _renderInterop,
         };
 
     }
@@ -43,7 +46,7 @@ internal sealed class UT_MarkdownConverter_Specials
     [TearDown]
     public void Teardown()
     {
-        _settings.Dispose();
+        _renderInterop.Dispose();
         _testEnvironment.Dispose();
     }
 
@@ -95,16 +98,18 @@ internal sealed class UT_MarkdownConverter_Specials
             ```
             """;
 
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
+        {
+            SvgRecode = SvgRecodeOption.Passtrough
+        });
+
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
-            {
-                SvgRecode = SvgRecodeOption.Passtrough
-            })
+            RenderInterop = interop,
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -179,16 +184,18 @@ internal sealed class UT_MarkdownConverter_Specials
     [TestCase("Press <<Ctrl+O>> to open <http://www.example.com>", "<p>Press <kbd>Ctrl+O</kbd> to open <a href=\"http://www.example.com\">http://www.example.com</a></p>\n")]
     public void EnsureThat_Kbd_Tag_Works(string input, string expected)
     {
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
+        {
+            SvgRecode = SvgRecodeOption.Passtrough
+        });
+
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
-            {
-                SvgRecode = SvgRecodeOption.Passtrough
-            })
+            RenderInterop = interop,
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -201,16 +208,18 @@ internal sealed class UT_MarkdownConverter_Specials
     [Test]
     public void EnsureThat_Math_Block_Works()
     {
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
+        {
+            SvgRecode = SvgRecodeOption.Passtrough
+        });
+
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
-            {
-                SvgRecode = SvgRecodeOption.Passtrough
-            })
+            RenderInterop = interop,
         };
 
         string input = """
@@ -266,16 +275,18 @@ internal sealed class UT_MarkdownConverter_Specials
     [TestCase(Ssv)]
     public void EnsureThat_Language_Csv_Works(string input)
     {
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
+        {
+            SvgRecode = SvgRecodeOption.Passtrough
+        });
+
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig
-            {
-                SvgRecode = SvgRecodeOption.Passtrough
-            })
+            RenderInterop = interop,
         };
 
         using var sut = new MarkdownConverter(settings);

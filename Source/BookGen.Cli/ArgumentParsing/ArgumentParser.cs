@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookGen.Cli.ArgumentParsing;
 
-internal class ArgumentParser
+internal sealed class ArgumentParser
 {
     private readonly List<PropertyInfo> _argumentPropertyInfos;
     private readonly List<PropertyInfo> _switchPropertyInfos;

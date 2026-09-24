@@ -8,6 +8,8 @@ using System.Diagnostics;
 
 using BookGen.Cli;
 
+using Microsoft.Extensions.Logging;
+
 using Spectre.Console;
 
 namespace BookGen.GlobalOptionParsers;
@@ -17,16 +19,18 @@ internal sealed class WaitDebuggerParser : GlobalOptionParser
 {
     private const string DebuggerShort = "wd";
     private const string DebuggerLong = "wait-debugger";
+    private readonly ILogger _log;
 
-    public WaitDebuggerParser()
+    public WaitDebuggerParser(ILogger log)
         : base(DebuggerShort, DebuggerLong)
     {
+        _log = log;
     }
 
-    protected override void OnOptionWasPresent()
+    protected override void OnOptionWasPresent(string value)
     {
-        AnsiConsole.WriteLine("Waiting for debugger to be attached...");
-        AnsiConsole.WriteLine("ESC to cancel & contine execution...");
+        _log.LogInformation("Waiting for debugger to be attached...");
+        _log.LogInformation("ESC to cancel & continue execution...");
         while (!Debugger.IsAttached)
         {
             if (Console.KeyAvailable)

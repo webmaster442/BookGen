@@ -6,7 +6,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Nodes;
 
-using BookGen.Lib.AppSettings;
 using BookGen.Lib.Confighandling;
 using BookGen.Lib.Domain.IO;
 using BookGen.Lib.Domain.IO.Configuration;

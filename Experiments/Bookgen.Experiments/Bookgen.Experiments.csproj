@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Bookgen.Experiments.Tests"/>
+  </ItemGroup>
+  
 </Project>

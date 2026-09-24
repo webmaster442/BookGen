@@ -29,12 +29,14 @@ internal sealed class RenderPages : PipeLineStep<PrintState>
         var imgService = new ImgService(environment.Source, logger, environment.Configuration.PrintConfig.Images);
         var cached = new CachedImageService(imgService, _memoryCache);
 
-        using var settings = new MarkdownRenderSettings(cached)
+        using var renderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.PrintConfig.Images);
+
+        var settings = new MarkdownRenderSettings(cached)
         {
             CssClasses = environment.Configuration.PrintConfig.CssClasses,
             DeleteFirstH1 = false,
             HostUrl = string.Empty,
-            RenderInterop = new RenderInterop(environment, environment.ProgramPathResolver, environment.Configuration.PrintConfig.Images),
+            RenderInterop = renderInterop,
             OffsetHeadingsBy = 1,
             AutoEmbedSupportedLinks = false,
         };

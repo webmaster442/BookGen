@@ -5,7 +5,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace BookGen.Lib.AppSettings;
+namespace BookGen.Lib;
 
 public interface IProgramPathResolver
 {

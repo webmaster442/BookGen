@@ -29,8 +29,8 @@ internal class UT_OpenCli
         var info = new BookGen.ProgramInfo();
 
         runner
-            .AddGlobalOptionParser<AttachDebuggerParser>()
-            .AddGlobalOptionParser<WaitDebuggerParser>()
+            .AddGlobalOptionParser(new AttachDebuggerParser(loggerMock.Object))
+            .AddGlobalOptionParser(new WaitDebuggerParser(loggerMock.Object))
             .AddGlobalOptionParser(new JsonLogParser(info))
             .AddGlobalOptionParser(new LogToFileParser(info))
             .AddGlobalOptionParser(new RuntimePrintingParser(info));

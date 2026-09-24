@@ -9,7 +9,7 @@ using BookGen.Lib.Rendering.Markdown.RenderInterop;
 
 namespace BookGen.Lib.Rendering.Markdown;
 
-public sealed class MarkdownRenderSettings : IDisposable
+public sealed class MarkdownRenderSettings
 {
     private readonly IImgService _imgService;
 
@@ -40,10 +40,5 @@ public sealed class MarkdownRenderSettings : IDisposable
     {
         ImageUrlRewriter = EmbedImage;
         _imgService = imgService;
-    }
-
-    public void Dispose()
-    {
-        RenderInterop.Dispose();
     }
 }

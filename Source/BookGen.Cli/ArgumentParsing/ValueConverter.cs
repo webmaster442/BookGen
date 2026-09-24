@@ -17,19 +17,19 @@ internal static class ValueConverter
         return result != null;
     }
 
-    public static object? Convert(string? value, Type propertyType)
+    public static object? Convert(string? value, Type targetPropertyType)
     {
         if (string.IsNullOrEmpty(value))
             return null;
 
-        Type currenttype = propertyType;
-        if (TryGetNullableType(currenttype, out Type? nullable))
+        Type currentType = targetPropertyType;
+        if (TryGetNullableType(currentType, out Type? nullable))
         {
-            currenttype = nullable;
+            currentType = nullable;
         }
 
-        if (currenttype.IsEnum
-            && Enum.TryParse(currenttype, value, true, out object? parsed))
+        if (currentType.IsEnum
+            && Enum.TryParse(currentType, value, true, out object? parsed))
         {
             return parsed;
         }
@@ -38,7 +38,7 @@ internal static class ValueConverter
         {
             checked
             {
-                object converted = System.Convert.ChangeType(value, currenttype, CultureInfo.InvariantCulture);
+                object converted = System.Convert.ChangeType(value, currentType, CultureInfo.InvariantCulture);
                 return converted;
             }
         }

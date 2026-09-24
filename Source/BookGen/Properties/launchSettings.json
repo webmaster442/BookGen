@@ -4,9 +4,6 @@
       "commandName": "WSL2",
       "distributionName": ""
     },
-    "BookGen": {
-      "commandName": "Project"
-    },
     "Gui": {
       "commandName": "Project",
       "commandLineArgs": "Gui"

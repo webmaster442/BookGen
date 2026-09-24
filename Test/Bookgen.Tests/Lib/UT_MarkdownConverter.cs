@@ -80,7 +80,8 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_Css_ClassesAreAplied()
     {
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig());
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses
             {
@@ -90,7 +91,7 @@ internal class UT_MarkdownConverter
             },
             DeleteFirstH1 = false,
             HostUrl = null,
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()),
+            RenderInterop = interop,
             AutoEmbedSupportedLinks = true,
         };
 
@@ -121,12 +122,13 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_DeleteFirstH1_HostUrlTargeting_Works()
     {
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig());
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = true,
             HostUrl = "https://my.domain",
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()),
+            RenderInterop = interop,
             AutoEmbedSupportedLinks = true,
         };
         settings.RenderInterop.PreRenderCode = false;
@@ -157,12 +159,13 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_SourceCode_Works()
     {
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig());
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()),
+            RenderInterop = interop,
             AutoEmbedSupportedLinks = true,
         };
         settings.RenderInterop.PreRenderCode = false;
@@ -185,12 +188,13 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_SourceCode_PreRender_Works()
     {
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig());
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = "https://my.domain",
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig()),
+            RenderInterop = interop,
             AutoEmbedSupportedLinks = true,
         };
 
@@ -211,13 +215,14 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_Toc_NormalCase_RendersCorrectly()
     {
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig());
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig())
+            RenderInterop = interop,
         };
         settings.RenderInterop.PreRenderCode = false;
 
@@ -328,13 +333,14 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_Toc_WithTitle_RendersCorrectly()
     {
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig());
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig())
+            RenderInterop = interop,
         };
 
         using var sut = new MarkdownConverter(settings);
@@ -448,13 +454,14 @@ internal class UT_MarkdownConverter
     [Test]
     public void EnsureThat_Toc_Limited_RendersCorrectly()
     {
-        using var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
+        using var interop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig());
+        var settings = new MarkdownRenderSettings(_imgServiceMock.Object)
         {
             CssClasses = new CssClasses(),
             DeleteFirstH1 = false,
             HostUrl = null,
             AutoEmbedSupportedLinks = true,
-            RenderInterop = new RenderInterop(_testEnvironment, _testEnvironment.ProgramPathResolver, new ImageConfig())
+            RenderInterop = interop,
         };
 
         using var sut = new MarkdownConverter(settings);

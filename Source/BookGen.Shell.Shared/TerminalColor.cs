@@ -3,10 +3,18 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-namespace BookGen.Cli;
+namespace BookGen.Shell.Shared;
 
-public sealed class ArgumentJsonItem
+public enum TerminalColor
 {
-    public required string Name { get; init; }
-    public required string[] Arguments { get; init; }
+    Reset = 0,
+    Black = 10,
+    Red = 11,
+    Green = 12,
+    Yellow = 13,
+    Blue = 14,
+    Magenta = 15,
+    Cyan = 16,
+    White = 17,
+    Default = 19,
 }

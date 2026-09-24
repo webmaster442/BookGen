@@ -76,6 +76,12 @@ internal class UT_CommandRunner
         _sut.AddCommand<TestCommand>();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _sut.Dispose();
+    }
+
     [Test]
     public async Task EnsureThat_Run_Works_For_Command()
     {

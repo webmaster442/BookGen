@@ -12,6 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AppSettings\**" />
+    <EmbeddedResource Remove="AppSettings\**" />
+    <None Remove="AppSettings\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Http\ErrorPageTemplate.html" />
     <None Remove="Http\QRCodeTemplate.html" />
   </ItemGroup>

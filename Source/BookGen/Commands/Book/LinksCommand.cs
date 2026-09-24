@@ -12,7 +12,6 @@ using BookGen.Cli;
 using BookGen.Cli.Annotations;
 using BookGen.Infrastructure.Loging;
 using BookGen.Lib;
-using BookGen.Lib.AppSettings;
 using BookGen.Lib.Domain.IO;
 using BookGen.Vfs;
 

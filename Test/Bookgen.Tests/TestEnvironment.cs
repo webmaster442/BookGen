@@ -5,7 +5,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-using BookGen.Lib.AppSettings;
+using BookGen.Infrastructure;
+using BookGen.Lib;
 using BookGen.Lib.Domain.IO;
 using BookGen.Lib.Domain.IO.Configuration;
 using BookGen.Lib.Pipeline;
@@ -40,7 +41,7 @@ internal class TestEnvironment : IBookEnvironment
     public TestEnvironment()
     {
         _assetSoruce = new ZipAssetSoruce(Path.Combine(AppContext.BaseDirectory, "assets.zip"));
-        ProgramPathResolver = new ProgramPathResolver(new TestAppSettings());
+        ProgramPathResolver = new ProgramPathResolver(new BookGen.Cli.Dotenv.DotEnvSettings());
     }
 
     public bool TryGetAsset(string name, [NotNullWhen(true)] out string? content)

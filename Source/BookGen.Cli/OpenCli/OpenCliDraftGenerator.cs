@@ -103,6 +103,7 @@ internal static class OpenCliDraftGenerator
                 Aliases = [globalOptionParser.LongName],
                 Description = description?.Description,
                 OpenClRequired = false,
+                Recursive = true,
             });
         }
         return result.Count > 0 ? result : null;

@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using BookGen.Lib.AppSettings;
 using BookGen.Lib.Domain.IO.Configuration;
 using BookGen.Lib.Rendering.Images;
 

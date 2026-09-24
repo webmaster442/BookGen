@@ -6,8 +6,6 @@
 using BookGen.Cli;
 using BookGen.Commands;
 
-using Spectre.Console;
-
 namespace Bookgen.Tests.Commands;
 
 
@@ -54,12 +52,13 @@ internal class UT_ShellCommand : CommandTestBase<ShellCommand>
     [TestCase("BookGen book", 11, "book validate")]
     [TestCase("BookGen convert m", 16, "md2html")]
     [TestCase("BookGen convert md2html -i", 27, "")]
-    public async Task EnsureThat_Autocomplete_ReturnsExpected(string input, int index, string expected)
+    [CancelAfter(TenSeconds)]
+    public async Task EnsureThat_Autocomplete_ReturnsExpected(string input, int index, string expected, CancellationToken token)
     {
         using var writer = new StringWriter();
         Console.SetOut(writer);
 
-        var result = await Command.ExecuteAsync(ArgumentsBase.Empty, [index.ToString(), input], CancellationToken.None);
+        var result = await Command.ExecuteAsync(ArgumentsBase.Empty, [index.ToString(), input], token);
 
         using (Assert.EnterMultipleScope())
         {
@@ -69,12 +68,13 @@ internal class UT_ShellCommand : CommandTestBase<ShellCommand>
     }
 
     [Test]
-    public async Task Test_Execute_NoArgs()
+    [CancelAfter(TenSeconds)]
+    public async Task Test_Execute_NoArgs(CancellationToken token)
     {
         using var writer = new StringWriter();
         Console.SetOut(writer);
 
-        var result = await Command.ExecuteAsync(ArgumentsBase.Empty, ["c"], CancellationToken.None);
+        var result = await Command.ExecuteAsync(ArgumentsBase.Empty, ["c"], token);
 
         using (Assert.EnterMultipleScope())
         {

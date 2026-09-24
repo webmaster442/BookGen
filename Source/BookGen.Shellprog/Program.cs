@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+
 using BookGen.Cli;
 using BookGen.Shell.Shared.Loging;
 using BookGen.Shellprog;
@@ -30,7 +32,9 @@ ioc.AddSingleton(logger);
 
 using ServiceProvider provider = ioc.BuildServiceProvider();
 
-CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new CommandRunnerSettings
+//Debugger.Launch();
+
+using CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new CommandRunnerSettings
 {
     UnknownCommandCodeAndMessage = (-1, "Unknown command"),
     BadParametersExitCode = 2,
@@ -43,7 +47,7 @@ CommandRunner runner = new(provider, new CommandHelpProvider(), logger, new Comm
 
 runner
     .AddDefaultCommand<CommandListCommand>()
-    .AddCommand<PromptCommand>()
+    .AddCommand<Prompt>()
     .AddCommand<RepoWeb>()
     .AddCommand<CdgCommand>()
     .AddCommand<GitAutoCompleteCommand>()

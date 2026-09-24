@@ -428,16 +428,10 @@ Register-ArgumentCompleter -Native -CommandName git -ScriptBlock {
 
 # set prompt
 function prompt {
-    $git = $(BookGen.Shellprog.exe "prompt" $(Get-Location).Path)
-    $location = (Get-Location).Path
-    $topLine = "╭╴$location"+"`n"
-
-    if (-not [string]::IsNullOrWhiteSpace($git)) {
-        $topLine + '╰╴ PS ' + $git + $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
-    }
-    else {
-        $topLine + '╰╴ PS ' + $(if ($NestedPromptLevel -ge 1) { '>>' }) + ' > '
-    }
+    $lastOk = $?
+    $lastExit = $LASTEXITCODE
+    $success = $lastOk -and (($null -eq $lastExit) -or ($lastExit -eq 0))
+    (BookGen.Shellprog.exe "prompt" $(Get-Location).Path $success) -join "`n"
 }
 
 

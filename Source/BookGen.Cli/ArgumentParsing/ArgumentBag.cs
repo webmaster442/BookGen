@@ -89,21 +89,16 @@ internal sealed class ArgumentBag : IEnumerable<string>
 
     public string? GetArgument(ArgumentAttribute argument)
     {
-        int notNullIndex = -1;
-        for (int i = 0; i < _arguments.Length; i++)
+        if (argument.Index < 0
+            || argument.Index >= _arguments.Length
+            || _arguments[argument.Index] == null)
         {
-            if (_arguments[i] != null)
-            {
-                notNullIndex++;
-            }
-            if (notNullIndex == argument.Index)
-            {
-                string? returnValue = _arguments[i];
-                _arguments[i] = null;
-                return returnValue;
-            }
+            return null;
         }
-        return null;
+
+        string? returnValue = _arguments[argument.Index];
+        _arguments[argument.Index] = null;
+        return returnValue;
     }
 
     public IEnumerable<string> GetNotProcessed()

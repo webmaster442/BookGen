@@ -4,15 +4,15 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
 
-using BookGen.Lib.Domain.IO;
+using BookGen.Cli.Dotenv;
+using BookGen.Lib;
 
-namespace BookGen.Lib.AppSettings;
+namespace BookGen.Infrastructure;
 
 public sealed class ProgramPathResolver : IProgramPathResolver
 {
-    private readonly IReadOnlyAppSettings _appSettings;
+    private readonly DotEnvSettings _appSettings;
 
     private const string NodeJsExecutableName = "node";
     private const string PythonExecutableName = "python";
@@ -20,24 +20,34 @@ public sealed class ProgramPathResolver : IProgramPathResolver
     private const string MmdrExecutableName = "mmdr";
     private const string PlantUmlExecutableName = "plantuml";
 
-    public ProgramPathResolver(IReadOnlyAppSettings appSettings)
+    private const string NodeJsKey = "NodeJsPath";
+    private const string PythonKey = "PythonPath";
+    private const string RatexKey = "RatexPath";
+    private const string MmdrKey = "MmdrPath";
+    private const string PlantUmlKey = "PlantUmlPath";
+
+    public ProgramPathResolver(DotEnvSettings appSettings)
     {
         _appSettings = appSettings;
     }
 
-    private string? Resolve(Expression<Func<AppSetting, string?>> selector, string binaryName)
+    private string? Resolve(string key, string binaryName)
     {
-        // if App settings contains a valid path, return it
-        string? setting = _appSettings.Get<string?>(selector.Compile());
-        if (setting != null && _appSettings.IsSettingValid<string?>(selector, out _))
+        string settingValue = _appSettings.GetValueOrDefault(key, string.Empty);
+        if (!string.IsNullOrEmpty(settingValue))
         {
-            return setting;
+            var fullPath = Path.GetFullPath(settingValue);
+            if (File.Exists(fullPath))
+            {
+                return fullPath;
+            }
         }
 
         //if App path contains a valid path, return it
         string appBinaryPath = OperatingSystem.IsWindows()
             ? Path.Combine(AppContext.BaseDirectory, $"{binaryName}.exe")
             : Path.Combine(AppContext.BaseDirectory, binaryName);
+
 
         if (File.Exists(appBinaryPath))
             return appBinaryPath;
@@ -51,38 +61,37 @@ public sealed class ProgramPathResolver : IProgramPathResolver
             if (File.Exists(fullPath))
                 return fullPath;
         }
-        ;
 
         return null;
     }
 
     public bool TryResolvePythonPath([NotNullWhen(true)] out string? path)
     {
-        path = Resolve(x => x.PythonPath, PythonExecutableName);
+        path = Resolve(PythonKey, PythonExecutableName);
         return path != null;
     }
 
     public bool TryResolveNodeJsPath([NotNullWhen(true)] out string? path)
     {
-        path = Resolve(x => x.NodeJsPath, NodeJsExecutableName);
+        path = Resolve(NodeJsKey, NodeJsExecutableName);
         return path != null;
     }
 
     public bool TryResolveRatex([NotNullWhen(true)] out string? path)
     {
-        path = Resolve(x => x.RatexPath, RatexExecutableName);
+        path = Resolve(RatexKey, RatexExecutableName);
         return path != null;
     }
 
     public bool TryResolveMmdr([NotNullWhen(true)] out string? path)
     {
-        path = Resolve(x => x.MmdrPath, MmdrExecutableName);
+        path = Resolve(MmdrKey, MmdrExecutableName);
         return path != null;
     }
 
     public bool TryResolvePlantUml([NotNullWhen(true)] out string? path)
     {
-        path = Resolve(x => x.PlantUmlPath, PlantUmlExecutableName);
+        path = Resolve(PlantUmlKey, PlantUmlExecutableName);
         return path != null;
     }
 }
