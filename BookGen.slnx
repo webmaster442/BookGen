@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Documents/">
+    <File Path="Architecture.md" />
     <File Path="Docs/Changelog.md" />
     <File Path="Docs/manual.md" />
     <File Path="Docs/plugin.md" />
