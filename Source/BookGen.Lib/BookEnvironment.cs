@@ -102,7 +102,7 @@ public sealed class BookEnvironment : IBookEnvironment
             configMerger.Merge(overlayConfig);
         }
 
-        Config? config = configMerger.Deserialize<Config>();
+        Config? config = configMerger.Deserialize<Config>(SerializerContexts.ConfigContext.Default);
 
         if (config == null)
         {
@@ -115,7 +115,7 @@ public sealed class BookEnvironment : IBookEnvironment
             return status;
         }
 
-        TableOfContents? toc = await _source.DeserializeAsync<TableOfContents>(FileNameConstants.TableOfContents);
+        TableOfContents? toc = await _source.DeserializeAsync<TableOfContents>(FileNameConstants.TableOfContents, SerializerContexts.TableOfContentsContext.Default);
         if (toc == null)
         {
             status.Add($"{FileNameConstants.TableOfContents} file load failed");

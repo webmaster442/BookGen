@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Schema;
+using System.Text.Json.Serialization;
 using System.Xml;
 
 namespace BookGen.Vfs;
@@ -73,17 +74,10 @@ public static class Extensions
 
     extension(IReadOnlyFileSystem fs)
     {
-        public T? Deserialize<T>(string path)
-        {
-            using Stream stream = fs.OpenReadStream(path);
-            T? result = JsonSerializer.Deserialize<T>(stream, JsonOptions.SerializerOptions);
-            return result;
-        }
-
-        public async Task<T?> DeserializeAsync<T>(string path)
+        public async Task<T?> DeserializeAsync<T>(string path, JsonSerializerContext context)
         {
             await using Stream stream = fs.OpenReadStream(path);
-            T? result = await JsonSerializer.DeserializeAsync<T>(stream, JsonOptions.SerializerOptions);
+            T? result = await JsonSerializer.DeserializeAsync<T>(stream, JsonOptions.Create(context));
             return result;
         }
 
@@ -167,21 +161,15 @@ public static class Extensions
             await fs.WriteAllTextAsync(path, node.ToJsonString(JsonOptions.SerializerOptions));
         }
 
-        public async Task SerializeAsync<T>(string path, T value, bool writeSchema)
+        public async Task SerializeAsync<T>(string path, T value, JsonSerializerContext context, bool writeSchema)
         {
             await using Stream stream = fs.CreateWriteStream(path);
-            await JsonSerializer.SerializeAsync(stream, value, JsonOptions.SerializerOptions);
+            await JsonSerializer.SerializeAsync(stream, value, JsonOptions.Create(context));
             if (writeSchema)
             {
                 var newName = Path.ChangeExtension(path, ".schema.json");
                 await fs.WriteSchema<T>(newName);
             }
-        }
-
-        public void Serialize<T>(string path, T value)
-        {
-            using Stream stream = fs.CreateWriteStream(path);
-            JsonSerializer.Serialize(stream, value, JsonOptions.SerializerOptions);
         }
     }
 

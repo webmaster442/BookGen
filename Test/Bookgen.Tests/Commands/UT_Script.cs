@@ -66,8 +66,8 @@ internal class UT_Script : CommandTestBase<ScriptCommand>
             Assert.AreEqual(exitCode, ExitCodes.Success);
             CommandRunnerProxyMock.Verify(x => x.RunCommandAsync("cmd1", new string[] { "arg1", "arg2" }), Times.Once);
             CommandRunnerProxyMock.Verify(x => x.RunCommandAsync("convert qrcode", new string[] { "-d", "https://example.com/page#section" }), Times.Once);
-            LoggerMock.Verify(x => x.Log(LogLevel.Information, It.IsAny<EventId>(), It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("executing cmd1")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
-            LoggerMock.Verify(x => x.Log(LogLevel.Information, It.IsAny<EventId>(), It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("done executing")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+            LoggerMock.Verify(x => x.Log(LogLevel.Information, It.IsAny<EventId>(), It.Is<It.IsAnyType>((v, t) => v!.ToString()!.Contains("executing cmd1")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+            LoggerMock.Verify(x => x.Log(LogLevel.Information, It.IsAny<EventId>(), It.Is<It.IsAnyType>((v, t) => v!.ToString()!.Contains("done executing")), null, It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
         }
     }
 

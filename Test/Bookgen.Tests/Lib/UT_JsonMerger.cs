@@ -6,6 +6,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
+using BookGen.Lib;
 using BookGen.Lib.Confighandling;
 using BookGen.Lib.Domain.IO.Configuration;
 
@@ -63,7 +64,7 @@ public class UT_JsonMerger
         JsonMerger sut = new JsonMerger(node1!);
         sut.Merge(nodeOverlay!);
 
-        Config? result = sut.Deserialize<Config>();
+        Config? result = sut.Deserialize<Config>(SerializerContexts.ConfigContext.Default);
 
         Assert.That(result, Is.Not.Null);
 

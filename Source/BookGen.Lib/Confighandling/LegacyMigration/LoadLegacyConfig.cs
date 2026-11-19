@@ -23,7 +23,7 @@ internal sealed class LoadLegacyConfig : IMigrationStep
             return false;
         }
 
-        Config? config = await foler.DeserializeAsync<Domain.IO.Legacy.Config>(file);
+        Config? config = await foler.DeserializeAsync<Domain.IO.Legacy.Config>(file, SerializerContexts.LegacyConfigContext.Default);
         if (config == null)
         {
             logger.LogError("Failed to load legacy config file");

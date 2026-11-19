@@ -15,22 +15,26 @@ namespace BookGen.Vfs;
 
 public static class JsonOptions
 {
-    public readonly static JsonSerializerOptions SerializerOptions = new(JsonSerializerOptions.Default)
-    {
-        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-        WriteIndented = true,
-        Converters =
-        {
-            new JsonStringEnumConverter(),
-            new CultureInfoJsonConverter(),
-            new DateOnlyJsonConverter(),
-            new TimeOnlyJsonConverter(),
-            new IsoDateTimeOffsetJsonConverter(),
-        }
-    };
+    public readonly static JsonSerializerOptions SerializerOptions = Create(null);
 
     public static readonly JsonSchemaExporterOptions ExporterOptions = new()
     {
         TransformSchemaNode = JsonSchemaTransformer.TransformSchemaNode
     };
+
+    public static JsonSerializerOptions Create(JsonSerializerContext? context)
+    {
+        return new(JsonSerializerOptions.Default)
+        {
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            WriteIndented = true,
+            Converters =
+            {
+                new JsonStringEnumConverter(),
+                new CultureInfoJsonConverter(),
+                new IsoDateTimeOffsetJsonConverter(),
+            },
+            TypeInfoResolver = context
+        };
+    }
 }

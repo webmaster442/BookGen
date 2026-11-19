@@ -12,6 +12,7 @@ using BookGen.Cli.Annotations;
 using BookGen.Commands.Book;
 using BookGen.Commands.Build;
 using BookGen.Commands.Convert;
+using BookGen.Lib;
 using BookGen.Lib.Domain.VsCode;
 using BookGen.Vfs;
 
@@ -167,7 +168,7 @@ internal sealed class VsCodeCommand : AsyncCommand<VsCodeCommand.Arguments>
                     "DavidAnson.vscode-markdownlint",
                 }
             };
-            await _writableFileSystem.SerializeAsync(extensionFile, extensions, writeSchema: false);
+            await _writableFileSystem.SerializeAsync(extensionFile, extensions, SerializerContexts.RecommendedExtensionsContext.Default, writeSchema: false);
         }
 
         if (arguments.CreateTasks)
@@ -216,7 +217,7 @@ internal sealed class VsCodeCommand : AsyncCommand<VsCodeCommand.Arguments>
                     OutputDirectory = "Output/Epub"
                 });
 
-            await _writableFileSystem.SerializeAsync(file, taskBuilder.Build(), writeSchema: false);
+            await _writableFileSystem.SerializeAsync(file, taskBuilder.Build(), SerializerContexts.VsCodeTaskContext.Default, writeSchema: false);
         }
 
         return ExitCodes.Success;

@@ -23,7 +23,7 @@ internal sealed class WriteFile : PipeLineStep<PostProcessState>
             return StepResult.Failure;
         }
 
-        await environment.Output.SerializeAsync("export.json", State.Export, writeSchema: true);
+        await environment.Output.SerializeAsync("export.json", State.Export, SerializerContexts.PostProcessExportContext.Default, writeSchema: true);
         logger.LogInformation("Export written to {path}", "export.json");
 
         return StepResult.Success;

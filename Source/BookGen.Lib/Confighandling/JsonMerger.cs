@@ -5,6 +5,8 @@
 
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+
 
 //-----------------------------------------------------------------------------
 // (c) 2019-2026 Ruzsinszki Gábor
@@ -84,6 +86,6 @@ internal sealed class JsonMerger
         throw new InvalidOperationException("Merging resulted in invalid object");
     }
 
-    public T? Deserialize<T>()
-        => JsonSerializer.Deserialize<T>(_baseObject, JsonOptions.SerializerOptions);
+    public T? Deserialize<T>(JsonSerializerContext jsonSerializerContext)
+        => JsonSerializer.Deserialize<T>(_baseObject, JsonOptions.Create(jsonSerializerContext));
 }
