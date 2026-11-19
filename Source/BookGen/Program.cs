@@ -31,6 +31,7 @@ using ILoggerFactory factory = LoggerFactory
     .Create(builder =>
     {
         builder.ClearProviders();
+        builder.AddProvider(new ExceptionLogger(AppContext.BaseDirectory));
         builder.AddProvider(debugLogProvider);
         if (info.JsonLogging)
         {

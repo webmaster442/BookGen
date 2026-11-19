@@ -6,7 +6,6 @@
 using System.Diagnostics;
 
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
 
 using Spectre.Console;
 
@@ -45,11 +44,8 @@ public sealed class ConsoleLogProvider : ILoggerProvider
 
     internal sealed class ConsoleLogger : IDisposable, ILogger
     {
-        private readonly List<string> _logBuffer;
-
         public ConsoleLogger()
         {
-            _logBuffer = new List<string>();
         }
 
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull
@@ -57,14 +53,6 @@ public sealed class ConsoleLogProvider : ILoggerProvider
 
         public void Dispose()
         {
-            if (_logBuffer.Count > 0)
-            {
-                foreach (var log in _logBuffer)
-                {
-                    AnsiConsole.MarkupLine(log);
-                }
-                _logBuffer.Clear();
-            }
         }
 
         public bool IsEnabled(LogLevel logLevel)
@@ -72,6 +60,11 @@ public sealed class ConsoleLogProvider : ILoggerProvider
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
+            if (!IsEnabled(logLevel))
+            {
+                return;
+            }
+
             static string LevelToString(LogLevel logLevel)
             {
                 return logLevel switch
@@ -87,21 +80,8 @@ public sealed class ConsoleLogProvider : ILoggerProvider
                 };
             }
 
-            if (exception != null)
-            {
-                string header = $"{LevelToString(logLevel)} {formatter(state, exception).EscapeMarkup()}";
-                string message = $"  [yellow]{exception.Message.EscapeMarkup()}[/]";
-                string trace = $"    [grey]{exception.StackTrace?.EscapeMarkup()}[/]";
-                AnsiConsole.MarkupLine(header);
-                AnsiConsole.MarkupLine(message);
-                AnsiConsole.MarkupLine(trace);
-            }
-            else
-            {
-                var line = $"{LevelToString(logLevel)} {formatter(state, exception).EscapeMarkup()}";
-                AnsiConsole.MarkupLine(line);
-            }
-            
+            var line = $"{LevelToString(logLevel)} {formatter(state, exception).EscapeMarkup()}";
+            AnsiConsole.MarkupLine(line);
         }
     }
 }
