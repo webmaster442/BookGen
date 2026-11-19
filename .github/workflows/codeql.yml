@@ -48,8 +48,8 @@ jobs:
       uses: actions/setup-dotnet@v6
       with:
         dotnet-version: 11.0.x
-        #dotnet-quality: 'ga'
-        dotnet-quality: 'preview'
+        dotnet-quality: 'ga'
+        #dotnet-quality: 'preview'
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
