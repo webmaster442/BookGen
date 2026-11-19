@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlToOpenXml.dll" />
+    <PackageReference Include="HtmlToOpenXml" />
     <PackageReference Include="Markdig" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
