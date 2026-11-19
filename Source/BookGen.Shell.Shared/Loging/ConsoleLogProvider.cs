@@ -6,6 +6,7 @@
 using System.Diagnostics;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 
 using Spectre.Console;
 
@@ -86,8 +87,21 @@ public sealed class ConsoleLogProvider : ILoggerProvider
                 };
             }
 
-            var line = $"{LevelToString(logLevel)} {formatter(state, exception).EscapeMarkup()}";
-            AnsiConsole.MarkupLine(line);
+            if (exception != null)
+            {
+                string header = $"{LevelToString(logLevel)} {formatter(state, exception).EscapeMarkup()}";
+                string message = $"  [yellow]{exception.Message.EscapeMarkup()}[/]";
+                string trace = $"    [grey]{exception.StackTrace?.EscapeMarkup()}[/]";
+                AnsiConsole.MarkupLine(header);
+                AnsiConsole.MarkupLine(message);
+                AnsiConsole.MarkupLine(trace);
+            }
+            else
+            {
+                var line = $"{LevelToString(logLevel)} {formatter(state, exception).EscapeMarkup()}";
+                AnsiConsole.MarkupLine(line);
+            }
+            
         }
     }
 }

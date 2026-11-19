@@ -1,0 +1,40 @@
+<Solution>
+  <Folder Name="/Documents/">
+    <File Path="Architecture.md" />
+    <File Path="Docs/Changelog.md" />
+    <File Path="Docs/manual.md" />
+    <File Path="Docs/plugin.md" />
+    <File Path="Docs/readme.md" />
+    <File Path="Docs/scripts.md" />
+  </Folder>
+  <Folder Name="/Misc/" Id="209479ab-f6dc-4e64-8458-43e805966b28">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Packages.props" />
+    <File Path="download-assets-pipeline.sh" />
+    <File Path="download-assets.ps1" />
+    <File Path="getting-started.md" />
+  </Folder>
+  <Folder Name="/Pipelines/">
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/workflows/codeql.yml" />
+    <File Path=".github/workflows/dotnet.yml" />
+  </Folder>
+  <Folder Name="/Publish Related files/">
+    <File Path="publish.ps1" />
+    <File Path="PublishFiles/install.cmd" />
+    <File Path="PublishFiles/start_bookgen_shell.cmd" />
+  </Folder>
+  <Folder Name="/Tests/" Id="02ea681e-c7d8-13c7-8484-4ac65e1b71e8">
+    <Project Path="Test/Bookgen.Tests/Bookgen.Tests.csproj" />
+  </Folder>
+  <Project Path="Source/BookGen.Api/BookGen.Api.csproj" />
+  <Project Path="Source/BookGen.Cli/BookGen.Cli.csproj" />
+  <Project Path="Source/BookGen.Contents/BookGen.Contents.csproj" />
+  <Project Path="Source/BookGen.Lib/BookGen.Lib.csproj" />
+  <Project Path="Source/BookGen.Shell.Shared/BookGen.Shell.Shared.csproj" />
+  <Project Path="Source/BookGen.Shellprog/BookGen.Shellprog.csproj" />
+  <Project Path="Source/BookGen.Vfs/BookGen.Vfs.csproj" />
+  <Project Path="Source/BookGen/BookGen.csproj" />
+</Solution>

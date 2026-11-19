@@ -115,7 +115,8 @@ internal sealed class PluginRunner
 
         using (var tempFolder = new PluginTempFolder())
         {
-            if (!isDevMode)
+            if (!isDevMode 
+                || pluginPath.EndsWith(".plugin", StringComparison.OrdinalIgnoreCase))
             {
                 using ZipArchive archive = ZipFile.OpenRead(entryAssemblyPath);
                 if (!archive.TryGetPluginManifest(entryAssemblyPath, logger, out PackageManifest? manifest))

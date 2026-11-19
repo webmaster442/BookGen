@@ -27,7 +27,8 @@ internal static class PluginPathResolver
 
     public static string? Resolve(string actualFolder, string requestedFile, bool isDevMode = false)
     {
-        if (isDevMode)
+        if (isDevMode
+            && (requestedFile.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)))
         {
             return Path.GetFullPath(requestedFile, actualFolder);
         }

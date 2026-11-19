@@ -76,10 +76,10 @@ internal sealed class BuildPlugin : AsyncCommand<BuildPlugin.Arguments>
 
             if (IsDevMode)
             {
-
-                if (!extension.Equals(".dll", StringComparison.OrdinalIgnoreCase))
+                if (!extension.Equals(".dll", StringComparison.OrdinalIgnoreCase)
+                    && !extension.Equals(".plugin", StringComparison.OrdinalIgnoreCase))
                 {
-                    return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid dll file.");
+                    return ValidationResult.Error($"Plugin file '{PluginFile}' is not a valid dll or plugin package file.");
                 }
             }
             else if (!extension.Equals(".plugin", StringComparison.OrdinalIgnoreCase))
