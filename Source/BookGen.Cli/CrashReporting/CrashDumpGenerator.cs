@@ -222,6 +222,7 @@ public sealed class CrashDumpGenerator
     public void GenerateCrashDump(Exception ex, IEnumerable<LogEntry>? logEntries = null)
     {
         var fileName = Path.Combine(_targetDirectory, $"{_applicationName}_crash_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.html");
+        var dumpName = Path.ChangeExtension(fileName, ".dmp");
 
         CrashHtmlBuilder builder = new(ex);
         var html = builder
@@ -235,6 +236,15 @@ public sealed class CrashDumpGenerator
             .ToString();
 
 #pragma warning disable RCS1075
+        try
+        {
+            MiniDumpGenerator.WriteDump(dumpName);
+        }
+        catch (Exception)
+        {
+            // If writing the crash dump fails, we can't do much about it.
+        }
+
         try
         {
             File.WriteAllText(fileName, html);
